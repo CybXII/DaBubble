@@ -1,0 +1,11 @@
+@for ( build of this.builder; track build; let index=$index ){
+    @if (build == "menu"){
+        <app-menu></app-menu>
+    }
+    @if (build == "mainchat"){
+        <app-mainchat></app-mainchat>
+    }
+    @if (build == "threadchat"){
+        <app-threadchat></app-threadchat>
+    }
+}
