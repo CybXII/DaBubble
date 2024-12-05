@@ -3,6 +3,6 @@ import { LoginComponent } from './login/login.component';
 import { MainComponent } from './main/main.component';
 
 export const routes: Routes = [
-    { path: 'login', component: LoginComponent},
+    { path: '', component: LoginComponent},
     { path: 'board', component: MainComponent},
 ];
