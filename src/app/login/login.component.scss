@@ -1,0 +1,91 @@
+@import './../../styles.scss';
+@import './../../mixins.scss';
+
+section {
+    height: 100vh;
+    width: 100%;
+    background-color: $bg-color;
+    @include flexbox($direction: column);
+    text-align: center;
+}
+
+input {
+    background-color: $light-purple;
+    border: none;
+    &:focus-visible {
+        outline: unset;
+    }
+}
+
+.mainCont {
+    @include flexbox($direction: column, $justify: space-around);
+    width: 40%;
+    // height: 50%;
+    border-radius: 30px;
+    background-color: $white;
+    padding: 50px;
+    gap: 40px;
+    a{
+        padding: 5px 10px;
+        border-radius: 100px;
+        &:hover {
+            background-color: $light-purple;
+            color: $purple3;
+        }
+    }
+}
+
+.inputCont {
+    @include flexbox($direction: column);
+    gap: 10px;
+    width: 100%;
+}
+
+h1 {
+    color: $purple;
+    font-size: 46px;
+    font-weight: 700px;
+}
+
+.line {
+    @include border-marker($color: $light-purple)
+}
+
+a {
+    color: $purple2;
+    text-decoration: none;
+}
+
+.input {
+    @include flexbox($justify: start);
+    @include border-marker($color: $purple3);
+    background-color: $light-purple;
+    width: 100%;
+    padding: 10px;
+    border-radius: 100px;
+    gap: 5px;
+    &:hover, input{
+        cursor: pointer;
+    }
+}
+
+.buttons {
+    @include flexbox();
+    gap: 25px;
+}
+
+footer {
+    position: absolute;
+    bottom: 30px;
+    @include flexbox();
+    gap: 40px;
+    a {
+        padding: 10px;
+        border-radius: 100px;
+        @include border-marker($color: $white);
+        border-style: unset;
+        &:hover {
+            border-style: solid;
+        }
+    }
+}
