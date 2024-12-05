@@ -1,17 +1,21 @@
 * {
+$bg-color: rgb(236, 238, 254);
+$white: rgb(255, 255, 255);
+$purple: rgb(68, 77, 242);
+$purple2: rgb(121, 126, 243);
+$purple3: rgb(83, 90, 254);
+$light-purple: rgb(173, 176, 217);
+
+*{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-
 @font-face {
     font-family: 'nunito';
     src: url('../public/fonts/Nunito-VariableFont_wght.ttf') format('truetype');
 }
-
-
-
 
 body {
     font-family: 'nunito', sans-serif;
