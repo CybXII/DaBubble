@@ -3,3 +3,16 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+
+@font-face {
+    font-family: 'nunito';
+    src: url('../public/fonts/Nunito-VariableFont_wght.ttf') format('truetype');
+}
+
+
+
+
+body {
+    font-family: 'nunito', sans-serif;
+}
