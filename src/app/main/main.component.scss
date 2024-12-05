@@ -9,3 +9,8 @@
     @include flexbox(column, flex-start, unset);
     gap: 20px;
 }
+
+.builder_main{
+    @include flexbox(column, flex-start, unset);
+    flex: 1;
+}
