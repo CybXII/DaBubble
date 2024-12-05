@@ -33,9 +33,9 @@
             ],
             "styles": [
               "src/reset.css",
+              "src/colors.scss",
               "src/styles.scss",
               "src/scrollbar.scss",
-              "src/colors.scss",
               "src/mixins.scss"
             ],
             "scripts": []
