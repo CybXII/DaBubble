@@ -1,0 +1,26 @@
+@import './../host.scss';
+
+.mainCont {
+    width: 50%;
+    >p {
+        @include flexbox($justify: start);
+        width: 100%;
+        justify-content: start;
+    }
+}
+
+.name {
+    @include flexbox($justify: center);
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.charakterPics {
+    @include flexbox($justify: center);
+    gap: 10px;
+    >div>svg {
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}

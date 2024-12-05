@@ -1,7 +1,7 @@
 <section>
     <header>
         <img src="" alt="">
-        <div>
+        <div [ngStyle]="{'opacity': loginPage ? 1 : 0 }">
             <span>Neu bei DABubble?</span>
             <a href="signUp">Konto erstellen</a>
         </div>
@@ -13,6 +13,5 @@
     <footer>
         <a href="">Impressum</a>
         <a href="">Datenschutz</a>
-        <a href="board">go to main</a>
     </footer>
 </section>
