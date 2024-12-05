@@ -1,0 +1,8 @@
+@import "../../../mixins.scss";
+
+.header-container{
+    @include flexbox(row, space-between, center, wrap);
+    width: 100%;
+    gap: 20px;
+    @include border-marker(red);
+}

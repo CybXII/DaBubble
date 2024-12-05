@@ -1,0 +1,7 @@
+@import "../../../mixins.scss";
+
+.builder-container{
+    @include flexbox(row, space-around, center, wrap);
+    width: 100%;
+    gap: 20px;
+}

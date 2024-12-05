@@ -1,0 +1,6 @@
+@import "../../../mixins.scss";
+
+.menu-container{
+    @include flexbox(column, center, center, wrap);
+    @include border-marker(red);
+}

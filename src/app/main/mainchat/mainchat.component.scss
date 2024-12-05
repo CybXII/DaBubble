@@ -1,0 +1,6 @@
+@import "../../../mixins.scss";
+
+.mainchat-container{
+    @include flexbox(column, center, center, nowrap);
+    @include border-marker(red);
+}
