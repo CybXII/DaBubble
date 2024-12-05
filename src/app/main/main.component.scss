@@ -1,1 +1,6 @@
 @import "../../mixins.scss";
+@import "../../colors.scss";
+
+.main{
+    background-color: $bg-color;
+}
