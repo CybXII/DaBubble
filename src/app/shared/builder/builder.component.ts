@@ -11,4 +11,7 @@ import { MenuComponent } from '../../main/menu/menu.component';
 })
 export class BuilderComponent {
   builder: string[] = ["menu", "mainchat", "threadchat"];
+
+  menuOpened: boolean = true;
+  threadchatOpened: boolean = true;
 }
