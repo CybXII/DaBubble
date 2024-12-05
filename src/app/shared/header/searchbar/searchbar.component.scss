@@ -1,1 +1,35 @@
 @import "../../../../mixins.scss";
+@import "../../../../colors.scss";
+
+.searchbar-container{
+    @include flexbox(row, space-between, center);
+    background-color: $white;
+    padding: 4px 32px;
+    width: 500px;
+    border-radius: 50px;
+    height: 48px;
+    input{
+        flex: 1;
+        height: 40px;
+        border: none;
+        font-size: 16px;
+        color: $grey;
+        &:focus-visible{
+            border: none;
+            outline: none;
+        }
+        &::placeholder{
+            color: $grey;
+            font-size: 16px;
+        }
+    }
+    button{
+        border: none;
+        cursor: pointer;
+        background-color: unset;
+    }
+    img{
+        width: 24px;
+        height: 24px;
+    }
+}
