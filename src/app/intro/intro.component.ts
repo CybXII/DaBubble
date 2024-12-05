@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { trigger, state, style, animate, transition } from '@angular/animations';
+import { state, style, transition, animate, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-intro',
@@ -7,9 +7,14 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
   templateUrl: './intro.component.html',
   styleUrl: './intro.component.scss',
   animations: [
-    trigger],
+    trigger('los-trigger', [
+      state('start', style({ color: 'white' })),
+      state('end', style({ color: 'green' })),
+      transition('start => end', [animate('1s')])
+    ]),
+  ],
 })
 export class IntroComponent {
-
+  losBoolean = true;
 }
 
