@@ -1,5 +1,15 @@
-body {
+section {
     width: 100vw;
     height: 100vh;
-    background-color: linear-gradient(1.46deg, #313AE6 1.22%, #797EF3 98.76%);
+    background: linear-gradient(1.46deg, #313AE6 1.22%, #797EF3 98.76%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+    img {
+        width: 150px;
+        height: auto;
+    }
+
 }
