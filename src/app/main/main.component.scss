@@ -1,1 +1,16 @@
 @import "../../mixins.scss";
+@import "../../colors.scss";
+
+.main{
+    background-color: $bg-color;
+    height: 100vh;
+    width: 100vw;
+    padding: 20px;
+    @include flexbox(column, flex-start, unset);
+    gap: 20px;
+}
+
+.builder_main{
+    @include flexbox(column, flex-start, unset);
+    flex: 1;
+}
