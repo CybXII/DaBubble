@@ -14,8 +14,3 @@ export class AppComponent {
 }
 
 
-bootstrapApplication(AppComponent, {
-  providers: [
-    provideAnimations(),
-  ]
-});
