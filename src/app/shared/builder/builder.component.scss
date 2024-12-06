@@ -1,7 +1,30 @@
 @import "../../../mixins.scss";
+@import "../../../colors.scss";
 
 .builder-container{
-    @include flexbox(row, space-around, center, wrap);
+    @include flexbox(row, space-around, center, nowrap);
+    height: 100%;
     width: 100%;
     gap: 20px;
+}
+
+.menu-container{
+    @include flexbox(column, flex-start, flex-start, wrap);
+    background-color: $white;
+    height: 100%;
+    width: 100%;
+    border-radius: 30px;
+    gap: 25px;
+}
+
+.mainchat-container{
+    flex: 1;
+}
+
+.menu-width{
+    max-width: 366px;
+}
+
+.thread-width{
+    max-width: 485px;
 }
