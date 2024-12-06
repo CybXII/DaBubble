@@ -1,5 +1,6 @@
 @import './../../styles.scss';
 @import './../../mixins.scss';
+@import './../../colors.scss';
 
 header {
     position: absolute;
@@ -14,10 +15,10 @@ header {
 }
 
 section {
+    @include flexbox($direction: column);
     height: 100vh;
     width: 100%;
     background-color: $bg-color;
-    @include flexbox($direction: column);
     text-align: center;
 }
 
@@ -60,7 +61,7 @@ h1 {
 }
 
 .line {
-    @include border-marker($color: $light-purple)
+    @include border-marker($color: $light-purple);
 }
 
 a {
