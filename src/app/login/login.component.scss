@@ -2,6 +2,18 @@
 @import './../../mixins.scss';
 @import './../../colors.scss';
 
+header {
+    position: absolute;
+    height: 100px;
+    width: 100%;
+    top: 0px;
+    @include flexbox($justify: space-between);
+    padding: 0px 30px;
+    >div {
+        @include flexbox($direction: column, $justify: start);
+    }
+}
+
 section {
     @include flexbox($direction: column);
     height: 100vh;
@@ -20,12 +32,12 @@ input {
 
 .mainCont {
     @include flexbox($direction: column, $justify: space-around);
-    width: 40%;
-    // height: 50%;
+    width: 30%;
     border-radius: 30px;
     background-color: $white;
     padding: 50px;
     gap: 40px;
+    position: relative;
     a{
         padding: 5px 10px;
         border-radius: 100px;
@@ -73,6 +85,43 @@ a {
 .buttons {
     @include flexbox();
     gap: 25px;
+}
+
+button {
+    background-color: unset;
+    border: unset;
+    border-radius: 25px;
+    padding: 12px 25px;
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.button_blue {
+    background-color: $purple;
+    color: $white;
+    border-color: $purple;
+}
+
+.button_white {
+    color: $purple;
+    border-color: $light-purple;
+    &:hover {
+        @include border-marker($light-purple); 
+    }
+
+}
+
+.arrowBack {
+    position: absolute;
+    left: 30px;
+    top: 65px;
+    :hover {
+        cursor: pointer;
+        path {
+            fill: red;
+        }
+    }
 }
 
 footer {
