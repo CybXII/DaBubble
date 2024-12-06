@@ -2,9 +2,9 @@
 
 
 
-    <img src="img/logo.svg">
-    <h1 (click)="menuState = 'open'">DA Bubble</h1>
-    <h1 [@openClose]="menuState">DA BUBBLE!</h1>
+    <img [@startStop]="startAnim" (click)="startAnim = 'stop'" src="img/logo.svg">
+    <h1>DA Bubble</h1>
+
 
 
 </section>
