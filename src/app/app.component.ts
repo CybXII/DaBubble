@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { bootstrapApplication } from '@angular/platform-browser';
 import { RouterOutlet } from '@angular/router';
-import { provideAnimations } from '@angular/platform-browser/animations';
+
 
 @Component({
   selector: 'app-root',
