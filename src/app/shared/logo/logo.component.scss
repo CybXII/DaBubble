@@ -1,9 +1,9 @@
-@import "../../../mixins.scss";
+@use "../../../mixins.scss" as mixins;
 
 
 
 .logo-container{
-    @include flexbox(row, center, center);
+    @include mixins.flexbox(row, center, center);
     gap: 16px;
     img{
         width: 70px;

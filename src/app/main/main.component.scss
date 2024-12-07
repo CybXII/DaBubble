@@ -1,16 +1,23 @@
-@import "../../mixins.scss";
-@import "../../colors.scss";
+@use '../../mixins.scss' as mixins;
+@use '../../colors.scss' as colors;
 
 .main{
-    background-color: $bg-color;
+    background-color:colors.$bg-color;
     height: 100vh;
     width: 100vw;
+    max-width: 1440px;
     padding: 20px;
-    @include flexbox(column, flex-start, unset);
+    @include mixins.flexbox(column, flex-start, center);
     gap: 20px;
 }
 
-.builder_main{
-    @include flexbox(column, flex-start, unset);
+.builder-main{
+    @include mixins.flexbox(column, flex-start, unset);
+    width: 100%;
     flex: 1;
+}
+
+.header-main{
+    @include mixins.flexbox(row, space-between, center);
+    width: 100%;
 }

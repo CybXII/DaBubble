@@ -1,20 +1,20 @@
-@import "../../../../mixins.scss";
-@import "../../../../colors.scss";
+@use "../../../../mixins.scss" as mixins;
+@use "../../../../colors.scss" as colors;
 
 .channels{
-    @include flexbox(row, space-between, center);
+    @include mixins.flexbox(row, space-between, center);
     width: 100%;
     gap: 15px;
     .titel-box{
-        @include flexbox(row, flex-start, center);
+        @include mixins.flexbox(row, flex-start, center);
         cursor: default;
         gap: 15px;
         div{
-            @include flexbox(row, flex-start, center);
+            @include mixins.flexbox(row, flex-start, center);
             gap: 10px;
         }
         .arrow-box{
-            @include flexbox(row, center, center);
+            @include mixins.flexbox(row, center, center);
             width: 30px;
             height: 30px;
             cursor: pointer;
@@ -31,10 +31,10 @@
 };
 
 .channels:hover{
-    color: $purple2;
+    color: colors.$purple2;
     svg{
         path{
-            fill: $purple2;
+            fill: colors.$purple2;
         }
     }
 }
