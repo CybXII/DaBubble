@@ -1,1 +1,46 @@
-@import "../../../../mixins.scss";
+@use "../../../../mixins.scss" as mixins;
+@use "../../../../colors.scss" as colors;
+
+.usermenu-container {
+  width: 485px;
+  @include mixins.flexbox(row, flex-end, center, wrap);
+  height: 100%;
+  border-radius: 30px;
+  gap: 25px;
+  min-width: 366px;
+  cursor: pointer;
+  &:hover {
+    color: colors.$purple2;
+    .arrow-down path {
+      fill: colors.$purple2;
+    }
+  }
+  img:nth-child(1) {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+  }
+  span {
+    font-size: 32px;
+    font-weight: 700;
+  }
+  svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 20px;
+  }
+}
+
+.avatar-container {
+  position: relative;
+  div {
+    position: absolute;
+    bottom: 3px;
+    right: 3px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 2px solid colors.$white;
+    background-color: colors.$green;
+  }
+}

@@ -1,10 +1,14 @@
-@import "../../../mixins.scss";
-
+@use "../../../mixins.scss" as mixins;
+@use "../../../colors.scss" as colors;
 
 
 .logo-container{
-    @include flexbox(row, center, center);
-    gap: 16px;
+    @include mixins.flexbox(row, flex-start, center, wrap);
+    height: 100%;
+    width: 100%;
+    border-radius: 30px;
+    gap: 25px;
+    width: 366px;
     img{
         width: 70px;
         height: 70px;

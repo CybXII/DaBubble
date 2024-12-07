@@ -34,9 +34,9 @@
             "styles": [
               "src/reset.css",
               "src/colors.scss",
-              "src/styles.scss",
               "src/scrollbar.scss",
-              "src/mixins.scss"
+              "src/mixins.scss",
+              "src/styles.scss"
             ],
             "scripts": []
           },
@@ -95,8 +95,11 @@
               }
             ],
             "styles": [
-              "src/styles.scss",
-              "src/mixins.scss"
+              "src/reset.css",
+              "src/colors.scss",
+              "src/scrollbar.scss",
+              "src/mixins.scss",
+              "src/styles.scss"
             ],
             "scripts": []
           }
