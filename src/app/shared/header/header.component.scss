@@ -1,7 +1,7 @@
-@import "../../../mixins.scss";
+@use "../../../mixins.scss" as mixins;
 
 .header-container{
-    @include flexbox(row, space-between, center, wrap);
+    @include mixins.flexbox(row, space-between, center, wrap);
     width: 100%;
     gap: 20px;
 }

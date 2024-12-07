@@ -1,9 +1,9 @@
-@import "../../../../mixins.scss";
-@import "../../../../colors.scss";
+@use "../../../../mixins.scss" as mixins;
+@use "../../../../colors.scss" as colors;
 
 .searchbar-container{
-    @include flexbox(row, space-between, center);
-    background-color: $white;
+    @include mixins.flexbox(row, space-between, center);
+    background-color: colors.$white;
     padding: 4px 32px;
     width: 500px;
     border-radius: 50px;
@@ -13,13 +13,13 @@
         height: 40px;
         border: none;
         font-size: 16px;
-        color: $grey;
+        color: colors.$grey;
         &:focus-visible{
             border: none;
             outline: none;
         }
         &::placeholder{
-            color: $grey;
+            color: colors.$grey;
             font-size: 16px;
         }
     }

@@ -1,29 +1,28 @@
-@import './../../styles.scss';
-@import './../../mixins.scss';
-@import './../../colors.scss';
+@use './../../mixins.scss' as mixins;
+@use './../../colors.scss' as colors;
 
 header {
     position: absolute;
     height: 100px;
     width: 100%;
     top: 0px;
-    @include flexbox($justify: space-between);
+    @include mixins.flexbox($justify: space-between);
     padding: 0px 30px;
     >div {
-        @include flexbox($direction: column, $justify: start);
+        @include mixins.flexbox($direction: column, $justify: start);
     }
 }
 
 section {
-    @include flexbox($direction: column);
+    @include mixins.flexbox($direction: column);
     height: 100vh;
     width: 100%;
-    background-color: $bg-color;
+    background-color: colors.$bg-color;
     text-align: center;
 }
 
 input {
-    background-color: $light-purple;
+    background-color: colors.$light-purple;
     border: none;
     &:focus-visible {
         outline: unset;
@@ -31,10 +30,10 @@ input {
 }
 
 .mainCont {
-    @include flexbox($direction: column, $justify: space-around);
+    @include mixins.flexbox($direction: column, $justify: space-around);
     width: 30%;
     border-radius: 30px;
-    background-color: $white;
+    background-color: colors.$white;
     padding: 50px;
     gap: 40px;
     position: relative;
@@ -42,37 +41,37 @@ input {
         padding: 5px 10px;
         border-radius: 100px;
         &:hover {
-            background-color: $light-purple;
-            color: $purple3;
+            background-color: colors.$light-purple;
+            color: colors.$purple3;
         }
     }
 }
 
 .inputCont {
-    @include flexbox($direction: column);
+    @include mixins.flexbox($direction: column);
     gap: 10px;
     width: 100%;
 }
 
 h1 {
-    color: $purple;
+    color: colors.$purple;
     font-size: 46px;
     font-weight: 700px;
 }
 
 .line {
-    @include border-marker($color: $light-purple);
+    @include mixins.border-marker($color: colors.$light-purple);
 }
 
 a {
-    color: $purple2;
+    color: colors.$purple2;
     text-decoration: none;
 }
 
 .input {
-    @include flexbox($justify: start);
-    @include border-marker($color: $purple3);
-    background-color: $light-purple;
+    @include mixins.flexbox($justify: start);
+    @include mixins.border-marker($color: colors.$purple3);
+    background-color: colors.$light-purple;
     width: 100%;
     padding: 10px;
     border-radius: 100px;
@@ -83,7 +82,7 @@ a {
 }
 
 .buttons {
-    @include flexbox();
+    @include mixins.flexbox();
     gap: 25px;
 }
 
@@ -98,16 +97,16 @@ button {
 }
 
 .button_blue {
-    background-color: $purple;
-    color: $white;
-    border-color: $purple;
+    background-color: colors.$purple;
+    color: colors.$white;
+    border-color: colors.$purple;
 }
 
 .button_white {
-    color: $purple;
-    border-color: $light-purple;
+    color: colors.$purple;
+    border-color: colors.$light-purple;
     &:hover {
-        @include border-marker($light-purple); 
+        @include mixins.border-marker(colors.$light-purple); 
     }
 
 }
@@ -127,12 +126,12 @@ button {
 footer {
     position: absolute;
     bottom: 30px;
-    @include flexbox();
+    @include mixins.flexbox();
     gap: 40px;
     a {
         padding: 10px;
         border-radius: 100px;
-        @include border-marker($color: $white);
+        @include mixins.border-marker($color: colors.$white);
         border-style: unset;
         &:hover {
             border-style: solid;
