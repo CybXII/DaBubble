@@ -19,12 +19,15 @@
 
 .mainchat-container{
     flex: 1;
+    min-width: 485px;
 }
 
 .menu-width{
     max-width: 366px;
+    min-width: 300px;
 }
 
 .thread-width{
     max-width: 485px;
+    min-width: 300px;
 }
