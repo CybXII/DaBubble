@@ -1,0 +1,25 @@
+button {
+    padding: 12px 25px 12px 25px;
+    gap: 10px;
+    border-radius: 25px 0px 0px 0px;
+    opacity: 0px;
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.primary1 {
+    background-color: $purple;
+}
+
+.primary2 {
+    background-color: $purple2;
+}
+
+.primary3 {
+    background-color: $purple3;
+}
+
+.primary4 {
+    background-color: $grey;
+}

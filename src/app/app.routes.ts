@@ -14,5 +14,4 @@ export const routes: Routes = [
         { path: 'chooseAvatar', component: ChooseAvatarComponent },
     ]},
     { path: 'board', component: MainComponent},
-    
 ];

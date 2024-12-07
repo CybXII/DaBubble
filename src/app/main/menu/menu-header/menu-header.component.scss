@@ -1,1 +1,14 @@
 @import "../../../../mixins.scss";
+@import "../../../../colors.scss";
+
+
+.menu-header{
+    @include flexbox(row, flex-start, center);
+    width: 100%;
+    gap: 15px;
+    .menu-header-title{
+        @include flexbox(row, space-between, center);
+        flex: 1;
+    }
+}
+
