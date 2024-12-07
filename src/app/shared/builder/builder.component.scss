@@ -1,33 +1,30 @@
 @use "../../../mixins.scss" as mixins;
 @use "../../../colors.scss" as colors;
 
-.builder-container{
-    @include mixins.flexbox(row, space-around, center, nowrap);
-    height: 100%;
-    width: 100%;
-    gap: 20px;
+.builder-container {
+  @include mixins.flexbox(row, space-between, center, nowrap);
+  height: 100%;
+  width: 100%;
+  gap: 20px;
 }
 
-.menu-container{
-    @include mixins.flexbox(column, flex-start, flex-start, wrap);
-    background-color: colors.$white;
-    height: 100%;
-    width: 100%;
-    border-radius: 30px;
-    gap: 25px;
+.menu-container {
+  @include mixins.flexbox(column, flex-start, flex-start, wrap);
+  background-color: colors.$white;
+  height: 100%;
+  border-radius: 30px;
+  gap: 25px;
 }
 
-.mainchat-container{
-    flex: 1;
-    min-width: 485px;
+.mainchat-container {
+  min-width: 485px;
+  flex: 1;
 }
 
-.menu-width{
-    max-width: 366px;
-    min-width: 300px;
+.menu-width {
+  min-width: 366px;
 }
 
-.thread-width{
-    max-width: 485px;
-    min-width: 300px;
+.thread-width {
+  min-width: 485px;
 }
