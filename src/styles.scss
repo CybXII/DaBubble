@@ -19,3 +19,8 @@ body {
     font-family: 'nunito';
     src: url('../public/fonts/Nunito-VariableFont_wght.ttf') format('truetype');
 }
+
+app-root, app-main{
+    width: 100%;
+    display: flex;
+}
