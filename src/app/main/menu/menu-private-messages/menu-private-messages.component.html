@@ -46,13 +46,13 @@
         @for (private of this.privateMessages; track private; let index=$index){
             <div class="channel">
                 <div class="channel-box">
-                    <img src="{{private.imgPath}}" alt="">
-
-                    <div [ngClass]="{'online': private.status == true}" class="status"></div>
+                    <div class="avatar-box">
+                        <img src="{{private.imgPath}}" alt="">
+                        <div [ngClass]="{'online': private.status == true}" class="status"></div>
+                    </div>
                     <p>{{private.name}}</p>
                 </div>
             </div>
             }
     }
-
 </section>
