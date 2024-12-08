@@ -1,1 +1,16 @@
+@use './../../../mixins.scss' as mixins;
 @import './../host.scss';
+
+.separation {
+    @include mixins.flexbox($direction:row);
+    gap: 10px;
+    width: 100%;
+}
+
+.line {
+    flex: 1;
+}
+
+.buttons {
+    justify-content: center;
+}

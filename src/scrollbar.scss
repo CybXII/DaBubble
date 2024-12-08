@@ -1,20 +1,23 @@
+@use './colors.scss' as colors;
 /* SCROLLBAR */
 /* width */
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: #f1f1f100;
+    ;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #888;
+    border-radius: 5px;
+    background: colors.$purple;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    background: colors.$purple2;
 }

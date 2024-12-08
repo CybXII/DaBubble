@@ -2,46 +2,142 @@
 @use "../../../../colors.scss" as colors;
 
 .channels{
-    @include mixins.flexbox(row, space-between, center);
+    margin-top: 25px;
     width: 100%;
+    @include mixins.flexbox(row, flex-start, center);
     gap: 15px;
-    .titel-box{
+    .channel{
+        width: 100%;
         @include mixins.flexbox(row, flex-start, center);
-        cursor: default;
-        gap: 15px;
-        div{
-            @include mixins.flexbox(row, flex-start, center);
+        margin: 0px 0px 0px 25px;
+        .channel-box{
             gap: 10px;
-        }
-        .arrow-box{
-            @include mixins.flexbox(row, center, center);
-            width: 30px;
-            height: 30px;
+            height: 58px;
+            @include mixins.flexbox(row, flex-start, center);
             cursor: pointer;
+            font-size: 18px;
+            line-height: 24.55px;
+            border-radius: 29px;
+            padding: 0 30px 0 20px;
+        }
+        .channel-box:hover{ 
+            background-color: colors.$bg-color;
             svg{
-                width: 9px;
+                path{
+                    fill: colors.$purple3;
+                }
             }
-        };
+        }  
+        .channel-box:active {
+            color: colors.$purple3;
+            font-weight: 700;
+            svg{
+                path{
+                    fill: colors.$purple3;
+                }
+            }
+        }
+    }  
+    .menu-titel-box{
+        @include mixins.flexbox(row, space-between, center);
+        width: 100%;
+        .titel-box{
+            @include mixins.flexbox(row, flex-start, center);
+            cursor: default;
+            gap: 15px;
+            font-weight: 700;
+            font-size: 20px;
+            line-height: 27.28px;
+            div{
+                @include mixins.flexbox(row, flex-start, center);
+                gap: 10px;
+            }
+            .arrow-box{
+                @include mixins.flexbox(row, center, center);
+                width: 30px;
+                height: 30px;
+                cursor: pointer;
+                svg{
+                    transform: rotate(270deg);
+                    width: 9px;
+                }
+            };
+            .active{
+                svg{
+                    transform: rotate(0deg);
+                }
+            }
+        }
+
+        .titel-box:hover{
+            color: colors.$purple3;
+                svg{
+                    path{
+                        fill: colors.$purple3;
+                    }
+                }
+        }
     }
-    svg{
+    .avatar-box{
+        display: flex;
+        position: relative;
+        .status{
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #686868;
+            border: solid 2px #FFFFFF;
+            bottom: 0px;
+            right: 0px;
+        }
+        
+        .online{
+            background-color: #92C83E;
+        }
+        
+    }
+
+    .add-button{
         cursor: pointer;
         width: 24px;
         height: 24px;
     }
-};
 
-.channels:hover{
-    color: colors.$purple2;
-    svg{
+    .add-button:hover{
+        background-color: colors.$bg-color;
+        border-radius: 12px;
         path{
-            fill: colors.$purple2;
+            fill: colors.$purple3;
         }
     }
-}
+};
 
 .channels-closed{
     svg {
-        transform: rotate(270deg);
+        transform: rotate(0deg);
     }
 }
+
+.add-channel-box{
+    @include mixins.flexbox(row, flex-start, center);
+    gap: 10px;
+    margin: 0px 0px 0px 35px;
+    padding: 4px 0 4px 10px;
+}
+
+.add-channel-box:hover{
+    color: colors.$purple3;
+    cursor: pointer;
+    path{
+        fill: colors.$purple3;
+    }
+}   
+
+img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
 

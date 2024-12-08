@@ -9,7 +9,7 @@
 }
 
 .menu-container {
-  @include mixins.flexbox(column, flex-start, flex-start, wrap);
+  @include mixins.flexbox(column, flex-start, flex-start, nowrap);
   background-color: colors.$white;
   height: 100%;
   border-radius: 30px;
@@ -22,9 +22,11 @@
 }
 
 .menu-width {
+  max-width: 366px;
   min-width: 366px;
 }
 
 .thread-width {
+  max-width: 485px;
   min-width: 485px;
 }

@@ -1,18 +1,14 @@
 <section>
     <header>
         <img src="" alt="">
-        <div>
+        <div [ngStyle]="{'opacity': loginPage ? 1 : 0 }">
             <span>Neu bei DABubble?</span>
             <a href="signUp">Konto erstellen</a>
         </div>
     </header>
     <router-outlet></router-outlet>
-    <router-outlet name='forget-Password'></router-outlet>
-    <router-outlet name='signIn'></router-outlet>
-    <router-outlet name='forget-Password'></router-outlet>
     <footer>
-        <a routerLink="imprint">Impressum</a>
-        <a routerLink="legalnotice">Datenschutz</a>
-        <a routerLink="board">go to main</a>
+        <a href="">Impressum</a>
+        <a href="">Datenschutz</a>
     </footer>
 </section>
