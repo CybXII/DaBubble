@@ -2,9 +2,8 @@
 @import './../host.scss';
 
 .mainCont {
-    width: 50%;
     >p {
-        // @include mixins.flexbox($justify: start);
+        @include mixins.flexbox($justify: start);
         width: 100%;
     }
 }

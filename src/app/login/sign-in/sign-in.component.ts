@@ -1,13 +1,19 @@
 import { Component } from '@angular/core';
+import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-in',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.scss'
 })
 export class SignInComponent {
+
+  loginData = {
+    email: "",
+    password: "",
+  };
 
   constructor(private router: Router) {}
 
@@ -15,8 +21,11 @@ export class SignInComponent {
     this.router.navigateByUrl('board');
   }
 
-  login() {
-    this.router.navigateByUrl('chooseAvatar');
+  login(ngForm:NgForm) {
+    if (ngForm.valid && ngForm.submitted) {
+      console.log("form functional", this.loginData);
+    }
+    this.router.navigateByUrl('board');
   }
 
 }
