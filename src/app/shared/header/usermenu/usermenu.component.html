@@ -1,4 +1,4 @@
-<div class="usermenu-container">
+<div class="usermenu-container" (click)="openDialog($event)">
   <span>Frederik Beck</span>
   <div class="avatar-container">
     <img src="img/avatars/avatar3.svg" alt="" />
@@ -16,4 +16,11 @@
       fill="black"
     />
   </svg>
+  
 </div>
+@if (this.dialog == true){
+<div class="dialog-background" (click)="closeDialog($event)">
+  <app-dialog></app-dialog>
+</div>
+}
+
