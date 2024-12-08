@@ -18,12 +18,12 @@ export class LoginComponent {
   homeroute:any ="";
   
   checkside() {
-    if (this.router.routerState.snapshot.url == '/') {
-      console.log(this.router.routerState.snapshot.url);
-      this.loginPage = true;
-    } else {
-      this.loginPage = false;
-    }
+    // if (this.router.routerState.snapshot.url == '/') {
+    //   console.log(this.router.routerState.snapshot.url);
+    //   this.loginPage = true;
+    // } else {
+    //   this.loginPage = false;
+    // }
   }
 
 }
