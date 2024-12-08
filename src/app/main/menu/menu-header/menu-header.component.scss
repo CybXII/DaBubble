@@ -7,8 +7,21 @@
     width: 100%;
     gap: 15px;
     .menu-header-title{
+        cursor: default;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 32.74px;
         @include mixins.flexbox(row, space-between, center);
         flex: 1;
+    }
+    img{
+        padding: 4px;
+        cursor: pointer;
+    }
+    img:hover{
+        background-color: colors.$light-purple;
+        border-radius: 16px;
+        
     }
 }
 
