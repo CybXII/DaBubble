@@ -6,6 +6,7 @@ import { LegalnoticeComponent } from './legalnotice/legalnotice.component';
 import { IntroComponent } from './intro/intro.component';
 
 export const routes: Routes = [
-    { path: '', component: LoginComponent},
-    { path: 'board', component: MainComponent},
+    { path: '', component: LoginComponent },
+    { path: 'board', component: MainComponent },
+    { path: 'intro', component: IntroComponent }
 ];

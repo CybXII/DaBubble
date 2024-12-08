@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { state, style, transition, animate, trigger } from '@angular/animations';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-intro',
@@ -12,7 +12,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     trigger('startStop', [
       state('start', style({})),
       state('stop', style({ "top": "10%", "left": "10%", "width": "50px" })),
-      transition('start => stop', [animate('1s')])
+      transition('start => stop', [animate('1s 1s ease-in-out')])
     ]),
   ],
 })
@@ -20,7 +20,7 @@ export class IntroComponent {
   protected startAnim: 'start' | 'stop' = 'start';
 }
 
-bootstrapApplication(IntroComponent, { providers: [provideAnimationsAsync()] });
+bootstrapApplication(IntroComponent, { providers: [provideAnimations()] });
 
 
 // .icon {
