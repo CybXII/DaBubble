@@ -22,5 +22,5 @@ body {
 
 app-root, app-main{
     width: 100%;
-    display: block;
+    @include mixins.flexbox(column, flex-start, center);
 }
