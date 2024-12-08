@@ -16,4 +16,5 @@ export const routes: Routes = [
         { path: 'resetPass', component: ResetPasswordComponent },
     ]},
     { path: 'board', component: MainComponent},
+    { path: 'intro', component: IntroComponent }
 ];
