@@ -31,7 +31,6 @@ input {
 
 .mainCont {
     @include mixins.flexbox($direction: column, $justify: space-around);
-    width: 30%;
     border-radius: 30px;
     background-color: colors.$white;
     padding: 50px;
@@ -118,7 +117,7 @@ button {
     :hover {
         cursor: pointer;
         path {
-            fill: red;
+            fill: colors.$purple;
         }
     }
 }
@@ -136,5 +135,23 @@ footer {
         &:hover {
             border-style: solid;
         }
+    }
+}
+
+.warning {
+    @include mixins.flexbox($justify: start);
+    width: 100%;
+    color: red;
+}
+
+form {
+    @include mixins.flexbox($direction: column,  $align: start);
+    gap: 40px;
+    width: 100%;
+    span {
+        padding-left: 20px;
+    }
+    .link {
+        width: 100%;
     }
 }
