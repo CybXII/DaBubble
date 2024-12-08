@@ -10,9 +10,9 @@
         @include mixins.flexbox(row, flex-start, center);
         margin: 0px 0px 0px 25px;
         .channel-box{
+            gap: 10px;
             height: 58px;
             @include mixins.flexbox(row, flex-start, center);
-            gap: 15px;
             cursor: pointer;
             font-size: 18px;
             line-height: 24.55px;
@@ -77,6 +77,25 @@
                 }
         }
     }
+    .avatar-box{
+        display: flex;
+        position: relative;
+        .status{
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #686868;
+            border: solid 2px #FFFFFF;
+            bottom: 0px;
+            right: 0px;
+        }
+        
+        .online{
+            background-color: #92C83E;
+        }
+        
+    }
 
     .add-button{
         cursor: pointer;
@@ -120,16 +139,4 @@ img{
     border-radius: 50%;
 }
 
-.status{
-    transform: translate(-26px,18px);
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background-color: #686868;
-    border: solid 2px #FFFFFF;
-}
-
-.online{
-    background-color: #92C83E;
-}
 
