@@ -13,6 +13,19 @@ export class MenuPrivateMessagesComponent {
   privateMessages: { id: number; name: string ; imgPath: string ; status: boolean }[]=[  //Example Data
     { id: 1, name: 'Dirk Müller', imgPath: 'img/avatars/avatar3.svg', status: true }, 
     { id: 2, name: 'Franzisak Stark', imgPath: 'img/avatars/avatar2.svg', status: false },
+    { id: 1, name: 'Dirk Müller', imgPath: 'img/avatars/avatar3.svg', status: true }, 
+    { id: 2, name: 'Franzisak Stark', imgPath: 'img/avatars/avatar2.svg', status: false },
+    { id: 1, name: 'Dirk Müller', imgPath: 'img/avatars/avatar3.svg', status: true }, 
+    { id: 2, name: 'Franzisak Stark', imgPath: 'img/avatars/avatar2.svg', status: false },
+    { id: 1, name: 'Dirk Müller', imgPath: 'img/avatars/avatar3.svg', status: true }, 
+    { id: 2, name: 'Franzisak Stark', imgPath: 'img/avatars/avatar2.svg', status: false },
+    { id: 1, name: 'Dirk Müller', imgPath: 'img/avatars/avatar3.svg', status: true }, 
+    { id: 2, name: 'Franzisak Stark', imgPath: 'img/avatars/avatar2.svg', status: false },
+    { id: 1, name: 'Dirk Müller', imgPath: 'img/avatars/avatar3.svg', status: true }, 
+    { id: 2, name: 'Franzisak Stark', imgPath: 'img/avatars/avatar2.svg', status: false },
+    { id: 1, name: 'Dirk Müller', imgPath: 'img/avatars/avatar3.svg', status: true }, 
+    { id: 2, name: 'Franzisak Stark', imgPath: 'img/avatars/avatar2.svg', status: false },
+
   ]
 
 

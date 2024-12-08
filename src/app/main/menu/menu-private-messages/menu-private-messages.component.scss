@@ -2,6 +2,7 @@
 @use "../../../../colors.scss" as colors;
 
 .channels{
+    margin-top: 25px;
     width: 100%;
     @include mixins.flexbox(row, flex-start, center);
     gap: 15px;
