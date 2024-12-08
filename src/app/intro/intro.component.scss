@@ -1,18 +1,19 @@
 section {
     width: 100vw;
     height: 100vh;
-    background: linear-gradient(1.46deg, #313AE6 1.22%, #797EF3 98.76%);
+    //background: linear-gradient(1.46deg, #313AE6 1.22%, #797EF3 98.76%);
+    background: rgba(49, 58, 229, 1);
     display: flex;
     justify-content: center;
     align-items: center;
-
+    animation: changeBackground 1s 1s forwards;
 
     .container {
         position: absolute;
         display: flex;
         align-items: center;
         gap: 10px;
-        animation: moveToTopLeft 1s 0.5s forwards;
+        animation: moveToTopLeft 1s 1s forwards;
     }
 
 
@@ -20,14 +21,14 @@ section {
         //position: absolute;
         width: auto;
         height: 184px;
-        animation: shrinkImage 1s 0.5s forwards;
+        animation: shrinkImage 1s 1s forwards;
         z-index: 2;
     }
 
     h1 {
         font-size: 40px;
         font-weight: 700;
-        animation: changeHeadline 1s 0.5s forwards;
+        animation: changeHeadline 1s 1s forwards;
         color: white;
     }
 
@@ -75,3 +76,13 @@ section {
 }
 
 
+@keyframes changeBackground {
+    from {
+        //background: linear-gradient(1.46deg, #313AE6 1.22%, #797EF3 98.76%);
+        background: rgba(49, 58, 229, 1);
+    }
+
+    to {
+        background: rgba(236, 238, 254, 1);
+    }
+}
