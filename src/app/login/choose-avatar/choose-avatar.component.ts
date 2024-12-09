@@ -17,7 +17,7 @@ export class ChooseAvatarComponent {
   constructor(private router: Router) {}
   
   back() {
-    this.router.navigateByUrl('');
+    this.router.navigateByUrl('signUp');
   }
 
   toBoard() {
