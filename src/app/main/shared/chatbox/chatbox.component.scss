@@ -1,0 +1,94 @@
+@use "../../../../mixins.scss" as mixins;
+@use "../../../../colors.scss" as colors;
+
+.chatbox__msg-container {
+  @include mixins.flexbox(row, flex-start, flex-start, nowrap);
+  gap: 20px;
+  margin-top: 17px;
+  padding: 10px 40px;
+  position: relative;
+
+  &:hover {
+    background-color: colors.$bg-color;
+  }
+  &:hover .chatbox__msg {
+    background-color: colors.$white;
+  }
+  &:hover .chatbox__msg-sent {
+    background-color: colors.$purple2;
+  }
+}
+
+.chatbox__addemoji {
+  background: colors.$white;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  border-bottom-left-radius: 25px;
+  border: 1px solid colors.$light-purple;
+  padding: 3px 13px;
+  position: absolute;
+  top: 17px;
+  right: 60px;
+  img {
+    display: block;
+  }
+}
+
+.chatbox__msg-avatar {
+  border-radius: 40px;
+}
+
+.chatbox__msg-info {
+  @include mixins.flexbox(row, flex-start, center);
+  gap: 20px;
+}
+
+.chatbox__msg-name {
+  font-size: 1.125rem;
+  font-weight: 700;
+  cursor: pointer;
+
+  &:hover {
+    color: colors.$purple;
+  }
+}
+
+.chatbox__msg-time {
+  font-size: 0.875rem;
+  color: colors.$grey;
+}
+
+.chatbox__msg {
+  background-color: colors.$bg-color;
+  padding: 15px;
+  margin-top: 8px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  line-height: 24.55px;
+}
+
+.chatbox__msg-container__sent {
+  @include mixins.flexbox(row-reverse, flex-start, flex-start, nowrap);
+}
+
+.chatbox__msg-sent-info {
+  @include mixins.flexbox(row-reverse, flex-start, center);
+}
+
+.chatbox__msg-sent-item2 {
+  @include mixins.flexbox(column, flex-start, flex-end);
+}
+
+.chatbox__msg-sent {
+  background-color: colors.$purple2;
+  padding: 15px;
+  margin-top: 8px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  line-height: 24.55px;
+  color: colors.$white;
+  display: inline-block;
+}
