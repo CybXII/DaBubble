@@ -1,10 +1,10 @@
 import { NgStyle } from '@angular/common';
 import { Component } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  imports: [RouterOutlet, NgStyle],
+  imports: [RouterOutlet, NgStyle, RouterModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
