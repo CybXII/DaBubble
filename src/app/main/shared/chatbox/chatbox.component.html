@@ -1,1 +1,21 @@
-<p>chatbox works!</p>
+<section class="chatbox">
+  @for (message of threadMessages; track message.msgId){
+  <div class="chatbox__msg-container" [class.chatbox__msg-container__sent]="message.userId == 3">
+    <button class="chatbox__addemoji"><img src="/img/icons/addemoji.svg" alt=""></button>
+    <img
+      class="chatbox__msg-avatar"
+      [src]="message.avatarPath"
+      alt=""
+      width="70"
+      height="70"
+    />
+    <div class="chatbox__msg-item2"  [class.chatbox__msg-sent-item2]="message.userId == 3">
+      <div class="chatbox__msg-info" [class.chatbox__msg-sent-info]="message.userId == 3">
+        <h3 class="chatbox__msg-name">{{ message.name }}</h3>
+        <p class="chatbox__msg-time">{{ message.msgTime }}</p>
+      </div>
+      <p class="chatbox__msg" [class.chatbox__msg-sent]="message.userId == 3">{{ message.msg }}</p>
+    </div>
+  </div>
+  }
+</section>
