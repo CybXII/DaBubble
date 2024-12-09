@@ -19,8 +19,6 @@
   
 </div>
 @if (this.dialog == true){
-<div class="dialog-background" (click)="closeDialog($event)">
-  <app-dialog></app-dialog>
-</div>
+  <app-dialog [dialog]="dialog" (dialogChange)="onDialogChange($event)"></app-dialog>
 }
 
