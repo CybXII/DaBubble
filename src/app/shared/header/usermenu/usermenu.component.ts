@@ -11,12 +11,9 @@ export class UsermenuComponent {
   dialog: boolean = false;
   openDialog(event: Event) {
     this.dialog = true;
-    console.log(this.dialog);
-    
   }
-  closeDialog(event: Event) {
-    event?.preventDefault();
-    event.stopPropagation();
-    this.dialog = false;
+
+  onDialogChange(newValue: boolean) {
+    this.dialog = newValue;
   }
 }
