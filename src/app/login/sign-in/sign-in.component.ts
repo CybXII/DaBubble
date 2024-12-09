@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-sign-in',
-  imports: [FormsModule],
+  imports: [FormsModule, RouterModule],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.scss'
 })
@@ -15,13 +15,13 @@ export class SignInComponent {
     password: "",
   };
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   loginAsGuest() {
     this.router.navigateByUrl('board');
   }
 
-  login(ngForm:NgForm) {
+  login(ngForm: NgForm) {
     if (ngForm.valid && ngForm.submitted) {
       console.log("form functional", this.loginData);
     }

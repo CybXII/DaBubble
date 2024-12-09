@@ -43,12 +43,21 @@ header {
     >div {
         @include mixins.flexbox($direction: column, $justify: start);
     }
+    .logo {
+        @include mixins.flexbox();
+        gap: 10px;
+        >span {
+            font-size: 30px;
+            font-weight: 700;
+        }
+    }
 }
 
 section {
     @include mixins.flexbox($direction: column);
     height: 100vh;
-    width: 100vw;
+    width: 100%;
+    max-width: 1980px;
     background-color: colors.$bg-color;
     background: rgba(49, 58, 229, 1);
     text-align: center;
@@ -56,11 +65,37 @@ section {
 }
 
 input {
-    background-color: colors.$light-purple;
+    background-color: colors.$bg-color;
     border: none;
-
+    flex: 1;
     &:focus-visible {
         outline: unset;
+    }
+}
+
+.inputCont {
+    @include mixins.flexbox($direction: column);
+    gap: 10px;
+    width: 100%;
+}
+
+.input {
+    @include mixins.flexbox($justify: start);
+    @include mixins.border-marker($color: colors.$white);
+    background-color: colors.$bg-color;
+    width: 100%;
+    padding: 10px;
+    border-radius: 100px;
+    &:hover, input{
+        cursor: pointer;
+        border-color: colors.$purple2;
+    }
+    &:focus-within, input {
+        border-color: colors.$purple2;
+        padding-left: 10px;
+        &::placeholder {
+            display: none;
+        }
     }
 }
 
@@ -83,12 +118,6 @@ input {
     }
 }
 
-.inputCont {
-    @include mixins.flexbox($direction: column);
-    gap: 10px;
-    width: 100%;
-}
-
 h1 {
     color: colors.$purple;
     font-size: 46px;
@@ -104,20 +133,7 @@ a {
     text-decoration: none;
 }
 
-.input {
-    @include mixins.flexbox($justify: start);
-    @include mixins.border-marker($color: colors.$purple3);
-    background-color: colors.$light-purple;
-    width: 100%;
-    padding: 10px;
-    border-radius: 100px;
-    gap: 5px;
 
-    &:hover,
-    input {
-        cursor: pointer;
-    }
-}
 
 .buttons {
     @include mixins.flexbox();
@@ -126,7 +142,6 @@ a {
 
 button {
     background-color: unset;
-    border: unset;
     border-radius: 25px;
     padding: 12px 25px;
 
@@ -139,24 +154,29 @@ button {
     background-color: colors.$purple;
     color: colors.$white;
     border-color: colors.$purple;
+    &:hover {
+        opacity: 0.8;
+    }
 }
 
 .button_white {
+    @include mixins.border-marker(colors.$light-purple);
     color: colors.$purple;
-    border-color: colors.$light-purple;
-
     &:hover {
-        @include mixins.border-marker(colors.$light-purple);
+        border-color: colors.$light-purple;
+        background-color: colors.$purple;
+        color: colors.$white;
     }
 
 }
 
 .arrowBack {
     position: absolute;
-    left: 30px;
-    top: 65px;
-
+    left: 10px;
+    top: 30px;
     :hover {
+        background-color: colors.$light-purple;
+        border-radius: 50%;
         cursor: pointer;
 
         path {
@@ -174,11 +194,9 @@ footer {
     a {
         padding: 10px;
         border-radius: 100px;
-        @include mixins.border-marker($color: colors.$white);
-        border-style: unset;
-
+        @include mixins.border-marker($color: colors.$bg-color);
         &:hover {
-            border-style: solid;
+            border-color: colors.$white;
         }
     }
 }

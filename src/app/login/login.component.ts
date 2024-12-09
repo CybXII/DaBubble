@@ -1,10 +1,10 @@
 import { NgStyle } from '@angular/common';
 import { Component } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  imports: [RouterOutlet, NgStyle],
+  imports: [RouterOutlet, NgStyle, RouterModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -18,12 +18,12 @@ export class LoginComponent {
   homeroute:any ="";
   
   checkside() {
-    if (this.router.routerState.snapshot.url == '/') {
-      console.log(this.router.routerState.snapshot.url);
-      this.loginPage = true;
-    } else {
-      this.loginPage = false;
-    }
+    // if (this.router.routerState.snapshot.url == '/') {
+    //   console.log(this.router.routerState.snapshot.url);
+    //   this.loginPage = true;
+    // } else {
+    //   this.loginPage = false;
+    // }
   }
 
 }

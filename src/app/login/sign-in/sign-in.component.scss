@@ -1,5 +1,5 @@
 @use './../../../mixins.scss' as mixins;
-@import './../host.scss';
+@use './../host.scss';
 
 .separation {
     @include mixins.flexbox($direction:row);
