@@ -11,13 +11,13 @@ import { Router } from '@angular/router';
 export class ChooseAvatarComponent {
   name:string = "Frederik Beck";
   activePic:number = -1 ;
-  profilesPics: string[] = ['pic.svg','00c.Charaters (1).svg','00c.Charaters (2).svg','00c.Charaters (3).svg','00c.Charaters (4).svg','00c.Charaters (5).svg',];
-  path:string = "assets/svgs/";
+  profilesPics: string[] = ['avatar2.svg','avatar1.svg','avatar3.svg','avatar6.svg','avatar5.svg','avatar4.svg',];
+  path:string = "/img/avatars/";
 
   constructor(private router: Router) {}
   
   back() {
-    this.router.navigateByUrl('');
+    this.router.navigateByUrl('signUp');
   }
 
   toBoard() {

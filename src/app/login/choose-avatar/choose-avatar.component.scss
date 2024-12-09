@@ -1,5 +1,6 @@
 @use './../../../mixins.scss' as mixins;
-@import './../host.scss';
+@use './../../../colors.scss' as colors;
+@use './../host.scss';
 
 .mainCont {
     >p {
@@ -17,9 +18,36 @@
 .charakterPics {
     @include mixins.flexbox($justify: center);
     gap: 10px;
-    >div>svg {
+    >div>img {
+        @include mixins.border-marker($color: colors.$white);
+        border-width: 8px;
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
         &:hover {
             cursor: pointer;
+            border-color: rgba(230, 230, 230, 1);
+        }
+        &.active {
+            border-color: rgba(236, 238, 254, 1);
         }
     }
+}
+
+.activProfilPic {
+    >img {
+        @include mixins.border-marker($color: colors.$white);
+        border-width: 8px;
+        height: 170px;
+        width: 170px;
+        border-radius: 100%;
+        &:hover {
+            cursor: pointer;
+            border-color: rgba(230, 230, 230, 1);
+        }
+    }
+}
+
+.activSelector {
+    border: 8px solid rgba(230, 230, 230, 1);
 }
