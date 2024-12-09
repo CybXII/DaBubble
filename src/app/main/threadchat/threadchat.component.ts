@@ -7,8 +7,9 @@ import { ThreadchatHeaderComponent } from './threadchat-header/threadchat-header
   selector: 'app-threadchat',
   imports: [ThreadchatHeaderComponent, ChatboxComponent, MessageboxComponent],
   templateUrl: './threadchat.component.html',
-  styleUrl: './threadchat.component.scss'
+  styleUrl: './threadchat.component.scss',
 })
 export class ThreadchatComponent {
 
+  
 }

@@ -7,15 +7,21 @@ import { SignUpComponent } from './login/sign-up/sign-up.component';
 import { ChooseAvatarComponent } from './login/choose-avatar/choose-avatar.component';
 import { ResetPasswordComponent } from './login/reset-password/reset-password.component';
 import { IntroComponent } from './intro/intro.component';
+import { LegalnoticeComponent } from './legalnotice/legalnotice.component';
+import { ImprintComponent } from './imprint/imprint.component';
 
 export const routes: Routes = [
-    { path: '', component: LoginComponent, children: [
-        { path: '', component: SignInComponent},
-        { path: 'forget', component: ForgetPasswordComponent},
-        { path: 'signUp', component: SignUpComponent },
-        { path: 'chooseAvatar', component: ChooseAvatarComponent },
-        { path: 'resetPass', component: ResetPasswordComponent },
-    ]},
-    { path: 'board', component: MainComponent},
-    { path: 'intro', component: IntroComponent }
+    {
+        path: '', component: LoginComponent, children: [
+            { path: '', component: SignInComponent },
+            { path: 'forget', component: ForgetPasswordComponent },
+            { path: 'signUp', component: SignUpComponent },
+            { path: 'chooseAvatar', component: ChooseAvatarComponent },
+            { path: 'resetPass', component: ResetPasswordComponent },
+        ]
+    },
+    { path: 'board', component: MainComponent },
+    { path: 'intro', component: IntroComponent },
+    { path: 'legalnotice', component: LegalnoticeComponent },
+    { path: 'imprint', component: ImprintComponent }
 ];

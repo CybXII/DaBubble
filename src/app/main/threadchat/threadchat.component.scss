@@ -3,4 +3,13 @@
 .threadchat-container{
     @include mixins.flexbox(column, center, center, nowrap);
     @include mixins.border-marker(red);
+    width: 100%;
+}
+
+.threadchat__header{
+    width: 100%;
+}
+
+.threadchat__chatbox{
+    width: 100%;
 }
