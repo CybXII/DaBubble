@@ -18,13 +18,6 @@ export class DialogComponent {
     event.stopPropagation();
   }
 
-  closeDialog(event: Event) {
-    event?.preventDefault();
-    event.stopPropagation();
-    this.dialog = false;
-    this.dialogChange.emit(this.dialog);
-  }
-
   logout() {
     console.log('logout');
   }

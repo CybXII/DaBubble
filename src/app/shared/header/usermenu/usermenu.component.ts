@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { DialogComponent } from './dialog/dialog.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-usermenu',
-  imports: [DialogComponent],
+  imports: [DialogComponent, CommonModule],
   templateUrl: './usermenu.component.html',
   styleUrl: './usermenu.component.scss',
 })
@@ -16,4 +17,11 @@ export class UsermenuComponent {
   onDialogChange(newValue: boolean) {
     this.dialog = newValue;
   }
+
+  closeDialog(event: Event) {
+    event?.preventDefault();
+    event.stopPropagation();
+    this.dialog = false;
+  }
 }
+

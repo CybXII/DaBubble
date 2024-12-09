@@ -16,9 +16,17 @@
       fill="black"
     />
   </svg>
-  
 </div>
 @if (this.dialog == true){
-  <app-dialog [dialog]="dialog" (dialogChange)="onDialogChange($event)"></app-dialog>
+<div
+  [ngClass]="{
+    'dialog-background': dialog
+  }"
+  (click)="closeDialog($event)"
+>
+  <app-dialog
+    [dialog]="dialog"
+    (dialogChange)="onDialogChange($event)"
+  ></app-dialog>
+</div>
 }
-

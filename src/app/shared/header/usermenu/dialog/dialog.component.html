@@ -1,9 +1,4 @@
-<div
-  [ngClass]="{
-    'dialog-background': dialog || profileDialog || profileDialogEdit
-  }"
-  (click)="closeDialog($event)"
->
+
   <div
     [ngClass]="{
       'dialog-container': dialog || profileDialog || profileDialogEdit
@@ -15,8 +10,7 @@
     <span (click)="logout()">Logout</span>
     } @else if (this.profileDialog) {
     <span (click)="openProfileEdit()">Editieren</span>
-    } @else if(this.profileDialogEdit){
+    } @else if (this.profileDialogEdit){
     <span (click)="saveProfile()">Speichern</span>
     }
   </div>
-</div>
