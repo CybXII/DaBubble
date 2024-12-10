@@ -34,11 +34,12 @@
 
 header {
     position: absolute;
-    height: 100px;
-    width: 100%;
-    top: 0px;
+    // height: 100px;
+    // width: 100%;
+    top: 95px;
+    right: 20px;
     @include mixins.flexbox($justify: space-between);
-    padding: 0px 30px;
+    // padding: 0px 30px;
 
     >div {
         @include mixins.flexbox($direction: column, $justify: start);
@@ -53,15 +54,22 @@ header {
     }
 }
 
+.animationBackground {
+    @include mixins.flexbox($direction: column);
+    width: 100vw;
+    background-color: colors.$bg-color;
+    background: rgba(49, 58, 229, 1);
+    animation: changeBackground 1s 1s forwards;
+}
+
 section {
     @include mixins.flexbox($direction: column);
     height: 100vh;
-    width: 100%;
+    width: 100vw;
     max-width: 1980px;
-    background-color: colors.$bg-color;
-    background: rgba(49, 58, 229, 1);
     text-align: center;
-    animation: changeBackground 1s 1s forwards;
+    // animation: changeBackground 1s 1s forwards;
+    position: relative;
 }
 
 input {
@@ -187,6 +195,7 @@ button {
 
 footer {
     position: absolute;
+    width: 100%;
     bottom: 30px;
     @include mixins.flexbox();
     gap: 40px;
@@ -196,7 +205,7 @@ footer {
         border-radius: 100px;
         @include mixins.border-marker($color: colors.$bg-color);
         &:hover {
-            border-color: colors.$white;
+            border-color: colors.$light-purple;
         }
     }
 }
