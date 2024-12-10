@@ -3,7 +3,7 @@
 
 
 .menu-header{
-    @include mixins.flexbox(row, flex-start, center);
+    @include mixins.flexbox(row, flex-start, center ,nowrap);
     width: 100%;
     gap: 15px;
     .menu-header-title{
@@ -11,7 +11,7 @@
         font-weight: 700;
         font-size: 24px;
         line-height: 32.74px;
-        @include mixins.flexbox(row, space-between, center);
+        @include mixins.flexbox(row, space-between, center, nowrap);
         flex: 1;
     }
     img{
