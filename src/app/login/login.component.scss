@@ -146,6 +146,10 @@ a {
 .buttons {
     @include mixins.flexbox();
     gap: 25px;
+    button:disabled {
+        background-color: gray;
+        border-color: colors.$white;
+    }
 }
 
 button {

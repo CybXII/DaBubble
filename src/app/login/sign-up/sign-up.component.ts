@@ -14,6 +14,7 @@ export class SignUpComponent {
     name: "",
     email : "",
     password: "",
+    privacy: false,
   }
 
   constructor(private router: Router) {}
