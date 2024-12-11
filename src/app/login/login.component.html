@@ -1,22 +1,24 @@
-    @if (!storgedUser) {
-        <div class="animationBackground "></div>
-    }
-    <section>
-            <div [ngClass]="{ 'container': !storgedUser, 'containerNoAnimation': storgedUser}">
-                <img src="img/logo.svg" >
-                <h1>DABubble</h1>
-            </div>
-        <header [ngClass]="{ 'afterIntro': !storgedUser}">
-                <div [ngStyle]="{'opacity': loginPage ? 1 : 0 }">
-                    <span>Neu bei DABubble?</span>
-                    <a routerLink="signUp">Konto erstellen</a>
-                </div>
-        </header>
-        <div [ngClass]="{ 'afterIntro': !storgedUser}">
-            <router-outlet></router-outlet>
+@if (!storgedUser) {
+<div class="animationBackground "></div>
+}
+<section>
+    <div [ngClass]="{ 'container': !storgedUser, 'containerNoAnimation': storgedUser}">
+        <img src="img/logo.svg">
+        <div class="textcontainer">
+            <h1>DABubble</h1>
         </div>
-        <footer [ngClass]="{ 'afterIntro': !storgedUser}">
-            <a routerLink="imprint">Impressum</a>
-            <a routerLink="legalnotice">Datenschutz</a>
-        </footer>
-    </section>
+    </div>
+    <header [ngClass]="{ 'afterIntro': !storgedUser}">
+        <div [ngStyle]="{'opacity': loginPage ? 1 : 0 }">
+            <span>Neu bei DABubble?</span>
+            <a routerLink="signUp">Konto erstellen</a>
+        </div>
+    </header>
+    <div [ngClass]="{ 'afterIntro': !storgedUser}">
+        <router-outlet></router-outlet>
+    </div>
+    <footer [ngClass]="{ 'afterIntro': !storgedUser}">
+        <a routerLink="imprint">Impressum</a>
+        <a routerLink="legalnotice">Datenschutz</a>
+    </footer>
+</section>

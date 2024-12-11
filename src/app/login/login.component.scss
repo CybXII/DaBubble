@@ -24,7 +24,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    gap: 10px;
+    gap: 20px;
     z-index: 100;
     max-width: 1920px;
     animation: moveToTopLeft 1s 5s forwards;
@@ -40,10 +40,19 @@
         z-index: 2;
     }
 
+    .textcontainer {
+        position: relative;
+        width: 300px;
+        height: 50px;
+        overflow: hidden;
+        //border: 1px solid black;
+    }
+
     h1 {
         position: absolute;
-        left: -200px;
-        font-size: 40px;
+        //left: -200px;
+        transform: translateX(-100%);
+        font-size: 60px;
         font-weight: 700;
         animation: moveRight .5s 2s ease-in-out forwards,
             makeStatic 0s 3s forwards,
@@ -359,21 +368,25 @@ form {
 
 @keyframes moveLeft {
     from {
-        left: 0;
+        //left: 0;
+        transform: translateX(0);
     }
 
     to {
-        left: -200px;
+        //left: -200px;
+        transform: translateX(-100%);
     }
 }
 
 @keyframes moveRight {
     from {
-        left: -200px;
+        //left: -200px;
+        transform: translateX(-100%);
     }
 
     to {
-        left: 0;
+        //left: 0;
+        transform: translateX(0);
     }
 }
 
@@ -384,7 +397,7 @@ form {
         //top: 0;
         /* Als ob das Element static wird */
         //left: 0;
-        transform: translate(0, 0);
+        //transform: translate(0, 0);
         /* Entferne jegliche Verschiebung */
     }
 }
