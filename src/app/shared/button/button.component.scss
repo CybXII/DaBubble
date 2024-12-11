@@ -1,0 +1,12 @@
+@use "../../../mixins.scss" as mixins;
+@use "../../../colors.scss" as colors;
+
+button {
+  &.primary {
+    @include mixins.button-primary;
+  }
+
+  &.secondary {
+    @include mixins.button-secondary;
+  }
+}
