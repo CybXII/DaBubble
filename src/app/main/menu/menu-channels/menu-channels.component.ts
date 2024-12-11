@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
-import { ModalComponent } from '../../../shared/modal/modal.component';
+import { FullscreenModalComponent } from '../../../shared/fullscreen-modal/fullscreen-modal.component';
 
 @Component({
   selector: 'app-menu-channels',
-  imports: [CommonModule, ModalComponent],
+  imports: [CommonModule],
   templateUrl: './menu-channels.component.html',
   styleUrl: './menu-channels.component.scss'
 })
@@ -16,19 +17,22 @@ export class MenuChannelsComponent {
     { id: 2, name: 'Channel 2' },
   ]
 
-  showModal: boolean = false;
+  constructor(private dialog: MatDialog) { }
+
+
 
   toggleChannelsOpen(): void {
     this.channelsOpen = !this.channelsOpen
   }
 
-  toggleShowModal(): void {
-    this.showModal = !this.showModal;
-  }
+  openDialog() {
+    this.dialog.open(FullscreenModalComponent, {
+      width: '100vw', // Vollbildbreite
+      maxWidth: '100vw', // Verhindert Einschränkung durch Standard
+      height: '100vh', // Vollbildhöhe
+      panelClass: 'fullscreen-modal', // Optional: zusätzliche Styles
+    });
 
-
-  addChannel() {
-    this.toggleShowModal();
   }
 
 }
