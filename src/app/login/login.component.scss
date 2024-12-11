@@ -226,7 +226,7 @@ a {
     gap: 25px;
 
     button:disabled {
-        background-color: gray;
+        background-color: colors.$grey;
         border-color: colors.$white;
     }
 }
@@ -235,6 +235,8 @@ button {
     background-color: unset;
     border-radius: 25px;
     padding: 12px 25px;
+    font-size: 18px;
+    font-weight: 400;
 
     &:hover {
         cursor: pointer;
@@ -245,6 +247,7 @@ button {
     background-color: colors.$purple;
     color: colors.$white;
     border-color: colors.$purple;
+    font-weight: 700;
 
     &:hover {
         opacity: 0.8;
@@ -290,7 +293,14 @@ footer {
 .warning {
     @include mixins.flexbox($justify: start);
     width: 100%;
-    color: red;
+    color: colors.$error;
+    font-size: 14px;
+}
+
+.input-warning {
+    width: 100%;
+    @include mixins.flexbox();
+    gap: 5px;
 }
 
 form {

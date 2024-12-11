@@ -14,9 +14,7 @@
                 </svg>
                 <input #email="ngModel" [(ngModel)]="loginData.email" type="text" name="e-mail" placeholder="beispielname@email.com" required pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}">
             </div>
-            @if(!email.valid && email.touched) {
-                <span class="warning">E-Mail ungültig!</span>
-            }
+            <span class="warning" [ngStyle]="{'opacity': !email.valid && email.touched ? 1 : 0}">*Diese E-Mail-Adresse ist leider ungültig.</span>
             <div class="input">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_98810_14397" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
@@ -28,9 +26,7 @@
                 </svg>
                 <input #password="ngModel" [(ngModel)]="loginData.password" type="password" name="password" placeholder="Passwort" required>
             </div>
-            @if(!password.valid && password.touched) {
-                <span class="warning">Passwort flasch oder Feld leer!</span>
-            }
+            <span class="warning" [ngStyle]="{'opacity': !password.valid && password.touched ? 1 : 0}">Falsches Passwort oder E-Mail.. Bitte noch einmal versuchen.</span>
         </div>
         <div class="link">
             <a routerLink="forget">Passwort vergessen?</a>
@@ -52,6 +48,7 @@
             </div>
         </div>
         <div class="buttons">
+            <!-- <app-button type="primary">Anmelden</app-button> -->
             <button [disabled]="!email.valid || !password.valid" type="submit" class="button_blue">Anmelden
             </button>
             <button (click)="loginAsGuest()" class="button_white">Gäste-Login</button>
