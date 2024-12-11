@@ -11,11 +11,15 @@
     position: absolute;
     display: flex;
     align-items: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     gap: 10px;
+    z-index: 100;
+    max-width: 1920px;
     animation: moveToTopLeft 1s 1s forwards;
 
     img {
-        //position: absolute;
         width: auto;
         height: 184px;
         animation: shrinkImage 1s 1s forwards;
@@ -30,6 +34,31 @@
     }
 
 }
+
+
+.containerNoAnimation {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    top: 75px;
+    left: 75px;
+    gap: 10px;
+    max-width: 1920px;
+
+    img {
+        width: auto;
+        height: 75px;
+        z-index: 2;
+    }
+
+    h1 {
+        color: black;
+        font-size: 20px;
+        font-weight: 400;
+    }
+
+}
+
 
 
 header {
@@ -56,7 +85,14 @@ header {
 
 .animationBackground {
     @include mixins.flexbox($direction: column);
+    position: absolute;
     width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: colors.$bg-color;
     background: rgba(49, 58, 229, 1);
     animation: changeBackground 1s 1s forwards;
@@ -239,10 +275,12 @@ form {
     from {
         //background: linear-gradient(1.46deg, #313AE6 1.22%, #797EF3 98.76%);
         background: rgba(49, 58, 229, 1);
+        opacity: 1;
     }
 
     to {
-        background: rgba(236, 238, 254, 1);
+        background: rgba(236, 238, 254, 0);
+        opacity: 0;
     }
 }
 
@@ -273,15 +311,13 @@ form {
 @keyframes moveToTopLeft {
 
     from {
-        position: absolute;
-        top: 50%;
-        left: 50%;
+        transform: translate(-50%, -50%);
     }
 
     to {
-        position: absolute;
-        left: 75px;
         top: 75px;
+        left:75px;
+        transform: translate(0%, 0%);
     }
 }
 
