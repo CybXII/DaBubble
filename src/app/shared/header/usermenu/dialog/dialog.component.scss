@@ -140,12 +140,10 @@
     padding: 15px 20px;
     display: flex;
     align-items: center;
-    &::placeholder {
-      color: colors.$grey;
-      font-size: 18px;
-      font-weight: 500;
-      height: 100%;
-    }
+    color: colors.$grey;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24.55px;
     &:focus-visible {
       border: 1px solid colors.$light-purple;
       outline: none;
