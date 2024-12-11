@@ -27,9 +27,9 @@ export class MenuChannelsComponent {
 
   openDialog() {
     this.dialog.open(FullscreenModalComponent, {
-      width: '100vw', // Vollbildbreite
+      width: '60vw', // Vollbildbreite
       maxWidth: '100vw', // Verhindert Einschränkung durch Standard
-      height: '100vh', // Vollbildhöhe
+      height: '60vh', // Vollbildhöhe
       panelClass: 'fullscreen-modal', // Optional: zusätzliche Styles
     });
 
