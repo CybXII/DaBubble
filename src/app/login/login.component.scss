@@ -78,6 +78,7 @@ header {
     .logo {
         @include mixins.flexbox();
         gap: 10px;
+
         >span {
             font-size: 30px;
             font-weight: 700;
@@ -91,11 +92,13 @@ a {
     }
 }
 
-header, footer {
+header,
+footer {
     a {
         padding: 10px;
         border-radius: 100px;
         @include mixins.border-marker($color: colors.$bg-color);
+
         &:hover {
             border-color: colors.$light-purple;
         }
@@ -103,17 +106,12 @@ header, footer {
 }
 
 .animationBackground {
-    @include mixins.flexbox($direction: column);
     position: absolute;
     width: 100vw;
     height: 100vh;
     left: 0;
     top: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: colors.$bg-color;
-    background: rgba(49, 58, 229, 1);
+    background: colors.$bg-intro;
     animation: changeBackground 1s 1s forwards;
 }
 
@@ -131,6 +129,7 @@ input {
     background-color: colors.$bg-color;
     border: none;
     flex: 1;
+
     &:focus-visible {
         outline: unset;
     }
@@ -149,13 +148,18 @@ input {
     width: 100%;
     padding: 10px;
     border-radius: 100px;
-    &:hover, input{
+
+    &:hover,
+    input {
         cursor: pointer;
         border-color: colors.$purple2;
     }
-    &:focus-within, input {
+
+    &:focus-within,
+    input {
         border-color: colors.$purple2;
         padding-left: 10px;
+
         &::placeholder {
             display: none;
         }
@@ -202,6 +206,7 @@ a {
 .buttons {
     @include mixins.flexbox();
     gap: 25px;
+
     button:disabled {
         background-color: gray;
         border-color: colors.$white;
@@ -222,6 +227,7 @@ button {
     background-color: colors.$purple;
     color: colors.$white;
     border-color: colors.$purple;
+
     &:hover {
         opacity: 0.8;
     }
@@ -230,6 +236,7 @@ button {
 .button_white {
     @include mixins.border-marker(colors.$light-purple);
     color: colors.$purple;
+
     &:hover {
         border-color: colors.$light-purple;
         background-color: colors.$purple;
@@ -242,6 +249,7 @@ button {
     position: absolute;
     left: 10px;
     top: 30px;
+
     :hover {
         background-color: colors.$light-purple;
         border-radius: 50%;
@@ -284,13 +292,10 @@ form {
 
 @keyframes changeBackground {
     from {
-        //background: linear-gradient(1.46deg, #313AE6 1.22%, #797EF3 98.76%);
-        background: rgba(49, 58, 229, 1);
         opacity: 1;
     }
 
     to {
-        background: rgba(236, 238, 254, 0);
         opacity: 0;
     }
 }
@@ -327,7 +332,7 @@ form {
 
     to {
         top: 75px;
-        left:75px;
+        left: 75px;
         transform: translate(0%, 0%);
     }
 }
