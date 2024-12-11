@@ -3,7 +3,6 @@
 
 .builder-container {
   @include mixins.flexbox(row, space-between, center, nowrap);
-  position: relative;
   height: 100%;
   width: 100%;
   gap: 20px;
@@ -40,21 +39,21 @@
 
 .menu-container.hidden,
 .thread-width.hidden {
-  flex: 0 0 0; /* Minimale Breite */
-  max-width: 0; /* Reduzierte Breite */
-  overflow: hidden; /* Verhindert sichtbare Inhalte */
+  flex: 0 0 0;
+  max-width: 0;
+  overflow: hidden;
 }
 
 .thread-width {
-  max-width: 366px; /* Für Menu */
-  flex: 0 0 366px; /* Feste Breite */
-  transition: flex 0.3s ease-in-out, max-width 0.3s ease-in-out; /* Sanfter Übergang */
+  max-width: 366px;
+  flex: 0 0 366px;
+  transition: flex 0.3s ease-in-out, max-width 0.3s ease-in-out;
 }
 
 .toggleButton {
   position: absolute;
-  bottom: 20%;
-  left: -20px;
+  bottom: 10%;
+  left: 0px;
   z-index: 1000;
   cursor: pointer;
 }
