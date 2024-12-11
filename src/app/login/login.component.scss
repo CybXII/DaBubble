@@ -4,7 +4,17 @@
 
 .afterIntro {
     opacity: 0;
-    animation: reveal 1s 1s forwards;
+    animation: reveal 1s 5s forwards;
+}
+
+.animationBackground {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    background: colors.$bg-intro;
+    animation: hide 1s 5s forwards;
 }
 
 .container {
@@ -17,19 +27,27 @@
     gap: 10px;
     z-index: 100;
     max-width: 1920px;
-    animation: moveToTopLeft 1s 1s forwards;
+    animation: moveToTopLeft 1s 5s forwards;
 
     img {
         width: auto;
+        position: absolute;
+        left: 0px;
         height: 184px;
-        animation: shrinkImage 1s 1s forwards;
+        animation: moveLeft .5s ease-in-out 1s forwards,
+            makeStatic 0s 3s forwards,
+            shrinkImage 1s 5s forwards;
         z-index: 2;
     }
 
     h1 {
+        position: absolute;
+        left: -200px;
         font-size: 40px;
         font-weight: 700;
-        animation: changeHeadline 1s 1s forwards;
+        animation: moveRight .5s 2s ease-in-out forwards,
+            makeStatic 0s 3s forwards,
+            changeHeadline 1s 5s forwards;
         color: white;
     }
 
@@ -105,15 +123,7 @@ footer {
     }
 }
 
-.animationBackground {
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
-    left: 0;
-    top: 0;
-    background: colors.$bg-intro;
-    animation: changeBackground 1s 1s forwards;
-}
+
 
 section {
     @include mixins.flexbox($direction: column);
@@ -121,7 +131,6 @@ section {
     width: 100vw;
     max-width: 1980px;
     text-align: center;
-    // animation: changeBackground 1s 1s forwards;
     position: relative;
 }
 
@@ -290,7 +299,7 @@ form {
 }
 
 
-@keyframes changeBackground {
+@keyframes hide {
     from {
         opacity: 1;
     }
@@ -344,5 +353,38 @@ form {
 
     to {
         opacity: 1;
+    }
+}
+
+
+@keyframes moveLeft {
+    from {
+        left: 0;
+    }
+
+    to {
+        left: -200px;
+    }
+}
+
+@keyframes moveRight {
+    from {
+        left: -200px;
+    }
+
+    to {
+        left: 0;
+    }
+}
+
+@keyframes makeStatic {
+    from {}
+
+    to {
+        //top: 0;
+        /* Als ob das Element static wird */
+        //left: 0;
+        transform: translate(0, 0);
+        /* Entferne jegliche Verschiebung */
     }
 }
