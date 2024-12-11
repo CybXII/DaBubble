@@ -10,7 +10,7 @@ import { Router, RouterOutlet, RouterModule } from '@angular/router';
 })
 export class LoginComponent {
   loginPage: boolean = true;
-  storgedUser: boolean = true;
+  storgedUser: boolean = false;
   constructor(public router:Router) {
     this.checkside();
   }
