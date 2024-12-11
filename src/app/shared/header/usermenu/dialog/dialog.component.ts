@@ -1,10 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { ButtonComponent } from '../../../button/button.component';
 
 @Component({
   selector: 'app-dialog',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ButtonComponent],
   templateUrl: './dialog.component.html',
   styleUrl: './dialog.component.scss',
 })
@@ -33,6 +34,11 @@ export class DialogComponent {
   openProfileEdit() {
     this.profileDialog = false;
     this.profileDialogEdit = true;
+  }
+
+  closeProfileEdit() {
+    this.profileDialog = true;
+    this.profileDialogEdit = false;
   }
 
   closeDialog(event: Event) {

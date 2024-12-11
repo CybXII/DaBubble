@@ -87,9 +87,10 @@
 .dialog-link {
   font-size: 24px;
   font-weight: 600;
-  line-height: 32.74px;
   text-align: center;
   padding: 10px 70px;
+  text-decoration: none;
+  color: black;
   cursor: pointer;
   &:hover {
     color: colors.$purple2;
@@ -102,7 +103,6 @@
   span {
     font-size: 24px;
     font-weight: 600;
-    line-height: 32.74px;
   }
   img {
     cursor: pointer;
@@ -113,10 +113,53 @@
 
 .dialog-avatar {
   @include mixins.flexbox(row, center, center, wrap);
-  width: 350px;
+  width: 400px;
   img {
     width: 200px;
     height: 200px;
     border-radius: 50%;
   }
+}
+
+.dialog-profile-info-edit {
+  @include mixins.flexbox(column, flex-start, flex-start, wrap);
+  width: 100%;
+  img {
+    width: 25px;
+    height: 25px;
+  }
+  span {
+    font-size: 20px;
+    font-weight: 700;
+    padding-left: 15px;
+  }
+  input {
+    width: 100%;
+    border-radius: 30px;
+    border: 1px solid colors.$light-purple;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    &::placeholder {
+      color: colors.$grey;
+      font-size: 18px;
+      font-weight: 500;
+      height: 100%;
+    }
+    &:focus-visible {
+      border: 1px solid colors.$light-purple;
+      outline: none;
+    }
+  }
+}
+
+.dialog-profile-edit-container {
+  @include mixins.flexbox(row, flex-start, center, nowrap);
+  padding-bottom: 10px;
+}
+
+.dialog-buttons {
+  @include mixins.flexbox(row, center, center, wrap);
+  width: 100%;
+  gap: 45px;
 }
