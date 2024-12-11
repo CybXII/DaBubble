@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class ResetPasswordComponent {
   warnText:string = "";
+  passwordmatch:boolean = false;
   passwords = {
     password: "",
     password2: "",
@@ -22,6 +23,20 @@ export class ResetPasswordComponent {
   }
 
   changePassword(ngform: NgForm) {
+    if (ngform.valid && ngform.submitted && this.checkPasswordsMatch()) {
+      console.log(this.passwords);
+    }
+  }
 
+  checkPasswordsMatch() {
+    let a = this.passwords;
+    if (a.password === a.password2 ) {
+      this.passwordmatch = true;
+      return true;
+    } else {
+      console.log("passwörter stimmen nicht überein");
+      this.passwordmatch = false;
+      return false;
+    }
   }
 }

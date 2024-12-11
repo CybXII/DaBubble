@@ -65,20 +65,39 @@ header {
     position: absolute;
     // height: 100px;
     // width: 100%;
-    top: 95px;
-    right: 20px;
+    top: 90px;
+    right: 75px;
     @include mixins.flexbox($justify: space-between);
     // padding: 0px 30px;
 
     >div {
         @include mixins.flexbox($direction: column, $justify: start);
+        gap: 5px
     }
+
     .logo {
         @include mixins.flexbox();
         gap: 10px;
         >span {
             font-size: 30px;
             font-weight: 700;
+        }
+    }
+}
+
+a {
+    &:hover {
+        transform: scale(1.05);
+    }
+}
+
+header, footer {
+    a {
+        padding: 10px;
+        border-radius: 100px;
+        @include mixins.border-marker($color: colors.$bg-color);
+        &:hover {
+            border-color: colors.$light-purple;
         }
     }
 }
@@ -150,13 +169,14 @@ input {
     padding: 50px;
     gap: 40px;
     position: relative;
+    max-width: 606px;
 
     a {
         padding: 5px 10px;
         border-radius: 100px;
 
         &:hover {
-            background-color: colors.$light-purple;
+            background-color: colors.$bg-color;
             color: colors.$purple3;
         }
     }
@@ -182,6 +202,10 @@ a {
 .buttons {
     @include mixins.flexbox();
     gap: 25px;
+    button:disabled {
+        background-color: gray;
+        border-color: colors.$white;
+    }
 }
 
 button {
@@ -235,15 +259,6 @@ footer {
     bottom: 30px;
     @include mixins.flexbox();
     gap: 40px;
-
-    a {
-        padding: 10px;
-        border-radius: 100px;
-        @include mixins.border-marker($color: colors.$bg-color);
-        &:hover {
-            border-color: colors.$light-purple;
-        }
-    }
 }
 
 .warning {

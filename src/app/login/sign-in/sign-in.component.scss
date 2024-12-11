@@ -1,6 +1,7 @@
 @use './../../../mixins.scss' as mixins;
+@use './../../../colors.scss' as colors;
 @use './../host.scss';
-@use './../login.component.scss';
+// @use './../login.component.scss';
 
 .separation {
     @include mixins.flexbox($direction:row);
@@ -17,4 +18,27 @@
 
 .buttons {
     justify-content: center;
+}
+
+.googleBtn {
+    @include mixins.flexbox();
+    width: 100%;
+    color: colors.$purple;
+    >div {
+        @include mixins.flexbox();
+        width: 100%;
+        @include mixins.border-marker($color: colors.$white);
+        background-color: colors.$bg-color;
+        border-radius: 25px;
+        padding: 5px;
+        gap: 10px;
+        >span {
+            padding: 0px;
+        }
+        &:hover {
+            cursor: pointer;
+            border-color: colors.$purple2;
+            transform: scale(1.01);
+        }
+    }
 }
