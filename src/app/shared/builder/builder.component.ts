@@ -17,33 +17,33 @@ export class BuilderComponent {
   builder: string[] = ["menu", "mainchat", "threadchat"];
   menuOpened = true;
   threadchatOpened = true;
-  menuState = 'in'; // Initialzustand
+  menuState = 'in';
   threadchatState = 'in';
 
   toggleMenu() {
     if (this.menuState === 'in') {
-      this.menuState = 'out'; // Von "in" zu "out"
+      this.menuState = 'out';
       setTimeout(() => {
-        this.menuOpened = false; // Element nach Animation ausblenden
-      }, 300); // Animationsdauer
+        this.menuOpened = false;
+      }, 300);
     } else {
-      this.menuOpened = true; // Element einblenden
+      this.menuOpened = true;
       setTimeout(() => {
-        this.menuState = 'in'; // Animation rückwärts abspielen
+        this.menuState = 'in';
       });
     }
   }
   
   toggleThreadChat() {
     if (this.threadchatState === 'in') {
-      this.threadchatState = 'out'; // Von "in" zu "out"
+      this.threadchatState = 'out';
       setTimeout(() => {
-        this.threadchatOpened = false; // Element nach Animation ausblenden
-      }, 300); // Animationsdauer
+        this.threadchatOpened = false;
+      }, 300);
     } else {
-      this.threadchatOpened = true; // Element einblenden
+      this.threadchatOpened = true;
       setTimeout(() => {
-        this.threadchatState = 'in'; // Animation rückwärts abspielen
+        this.threadchatState = 'in';
       });
     }
   }
@@ -51,7 +51,7 @@ export class BuilderComponent {
   onAnimationDone(event: any, type: string) {
     if (event.toState === 'in') {
       if (type === 'menu') {
-        this.menuOpened = true; // Steuerung über die `@if`-Bedingung
+        this.menuOpened = true;
       }
       if (type === 'threadchat') {
         this.threadchatOpened = true;
@@ -59,7 +59,7 @@ export class BuilderComponent {
     }
     else if(event.toState === 'out') {
       if (type === 'menu') {
-        this.menuOpened = false; // Steuerung über die `@if`-Bedingung
+        this.menuOpened = false;
       }
       if (type === 'threadchat') {
         this.threadchatOpened = false;
