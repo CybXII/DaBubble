@@ -35,11 +35,45 @@
       <img src="/img/icons/mail.svg" alt="" />
       <div>
         <span>E-Mail-Adresse</span>
-        <a href="mailto:fred.beck&commat;email.com">fred.beck&commat;email.com</a>
+        <a href="mailto:fred.beck&commat;email.com"
+          >fred.beck&commat;email.com</a
+        >
       </div>
     </div>
   </div>
   } @else if (this.profileDialogEdit){
-  <span (click)="saveProfile()">Speichern</span>
+  <div class="dialog-profile-container">
+    <div class="dialog-header">
+      <span>Dein Profil bearbeiten</span>
+      <img
+        src="/img/icons/close.svg"
+        alt="close"
+        (click)="closeDialog($event)"
+      />
+    </div>
+    <div class="dialog-avatar">
+      <img src="img/avatars/avatar3.svg" alt="" />
+    </div>
+
+    <div class="dialog-profile-info-edit">
+      <div class="dialog-profile-edit-container">
+        <img src="/img/icons/account_circle.svg" alt="account_circle" />
+        <span>Vollständiger Name</span>
+      </div>
+      <input type="text" placeholder="Frederik Beck" />
+    </div>
+
+    <div class="dialog-profile-info-edit">
+      <div class="dialog-profile-edit-container">
+        <img src="/img/icons/mail.svg" alt="mail" />
+        <span>E-Mail-Adresse</span>
+      </div>
+      <input type="text" placeholder="fred.beck&commat;email.com" />
+    </div>
+    <div class="dialog-buttons">
+      <app-button type="secondary" (click)="closeProfileEdit()">Abbrechen</app-button>
+      <app-button type="primary" (click)="saveProfile()">Speichern</app-button>
+    </div>
+  </div>
   }
 </div>
