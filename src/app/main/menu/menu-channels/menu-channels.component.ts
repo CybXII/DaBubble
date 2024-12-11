@@ -16,13 +16,19 @@ export class MenuChannelsComponent {
     { id: 2, name: 'Channel 2' },
   ]
 
+  showModal: boolean = false;
 
   toggleChannelsOpen(): void {
     this.channelsOpen = !this.channelsOpen
   }
 
-  addChannel() {
+  toggleShowModal(): void {
+    this.showModal = !this.showModal;
+  }
 
+
+  addChannel() {
+    this.toggleShowModal();
   }
 
 }
