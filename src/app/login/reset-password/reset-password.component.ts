@@ -31,9 +31,11 @@ export class ResetPasswordComponent {
   checkPasswordsMatch() {
     let a = this.passwords;
     if (a.password === a.password2 ) {
+      this.passwordmatch = true;
       return true;
     } else {
       console.log("passwörter stimmen nicht überein");
+      this.passwordmatch = false;
       return false;
     }
   }

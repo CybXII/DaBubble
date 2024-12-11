@@ -1,6 +1,6 @@
-@use './../../../mixins.scss' as mixins;
-@use './../../../colors.scss' as colors;
-@use './../host.scss';
+@use './../../../../mixins.scss' as mixins;
+@use './../../../../colors.scss' as colors;
+@use './../../host.scss';
 
 .mainCont {
     >p {
