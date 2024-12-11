@@ -3,6 +3,7 @@
 
 .builder-container {
   @include mixins.flexbox(row, space-between, center, nowrap);
+  position: relative;
   height: 100%;
   width: 100%;
   gap: 20px;
@@ -53,7 +54,7 @@
 .toggleButton {
   position: absolute;
   bottom: 10%;
-  left: 0px;
+  left: -20px;
   z-index: 1000;
   cursor: pointer;
 }
