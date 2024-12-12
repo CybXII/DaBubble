@@ -13,7 +13,7 @@
     @if (build === "threadchat") {
       @if (threadchatOpened) {
       <div class="m-height" *ngIf="threadchatState === 'in' || threadchatState === 'out'" [@slideAnimationRight]="threadchatState" (@slideAnimationRight.done)="onAnimationDone($event, 'threadchat')">
-          <app-threadchat class="menu-container thread-width"></app-threadchat>
+          <app-threadchat class="menu-container thread-container thread-width"></app-threadchat>
         </div>
       }
     }
