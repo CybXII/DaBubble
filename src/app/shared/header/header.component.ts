@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { LogoComponent } from '../logo/logo.component';
 import { SearchbarComponent } from './searchbar/searchbar.component';
 import { UsermenuComponent } from './usermenu/usermenu.component';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+
 
 @Component({
   selector: 'app-header',
-  imports: [LogoComponent, SearchbarComponent, UsermenuComponent],
+  imports: [LogoComponent, SearchbarComponent, UsermenuComponent, RouterModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
