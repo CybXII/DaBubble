@@ -5,23 +5,159 @@
   @include mixins.flexbox(column, flex-start, center, wrap);
   background-color: colors.$white;
   border-radius: 30px 0px 30px 30px;
-  padding: 30px;
+  padding: 40px;
   gap: 15px;
   box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.2);
   position: absolute;
   top: 111px;
   right: 20px;
   z-index: 5;
+}
+
+.dialog-profile-container {
+  @include mixins.flexbox(column, flex-start, flex-start, wrap);
+  gap: 25px;
+}
+
+.dialog-profile-info {
+  @include mixins.flexbox(column, flex-start, flex-start, wrap);
+  gap: 15px;
+  width: 100%;
+  div:nth-child(1) {
+    @include mixins.flexbox(row, space-between, center, wrap);
+    width: 100%;
+    span:nth-child(1) {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 43.65px;
+    }
+    a {
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 24.55px;
+      color: colors.$blue;
+      cursor: pointer;
+    }
+  }
+  div:nth-child(2) {
+    @include mixins.flexbox(row, flex-start, center, wrap);
+    gap: 15px;
+    div {
+      height: 16px;
+      width: 16px;
+      border-radius: 50%;
+      background-color: colors.$green;
+    }
+    span {
+      font-size: 20px;
+      font-weight: 400;
+      line-height: 27.28px;
+      color: colors.$green;
+    }
+  }
+}
+
+.dialog-profile-mail {
+  @include mixins.flexbox(row, flex-start, flex-start, nowrap);
+  width: 100%;
+  gap: 15px;
+  img {
+    width: 25px;
+    height: 25px;
+  }
+  div {
+    @include mixins.flexbox(column, flex-start, flex-start, wrap);
+    gap: 15px;
+    span {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 27.28px;
+    }
+    a {
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 21.6px;
+      cursor: pointer;
+      color: colors.$blue;
+      text-decoration: none;
+    }
+  }
+}
+
+.dialog-link {
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+  padding: 10px 70px;
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+  &:hover {
+    color: colors.$purple2;
+  }
+}
+
+.dialog-header {
+  @include mixins.flexbox(row, space-between, center);
+  width: 100%;
   span {
     font-size: 24px;
     font-weight: 600;
-    line-height: 32.74px;
-    text-align: center;
-    padding: 10px 70px;
-    width: 222px;
+  }
+  img {
     cursor: pointer;
-    &:hover {
-      color: colors.$purple2;
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.dialog-avatar {
+  @include mixins.flexbox(row, center, center, wrap);
+  width: 400px;
+  img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+  }
+}
+
+.dialog-profile-info-edit {
+  @include mixins.flexbox(column, flex-start, flex-start, wrap);
+  width: 100%;
+  img {
+    width: 25px;
+    height: 25px;
+  }
+  span {
+    font-size: 20px;
+    font-weight: 700;
+    padding-left: 15px;
+  }
+  input {
+    width: 100%;
+    border-radius: 30px;
+    border: 1px solid colors.$light-purple;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    color: colors.$grey;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24.55px;
+    &:focus-visible {
+      border: 1px solid colors.$light-purple;
+      outline: none;
     }
   }
+}
+
+.dialog-profile-edit-container {
+  @include mixins.flexbox(row, flex-start, center, nowrap);
+  padding-bottom: 10px;
+}
+
+.dialog-buttons {
+  @include mixins.flexbox(row, center, center, wrap);
+  width: 100%;
+  gap: 45px;
 }

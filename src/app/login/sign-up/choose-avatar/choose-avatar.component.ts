@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -15,9 +15,10 @@ export class ChooseAvatarComponent {
   path:string = "/img/avatars/";
 
   constructor(private router: Router) {}
+  @Output() backward = new EventEmitter<void>();
   
   back() {
-    this.router.navigateByUrl('signUp');
+    this.backward.emit();
   }
 
   toBoard() {

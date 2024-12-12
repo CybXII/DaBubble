@@ -18,5 +18,4 @@
       }
     }
   }
-  <app-menutoggler class="toggleButton" (click)="toggleMenu()"></app-menutoggler>
-</div>
+  <app-menutoggler class="toggleButton" (click)="toggleMenu()" [menuState]="menuOpened ? 'schließen' : 'öffnen'"></app-menutoggler></div>

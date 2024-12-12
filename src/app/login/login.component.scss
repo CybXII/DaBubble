@@ -4,49 +4,118 @@
 
 .afterIntro {
     opacity: 0;
-    animation: reveal 1s 1s forwards;
+    animation: reveal 1s 5s forwards;
+}
+
+.animationBackground {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    background: colors.$bg-intro;
+    animation: hide 1s 5s forwards;
 }
 
 .container {
     position: absolute;
+    //width: 100vw;
+    //height: 100vh;
     display: flex;
     align-items: center;
-    gap: 10px;
-    animation: moveToTopLeft 1s 1s forwards;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    gap: 20px;
+    z-index: 100;
+    max-width: 1920px;
+    animation: moveToTopLeft 1s 5s forwards;
+    //border: 1px solid black;
 
     img {
-        //position: absolute;
         width: auto;
+        position: absolute;
+        left: 0px;
         height: 184px;
-        animation: shrinkImage 1s 1s forwards;
+        animation: moveLeft .5s ease-in-out 1s forwards,
+            makeStatic 1s 5s forwards,
+            shrinkImage 1s 5s forwards;
+        z-index: 2;
+    }
+
+    .textcontainer {
+        position: relative;
+        display: flex;
+        align-items: center;
+        transform: translateX(35%);
+        width: 300px;
+        height: 70px;
+        overflow: hidden;
+        //border: 1px solid red;
+        animation: moveLittleLeft 1s 5s forwards;
+
+
+        h1 {
+            position: absolute;
+            //left: -200px;
+            transform: translateX(-100%);
+            font-size: 60px;
+            font-weight: 700;
+            animation: moveRight .5s 2s ease-in-out forwards,
+                changeHeadline 1s 5s forwards;
+            color: white;
+        }
+
+
+    }
+
+
+}
+
+
+.containerNoAnimation {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    top: 75px;
+    left: 75px;
+    gap: 10px;
+    max-width: 1920px;
+
+    img {
+        width: auto;
+        height: 75px;
         z-index: 2;
     }
 
     h1 {
-        font-size: 40px;
-        font-weight: 700;
-        animation: changeHeadline 1s 1s forwards;
-        color: white;
+        color: black;
+        font-size: 20px;
+        font-weight: 400;
     }
 
 }
+
 
 
 header {
     position: absolute;
     // height: 100px;
     // width: 100%;
-    top: 95px;
-    right: 20px;
+    top: 90px;
+    right: 75px;
     @include mixins.flexbox($justify: space-between);
     // padding: 0px 30px;
 
     >div {
         @include mixins.flexbox($direction: column, $justify: start);
+        gap: 5px
     }
+
     .logo {
         @include mixins.flexbox();
         gap: 10px;
+
         >span {
             font-size: 30px;
             font-weight: 700;
@@ -54,13 +123,26 @@ header {
     }
 }
 
-.animationBackground {
-    @include mixins.flexbox($direction: column);
-    width: 100vw;
-    background-color: colors.$bg-color;
-    background: rgba(49, 58, 229, 1);
-    animation: changeBackground 1s 1s forwards;
+a {
+    &:hover {
+        transform: scale(1.05);
+    }
 }
+
+header,
+footer {
+    a {
+        padding: 10px;
+        border-radius: 100px;
+        @include mixins.border-marker($color: colors.$bg-color);
+
+        &:hover {
+            border-color: colors.$light-purple;
+        }
+    }
+}
+
+
 
 section {
     @include mixins.flexbox($direction: column);
@@ -68,7 +150,6 @@ section {
     width: 100vw;
     max-width: 1980px;
     text-align: center;
-    // animation: changeBackground 1s 1s forwards;
     position: relative;
 }
 
@@ -76,6 +157,7 @@ input {
     background-color: colors.$bg-color;
     border: none;
     flex: 1;
+
     &:focus-visible {
         outline: unset;
     }
@@ -94,13 +176,18 @@ input {
     width: 100%;
     padding: 10px;
     border-radius: 100px;
-    &:hover, input{
+
+    &:hover,
+    input {
         cursor: pointer;
         border-color: colors.$purple2;
     }
-    &:focus-within, input {
+
+    &:focus-within,
+    input {
         border-color: colors.$purple2;
         padding-left: 10px;
+
         &::placeholder {
             display: none;
         }
@@ -114,13 +201,14 @@ input {
     padding: 50px;
     gap: 40px;
     position: relative;
+    max-width: 606px;
 
     a {
         padding: 5px 10px;
         border-radius: 100px;
 
         &:hover {
-            background-color: colors.$light-purple;
+            background-color: colors.$bg-color;
             color: colors.$purple3;
         }
     }
@@ -146,6 +234,11 @@ a {
 .buttons {
     @include mixins.flexbox();
     gap: 25px;
+
+    button:disabled {
+        background-color: gray;
+        border-color: colors.$white;
+    }
 }
 
 button {
@@ -162,6 +255,7 @@ button {
     background-color: colors.$purple;
     color: colors.$white;
     border-color: colors.$purple;
+
     &:hover {
         opacity: 0.8;
     }
@@ -170,6 +264,7 @@ button {
 .button_white {
     @include mixins.border-marker(colors.$light-purple);
     color: colors.$purple;
+
     &:hover {
         border-color: colors.$light-purple;
         background-color: colors.$purple;
@@ -182,6 +277,7 @@ button {
     position: absolute;
     left: 10px;
     top: 30px;
+
     :hover {
         background-color: colors.$light-purple;
         border-radius: 50%;
@@ -199,15 +295,6 @@ footer {
     bottom: 30px;
     @include mixins.flexbox();
     gap: 40px;
-
-    a {
-        padding: 10px;
-        border-radius: 100px;
-        @include mixins.border-marker($color: colors.$bg-color);
-        &:hover {
-            border-color: colors.$light-purple;
-        }
-    }
 }
 
 .warning {
@@ -231,14 +318,13 @@ form {
 }
 
 
-@keyframes changeBackground {
+@keyframes hide {
     from {
-        //background: linear-gradient(1.46deg, #313AE6 1.22%, #797EF3 98.76%);
-        background: rgba(49, 58, 229, 1);
+        opacity: 1;
     }
 
     to {
-        background: rgba(236, 238, 254, 1);
+        opacity: 0;
     }
 }
 
@@ -269,15 +355,13 @@ form {
 @keyframes moveToTopLeft {
 
     from {
-        position: absolute;
-        top: 50%;
-        left: 50%;
+        transform: translate(-50%, -50%);
     }
 
     to {
-        position: absolute;
-        left: 75px;
         top: 75px;
+        left: 75px;
+        transform: translate(0%, 0%);
     }
 }
 
@@ -288,5 +372,54 @@ form {
 
     to {
         opacity: 1;
+    }
+}
+
+
+@keyframes moveLeft {
+    from {
+        //left: 0;
+        transform: translateX(0);
+    }
+
+    to {
+        //left: -200px;
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes moveLittleLeft {
+    from {
+        //left: 0;
+    }
+
+    to {
+        //left: -200px;
+        transform: translateX(30%);
+    }
+}
+
+@keyframes moveRight {
+    from {
+        //left: -200px;
+        transform: translateX(-100%);
+    }
+
+    to {
+        //left: 0;
+        transform: translateX(0);
+    }
+}
+
+@keyframes makeStatic {
+    from {}
+
+    to {
+        transform: translateX(0);
+        //top: 0;
+        /* Als ob das Element static wird */
+        //left: 0;
+        //transform: translate(0, 0);
+        /* Entferne jegliche Verschiebung */
     }
 }

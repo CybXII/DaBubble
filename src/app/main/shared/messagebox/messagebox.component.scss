@@ -3,26 +3,28 @@
 
 .messagebox {
   border: 1px solid colors.$light-purple;
-  width: 100%;
+width: 100%;
   height: 145px;
   resize: none;
   font-size: 1.125rem;
-  color: colors.$grey;
   border-radius: 20px;
   padding: 20px;
 
   &:focus {
     outline: none;
   }
+
+  &::placeholder {
+    color: colors.$grey;
+  }
 }
 
 .messagebox__icons-container {
   position: absolute;
-  bottom: 50px;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
   @include mixins.flexbox(row, space-between, center);
-  padding: 10px;
-  margin-left: 20px;
-  margin-right: 45px;
 
   img {
     display: block;

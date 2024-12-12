@@ -1,46 +1,7 @@
 @use "../../../../mixins.scss" as mixins;
 @use "../../../../colors.scss" as colors;
 
-.chatbox__mainthread-container {
-  @include mixins.flexbox(row, flex-start, flex-start, nowrap);
-  gap: 20px;
-  margin-top: 17px;
-  padding: 10px 40px;
-  position: relative;
 
-  &:hover {
-    background-color: colors.$bg-color;
-  }
-  &:hover .chatbox__msg {
-    background-color: colors.$white;
-  }
-  &:hover .chatbox__msg-sent {
-    background-color: colors.$purple2;
-  }
-
-  &:hover .chatbox__addemoji-container {
-    @include mixins.flexbox(row, center, center, nowrap);
-  }
-}
-
-.chatbox__threads-divider {
-  display: flex;
-  align-items: center;
-  font-size: 1.125rem;
-  color: colors.$light-purple;
-  margin-left: 33px;
-}
-
-.chatbox__threads-divider::after {
-  flex: 1;
-  content: "";
-  padding: 1px;
-  background-color: colors.$light-purple;
-  margin-left: 20px;
-  margin-right: 32px;
-  margin-top: 8px;
-  margin-bottom: 2px;
-}
 
 .chatbox__msg-container {
   @include mixins.flexbox(row, flex-start, flex-start, nowrap);

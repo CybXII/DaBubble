@@ -27,3 +27,5 @@ app-root, app-main{
     overflow: hidden;
     @include mixins.flexbox(column, flex-start, center);
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
