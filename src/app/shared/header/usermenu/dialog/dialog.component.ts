@@ -24,6 +24,7 @@ export class DialogComponent {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('introPlayed');
   }
 
   openProfile() {
