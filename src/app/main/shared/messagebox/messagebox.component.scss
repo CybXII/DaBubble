@@ -8,7 +8,6 @@
   resize: none;
   font-size: 1.125rem;
   color: colors.$grey;
-  border-radius: 20px;
   padding: 0 20px;
   margin: 20px 0 0 0;
   overflow-y: auto;
@@ -34,4 +33,10 @@
     @include mixins.flexbox(row, space-between, center);
     gap: 5px;
   }
+}
+
+.messagebox-wrapper{
+  position: relative;
+  border: 1px solid colors.$light-purple;
+  border-radius: 20px;
 }
