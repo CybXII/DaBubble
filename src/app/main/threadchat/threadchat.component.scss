@@ -2,7 +2,6 @@
 
 .threadchat-container {
   @include mixins.flexbox(column, space-between, space-between, nowrap);
-  @include mixins.border-marker(red);
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -20,7 +19,7 @@
 
 .threadchat__chatbox {
   width: 100%;
-  height: calc(100% - 145px);
+  height: calc(100% - 104px);
   overflow-y: auto;
   position: relative;
   top: 104px;
@@ -28,7 +27,6 @@
 }
 
 .threadchat__messagebox {
-  padding: 25px 20px 40px 20px;
-  border: 1px solid purple;
+  padding: 20px 20px 20px 20px;
   flex: 1;
 }
