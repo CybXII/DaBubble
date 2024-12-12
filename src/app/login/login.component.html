@@ -3,7 +3,7 @@
 }
 <section>
     <div [ngClass]="{ 'container': !introPlayed, 'containerNoAnimation': introPlayed}">
-        <img src="img/logo.svg">
+        <img style="cursor: pointer;" (click)="this.router.navigate(['']);" src="img/logo.svg">
         <div class="textcontainer">
             <h1>DABubble</h1>
         </div>
