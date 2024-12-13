@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Thread } from '../../../models/thread';
 
 @Component({
@@ -8,6 +8,7 @@ import { Thread } from '../../../models/thread';
   styleUrl: './chatbox.component.scss',
 })
 export class ChatboxComponent {
+  @Input() builder!: string;
   showDisplay = 'display:block';
   activeUserId: string = '3';
   threadMessages: {
