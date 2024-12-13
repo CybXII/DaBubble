@@ -50,7 +50,7 @@
             </div>
             <span class="warning" [ngStyle]="{'opacity': !password.valid && password.touched || password.value < 5 && password.touched ? 1 : 0}">Bitte geben Sie ein Passwort ein.</span>
         </div>
-        <div>
+        <div class="privacy">
             <input #privacy="ngModel" [(ngModel)]="userData.privacy" type="checkbox" name="privacy" id="" required>
             <label>Ich stimme der <a href="">Datenschutzerklärung</a> zu</label>
             <span class="warning" [ngStyle]="{'opacity': !privacy.valid && privacy.touched ? 1 : 0}">Datenschutzerklärung akzeptieren</span>
