@@ -24,7 +24,9 @@ export class DialogComponent {
 
   logout() {
     localStorage.removeItem('token');
-    localStorage.removeItem('introPlayed');
+    setTimeout(() => {
+      this.router.navigateByUrl('');
+    }, 100);
   }
 
   openProfile() {

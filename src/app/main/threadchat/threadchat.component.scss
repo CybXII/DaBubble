@@ -173,7 +173,7 @@
 
 .threadchat__chatbox {
   width: 100%;
-  height: calc(100% - 145px);
+  height: calc(100% - 104px);
   overflow-y: auto;
   position: relative;
   top: 0;
@@ -181,5 +181,6 @@
 }
 
 .threadchat__messagebox {
-  padding: 25px 20px 40px 20px;
+  padding: 20px 20px 20px 20px;
+  flex: 1;
 }

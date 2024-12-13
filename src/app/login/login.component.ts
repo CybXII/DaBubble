@@ -17,7 +17,7 @@ export class LoginComponent {
     this.checkside();
 
     // check if it was played
-    let introPlayedVar = localStorage.getItem('introPlayed');
+    let introPlayedVar = sessionStorage.getItem('introPlayed');
     if (introPlayedVar !== null) {
       this.introPlayed = JSON.parse(introPlayedVar);
     }
@@ -25,7 +25,7 @@ export class LoginComponent {
     // save entry after delay
     setTimeout(() => {
       this.introPlayed = true;
-      localStorage.setItem('introPlayed', JSON.stringify(this.introPlayed));
+      sessionStorage.setItem('introPlayed', JSON.stringify(this.introPlayed));
     }, 6000);
 
   }
