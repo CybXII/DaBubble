@@ -1,5 +1,7 @@
 @for (thread of threads; track thread.id){
-<div class="thread__divider"><span class="thread__divider-text">{{ thread.messageDate }}</span></div>
+<div class="thread__divider">
+  <span class="thread__divider-text">{{ thread.messageDate }}</span>
+</div>
 <div
   class="chatbox__msg-container"
   [class.chatbox__msg-container__sent]="thread.userId == activeUserId"
@@ -82,7 +84,7 @@
     </div>
   </div>
 </div>
-}
+} 
 
 <!-- @for (message of threadMessages; track message.msgId){
 <div
