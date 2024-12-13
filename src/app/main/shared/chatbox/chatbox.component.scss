@@ -171,6 +171,7 @@
 .chatbox__last-answer {
   font-size: 0.875rem;
   color: colors.$grey;
+  display: block;
 }
 
 .chatbox__msg-container__sent {
@@ -199,7 +200,7 @@
 }
 
 .chatbox__emojis-container {
-
+  @include mixins.flexbox(row, flex-start, center, nowrap);
 }
 
 .chatbox__emojis {
