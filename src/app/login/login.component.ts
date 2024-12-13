@@ -30,8 +30,6 @@ export class LoginComponent {
 
   }
 
-
-
   homeroute: any = "";
 
   checkside() {
