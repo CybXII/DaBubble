@@ -189,7 +189,7 @@ input {
     border-radius: 30px;
     background-color: colors.$white;
     padding: 50px;
-    gap: 40px;
+    gap: 30px;
     position: relative;
     max-width: 606px;
 
@@ -308,7 +308,7 @@ footer {
 
 form {
     @include mixins.flexbox($direction: column, $align: start);
-    gap: 40px;
+    gap: 30px;
     width: 100%;
 
     span {
