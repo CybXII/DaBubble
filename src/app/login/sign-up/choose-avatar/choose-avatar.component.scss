@@ -6,6 +6,7 @@
     >p {
         @include mixins.flexbox($justify: start);
         width: 100%;
+        font-size: 20px;
     }
 }
 
@@ -50,4 +51,27 @@
 
 .activSelector {
     border: 8px solid rgba(230, 230, 230, 1);
+}
+
+@media (max-width: 500px) {
+    .charakterPics {
+        gap: unset;
+        >div>img {
+            width: 46px !important;
+            height: 46px !important;
+            border-width: 4px;
+        }
+    }
+
+    .activProfilPic {
+        >img {
+            border-width: 4px !important;
+            width: 100px !important;
+            height: 100px !important;
+        }
+    }
+
+    .activSelector {
+        border-width: 4px;
+    }
 }
