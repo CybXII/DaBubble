@@ -161,6 +161,10 @@
   gap: 20px;
 }
 
+.chatbox__answers-container{
+  @include mixins.flexbox(row, flex-start, center, nowrap);
+}
+
 .chatbox__answers {
   font-size: 1.125rem;
   color: colors.$purple3;
