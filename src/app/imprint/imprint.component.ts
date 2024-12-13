@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-imprint',
+  standalone: true,   // <-- Add this line
   imports: [HeaderComponent, RouterModule ],
   templateUrl: './imprint.component.html',
   styleUrl: './imprint.component.scss'

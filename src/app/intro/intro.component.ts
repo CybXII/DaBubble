@@ -8,6 +8,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-intro',
+  standalone: true,   // <-- Add this line
   imports: [],
   templateUrl: './intro.component.html',
   styleUrl: './intro.component.scss',

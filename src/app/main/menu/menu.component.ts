@@ -5,6 +5,7 @@ import { MenuPrivateMessagesComponent } from './menu-private-messages/menu-priva
 
 @Component({
   selector: 'app-menu',
+  standalone: true,   // <-- Add this line
   imports: [MenuHeaderComponent, MenuChannelsComponent, MenuPrivateMessagesComponent],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss'

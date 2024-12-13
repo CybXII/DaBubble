@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-chatbox',
+  standalone: true,   // <-- Add this line
   imports: [],
   templateUrl: './chatbox.component.html',
   styleUrl: './chatbox.component.scss',

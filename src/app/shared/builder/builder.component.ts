@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-builder',
+  standalone: true,   // <-- Add this line
   imports: [MainchatComponent, ThreadchatComponent,MenuComponent, MenutogglerComponent, CommonModule],
   templateUrl: './builder.component.html',
   styleUrl: './builder.component.scss',
