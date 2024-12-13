@@ -1,7 +1,25 @@
 @use "../../../../mixins.scss" as mixins;
 @use "../../../../colors.scss" as colors;
 
+.thread__divider {
+  @include mixins.flexbox(row, center, center, nowrap);
+  margin: 20px 35px;
 
+  &::before,
+  &::after {
+    flex: 1;
+    content: "";
+    padding: 1px;
+    background-color: colors.$light-purple;
+  }
+}
+
+.thread__divider-text {
+  font-size: 1.125rem;
+  padding: 5px 15px;
+  border: 1px solid colors.$light-purple;
+  border-radius: 30px;
+}
 
 .chatbox__msg-container {
   @include mixins.flexbox(row, flex-start, flex-start, nowrap);

@@ -3,7 +3,6 @@
 
 .threadchat-container {
   @include mixins.flexbox(column, space-between, space-between, nowrap);
-  @include mixins.border-marker(red);
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -22,7 +21,7 @@
 .chatbox__mainthread-container {
   @include mixins.flexbox(row, flex-start, flex-start, nowrap);
   gap: 20px;
-  margin-top: 104px;
+  margin-top: 124px;
   padding: 10px 40px;
   position: relative;
 
@@ -39,6 +38,10 @@
   &:hover .chatbox__addemoji-container {
     @include mixins.flexbox(row, center, center, nowrap);
   }
+}
+
+.chatbox__msg-avatar{
+  border-radius: 40px;
 }
 
 .chatbox__addemoji-container {
@@ -178,6 +181,5 @@
 }
 
 .threadchat__messagebox {
-  border: 1px solid purple;
   padding: 25px 20px 40px 20px;
 }

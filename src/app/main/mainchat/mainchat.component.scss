@@ -2,7 +2,6 @@
 
 .mainchat-container{
     @include mixins.flexbox(column, space-between, space-between, nowrap);
-    @include mixins.border-marker(red);
     height: 100%;
 }
 
