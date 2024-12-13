@@ -7,8 +7,10 @@ import { Component } from '@angular/core';
   styleUrl: './chatbox.component.scss',
 })
 export class ChatboxComponent {
+  showDisplay = 'display:block';
+  activeUserId: string = '3';
   threadMessages: {
-    userId: number;
+    userId: string;
     threadId: number;
     avatarPath: string;
     msgId: number;
@@ -18,16 +20,7 @@ export class ChatboxComponent {
   }[] = [
     //Example Data
     {
-      userId: 1,
-      threadId: 1,
-      avatarPath: '/img/avatars/avatar1.svg',
-      msgId: 1,
-      name: 'Noah Braun',
-      msgTime: '14:25 Uhr',
-      msg: 'Welche Version ist aktuell von Angular?',
-    },
-    {
-      userId: 2,
+      userId: '2',
       threadId: 1,
       avatarPath: '/img/avatars/avatar2.svg',
       msgId: 2,
@@ -36,7 +29,7 @@ export class ChatboxComponent {
       msg: 'Ich habe die gleiche Frage. Ich habe gegoogelt und es scheint, dass die aktuelle Version Angular 13 ist. Vielleicht weiß Frederik, ob es wahr ist.',
     },
     {
-      userId: 3,
+      userId: '3',
       threadId: 1,
       avatarPath: '/img/avatars/avatar3.svg',
       msgId: 1,
