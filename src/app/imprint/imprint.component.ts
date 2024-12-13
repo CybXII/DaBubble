@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
+import { HeaderComponent } from '../shared/header/header.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-imprint',
-  imports: [],
+  imports: [HeaderComponent, RouterModule ],
   templateUrl: './imprint.component.html',
   styleUrl: './imprint.component.scss'
 })

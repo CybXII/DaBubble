@@ -1,23 +1,23 @@
-@if (!storgedUser) {
+@if (!introPlayed) {
 <div class="animationBackground "></div>
 }
 <section>
-    <div [ngClass]="{ 'container': !storgedUser, 'containerNoAnimation': storgedUser}">
-        <img src="img/logo.svg">
+    <div [ngClass]="{ 'container': !introPlayed, 'containerNoAnimation': introPlayed}">
+        <img style="cursor: pointer;" (click)="this.router.navigate(['']);" src="img/logo.svg">
         <div class="textcontainer">
             <h1>DABubble</h1>
         </div>
     </div>
-    <header [ngClass]="{ 'afterIntro': !storgedUser}">
+    <header [ngClass]="{ 'afterIntro': !introPlayed}">
         <div [ngStyle]="{'opacity': loginPage ? 1 : 0 }">
             <span>Neu bei DABubble?</span>
             <a routerLink="signUp">Konto erstellen</a>
         </div>
     </header>
-    <div [ngClass]="{ 'afterIntro': !storgedUser}">
+    <div [ngClass]="{ 'afterIntro': !introPlayed}">
         <router-outlet></router-outlet>
     </div>
-    <footer [ngClass]="{ 'afterIntro': !storgedUser}">
+    <footer [ngClass]="{ 'afterIntro': !introPlayed}">
         <a routerLink="imprint">Impressum</a>
         <a routerLink="legalnotice">Datenschutz</a>
     </footer>

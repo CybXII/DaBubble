@@ -24,6 +24,9 @@ export class DialogComponent {
 
   logout() {
     localStorage.removeItem('token');
+    setTimeout(() => {
+      this.router.navigateByUrl('');
+    }, 100);
   }
 
   openProfile() {
