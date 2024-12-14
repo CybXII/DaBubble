@@ -4,7 +4,6 @@ import { Firestore, collectionData, collection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { addDoc, doc, setDoc } from '@angular/fire/firestore';
 
-
 @Component({
   selector: 'app-firestore-test',
   standalone: true,
@@ -34,14 +33,14 @@ export class FirestoreTestComponent implements OnInit {
   writeData(): void {
     const testCollection = collection(this.firestore, 'users'); // Ziel-Sammlung
     const localData = {
-      "name": "Max Mustermann",
-      "email": "email@email.com",
-      "status": false,
-      "avatarURL": "avatarURL",
-      "userId": "1",
-      "channels": ["Channel1"],
-      "privateNoteRef": "???"
-    }
+      name: 'Max Mustermann',
+      email: 'email@email.com',
+      status: false,
+      avatarURL: 'avatarURL',
+      userId: '1',
+      channels: ['Channel1'],
+      privateNoteRef: '???',
+    };
 
     // addDoc(testCollection, localData)
     //   .then((docRef) => {
@@ -51,7 +50,4 @@ export class FirestoreTestComponent implements OnInit {
     //     console.error('Fehler beim Hinzufügen der Daten:', error);
     //   });
   }
-
-
-
 }
