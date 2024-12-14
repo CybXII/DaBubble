@@ -3,9 +3,11 @@
 
 .builder-container {
   @include mixins.flexbox(row, space-between, center, nowrap);
+  position: relative;
   height: 100%;
   width: 100%;
   gap: 20px;
+  transition: gap 0.3s ease-in-out;
 }
 
 .menu-container {
@@ -16,9 +18,14 @@
   gap: 25px;
 }
 
+.m-height {
+  height: 100%;
+}
+
 .mainchat-container {
   min-width: 485px;
   flex: 1;
+  transition: flex 0.3s ease-in-out;
 }
 
 .menu-width {
@@ -29,4 +36,25 @@
 .thread-width {
   max-width: 485px;
   min-width: 485px;
+}
+
+.menu-container.hidden,
+.thread-width.hidden {
+  flex: 0 0 0;
+  max-width: 0;
+  overflow: hidden;
+}
+
+.thread-width {
+  max-width: 366px;
+  flex: 0 0 366px;
+  transition: flex 0.3s ease-in-out, max-width 0.3s ease-in-out;
+}
+
+.toggleButton {
+  position: absolute;
+  bottom: 10%;
+  left: -20px;
+  z-index: 1000;
+  cursor: pointer;
 }

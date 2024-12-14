@@ -9,6 +9,7 @@
     padding: 20px;
     @include mixins.flexbox(column, flex-start, center, nowrap);
     gap: 20px;
+    overflow: hidden
 }
 
 .builder-main{

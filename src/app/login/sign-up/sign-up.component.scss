@@ -1,1 +1,15 @@
 @use './../host.scss';
+
+.d-none {
+    display: none !important;
+}
+
+.flex {
+    display: flex !important;
+}
+
+.mainCont {
+    a {
+        padding: 0px 5px;
+    }
+}

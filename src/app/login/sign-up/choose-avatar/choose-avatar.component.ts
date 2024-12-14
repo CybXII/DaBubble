@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-choose-avatar',
   imports: [CommonModule],
+  standalone: true,   // <-- Add this line
   templateUrl: './choose-avatar.component.html',
   styleUrl: './choose-avatar.component.scss'
 })
@@ -15,9 +16,10 @@ export class ChooseAvatarComponent {
   path:string = "/img/avatars/";
 
   constructor(private router: Router) {}
+  @Output() backward = new EventEmitter<void>();
   
   back() {
-    this.router.navigateByUrl('signUp');
+    this.backward.emit();
   }
 
   toBoard() {

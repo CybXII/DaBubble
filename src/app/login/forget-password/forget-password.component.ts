@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-forget-password',
+  standalone: true,   // <-- Add this line
   imports: [FormsModule],
   templateUrl: './forget-password.component.html',
   styleUrl: './forget-password.component.scss'

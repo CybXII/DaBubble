@@ -1,4 +1,79 @@
-<div class="dialog-container" (click)="dontCloseDialog($event)">
-    <span (click)="openProfile()">Profil</span>
-    <span (click)="logout()">Logout</span>
+<div
+  [ngClass]="{
+    'dialog-container': dialog || profileDialog || profileDialogEdit
+  }"
+  (click)="dontCloseDialog($event)"
+>
+  @if (this.dialog) {
+  <a (click)="openProfile()" class="dialog-link">Profil</a>
+  <a (click)="logout()" class="dialog-link">Logout</a>
+  } @else if (this.profileDialog) {
+
+  <div class="dialog-profile-container">
+    <div class="dialog-header">
+      <span>Profil</span>
+      <img
+        src="/img/icons/close.svg"
+        alt="close"
+        (click)="closeDialog($event)"
+      />
+    </div>
+    <div class="dialog-avatar">
+      <img src="img/avatars/avatar3.svg" alt="" />
+    </div>
+    <div class="dialog-profile-info">
+      <div>
+        <span>Frederik Beck</span>
+        <a (click)="openProfileEdit()">Bearbeiten</a>
+      </div>
+      <div>
+        <div target="online-status"></div>
+        <span>Aktiv</span>
+      </div>
+    </div>
+    <div class="dialog-profile-mail">
+      <img src="/img/icons/mail.svg" alt="" />
+      <div>
+        <span>E-Mail-Adresse</span>
+        <a href="mailto:fred.beck&commat;email.com"
+          >fred.beck&commat;email.com</a
+        >
+      </div>
+    </div>
+  </div>
+  } @else if (this.profileDialogEdit){
+  <div class="dialog-profile-container">
+    <div class="dialog-header">
+      <span>Dein Profil bearbeiten</span>
+      <img
+        src="/img/icons/close.svg"
+        alt="close"
+        (click)="closeDialog($event)"
+      />
+    </div>
+    <div class="dialog-avatar">
+      <img src="img/avatars/avatar3.svg" alt="" />
+    </div>
+
+    <div class="dialog-profile-info-edit">
+      <div class="dialog-profile-edit-container">
+        <img src="/img/icons/account_circle.svg" alt="account_circle" />
+        <span>Vollständiger Name</span>
+      </div>
+      <input type="text" placeholder="Frederik Beck" />
+    </div>
+
+    <div class="dialog-profile-info-edit">
+      <div class="dialog-profile-edit-container">
+        <img src="/img/icons/mail.svg" alt="mail" />
+        <span>E-Mail-Adresse</span>
+      </div>
+      <input type="text" placeholder="fred.beck&commat;email.com" />
+    </div>
+    <div class="dialog-buttons">
+      <app-button type="secondary" (click)="closeProfileEdit()">Abbrechen</app-button>
+      <app-button type="primary" (click)="saveProfile()">Speichern</app-button>
+    </div>
+  </div>
+  }
 </div>

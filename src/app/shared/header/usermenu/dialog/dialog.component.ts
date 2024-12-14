@@ -1,32 +1,59 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+import { ButtonComponent } from '../../../button/button.component';
 
 @Component({
   selector: 'app-dialog',
-  imports: [],
+  standalone: true,   // <-- Add this line
+  imports: [CommonModule, RouterModule, ButtonComponent],
   templateUrl: './dialog.component.html',
   styleUrl: './dialog.component.scss',
 })
 export class DialogComponent {
+  @Input() dialog: boolean = false;
+  @Output() dialogChange = new EventEmitter<boolean>();
   profileDialog: boolean = false;
   profileDialogEdit: boolean = false;
 
- dontCloseDialog(event: Event) {
-  event?.preventDefault();
-  event.stopPropagation();
+  constructor(private router: Router) {}
 
-}
-
-  logout(){
-    console.log("logout");
+  dontCloseDialog(event: Event) {
+    event?.preventDefault();
+    event.stopPropagation();
   }
 
-  openProfile(){
-    console.log("profile");
+  logout() {
+    localStorage.removeItem('token');
+    setTimeout(() => {
+      this.router.navigateByUrl('');
+    }, 100);
   }
 
-  openProfileEdit(){
-    console.log("profile edit");
+  openProfile() {
+    this.profileDialog = true;
+    this.dialog = false;
   }
-  
 
+  openProfileEdit() {
+    this.profileDialog = false;
+    this.profileDialogEdit = true;
+  }
+
+  closeProfileEdit() {
+    this.profileDialog = true;
+    this.profileDialogEdit = false;
+  }
+
+  closeDialog(event: Event) {
+    this.profileDialog = false;
+    this.profileDialogEdit = false;
+    this.dialogChange.emit(this.dialog);
+  }
+
+  saveProfile() {
+    this.profileDialog = false;
+    this.profileDialogEdit = false;
+    this.dialogChange.emit(this.dialog);
+  }
 }

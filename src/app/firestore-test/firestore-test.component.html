@@ -1,0 +1,12 @@
+<div>
+    <h1>Firestore Test</h1>
+    <ul>
+      <li *ngFor="let item of testData$ | async">
+        {{ item | json }}
+      </li>
+    </ul>
+  </div>
+
+
+  
+  <button (click)="writeData()">Daten hinzufügen</button>

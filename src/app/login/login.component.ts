@@ -1,22 +1,38 @@
-import { NgStyle } from '@angular/common';
+import { NgStyle, NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router, RouterOutlet, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  imports: [RouterOutlet, NgStyle, RouterModule],
+  standalone: true,   // <-- Add this line
+  imports: [RouterOutlet, NgStyle, RouterModule, NgClass],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  loginPage: boolean = true;
 
-  constructor(public router:Router) {
+  loginPage: boolean = true;
+  introPlayed: boolean = false;
+
+  constructor(public router: Router) {
     this.checkside();
+
+    // check if it was played
+    let introPlayedVar = sessionStorage.getItem('introPlayed');
+    if (introPlayedVar !== null) {
+      this.introPlayed = JSON.parse(introPlayedVar);
+    }
+
+    // save entry after delay
+    setTimeout(() => {
+      this.introPlayed = true;
+      sessionStorage.setItem('introPlayed', JSON.stringify(this.introPlayed));
+    }, 6000);
+
   }
 
-  homeroute:any ="";
-  
+  homeroute: any = "";
+
   checkside() {
     // if (this.router.routerState.snapshot.url == '/') {
     //   console.log(this.router.routerState.snapshot.url);

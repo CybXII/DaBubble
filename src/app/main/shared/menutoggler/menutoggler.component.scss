@@ -1,0 +1,51 @@
+@use "../../../../mixins.scss" as mixins;
+@use "../../../../colors.scss" as colors;
+
+.menu-Button{
+    @include mixins.flexbox(column, center, center);
+    height: 347px;
+    background-color: colors.$white;
+    box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.2);
+    width: 60px;
+    position: relative;
+    border-radius:0px 30px 30px 0px;
+    .wrapper{  
+        position: absolute;
+        text-wrap: nowrap;
+        rotate: -90deg;
+        cursor: pointer;
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        gap: 10px;
+        svg {
+            rotate: 90deg;
+        }
+        p{
+            font-weight: 500;
+            font-size: 20px;
+            line-height: 24px;
+        }
+    }
+}
+
+.menu-Button:hover{
+    .wrapper{
+        p{  
+            font-weight: 700;
+            color: colors.$purple3;
+        }
+        svg {
+            rect{
+                stroke: colors.$purple3;
+            }
+            path{
+                stroke: colors.$purple3;
+            }
+        }
+    }
+}
+
+.rotate {
+    transform: rotate(180deg);
+}

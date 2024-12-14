@@ -1,13 +1,26 @@
 @use "../../../../mixins.scss" as mixins;
 @use "../../../../colors.scss" as colors;
 
+dialog {
+    background-color: rgba(32, 82, 221, 0.5);
+    color: white;
+    border-color: transparent;
+    overflow: hidden;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 20px 8px #d0d0d0;
+    height: 100px;
+    width: 200px;
+ }
+
+
 .channels{
     width: 100%;
     @include mixins.flexbox(row, flex-start, center);
     gap: 15px;
     .channel{
         width: 100%;
-        @include mixins.flexbox(row, flex-start, center);
+        @include mixins.flexbox(row, flex-start, center, nowrap);
         margin: 0px 0px 0px 25px;
         .channel-box{
             // width: 100%;
@@ -100,9 +113,8 @@
 }
 
 .add-channel-box{
-    @include mixins.flexbox(row, flex-start, center);
+    @include mixins.flexbox(row, flex-start, center, nowrap);
     gap: 10px;
-    margin: 0px 0px 0px 35px;
     padding: 0 0 0 10px;
 }
 

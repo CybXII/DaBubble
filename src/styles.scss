@@ -21,9 +21,11 @@ body {
     src: url('../public/fonts/Nunito-VariableFont_wght.ttf') format('truetype');
 }
 
-app-root, app-main{
+app-root, app-main, app-legalnotice, app-imprint{
     width: 100%;
     height: 100%;
     overflow: hidden;
     @include mixins.flexbox(column, flex-start, center);
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

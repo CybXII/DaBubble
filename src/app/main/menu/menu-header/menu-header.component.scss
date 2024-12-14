@@ -3,7 +3,7 @@
 
 
 .menu-header{
-    @include mixins.flexbox(row, flex-start, center);
+    @include mixins.flexbox(row, flex-start, center ,nowrap);
     width: 100%;
     gap: 15px;
     .menu-header-title{
@@ -11,17 +11,30 @@
         font-weight: 700;
         font-size: 24px;
         line-height: 32.74px;
-        @include mixins.flexbox(row, space-between, center);
+        @include mixins.flexbox(row, space-between, center, nowrap);
         flex: 1;
+        div{
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            padding: 10px;
+            svg{
+                width: 24px;
+                height: 24px;
+            }
+        }
+        div:hover{
+            background-color: colors.$bg-color;
+            svg{
+                path{
+                    fill: colors.$purple;
+                }
+            }
+        }
     }
     img{
-        padding: 4px;
+        padding: 8px;
         cursor: pointer;
-    }
-    img:hover{
-        background-color: colors.$light-purple;
-        border-radius: 16px;
-        
     }
 }
 

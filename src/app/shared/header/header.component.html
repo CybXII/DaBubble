@@ -1,5 +1,9 @@
 <div class="header-container">
-<app-logo class="logo-container"></app-logo>
-<app-searchbar class="searchbar-container"></app-searchbar>
-<app-usermenu class="usermenu-container"></app-usermenu>
+    <app-logo class="logo-container"></app-logo>
+
+    @if(currentUrl != "/legalnotice" && currentUrl != "/imprint") {
+    <app-searchbar class="searchbar-container"></app-searchbar>
+    <app-usermenu class="usermenu-container"></app-usermenu>
+    }
+
 </div>
