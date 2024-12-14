@@ -9,6 +9,7 @@ import { ResetPasswordComponent } from './login/reset-password/reset-password.co
 import { IntroComponent } from './intro/intro.component';
 import { LegalnoticeComponent } from './legalnotice/legalnotice.component';
 import { ImprintComponent } from './imprint/imprint.component';
+import { FirestoreTestComponent } from './firestore-test/firestore-test.component';
 
 export const routes: Routes = [
     {
@@ -22,5 +23,6 @@ export const routes: Routes = [
     { path: 'board', component: MainComponent },
     { path: 'intro', component: IntroComponent },
     { path: 'legalnotice', component: LegalnoticeComponent },
-    { path: 'imprint', component: ImprintComponent }
+    { path: 'imprint', component: ImprintComponent },
+    { path: 'test', component: FirestoreTestComponent }
 ];
