@@ -43,13 +43,13 @@ export class FirestoreTestComponent implements OnInit {
       "privateNoteRef": "???"
     }
 
-    addDoc(testCollection, localData)
-      .then((docRef) => {
-        console.log('Daten erfolgreich hinzugefügt mit ID:', docRef.id);
-      })
-      .catch((error) => {
-        console.error('Fehler beim Hinzufügen der Daten:', error);
-      });
+    // addDoc(testCollection, localData)
+    //   .then((docRef) => {
+    //     console.log('Daten erfolgreich hinzugefügt mit ID:', docRef.id);
+    //   })
+    //   .catch((error) => {
+    //     console.error('Fehler beim Hinzufügen der Daten:', error);
+    //   });
   }
 
 
