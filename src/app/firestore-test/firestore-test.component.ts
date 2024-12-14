@@ -22,7 +22,7 @@ export class FirestoreTestComponent implements OnInit {
   }
 
   testFirestoreConnection(): void {
-    const testCollection = collection(this.firestore, 'test-collection');
+    const testCollection = collection(this.firestore, 'users');
     this.testData$ = collectionData(testCollection);
 
     this.testData$.subscribe(
@@ -32,13 +32,17 @@ export class FirestoreTestComponent implements OnInit {
   }
 
   writeData(): void {
-    const testCollection = collection(this.firestore, 'test-collection'); // Ziel-Sammlung
+    const testCollection = collection(this.firestore, 'users'); // Ziel-Sammlung
     const localData = {
-      name: 'Beispieldaten',
-      createdAt: new Date(),
-      isActive: true
-    };
-  
+      "name": "Max Mustermann",
+      "email": "email@email.com",
+      "status": false,
+      "avatarURL": "avatarURL",
+      "userId": "1",
+      "channels": ["Channel1"],
+      "privateNoteRef": "???"
+    }
+
     addDoc(testCollection, localData)
       .then((docRef) => {
         console.log('Daten erfolgreich hinzugefügt mit ID:', docRef.id);
