@@ -6,7 +6,7 @@ import {
 } from '@angular/fire/auth';
 import { Firestore, doc, setDoc } from '@angular/fire/firestore';
 import { User } from '../../models/user';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInAnonymously, signInWithEmailAndPassword } from 'firebase/auth';
 import { getDoc } from 'firebase/firestore';
 
 @Injectable({
@@ -84,5 +84,45 @@ export class AuthService {
     } else if (error.code === 'auth/invalid-email') {
       this.loginError.set('Invalid email or password');
     }
+  }
+
+  guestLogin() {
+    signInAnonymously(this.auth).then((userCredential: UserCredential) => {
+      let user = userCredential.user;
+      var userUid = user.uid;
+      this.userId.set('');
+      let userRef = doc(this.firestore, `users/${user.uid}`);
+
+      console.log('user11', this.userId());
+
+      let userData = this.setAnonymousUserData(user.uid);
+      setDoc(userRef, userData).catch((error) => {
+        console.error('Error writing user data: ', error);
+      });
+      this.getAnonymousUserData(userUid);
+      console.log('user22', this.userId());
+    });
+  }
+
+  getAnonymousUserData(userId: string) {
+    getDoc(doc(this.firestore, 'users', userId)).then((doc) => {
+      if (doc.exists()) {
+        this.userData.set(doc.data() as User);
+      } else {
+        console.log('No such document!');
+      }
+    });
+  }
+
+  setAnonymousUserData(userId: string) {
+    return {
+      userId: userId,
+      name: 'Guest',
+      email: 'guest@guest.de',
+      photoURL: '',
+      channels: [],
+      privateNoteRef: '',
+      status: true,
+    };
   }
 }
