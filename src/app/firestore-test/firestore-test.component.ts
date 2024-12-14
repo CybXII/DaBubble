@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Firestore, collectionData, collection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { addDoc, doc, setDoc } from '@angular/fire/firestore';
+
 
 @Component({
   selector: 'app-firestore-test',
@@ -28,4 +30,24 @@ export class FirestoreTestComponent implements OnInit {
       (error) => console.error('Fehler beim Abrufen der Daten:', error)
     );
   }
+
+  writeData(): void {
+    const testCollection = collection(this.firestore, 'test-collection'); // Ziel-Sammlung
+    const localData = {
+      name: 'Beispieldaten',
+      createdAt: new Date(),
+      isActive: true
+    };
+  
+    addDoc(testCollection, localData)
+      .then((docRef) => {
+        console.log('Daten erfolgreich hinzugefügt mit ID:', docRef.id);
+      })
+      .catch((error) => {
+        console.error('Fehler beim Hinzufügen der Daten:', error);
+      });
+  }
+
+
+
 }
