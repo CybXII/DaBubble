@@ -5,7 +5,8 @@ import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-sign-in',
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule ,FormsModule, RouterModule],
+  standalone: true,   // <-- Add this line
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.scss'
 })

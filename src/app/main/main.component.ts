@@ -4,6 +4,7 @@ import { BuilderComponent } from '../shared/builder/builder.component';
 
 @Component({
   selector: 'app-main',
+  standalone: true,   // <-- Add this line
   imports: [HeaderComponent, BuilderComponent],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
