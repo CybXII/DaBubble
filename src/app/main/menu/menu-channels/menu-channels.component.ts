@@ -6,6 +6,7 @@ import { FullscreenModalComponent } from '../../../shared/fullscreen-modal/fulls
 @Component({
   selector: 'app-menu-channels',
   imports: [CommonModule],
+  standalone: true,   // <-- Add this line
   templateUrl: './menu-channels.component.html',
   styleUrl: './menu-channels.component.scss'
 })

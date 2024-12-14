@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-usermenu',
+  standalone: true,   // <-- Add this line
   imports: [DialogComponent, CommonModule],
   templateUrl: './usermenu.component.html',
   styleUrl: './usermenu.component.scss',

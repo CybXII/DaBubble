@@ -5,6 +5,7 @@ import { ButtonComponent } from '../../../button/button.component';
 
 @Component({
   selector: 'app-dialog',
+  standalone: true,   // <-- Add this line
   imports: [CommonModule, RouterModule, ButtonComponent],
   templateUrl: './dialog.component.html',
   styleUrl: './dialog.component.scss',

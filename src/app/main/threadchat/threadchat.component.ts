@@ -6,6 +6,7 @@ import { Thread } from '../../models/thread';
 
 @Component({
   selector: 'app-threadchat',
+  standalone: true,   // <-- Add this line
   imports: [ThreadchatHeaderComponent, ChatboxComponent, MessageboxComponent],
   templateUrl: './threadchat.component.html',
   styleUrl: './threadchat.component.scss',

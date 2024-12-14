@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-menu-private-messages',
+  standalone: true,   // <-- Add this line
   imports: [CommonModule],
   templateUrl: './menu-private-messages.component.html',
   styleUrl: './menu-private-messages.component.scss'

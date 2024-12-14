@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-sign-up',
+  standalone: true,   // <-- Add this line
   imports: [CommonModule ,FormsModule, ChooseAvatarComponent],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.scss'

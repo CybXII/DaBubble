@@ -3,6 +3,7 @@ import { Thread } from '../../../models/thread';
 
 @Component({
   selector: 'app-chatbox',
+  standalone: true,   // <-- Add this line
   imports: [],
   templateUrl: './chatbox.component.html',
   styleUrl: './chatbox.component.scss',

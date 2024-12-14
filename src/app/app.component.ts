@@ -7,6 +7,7 @@ import { User } from '../app/models/user';
 
 @Component({
   selector: 'app-root',
+  standalone: true,   // <-- Add this line
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
