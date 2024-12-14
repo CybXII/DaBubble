@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-firestore-test',
-  standalone: true,   // <-- Add this line
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './firestore-test.component.html',
   styleUrls: ['./firestore-test.component.scss'],
@@ -13,15 +13,15 @@ import { Observable } from 'rxjs';
 export class FirestoreTestComponent implements OnInit {
   testData$: Observable<any[]> | undefined;
 
-  constructor(private firestore: Firestore) { }
+  constructor(private firestore: Firestore) {}
 
   ngOnInit(): void {
     this.testFirestoreConnection();
   }
 
   testFirestoreConnection(): void {
-    const testCollection = collection(this.firestore, 'test-collection');
-    this.testData$ = collectionData(testCollection);
+    const testCollection = collection(this.firestore, 'test-collection'); // CollectionReference
+    this.testData$ = collectionData(testCollection); // Optionales `idField`
 
     this.testData$.subscribe(
       (data) => console.log('Daten erfolgreich abgerufen:', data),
