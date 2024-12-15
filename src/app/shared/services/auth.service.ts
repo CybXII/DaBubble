@@ -19,7 +19,7 @@ import { collection, getDoc, onSnapshot } from 'firebase/firestore';
 })
 export class AuthService {
   constructor(private auth: Auth, private firestore: Firestore) {
-    this.getUserList();
+    // this.getUserList();
   }
 
   userId = signal<string>('');
@@ -175,5 +175,4 @@ export class AuthService {
       this.userList.set(users);
     });
   }
-
 }

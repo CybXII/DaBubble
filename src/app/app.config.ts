@@ -20,6 +20,6 @@ export const appConfig: ApplicationConfig = {
     provideFirestore(() => getFirestore()),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
-    provideStorage(() => getStorage()),
+    // provideStorage(() => getStorage()), provideFirebaseApp(() => initializeApp({"projectId":"dabubble-4c4f8","appId":"1:784459986538:web:9b8067bc32c25b475dfc13","storageBucket":"dabubble-4c4f8.firebasestorage.app","apiKey":"AIzaSyChOdAlV4710eiJ2P6v9I-0YI0wlzhTSQ0","authDomain":"dabubble-4c4f8.firebaseapp.com","messagingSenderId":"784459986538"})), provideAuth(() => getAuth()), provideFirestore(() => getFirestore()),
   ],
 };

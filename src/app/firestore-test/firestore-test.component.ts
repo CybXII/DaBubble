@@ -61,18 +61,6 @@ export class FirestoreTestComponent implements OnInit {
   }
 
 
-  // TODO: aktuellen User filtern:
 
-  // filteredUser = computed(() => {
-  //   const userList = this.auth.userList();
-  //   const currentUserId = this.auth.userId();
-  //   console.log('userList:', userList);
-  //   console.log('userId:', currentUserId);
-  //   console.log('filteredUser:', userList.filter((user) => user.userId === currentUserId));
-    
-  //   if (userList || currentUserId) {
-  //     return userList.filter((user) => user.userId === currentUserId)[0];
-  //   }
-  //   return null;
-  // });
+
 }
