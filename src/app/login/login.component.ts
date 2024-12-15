@@ -36,7 +36,6 @@ export class LoginComponent {
   checkside() {
     setInterval(() => {
       if (this.router.routerState.snapshot.url == '/') {
-        console.log(this.router.routerState.snapshot.url);
         this.loginPage = true;
       } else {
         this.loginPage = false;

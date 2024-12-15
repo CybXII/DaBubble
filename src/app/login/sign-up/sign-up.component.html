@@ -52,8 +52,10 @@
         </div>
         <div class="privacy">
             <input #privacy="ngModel" [(ngModel)]="userData.privacy" type="checkbox" name="privacy" id="" required>
-            <label>Ich stimme der <a href="">Datenschutzerklärung</a> zu</label>
-            <span class="warning" [ngStyle]="{'opacity': !privacy.valid && privacy.touched ? 1 : 0}">Datenschutzerklärung akzeptieren</span>
+            <div>
+                <label>Ich stimme der <a href="">Datenschutzerklärung</a> zu</label>
+                <span class="warning" [ngStyle]="{'opacity': !privacy.valid && privacy.touched ? 1 : 0}">Datenschutzerklärung akzeptieren</span>
+            </div>
         </div>
         <div class="buttons">
             <button [disabled]="!name.valid || !email.valid || !password.valid || !privacy.valid" type="submit" class="button_blue">Weiter</button>

@@ -1,5 +1,6 @@
 @use './../host.scss';
 @use './../../../colors.scss' as colors;
+@use './../../../mixins.scss' as mixins;
 
 .d-none {
     display: none !important;
@@ -44,6 +45,14 @@
     [type="checkbox"]:hover{
         cursor: pointer;
         box-shadow: 0px 0px 3px 3px colors.$bg-color;
+    }
+
+    >div {
+        @include mixins.flexbox($direction: column, $justify: start);
+        padding: 5px 0px;
+        >span {
+            padding: 5px 0px 0px 0px;
+        }
     }
 }
 
