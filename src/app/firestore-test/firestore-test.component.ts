@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, computed, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Firestore, collectionData, collection } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
@@ -17,52 +17,19 @@ import { FormsModule } from '@angular/forms';
 export class FirestoreTestComponent implements OnInit {
   testData$: Observable<any[]> | undefined;
 
-  constructor(private firestore: Firestore, private auth: AuthService) {}
-
-  ngOnInit(): void {
-    this.testFirestoreConnection();
+  constructor(private firestore: Firestore, private auth: AuthService) {
   }
 
-  testFirestoreConnection(): void {
-    const testCollection = collection(this.firestore, 'users');
-    this.testData$ = collectionData(testCollection);
-
-    this.testData$.subscribe(
-      (data) => console.log('Daten erfolgreich abgerufen:', data),
-      (error) => console.error('Fehler beim Abrufen der Daten:', error)
-    );
-  }
-
-  writeData(): void {
-    const testCollection = collection(this.firestore, 'users'); // Ziel-Sammlung
-    const localData = {
-      name: 'Max Mustermann',
-      email: 'email@email.com',
-      status: false,
-      avatarURL: 'avatarURL',
-      userId: '1',
-      channels: ['Channel1'],
-      privateNoteRef: '???',
-    };
-
-    // addDoc(testCollection, localData)
-    //   .then((docRef) => {
-    //     console.log('Daten erfolgreich hinzugefügt mit ID:', docRef.id);
-    //   })
-    //   .catch((error) => {
-    //     console.error('Fehler beim Hinzufügen der Daten:', error);
-    //   });
-  }
+  ngOnInit(): void {}
 
   email: string = '';
   password: string = '';
   register() {
-    this.auth.register(this.email, this.password)
+    this.auth.register(this.email, this.password);
   }
   get userId() {
     return this.auth.userId();
   }
-
 
   loginEmail: string = '';
   loginPassword: string = '';
@@ -77,7 +44,6 @@ export class FirestoreTestComponent implements OnInit {
     this.auth.login(this.loginEmail, this.loginPassword);
   }
 
-
   guestLogin() {
     this.auth.guestLogin();
   }
@@ -90,5 +56,23 @@ export class FirestoreTestComponent implements OnInit {
     this.auth.logout();
   }
 
+  get userList() {
+    return this.auth.userList();
+  }
 
+
+  // TODO: aktuellen User filtern:
+
+  // filteredUser = computed(() => {
+  //   const userList = this.auth.userList();
+  //   const currentUserId = this.auth.userId();
+  //   console.log('userList:', userList);
+  //   console.log('userId:', currentUserId);
+  //   console.log('filteredUser:', userList.filter((user) => user.userId === currentUserId));
+    
+  //   if (userList || currentUserId) {
+  //     return userList.filter((user) => user.userId === currentUserId)[0];
+  //   }
+  //   return null;
+  // });
 }

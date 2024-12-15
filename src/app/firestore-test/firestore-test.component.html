@@ -1,13 +1,34 @@
 <div>
   <h1>Firestore Test</h1>
   <ul>
-    <li *ngFor="let item of testData$ | async">
-      {{ item | json }}
-    </li>
+    @for (user of userList; track $index) {
+      <li style="padding: 10px; border: 1px solid green;">Name: {{ user.name }}
+      EMail: {{ user.email }}
+      photoURL: {{ user.photoURL }}
+      Status: {{ user.status }}
+      Channels: {{ user.channels }}
+      PrivateNoteRef: {{ user.privateNoteRef }}
+      UserID: {{ user.userId }}</li>
+    }
   </ul>
 </div>
 
-<button (click)="writeData()">Daten hinzufügen</button>
+<br>
+
+<div>
+  <span>Filtered User</span>
+  <ul>
+    <li>
+      <!-- <span>Name: {{ filteredUser()?.name }}</span>
+      <span>Email: {{ filteredUser()?.email }}</span>
+      <span>photoURL: {{ filteredUser()?.photoURL }}</span>
+      <span>Status: {{ filteredUser()?.status }}</span>
+      <span>Channels: {{ filteredUser()?.channels }}</span>
+      <span>PrivateNoteRef: {{ filteredUser()?.privateNoteRef }}</span>
+      <span>UserID: {{ filteredUser()?.userId }}</span> -->
+    </li>
+  </ul>
+</div>
 
 <br />
 

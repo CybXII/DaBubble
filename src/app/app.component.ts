@@ -24,35 +24,35 @@ export class AppComponent {
 
     this.items$ = collectionData(usersCollection, { idField: 'id' });
 
-    this.getUser();
+    // this.getUser();
   }
 
-  getUser() {
-    const usersCollection = collection(this.firestore, 'users');
+  // getUser() {
+  //   const usersCollection = collection(this.firestore, 'users');
 
-    const users$: Observable<any[]> = collectionData(usersCollection, {
-      idField: 'userId',
-    });
+  //   const users$: Observable<any[]> = collectionData(usersCollection, {
+  //     idField: 'userId',
+  //   });
 
-    users$
-      .pipe(
-        map((users) =>
-          users.find(
-            (user) =>
-              user.email ===
-              // #TODO: this.user.email
-              'email@email.com'
-          )
-        )
-      )
-      .subscribe((foundUser) => {
-        if (foundUser) {
-          const token = foundUser.name;
-          this.tokens.push(token);
-          console.log('Token:', this.tokens);
-        } else {
-          console.warn('Kein Benutzer mit der angegebenen E-Mail gefunden.');
-        }
-      });
-  }
+  //   users$
+  //     .pipe(
+  //       map((users) =>
+  //         users.find(
+  //           (user) =>
+  //             user.email ===
+  //             // #TODO: this.user.email
+  //             'email@email.com'
+  //         )
+  //       )
+  //     )
+  //     .subscribe((foundUser) => {
+  //       if (foundUser) {
+  //         const token = foundUser.name;
+  //         this.tokens.push(token);
+  //         console.log('Token:', this.tokens);
+  //       } else {
+  //         console.warn('Kein Benutzer mit der angegebenen E-Mail gefunden.');
+  //       }
+  //     });
+  // }
 }

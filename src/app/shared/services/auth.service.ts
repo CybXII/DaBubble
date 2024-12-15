@@ -6,18 +6,26 @@ import {
 } from '@angular/fire/auth';
 import { Firestore, doc, setDoc } from '@angular/fire/firestore';
 import { User } from '../../models/user';
-import { GoogleAuthProvider, signInAnonymously, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { getDoc } from 'firebase/firestore';
+import {
+  GoogleAuthProvider,
+  signInAnonymously,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from 'firebase/auth';
+import { collection, getDoc, onSnapshot } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private auth: Auth, private firestore: Firestore) {}
+  constructor(private auth: Auth, private firestore: Firestore) {
+    this.getUserList();
+  }
 
   userId = signal<string>('');
   userData = signal<User | null>(null);
   loginError = signal<string>('');
+  userList = signal<User[]>([]);
 
   register(email: string, password: string) {
     createUserWithEmailAndPassword(this.auth, email, password).then(
@@ -142,7 +150,7 @@ export class AuthService {
           (error) => {
             console.error('Error writing user data: ', error);
           }
-        );        
+        );
         this.userId.set(user.uid);
         this.getUserData();
       })
@@ -156,7 +164,16 @@ export class AuthService {
     this.userId.set('');
     this.userData.set(null);
   }
-  
 
+  getUserList() {
+    let userCollection = collection(this.firestore, 'users');
+    onSnapshot(userCollection, (snapshot) => {
+      let users: User[] = [];
+      snapshot.forEach((doc) => {
+        users.push(doc.data() as User);
+      });
+      this.userList.set(users);
+    });
+  }
 
 }
