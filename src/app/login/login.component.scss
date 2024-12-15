@@ -199,7 +199,7 @@ input {
     border-radius: 30px;
     background-color: colors.$white;
     padding: 50px;
-    gap: 40px;
+    gap: 30px;
     position: relative;
     max-width: 606px;
 
@@ -212,12 +212,16 @@ input {
             color: colors.$purple3;
         }
     }
+
+    h1 {
+        padding: 0px 20px;
+    }
 }
 
 h1 {
     color: colors.$purple;
     font-size: 46px;
-    font-weight: 700px;
+    font-weight: 700;
 }
 
 .line {
@@ -236,7 +240,7 @@ a {
     gap: 25px;
 
     button:disabled {
-        background-color: gray;
+        background-color: colors.$grey;
         border-color: colors.$white;
     }
 }
@@ -245,9 +249,14 @@ button {
     background-color: unset;
     border-radius: 25px;
     padding: 12px 25px;
+    font-size: 18px;
+    font-weight: 400;
 
     &:hover {
         cursor: pointer;
+        &:disabled {
+            cursor: not-allowed;
+        }
     }
 }
 
@@ -255,6 +264,7 @@ button {
     background-color: colors.$purple;
     color: colors.$white;
     border-color: colors.$purple;
+    font-weight: 700;
 
     &:hover {
         opacity: 0.8;
@@ -300,12 +310,19 @@ footer {
 .warning {
     @include mixins.flexbox($justify: start);
     width: 100%;
-    color: red;
+    color: colors.$error;
+    font-size: 14px;
+}
+
+.input-warning {
+    width: 100%;
+    @include mixins.flexbox();
+    gap: 5px;
 }
 
 form {
     @include mixins.flexbox($direction: column, $align: start);
-    gap: 40px;
+    gap: 30px;
     width: 100%;
 
     span {
@@ -421,5 +438,58 @@ form {
         //left: 0;
         //transform: translate(0, 0);
         /* Entferne jegliche Verschiebung */
+    }
+}
+
+
+
+
+
+@media (max-width: 600px) {
+
+    section {
+        padding: 0px 20px;
+        gap: 20px;
+    }
+
+    form {
+        gap: 20px;
+    }
+
+    .mainCont {
+        padding: 25px;
+        h1 {
+            font-size: 32px;
+        }
+    }
+
+    .input {
+        >input {
+            &::placeholder {
+                font-weight: bolder;
+            }
+        }
+    }
+
+    .containerNoAnimation {
+        top: 50px;
+        left: unset;
+    }
+
+    header {
+        top: unset;
+        right: unset;
+        bottom: 40px;
+        a {
+            font-weight: 700;
+        }
+    }
+
+    button {
+        font-weight: 700 !important;
+    }
+
+    footer {
+        display: none;
     }
 }

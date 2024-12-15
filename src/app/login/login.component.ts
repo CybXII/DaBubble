@@ -34,12 +34,13 @@ export class LoginComponent {
   homeroute: any = "";
 
   checkside() {
-    // if (this.router.routerState.snapshot.url == '/') {
-    //   console.log(this.router.routerState.snapshot.url);
-    //   this.loginPage = true;
-    // } else {
-    //   this.loginPage = false;
-    // }
+    setInterval(() => {
+      if (this.router.routerState.snapshot.url == '/') {
+        this.loginPage = true;
+      } else {
+        this.loginPage = false;
+      }
+    },100)
   }
 
 }
