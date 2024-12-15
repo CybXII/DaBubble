@@ -6,7 +6,7 @@ import {
 } from '@angular/fire/auth';
 import { Firestore, doc, setDoc } from '@angular/fire/firestore';
 import { User } from '../../models/user';
-import { signInAnonymously, signInWithEmailAndPassword } from 'firebase/auth';
+import { GoogleAuthProvider, signInAnonymously, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { getDoc } from 'firebase/firestore';
 
 @Injectable({
@@ -119,10 +119,44 @@ export class AuthService {
       userId: userId,
       name: 'Guest',
       email: 'guest@guest.de',
-      photoURL: '',
+      photoURL: 'img/avatars/picPlaceholder.svg',
       channels: [],
       privateNoteRef: '',
       status: true,
     };
   }
+
+  googleLogin() {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(this.auth, provider)
+      .then((result) => {
+        const user = result.user;
+        console.log('result', result);
+        const userData = this.setUserData(
+          user.uid,
+          user.displayName || '',
+          user.email || '',
+          user.photoURL || ''
+        );
+        setDoc(doc(this.firestore, 'users', user.uid), userData).catch(
+          (error) => {
+            console.error('Error writing user data: ', error);
+          }
+        );        
+        this.userId.set(user.uid);
+        this.getUserData();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  logout() {
+    this.auth.signOut();
+    this.userId.set('');
+    this.userData.set(null);
+  }
+  
+
+
 }

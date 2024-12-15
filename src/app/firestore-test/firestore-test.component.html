@@ -25,8 +25,18 @@
 <p>{{ userData?.name }}</p>
 <p>{{ userData?.status }}</p>
 <p>{{ userData?.userId }}</p>
+<img src="{{ userData?.photoURL }}" alt="">
+
 <span style="color: red">{{ errorLogin }}</span>
 
 <br>
 
 <button (click)="guestLogin()">GastLogin</button>
+
+<br>
+
+<button (click)="googleLogin()">Google Login</button>
+
+<br>
+
+<button (click)="logout()">Logout</button>
