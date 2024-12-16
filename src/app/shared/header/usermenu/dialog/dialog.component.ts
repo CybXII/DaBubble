@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { ButtonComponent } from '../../../button/button.component';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-dialog',
@@ -16,7 +17,7 @@ export class DialogComponent {
   profileDialog: boolean = false;
   profileDialogEdit: boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private auth: AuthService) {}
 
   dontCloseDialog(event: Event) {
     event?.preventDefault();
@@ -25,6 +26,7 @@ export class DialogComponent {
 
   logout() {
     localStorage.removeItem('token');
+    this.auth.logout();
     setTimeout(() => {
       this.router.navigateByUrl('');
     }, 100);
