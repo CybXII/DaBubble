@@ -4,6 +4,7 @@ import { Router, RouterOutlet, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
+  standalone: true,   // <-- Add this line
   imports: [RouterOutlet, NgStyle, RouterModule, NgClass],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
@@ -26,19 +27,20 @@ export class LoginComponent {
     setTimeout(() => {
       this.introPlayed = true;
       sessionStorage.setItem('introPlayed', JSON.stringify(this.introPlayed));
-    }, 6000);
+    }, 3000);
 
   }
 
   homeroute: any = "";
 
   checkside() {
-    // if (this.router.routerState.snapshot.url == '/') {
-    //   console.log(this.router.routerState.snapshot.url);
-    //   this.loginPage = true;
-    // } else {
-    //   this.loginPage = false;
-    // }
+    setInterval(() => {
+      if (this.router.routerState.snapshot.url == '/') {
+        this.loginPage = true;
+      } else {
+        this.loginPage = false;
+      }
+    },100)
   }
 
 }

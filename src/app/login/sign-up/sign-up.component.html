@@ -24,9 +24,7 @@
                 </svg> 
                 <input minlength="2" #name="ngModel" [(ngModel)]="userData.name" type="text" name="name" placeholder="Name und Nachname" required>
             </div>
-            @if(!name.valid && name.touched) {
-                <span class="warning">Name ungültig oder schon vergeben!</span>
-            }
+                <span class="warning" [ngStyle]="{'opacity': !name.valid && name.touched ? 1 : 0}">Bitte schreiben Sie einen Namen.</span>
             <div class="input">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_98810_3174" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
@@ -38,9 +36,7 @@
                 </svg>
                 <input #email="ngModel" [(ngModel)]="userData.email" type="text" name="email" placeholder="beispielname@email.com" required pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}">
             </div>
-            @if(!email.valid && email.touched) {
-                <span class="warning">E-Mail ungültig!</span>
-            }
+            <span class="warning" [ngStyle]="{'opacity': !email.valid && email.touched ? 1 : 0}">*Diese E-Mail-Adresse ist leider ungültig.</span>
             <div class="input">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_98810_14397" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
@@ -52,16 +48,14 @@
                 </svg>
                 <input minlength="5" #password="ngModel" [(ngModel)]="userData.password" type="password" name="password" placeholder="Passwort" required>
             </div>
-            @if(!password.valid && password.touched) {
-                <span class="warning">Passwort ungültig!</span>
-            }
+            <span class="warning" [ngStyle]="{'opacity': !password.valid && password.touched || password.value < 5 && password.touched ? 1 : 0}">Bitte geben Sie ein Passwort ein.</span>
         </div>
-        <div>
+        <div class="privacy">
             <input #privacy="ngModel" [(ngModel)]="userData.privacy" type="checkbox" name="privacy" id="" required>
-            <label>Ich stimme der <a href="">Datenschutzerklärung</a> zu</label>
-            @if (!privacy.valid && privacy.touched) {
-                <span class="warning">Datenschutzerklärung akzeptieren</span>
-            }
+            <div>
+                <label>Ich stimme der <a href="">Datenschutzerklärung</a> zu</label>
+                <span class="warning" [ngStyle]="{'opacity': !privacy.valid && privacy.touched ? 1 : 0}">Datenschutzerklärung akzeptieren</span>
+            </div>
         </div>
         <div class="buttons">
             <button [disabled]="!name.valid || !email.valid || !password.valid || !privacy.valid" type="submit" class="button_blue">Weiter</button>

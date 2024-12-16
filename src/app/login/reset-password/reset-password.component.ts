@@ -1,15 +1,17 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reset-password',
-  imports: [FormsModule],
+  imports: [CommonModule ,FormsModule],
+  standalone: true,   // <-- Add this line
   templateUrl: './reset-password.component.html',
   styleUrl: './reset-password.component.scss'
 })
 export class ResetPasswordComponent {
-  warnText:string = "";
+  warnText:string = "Ihre Kennwörter stimmen nicht überein";
   passwordmatch:boolean = false;
   passwords = {
     password: "",
