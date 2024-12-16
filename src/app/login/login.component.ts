@@ -27,7 +27,7 @@ export class LoginComponent {
     setTimeout(() => {
       this.introPlayed = true;
       sessionStorage.setItem('introPlayed', JSON.stringify(this.introPlayed));
-    }, 6000);
+    }, 3000);
 
   }
 
