@@ -1,33 +1,41 @@
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ChooseAvatarComponent } from './choose-avatar/choose-avatar.component';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../shared/services/auth.service';
+
 
 @Component({
   selector: 'app-sign-up',
   standalone: true,   // <-- Add this line
-  imports: [CommonModule ,FormsModule, ChooseAvatarComponent],
+  imports: [CommonModule, FormsModule, ChooseAvatarComponent, RouterModule],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.scss'
 })
 export class SignUpComponent {
-  avatar:boolean = false;
+  avatar: boolean = false;
 
   userData = {
     name: "",
-    email : "",
+    email: "",
     password: "",
     privacy: false,
   }
 
-  constructor(private router: Router) {}
-  
+
+  register() {
+    this.auth.register(this.userData.email, this.userData.password);
+  }
+
+
+  constructor(private router: Router, private auth: AuthService) { }
+
   back() {
     this.router.navigateByUrl('');
   }
 
-  signUp(form:NgForm) {
+  signUp(form: NgForm) {
     if (form.valid && form.submitted) {
       console.log(this.userData);
       this.avatar = true;
