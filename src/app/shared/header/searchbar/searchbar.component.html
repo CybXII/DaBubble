@@ -1,3 +1,19 @@
+<div class="searchbar-container">
+  <input
+    type="text"
+    placeholder="Devspace durchsuchen"
+    [(ngModel)]="searchText"
+    (input)="onInputChange()"
+  />
+  <button><img src="img/icons/search.svg" alt="" /></button>
+</div>
 
-<input type="text" placeholder="Devspace durchsuchen">
-<button><img src="img/icons/search.svg" alt=""></button>
+@if (isSearchActive) {
+    <div class class="feedback-wrapper">
+        <div class="feedback-container">
+            <div class="animation-container">
+                <h1>TESTETSSTSTS</h1>
+            </div>
+        </div>
+    </div>
+}
