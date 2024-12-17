@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./firestore-test.component.scss'],
 })
 export class FirestoreTestComponent implements OnInit {
+  
   testData$: Observable<any[]> | undefined;
 
   constructor(private firestore: Firestore, private auth: AuthService) {
@@ -24,9 +25,11 @@ export class FirestoreTestComponent implements OnInit {
 
   email: string = '';
   password: string = '';
+
   register() {
     this.auth.register(this.email, this.password);
   }
+  
   get userId() {
     return this.auth.userId();
   }
