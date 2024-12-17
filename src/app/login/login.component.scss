@@ -17,6 +17,14 @@
     animation: hide 1s 5s forwards;
 }
 
+.d-none {
+    display: none !important;
+}
+
+.flex {
+    display: flex !important;
+}
+
 .container {
     position: absolute;
     //width: 100vw;
@@ -125,7 +133,8 @@ header {
 
 a {
     &:hover {
-        transform: scale(1.05);
+        //transform: scale(1.05);
+        font-weight: 500;
     }
 }
 
@@ -151,6 +160,10 @@ section {
     max-width: 1980px;
     text-align: center;
     position: relative;
+
+    &:hover {
+        cursor: default;
+    }
 }
 
 input {
@@ -254,6 +267,7 @@ button {
 
     &:hover {
         cursor: pointer;
+        font-weight: 500;
         &:disabled {
             cursor: not-allowed;
         }
@@ -324,10 +338,6 @@ form {
     @include mixins.flexbox($direction: column, $align: start);
     gap: 30px;
     width: 100%;
-
-    span {
-        padding-left: 20px;
-    }
 
     .link {
         width: 100%;
