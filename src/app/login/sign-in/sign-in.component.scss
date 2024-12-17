@@ -37,8 +37,8 @@
         }
         &:hover {
             cursor: pointer;
+            font-weight: 700;
             border-color: colors.$purple2;
-            transform: scale(1.01);
         }
     }
 }
