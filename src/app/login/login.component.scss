@@ -212,7 +212,7 @@ input {
     border-radius: 30px;
     background-color: colors.$white;
     padding: 50px;
-    gap: 30px;
+    gap: 40px;
     position: relative;
     max-width: 606px;
 
@@ -251,11 +251,6 @@ a {
 .buttons {
     @include mixins.flexbox();
     gap: 25px;
-
-    button:disabled {
-        background-color: colors.$grey;
-        border-color: colors.$white;
-    }
 }
 
 button {
@@ -267,11 +262,15 @@ button {
 
     &:hover {
         cursor: pointer;
-        font-weight: 500;
         &:disabled {
             cursor: not-allowed;
         }
     }
+}
+
+button:disabled {
+    background-color: colors.$grey;
+    border: unset;
 }
 
 .button_blue {

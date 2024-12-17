@@ -40,7 +40,6 @@ export class LoginComponent {
       } else {
         this.loginPage = false;
       }
-      console.log(this.loginPage);
     },100)
   }
 
