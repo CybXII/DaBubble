@@ -25,7 +25,10 @@ export class SignUpComponent {
 
 
   register() {
-    this.auth.register(this.userData.email, this.userData.password);
+    //this.auth.register(this.userData.email, this.userData.password);
+    this.auth.sendEmail(this.userData.email);
+    console.log("mail sent to", this.userData.email);
+
   }
 
 
@@ -39,6 +42,8 @@ export class SignUpComponent {
     if (form.valid && form.submitted) {
       console.log(this.userData);
       this.avatar = true;
+      this.auth.sendEmail(this.userData.email);
+      console.log("mail sent to", this.userData.email);
       // this.router.navigateByUrl('chooseAvatar');
     }
   }
