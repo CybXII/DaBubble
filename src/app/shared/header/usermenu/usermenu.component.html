@@ -1,4 +1,5 @@
 <div class="usermenu-container" (click)="openDialog($event)">
+  <div class="usermenu-container-box">
   <span>Frederik Beck</span>
   <div class="avatar-container">
     <img src="img/avatars/avatar3.svg" alt="" />
@@ -16,7 +17,11 @@
       fill="black"
     />
   </svg>
+  </div>
 </div>
+
+
+
 @if (this.dialog == true){
 <div
   [ngClass]="{
