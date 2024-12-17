@@ -1,6 +1,6 @@
 <div class="threadchat-container">
+  <app-threadchat-header class="threadchat__header"></app-threadchat-header>
   <div class="threadchat__item1">
-    <app-threadchat-header class="threadchat__header"></app-threadchat-header>
     <div class="chatbox__mainthread-container">
       <button class="chatbox__addemoji-container">
         <div class="chatbox__addemoji__emoji-container">
@@ -32,7 +32,7 @@
       </div>
     </div>
     <div class="chatbox__threads-divider">2 Antworten</div>
-    <app-chatbox class="threadchat__chatbox" />
+    <app-chatbox [builder]="builder" class="threadchat__chatbox" />
   </div>
   <app-messagebox class="threadchat__messagebox"></app-messagebox>
 </div>
