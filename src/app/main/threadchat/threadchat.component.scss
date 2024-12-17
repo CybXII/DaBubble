@@ -10,7 +10,12 @@
 
 .threadchat__item1 {
   @include mixins.flexbox(column, flex-start, center, nowrap);
-  height: calc(100% - 145px);
+  height: calc(100% - 200px);
+  overflow-y: auto;
+  padding: 27px;
+  position: relative;
+  top: 104px;
+  margin-bottom: 100px;
 }
 
 .threadchat__header {
@@ -21,7 +26,6 @@
 .chatbox__mainthread-container {
   @include mixins.flexbox(row, flex-start, flex-start, nowrap);
   gap: 20px;
-  margin-top: 124px;
   padding: 10px 40px;
   position: relative;
 
@@ -40,7 +44,7 @@
   }
 }
 
-.chatbox__msg-avatar{
+.chatbox__msg-avatar {
   border-radius: 40px;
 }
 
@@ -150,7 +154,7 @@
 }
 
 .chatbox__threads-divider {
-  width:100%;
+  width: 100%;
   display: flex;
   align-self: flex-start;
   align-items: center;
@@ -174,7 +178,6 @@
 .threadchat__chatbox {
   width: 100%;
   height: calc(100% - 104px);
-  overflow-y: auto;
   position: relative;
   top: 0;
   bottom: -100px;

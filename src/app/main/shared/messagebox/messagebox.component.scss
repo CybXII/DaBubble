@@ -8,8 +8,8 @@
   resize: none;
   font-size: 1.125rem;
   color: colors.$grey;
-  padding: 0 20px;
-  margin: 20px 0 0 0;
+  padding:20px;
+  border-radius: inherit;
   overflow-y: auto;
   &:focus {
     outline: none;
