@@ -50,7 +50,7 @@ export class AuthService {
         installApp: true,
         minimumVersion: '12'
       },
-      dynamicLinkDomain: 'example.page.link'
+      dynamicLinkDomain: 'dab.christophvoelker.com'
     };
     const auth = getAuth();
     sendSignInLinkToEmail(auth, email, actionCodeSettings)
