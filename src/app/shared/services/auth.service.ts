@@ -7,6 +7,8 @@ import {
   signInWithPopup,
   onAuthStateChanged,
   GoogleAuthProvider,
+  getAuth,
+  sendSignInLinkToEmail,
 } from '@angular/fire/auth';
 import { Firestore, doc, setDoc, getDoc, collection, onSnapshot } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
@@ -24,30 +26,68 @@ export class AuthService {
   userList = signal<AppUser[]>([]);
   private loginType = signal<'guest' | 'google' | 'email' | null>(null);
 
-  constructor(public  auth: Auth, private firestore: Firestore, private router: Router) {
+
+  constructor(public auth: Auth, private firestore: Firestore, private router: Router) {
     this.monitorAuthState(); // Überwachung des Auth-Status starten
     this.getUserList(); // Benutzerliste aus Firestore laden
   }
 
+
+
+  sendEmail(email: string) {
+    const actionCodeSettings = {
+      // URL you want to redirect back to. The domain (www.example.com) for this
+      // URL must be in the authorized domains list in the Firebase Console.
+      url: 'https://christophvoelker.com/?email=' + email,
+
+      // This must be true.
+      handleCodeInApp: true,
+      iOS: {
+        bundleId: 'com.example.ios'
+      },
+      android: {
+        packageName: 'com.example.android',
+        installApp: true,
+        minimumVersion: '12'
+      },
+      dynamicLinkDomain: 'example.page.link'
+    };
+    const auth = getAuth();
+    sendSignInLinkToEmail(auth, email, actionCodeSettings)
+      .then(() => {
+        // The link was successfully sent. Inform the user.
+        // Save the email locally so you don't need to ask the user for it again
+        // if they open the link on the same device.
+        window.localStorage.setItem('emailForSignIn', email);
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ...
+      });
+  }
+
+
   /**
    * Überwacht den Firebase-Auth-Status
    */
-private monitorAuthState(): void {
-  onAuthStateChanged(this.auth, (user) => {
-    if (user) {
-      this.isUserAuthenticated.set(true);
-      this.userId.set(user.uid);
+  private monitorAuthState(): void {
+    onAuthStateChanged(this.auth, (user) => {
+      if (user) {
+        this.isUserAuthenticated.set(true);
+        this.userId.set(user.uid);
 
-      // Weiterleitung nur, wenn der Benutzer auf der Home-Route ist
-      if (this.router.url === '/') {
-        this.redirectIfAuthenticated();
+        // Weiterleitung nur, wenn der Benutzer auf der Home-Route ist
+        if (this.router.url === '/') {
+          this.redirectIfAuthenticated();
+        }
+      } else {
+        this.clearAuthState();
+        console.log('No user logged in');
       }
-    } else {
-      this.clearAuthState();
-      console.log('No user logged in');
-    }
-  });
-}
+    });
+  }
 
   /**
    * Setzt den Auth-Status zurück
@@ -63,7 +103,7 @@ private monitorAuthState(): void {
    * Prüft, ob ein Benutzer eingeloggt ist
    */
   isAuthenticated(): boolean {
-    return !!this.auth.currentUser || this.isUserAuthenticated(); 
+    return !!this.auth.currentUser || this.isUserAuthenticated();
   }
 
   /**

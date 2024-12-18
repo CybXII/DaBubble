@@ -1,28 +1,80 @@
 @use "../../../../mixins.scss" as mixins;
 @use "../../../../colors.scss" as colors;
 
-input {
-        height: 40px;
-        flex: 1;
-        border: none;
-        outline: none;
-        font-size: 16px;
-        color: colors.$grey;
-            &:focus-visible {
-            border: none;
-            outline: none;
-            }
-            &::placeholder {
-            color: colors.$grey;
-            font-size: 16px;
-            }
+.searchbar-container {
+  @include mixins.flexbox(row, space-between, center);
+  width: 100%;
+  position: relative;
+  z-index: 5;
+  button {
+    position: absolute;
+    right: 32px;
+    z-index: 6;
+  }
+
+  input {
+    padding: 0px 32px;
+    border-radius: 48px;
+    height: 60px;
+    flex: 1;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    color: colors.$grey;
+    &:hover {
+      outline: 1px solid colors.$light-purple;
     }
-    button {
-        border: none;
-        cursor: pointer;
-        background-color: unset;
+    &:focus-visible {
+      outline: 1px solid colors.$purple2;
     }
-    img {
-        width: 24px;
-        height: 24px;
+    &::placeholder {
+      color: colors.$grey;
+      font-size: 16px;
     }
+  }
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  background-color: unset;
+  display: flex;
+}
+img {
+  width: 24px;
+  height: 24px;
+}
+
+.feedback-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 28px;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  border-radius: 0 0 20px 20px;
+  box-shadow: -2px -2px 10px 0px rgba(0, 0, 0, 0.18);
+}
+
+.feedback-container {
+  width: 100%;
+  z-index: 4;
+  color: #f50000;
+  @include mixins.flexbox(row, center, center);
+  max-width: 1440px;
+  gap: 16px;
+
+  .feedback-box {
+    opacity: 1;
+    background-color: colors.$white;
+    color: colors.$grey;
+    box-sizing: border-box;
+    width: 100%;
+    z-index: 4;
+    padding: 60px 32px 32px 32px;
+    border-radius: 0 0 20px 20px;
+  }
+}
