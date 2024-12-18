@@ -6,6 +6,8 @@
 >
   @if (this.dialog) {
   <a (click)="openProfile()" class="dialog-link">Profil</a>
+  <a routerLink="/imprint" class="dialog-link">Impressum</a>
+  <a routerLink="/legalnotice" class="dialog-link">Datenschutz</a>
   <a (click)="logout()" class="dialog-link">Logout</a>
   } @else if (this.profileDialog) {
 
