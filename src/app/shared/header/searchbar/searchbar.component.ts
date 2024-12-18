@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { SearchresultsComponent } from './searchresults/searchresults.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-searchbar',
   standalone: true,
-  imports: [SearchresultsComponent, CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './searchbar.component.html',
   styleUrl: './searchbar.component.scss',
 })
