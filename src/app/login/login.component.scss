@@ -212,7 +212,7 @@ input {
     border-radius: 30px;
     background-color: colors.$white;
     padding: 50px;
-    gap: 30px;
+    gap: 40px;
     position: relative;
     max-width: 606px;
 
@@ -226,8 +226,13 @@ input {
         }
     }
 
-    h1 {
-        padding: 0px 20px;
+    span {
+        font-size: 20px;
+        line-height: 24px
+    }
+
+    .headline {
+        @include mixins.flexbox();
     }
 }
 
@@ -251,11 +256,6 @@ a {
 .buttons {
     @include mixins.flexbox();
     gap: 25px;
-
-    button:disabled {
-        background-color: colors.$grey;
-        border-color: colors.$white;
-    }
 }
 
 button {
@@ -267,11 +267,15 @@ button {
 
     &:hover {
         cursor: pointer;
-        font-weight: 500;
         &:disabled {
             cursor: not-allowed;
         }
     }
+}
+
+button:disabled {
+    background-color: colors.$grey;
+    border: unset;
 }
 
 .button_blue {
@@ -299,8 +303,7 @@ button {
 
 .arrowBack {
     position: absolute;
-    left: 10px;
-    top: 30px;
+    left: 20px;
 
     :hover {
         background-color: colors.$light-purple;
@@ -325,7 +328,8 @@ footer {
     @include mixins.flexbox($justify: start);
     width: 100%;
     color: colors.$error;
-    font-size: 14px;
+    font-size: 14px !important;
+    line-height: 19.1px !important;
 }
 
 .input-warning {

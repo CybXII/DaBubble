@@ -6,6 +6,7 @@ import { addDoc, doc, setDoc } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
 import { AuthService } from '../shared/services/auth.service';
 import { FormsModule } from '@angular/forms';
+import { ToastMessageService } from '../shared/services/toastmessage.service';
 
 @Component({
   selector: 'app-firestore-test',
@@ -15,11 +16,13 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./firestore-test.component.scss'],
 })
 export class FirestoreTestComponent implements OnInit {
-  
   testData$: Observable<any[]> | undefined;
 
-  constructor(private firestore: Firestore, private auth: AuthService) {
-  }
+  constructor(
+    private firestore: Firestore,
+    private auth: AuthService,
+    private toastMessageService: ToastMessageService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -29,16 +32,16 @@ export class FirestoreTestComponent implements OnInit {
   register() {
     this.auth.register(this.email, this.password);
   }
-  
+
   get userId() {
     return this.auth.userId();
   }
 
   loginEmail: string = '';
   loginPassword: string = '';
-  get userData() {
-    return this.auth.userData();
-  }
+  // get userData() {
+  //   return this.auth.userData();
+  // }
 
   get errorLogin() {
     return this.auth.loginError();
@@ -63,7 +66,18 @@ export class FirestoreTestComponent implements OnInit {
     return this.auth.userList();
   }
 
+  showError() {
+    this.toastMessageService.showToast(true, 'Ein Fehler ist aufgetreten');
+    console.log('Error');
+  }
 
+  showSuccess() {
+    this.toastMessageService.showToast(false, 'Operation erfolgreich!');
+    console.log('Success');
+    
+  }
 
-
+  showToastSignal() {
+    this.toastMessageService.showToastSignal('Ein Fehler ist aufgetreten');
+  }
 }

@@ -6,6 +6,8 @@
 >
   @if (this.dialog) {
   <a (click)="openProfile()" class="dialog-link">Profil</a>
+  <a routerLink="/imprint" class="dialog-link">Impressum</a>
+  <a routerLink="/legalnotice" class="dialog-link">Datenschutz</a>
   <a (click)="logout()" class="dialog-link">Logout</a>
   } @else if (this.profileDialog) {
 
@@ -71,7 +73,9 @@
       <input type="text" placeholder="fred.beck&commat;email.com" />
     </div>
     <div class="dialog-buttons">
-      <app-button type="secondary" (click)="closeProfileEdit()">Abbrechen</app-button>
+      <app-button type="secondary" (click)="closeProfileEdit()"
+        >Abbrechen</app-button
+      >
       <app-button type="primary" (click)="saveProfile()">Speichern</app-button>
     </div>
   </div>

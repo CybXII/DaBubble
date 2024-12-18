@@ -1,19 +1,18 @@
-<div>
+<!-- <div>
   <h1>Firestore Test</h1>
   <ul>
     @for (user of userList; track $index) {
-      <li style="padding: 10px; border: 1px solid green;">Name: {{ user.name }}
-      EMail: {{ user.email }}
-      photoURL: {{ user.photoURL }}
-      Status: {{ user.status }}
-      Channels: {{ user.channels }}
-      PrivateNoteRef: {{ user.privateNoteRef }}
-      UserID: {{ user.userId }}</li>
+    <li style="padding: 10px; border: 1px solid green">
+      Name: {{ user.name }} EMail: {{ user.email }} photoURL:
+      {{ user.photoURL }} Status: {{ user.status }} Channels:
+      {{ user.channels }} PrivateNoteRef: {{ user.privateNoteRef }} UserID:
+      {{ user.userId }}
+    </li>
     }
   </ul>
-</div>
+</div> -->
 
-<br>
+<br />
 
 <input type="text" placeholder="Email" [(ngModel)]="email" />
 <input type="text" placeholder="Passwort" [(ngModel)]="password" />
@@ -25,22 +24,29 @@
 <input type="text" placeholder="Email" [(ngModel)]="loginEmail" />
 <input type="text" placeholder="Passwort" [(ngModel)]="loginPassword" />
 <button (click)="login()">Login</button>
-<p>{{ userData?.email }}</p>
+<!-- <p>{{ userData?.email }}</p>
 <p>{{ userData?.name }}</p>
 <p>{{ userData?.status }}</p>
 <p>{{ userData?.userId }}</p>
-<img src="{{ userData?.photoURL }}" alt="">
+<img src="{{ userData?.photoURL }}" alt="" /> -->
 
 <span style="color: red">{{ errorLogin }}</span>
 
-<br>
+<br />
 
 <button (click)="guestLogin()">GastLogin</button>
 
-<br>
+<br />
 
 <button (click)="googleLogin()">Google Login</button>
 
-<br>
+<br />
 
 <button (click)="logout()">Logout</button>
+
+<br>
+
+
+
+<button (click)="showToastSignal()">ErrorMessage</button>
+<!-- <app-toastmessage></app-toastmessage> -->

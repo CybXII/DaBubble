@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  standalone: true,   // <-- Add this line
+  standalone: true, // <-- Add this line
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
@@ -19,8 +19,11 @@ export class AppComponent implements OnInit {
   items$: Observable<any[]>;
   user: User = new User();
   tokens: string[] = [];
-  
-  constructor(private authService: AuthService, private router: Router) {
+
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {
     const usersCollection = collection(this.firestore, 'users');
     this.items$ = collectionData(usersCollection, { idField: 'id' });
   }
@@ -34,32 +37,4 @@ export class AppComponent implements OnInit {
     }
   }
 
-  // getUser() {
-  //   const usersCollection = collection(this.firestore, 'users');
-
-  //   const users$: Observable<any[]> = collectionData(usersCollection, {
-  //     idField: 'userId',
-  //   });
-
-  //   users$
-  //     .pipe(
-  //       map((users) =>
-  //         users.find(
-  //           (user) =>
-  //             user.email ===
-  //             // #TODO: this.user.email
-  //             'email@email.com'
-  //         )
-  //       )
-  //     )
-  //     .subscribe((foundUser) => {
-  //       if (foundUser) {
-  //         const token = foundUser.name;
-  //         this.tokens.push(token);
-  //         console.log('Token:', this.tokens);
-  //       } else {
-  //         console.warn('Kein Benutzer mit der angegebenen E-Mail gefunden.');
-  //       }
-  //     });
-  // }
 }
