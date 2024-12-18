@@ -1,5 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component } from '@angular/core';
 import {
   ToastMessageService,
   ToastMessage,
@@ -11,23 +10,10 @@ import {
   styleUrls: ['./toastmessage.component.scss'],
   standalone: true,
 })
-export class ToastMessageComponent implements OnInit, OnDestroy {
+export class ToastMessageComponent {
   toastMessage: ToastMessage | null = null;
-  private subscription!: Subscription;
 
   constructor(private toastMessageService: ToastMessageService) {
-    this.subscription = this.toastMessageService.toast$.subscribe(
-      (toastMessage) => {
-        this.toastMessage = toastMessage;
-        setTimeout(() => (this.toastMessage = null), 2500);
-      }
-    );
-  }
-
-  ngOnInit(): void {}
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
   get toast(){
