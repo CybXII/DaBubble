@@ -22,3 +22,7 @@
         <a routerLink="legalnotice">Datenschutz</a>
     </footer>
 </section>
+
+@if (toastMessage != '') {
+    <app-toastmessage></app-toastmessage>
+}

@@ -10,9 +10,17 @@ import {
   getAuth,
   sendSignInLinkToEmail,
 } from '@angular/fire/auth';
-import { Firestore, doc, setDoc, getDoc, collection, onSnapshot } from '@angular/fire/firestore';
+import {
+  Firestore,
+  doc,
+  setDoc,
+  getDoc,
+  collection,
+  onSnapshot,
+} from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { User as AppUser } from '../../models/user';
+import { ToastMessageService } from './toastmessage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -26,13 +34,15 @@ export class AuthService {
   userList = signal<AppUser[]>([]);
   private loginType = signal<'guest' | 'google' | 'email' | null>(null);
 
-
-  constructor(public auth: Auth, private firestore: Firestore, private router: Router) {
+  constructor(
+    public auth: Auth,
+    private firestore: Firestore,
+    private router: Router,
+    private toastMessageService: ToastMessageService
+  ) {
     this.monitorAuthState(); // Überwachung des Auth-Status starten
     this.getUserList(); // Benutzerliste aus Firestore laden
   }
-
-
 
   sendEmail(email: string) {
     const actionCodeSettings = {
@@ -43,14 +53,14 @@ export class AuthService {
       // This must be true.
       handleCodeInApp: true,
       iOS: {
-        bundleId: 'com.example.ios'
+        bundleId: 'com.example.ios',
       },
       android: {
         packageName: 'com.example.android',
         installApp: true,
-        minimumVersion: '12'
+        minimumVersion: '12',
       },
-      dynamicLinkDomain: 'example.page.link'
+      dynamicLinkDomain: 'example.page.link',
     };
     const auth = getAuth();
     sendSignInLinkToEmail(auth, email, actionCodeSettings)
@@ -67,7 +77,6 @@ export class AuthService {
         // ...
       });
   }
-
 
   /**
    * Überwacht den Firebase-Auth-Status
@@ -111,9 +120,18 @@ export class AuthService {
    */
   async register(email: string, password: string): Promise<void> {
     try {
-      const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        this.auth,
+        email,
+        password
+      );
       const user = userCredential.user;
-      const userData = this.setUserData(user.uid, user.displayName || '', user.email || '', user.photoURL || '');
+      const userData = this.setUserData(
+        user.uid,
+        user.displayName || '',
+        user.email || '',
+        user.photoURL || ''
+      );
       await setDoc(doc(this.firestore, 'users', user.uid), userData);
     } catch (error) {
       console.error('Registration failed:', error);
@@ -125,7 +143,11 @@ export class AuthService {
    */
   async login(email: string, password: string): Promise<void> {
     try {
-      const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        this.auth,
+        email,
+        password
+      );
       this.userId.set(userCredential.user.uid);
     } catch (error) {
       this.handleLoginError(error);
@@ -154,7 +176,12 @@ export class AuthService {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(this.auth, provider);
       const user = result.user;
-      const userData = this.setUserData(user.uid, user.displayName || '', user.email || '', user.photoURL || '');
+      const userData = this.setUserData(
+        user.uid,
+        user.displayName || '',
+        user.email || '',
+        user.photoURL || ''
+      );
       await setDoc(doc(this.firestore, `users/${user.uid}`), userData);
     } catch (error) {
       console.error('Google login failed:', error);
@@ -168,6 +195,7 @@ export class AuthService {
     this.auth.signOut().then(() => {
       this.clearAuthState();
       this.router.navigate(['']);
+      this.toastMessageService.showToastSignal('Erfolgreich ausgeloggt');
     });
   }
 
@@ -189,7 +217,10 @@ export class AuthService {
    * Fehler beim Login behandeln
    */
   private handleLoginError(error: any): void {
-    if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+    if (
+      error.code === 'auth/user-not-found' ||
+      error.code === 'auth/wrong-password'
+    ) {
       this.loginError.set('Invalid email or password');
     } else {
       this.loginError.set('Unexpected error occurred');
@@ -200,7 +231,12 @@ export class AuthService {
   /**
    * Benutzerinformationen für Firestore erstellen
    */
-  private setUserData(userId: string, username: string, email: string, avatarURL: string): AppUser {
+  private setUserData(
+    userId: string,
+    username: string,
+    email: string,
+    avatarURL: string
+  ): AppUser {
     return {
       userId,
       name: username,
@@ -243,7 +279,8 @@ export class AuthService {
 
   redirectIfAuthenticated(): void {
     if (this.auth.currentUser) {
-      this.router.navigateByUrl('/board'); // Weiterleitung zur Board-Seite
+      this.router.navigate(['/board']);
+      this.toastMessageService.showToastSignal('Anmeldung erfolgreich');
     }
   }
 }
