@@ -7,12 +7,11 @@ import { Auth } from '@angular/fire/auth';
 import { AuthService } from '../shared/services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { ToastMessageService } from '../shared/services/toastmessage.service';
-import { ToastMessageComponent } from '../shared/toastmessage/toastmessage.component';
 
 @Component({
   selector: 'app-firestore-test',
   standalone: true,
-  imports: [CommonModule, FormsModule, ToastMessageComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './firestore-test.component.html',
   styleUrls: ['./firestore-test.component.scss'],
 })
