@@ -226,8 +226,13 @@ input {
         }
     }
 
-    h1 {
-        padding: 0px 20px;
+    span {
+        font-size: 20px;
+        line-height: 24px
+    }
+
+    .headline {
+        @include mixins.flexbox();
     }
 }
 
@@ -298,8 +303,7 @@ button:disabled {
 
 .arrowBack {
     position: absolute;
-    left: 10px;
-    top: 30px;
+    left: 20px;
 
     :hover {
         background-color: colors.$light-purple;
@@ -324,7 +328,8 @@ footer {
     @include mixins.flexbox($justify: start);
     width: 100%;
     color: colors.$error;
-    font-size: 14px;
+    font-size: 14px !important;
+    line-height: 19.1px !important;
 }
 
 .input-warning {
