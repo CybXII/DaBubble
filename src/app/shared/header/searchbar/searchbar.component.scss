@@ -22,10 +22,10 @@
     outline: none;
     color: colors.$grey;
     &:hover {
-      outline: 1px solid colors.$purple2;
+      outline: 1px solid colors.$light-purple;
     }
     &:focus-visible {
-      outline: 1px solid colors.$purple3;
+      outline: 1px solid colors.$purple2;
     }
     &::placeholder {
       color: colors.$grey;
