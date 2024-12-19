@@ -1,13 +1,26 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  inject,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { ToastMessageService } from '../../../services/toastmessage.service';
+import {
+  FormBuilder,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-dialog',
   standalone: true, // <-- Add this line
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
   templateUrl: './dialog.component.html',
   styleUrl: './dialog.component.scss',
 })
@@ -16,12 +29,35 @@ export class DialogComponent {
   @Output() dialogChange = new EventEmitter<boolean>();
   profileDialog: boolean = false;
   profileDialogEdit: boolean = false;
+  authService = inject(AuthService);
+  profileDataChanged = signal<boolean>(false);
+  profileForm;
 
   constructor(
     private router: Router,
     private auth: AuthService,
-    private toastMessageService: ToastMessageService
-  ) {}
+    private toastMessageService: ToastMessageService,
+    private fb: FormBuilder
+  ) {
+    this.profileForm = this.fb.group({
+      userInputName: [
+        this.userData?.name,
+        [
+          Validators.required,
+          Validators.pattern('^[a-zA-ZÀ-ÿ]{3,}(?: [a-zA-ZÀ-ÿ]{3,})+$'),
+        ],
+      ],
+      userInputEmail: [
+        this.userData?.email,
+        [
+          Validators.required,
+          Validators.pattern(
+            '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'
+          ),
+        ],
+      ],
+    });
+  }
 
   dontCloseDialog(event: Event) {
     event?.preventDefault();
@@ -59,5 +95,23 @@ export class DialogComponent {
     this.profileDialogEdit = false;
     this.dialogChange.emit(this.dialog);
     this.toastMessageService.showToastSignal('Profil erfolgreich aktualisiert');
+  }
+
+  get userData() {
+    return this.authService.userData();
+  }
+
+  profileDataChange() {
+    if (
+      (this.userData?.name ?? '') !=
+        (this.profileForm.get('userInputName')?.value ?? '') ||
+      (this.userData?.email ?? '') !=
+        (this.profileForm.get('userInputEmail')?.value ?? '')
+    ) {
+      this.profileDataChanged.set(true);
+      console.log('Profile data changed');
+    } else {
+      this.profileDataChanged.set(false);
+    }
   }
 }

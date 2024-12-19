@@ -21,11 +21,11 @@
       />
     </div>
     <div class="dialog-avatar">
-      <img src="img/avatars/avatar3.svg" alt="" />
+      <img [src]="userData?.photoURL" alt="" />
     </div>
     <div class="dialog-profile-info">
       <div>
-        <span>Frederik Beck</span>
+        <span>{{ userData?.name }}</span>
         <a (click)="openProfileEdit()">Bearbeiten</a>
       </div>
       <div>
@@ -37,14 +37,12 @@
       <img src="/img/icons/mail.svg" alt="" />
       <div>
         <span>E-Mail-Adresse</span>
-        <a href="mailto:fred.beck&commat;email.com"
-          >fred.beck&commat;email.com</a
-        >
+        <p>{{ userData?.email }}</p>
       </div>
     </div>
   </div>
   } @else if (this.profileDialogEdit){
-  <div class="dialog-profile-container">
+  <form class="dialog-profile-container" [formGroup]="profileForm">
     <div class="dialog-header">
       <span>Dein Profil bearbeiten</span>
       <img
@@ -54,7 +52,7 @@
       />
     </div>
     <div class="dialog-avatar">
-      <img src="img/avatars/avatar3.svg" alt="" />
+      <img [src]="userData?.photoURL" alt="" />
     </div>
 
     <div class="dialog-profile-info-edit">
@@ -62,7 +60,30 @@
         <img src="/img/icons/account_circle.svg" alt="account_circle" />
         <span>Vollständiger Name</span>
       </div>
-      <input type="text" placeholder="Frederik Beck" />
+      <input
+        type="text"
+        (input)="profileDataChange()"
+        placeholder="Bitte vollständigen Namen eingeben"
+        formControlName="userInputName"
+      />
+      <div
+        *ngIf="
+          profileForm.get('userInputName')?.hasError('required') &&
+          profileForm.get('userInputName')?.dirty
+        "
+        class="error-message"
+      >
+        <p>Feld darf nicht leer sein.</p>
+      </div>
+      <div
+        *ngIf="
+          profileForm.get('userInputName')?.hasError('pattern') &&
+          profileForm.get('userInputName')?.dirty
+        "
+        class="error-message"
+      >
+        <p>Mindestens 2 Wörter.</p>
+      </div>
     </div>
 
     <div class="dialog-profile-info-edit">
@@ -70,13 +91,44 @@
         <img src="/img/icons/mail.svg" alt="mail" />
         <span>E-Mail-Adresse</span>
       </div>
-      <input type="text" placeholder="fred.beck&commat;email.com" />
+      <input
+        type="text"
+        (input)="profileDataChange()"
+        placeholder="Bitte E-Mail-Adresse eingeben"
+        formControlName="userInputEmail"
+      />
+      <div
+        *ngIf="
+          profileForm.get('userInputEmail')?.hasError('required') &&
+          profileForm.get('userInputEmail')?.dirty
+        "
+        class="error-message"
+      >
+        <p>Feld darf nicht leer sein.</p>
+      </div>
+      <div
+        *ngIf="
+          profileForm.get('userInputEmail')?.hasError('pattern') &&
+          profileForm.get('userInputEmail')?.dirty
+        "
+        class="error-message"
+      >
+        <p>E-Mail ist ungültig.</p>
+      </div>
     </div>
+
     <div class="dialog-buttons">
-      <button class="cancel default" (click)="closeProfileEdit()"
-        >Abbrechen</button>
-      <button class="save default" (click)="saveProfile()">Speichern</button>
+      <button class="cancel default" (click)="closeProfileEdit()">
+        Abbrechen
+      </button>
+      <button
+        class="save default"
+        [disabled]="!profileDataChanged() || profileForm.invalid"
+        (click)="saveProfile()"
+      >
+        Speichern
+      </button>
     </div>
-  </div>
+  </form>
   }
 </div>
