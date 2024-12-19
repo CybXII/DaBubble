@@ -17,7 +17,7 @@ import { CommonModule } from '@angular/common';
 export class BuilderComponent {
   builder: string[] = ["menu", "mainchat", "threadchat"];
   menuOpened = true;
-  threadchatOpened = true;
+  threadchatOpened = false;
   menuState = 'in';
   threadchatState = 'in';
 
@@ -47,6 +47,11 @@ export class BuilderComponent {
         this.threadchatState = 'in';
       });
     }
+  }
+
+  toggleThreadChatOnMessageSelect(): void {
+    this.threadchatOpened = true;
+    this.threadchatState = 'in';
   }
 
   onAnimationDone(event: any, type: string) {

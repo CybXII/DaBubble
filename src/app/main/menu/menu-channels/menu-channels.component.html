@@ -1,7 +1,7 @@
 <section class="channels">
     <div class="menu-titel-box">
-        <div (click)="toggleChannelsOpen()" class="titel-box">
-            <div [ngClass]="{'active': channelsOpen}" class="arrow-box active">
+        <div (click)="channelsService.toggleChannelsOpen()" class="titel-box">
+            <div [ngClass]="{'active': channelsService.channelsOpen}" class="arrow-box active">
                 <svg width="10" height="7" viewBox="0 0 10 7" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M4.12508 5.875L0.875076 2.625C0.479243 2.22917 0.390909 1.77625 0.610076 1.26625C0.828409 0.755417 1.21883 0.5 1.78133 0.5H8.21883C8.78133 0.5 9.17174 0.755417 9.39008 1.26625C9.60924 1.77625 9.52091 2.22917 9.12508 2.625L5.87508 5.875C5.75008 6 5.61466 6.09375 5.46883 6.15625C5.32299 6.21875 5.16674 6.25 5.00008 6.25C4.83341 6.25 4.67716 6.21875 4.53133 6.15625C4.38549 6.09375 4.25008 6 4.12508 5.875Z" />
@@ -42,10 +42,10 @@
             </defs>
         </svg>
     </div>
-    @if (this.channelsOpen) {
+    @if (channelsService.channelsOpen) {
     @for (channel of this.channels; track channel; let index=$index){
     <div class="channel">
-        <div class="channel-box">
+        <div (click)="channel.id ? selectChannel(channel.id) : null" class="channel-box">
             <svg width="24" height="25" viewBox="0 0 24 25" xmlns="http://www.w3.org/2000/svg">
                 <mask id="mask0_99272_16169" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
                     height="25">
@@ -61,7 +61,7 @@
     </div>
     }
     }
-    <div class="add-channel-box">
+    <div (click)="addChannel()" class="add-channel-box">
         <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
             <mask id="mask0_99272_16176" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
                 height="25">
