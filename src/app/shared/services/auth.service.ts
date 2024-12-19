@@ -52,26 +52,30 @@ export class AuthService {
 
       // This must be true.
       handleCodeInApp: true,
-      iOS: {
-        bundleId: 'com.example.ios',
-      },
-      android: {
-        packageName: 'com.example.android',
-        installApp: true,
-        minimumVersion: '12',
-      },
-      dynamicLinkDomain: 'dab.christophvoelker.com'
+      // iOS: {
+      //   bundleId: 'com.example.ios',
+      // },
+      // android: {
+      //   packageName: 'com.example.android',
+      //   installApp: true,
+      //   minimumVersion: '12',
+      // },
+      //dynamicLinkDomain: 'dab.christophvoelker.com'
     };
     const auth = getAuth();
+    //console.log(auth);
+
     sendSignInLinkToEmail(auth, email, actionCodeSettings)
       .then(() => {
         // The link was successfully sent. Inform the user.
         // Save the email locally so you don't need to ask the user for it again
         // if they open the link on the same device.
+        console.log('Sign-in email sent successfully.');
         window.localStorage.setItem('emailForSignIn', email);
         // ...
       })
       .catch((error) => {
+        console.error('Error sending email:', error.code, error.message);
         const errorCode = error.code;
         const errorMessage = error.message;
         // ...
