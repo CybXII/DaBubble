@@ -1,5 +1,6 @@
 @use "../../../../../mixins.scss" as mixins;
 @use "../../../../../colors.scss" as colors;
+@use "../../../../../button.scss" as button;
 
 .dialog-container {
   @include mixins.flexbox(column, flex-start, center, wrap);
@@ -16,7 +17,7 @@
 
 .dialog-profile-container {
   @include mixins.flexbox(column, flex-start, flex-start, wrap);
-  gap: 25px;
+  gap: 35px;
 }
 
 .dialog-profile-info {
@@ -73,11 +74,10 @@
       font-weight: 700;
       line-height: 27.28px;
     }
-    a {
+    p {
       font-size: 18px;
       font-weight: 500;
       line-height: 21.6px;
-      cursor: pointer;
       color: colors.$blue;
       text-decoration: none;
     }
@@ -123,6 +123,7 @@
 
 .dialog-profile-info-edit {
   @include mixins.flexbox(column, flex-start, flex-start, wrap);
+  position: relative;
   width: 100%;
   img {
     width: 25px;
@@ -140,11 +141,11 @@
     padding: 15px 20px;
     display: flex;
     align-items: center;
-    color: colors.$grey;
+    color: black;
     font-size: 18px;
     font-weight: 500;
     line-height: 24.55px;
-    &:focus-visible {
+    &:focus {
       border: 1px solid colors.$light-purple;
       outline: none;
     }
@@ -160,8 +161,16 @@
   @include mixins.flexbox(row, center, center, wrap);
   width: 100%;
   gap: 45px;
+  padding-top: 10px;
 }
 
+.error-message {
+  padding-top: 3px;
+  color: red;
+  font-size: 16px !important;
+  position: absolute;
+  top: 100%;
+}
 
 @media screen and (min-width: 1920px) {
   .dialog-container {
