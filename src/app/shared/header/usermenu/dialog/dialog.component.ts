@@ -1,14 +1,13 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { ButtonComponent } from '../../../button/button.component';
 import { AuthService } from '../../../services/auth.service';
 import { ToastMessageService } from '../../../services/toastmessage.service';
 
 @Component({
   selector: 'app-dialog',
   standalone: true, // <-- Add this line
-  imports: [CommonModule, RouterModule, ButtonComponent],
+  imports: [CommonModule, RouterModule],
   templateUrl: './dialog.component.html',
   styleUrl: './dialog.component.scss',
 })

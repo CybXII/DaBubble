@@ -33,9 +33,9 @@ export class FirestoreTestComponent implements OnInit {
     this.auth.register(this.email, this.password);
   }
 
-  get userId() {
-    return this.auth.userId();
-  }
+  // get userId() {
+  //   return this.auth.userId();
+  // }
 
   loginEmail: string = '';
   loginPassword: string = '';
@@ -62,9 +62,9 @@ export class FirestoreTestComponent implements OnInit {
     this.auth.logout();
   }
 
-  get userList() {
-    return this.auth.userList();
-  }
+  // get userList() {
+  //   return this.auth.userList();
+  // }
 
   showError() {
     this.toastMessageService.showToast(true, 'Ein Fehler ist aufgetreten');
@@ -74,7 +74,6 @@ export class FirestoreTestComponent implements OnInit {
   showSuccess() {
     this.toastMessageService.showToast(false, 'Operation erfolgreich!');
     console.log('Success');
-    
   }
 
   showToastSignal() {

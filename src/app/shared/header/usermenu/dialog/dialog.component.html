@@ -73,10 +73,9 @@
       <input type="text" placeholder="fred.beck&commat;email.com" />
     </div>
     <div class="dialog-buttons">
-      <app-button type="secondary" (click)="closeProfileEdit()"
-        >Abbrechen</app-button
-      >
-      <app-button type="primary" (click)="saveProfile()">Speichern</app-button>
+      <button class="cancel default" (click)="closeProfileEdit()"
+        >Abbrechen</button>
+      <button class="save default" (click)="saveProfile()">Speichern</button>
     </div>
   </div>
   }

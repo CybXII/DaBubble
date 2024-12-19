@@ -1,5 +1,7 @@
 @use "../../../../../mixins.scss" as mixins;
 @use "../../../../../colors.scss" as colors;
+@use "../../../../../button.scss" as button;
+
 
 .dialog-container {
   @include mixins.flexbox(column, flex-start, center, wrap);
