@@ -24,8 +24,8 @@
 .chatbox__msg-container {
   @include mixins.flexbox(row, flex-start, flex-start, nowrap);
   gap: 20px;
-  margin-top: 17px;
   padding: 10px 40px;
+  margin-top: 17px;
   position: relative;
 
   &:hover {
