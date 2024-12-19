@@ -3,13 +3,13 @@
 }
 <section>
     <div [ngClass]="{ 'container': !introPlayed, 'containerNoAnimation': introPlayed}">
-        <img style="cursor: pointer;" (click)="this.router.navigate(['']);" src="img/logo.svg">
+        <img (click)="this.router.navigate(['']);" src="img/logo.svg">
         <div class="textcontainer">
             <h1>DABubble</h1>
         </div>
     </div>
-    <header [ngClass]="{ 'afterIntro': !introPlayed}">
-        <div [ngStyle]="{'opacity': loginPage ? 1 : 0 }">
+    <header [ngClass]="{ 'afterIntro': !introPlayed }">
+        <div [ngClass]="(loginPage) ? 'flex': 'd-none'">
             <span>Neu bei DABubble?</span>
             <a routerLink="signUp">Konto erstellen</a>
         </div>
@@ -22,3 +22,7 @@
         <a routerLink="legalnotice">Datenschutz</a>
     </footer>
 </section>
+
+@if (toastMessage != '') {
+    <app-toastmessage></app-toastmessage>
+}

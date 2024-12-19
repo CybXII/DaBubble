@@ -24,8 +24,8 @@
 .chatbox__msg-container {
   @include mixins.flexbox(row, flex-start, flex-start, nowrap);
   gap: 20px;
-  margin-top: 17px;
   padding: 10px 40px;
+  margin-top: 17px;
   position: relative;
 
   &:hover {
@@ -148,10 +148,33 @@
   background-color: colors.$bg-color;
   padding: 15px;
   margin-top: 8px;
+  margin-bottom: 8px;
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
   border-bottom-left-radius: 20px;
   line-height: 24.55px;
+  display: block;
+}
+
+.chatbox__info {
+  @include mixins.flexbox(row, flex-start, center, nowrap);
+  gap: 20px;
+}
+
+.chatbox__answers-container{
+  @include mixins.flexbox(row, flex-start, center, nowrap);
+}
+
+.chatbox__answers {
+  font-size: 1.125rem;
+  color: colors.$purple3;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.chatbox__last-answer {
+  font-size: 0.875rem;
+  color: colors.$grey;
   display: block;
 }
 
@@ -180,12 +203,15 @@
   display: inline-block;
 }
 
+.chatbox__emojis-container {
+  @include mixins.flexbox(row, flex-start, center, nowrap);
+}
+
 .chatbox__emojis {
   border: 1px solid colors.$light-purple;
   display: inline-block;
   padding: 5px 10px;
   border-radius: 20px;
-  margin-top: 8px;
   cursor: pointer;
 
   span {

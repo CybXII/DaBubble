@@ -2,10 +2,12 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { ButtonComponent } from '../../../button/button.component';
+import { AuthService } from '../../../services/auth.service';
+import { ToastMessageService } from '../../../services/toastmessage.service';
 
 @Component({
   selector: 'app-dialog',
-  standalone: true,   // <-- Add this line
+  standalone: true, // <-- Add this line
   imports: [CommonModule, RouterModule, ButtonComponent],
   templateUrl: './dialog.component.html',
   styleUrl: './dialog.component.scss',
@@ -16,7 +18,11 @@ export class DialogComponent {
   profileDialog: boolean = false;
   profileDialogEdit: boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private auth: AuthService,
+    private toastMessageService: ToastMessageService
+  ) {}
 
   dontCloseDialog(event: Event) {
     event?.preventDefault();
@@ -25,9 +31,7 @@ export class DialogComponent {
 
   logout() {
     localStorage.removeItem('token');
-    setTimeout(() => {
-      this.router.navigateByUrl('');
-    }, 100);
+    this.auth.logout();
   }
 
   openProfile() {
@@ -55,5 +59,6 @@ export class DialogComponent {
     this.profileDialog = false;
     this.profileDialogEdit = false;
     this.dialogChange.emit(this.dialog);
+    this.toastMessageService.showToastSignal('Profil erfolgreich aktualisiert');
   }
 }
