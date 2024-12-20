@@ -44,7 +44,7 @@ export class DialogComponent {
         this.userData?.name,
         [
           Validators.required,
-          Validators.pattern('^[a-zA-ZÀ-ÿ]{3,}(?: [a-zA-ZÀ-ÿ]{3,})+$'),
+          Validators.pattern('^[a-zA-ZÀ-ÿ]{1,}(?: [a-zA-ZÀ-ÿ]{1,})+$'),
         ],
       ],
       userInputEmail: [
@@ -77,7 +77,12 @@ export class DialogComponent {
   openProfileEdit() {
     this.profileDialog = false;
     this.profileDialogEdit = true;
-  }
+    this.profileForm.reset({
+      userInputName: this.userData?.name,
+      userInputEmail: this.userData?.email,
+    });
+    
+    }
 
   closeProfileEdit() {
     this.profileDialog = true;
