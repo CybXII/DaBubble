@@ -27,6 +27,11 @@ export class ForgetPasswordComponent {
     if (form.valid && form.submitted) {
       console.log(this.userData);
     }
-    this.authService.resetPassword(this.userData.email);
+    this.authService.resetPassword(this.userData.email).then(() => {
+      console.log("erfolgreich mail verschickt!");
+    })
+      .catch((error) => {
+        console.log(error);
+      })
   }
 }
