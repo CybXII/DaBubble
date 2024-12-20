@@ -73,21 +73,23 @@
     </div>
     <div class="chatbox__threads-divider">{{ threadMessages.length }} Antworten</div>
     <div class="threadchat__chatbox">
-      @for (threadMessage of threadMessages; track threadMessage.id) {
-        <div class="chatbox__msg-item2">
-          <img
-            class="chatbox__msg-avatar"
-            [src]="threadMessage.avatarPath"
-            alt="Avatar"
-            width="50"
-            height="50"
-          />
-          <div class="chatbox__msg-info">
-            <h4 class="chatbox__msg-name">{{ threadMessage.name }}</h4>
-            <p class="chatbox__msg-time">{{ threadMessage.msgTime }}</p>
+      @if (threadMessages.length != 0) {
+        @for (threadMessage of threadMessages; track threadMessage.id) {
+          <div class="chatbox__msg-item2">
+            <img
+              class="chatbox__msg-avatar"
+              [src]="threadMessage.avatarPath"
+              alt="Avatar"
+              width="50"
+              height="50"
+            />
+            <div class="chatbox__msg-info">
+              <h4 class="chatbox__msg-name">{{ threadMessage.name }}</h4>
+              <p class="chatbox__msg-time">{{ threadMessage.msgTime }}</p>
+            </div>
+            <p class="chatbox__msg">{{ threadMessage.msg }}</p>
           </div>
-          <p class="chatbox__msg">{{ threadMessage.msg }}</p>
-        </div>
+        }  
       }
     </div>
   </div>

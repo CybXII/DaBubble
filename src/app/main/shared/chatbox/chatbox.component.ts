@@ -24,17 +24,10 @@ export class ChatboxComponent implements OnInit {
       this.messages = messages;
       console.log('Nachrichten aktualisiert:', this.messages);
     });
-
-    // Thread-Nachrichten abonnieren
-    this.messagesService.threadMessages$.subscribe((threadMessages) => {
-      this.threadMessages = threadMessages;
-      console.log('Thread-Nachrichten aktualisiert:', this.threadMessages);
-    });
   }
 
   onMessageSelect(messageId: string): void {
     this.activeMessageId = messageId;
-    this.messagesService.loadThreadMessages(messageId);
-    this.threadChatToggle.emit(); // Event auslösen, um den Threadchat zu öffnen
+    this.messagesService.loadThreadMessages(messageId); // Lädt Threads und öffnet den Threadchat
   }
 }

@@ -9,10 +9,10 @@ export class MessagesService {
   // Observables für Nachrichten und Thread-Nachrichten
   private messagesSubject = new BehaviorSubject<any[]>([]);
   private threadMessagesSubject = new BehaviorSubject<any[]>([]);
-
+  private threadchatStateSubject = new BehaviorSubject<boolean>(false);
   messages$ = this.messagesSubject.asObservable(); // Observable für Nachrichten
   threadMessages$ = this.threadMessagesSubject.asObservable(); // Observable für Thread-Nachrichten
-
+  threadchatState$ = this.threadchatStateSubject.asObservable();
   constructor(private firestore: Firestore) {}
 
   // Nachrichten eines spezifischen Channels in Echtzeit laden
@@ -20,25 +20,27 @@ export class MessagesService {
     const messagesRef = collection(this.firestore, 'messages');
     const q = query(messagesRef, where('channelId', '==', channelId));
 
-    // Echtzeit-Listener für Nachrichten
     onSnapshot(q, (snapshot) => {
       const messages = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      this.messagesSubject.next(messages); // Aktualisiere die Nachrichten im Observable
-      console.log('Nachrichten aktualisiert:', messages);
+      this.messagesSubject.next(messages);
     });
-  }
+}
 
-  // Thread-Nachrichten für eine spezifische Nachricht in Echtzeit laden
   loadThreadMessages(messageId: string): void {
     const threadMessagesRef = collection(this.firestore, `messages/${messageId}/threadMessages`);
 
-    // Echtzeit-Listener für Thread-Nachrichten
     onSnapshot(threadMessagesRef, (snapshot) => {
-      const threadMessages = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      this.threadMessagesSubject.next(threadMessages); // Aktualisiere die Thread-Nachrichten im Observable
-      console.log('Thread-Nachrichten aktualisiert:', threadMessages);
+      if (snapshot.empty) {
+        console.warn('Keine Thread-Nachrichten in der Subcollection vorhanden.');
+        this.threadMessagesSubject.next([]); // Leeres Array weitergeben
+      } else {
+        const threadMessages = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        this.threadMessagesSubject.next(threadMessages);
+      }
     });
+    this.openThreadChat(); // Öffne den Threadchat automatisch
   }
+
 
   // Neue Nachricht hinzufügen
   async addMessage(message: any): Promise<void> {
@@ -65,4 +67,14 @@ export class MessagesService {
       throw error;
     }
   }
+
+    // Threadchat öffnen
+    openThreadChat(): void {
+      this.threadchatStateSubject.next(true);
+    }
+  
+    // Threadchat schließen
+    closeThreadChat(): void {
+      this.threadchatStateSubject.next(false);
+    }
 }
