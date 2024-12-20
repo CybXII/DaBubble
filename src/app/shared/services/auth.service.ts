@@ -11,7 +11,8 @@ import {
   sendSignInLinkToEmail,
   sendEmailVerification,
   sendPasswordResetEmail,
-  updatePassword
+  updatePassword,
+  confirmPasswordReset
 } from '@angular/fire/auth';
 import {
   Firestore,
@@ -28,7 +29,17 @@ import { ToastMessageService } from './toastmessage.service';
 @Injectable({
   providedIn: 'root',
 })
+
 export class AuthService {
+
+  /**
+   * Bestätigt den Passwort-Reset mit dem erhaltenen oobCode und setzt das neue Passwort.
+   */
+  confirmPasswordReset(oobCode: string, newPassword: string): Promise<void> {
+    return confirmPasswordReset(this.auth, oobCode, newPassword);
+  }
+
+
   // Reactive signals
   userId = signal<string | null>(null);
   userData = signal<AppUser | null>(null);
@@ -160,6 +171,9 @@ export class AuthService {
   resetPassword(email: string): Promise<void> {
     return sendPasswordResetEmail(this.auth, email);
   }
+
+
+
 
   /**
    * Passwort updaten
