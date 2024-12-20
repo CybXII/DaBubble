@@ -5,6 +5,7 @@ import { MenuComponent } from '../../main/menu/menu.component';
 import { MenutogglerComponent } from '../../main/shared/menutoggler/menutoggler.component';
 import { slideAnimationLeft, slideAnimationRight } from './../animations';
 import { CommonModule } from '@angular/common';
+import { MessagesService } from '../services/messages.service';
 
 @Component({
   selector: 'app-builder',
@@ -17,10 +18,17 @@ import { CommonModule } from '@angular/common';
 export class BuilderComponent {
   builder: string[] = ["menu", "mainchat", "threadchat"];
   menuOpened = true;
-  threadchatOpened = true;
+  threadchatOpened = false;
   menuState = 'in';
   threadchatState = 'in';
+  
+  constructor(private messagesService: MessagesService) {}
 
+  ngOnInit(): void {
+    this.messagesService.threadchatState$.subscribe((state) => {
+      this.threadchatOpened = state;
+    });
+  }
   toggleMenu() {
     if (this.menuState === 'in') {
       this.menuState = 'out';
@@ -47,6 +55,11 @@ export class BuilderComponent {
         this.threadchatState = 'in';
       });
     }
+  }
+
+  toggleThreadChatOnMessageSelect(): void {
+    this.threadchatOpened = true;
+    this.threadchatState = 'in';
   }
 
   onAnimationDone(event: any, type: string) {

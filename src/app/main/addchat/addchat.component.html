@@ -1,0 +1,23 @@
+<div class="channel-form">
+    <h2>Neuen Channel erstellen</h2>
+    <form [formGroup]="channelForm" (ngSubmit)="onSubmit()">
+        <div>
+            <label for="name">Channel-Name</label>
+            <input id="name" type="text" formControlName="name" placeholder="Channel-Name eingeben" />
+            @if (channelForm.get('name')?.invalid && channelForm.get('name')?.touched) {
+            <div class="error">
+                Der Name ist erforderlich.
+            </div>
+            }
+        </div>
+        <div>
+            <label for="description">Beschreibung</label>
+            <textarea id="description" formControlName="description" placeholder="Optionale Beschreibung"></textarea>
+        </div>
+        <div>
+            <label for="isPrivate">Privater Channel</label>
+            <input id="isPrivate" type="checkbox" formControlName="isPrivate" />
+        </div>
+        <button type="submit" [disabled]="channelForm.invalid">Channel erstellen</button>
+    </form>
+</div>
