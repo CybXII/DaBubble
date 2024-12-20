@@ -9,6 +9,7 @@ import {
   GoogleAuthProvider,
   getAuth,
   sendSignInLinkToEmail,
+  sendEmailVerification,
 } from '@angular/fire/auth';
 import {
   Firestore,
@@ -45,43 +46,43 @@ export class AuthService {
     this.intializeUserData();
   }
 
-  sendEmail(email: string) {
-    const actionCodeSettings = {
-      // URL you want to redirect back to. The domain (www.example.com) for this
-      // URL must be in the authorized domains list in the Firebase Console.
-      url: 'https://dab.christophvoelker.com/finishSignUp2',
+  // sendEmail(email: string) {
+  //   const actionCodeSettings = {
+  //     // URL you want to redirect back to. The domain (www.example.com) for this
+  //     // URL must be in the authorized domains list in the Firebase Console.
+  //     url: 'https://dab.christophvoelker.com/finishSignUp2',
 
-      // This must be true.
-      handleCodeInApp: true,
-      // iOS: {
-      //   bundleId: 'com.example.ios',
-      // },
-      // android: {
-      //   packageName: 'com.example.android',
-      //   installApp: true,
-      //   minimumVersion: '12',
-      // },
-      //dynamicLinkDomain: 'dab.christophvoelker.com'
-    };
-    const auth = getAuth();
-    //console.log(auth);
+  //     // This must be true.
+  //     handleCodeInApp: true,
+  //     // iOS: {
+  //     //   bundleId: 'com.example.ios',
+  //     // },
+  //     // android: {
+  //     //   packageName: 'com.example.android',
+  //     //   installApp: true,
+  //     //   minimumVersion: '12',
+  //     // },
+  //     //dynamicLinkDomain: 'dab.christophvoelker.com'
+  //   };
+  //   const auth = getAuth();
+  //   //console.log(auth);
 
-    sendSignInLinkToEmail(auth, email, actionCodeSettings)
-      .then(() => {
-        // The link was successfully sent. Inform the user.
-        // Save the email locally so you don't need to ask the user for it again
-        // if they open the link on the same device.
-        console.log('Sign-in email sent successfully.');
-        window.localStorage.setItem('emailForSignIn', email);
-        // ...
-      })
-      .catch((error) => {
-        console.error('Error sending email:', error.code, error.message);
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ...
-      });
-  }
+  //   sendSignInLinkToEmail(auth, email, actionCodeSettings)
+  //     .then(() => {
+  //       // The link was successfully sent. Inform the user.
+  //       // Save the email locally so you don't need to ask the user for it again
+  //       // if they open the link on the same device.
+  //       console.log('Sign-in email sent successfully.');
+  //       window.localStorage.setItem('emailForSignIn', email);
+  //       // ...
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error sending email:', error.code, error.message);
+  //       const errorCode = error.code;
+  //       const errorMessage = error.message;
+  //       // ...
+  //     });
+  // }
 
   /**
    * Überwacht den Firebase-Auth-Status
@@ -97,7 +98,7 @@ export class AuthService {
           this.redirectIfAuthenticated();
         }
       } else {
-        this.clearAuthState();
+        //this.clearAuthState();
         console.log('No user logged in');
       }
     });
@@ -130,7 +131,15 @@ export class AuthService {
         email,
         password
       );
+
       const user = userCredential.user;
+      
+    // Sende E-Mail-Bestätigung
+    if (user) {
+      await sendEmailVerification(user);
+      console.log('Verification email sent to:', user.email);
+    }
+
       const userData = this.setUserData(
         user.uid,
         user.displayName || '',

@@ -27,6 +27,4 @@ export const routes: Routes = [
     { path: 'legalnotice', component: LegalnoticeComponent },
     { path: 'imprint', component: ImprintComponent },
     { path: 'test', component: FirestoreTestComponent },
-    { path: 'finishSignUp', component: FinishSignUpComponent },
-    { path: 'finishSignUp2', component: EmailVerificationComponent }
 ];
