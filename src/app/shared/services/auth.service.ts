@@ -48,7 +48,7 @@ export class AuthService {
     const actionCodeSettings = {
       // URL you want to redirect back to. The domain (www.example.com) for this
       // URL must be in the authorized domains list in the Firebase Console.
-      url: 'https://dab.christophvoelker.com/finishSignUp',
+      url: 'https://dab.christophvoelker.com/finishSignUp2',
 
       // This must be true.
       handleCodeInApp: true,

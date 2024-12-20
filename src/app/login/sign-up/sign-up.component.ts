@@ -30,19 +30,19 @@ export class SignUpComponent {
     this.auth.sendEmail(this.userData.email);
     console.log("mail sent to", this.userData.email);
 
-    const userCredential = await this.afAuth.createUserWithEmailAndPassword(this.userData.email, this.userData.password);
+    //const userCredential = await this.afAuth.createUserWithEmailAndPassword(this.userData.email, this.userData.password);
 
-    try {
-      await userCredential.user?.sendEmailVerification();
-      console.log('E-Mail wurde gesendet.');
-    } catch (error) {
-      console.error('Fehler beim Senden der E-Mail:', error);
-    }
+    // try {
+    //   await userCredential.user?.sendEmailVerification();
+    //   console.log('E-Mail wurde gesendet.');
+    // } catch (error) {
+    //   console.error('Fehler beim Senden der E-Mail:', error);
+    // }
 
   }
 
 
-  constructor(private router: Router, private auth: AuthService, private afAuth: AngularFireAuth) { }
+  constructor(private router: Router, private auth: AuthService) { }
 
   back() {
     this.router.navigateByUrl('');
