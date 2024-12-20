@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Inject, inject } from '@angular/core';
 import { DialogComponent } from './dialog/dialog.component';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-usermenu',
@@ -10,6 +11,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './usermenu.component.scss',
 })
 export class UsermenuComponent {
+  authService = inject(AuthService);
   dialog: boolean = false;
   openDialog(event: Event) {
     this.dialog = true;
@@ -23,6 +25,10 @@ export class UsermenuComponent {
     event?.preventDefault();
     event.stopPropagation();
     this.dialog = false;
+  }
+
+  get userData() {
+    return this.authService.userData();
   }
 }
 

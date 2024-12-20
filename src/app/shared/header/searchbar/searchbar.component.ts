@@ -11,17 +11,12 @@ import { FormsModule } from '@angular/forms';
 })
 export class SearchbarComponent {
   searchResultsActive = false;
-
-  constructor() {}
-
   searchText: string = '';
   isSearchActive: boolean = false;
 
+  constructor() {}
+
   onInputChange(): void {
-    this.isSearchActive = this.searchText.length >= 1;
-    console.log(this.searchText);
-    console.log(this.isSearchActive);
-    
-    
+    this.isSearchActive = this.searchText.length >= 1;   
   }
 }

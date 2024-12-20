@@ -42,6 +42,7 @@ export class AuthService {
   ) {
     this.monitorAuthState(); // Überwachung des Auth-Status starten
     this.getUserList(); // Benutzerliste aus Firestore laden
+    this.intializeUserData();
   }
 
   sendEmail(email: string) {
@@ -187,8 +188,24 @@ export class AuthService {
         user.photoURL || ''
       );
       await setDoc(doc(this.firestore, `users/${user.uid}`), userData);
+      await this.loadUserData(user.uid);
+
     } catch (error) {
       console.error('Google login failed:', error);
+    }
+  }
+
+  private setUserDataInStorage(userData: AppUser) {
+    localStorage.setItem('userData', JSON.stringify(userData));
+  }
+
+  getUserDataFromStorage() {
+    this.userData.set(JSON.parse(localStorage.getItem('userData') || '{}'));
+  }
+
+  intializeUserData(){
+    if (localStorage.getItem('userData')) {
+      this.getUserDataFromStorage();
     }
   }
 
@@ -211,6 +228,7 @@ export class AuthService {
       const userDoc = await getDoc(doc(this.firestore, 'users', userId));
       if (userDoc.exists()) {
         this.userData.set(userDoc.data() as AppUser);
+        this.setUserDataInStorage(userDoc.data() as AppUser);
       }
     } catch (error) {
       console.error('Failed to load user data:', error);

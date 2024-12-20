@@ -17,7 +17,7 @@
 <input type="text" placeholder="Email" [(ngModel)]="email" />
 <input type="text" placeholder="Passwort" [(ngModel)]="password" />
 <button (click)="register()">Registrieren</button>
-<span>{{ userId }}</span>
+<!-- <span>{{ userId }}</span> -->
 
 <br />
 
@@ -34,15 +34,15 @@
 
 <br />
 
-<button (click)="guestLogin()">GastLogin</button>
+<button (click)="guestLogin()" class="save default" disabled>GastLogin</button>
 
 <br />
 
-<button (click)="googleLogin()">Google Login</button>
+<button (click)="googleLogin()" class="cancel default">Google Login</button>
 
 <br />
 
-<button (click)="logout()">Logout</button>
+<button (click)="logout()" class="save default">Logout</button>
 
 <br>
 
