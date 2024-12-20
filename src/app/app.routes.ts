@@ -11,7 +11,7 @@ import { ImprintComponent } from './imprint/imprint.component';
 import { FirestoreTestComponent } from './firestore-test/firestore-test.component';
 import { FinishSignUpComponent } from './finish-sign-up/finish-sign-up.component';
 import { EmailVerificationComponent } from './finish-sign-up2/finish-sign-up2.component';
-//import { authGuard } from './auth.guard';
+import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
     {
@@ -22,9 +22,10 @@ export const routes: Routes = [
             { path: 'resetPass', component: ResetPasswordComponent },
         ]
     },
-    { path: 'board', component: MainComponent }, //, canActivate: [authGuard] },
+    { path: 'board', component: MainComponent, canActivate: [authGuard] },
     { path: 'intro', component: IntroComponent },
     { path: 'legalnotice', component: LegalnoticeComponent },
     { path: 'imprint', component: ImprintComponent },
     { path: 'test', component: FirestoreTestComponent },
+    { path: 'resetPassword', component: ResetPasswordComponent },
 ];
