@@ -10,6 +10,7 @@ import {
   getAuth,
   sendSignInLinkToEmail,
   sendEmailVerification,
+  sendPasswordResetEmail
 } from '@angular/fire/auth';
 import {
   Firestore,
@@ -133,12 +134,12 @@ export class AuthService {
       );
 
       const user = userCredential.user;
-      
-    // Sende E-Mail-Bestätigung
-    if (user) {
-      await sendEmailVerification(user);
-      console.log('Verification email sent to:', user.email);
-    }
+
+      // Sende E-Mail-Bestätigung
+      if (user) {
+        await sendEmailVerification(user);
+        console.log('Verification email sent to:', user.email);
+      }
 
       const userData = this.setUserData(
         user.uid,
@@ -150,6 +151,13 @@ export class AuthService {
     } catch (error) {
       console.error('Registration failed:', error);
     }
+  }
+
+  /**
+   * Passwort zurücksetzen
+   */
+  resetPassword(email: string): Promise<void> {
+    return sendPasswordResetEmail(this.auth, email);
   }
 
   /**
@@ -212,7 +220,7 @@ export class AuthService {
     this.userData.set(JSON.parse(localStorage.getItem('userData') || '{}'));
   }
 
-  intializeUserData(){
+  intializeUserData() {
     if (localStorage.getItem('userData')) {
       this.getUserDataFromStorage();
     }
