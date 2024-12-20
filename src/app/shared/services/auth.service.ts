@@ -10,7 +10,8 @@ import {
   getAuth,
   sendSignInLinkToEmail,
   sendEmailVerification,
-  sendPasswordResetEmail
+  sendPasswordResetEmail,
+  updatePassword
 } from '@angular/fire/auth';
 import {
   Firestore,
@@ -99,7 +100,7 @@ export class AuthService {
           this.redirectIfAuthenticated();
         }
       } else {
-        //this.clearAuthState();
+        this.clearAuthState();
         console.log('No user logged in');
       }
     });
@@ -159,6 +160,20 @@ export class AuthService {
   resetPassword(email: string): Promise<void> {
     return sendPasswordResetEmail(this.auth, email);
   }
+
+  /**
+   * Passwort updaten
+   */
+  updateUserPassword(newPassword: string): Promise<void> {
+    const currentUser = this.auth.currentUser;
+
+    if (currentUser) {
+      return updatePassword(currentUser, newPassword);
+    } else {
+      return Promise.reject('Kein Benutzer ist angemeldet.');
+    }
+  }
+
 
   /**
    * Benutzer einloggen (E-Mail und Passwort)
