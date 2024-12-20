@@ -5,11 +5,11 @@
   @include mixins.flexbox(row, space-between, center);
   width: 100%;
   position: relative;
-  z-index: 5;
+  z-index: 1;
   button {
     position: absolute;
     right: 32px;
-    z-index: 6;
+    z-index: 1;
   }
 
   input {

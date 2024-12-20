@@ -125,6 +125,7 @@ export class AuthService {
     this.userData.set(null);
     this.isUserAuthenticated.set(false);
     this.loginType.set(null);
+    localStorage.removeItem('userData');
   }
 
   /**
