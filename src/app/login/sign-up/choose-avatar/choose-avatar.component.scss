@@ -2,28 +2,37 @@
 @use './../../../../colors.scss' as colors;
 @use './../../host.scss';
 
-.mainCont {
-    >p {
+.name {
+    @include mixins.flexbox($justify: center);
+    font-size: 32px !important;
+    line-height: 43.65px !important;
+    font-weight: 700;
+}
+
+.choseContainer {
+    @include mixins.flexbox();
+    gap: 16px;
+    max-width: 472px;
+    >div {
+        @include mixins.flexbox();
+        gap: 8px;
+        width: 100%;
+    }
+    p {
         @include mixins.flexbox($justify: start);
         width: 100%;
         font-size: 20px;
     }
 }
 
-.name {
-    @include mixins.flexbox($justify: center);
-    font-size: 32px;
-    font-weight: 700;
-}
-
 .charakterPics {
-    @include mixins.flexbox($justify: center);
-    gap: 10px;
+    @include mixins.flexbox($justify: space-between !important);
+    gap: 8px;
     >div>img {
         @include mixins.border-marker($color: colors.$white);
         border-width: 8px;
-        width: 64px;
-        height: 64px;
+        width: 72px;// 64px
+        height: 72px;
         border-radius: 50%;
         &:hover {
             cursor: pointer;
