@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { RouterLink, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { MainComponent } from './main/main.component';
 import { SignInComponent } from './login/sign-in/sign-in.component';
@@ -28,4 +28,5 @@ export const routes: Routes = [
     { path: 'imprint', component: ImprintComponent },
     { path: 'test', component: FirestoreTestComponent },
     { path: 'resetPassword', component: ResetPasswordComponent },
+    { path: '**', redirectTo: ''},
 ];
