@@ -34,11 +34,10 @@
                             fill="#686868" />
                     </g>
                 </svg>
-                <input minlength="2" #name="ngModel" [(ngModel)]="userData.name" type="text" name="name"
-                    placeholder="Name und Nachname" required>
+                <input minlength="3" #name="ngModel" [(ngModel)]="userData.name" type="text" name="name" pattern="[a-zA-Z]+ [a-zA-Z]+"
+                title="Vorname und Nachname eingeben" placeholder="Vorname und Nachname" required>
             </div>
-            <span class="warning" [ngStyle]="{'opacity': !name.valid && name.touched ? 1 : 0}">Bitte schreiben Sie einen
-                Namen.</span>
+            <span class="warning" [ngStyle]="{'opacity': !name.valid && name.touched ? 1 : 0}">Bitte geben Sie Vorname und Name an.</span>
             <div class="input">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_98810_3174" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
@@ -52,7 +51,7 @@
                     </g>
                 </svg>
                 <input #email="ngModel" [(ngModel)]="userData.email" type="text" name="email"
-                    placeholder="beispielname@email.com" required
+                    placeholder="beispielname@email.com" required title="Gültige Mail-Adresse eingeben!"
                     pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}">
             </div>
             <span class="warning" [ngStyle]="{'opacity': !email.valid && email.touched ? 1 : 0}">*Diese E-Mail-Adresse
@@ -69,11 +68,11 @@
                             fill="#686868" />
                     </g>
                 </svg>
-                <input minlength="5" #password="ngModel" [(ngModel)]="userData.password" type="password" name="password"
-                    placeholder="Passwort" required>
+                <input minlength="6" #password="ngModel" [(ngModel)]="userData.password" type="password" name="password"
+                title="Passwort eingeben (mind. 6 Zeichen)" placeholder="Passwort" required>
             </div>
             <span class="warning"
-                [ngStyle]="{'opacity': !password.valid && password.touched || password.value < 5 && password.touched ? 1 : 0}">Bitte
+                [ngStyle]="{'opacity': !password.valid && password.touched || password.value < 6 && password.touched ? 1 : 0}">Bitte
                 geben Sie ein Passwort ein.</span>
         </div>
 

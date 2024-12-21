@@ -2,6 +2,9 @@
 @use './../../../colors.scss' as colors;
 @use './../../../mixins.scss' as mixins;
 
+button {
+    border: unset;
+}
 
 
 .mainCont {
