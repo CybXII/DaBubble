@@ -330,7 +330,7 @@ footer {
 
 form {
   @include mixins.flexbox($direction: column, $align: start);
-  gap: 30px;
+  gap: 12px;
   width: 100%;
 
   .link {
