@@ -16,6 +16,10 @@
     }
 }
 
+input {
+    font-size: 18px;
+}
+
 .privacy {
 
     [type="checkbox"] {
@@ -36,11 +40,13 @@
         position: relative;
     }
 
+
+
     input[type="checkbox"]:checked {
         background-image: url('/img/icons/Property 1=Checked.svg');
     }
 
-    [type="checkbox"]:hover{
+    [type="checkbox"]:hover {
         cursor: pointer;
         background-color: colors.$bg-color;
         // box-shadow: 0px 0px 3px 3px colors.$bg-color;
@@ -49,8 +55,17 @@
     >div {
         @include mixins.flexbox($direction: column, $justify: start);
         padding: 5px 0px;
+
         >span {
             padding: 5px 0px 0px 0px;
         }
     }
+
+    label {
+        span {
+            font-size: 16px;
+            font-weight: 400;
+        }
+    }
+
 }
