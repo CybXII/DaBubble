@@ -1,15 +1,19 @@
 @use "../../mixins.scss" as mixins;
 @use "../../colors.scss" as colors;
 
+//
+
 .header {
   width: 100%;
   max-width: 1920px;
-  position: fixed;
+  left: 20px;
   background-color: colors.$bg-color;
   padding: 20px 0;
   z-index: 10;
 }
+
 .legalNotice-main {
+  @include mixins.flexbox(column, center, center, nowrap);
   width: 100%;
   height: 100%;
   padding: 0 20px 20px 20px;
@@ -17,67 +21,72 @@
 }
 
 .legalNotice-content {
-  position: relative;
-  top: 120px;
-  bottom: 0;
-  height: calc(100% - 120px);
-  max-width: 800px;
+  padding: 48px 56px;
+  height: 469px;
+  max-width: 676px;
+  margin-block: auto;
   margin-inline: auto;
   background-color: colors.$white;
-  border-radius: 24px;
-  overflow-x: hidden;
-  z-index: 100;
+  border-radius: 30px;
+  overflow: hidden;
   box-shadow: -4px 4px 4px 0px rgba(0, 0, 0, 0.2),
     4px 4px 4px 0px rgba(0, 0, 0, 0.2);
+
   .content {
-    @include mixins.flexbox(column, flex-start, flex-start, nowrap);
-    position: relative;
-    top: 100px;
+    height: calc(100% - 94px);
     width: 100%;
     overflow-y: auto;
-    padding: 40px;
-    height: calc(100% - 130px);
   }
 }
 
 h1 {
   font-weight: 700;
-  font-size: xx-large;
+  font-size: 2.875rem;
   color: rgb(68, 77, 242);
-  position: fixed;
-  background-color: rgb(255, 255, 255);
-  width: 100%;
-  max-width: 800px;
-  position: fixed;
-  top: 140px;
-  padding: 20px;
-  background-color: #ffffff;
-  z-index: 20;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.2);
+  margin-bottom: 16px;
 }
 
 h2 {
   font-weight: 500;
   font-size: x-large;
   color: black;
-  margin: 16px 0 16px 0;
+  margin: 16px 0 8px 0;
+}
+
+.h2--0margintop {
+  margin-top: 0;
 }
 
 h3 {
   font-weight: 500;
   font-size: large;
   color: colors.$purple;
-  margin: 16px 0 8px 0;
+  margin: 16px 0;
+}
+
+.h3--0margintop {
+  margin-top: 0;
+}
+
+h4 {
+  margin: 8px 0;
+}
+
+.h4--0margintop {
+  margin-top: 0;
+}
+
+p {
+  line-height: 1.75rem;
+  // margin: 0.8rem 0;
 }
 
 .backButton {
-  position: absolute;
-  right: 60px;
-  top: 40px;
+  display: inline-block;
   cursor: pointer;
-  z-index: 40;
   padding: 8px;
   border-radius: 50px;
+  margin-bottom: 32px;
 
   &:hover {
     background-color: colors.$bg-color;
