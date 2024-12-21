@@ -19,7 +19,7 @@ export const routes: Routes = [
             { path: '', component: SignInComponent },
             { path: 'forget', component: ForgetPasswordComponent },
             { path: 'signUp', component: SignUpComponent },
-            { path: 'resetPass', component: ResetPasswordComponent },
+            { path: 'resetPassword', component: ResetPasswordComponent },
         ]
     },
     { path: 'board', component: MainComponent, canActivate: [authGuard] },
@@ -27,6 +27,5 @@ export const routes: Routes = [
     { path: 'legalnotice', component: LegalnoticeComponent },
     { path: 'imprint', component: ImprintComponent },
     { path: 'test', component: FirestoreTestComponent },
-    { path: 'resetPassword', component: ResetPasswordComponent },
     { path: '**', redirectTo: ''},
 ];
