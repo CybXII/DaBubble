@@ -16,11 +16,15 @@
         <img src="{{ path }}picPlaceholder.svg" alt="picPlaceholder" *ngIf="this.activePic === -1">
         <img src="{{ path }}{{ profilesPics[activePic] }}" alt="{{ activePic }}" *ngIf="this.activePic !== -1">
     </div>      
-    <span class="name">{{ name }}</span>
-    <p>Aus der Liste wählen</p>
-    <div class="charakterPics">
-        <div *ngFor="let pic of this.profilesPics; let index = index">
-            <img [ngClass]="{'active': index === activePic }" (click)="setActive(index)" [ngStyle]="{'activeSelector': this.activePic === index}" src="{{ path }}{{ pic }}" alt="{{ index }}">
+    <div class="choseContainer">
+        <div>
+            <span class="name">{{ name }}</span>
+            <p>Aus der Liste wählen</p>
+        </div>
+        <div class="charakterPics">
+            <div *ngFor="let pic of this.profilesPics; let index = index">
+                <img [ngClass]="{'active': index === activePic }" (click)="setActive(index)" [ngStyle]="{'activeSelector': this.activePic === index}" src="{{ path }}{{ pic }}" alt="{{ index }}">
+            </div>
         </div>
     </div>
     <div class="buttons">
