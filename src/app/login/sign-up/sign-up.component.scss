@@ -2,6 +2,25 @@
 @use './../../../colors.scss' as colors;
 @use './../../../mixins.scss' as mixins;
 
+
+
+.mainCont {
+    padding: 40px 50px;
+}
+
+.arrowBack {
+    position: absolute;
+    top: 45px;
+    left: 32px;
+}
+
+.headline {
+    //margin-top: 40px;
+    display: flex;
+    gap: 40px;
+}
+
+
 .d-none {
     display: none !important;
 }
@@ -18,6 +37,10 @@
 
 input {
     font-size: 18px;
+}
+
+.input {
+    height: 60px;
 }
 
 .privacy {
