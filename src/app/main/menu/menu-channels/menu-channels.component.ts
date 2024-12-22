@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
-import { FullscreenModalComponent } from '../../../shared/fullscreen-modal/fullscreen-modal.component';
 import { Channel } from '../../../models/channel';
 import { ChannelsService } from '../../../shared/services/channels.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessagesService } from '../../../shared/services/messages.service';
 import { Auth } from '@angular/fire/auth';
 import { AddchatComponent } from '../../addchat/addchat.component';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-menu-channels',
@@ -31,7 +31,8 @@ export class MenuChannelsComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     public channelsService: ChannelsService,
     private messagesService: MessagesService,
-    private auth: Auth
+    private auth: Auth,
+    // public dialogRef: MatDialogRef<FullscreenModalComponent>,
   ) {
     this.channelForm = this.fb.group({
       name: ['', Validators.required],
@@ -67,12 +68,10 @@ export class MenuChannelsComponent implements OnInit, OnDestroy {
 
   // Dialog öffnen
   openDialog(): void {
-    this.dialog.open(FullscreenModalComponent, {
-      data: AddchatComponent,
+    this.dialog.open(AddchatComponent, {
       width: 'fit-content',
       maxWidth: '100vw',
       height: 'fit-content',
-      panelClass: 'fullscreen-modal',
     });
   }
 
