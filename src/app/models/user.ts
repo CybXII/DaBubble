@@ -1,19 +1,24 @@
-export class User {
-  userId: string;
-  name: string;
-  status: boolean = false;
-  photoURL: string;
-  channels: string[] = [];
-  email: string;
-  privateNoteRef: string;
+import { User as FirebaseUser } from '@angular/fire/auth';
 
-  constructor(obj?: any) {
-    this.userId = obj ? obj.id : '';
-    this.name = obj ? obj.name : '';
-    this.status = obj ? obj.status : false;
-    this.photoURL = obj ? obj.photoURL : '';
-    this.channels = obj ? obj.channels : [];
-    this.email = obj ? obj.email : '';
-    this.privateNoteRef = obj ? obj.privateNoteRef : '';
+export class UserModel {
+  userId: string; // Firebase-UID
+  name: string; // displayName aus Firebase
+  status: boolean = false; // Eigene Eigenschaft
+  photoURL: string; // photoURL aus Firebase
+  channels: string[] = []; // Eigene Eigenschaft
+  email: string; // email aus Firebase
+  privateNoteRef: string; // Eigene Eigenschaft
+
+  constructor(firebaseUser: FirebaseUser | null, additionalData?: Partial<UserModel>)  {
+    // Firebase-Daten übernehmen
+    this.userId = firebaseUser?.uid || '';
+    this.name = firebaseUser?.displayName || '';
+    this.photoURL = firebaseUser?.photoURL || '';
+    this.email = firebaseUser?.email || '';
+
+    // Zusätzliche Daten übernehmen
+    this.status = additionalData?.status ?? false;
+    this.channels = additionalData?.channels ?? [];
+    this.privateNoteRef = additionalData?.privateNoteRef || '';
   }
 }

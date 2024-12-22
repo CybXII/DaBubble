@@ -2,7 +2,7 @@ import { Component, effect, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Firestore, collection, collectionData } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { User } from '../app/models/user';
+import { UserModel } from '../app/models/user';
 import { AuthService } from './shared/services/auth.service';
 import { Router } from '@angular/router';
 
@@ -17,8 +17,7 @@ export class AppComponent implements OnInit {
   title = 'DABubble';
   firestore: Firestore = inject(Firestore);
   items$: Observable<any[]>;
-  user: User = new User();
-  tokens: string[] = [];
+  user: UserModel = new UserModel(null);  tokens: string[] = [];
 
   constructor(
     private authService: AuthService,
