@@ -8,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrl: './messagebox.component.scss'
 })
 export class MessageboxComponent {
+  constructor() { }
 
+  sendMessage() {
+    console.log('Message sent');
+  }
 }
