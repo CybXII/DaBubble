@@ -43,7 +43,7 @@
         </svg>
     </div>
     @if (this.messagesOpen) {
-        @for (private of this.privateMessages; track private; let index=$index){
+        @for (private of this.privateChannels; track private; let index=$index){
             <div class="channel">
                 <div class="channel-box">
                     <div class="avatar-box">
