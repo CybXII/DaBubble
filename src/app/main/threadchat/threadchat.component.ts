@@ -19,6 +19,7 @@ export class ThreadchatComponent {
 
   constructor(private messagesService: MessagesService) {}
 
+  
   ngOnInit(): void {
     if (!this.parentMessage) {
       console.warn('parentMessage ist nicht definiert. Es werden Standardwerte verwendet.');

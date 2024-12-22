@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MessagesService } from '../../../shared/services/messages.service';
 
 @Component({
   selector: 'app-threadchat-header',
@@ -8,5 +9,10 @@ import { Component } from '@angular/core';
   styleUrl: './threadchat-header.component.scss'
 })
 export class ThreadchatHeaderComponent {
+    constructor(private messagesService: MessagesService) {}
 
+    // Funktion zum Schließen des Threadchats
+    closeThreadChat(): void {
+      this.messagesService.closeThreadChat();
+    }
 }
