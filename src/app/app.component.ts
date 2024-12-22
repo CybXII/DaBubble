@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  standalone: true, // <-- Add this line
+  standalone: true,
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
@@ -28,7 +28,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Authentifizierungsstatus prüfen und bei Bedarf weiterleiten
     const isAuthenticated = this.authService.isUserAuthenticated();
     if (isAuthenticated && this.router.url === '/') {
       console.log('User is authenticated, redirecting to /board');

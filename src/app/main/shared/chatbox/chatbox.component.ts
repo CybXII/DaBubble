@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MessagesService } from '../../../shared/services/messages.service';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-chatbox',
@@ -15,10 +16,15 @@ export class ChatboxComponent implements OnInit {
   messages: any[] = []; // Nachrichten
   threadMessages: any[] = []; // Thread-Nachrichten
   activeMessageId: string | null = null; // Aktive Nachricht, für die Threads geladen werden
+  activeUserPhotoURL: string | null = null; 
 
-  constructor(private messagesService: MessagesService) {}
-
+  constructor(
+    private messagesService: MessagesService,
+    private authService: AuthService
+  ) {}
   ngOnInit(): void {
+    this.activeUserPhotoURL = this.authService.currentUser()?.photoURL || null;
+    console.log('ChatboxComponent: activeUserPhotoURL:', this.activeUserPhotoURL);
     // Nachrichten abonnieren
     this.messagesService.messages$.subscribe((messages) => {
       this.messages = messages;
