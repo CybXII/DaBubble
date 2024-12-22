@@ -95,4 +95,4 @@
     </form>
 </div>
 
-<app-choose-avatar *ngIf="avatar" [ngClass]="(avatar) ? 'flex': 'd-none'" (backward)="close()"></app-choose-avatar>
+<app-choose-avatar *ngIf="avatar" [ngClass]="(avatar) ? 'flex': 'd-none'" (backward)="close()" [name]='userData.name'></app-choose-avatar>
