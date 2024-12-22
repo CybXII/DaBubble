@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, doc, getDoc, query, where, getDocs, addDoc,onSnapshot  } from '@angular/fire/firestore';
+import { Firestore, collection, doc, getDoc, query, where, getDocs, setDoc, addDoc, onSnapshot  } from '@angular/fire/firestore';
 import { Channel } from '../../models/channel';
 
 @Injectable({
@@ -81,5 +81,16 @@ export class ChannelsService {
 
   toggleChannelsOpen(): void {
     this.channelsOpen = !this.channelsOpen;
+  }
+
+  async updateChannel(channelId: string, updatedData: Partial<Channel>): Promise<void> {
+    const channelRef = doc(this.firestore, `${this.collectionName}/${channelId}`);
+    try {
+      await setDoc(channelRef, updatedData, { merge: true });
+      console.log('Channel erfolgreich aktualisiert:', updatedData);
+    } catch (error) {
+      console.error('Fehler beim Aktualisieren des Channels:', error);
+      throw error;
+    }
   }
 }
