@@ -287,7 +287,7 @@ button:disabled {
 
 .arrowBack {
   position: absolute;
-  left: 20px;
+  left: 15px;
   padding: 8px;
   border-radius: 50px;
   cursor: pointer;
@@ -330,7 +330,7 @@ footer {
 
 form {
   @include mixins.flexbox($direction: column, $align: start);
-  gap: 30px;
+  gap: 12px;
   width: 100%;
 
   .link {

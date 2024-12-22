@@ -1,0 +1,46 @@
+@use "mixins.scss" as mixins;
+@use "colors.scss" as colors;
+
+button {
+  &.default {
+    border: 1px solid transparent;
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  &.save {
+    background-color: colors.$purple;
+    color: colors.$white;
+    &:hover {
+      background-color: colors.$purple2;
+      transition: 0.25s ease-in-out;
+      @media (cursor: coarse) {
+        background-color: colors.$purple;
+      }
+    }
+    &:disabled {
+      background-color: colors.$light-grey;
+      color: colors.$white;
+      &:hover {
+        background-color: colors.$grey;
+        cursor: not-allowed;
+        transition: 0.25s ease-in-out;
+      }
+    }
+  }
+
+  &.cancel {
+    background-color: colors.$white;
+    color: colors.$purple;
+    border: 1px solid colors.$purple;
+    &:hover {
+      background-color: colors.$purple;
+      color: colors.$white;
+      transition: 0.25s ease-in-out;
+      @media (cursor: coarse) {
+        background-color: colors.$purple2;
+      }
+    }
+  }
+}

@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../shared/services/auth.service';
 
 
+
 @Component({
   selector: 'app-sign-up',
   standalone: true,   // <-- Add this line
@@ -24,14 +25,6 @@ export class SignUpComponent {
   }
 
 
-  register() {
-    //this.auth.register(this.userData.email, this.userData.password);
-    this.auth.sendEmail(this.userData.email);
-    console.log("mail sent to", this.userData.email);
-
-  }
-
-
   constructor(private router: Router, private auth: AuthService) { }
 
   back() {
@@ -42,7 +35,8 @@ export class SignUpComponent {
     if (form.valid && form.submitted) {
       console.log(this.userData);
       this.avatar = true;
-      this.auth.sendEmail(this.userData.email);
+      //this.auth.sendEmail(this.userData.email);
+      this.auth.register(this.userData.email, this.userData.password);
       console.log("mail sent to", this.userData.email);
       // this.router.navigateByUrl('chooseAvatar');
     }

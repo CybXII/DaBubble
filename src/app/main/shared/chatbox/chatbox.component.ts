@@ -1,80 +1,39 @@
-import { Component, Input } from '@angular/core';
-import { Thread } from '../../../models/thread';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MessagesService } from '../../../shared/services/messages.service';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-chatbox',
-  standalone: true,   // <-- Add this line
-  imports: [],
+  standalone: true,
   templateUrl: './chatbox.component.html',
-  styleUrl: './chatbox.component.scss',
+  styleUrls: ['./chatbox.component.scss'],
 })
-export class ChatboxComponent {
+export class ChatboxComponent implements OnInit {
   @Input() builder!: string;
+  @Output() threadChatToggle = new EventEmitter<void>()
   showDisplay = 'display:block';
   activeUserId: string = '3';
-  threadMessages: {
-    userId: string;
-    threadId: number;
-    avatarPath: string;
-    msgId: number;
-    name: string;
-    msgTime: string;
-    msg: string;
-  }[] = [
-    //Example Data
-    {
-      userId: '2',
-      threadId: 1,
-      avatarPath: '/img/avatars/avatar2.svg',
-      msgId: 2,
-      name: 'Sofia Müller',
-      msgTime: '14:30 Uhr',
-      msg: 'Ich habe die gleiche Frage. Ich habe gegoogelt und es scheint, dass die aktuelle Version Angular 13 ist. Vielleicht weiß Frederik, ob es wahr ist.',
-    },
-    {
-      userId: '3',
-      threadId: 1,
-      avatarPath: '/img/avatars/avatar3.svg',
-      msgId: 1,
-      name: 'Frederik Beck',
-      msgTime: '15:06 Uhr',
-      msg: 'Ja das ist es.',
-    },
-  ];
+  messages: any[] = []; // Nachrichten
+  threadMessages: any[] = []; // Thread-Nachrichten
+  activeMessageId: string | null = null; // Aktive Nachricht, für die Threads geladen werden
+  activeUserPhotoURL: string | null = null; 
 
-  threads: {
-    id: string;
-    name: string;
-    description?: string;
-    createdBy: string;
-    userId: string;
-    avatarPath: string;
-    messages: string[];
-    messageDate: string;
-    messageTime: string;
-  }[] = [
-    {
-      id: 't1',
-      name: 'Noah Braun',
-      description: 'Welche Version ist aktuell von Angular?',
-      createdBy: 'Noah Braun',
-      userId: '11',
-      avatarPath: 'img/avatars/avatar4.svg',
-      messages: ['m1', 'm2'],
-      messageDate: '14.11.2024',
-      messageTime: '14:25 Uhr',
-    },
-    {
-      id: 't2',
-      name: 'Frederik Beck',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque blandit odio efficitur lectus vestibulum, quis accumsan ante vulputate. Quisque tristique iaculis erat, eu faucibus lacus iaculis ac.',
-      createdBy: 'Frederik Beck',
-      userId: '3',
-      avatarPath: 'img/avatars/avatar5.svg',
-      messages: [],
-      messageDate: '13.12.2024',
-      messageTime: '15:06 Uhr',
-    },
-  ];
+  constructor(
+    private messagesService: MessagesService,
+    private authService: AuthService
+  ) {}
+  ngOnInit(): void {
+    this.activeUserPhotoURL = this.authService.currentUser()?.photoURL || null;
+    console.log('ChatboxComponent: activeUserPhotoURL:', this.activeUserPhotoURL);
+    // Nachrichten abonnieren
+    this.messagesService.messages$.subscribe((messages) => {
+      this.messages = messages;
+      console.log('Nachrichten aktualisiert:', this.messages);
+    });
+  }
+
+  onMessageSelect(messageId: string): void {
+    this.activeMessageId = messageId;
+    this.messagesService.loadThreadMessages(messageId); // Lädt Threads und öffnet den Threadchat
+  }
 }

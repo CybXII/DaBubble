@@ -9,6 +9,8 @@ import { IntroComponent } from './intro/intro.component';
 import { LegalnoticeComponent } from './legalnotice/legalnotice.component';
 import { ImprintComponent } from './imprint/imprint.component';
 import { FirestoreTestComponent } from './firestore-test/firestore-test.component';
+import { FinishSignUpComponent } from './finish-sign-up/finish-sign-up.component';
+import { EmailVerificationComponent } from './finish-sign-up2/finish-sign-up2.component';
 import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
@@ -17,10 +19,10 @@ export const routes: Routes = [
             { path: '', component: SignInComponent },
             { path: 'forget', component: ForgetPasswordComponent },
             { path: 'signUp', component: SignUpComponent },
-            { path: 'resetPass', component: ResetPasswordComponent },
+            { path: 'resetPassword', component: ResetPasswordComponent },
         ]
     },
-    { path: 'board', component: MainComponent, canActivate: [authGuard]},
+    { path: 'board', component: MainComponent, canActivate: [authGuard] },
     { path: 'intro', component: IntroComponent },
     { path: 'legalnotice', component: LegalnoticeComponent },
     { path: 'imprint', component: ImprintComponent },

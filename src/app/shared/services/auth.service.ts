@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import {
   Auth,
+  User,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInAnonymously,
@@ -9,6 +10,10 @@ import {
   GoogleAuthProvider,
   getAuth,
   sendSignInLinkToEmail,
+  sendEmailVerification,
+  sendPasswordResetEmail,
+  updatePassword,
+  confirmPasswordReset
 } from '@angular/fire/auth';
 import {
   Firestore,
@@ -19,64 +24,89 @@ import {
   onSnapshot,
 } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { User as AppUser } from '../../models/user';
+import { UserModel } from '../../models/user';
 import { ToastMessageService } from './toastmessage.service';
 
 @Injectable({
   providedIn: 'root',
 })
+
 export class AuthService {
+
+  /**
+   * Bestätigt den Passwort-Reset mit dem erhaltenen oobCode und setzt das neue Passwort.
+   */
+  confirmPasswordReset(oobCode: string, newPassword: string): Promise<void> {
+    return confirmPasswordReset(this.auth, oobCode, newPassword);
+  }
+
+
   // Reactive signals
   userId = signal<string | null>(null);
-  userData = signal<AppUser | null>(null);
+  userData = signal<UserModel | null>(null);
   isUserAuthenticated = signal<boolean>(false);
   loginError = signal<string>('');
-  userList = signal<AppUser[]>([]);
+  userList = signal<UserModel[]>([]);
   private loginType = signal<'guest' | 'google' | 'email' | null>(null);
-
+  currentUser = signal<UserModel | null>(null); // Typisiertes Signal
   constructor(
     public auth: Auth,
     private firestore: Firestore,
     private router: Router,
     private toastMessageService: ToastMessageService
   ) {
+    onAuthStateChanged(this.auth, (firebaseUser: User | null) => {
+      if (firebaseUser) {
+        // Firebase-User in eigenes Modell umwandeln
+        const userModel = new UserModel(firebaseUser);
+        this.currentUser.set(userModel); // Typisiertes Signal
+      } else {
+        this.currentUser.set(null); // Kein Benutzer angemeldet
+      }
+    });
+  
     this.monitorAuthState(); // Überwachung des Auth-Status starten
     this.getUserList(); // Benutzerliste aus Firestore laden
+    this.intializeUserData(); // Benutzer-Daten initialisieren
   }
 
-  sendEmail(email: string) {
-    const actionCodeSettings = {
-      // URL you want to redirect back to. The domain (www.example.com) for this
-      // URL must be in the authorized domains list in the Firebase Console.
-      url: 'https://christophvoelker.com/?email=' + email,
+  // sendEmail(email: string) {
+  //   const actionCodeSettings = {
+  //     // URL you want to redirect back to. The domain (www.example.com) for this
+  //     // URL must be in the authorized domains list in the Firebase Console.
+  //     url: 'https://dab.christophvoelker.com/finishSignUp2',
 
-      // This must be true.
-      handleCodeInApp: true,
-      iOS: {
-        bundleId: 'com.example.ios',
-      },
-      android: {
-        packageName: 'com.example.android',
-        installApp: true,
-        minimumVersion: '12',
-      },
-      dynamicLinkDomain: 'example.page.link',
-    };
-    const auth = getAuth();
-    sendSignInLinkToEmail(auth, email, actionCodeSettings)
-      .then(() => {
-        // The link was successfully sent. Inform the user.
-        // Save the email locally so you don't need to ask the user for it again
-        // if they open the link on the same device.
-        window.localStorage.setItem('emailForSignIn', email);
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ...
-      });
-  }
+  //     // This must be true.
+  //     handleCodeInApp: true,
+  //     // iOS: {
+  //     //   bundleId: 'com.example.ios',
+  //     // },
+  //     // android: {
+  //     //   packageName: 'com.example.android',
+  //     //   installApp: true,
+  //     //   minimumVersion: '12',
+  //     // },
+  //     //dynamicLinkDomain: 'dab.christophvoelker.com'
+  //   };
+  //   const auth = getAuth();
+  //   //console.log(auth);
+
+  //   sendSignInLinkToEmail(auth, email, actionCodeSettings)
+  //     .then(() => {
+  //       // The link was successfully sent. Inform the user.
+  //       // Save the email locally so you don't need to ask the user for it again
+  //       // if they open the link on the same device.
+  //       console.log('Sign-in email sent successfully.');
+  //       window.localStorage.setItem('emailForSignIn', email);
+  //       // ...
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error sending email:', error.code, error.message);
+  //       const errorCode = error.code;
+  //       const errorMessage = error.message;
+  //       // ...
+  //     });
+  // }
 
   /**
    * Überwacht den Firebase-Auth-Status
@@ -106,6 +136,7 @@ export class AuthService {
     this.userData.set(null);
     this.isUserAuthenticated.set(false);
     this.loginType.set(null);
+    localStorage.removeItem('userData');
   }
 
   /**
@@ -125,7 +156,15 @@ export class AuthService {
         email,
         password
       );
+
       const user = userCredential.user;
+
+      // Sende E-Mail-Bestätigung
+      if (user) {
+        await sendEmailVerification(user);
+        console.log('Verification email sent to:', user.email);
+      }
+
       const userData = this.setUserData(
         user.uid,
         user.displayName || '',
@@ -137,6 +176,30 @@ export class AuthService {
       console.error('Registration failed:', error);
     }
   }
+
+  /**
+   * Passwort zurücksetzen
+   */
+  resetPassword(email: string): Promise<void> {
+    return sendPasswordResetEmail(this.auth, email);
+  }
+
+
+
+
+  /**
+   * Passwort updaten
+   */
+  updateUserPassword(newPassword: string): Promise<void> {
+    const currentUser = this.auth.currentUser;
+
+    if (currentUser) {
+      return updatePassword(currentUser, newPassword);
+    } else {
+      return Promise.reject('Kein Benutzer ist angemeldet.');
+    }
+  }
+
 
   /**
    * Benutzer einloggen (E-Mail und Passwort)
@@ -183,8 +246,24 @@ export class AuthService {
         user.photoURL || ''
       );
       await setDoc(doc(this.firestore, `users/${user.uid}`), userData);
+      await this.loadUserData(user.uid);
+
     } catch (error) {
       console.error('Google login failed:', error);
+    }
+  }
+
+  private setUserDataInStorage(userData: UserModel) {
+    localStorage.setItem('userData', JSON.stringify(userData));
+  }
+
+  getUserDataFromStorage() {
+    this.userData.set(JSON.parse(localStorage.getItem('userData') || '{}'));
+  }
+
+  intializeUserData() {
+    if (localStorage.getItem('userData')) {
+      this.getUserDataFromStorage();
     }
   }
 
@@ -206,7 +285,8 @@ export class AuthService {
     try {
       const userDoc = await getDoc(doc(this.firestore, 'users', userId));
       if (userDoc.exists()) {
-        this.userData.set(userDoc.data() as AppUser);
+        this.userData.set(userDoc.data() as UserModel);
+        this.setUserDataInStorage(userDoc.data() as UserModel);
       }
     } catch (error) {
       console.error('Failed to load user data:', error);
@@ -236,7 +316,7 @@ export class AuthService {
     username: string,
     email: string,
     avatarURL: string
-  ): AppUser {
+  ): UserModel {
     return {
       userId,
       name: username,
@@ -251,7 +331,7 @@ export class AuthService {
   /**
    * Gast-Benutzerdaten erstellen
    */
-  private setAnonymousUserData(userId: string): AppUser {
+  private setAnonymousUserData(userId: string): UserModel {
     return {
       userId,
       name: 'Guest',
@@ -269,9 +349,9 @@ export class AuthService {
   private getUserList(): void {
     const userCollection = collection(this.firestore, 'users');
     onSnapshot(userCollection, (snapshot) => {
-      const users: AppUser[] = [];
+      const users: UserModel[] = [];
       snapshot.forEach((doc) => {
-        users.push(doc.data() as AppUser);
+        users.push(doc.data() as UserModel);
       });
       this.userList.set(users);
     });

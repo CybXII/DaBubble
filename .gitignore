@@ -8,6 +8,8 @@
 
 # Node
 firebase.json
+firebase_cvo.json
+firebase_gruppe.json
 /node_modules
 npm-debug.log
 yarn-error.log
