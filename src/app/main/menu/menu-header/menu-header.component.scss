@@ -6,6 +6,7 @@
     @include mixins.flexbox(row, flex-start, center ,nowrap);
     width: 100%;
     gap: 15px;
+    
     .menu-header-title{
         cursor: default;
         font-weight: 700;
@@ -14,6 +15,7 @@
         @include mixins.flexbox(row, space-between, center, nowrap);
         flex: 1;
         div{
+            @include mixins.flexbox(row, center, center ,nowrap);
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -34,7 +36,6 @@
     }
     img{
         padding: 8px;
-        cursor: pointer;
     }
 }
 

@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import {
   Auth,
+  User,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInAnonymously,
@@ -23,7 +24,7 @@ import {
   onSnapshot,
 } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { User as AppUser } from '../../models/user';
+import { UserModel } from '../../models/user';
 import { ToastMessageService } from './toastmessage.service';
 
 @Injectable({
@@ -42,21 +43,31 @@ export class AuthService {
 
   // Reactive signals
   userId = signal<string | null>(null);
-  userData = signal<AppUser | null>(null);
+  userData = signal<UserModel | null>(null);
   isUserAuthenticated = signal<boolean>(false);
   loginError = signal<string>('');
-  userList = signal<AppUser[]>([]);
+  userList = signal<UserModel[]>([]);
   private loginType = signal<'guest' | 'google' | 'email' | null>(null);
-
+  currentUser = signal<UserModel | null>(null); // Typisiertes Signal
   constructor(
     public auth: Auth,
     private firestore: Firestore,
     private router: Router,
     private toastMessageService: ToastMessageService
   ) {
+    onAuthStateChanged(this.auth, (firebaseUser: User | null) => {
+      if (firebaseUser) {
+        // Firebase-User in eigenes Modell umwandeln
+        const userModel = new UserModel(firebaseUser);
+        this.currentUser.set(userModel); // Typisiertes Signal
+      } else {
+        this.currentUser.set(null); // Kein Benutzer angemeldet
+      }
+    });
+  
     this.monitorAuthState(); // Überwachung des Auth-Status starten
     this.getUserList(); // Benutzerliste aus Firestore laden
-    this.intializeUserData();
+    this.intializeUserData(); // Benutzer-Daten initialisieren
   }
 
   // sendEmail(email: string) {
@@ -242,7 +253,7 @@ export class AuthService {
     }
   }
 
-  private setUserDataInStorage(userData: AppUser) {
+  private setUserDataInStorage(userData: UserModel) {
     localStorage.setItem('userData', JSON.stringify(userData));
   }
 
@@ -274,8 +285,8 @@ export class AuthService {
     try {
       const userDoc = await getDoc(doc(this.firestore, 'users', userId));
       if (userDoc.exists()) {
-        this.userData.set(userDoc.data() as AppUser);
-        this.setUserDataInStorage(userDoc.data() as AppUser);
+        this.userData.set(userDoc.data() as UserModel);
+        this.setUserDataInStorage(userDoc.data() as UserModel);
       }
     } catch (error) {
       console.error('Failed to load user data:', error);
@@ -305,7 +316,7 @@ export class AuthService {
     username: string,
     email: string,
     avatarURL: string
-  ): AppUser {
+  ): UserModel {
     return {
       userId,
       name: username,
@@ -320,7 +331,7 @@ export class AuthService {
   /**
    * Gast-Benutzerdaten erstellen
    */
-  private setAnonymousUserData(userId: string): AppUser {
+  private setAnonymousUserData(userId: string): UserModel {
     return {
       userId,
       name: 'Guest',
@@ -338,9 +349,9 @@ export class AuthService {
   private getUserList(): void {
     const userCollection = collection(this.firestore, 'users');
     onSnapshot(userCollection, (snapshot) => {
-      const users: AppUser[] = [];
+      const users: UserModel[] = [];
       snapshot.forEach((doc) => {
-        users.push(doc.data() as AppUser);
+        users.push(doc.data() as UserModel);
       });
       this.userList.set(users);
     });

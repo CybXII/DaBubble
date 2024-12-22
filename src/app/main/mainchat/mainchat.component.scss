@@ -3,6 +3,7 @@
 .mainchat-container{
     @include mixins.flexbox(column, space-between, space-between, nowrap);
     height: 100%;
+    width: 100%;
 }
 
 .mainchat__header{ 
