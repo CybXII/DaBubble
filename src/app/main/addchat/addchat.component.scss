@@ -1,0 +1,114 @@
+@use '../../../button.scss' as button;
+@use "../../../mixins.scss" as mixins;
+@use '../../../colors.scss' as colors;
+
+.channel-form {
+    @include mixins.flexbox(column, center, flex-start);
+    gap: 20px;
+    width: 100%;
+    height: 100%;
+    padding: 40px;
+    p{
+        flex-wrap: nowrap;
+        font-family: Nunito;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 24.55px;
+        text-align: left;
+        text-underline-position: from-font;
+        text-decoration-skip-ink: none;
+    }
+    .description{
+        @include mixins.flexbox(row, flex-start, center);
+        span{
+            color: #686868;
+            font-family: Nunito;
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 24.55px;
+            text-align: left;
+            text-underline-position: from-font;
+            text-decoration-skip-ink: none;
+        }
+    }
+
+
+    .add-channel-header {
+        width: 100%;
+        @include mixins.flexbox(row, space-between, center, nowrap);
+        font-family: Nunito;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 32.74px;
+        text-align: left;
+        text-underline-position: from-font;
+        text-decoration-skip-ink: none;
+    }
+
+
+}
+
+.icon-button{
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    border: none;
+    outline: none;
+    background-color: colors.$white;
+    border-radius: 12px;
+    svg{
+        width: 24px;
+        height: 24px;
+        path{
+            fill: black;
+        }
+    }
+}
+
+.icon-button:hover{
+    background-color: colors.$bg-color;
+    path{
+        fill: colors.$purple3;
+    }
+}
+
+.icon-button:active{
+    background-color: colors.$bg-color;
+    path{
+        fill: colors.$purple2;
+    }
+}
+
+.form{
+    width: 100%;
+    @include mixins.flexbox(column, flex-start, flex-start);
+    gap: 20px;
+    .form-group{
+        @include mixins.flexbox(column, flex-start, flex-start);  
+        width: 100%;
+        gap: 20px;
+    }
+    .button-container{
+        @include mixins.flexbox(row, flex-end, center, nowrap);
+        width: 100%;
+    }
+    input {
+        width: 100%;
+        height:  60px;
+        padding: 18px 20px 18px 20px;
+        gap: 20px;
+        border-radius: 40px;
+        border: 1px solid colors.$light-purple;
+        opacity: 0px;
+        &:hover {
+            outline: 1px solid colors.$light-purple;
+        }
+        &:focus-visible {
+            outline: 1px solid colors.$purple2;
+        }
+        &::placeholder {
+            color: colors.$grey;
+            font-size: 16px;
+        }
+    }
+}

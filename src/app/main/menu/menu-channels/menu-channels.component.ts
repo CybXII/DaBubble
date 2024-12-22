@@ -7,6 +7,7 @@ import { ChannelsService } from '../../../shared/services/channels.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessagesService } from '../../../shared/services/messages.service';
 import { Auth } from '@angular/fire/auth';
+import { AddchatComponent } from '../../addchat/addchat.component';
 
 @Component({
   selector: 'app-menu-channels',
@@ -59,24 +60,7 @@ export class MenuChannelsComponent implements OnInit, OnDestroy {
   }
 
   async addChannel(): Promise<void> {
-    // const user = this.auth.currentUser;
-    // if (user) {
-    //   const newChannel: Channel = {
-    //     ...this.channelForm.value,
-    //     createdBy: user.uid,
-    //     members: [user.uid],
-    //   };
 
-    //   try {
-    //     await this.channelsService.createChannel(newChannel);
-    //     console.log('Channel erfolgreich hinzugefügt!');
-    //     this.channelForm.reset();
-    //   } catch (error) {
-    //     console.error('Fehler beim Hinzufügen des Channels:', error);
-    //   }
-    // } else {
-    //   console.error('Kein Nutzer authentifiziert.');
-    // }
     console.error('addChannel() wurde nicht implementiert.');
 
   }
@@ -84,9 +68,10 @@ export class MenuChannelsComponent implements OnInit, OnDestroy {
   // Dialog öffnen
   openDialog(): void {
     this.dialog.open(FullscreenModalComponent, {
-      width: '60vw',
+      data: AddchatComponent,
+      width: 'fit-content',
       maxWidth: '100vw',
-      height: '60vh',
+      height: 'fit-content',
       panelClass: 'fullscreen-modal',
     });
   }
