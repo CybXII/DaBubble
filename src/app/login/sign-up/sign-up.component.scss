@@ -2,6 +2,28 @@
 @use './../../../colors.scss' as colors;
 @use './../../../mixins.scss' as mixins;
 
+button {
+    border: unset;
+}
+
+
+.mainCont {
+    padding: 40px 50px;
+}
+
+.arrowBack {
+    position: absolute;
+    top: 45px;
+    left: 32px;
+}
+
+.headline {
+    //margin-top: 40px;
+    display: flex;
+    gap: 40px;
+}
+
+
 .d-none {
     display: none !important;
 }
@@ -14,6 +36,14 @@
     a {
         padding: 0px 5px;
     }
+}
+
+input {
+    font-size: 18px;
+}
+
+.input {
+    height: 60px;
 }
 
 .privacy {
@@ -36,11 +66,13 @@
         position: relative;
     }
 
+
+
     input[type="checkbox"]:checked {
         background-image: url('/img/icons/Property 1=Checked.svg');
     }
 
-    [type="checkbox"]:hover{
+    [type="checkbox"]:hover {
         cursor: pointer;
         background-color: colors.$bg-color;
         // box-shadow: 0px 0px 3px 3px colors.$bg-color;
@@ -49,8 +81,17 @@
     >div {
         @include mixins.flexbox($direction: column, $justify: start);
         padding: 5px 0px;
+
         >span {
             padding: 5px 0px 0px 0px;
         }
     }
+
+    label {
+        span {
+            font-size: 16px;
+            font-weight: 400;
+        }
+    }
+
 }

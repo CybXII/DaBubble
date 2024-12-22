@@ -4,7 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { ChooseAvatarComponent } from './choose-avatar/choose-avatar.component';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../shared/services/auth.service';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
+
 
 
 @Component({
@@ -22,23 +22,6 @@ export class SignUpComponent {
     email: "",
     password: "",
     privacy: false,
-  }
-
-
-  async register() {
-    this.auth.register(this.userData.email, this.userData.password);
-    //this.auth.sendEmail(this.userData.email);
-    //console.log("mail sent to", this.userData.email);
-
-    //const userCredential = await this.afAuth.createUserWithEmailAndPassword(this.userData.email, this.userData.password);
-
-    // try {
-    //   await userCredential.user?.sendEmailVerification();
-    //   console.log('E-Mail wurde gesendet.');
-    // } catch (error) {
-    //   console.error('Fehler beim Senden der E-Mail:', error);
-    // }
-
   }
 
 
