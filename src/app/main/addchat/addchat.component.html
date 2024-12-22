@@ -1,5 +1,9 @@
 <div class="channel-form">
-    <h2>Neuen Channel erstellen</h2>
+    <h2>Channel erstellen</h2>
+    <p>Channels dienen deinem Team zur Kommunikation. Am besten sollten sie themenbezogen sein 
+        <br>
+        #marketing zum Beispiel.
+    </p>
     <form [formGroup]="channelForm" (ngSubmit)="onSubmit()">
         <div>
             <label for="name">Channel-Name</label>
@@ -13,10 +17,6 @@
         <div>
             <label for="description">Beschreibung</label>
             <textarea id="description" formControlName="description" placeholder="Optionale Beschreibung"></textarea>
-        </div>
-        <div>
-            <label for="isPrivate">Privater Channel</label>
-            <input id="isPrivate" type="checkbox" formControlName="isPrivate" />
         </div>
         <button type="submit" [disabled]="channelForm.invalid">Channel erstellen</button>
     </form>

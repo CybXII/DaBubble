@@ -59,24 +59,26 @@ export class MenuChannelsComponent implements OnInit, OnDestroy {
   }
 
   async addChannel(): Promise<void> {
-    const user = this.auth.currentUser;
-    if (user) {
-      const newChannel: Channel = {
-        ...this.channelForm.value,
-        createdBy: user.uid,
-        members: [user.uid],
-      };
+    // const user = this.auth.currentUser;
+    // if (user) {
+    //   const newChannel: Channel = {
+    //     ...this.channelForm.value,
+    //     createdBy: user.uid,
+    //     members: [user.uid],
+    //   };
 
-      try {
-        await this.channelsService.createChannel(newChannel);
-        console.log('Channel erfolgreich hinzugefügt!');
-        this.channelForm.reset();
-      } catch (error) {
-        console.error('Fehler beim Hinzufügen des Channels:', error);
-      }
-    } else {
-      console.error('Kein Nutzer authentifiziert.');
-    }
+    //   try {
+    //     await this.channelsService.createChannel(newChannel);
+    //     console.log('Channel erfolgreich hinzugefügt!');
+    //     this.channelForm.reset();
+    //   } catch (error) {
+    //     console.error('Fehler beim Hinzufügen des Channels:', error);
+    //   }
+    // } else {
+    //   console.error('Kein Nutzer authentifiziert.');
+    // }
+    console.error('addChannel() wurde nicht implementiert.');
+
   }
 
   // Dialog öffnen
