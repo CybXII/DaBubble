@@ -20,6 +20,10 @@
     justify-content: center;
 }
 
+form {
+    gap: 40px
+}
+
 .googleBtn {
     @include mixins.flexbox();
     width: 100%;
