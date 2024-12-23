@@ -23,9 +23,9 @@ export class ChooseAvatarComponent {
     this.backward.emit();
   }
 
-  toBoard() {
-    this.router.navigateByUrl('board');
-  }
+  // toBoard() {
+  //   this.router.navigateByUrl('board');
+  // }
 
   setActive(index:number) {
     this.activePic = index;
