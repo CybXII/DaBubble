@@ -157,6 +157,7 @@ input {
   background-color: colors.$bg-color;
   border: none;
   flex: 1;
+  font-size: 18px;
 
   &:focus-visible {
     outline: unset;
@@ -172,10 +173,9 @@ input {
 .input {
   @include mixins.flexbox($justify: start);
   @include mixins.border-marker($color: colors.$white);
-  background-color: colors.$bg-color;
   width: 100%;
-  padding: 10px;
   border-radius: 100px;
+  position: relative;
 
   &:hover,
   input {
@@ -186,11 +186,20 @@ input {
   &:focus-within,
   input {
     border-color: colors.$purple2;
-    padding-left: 10px;
 
     &::placeholder {
       display: none;
     }
+  }
+  input {
+    @include mixins.border-marker($color: colors.$white);
+    border-radius: 100px;
+    padding: 10px;
+    padding-left: 50px;
+  }
+  svg {
+    position: absolute;
+    left: 20px;
   }
 }
 
