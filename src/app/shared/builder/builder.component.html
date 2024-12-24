@@ -8,7 +8,7 @@
       }
     }
     @if (build === "mainchat") {
-      <app-mainchat class="menu-container mainchat-container"></app-mainchat>
+      <app-mainchat [builder]="'mainchat'" class="menu-container mainchat-container"></app-mainchat>
     }
     @if (build === "threadchat") {
       @if (threadchatOpened) {

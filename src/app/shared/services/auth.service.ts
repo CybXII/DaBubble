@@ -363,4 +363,9 @@ export class AuthService {
       this.toastMessageService.showToastSignal('Anmeldung erfolgreich');
     }
   }
+
+async getUserById(userId: string | null): Promise<UserModel | null> {
+  const userDoc = await getDoc(doc(this.firestore, `users/${userId}`));
+  return userDoc.exists() ? (userDoc.data() as UserModel) : null;
+}
 }

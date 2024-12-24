@@ -1,46 +1,6 @@
-<!-- <div class="threadchat-container">
-  <app-threadchat-header class="threadchat__header"></app-threadchat-header>
-  <div class="threadchat__item1">
-    <div class="chatbox__mainthread-container">
-      <button class="chatbox__addemoji-container">
-        <div class="chatbox__addemoji__emoji-container">
-          <img src="/img/icons/addemoji.svg" alt="" />
-        </div>
-      </button>
-      <img
-        class="chatbox__msg-avatar"
-        src="img/avatars/avatar1.svg"
-        alt=""
-        width="70"
-        height="70"
-      />
-      <div class="chatbox__msg-item2">
-        <div class="chatbox__msg-info">
-          <h3 class="chatbox__msg-name">Noah Braun</h3>
-          <p class="chatbox__msg-time">14:25 Uhr</p>
-        </div>
-        <p class="chatbox__msg">Welche Version ist aktuell von Angular?</p>
-        <div class="chatbox__emojis-container">
-          <div class="chatbox__emojis">
-            <img src="/img/icons/emoji.svg" alt="" />
-            <span>1</span>
-          </div>
-          <div class="chatbox__addreaction-container">
-            <img src="/img/icons/add_reaction.svg" alt="" />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="chatbox__threads-divider">2 Antworten</div>
-    <app-chatbox [builder]="builder" class="threadchat__chatbox" />
-  </div>
-  <app-messagebox class="threadchat__messagebox"></app-messagebox>
-</div> -->
-
-
 <div class="threadchat-container">
   <app-threadchat-header class="threadchat__header"></app-threadchat-header>
-  <div class="threadchat__item1">
+  <!-- <div class="threadchat__item1">
     <div class="chatbox__mainthread-container">
       <button class="chatbox__addemoji-container">
         <div class="chatbox__addemoji__emoji-container">
@@ -49,7 +9,7 @@
       </button>
       <img
         class="chatbox__msg-avatar"
-        [src]="parentMessage.avatarPath"
+        [src]="parentMessage.creatorPhotoURL"
         alt="Avatar"
         width="70"
         height="70"
@@ -71,27 +31,30 @@
         </div>
       </div>
     </div>
-    <div class="chatbox__threads-divider">{{ threadMessages.length }} Antworten</div>
+    <div class="chatbox__threads-divider">
+      {{ (threadMessages$ | async)?.length || 0 }} Antworten
+    </div>
     <div class="threadchat__chatbox">
-      @if (threadMessages.length != 0) {
-        @for (threadMessage of threadMessages; track threadMessage.id) {
+      @if ((threadMessages$ | async)?.length) {
+        @for (threadMessage of (threadMessages$ | async); track threadMessage.docId) {
           <div class="chatbox__msg-item2">
             <img
               class="chatbox__msg-avatar"
-              [src]="threadMessage.avatarPath"
+              [src]="threadMessage.creatorPhotoURL"
               alt="Avatar"
               width="50"
               height="50"
             />
             <div class="chatbox__msg-info">
-              <h4 class="chatbox__msg-name">{{ threadMessage.name }}</h4>
-              <p class="chatbox__msg-time">{{ threadMessage.msgTime }}</p>
+              <h4 class="chatbox__msg-name">{{ threadMessage.creatorName }}</h4>
+              <p class="chatbox__msg-time">{{ threadMessage.timestamp }}</p>
             </div>
-            <p class="chatbox__msg">{{ threadMessage.msg }}</p>
+            <p class="chatbox__msg">{{ threadMessage.message }}</p>
           </div>
-        }  
+        }
       }
     </div>
-  </div>
-  <app-messagebox class="threadchat__messagebox"></app-messagebox>
+  </div> -->
+  <app-chatbox [builder]="builder" class="threadchat__item1"></app-chatbox>
+  <app-messagebox [builder]="builder" class="threadchat__messagebox"></app-messagebox>
 </div>
