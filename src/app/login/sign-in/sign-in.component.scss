@@ -20,6 +20,10 @@
     justify-content: center;
 }
 
+form {
+    gap: 40px
+}
+
 .googleBtn {
     @include mixins.flexbox();
     width: 100%;
@@ -34,11 +38,26 @@
         gap: 10px;
         >span {
             padding: 0px;
+            font-size: 18px;
         }
         &:hover {
             cursor: pointer;
             font-weight: 700;
             border-color: colors.$purple2;
+        }
+    }
+}
+
+@media (max-width: 500px) {
+    .googleBtn{
+        >div>span {
+            font-size: 17px;
+        }
+    }
+
+    .mainCont {
+        span {
+            font-size: 17px;
         }
     }
 }

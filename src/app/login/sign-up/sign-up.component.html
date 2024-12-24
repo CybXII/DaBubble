@@ -73,7 +73,7 @@
             </div>
             <span class="warning"
                 [ngStyle]="{'opacity': !password.valid && password.touched || password.value < 6 && password.touched ? 1 : 0}">Bitte
-                geben Sie ein Passwort ein.</span>
+                geben Sie ein Passwort mit mindestens 6 Zeichen ein.</span>
         </div>
 
         <div class="privacy">
@@ -95,4 +95,4 @@
     </form>
 </div>
 
-<app-choose-avatar *ngIf="avatar" [ngClass]="(avatar) ? 'flex': 'd-none'" (backward)="close()"></app-choose-avatar>
+<app-choose-avatar *ngIf="avatar" [ngClass]="(avatar) ? 'flex': 'd-none'" (backward)="close()" [name]='userData.name'></app-choose-avatar>
