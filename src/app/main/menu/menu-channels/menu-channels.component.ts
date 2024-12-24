@@ -56,14 +56,12 @@ export class MenuChannelsComponent implements OnInit, OnDestroy {
     this.unsubscribeFn = this.channelsService.loadChannelsRealtime((channels) => {
       this.channels = channels;
       this.loading = false;
-      console.log('Channels aktualisiert:', this.channels);
+      // console.log('Channels aktualisiert:', this.channels);
     });
   }
 
   async addChannel(): Promise<void> {
-
     console.error('addChannel() wurde nicht implementiert.');
-
   }
 
   // Dialog öffnen
@@ -75,10 +73,11 @@ export class MenuChannelsComponent implements OnInit, OnDestroy {
     });
   }
 
-  // Channel auswählen und Nachrichten laden
   selectChannel(channelId: string): void {
-    this.currentChannelId = channelId;
-    this.messagesService.loadMessagesForChannel(channelId);
-    console.log('Lade Nachrichten für Channel mit ID:', channelId);
+    this.channelsService.selectChannel(channelId).then(() => {
+      // console.log('Channel erfolgreich ausgewählt:', channelId);
+    }).catch((error) => {
+      console.error('Fehler beim Auswählen des Channels:', error);
+    });
   }
 }
