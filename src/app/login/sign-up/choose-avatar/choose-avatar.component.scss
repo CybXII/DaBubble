@@ -62,6 +62,25 @@
     border: 8px solid rgba(230, 230, 230, 1);
 }
 
+.signup-success-container{
+    border: 1px solid colors.$purple3;
+    text-align: center;
+    margin-top: 55px;
+    padding: 100px;
+    border-radius: 20px;
+
+    h1 {
+        margin-bottom: 32px;
+        max-width: 15ch;
+    }
+
+    p {
+        margin-bottom: 32px;
+        max-width: 30ch;
+        margin-inline: auto;
+    }
+}
+
 @media (max-width: 500px) {
     .charakterPics {
         gap: unset;

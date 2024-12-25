@@ -18,6 +18,8 @@ export class ChooseAvatarComponent {
   constructor(private router: Router) {}
   @Input() name: string = '';
   @Output() backward = new EventEmitter<void>();
+
+  showSuccess: boolean = false;
   
   back() {
     this.backward.emit();
@@ -29,5 +31,9 @@ export class ChooseAvatarComponent {
 
   setActive(index:number) {
     this.activePic = index;
+  }
+
+  onSignup(){
+    this.showSuccess = true;
   }
 }
