@@ -1,98 +1,220 @@
-<div class="mainCont" [ngClass]="(avatar) ? 'd-none': 'flex'">
+<div class="mainCont" [ngClass]="avatar ? 'd-none' : 'flex'">
+  <div class="arrowBack">
+    <svg
+      (click)="back()"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <mask
+        id="mask0_98810_10931"
+        style="mask-type: alpha"
+        maskUnits="userSpaceOnUse"
+        x="0"
+        y="0"
+        width="24"
+        height="24"
+      >
+        <rect width="24" height="24" fill="#D9D9D9" />
+      </mask>
+      <g mask="url(#mask0_98810_10931)">
+        <path
+          d="M10.875 19.3L4.275 12.7C4.175 12.6 4.104 12.4916 4.062 12.375C4.02067 12.2583 4 12.1333 4 12C4 11.8666 4.02067 11.7416 4.062 11.625C4.104 11.5083 4.175 11.4 4.275 11.3L10.875 4.69996C11.0583 4.51663 11.2873 4.42063 11.562 4.41196C11.8373 4.40396 12.075 4.49996 12.275 4.69996C12.475 4.88329 12.5793 5.11229 12.588 5.38696C12.596 5.66229 12.5 5.89996 12.3 6.09996L7.4 11H18.575C18.8583 11 19.096 11.0956 19.288 11.287C19.4793 11.479 19.575 11.7166 19.575 12C19.575 12.2833 19.4793 12.5206 19.288 12.712C19.096 12.904 18.8583 13 18.575 13H7.4L12.3 17.9C12.4833 18.0833 12.5793 18.3166 12.588 18.6C12.596 18.8833 12.5 19.1166 12.3 19.3C12.1167 19.5 11.8833 19.6 11.6 19.6C11.3167 19.6 11.075 19.5 10.875 19.3Z"
+          fill="black"
+        />
+      </g>
+    </svg>
+  </div>
 
-    <div class="arrowBack">
-        <svg (click)="back()" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <mask id="mask0_98810_10931" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
-                height="24">
-                <rect width="24" height="24" fill="#D9D9D9" />
-            </mask>
-            <g mask="url(#mask0_98810_10931)">
-                <path
-                    d="M10.875 19.3L4.275 12.7C4.175 12.6 4.104 12.4916 4.062 12.375C4.02067 12.2583 4 12.1333 4 12C4 11.8666 4.02067 11.7416 4.062 11.625C4.104 11.5083 4.175 11.4 4.275 11.3L10.875 4.69996C11.0583 4.51663 11.2873 4.42063 11.562 4.41196C11.8373 4.40396 12.075 4.49996 12.275 4.69996C12.475 4.88329 12.5793 5.11229 12.588 5.38696C12.596 5.66229 12.5 5.89996 12.3 6.09996L7.4 11H18.575C18.8583 11 19.096 11.0956 19.288 11.287C19.4793 11.479 19.575 11.7166 19.575 12C19.575 12.2833 19.4793 12.5206 19.288 12.712C19.096 12.904 18.8583 13 18.575 13H7.4L12.3 17.9C12.4833 18.0833 12.5793 18.3166 12.588 18.6C12.596 18.8833 12.5 19.1166 12.3 19.3C12.1167 19.5 11.8833 19.6 11.6 19.6C11.3167 19.6 11.075 19.5 10.875 19.3Z"
-                    fill="black" />
-            </g>
+  <div class="headline">
+    <h1>Konto erstellen</h1>
+    <span
+      >Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues
+      DABubble-Konto.</span
+    >
+  </div>
+
+  <form (ngSubmit)="signUp(contactForm)" #contactForm="ngForm">
+    <div class="inputCont">
+      <div class="input">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <mask
+            id="mask0_98810_4319"
+            style="mask-type: alpha"
+            maskUnits="userSpaceOnUse"
+            x="0"
+            y="0"
+            width="24"
+            height="24"
+          >
+            <rect width="24" height="24" fill="#D9D9D9" />
+          </mask>
+          <g mask="url(#mask0_98810_4319)">
+            <path
+              d="M12 12C10.9 12 9.95833 11.6083 9.175 10.825C8.39167 10.0417 8 9.1 8 8C8 6.9 8.39167 5.95833 9.175 5.175C9.95833 4.39167 10.9 4 12 4C13.1 4 14.0417 4.39167 14.825 5.175C15.6083 5.95833 16 6.9 16 8C16 9.1 15.6083 10.0417 14.825 10.825C14.0417 11.6083 13.1 12 12 12ZM18 20H6C5.45 20 4.97933 19.8043 4.588 19.413C4.196 19.021 4 18.55 4 18V17.2C4 16.6333 4.146 16.1123 4.438 15.637C4.72933 15.1623 5.11667 14.8 5.6 14.55C6.63333 14.0333 7.68333 13.6457 8.75 13.387C9.81667 13.129 10.9 13 12 13C13.1 13 14.1833 13.129 15.25 13.387C16.3167 13.6457 17.3667 14.0333 18.4 14.55C18.8833 14.8 19.2707 15.1623 19.562 15.637C19.854 16.1123 20 16.6333 20 17.2V18C20 18.55 19.8043 19.021 19.413 19.413C19.021 19.8043 18.55 20 18 20ZM6 18H18V17.2C18 17.0167 17.9543 16.85 17.863 16.7C17.771 16.55 17.65 16.4333 17.5 16.35C16.6 15.9 15.6917 15.5623 14.775 15.337C13.8583 15.1123 12.9333 15 12 15C11.0667 15 10.1417 15.1123 9.225 15.337C8.30833 15.5623 7.4 15.9 6.5 16.35C6.35 16.4333 6.22933 16.55 6.138 16.7C6.046 16.85 6 17.0167 6 17.2V18ZM12 10C12.55 10 13.021 9.804 13.413 9.412C13.8043 9.02067 14 8.55 14 8C14 7.45 13.8043 6.97933 13.413 6.588C13.021 6.196 12.55 6 12 6C11.45 6 10.9793 6.196 10.588 6.588C10.196 6.97933 10 7.45 10 8C10 8.55 10.196 9.02067 10.588 9.412C10.9793 9.804 11.45 10 12 10Z"
+              fill="#686868"
+            />
+          </g>
         </svg>
+        <input
+          minlength="3"
+          #name="ngModel"
+          [(ngModel)]="userData.name"
+          type="text"
+          name="name"
+          pattern="[a-zA-Z]+ [a-zA-Z]+"
+          title="Vorname und Nachname eingeben"
+          placeholder="Vorname und Nachname"
+          required
+        />
+      </div>
+      <span
+        class="warning"
+        [ngStyle]="{ opacity: !name.valid && name.touched ? 1 : 0 }"
+        >Bitte geben Sie Vorname und Name an.</span
+      >
+      <div class="input">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <mask
+            id="mask0_98810_3174"
+            style="mask-type: alpha"
+            maskUnits="userSpaceOnUse"
+            x="0"
+            y="0"
+            width="24"
+            height="24"
+          >
+            <rect width="24" height="24" fill="#D9D9D9" />
+          </mask>
+          <g mask="url(#mask0_98810_3174)">
+            <path
+              d="M4 20C3.45 20 2.97933 19.8043 2.588 19.413C2.196 19.021 2 18.55 2 18V6C2 5.45 2.196 4.97933 2.588 4.588C2.97933 4.196 3.45 4 4 4H20C20.55 4 21.021 4.196 21.413 4.588C21.8043 4.97933 22 5.45 22 6V18C22 18.55 21.8043 19.021 21.413 19.413C21.021 19.8043 20.55 20 20 20H4ZM20 8L12.525 12.675C12.4417 12.725 12.354 12.7623 12.262 12.787C12.1707 12.8123 12.0833 12.825 12 12.825C11.9167 12.825 11.8293 12.8123 11.738 12.787C11.646 12.7623 11.5583 12.725 11.475 12.675L4 8V18H20V8ZM12 11L20 6H4L12 11ZM4 8.25V6.775V6.8V6.787V8.25Z"
+              fill="#686868"
+            />
+          </g>
+        </svg>
+        <input
+          #email="ngModel"
+          [(ngModel)]="userData.email"
+          type="text"
+          name="email"
+          placeholder="beispielname@email.com"
+          required
+          title="Gültige Mail-Adresse eingeben!"
+          pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}"
+        />
+      </div>
+      <span
+        class="warning"
+        [ngStyle]="{ opacity: !email.valid && email.touched ? 1 : 0 }"
+        >*Diese E-Mail-Adresse ist leider ungültig.</span
+      >
+      <div class="input">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <mask
+            id="mask0_98810_14397"
+            style="mask-type: alpha"
+            maskUnits="userSpaceOnUse"
+            x="0"
+            y="0"
+            width="24"
+            height="24"
+          >
+            <rect width="24" height="24" fill="#D9D9D9" />
+          </mask>
+          <g mask="url(#mask0_98810_14397)">
+            <path
+              d="M6 22C5.45 22 4.97933 21.8043 4.588 21.413C4.196 21.021 4 20.55 4 20V10C4 9.45 4.196 8.979 4.588 8.587C4.97933 8.19567 5.45 8 6 8H7V6C7 4.61667 7.48767 3.43733 8.463 2.462C9.43767 1.48733 10.6167 1 12 1C13.3833 1 14.5627 1.48733 15.538 2.462C16.5127 3.43733 17 4.61667 17 6V8H18C18.55 8 19.021 8.19567 19.413 8.587C19.8043 8.979 20 9.45 20 10V20C20 20.55 19.8043 21.021 19.413 21.413C19.021 21.8043 18.55 22 18 22H6ZM6 20H18V10H6V20ZM12 17C12.55 17 13.021 16.8043 13.413 16.413C13.8043 16.021 14 15.55 14 15C14 14.45 13.8043 13.979 13.413 13.587C13.021 13.1957 12.55 13 12 13C11.45 13 10.9793 13.1957 10.588 13.587C10.196 13.979 10 14.45 10 15C10 15.55 10.196 16.021 10.588 16.413C10.9793 16.8043 11.45 17 12 17ZM9 8H15V6C15 5.16667 14.7083 4.45833 14.125 3.875C13.5417 3.29167 12.8333 3 12 3C11.1667 3 10.4583 3.29167 9.875 3.875C9.29167 4.45833 9 5.16667 9 6V8Z"
+              fill="#686868"
+            />
+          </g>
+        </svg>
+        <input
+          minlength="6"
+          #password="ngModel"
+          [(ngModel)]="userData.password"
+          type="password"
+          name="password"
+          title="Passwort eingeben (mind. 6 Zeichen)"
+          placeholder="Passwort"
+          required
+        />
+      </div>
+      <span
+        class="warning"
+        [ngStyle]="{
+          opacity:
+            (!password.valid && password.touched) ||
+            (password.value < 6 && password.touched)
+              ? 1
+              : 0
+        }"
+        >Bitte geben Sie ein Passwort mit mindestens 6 Zeichen ein.</span
+      >
     </div>
 
-    <div class="headline">
-        <h1>Konto erstellen</h1>
-        <span>Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues DABubble-Konto.</span>
+    <div class="privacy">
+      <label>
+        <input
+          #privacy="ngModel"
+          [(ngModel)]="userData.privacy"
+          type="checkbox"
+          name="privacy"
+          id=""
+          required
+        />
+        <span
+          >Ich stimme der<a href="legalnotice" target="_blank"
+            >Datenschutzerklärung</a
+          >zu.</span
+        >
+      </label>
 
+      <span
+        class="warning"
+        [ngStyle]="{ opacity: !privacy.valid && privacy.touched ? 1 : 0 }"
+        >Datenschutzerklärung akzeptieren</span
+      >
     </div>
 
-    <form (ngSubmit)="signUp(contactForm)" #contactForm="ngForm">
-        <div class="inputCont">
-            <div class="input">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <mask id="mask0_98810_4319" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                        width="24" height="24">
-                        <rect width="24" height="24" fill="#D9D9D9" />
-                    </mask>
-                    <g mask="url(#mask0_98810_4319)">
-                        <path
-                            d="M12 12C10.9 12 9.95833 11.6083 9.175 10.825C8.39167 10.0417 8 9.1 8 8C8 6.9 8.39167 5.95833 9.175 5.175C9.95833 4.39167 10.9 4 12 4C13.1 4 14.0417 4.39167 14.825 5.175C15.6083 5.95833 16 6.9 16 8C16 9.1 15.6083 10.0417 14.825 10.825C14.0417 11.6083 13.1 12 12 12ZM18 20H6C5.45 20 4.97933 19.8043 4.588 19.413C4.196 19.021 4 18.55 4 18V17.2C4 16.6333 4.146 16.1123 4.438 15.637C4.72933 15.1623 5.11667 14.8 5.6 14.55C6.63333 14.0333 7.68333 13.6457 8.75 13.387C9.81667 13.129 10.9 13 12 13C13.1 13 14.1833 13.129 15.25 13.387C16.3167 13.6457 17.3667 14.0333 18.4 14.55C18.8833 14.8 19.2707 15.1623 19.562 15.637C19.854 16.1123 20 16.6333 20 17.2V18C20 18.55 19.8043 19.021 19.413 19.413C19.021 19.8043 18.55 20 18 20ZM6 18H18V17.2C18 17.0167 17.9543 16.85 17.863 16.7C17.771 16.55 17.65 16.4333 17.5 16.35C16.6 15.9 15.6917 15.5623 14.775 15.337C13.8583 15.1123 12.9333 15 12 15C11.0667 15 10.1417 15.1123 9.225 15.337C8.30833 15.5623 7.4 15.9 6.5 16.35C6.35 16.4333 6.22933 16.55 6.138 16.7C6.046 16.85 6 17.0167 6 17.2V18ZM12 10C12.55 10 13.021 9.804 13.413 9.412C13.8043 9.02067 14 8.55 14 8C14 7.45 13.8043 6.97933 13.413 6.588C13.021 6.196 12.55 6 12 6C11.45 6 10.9793 6.196 10.588 6.588C10.196 6.97933 10 7.45 10 8C10 8.55 10.196 9.02067 10.588 9.412C10.9793 9.804 11.45 10 12 10Z"
-                            fill="#686868" />
-                    </g>
-                </svg>
-                <input minlength="3" #name="ngModel" [(ngModel)]="userData.name" type="text" name="name" pattern="[a-zA-Z]+ [a-zA-Z]+"
-                title="Vorname und Nachname eingeben" placeholder="Vorname und Nachname" required>
-            </div>
-            <span class="warning" [ngStyle]="{'opacity': !name.valid && name.touched ? 1 : 0}">Bitte geben Sie Vorname und Name an.</span>
-            <div class="input">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <mask id="mask0_98810_3174" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                        width="24" height="24">
-                        <rect width="24" height="24" fill="#D9D9D9" />
-                    </mask>
-                    <g mask="url(#mask0_98810_3174)">
-                        <path
-                            d="M4 20C3.45 20 2.97933 19.8043 2.588 19.413C2.196 19.021 2 18.55 2 18V6C2 5.45 2.196 4.97933 2.588 4.588C2.97933 4.196 3.45 4 4 4H20C20.55 4 21.021 4.196 21.413 4.588C21.8043 4.97933 22 5.45 22 6V18C22 18.55 21.8043 19.021 21.413 19.413C21.021 19.8043 20.55 20 20 20H4ZM20 8L12.525 12.675C12.4417 12.725 12.354 12.7623 12.262 12.787C12.1707 12.8123 12.0833 12.825 12 12.825C11.9167 12.825 11.8293 12.8123 11.738 12.787C11.646 12.7623 11.5583 12.725 11.475 12.675L4 8V18H20V8ZM12 11L20 6H4L12 11ZM4 8.25V6.775V6.8V6.787V8.25Z"
-                            fill="#686868" />
-                    </g>
-                </svg>
-                <input #email="ngModel" [(ngModel)]="userData.email" type="text" name="email"
-                    placeholder="beispielname@email.com" required title="Gültige Mail-Adresse eingeben!"
-                    pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}">
-            </div>
-            <span class="warning" [ngStyle]="{'opacity': !email.valid && email.touched ? 1 : 0}">*Diese E-Mail-Adresse
-                ist leider ungültig.</span>
-            <div class="input">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <mask id="mask0_98810_14397" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
-                        width="24" height="24">
-                        <rect width="24" height="24" fill="#D9D9D9" />
-                    </mask>
-                    <g mask="url(#mask0_98810_14397)">
-                        <path
-                            d="M6 22C5.45 22 4.97933 21.8043 4.588 21.413C4.196 21.021 4 20.55 4 20V10C4 9.45 4.196 8.979 4.588 8.587C4.97933 8.19567 5.45 8 6 8H7V6C7 4.61667 7.48767 3.43733 8.463 2.462C9.43767 1.48733 10.6167 1 12 1C13.3833 1 14.5627 1.48733 15.538 2.462C16.5127 3.43733 17 4.61667 17 6V8H18C18.55 8 19.021 8.19567 19.413 8.587C19.8043 8.979 20 9.45 20 10V20C20 20.55 19.8043 21.021 19.413 21.413C19.021 21.8043 18.55 22 18 22H6ZM6 20H18V10H6V20ZM12 17C12.55 17 13.021 16.8043 13.413 16.413C13.8043 16.021 14 15.55 14 15C14 14.45 13.8043 13.979 13.413 13.587C13.021 13.1957 12.55 13 12 13C11.45 13 10.9793 13.1957 10.588 13.587C10.196 13.979 10 14.45 10 15C10 15.55 10.196 16.021 10.588 16.413C10.9793 16.8043 11.45 17 12 17ZM9 8H15V6C15 5.16667 14.7083 4.45833 14.125 3.875C13.5417 3.29167 12.8333 3 12 3C11.1667 3 10.4583 3.29167 9.875 3.875C9.29167 4.45833 9 5.16667 9 6V8Z"
-                            fill="#686868" />
-                    </g>
-                </svg>
-                <input minlength="6" #password="ngModel" [(ngModel)]="userData.password" type="password" name="password"
-                title="Passwort eingeben (mind. 6 Zeichen)" placeholder="Passwort" required>
-            </div>
-            <span class="warning"
-                [ngStyle]="{'opacity': !password.valid && password.touched || password.value < 6 && password.touched ? 1 : 0}">Bitte
-                geben Sie ein Passwort mit mindestens 6 Zeichen ein.</span>
-        </div>
-
-        <div class="privacy">
-            <label>
-                <input #privacy="ngModel" [(ngModel)]="userData.privacy" type="checkbox" name="privacy" id="" required>
-                <span>Ich stimme der<a href="legalnotice" target="_blank">Datenschutzerklärung</a>zu.</span>
-            </label>
-
-            <span class="warning"
-                [ngStyle]="{'opacity': !privacy.valid && privacy.touched ? 1 : 0}">Datenschutzerklärung
-                akzeptieren</span>
-        </div>
-
-
-        <div class="buttons">
-            <button [disabled]="!name.valid || !email.valid || !password.valid || !privacy.valid" type="submit"
-                class="button_blue">Weiter</button>
-        </div>
-    </form>
+    <div class="buttons">
+      <button
+        [disabled]="
+          !name.valid || !email.valid || !password.valid || !privacy.valid
+        "
+        type="submit"
+        class="button_blue"
+      >
+        Weiter
+      </button>
+    </div>
+  </form>
 </div>
 
-<app-choose-avatar *ngIf="avatar" [ngClass]="(avatar) ? 'flex': 'd-none'" (backward)="close()" [name]='userData.name'></app-choose-avatar>
+<app-choose-avatar
+  *ngIf="avatar"
+  [ngClass]="avatar ? 'flex' : 'd-none'"
+  (backward)="close()"
+  [name]="userData.name"
+></app-choose-avatar>
+
