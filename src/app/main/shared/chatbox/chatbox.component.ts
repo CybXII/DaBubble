@@ -24,11 +24,8 @@ export class ChatboxComponent implements OnInit, OnDestroy {
   threadMessages$: Observable<ThreadMessage[]>;
   activeUserId: string | null = null;
   activeMessageId: string | null = null; // Aktive Nachricht
-  activeUserPhotoURL: string | null = null; // Avatar des aktiven Benutzers
   loadingMessages: WritableSignal<boolean> = signal(true);
-
   private destroy$ = new Subject<void>(); // Zum Aufräumen der Abonnements
-
   constructor(
     private channelsService: ChannelsService,
     private messagesService: MessagesService,
@@ -41,43 +38,14 @@ export class ChatboxComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.channelsService.setDefaultChannel();
     if (this.builder === 'mainchat') {
-      console.log(`Chatbox initialisiert mit builder: ${this.builder}`);
-      this.currentChannel$
-        .pipe(takeUntil(this.destroy$)) // Automatisch beendet bei destroy$
-        .subscribe((channel) => {
-          if (channel) {
-            this.loadingMessages.set(true);
-            try {
-              this.messagesService.loadMessagesForChannel(channel.id || '');
-            } catch (error) {
-              console.error('Fehler beim Laden der Nachrichten:', error);
-            } finally {
-              this.loadingMessages.set(false);
-            }        
-          }
-        });
+      
+      this.initMainChat();
+    } else if (this.builder === 'threadchat') {
+      this.initThreadChat();
     }
-
-    if (this.builder === 'threadchat') {
-      console.log(`Chatbox initialisiert mit builder: ${this.builder}`);
-      this.messagesService.messageId$
-        .pipe(takeUntil(this.destroy$)) // Automatisch beendet bei destroy$
-        .subscribe((messageId) => {
-          if (messageId) {
-            this.loadingMessages.set(true);
-            try {
-              this.messagesService.loadThreadMessages(messageId);
-            } catch (error) {
-              console.error('Fehler beim Laden der Thread-Nachrichten:', error);
-            } finally {
-              this.loadingMessages.set(false);
-            }
-          } else {
-            console.log('Keine gültige Message-ID für Thread gefunden.');
-          }
-        });
-    }
+    // this.initializeUser();
   }
 
   ngOnDestroy(): void {
@@ -85,6 +53,59 @@ export class ChatboxComponent implements OnInit, OnDestroy {
     this.destroy$.next(); // Signalisiert das Ende aller Abonnements
     this.destroy$.complete(); // Schließt den Subject-Stream
     console.log('Alle Ressourcen aufgeräumt.');
+  }
+
+
+  // async initializeUser(): Promise<void> {
+  //     const user = await this.authService.currentUser();
+  //     if (user) {
+  //       this.activeUserPhotoURL = user?.photoURL;
+  //       console.log('Aktiver Benutzer:', user.photoURL);
+  //   }
+  // }
+
+  private initMainChat(): void {
+    console.log(`Chatbox initialisiert mit builder: ${this.builder}`);
+    this.currentChannel$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((channel) => this.handleMainChatChannel(channel));
+  }
+
+
+
+  private handleMainChatChannel(channel: Channel | null): void {
+    if (channel) {
+      this.loadingMessages.set(true);
+      try {
+        this.messagesService.loadMessagesForChannel(channel.id || '');
+      } catch (error) {
+        console.error('Fehler beim Laden der Nachrichten:', error);
+      } finally {
+        this.loadingMessages.set(false);
+      }
+    }
+  }
+
+  private initThreadChat(): void {
+    console.log(`Chatbox initialisiert mit builder: ${this.builder}`);
+    this.messagesService.messageId$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((messageId) => this.handleThreadChatMessage(messageId));
+  }
+
+  private handleThreadChatMessage(messageId: string | null): void {
+    if (messageId) {
+      this.loadingMessages.set(true);
+      try {
+        this.messagesService.loadThreadMessages(messageId);
+      } catch (error) {
+        console.error('Fehler beim Laden der Thread-Nachrichten:', error);
+      } finally {
+        this.loadingMessages.set(false);
+      }
+    } else {
+      console.log('Keine gültige Message-ID für Thread gefunden.');
+    }
   }
 
   /**
