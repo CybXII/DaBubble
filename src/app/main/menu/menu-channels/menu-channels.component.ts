@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
-import { FullscreenModalComponent } from '../../../shared/fullscreen-modal/fullscreen-modal.component';
 import { Channel } from '../../../models/channel';
 import { ChannelsService } from '../../../shared/services/channels.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessagesService } from '../../../shared/services/messages.service';
 import { Auth } from '@angular/fire/auth';
 import { AddchatComponent } from '../../addchat/addchat.component';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-menu-channels',
@@ -31,7 +31,8 @@ export class MenuChannelsComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     public channelsService: ChannelsService,
     private messagesService: MessagesService,
-    private auth: Auth
+    private auth: Auth,
+    // public dialogRef: MatDialogRef<FullscreenModalComponent>,
   ) {
     this.channelForm = this.fb.group({
       name: ['', Validators.required],
@@ -55,31 +56,28 @@ export class MenuChannelsComponent implements OnInit, OnDestroy {
     this.unsubscribeFn = this.channelsService.loadChannelsRealtime((channels) => {
       this.channels = channels;
       this.loading = false;
-      console.log('Channels aktualisiert:', this.channels);
+      // console.log('Channels aktualisiert:', this.channels);
     });
   }
 
   async addChannel(): Promise<void> {
-
     console.error('addChannel() wurde nicht implementiert.');
-
   }
 
   // Dialog öffnen
   openDialog(): void {
-    this.dialog.open(FullscreenModalComponent, {
-      data: AddchatComponent,
+    this.dialog.open(AddchatComponent, {
       width: 'fit-content',
       maxWidth: '100vw',
       height: 'fit-content',
-      panelClass: 'fullscreen-modal',
     });
   }
 
-  // Channel auswählen und Nachrichten laden
   selectChannel(channelId: string): void {
-    this.currentChannelId = channelId;
-    this.messagesService.loadMessagesForChannel(channelId);
-    console.log('Lade Nachrichten für Channel mit ID:', channelId);
+    this.channelsService.selectChannel(channelId).then(() => {
+      // console.log('Channel erfolgreich ausgewählt:', channelId);
+    }).catch((error) => {
+      console.error('Fehler beim Auswählen des Channels:', error);
+    });
   }
 }
