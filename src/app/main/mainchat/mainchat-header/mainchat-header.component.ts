@@ -18,20 +18,21 @@ export class MainchatHeaderComponent {
   avatarsLoaded = false;
   memberAvatars: { [key: string]: string } = {};
   channelTitle: string = '';
-  channel$: Observable<Channel | null>;
+  channel: Observable<Channel | null>;
   channelMembers: { id: string; photoURL: string }[] = [];
   loading = true;
   constructor(private channelsService: ChannelsService, private authService: AuthService) {
-    this.channel$ = this.channelsService.currentChannel$;  }
+    this.channel = this.channelsService.currentChannel$;  
+  
+  }
 
     ngOnInit(): void {
-      this.channel$.subscribe(async (channel) => {
+      this.channel.subscribe(async (channel) => {
         if (channel) {
           this.channelTitle = channel.name;
-          this.loading = true; // Ladeprozess starten
-          this.channelMembers = await this.loadMemberAvatars(channel.members);
-          this.loading = false; // Ladeprozess beenden
-          console.log('Alle Avatare wurden erfolgreich geladen.');
+          await this.loadMemberAvatars(channel.members).then((memberAvatars) => {
+          this.channelMembers = memberAvatars;
+          });
         }
       });
     }
