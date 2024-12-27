@@ -26,6 +26,8 @@ export class ChatboxComponent implements OnInit, OnDestroy {
   activeMessageId: string | null = null; // Aktive Nachricht
   loadingMessages: WritableSignal<boolean> = signal(true);
   private destroy$ = new Subject<void>(); // Zum Aufräumen der Abonnements
+
+
   constructor(
     private channelsService: ChannelsService,
     private messagesService: MessagesService,
@@ -37,32 +39,24 @@ export class ChatboxComponent implements OnInit, OnDestroy {
     this.activeUserId = this.authService.userId();
   }
 
+
   ngOnInit(): void {
     this.channelsService.setDefaultChannel();
     if (this.builder === 'mainchat') {
-      
       this.initMainChat();
     } else if (this.builder === 'threadchat') {
       this.initThreadChat();
     }
-    // this.initializeUser();
   }
+
 
   ngOnDestroy(): void {
     console.log('Chatbox wird zerstört', this.builder);
-    this.destroy$.next(); // Signalisiert das Ende aller Abonnements
-    this.destroy$.complete(); // Schließt den Subject-Stream
+    this.destroy$.next();
+    this.destroy$.complete();
     console.log('Alle Ressourcen aufgeräumt.');
   }
 
-
-  // async initializeUser(): Promise<void> {
-  //     const user = await this.authService.currentUser();
-  //     if (user) {
-  //       this.activeUserPhotoURL = user?.photoURL;
-  //       console.log('Aktiver Benutzer:', user.photoURL);
-  //   }
-  // }
 
   private initMainChat(): void {
     console.log(`Chatbox initialisiert mit builder: ${this.builder}`);
@@ -70,7 +64,6 @@ export class ChatboxComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((channel) => this.handleMainChatChannel(channel));
   }
-
 
 
   private handleMainChatChannel(channel: Channel | null): void {
@@ -86,12 +79,14 @@ export class ChatboxComponent implements OnInit, OnDestroy {
     }
   }
 
+
   private initThreadChat(): void {
     console.log(`Chatbox initialisiert mit builder: ${this.builder}`);
     this.messagesService.messageId$
       .pipe(takeUntil(this.destroy$))
       .subscribe((messageId) => this.handleThreadChatMessage(messageId));
   }
+
 
   private handleThreadChatMessage(messageId: string | null): void {
     if (messageId) {
@@ -108,6 +103,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
     }
   }
 
+
   /**
    * Wählt eine Nachricht aus und lädt die zugehörigen Thread-Nachrichten.
    */
@@ -116,6 +112,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
     this.messagesService.setMessageId(messageId); // Aktualisiere die Message-ID im Service
     this.messagesService.loadThreadMessages(messageId); // Lade Thread-Nachrichten
   }
+
 
   trackByMessageId(index: number, message: Message): string {
     return message.docId || index.toString(); // Fallback auf Index, falls docId fehlt
