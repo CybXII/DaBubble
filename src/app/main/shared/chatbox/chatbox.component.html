@@ -50,7 +50,7 @@
 </div>
 }
 } @else {
-@for (message of (messages$ | async); track (message.docId || 'fallback')) {
+@for (message of (messages$ | async); track (message || 'fallback')) {
 <div class="thread__divider">
   <span class="thread__divider-text">{{ message.timestamp | date: 'longDate' }}</span>
 </div>
@@ -77,8 +77,13 @@
       </div>
     </div>
   </button>
-  <img class="chatbox__msg-avatar" [src]="message.creatorPhotoURL" alt="" width="70" height="70" />
-  <div class="chatbox__msg-item2" [class.chatbox__msg-sent-item2]="message.createdBy === activeUserId">
+  @if (message.creatorPhotoURL){
+    <img class="chatbox__msg-avatar" [src]="message.creatorPhotoURL"  alt="" width="70" height="70" />
+  }
+  @if (message.creatorPhotoURL == null || undefined) {
+    <img class="chatbox__msg-avatar" src="/img/icons/default_avatar.svg" alt="" width="70" height="70" />
+  }
+    <div class="chatbox__msg-item2" [class.chatbox__msg-sent-item2]="message.createdBy === activeUserId">
     <div class="chatbox__msg-info" [class.chatbox__msg-sent-info]="message.createdBy === activeUserId">
       <h3 class="chatbox__msg-name">{{ message.creatorName }}</h3>
       <p class="chatbox__msg-time">{{ message.timestamp | date: 'short' }}</p>
