@@ -20,13 +20,13 @@ export class BuilderComponent {
   menuOpened = true;
   threadchatOpened = false;
   menuState = 'in';
-  threadchatState = 'in';
+  threadchatState = 'out';
   
   constructor(private messagesService: MessagesService) {}
 
   ngOnInit(): void {
     this.messagesService.threadchatState$.subscribe((state) => {
-      this.threadchatOpened = state;
+      this.threadchatState = state ? 'in' : 'out'; // Aktualisieren des Animationszustands
     });
   }
   toggleMenu() {
