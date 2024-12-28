@@ -71,6 +71,8 @@
           type="text"
           name="name"
           pattern="[a-zA-Z]+ [a-zA-Z]+"
+          pattern="^[a-zA-ZÀ-ÿ]{1,}(?: [a-zA-ZÀ-ÿ]{1,})+$"
+          pattern="^[a-zA-ZÀ-ÿ]+(?:-[a-zA-ZÀ-ÿ]+)?(?: [a-zA-ZÀ-ÿ]+(?:-[a-zA-ZÀ-ÿ]+)?)$"
           title="Vorname und Nachname eingeben"
           placeholder="Vorname und Nachname"
           required
@@ -79,7 +81,7 @@
       <span
         class="warning"
         [ngStyle]="{ opacity: !name.valid && name.touched ? 1 : 0 }"
-        >Bitte geben Sie Vorname und Name an.</span
+        >Bitte geben Sie Vorname und Name an (Doppelnamen erlaubt).</span
       >
       <div class="input">
         <svg
