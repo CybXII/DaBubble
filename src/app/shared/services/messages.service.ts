@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, query,getDocs, collectionData, addDoc, where, onSnapshot, updateDoc, doc, getDoc } from '@angular/fire/firestore';
+import { Firestore, collection, query,getDocs, collectionData, addDoc, where, onSnapshot, updateDoc, doc, getDoc, deleteDoc } from '@angular/fire/firestore';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Message, Reaction, ThreadMessage } from '../../models/message';
 
@@ -262,5 +262,29 @@ loadMessagesForChannel(channelId: string) {
     const docRef = doc(this.firestore, `messages/${messageId}/threadMessages`, threadDocId);
     const docSnapshot = await getDoc(docRef);
     return docSnapshot.exists() ? (docSnapshot.data() as ThreadMessage) : null;
+  }
+
+  async deleteMessage(docId: string, userId: string): Promise<void> {
+    const messageRef = doc(this.firestore, 'messages', docId);
+  
+    try {
+      // Prüfen, ob die Nachricht existiert
+      const currentMessage = await this.getMessage(docId);
+      if (!currentMessage) {
+        throw new Error('Nachricht nicht gefunden.');
+      }
+  
+      // Prüfen, ob der Benutzer der Ersteller der Nachricht ist
+      if (currentMessage.createdBy !== userId) {
+        throw new Error('Nur der Ersteller darf die Nachricht löschen.');
+      }
+  
+      // Nachricht löschen
+      await deleteDoc(messageRef);
+      console.log('Nachricht erfolgreich gelöscht:', docId);
+    } catch (error) {
+      console.error('Fehler beim Löschen der Nachricht:', error);
+      throw error;
+    }
   }
 }
