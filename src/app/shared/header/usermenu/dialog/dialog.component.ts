@@ -16,6 +16,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { UserModel } from '../../../../models/user';
 
 @Component({
   selector: 'app-dialog',
@@ -90,8 +91,8 @@ export class DialogComponent {
   dataChangeAllowedCheck() {
     if (this.userData?.provider !== 'password') {
       this.profileForm.disable();
-  }  
-}
+    }
+  }
 
   closeProfileEdit() {
     this.profileDialog = true;
@@ -104,11 +105,32 @@ export class DialogComponent {
     this.dialogChange.emit(this.dialog);
   }
 
-  saveProfile() {
-    this.profileDialog = false;
-    this.profileDialogEdit = false;
-    this.dialogChange.emit(this.dialog);
-    this.toastMessageService.showToastSignal('Profil erfolgreich aktualisiert');
+  // saveProfile() {
+  //   this.profileDialog = false;
+  //   this.profileDialogEdit = false;
+  //   this.dialogChange.emit(this.dialog);
+  //   this.toastMessageService.showToastSignal('Profil erfolgreich aktualisiert');
+  // }
+
+  async saveProfile(): Promise<void> {
+    if (this.profileForm.valid && this.userData) {
+      const updatedData: Partial<UserModel> = {
+        name: this.profileForm.value.userInputName ?? '',
+        email: this.profileForm.value.userInputEmail ?? undefined,
+      };
+
+      try {
+        await this.authService.updateUserData(this.userData.userId, updatedData);
+        this.profileDialog = false;
+        this.profileDialogEdit = false;
+        this.dialogChange.emit(this.dialog);
+        this.toastMessageService.showToastSignal(
+          'Profil erfolgreich aktualisiert'
+        );
+      } catch (error) {
+        console.error('Fehler beim Speichern der Profiländerungen:', error);
+      }
+    }
   }
 
   get userData() {

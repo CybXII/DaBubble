@@ -13,13 +13,14 @@ import {
   sendEmailVerification,
   sendPasswordResetEmail,
   updatePassword,
-  confirmPasswordReset
+  confirmPasswordReset,
 } from '@angular/fire/auth';
 import {
   Firestore,
   doc,
   setDoc,
   getDoc,
+  updateDoc,
   collection,
   onSnapshot,
 } from '@angular/fire/firestore';
@@ -30,9 +31,7 @@ import { ToastMessageService } from './toastmessage.service';
 @Injectable({
   providedIn: 'root',
 })
-
 export class AuthService {
-
   private avatarCache = new Map<string, string>();
 
   // Reactive signals
@@ -58,19 +57,18 @@ export class AuthService {
         this.currentUser.set(null); // Kein Benutzer angemeldet
       }
     });
-  
+
     this.monitorAuthState(); // Überwachung des Auth-Status starten
     this.getUserList(); // Benutzerliste aus Firestore laden
     this.intializeUserData(); // Benutzer-Daten initialisieren
   }
 
-
-    /**
+  /**
    * Bestätigt den Passwort-Reset mit dem erhaltenen oobCode und setzt das neue Passwort.
    */
-    confirmPasswordReset(oobCode: string, newPassword: string): Promise<void> {
-      return confirmPasswordReset(this.auth, oobCode, newPassword);
-    }
+  confirmPasswordReset(oobCode: string, newPassword: string): Promise<void> {
+    return confirmPasswordReset(this.auth, oobCode, newPassword);
+  }
 
   /**
   // sendEmail(email: string) {
@@ -175,7 +173,7 @@ export class AuthService {
         user.photoURL || '',
         user.providerData[0].providerId || ''
       );
-      
+
       await setDoc(doc(this.firestore, 'users', user.uid), userData);
     } catch (error) {
       console.error('Registration failed:', error);
@@ -188,9 +186,6 @@ export class AuthService {
   resetPassword(email: string): Promise<void> {
     return sendPasswordResetEmail(this.auth, email);
   }
-
-
-
 
   /**
    * Passwort updaten
@@ -205,7 +200,6 @@ export class AuthService {
     }
   }
 
-
   /**
    * Benutzer einloggen (E-Mail und Passwort)
    */
@@ -217,7 +211,7 @@ export class AuthService {
         password
       );
       console.log('Login successful:', userCredential.user);
-      
+
       this.userId.set(userCredential.user.uid);
       await this.loadUserData(userCredential.user.uid);
     } catch (error) {
@@ -249,17 +243,16 @@ export class AuthService {
       const result = await signInWithPopup(this.auth, provider);
       const user = result.user;
       console.log('Google login successful:', user);
-      
+
       const userData = this.setUserData(
         user.uid,
         user.displayName || '',
         user.email || '',
         user.photoURL || '',
-        user.providerData[0].providerId || '',
+        user.providerData[0].providerId || ''
       );
       await setDoc(doc(this.firestore, `users/${user.uid}`), userData);
       await this.loadUserData(user.uid);
-
     } catch (error) {
       console.error('Google login failed:', error);
     }
@@ -293,7 +286,7 @@ export class AuthService {
   /**
    * Benutzerdaten laden
    */
-  private async loadUserData(userId: string): Promise<void> {
+  async loadUserData(userId: string): Promise<void> {
     try {
       const userDoc = await getDoc(doc(this.firestore, 'users', userId));
       if (userDoc.exists()) {
@@ -384,7 +377,6 @@ export class AuthService {
     return userDoc.exists() ? (userDoc.data() as UserModel) : null;
   }
 
-
   /**
    * Ruft die Avatar-URL eines Benutzers ab und verwendet einen Cache für Performance.
    */
@@ -400,12 +392,35 @@ export class AuthService {
         const avatarUrl = userData.photoURL || 'img/avatars/picPlaceholder.svg';
         this.avatarCache.set(userId, avatarUrl);
         return avatarUrl;
-      } 
-      else {
+      } else {
         return 'img/avatars/picPlaceholder.svg';
       }
     } catch (error) {
       return 'img/avatars/picPlaceholder.svg';
+    }
+  }
+
+  async updateUserData(
+    userId: string,
+    updatedData: Partial<UserModel>
+  ): Promise<void> {
+    try {
+      const userDocRef = doc(this.firestore, `users/${userId}`);
+      await updateDoc(userDocRef, updatedData);
+      const updatedUserDoc = await getDoc(userDocRef);
+      if (updatedUserDoc.exists()) {
+        const updatedUserData = updatedUserDoc.data() as UserModel;
+        localStorage.setItem('userData', JSON.stringify(updatedUserData));
+        this.userData.set(updatedUserData);
+        this.toastMessageService.showToastSignal(
+          'Benutzerdaten erfolgreich aktualisiert'
+        );
+      }
+    } catch (error) {
+      console.error('Fehler beim Aktualisieren der Benutzerdaten:', error);
+      this.toastMessageService.showToastSignal(
+        'Fehler beim Aktualisieren der Benutzerdaten'
+      );
     }
   }
 }
