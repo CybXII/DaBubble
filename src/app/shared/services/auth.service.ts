@@ -172,8 +172,10 @@ export class AuthService {
         user.uid,
         user.displayName || '',
         user.email || '',
-        user.photoURL || ''
+        user.photoURL || '',
+        user.providerData[0].providerId || ''
       );
+      
       await setDoc(doc(this.firestore, 'users', user.uid), userData);
     } catch (error) {
       console.error('Registration failed:', error);
@@ -214,7 +216,10 @@ export class AuthService {
         email,
         password
       );
+      console.log('Login successful:', userCredential.user);
+      
       this.userId.set(userCredential.user.uid);
+      await this.loadUserData(userCredential.user.uid);
     } catch (error) {
       this.handleLoginError(error);
     }
@@ -229,6 +234,7 @@ export class AuthService {
       const user = userCredential.user;
       const userData = this.setAnonymousUserData(user.uid);
       await setDoc(doc(this.firestore, `users/${user.uid}`), userData);
+      await this.loadUserData(user.uid);
     } catch (error) {
       console.error('Anonymous login failed:', error);
     }
@@ -242,11 +248,14 @@ export class AuthService {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(this.auth, provider);
       const user = result.user;
+      console.log('Google login successful:', user);
+      
       const userData = this.setUserData(
         user.uid,
         user.displayName || '',
         user.email || '',
-        user.photoURL || ''
+        user.photoURL || '',
+        user.providerData[0].providerId || '',
       );
       await setDoc(doc(this.firestore, `users/${user.uid}`), userData);
       await this.loadUserData(user.uid);
@@ -318,7 +327,8 @@ export class AuthService {
     userId: string,
     username: string,
     email: string,
-    avatarURL: string
+    avatarURL: string,
+    provider: string = ''
   ): UserModel {
     return {
       userId,
@@ -328,6 +338,7 @@ export class AuthService {
       channels: [],
       privateNoteRef: '',
       status: false,
+      provider: provider,
     };
   }
 
@@ -337,12 +348,13 @@ export class AuthService {
   private setAnonymousUserData(userId: string): UserModel {
     return {
       userId,
-      name: 'Guest',
-      email: 'guest@guest.de',
+      name: 'Gast',
+      email: 'gast@gast.de',
       photoURL: 'img/avatars/picPlaceholder.svg',
       channels: [],
       privateNoteRef: '',
       status: true,
+      provider: 'anonymous',
     };
   }
 
