@@ -33,13 +33,7 @@ import { ToastMessageService } from './toastmessage.service';
 
 export class AuthService {
 
-  /**
-   * Bestätigt den Passwort-Reset mit dem erhaltenen oobCode und setzt das neue Passwort.
-   */
-  confirmPasswordReset(oobCode: string, newPassword: string): Promise<void> {
-    return confirmPasswordReset(this.auth, oobCode, newPassword);
-  }
-
+  private avatarCache = new Map<string, string>();
 
   // Reactive signals
   userId = signal<string | null>(null);
@@ -70,6 +64,15 @@ export class AuthService {
     this.intializeUserData(); // Benutzer-Daten initialisieren
   }
 
+
+    /**
+   * Bestätigt den Passwort-Reset mit dem erhaltenen oobCode und setzt das neue Passwort.
+   */
+    confirmPasswordReset(oobCode: string, newPassword: string): Promise<void> {
+      return confirmPasswordReset(this.auth, oobCode, newPassword);
+    }
+
+  /**
   // sendEmail(email: string) {
   //   const actionCodeSettings = {
   //     // URL you want to redirect back to. The domain (www.example.com) for this
@@ -364,8 +367,33 @@ export class AuthService {
     }
   }
 
-async getUserById(userId: string | null): Promise<UserModel | null> {
-  const userDoc = await getDoc(doc(this.firestore, `users/${userId}`));
-  return userDoc.exists() ? (userDoc.data() as UserModel) : null;
-}
+  async getUserById(userId: string | null): Promise<UserModel | null> {
+    const userDoc = await getDoc(doc(this.firestore, `users/${userId}`));
+    return userDoc.exists() ? (userDoc.data() as UserModel) : null;
+  }
+
+
+  /**
+   * Ruft die Avatar-URL eines Benutzers ab und verwendet einen Cache für Performance.
+   */
+  async getCachedAvatar(userId: string): Promise<string> {
+    if (this.avatarCache.has(userId)) {
+      return this.avatarCache.get(userId)!;
+    }
+
+    try {
+      const userDoc = await getDoc(doc(this.firestore, `users/${userId}`));
+      if (userDoc.exists()) {
+        const userData = userDoc.data() as UserModel;
+        const avatarUrl = userData.photoURL || 'img/avatars/picPlaceholder.svg';
+        this.avatarCache.set(userId, avatarUrl);
+        return avatarUrl;
+      } 
+      else {
+        return 'img/avatars/picPlaceholder.svg';
+      }
+    } catch (error) {
+      return 'img/avatars/picPlaceholder.svg';
+    }
+  }
 }
