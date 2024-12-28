@@ -9,10 +9,11 @@
   <div class="mainchat__header__item2">
     <div class="mainchat__header__avatar-container">
       <div class="mainchat__header__avatar-box">
-        
-        @for (member of this.channelMembers; track member) {
-            <img [src]="member.photoURL" alt="Avatar" class="mainchat__header-avatar" height="40px" width="40px" />
+        @if (channelMembers) {
+          @for (member of this.channelMembers; track member) {
+            <img src="{{member.photoURL}}" alt="Avatar" class="mainchat__header-avatar" height="40px" width="40px" />
         }
+      }
       </div>
       <span class="mainchat__header__accounts-number">{{channelMembers.length}}</span>
     </div>
