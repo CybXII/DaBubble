@@ -15,18 +15,18 @@ import { MatDialog } from '@angular/material/dialog';
   imports: [CommonModule], 
   templateUrl: './chatbox.component.html',
   styleUrls: ['./chatbox.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush, // Optimiert die Change Detection
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatboxComponent implements OnInit, OnDestroy {
-  @Input() builder!: string; // Vom Parent übergebener Channel-Name/ID
-  @Output() threadChatToggle = new EventEmitter<void>(); // Öffnet den Thread-Chat
-  currentChannel$: Observable<Channel | null>; // Aktueller Channel
+  @Input() builder!: string;
+  @Output() threadChatToggle = new EventEmitter<void>();
+  currentChannel$: Observable<Channel | null>;
   messages$: Observable<Partial<Message>[]>;
   threadMessages$: Observable<ThreadMessage[]>;
   activeUserId: string | null = null;
-  activeMessageId: string | null = null; // Aktive Nachricht
+  activeMessageId: string | null = null;
   loadingMessages: WritableSignal<boolean> = signal(true);
-  private destroy$ = new Subject<void>(); // Zum Aufräumen der Abonnements
+  private destroy$ = new Subject<void>();
 
 
   constructor(
@@ -110,14 +110,14 @@ export class ChatboxComponent implements OnInit, OnDestroy {
    * Wählt eine Nachricht aus und lädt die zugehörigen Thread-Nachrichten.
    */
   onMessageSelect(messageId: string): void {
-    this.activeMessageId = messageId; // Setze die aktive Nachricht
-    this.messagesService.setMessageId(messageId); // Aktualisiere die Message-ID im Service
-    this.messagesService.loadThreadMessages(messageId); // Lade Thread-Nachrichten
+    this.activeMessageId = messageId;
+    this.messagesService.setMessageId(messageId);
+    this.messagesService.loadThreadMessages(messageId);
   }
 
 
   trackByMessageId(index: number, message: Message): string {
-    return message.docId || index.toString(); // Fallback auf Index, falls docId fehlt
+    return message.docId || index.toString();
   }
 
   editMessage(message: Partial<Message> , deleteMessage: boolean) {
