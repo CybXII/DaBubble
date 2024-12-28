@@ -172,6 +172,12 @@
   top: 100%;
 }
 
+.data-change-not-allowed{
+  cursor: not-allowed;
+  background-color: whitesmoke;
+  color: grey !important;
+}
+
 @media screen and (min-width: 1920px) {
   .dialog-container {
     right: calc(100vw / 2 + -940px) !important;

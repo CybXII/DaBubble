@@ -17,16 +17,14 @@ export class ChannelsService {
 
   async setDefaultChannel(): Promise<void> {
     try {
-      const channels = await this.getAllChannels(); // Lade alle Channels
+      const channels = await this.getAllChannels();
       if (channels.length > 0) {
         const cachedChannelId = localStorage.getItem('lastChannelId');
         const defaultChannel = cachedChannelId
           ? channels.find(channel => channel.id === cachedChannelId) || channels[0]
-          : channels[0]; // Falls kein Cache vorhanden, nimm den ersten Channel
-  
+          : channels[0];
         if (defaultChannel && defaultChannel.id) {
-          await this.selectChannel(defaultChannel.id); // Setze den Default Channel
-          console.log('Default Channel gesetzt:', defaultChannel.name);
+          await this.selectChannel(defaultChannel.id);
         } else {
           console.warn('Kein gültiger Default-Channel gefunden.');
         }

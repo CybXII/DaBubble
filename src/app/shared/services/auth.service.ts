@@ -33,13 +33,7 @@ import { ToastMessageService } from './toastmessage.service';
 
 export class AuthService {
 
-  /**
-   * Bestätigt den Passwort-Reset mit dem erhaltenen oobCode und setzt das neue Passwort.
-   */
-  confirmPasswordReset(oobCode: string, newPassword: string): Promise<void> {
-    return confirmPasswordReset(this.auth, oobCode, newPassword);
-  }
-
+  private avatarCache = new Map<string, string>();
 
   // Reactive signals
   userId = signal<string | null>(null);
@@ -70,6 +64,15 @@ export class AuthService {
     this.intializeUserData(); // Benutzer-Daten initialisieren
   }
 
+
+    /**
+   * Bestätigt den Passwort-Reset mit dem erhaltenen oobCode und setzt das neue Passwort.
+   */
+    confirmPasswordReset(oobCode: string, newPassword: string): Promise<void> {
+      return confirmPasswordReset(this.auth, oobCode, newPassword);
+    }
+
+  /**
   // sendEmail(email: string) {
   //   const actionCodeSettings = {
   //     // URL you want to redirect back to. The domain (www.example.com) for this
@@ -169,8 +172,10 @@ export class AuthService {
         user.uid,
         user.displayName || '',
         user.email || '',
-        user.photoURL || ''
+        user.photoURL || '',
+        user.providerData[0].providerId || ''
       );
+      
       await setDoc(doc(this.firestore, 'users', user.uid), userData);
     } catch (error) {
       console.error('Registration failed:', error);
@@ -211,7 +216,10 @@ export class AuthService {
         email,
         password
       );
+      console.log('Login successful:', userCredential.user);
+      
       this.userId.set(userCredential.user.uid);
+      await this.loadUserData(userCredential.user.uid);
     } catch (error) {
       this.handleLoginError(error);
     }
@@ -226,6 +234,7 @@ export class AuthService {
       const user = userCredential.user;
       const userData = this.setAnonymousUserData(user.uid);
       await setDoc(doc(this.firestore, `users/${user.uid}`), userData);
+      await this.loadUserData(user.uid);
     } catch (error) {
       console.error('Anonymous login failed:', error);
     }
@@ -239,11 +248,14 @@ export class AuthService {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(this.auth, provider);
       const user = result.user;
+      console.log('Google login successful:', user);
+      
       const userData = this.setUserData(
         user.uid,
         user.displayName || '',
         user.email || '',
-        user.photoURL || ''
+        user.photoURL || '',
+        user.providerData[0].providerId || '',
       );
       await setDoc(doc(this.firestore, `users/${user.uid}`), userData);
       await this.loadUserData(user.uid);
@@ -315,7 +327,8 @@ export class AuthService {
     userId: string,
     username: string,
     email: string,
-    avatarURL: string
+    avatarURL: string,
+    provider: string = ''
   ): UserModel {
     return {
       userId,
@@ -325,6 +338,7 @@ export class AuthService {
       channels: [],
       privateNoteRef: '',
       status: false,
+      provider: provider,
     };
   }
 
@@ -334,12 +348,13 @@ export class AuthService {
   private setAnonymousUserData(userId: string): UserModel {
     return {
       userId,
-      name: 'Guest',
-      email: 'guest@guest.de',
+      name: 'Gast',
+      email: 'gast@gast.de',
       photoURL: 'img/avatars/picPlaceholder.svg',
       channels: [],
       privateNoteRef: '',
       status: true,
+      provider: 'anonymous',
     };
   }
 
@@ -364,8 +379,33 @@ export class AuthService {
     }
   }
 
-async getUserById(userId: string | null): Promise<UserModel | null> {
-  const userDoc = await getDoc(doc(this.firestore, `users/${userId}`));
-  return userDoc.exists() ? (userDoc.data() as UserModel) : null;
-}
+  async getUserById(userId: string | null): Promise<UserModel | null> {
+    const userDoc = await getDoc(doc(this.firestore, `users/${userId}`));
+    return userDoc.exists() ? (userDoc.data() as UserModel) : null;
+  }
+
+
+  /**
+   * Ruft die Avatar-URL eines Benutzers ab und verwendet einen Cache für Performance.
+   */
+  async getCachedAvatar(userId: string): Promise<string> {
+    if (this.avatarCache.has(userId)) {
+      return this.avatarCache.get(userId)!;
+    }
+
+    try {
+      const userDoc = await getDoc(doc(this.firestore, `users/${userId}`));
+      if (userDoc.exists()) {
+        const userData = userDoc.data() as UserModel;
+        const avatarUrl = userData.photoURL || 'img/avatars/picPlaceholder.svg';
+        this.avatarCache.set(userId, avatarUrl);
+        return avatarUrl;
+      } 
+      else {
+        return 'img/avatars/picPlaceholder.svg';
+      }
+    } catch (error) {
+      return 'img/avatars/picPlaceholder.svg';
+    }
+  }
 }
