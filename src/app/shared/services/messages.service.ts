@@ -17,60 +17,42 @@ export class MessagesService {
   messageId$ = this.messageIdSubject.asObservable();
   constructor(private firestore: Firestore) {}
 
-  // async loadMessagesForChannel(channelId: string): Promise<void> {
-  //   const messagesRef = collection(this.firestore, `channels/${channelId}/messages`);
-  //   const q = query(messagesRef);
+  loadMessagesForChannel(channelId: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const messagesRef = collection(this.firestore, 'messages');
+      const q = query(messagesRef, where('channelId', '==', channelId));
   
-  //   try {
-  //     const querySnapshot = await getDocs(q);
-  //     const messages: Message[] = querySnapshot.docs.map((doc) => {
-  //       const data = doc.data();
-  //       return {
-  //         id: doc.id,
-  //         createdBy: data['createdBy'] || 'Unbekannt',
-  //         creatorName: data['creatorName'] || 'Unbekannt',
-  //         creatorPhotoURL: data['creatorPhotoURL'] || '',
-  //         isPrivate: data['isPrivate'] || false,
-  //         message: data['message'] || '',
-  //         timestamp: data['timestamp'] ? new Date(data['timestamp'].seconds * 1000) : new Date(),
-  //         members: data['members'] || [],
-  //         reactions: data['reactions'] || [],
-  //         thread: data['thread'] || null,
-  //       } as Message;
-  //     });
-  //     this.messagesSubject.next(messages);
-  //     console.log('Nachrichten für Channel geladen im Service:', messages);
-  //   } catch (error) {
-  //     console.error('Fehler beim Laden der Nachrichten:', error);
-  //     throw error;
-  //   }
-  // }
-
-loadMessagesForChannel(channelId: string) {
-  const messagesRef = collection(this.firestore, 'messages');
-  const q = query(messagesRef, where('channelId', '==', channelId));
-
-  onSnapshot(q, (snapshot) => {
-    const messages = snapshot.docs.map((doc) => {
-      const data = doc.data();
-      return {
-        id: doc.id, // Firebase-Dokument-ID
-        createdBy: data['createdBy'] || 'Unbekannt',
-        creatorName: data['creatorName'] || 'Unbekannt',
-        creatorPhotoURL: data['creatorPhotoURL'] || '',
-        isPrivate: data['isPrivate'] || false,
-        message: data['message'] || '',
-        timestamp: data['timestamp'] ? new Date(data['timestamp'].seconds * 1000) : new Date(),
-        members: data['members'] || [],
-        reactions: data['reactions'] || [],
-        thread: data['thread'] || null,
-        docId: doc.id, // Hier die docId setzen
-      } as Message;
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        try {
+          const messages = snapshot.docs.map((doc) => {
+            const data = doc.data();
+            return {
+              id: doc.id,
+              createdBy: data['createdBy'] || 'Unbekannt',
+              creatorName: data['creatorName'] || 'Unbekannt',
+              creatorPhotoURL: data['creatorPhotoURL'] || '',
+              isPrivate: data['isPrivate'] || false,
+              message: data['message'] || '',
+              timestamp: data['timestamp']
+                ? new Date(data['timestamp'].seconds * 1000)
+                : new Date(),
+              members: data['members'] || [],
+              reactions: data['reactions'] || [],
+              thread: data['thread'] || null,
+              docId: doc.id,
+            } as Message;
+          });
+          this.messagesSubject.next(messages);
+          resolve(); // Daten erfolgreich geladen
+        } catch (error) {
+          reject(error); // Fehler beim Laden der Daten
+        } finally {
+          unsubscribe(); // Event-Listener entfernen
+        }
+      });
     });
-    this.messagesSubject.next(messages);
-  });
-}
-  
+  }
+
 
   /**
    * Lädt Thread-Nachrichten einer bestimmten Nachricht und speichert sie lokal.

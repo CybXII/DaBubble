@@ -27,7 +27,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
   activeMessageId: string | null = null;
   loadingMessages: WritableSignal<boolean> = signal(true);
   private destroy$ = new Subject<void>();
-
+  loadingAvatars: boolean = false;
 
   constructor(
     private channelsService: ChannelsService,
@@ -79,6 +79,17 @@ export class ChatboxComponent implements OnInit, OnDestroy {
         this.loadingMessages.set(false);
       }
     }
+  }
+  loadMessagesForChannel(channelId: string) {
+    this.loadingAvatars = true;
+    this.messagesService.loadMessagesForChannel(channelId)
+      .then(() => {
+        this.loadingAvatars = false;
+      })
+      .catch((error) => {
+        console.error('Fehler beim Laden der Nachrichten:', error);
+        this.loadingAvatars = false;
+      });
   }
 
 
