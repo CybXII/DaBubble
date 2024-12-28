@@ -65,6 +65,7 @@
         (input)="profileDataChange()"
         placeholder="Bitte vollständigen Namen eingeben"
         formControlName="userInputName"
+        [ngClass]="{'data-change-not-allowed': profileForm.disabled}"
       />
       <div
         *ngIf="
@@ -96,6 +97,7 @@
         (input)="profileDataChange()"
         placeholder="Bitte E-Mail-Adresse eingeben"
         formControlName="userInputEmail"
+        [ngClass]="{'data-change-not-allowed': profileForm.disabled}"
       />
       <div
         *ngIf="
