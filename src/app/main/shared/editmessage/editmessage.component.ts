@@ -13,13 +13,13 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class EditmessageComponent {
   messageForm: FormGroup;
-
+  messageDelete: boolean;
   constructor(
     private fb: FormBuilder,
     private messagesService: MessagesService,
     private auth: AuthService,
     public dialogRef: MatDialogRef<EditmessageComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { message: Partial<Message> }
+    @Inject(MAT_DIALOG_DATA) public data: { message: Partial<Message> ,deleteMessage: boolean }
   ) {
      // Formular initialisieren
     this.messageForm = this.fb.group({
@@ -27,6 +27,8 @@ export class EditmessageComponent {
       // description: [''], // Optional
       // reactions : [''], // Optional
     });
+    this.messageDelete = this.data.deleteMessage;
+    console.log('EditmessageComponent wurde initialisiert:', this.data.deleteMessage);
   }
 
   ngOnInit(): void {
@@ -34,6 +36,8 @@ export class EditmessageComponent {
       message: [this.data.message.message || '', Validators.required], // Initialisiere das Formular mit der übergebenen Nachricht
       reactions: [this.data.message.reactions || []], // Initialisiere das Formular mit den übergebenen Reaktionen
     });
+
+    console.log('EditmessageComponent wurde initialisiert:', this.messageDelete);
   }
 
 
@@ -44,7 +48,6 @@ export class EditmessageComponent {
         ...this.messageForm.value, // Überschreibe mit den neuen Werten
         docId: this.data.message.docId, // Stelle sicher, dass docId gesetzt ist
       };
-  
       this.messagesService.updateMessage(newMessage.docId, newMessage.createdBy, newMessage)
         .then(() => {
           console.log('Nachricht erfolgreich aktualisiert:', newMessage);
@@ -69,11 +72,31 @@ export class EditmessageComponent {
   return dataUser === activeUser;  }
 
   deleteMessage(): void {
-    console.log('Nachricht wurde gelöscht.');
-  }
+    if (this.messageForm.valid && this.checkCreatorWithActiveUser()) {
+      const newMessage = {
+        ...this.data.message, // Nutze die vorhandenen Daten der Nachricht
+        ...this.messageForm.value, // Überschreibe mit den neuen Werten
+        docId: this.data.message.docId, // Stelle sicher, dass docId gesetzt ist
+      };
+      this.messagesService.deleteMessage(newMessage.docId, newMessage.createdBy)
+      .then(() => {
+          console.log('Nachricht erfolgreich aktualisiert:', newMessage);
+          this.messageForm.reset();
+          this.dialogRef.close();
+        })
+        .catch((error) => {
+          console.error('Fehler beim Aktualisieren der Nachricht:', error);
+        });
+    } else if (!this.messageForm.valid) {
+      console.log('Formular ist ungültig.');
+    } else if (!this.checkCreatorWithActiveUser()) {
+      console.log('Nur der Ersteller kann die Nachricht bearbeiten.');
+    }
+  } 
   
-  onCancel(): void {
+  onCancel(): void { 
     console.log('Edit cancelled');
     this.messageForm.reset();
+    this.dialogRef.close(); 
   }
 }
