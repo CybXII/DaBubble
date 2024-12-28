@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, query,getDocs, collectionData, addDoc, where, onSnapshot } from '@angular/fire/firestore';
+import { Firestore, collection, query,getDocs, collectionData, addDoc, where, onSnapshot, updateDoc, doc, getDoc } from '@angular/fire/firestore';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Message, ThreadMessage } from '../../models/message';
+import { Message, Reaction, ThreadMessage } from '../../models/message';
 
 @Injectable({
   providedIn: 'root',
@@ -148,5 +148,119 @@ loadMessagesForChannel(channelId: string) {
   setMessageId(messageId: string): void {
     this.messageIdSubject.next(messageId);
     // console.log('Message-ID gesetzt:', messageId);
+  }
+
+  async updateMessage(docId: string, userId: string, updateData: Partial<Message>): Promise<void> {
+    const messageRef = doc(this.firestore, 'messages', docId);
+  
+    try {
+      // Prüfe, ob es sich um eine Änderung der Reaktionen handelt
+      if (updateData.reactions) {
+        // Logik für das Hinzufügen/Entfernen von Reaktionen
+        const currentMessage = await this.getMessage(docId);
+        if (!currentMessage) throw new Error('Nachricht nicht gefunden.');
+  
+        const updatedReactions = this.updateReactions(
+          currentMessage.reactions,
+          updateData.reactions,
+          userId
+        );
+        await updateDoc(messageRef, { reactions: updatedReactions });
+      }
+  
+      // Prüfe, ob der Benutzer der Ersteller der Nachricht ist, um Text zu ändern oder zu löschen
+      if (updateData.message) {
+        const currentMessage = await this.getMessage(docId);
+        if(currentMessage){
+          if (currentMessage.createdBy !== userId) {
+            throw new Error('Nur der Ersteller darf den Nachrichtentext ändern.');
+          }
+          await updateDoc(messageRef, { message: updateData.message });
+        }
+      }
+  
+      console.log('Nachricht erfolgreich aktualisiert:', docId);
+    } catch (error) {
+      console.error('Fehler beim Aktualisieren der Nachricht:', error);
+      throw error;
+    }
+  }
+
+  async updateThreadMessage(
+    messageId: string,
+    threadDocId: string,
+    userId: string,
+    updateData: Partial<ThreadMessage>
+  ): Promise<void> {
+    const threadMessageRef = doc(
+      this.firestore,
+      `messages/${messageId}/threadMessages`,
+      threadDocId
+    );
+  
+    try {
+      // Prüfe, ob es sich um eine Änderung der Reaktionen handelt
+      if (updateData.reactions) {
+        const currentThreadMessage = await this.getThreadMessage(messageId, threadDocId);
+        if (!currentThreadMessage) throw new Error('Thread-Nachricht nicht gefunden.');
+
+        const updatedReactions = this.updateReactions(
+          currentThreadMessage.reactions,
+          updateData.reactions,
+          userId
+        );
+        await updateDoc(threadMessageRef, { reactions: updatedReactions });
+      }
+      // Prüfe, ob der Benutzer der Ersteller der Nachricht ist, um Text zu ändern oder zu löschen
+      if (updateData.message) {
+        const currentThreadMessage = await this.getThreadMessage(messageId, threadDocId);
+        if (currentThreadMessage){
+          if (currentThreadMessage.createdBy !== userId) {
+            throw new Error('Nur der Ersteller darf den Nachrichtentext ändern.');
+          }
+          await updateDoc(threadMessageRef, { message: updateData.message });
+        }
+      }
+      console.log('Thread-Nachricht erfolgreich aktualisiert:', threadDocId);
+    } catch (error) {
+      console.error('Fehler beim Aktualisieren der Thread-Nachricht:', error);
+      throw error;
+    }
+  }
+
+  private updateReactions(
+    currentReactions: Reaction[] = [], // Standardwert hinzufügen
+    newReactions: Reaction[] = [], // Standardwert hinzufügen
+    userId: string
+  ): Reaction[] {
+    const updatedReactions = [...(currentReactions || [])]; // Verhindere Zugriff auf undefined
+  
+    newReactions.forEach((reaction) => {
+      const existingReactionIndex = updatedReactions.findIndex(
+        (r) => r.emoji === reaction.emoji && r.userName === userId
+      );
+  
+      if (existingReactionIndex >= 0) {
+        // Reaktion entfernen
+        updatedReactions.splice(existingReactionIndex, 1);
+      } else {
+        // Reaktion hinzufügen
+        updatedReactions.push({ emoji: reaction.emoji, userName: userId });
+      }
+    });
+  
+    return updatedReactions;
+  }
+  
+  private async getMessage(docId: string): Promise<Message | null> {
+    const docRef = doc(this.firestore, 'messages', docId);
+    const docSnapshot = await getDoc(docRef);
+    return docSnapshot.exists() ? (docSnapshot.data() as Message) : null;
+  }
+  
+  private async getThreadMessage(messageId: string, threadDocId: string): Promise<ThreadMessage | null> {
+    const docRef = doc(this.firestore, `messages/${messageId}/threadMessages`, threadDocId);
+    const docSnapshot = await getDoc(docRef);
+    return docSnapshot.exists() ? (docSnapshot.data() as ThreadMessage) : null;
   }
 }
