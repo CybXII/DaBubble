@@ -120,13 +120,13 @@ export class ChatboxComponent implements OnInit, OnDestroy {
     return message.docId || index.toString(); // Fallback auf Index, falls docId fehlt
   }
 
-  editMessage(message: Partial<Message>): void {
+  editMessage(message: Partial<Message> , deleteMessage: boolean) {
     console.log('Editmessage wird ausgeführt:', message);
         this.dialog.open(EditmessageComponent, {
           width: 'fit-content',
           maxWidth: '100vw',
           height: 'fit-content',
-          data: { message },
+          data: { message, deleteMessage },
         });
   }
 }

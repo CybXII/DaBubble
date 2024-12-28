@@ -86,7 +86,9 @@
 
 .chatbox__editmsg-btn__container {
   &:hover .chatbox__editmsg-container {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 }
 
@@ -107,15 +109,16 @@
   border-bottom-left-radius: 30px;
   border-bottom-right-radius: 30px;
 
-  &:hover .chatbox__editmsg {
-    color: colors.$purple3;
-    font-weight: 700;
-    background-color: colors.$bg-color;
-    border-radius: 100px;
+  &:hover .chatbox__editmsg:hover {
+      color: colors.$purple3;
+      font-weight: 700;
+      background-color: colors.$bg-color;
+      border-radius: 100px;
   }
 }
 
 .chatbox__editmsg {
+  text-wrap: nowrap;
   font-size: 1.25rem;
   padding: 10px 20px;
 }
