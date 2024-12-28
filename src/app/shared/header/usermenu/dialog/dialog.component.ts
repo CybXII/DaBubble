@@ -59,6 +59,10 @@ export class DialogComponent {
     });
   }
 
+  ngOnInit() {
+    this.dataChangeAllowedCheck();
+  }
+
   dontCloseDialog(event: Event) {
     event?.preventDefault();
     event.stopPropagation();
@@ -81,8 +85,13 @@ export class DialogComponent {
       userInputName: this.userData?.name,
       userInputEmail: this.userData?.email,
     });
-    
-    }
+  }
+
+  dataChangeAllowedCheck() {
+    if (this.userData?.provider !== 'password') {
+      this.profileForm.disable();
+  }  
+}
 
   closeProfileEdit() {
     this.profileDialog = true;
