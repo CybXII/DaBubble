@@ -7,7 +7,8 @@ import { takeUntil } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { Channel } from '../../../models/channel';
 import { ChannelsService } from '../../../shared/services/channels.service';
-
+import { EditmessageComponent } from '../editmessage/editmessage.component';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-chatbox',
   standalone: true,
@@ -31,7 +32,8 @@ export class ChatboxComponent implements OnInit, OnDestroy {
   constructor(
     private channelsService: ChannelsService,
     private messagesService: MessagesService,
-    private authService: AuthService
+    private authService: AuthService,
+    private dialog: MatDialog
   ) {
     this.currentChannel$ = this.channelsService.currentChannel$;
     this.messages$ = this.messagesService.messages$; 
@@ -116,5 +118,15 @@ export class ChatboxComponent implements OnInit, OnDestroy {
 
   trackByMessageId(index: number, message: Message): string {
     return message.docId || index.toString(); // Fallback auf Index, falls docId fehlt
+  }
+
+  editMessage(message: Partial<Message>): void {
+    console.log('Editmessage wird ausgeführt:', message);
+        this.dialog.open(EditmessageComponent, {
+          width: 'fit-content',
+          maxWidth: '100vw',
+          height: 'fit-content',
+          data: { message },
+        });
   }
 }
