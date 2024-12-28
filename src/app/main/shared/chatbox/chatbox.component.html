@@ -4,39 +4,33 @@
 </div>
 } @else {
 @if (builder == "threadchat") {
-  <div class="chatbox__mainthread-container">
-    <button class="chatbox__addemoji-container">
-      <div class="chatbox__addemoji__emoji-container">
-        <img src="/img/icons/addemoji.svg" alt="" />
+<div class="chatbox__mainthread-container">
+  <button class="chatbox__addemoji-container">
+    <div class="chatbox__addemoji__emoji-container">
+      <img src="/img/icons/addemoji.svg" alt="" />
+    </div>
+  </button>
+  <img class="chatbox__msg-avatar" src="/img/avatars/avatar1.svg" alt="Avatar" width="70" height="70" />
+  <div class="chatbox__msg-item2">
+    <div class="chatbox__msg-info">
+      <h3 class="chatbox__msg-name">Name</h3>
+      <p class="chatbox__msg-time">07.12.2024</p>
+    </div>
+    <p class="chatbox__msg">Test message</p>
+    <div class="chatbox__emojis-container">
+      <div class="chatbox__emojis">
+        <img src="/img/icons/emoji.svg" alt="Emoji" />
+        <span>1</span>
       </div>
-    </button>
-    <img
-      class="chatbox__msg-avatar"
-      src="/img/avatars/avatar1.svg"
-      alt="Avatar"
-      width="70"
-      height="70"
-    />
-    <div class="chatbox__msg-item2">
-      <div class="chatbox__msg-info">
-        <h3 class="chatbox__msg-name">Name</h3>
-        <p class="chatbox__msg-time">07.12.2024</p>
-      </div>
-      <p class="chatbox__msg">Test message</p>
-      <div class="chatbox__emojis-container">
-        <div class="chatbox__emojis">
-          <img src="/img/icons/emoji.svg" alt="Emoji" />
-          <span>1</span>
-        </div>
-        <div class="chatbox__addreaction-container">
-          <img src="/img/icons/add_reaction.svg" alt="Reaktion hinzufügen" />
-        </div>
+      <div class="chatbox__addreaction-container">
+        <img src="/img/icons/add_reaction.svg" alt="Reaktion hinzufügen" />
       </div>
     </div>
   </div>
-  <div class="chatbox__threads-divider">
-    {{ (threadMessages$ | async)?.length || 0 }} Antworten
-  </div> 
+</div>
+<div class="chatbox__threads-divider">
+  {{ (threadMessages$ | async)?.length || 0 }} Antworten
+</div>
 @for (message of (threadMessages$ | async); track message.docId) {
 <div class="chatbox__msg-container" [class.chatbox__msg-container__sent]="message.createdBy === activeUserId">
   <button class="chatbox__addemoji-container" [class.chatbox__addemoji__sent]="message.createdBy === activeUserId">
@@ -57,16 +51,18 @@
         </g>
       </svg>
       <div class="chatbox__editmsg-container">
-          <span (click)="editThreadMessage(message, false, this.activeMessageId || '' , message.docId)" class="chatbox__editmsg">Nachricht bearbeiten</span>
-          <span (click)="editThreadMessage(message, true , this.activeMessageId || '' , message.docId)" class="chatbox__editmsg">Nachricht löschen</span>
+        <span (click)="editThreadMessage(message, false, this.activeMessageId || '' , message.docId)"
+          class="chatbox__editmsg">Nachricht bearbeiten</span>
+        <span (click)="editThreadMessage(message, true , this.activeMessageId || '' , message.docId)"
+          class="chatbox__editmsg">Nachricht löschen</span>
       </div>
     </div>
   </button>
   @if (message.creatorPhotoURL) {
-    <img class="chatbox__msg-avatar" [src]="message.creatorPhotoURL" alt="" width="70" height="70" />
+  <img class="chatbox__msg-avatar" [src]="message.creatorPhotoURL" alt="" width="70" height="70" />
   }
   @else {
-    <img class="chatbox__msg-avatar" src='/img/icons/default_avatar.svg' alt="" width="70" height="70" />
+  <img class="chatbox__msg-avatar" src='/img/icons/default_avatar.svg' alt="" width="70" height="70" />
   }
   <div class="chatbox__msg-item2" [class.chatbox__msg-sent-item2]="message.createdBy === activeUserId">
     <div class="chatbox__msg-info" [class.chatbox__msg-sent-info]="message.createdBy === activeUserId">
@@ -118,12 +114,12 @@
     </div>
   </button>
   @if (message.creatorPhotoURL){
-    <img class="chatbox__msg-avatar" [src]="message.creatorPhotoURL"  alt="" width="70" height="70" />
+  <img class="chatbox__msg-avatar" [src]="message.creatorPhotoURL" alt="" width="70" height="70" />
   }
-  @if (message.creatorPhotoURL == null || undefined) {
-    <img class="chatbox__msg-avatar" src="/img/icons/default_avatar.svg" alt="" width="70" height="70" />
+  @if (message.creatorPhotoURL == null || undefined || '' || !message.creatorPhotoURL) {
+  <img class="chatbox__msg-avatar" src="/img/avatars/picPlaceholder.svg" alt="" width="70" height="70" />
   }
-    <div class="chatbox__msg-item2" [class.chatbox__msg-sent-item2]="message.createdBy === activeUserId">
+  <div class="chatbox__msg-item2" [class.chatbox__msg-sent-item2]="message.createdBy === activeUserId">
     <div class="chatbox__msg-info" [class.chatbox__msg-sent-info]="message.createdBy === activeUserId">
       <h3 class="chatbox__msg-name">{{ message.creatorName }}</h3>
       <p class="chatbox__msg-time">{{ message.timestamp | date: 'short' }}</p>
