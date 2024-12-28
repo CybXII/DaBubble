@@ -1,12 +1,9 @@
+<!-- spinning loader -->
+<div style="z-index: 777;position: absolute; display: flex;" [ngClass]="{ 'd-none': !loadingStatus }">
+    <span class="loader"></span>
+</div>
 
-
-
-<div class="mainCont">
-
-    <!-- spinning loader -->
-    <div style="z-index: 777;position: absolute; display: flex;" [ngClass]="{ 'd-none': !loadingStatus }">
-        <span class="loader"></span>
-    </div>
+<div [ngClass]="{ 'opacity30': loadingStatus}" class="mainCont">
 
     <h1>Anmeldung</h1>
     <span>Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</span>
@@ -28,7 +25,8 @@
                     placeholder="beispielname@email.com" required
                     pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}">
             </div>
-            <span class="warning" [ngStyle]="{'opacity': !email.valid && email.touched ? 1 : 0}">*Diese E-Mail-Adresse
+            <span class="warning" [ngStyle]="{'opacity': !email.valid && email.touched ? 1 : 0}">*Diese
+                E-Mail-Adresse
                 ist leider ungültig.</span>
             <div class="input">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -45,7 +43,8 @@
                 <input minlength="5" #password="ngModel" [(ngModel)]="loginData.password" type="password"
                     name="password" placeholder="Passwort" required>
             </div>
-            <span class="warning" [ngStyle]="{'opacity': !password.valid && password.touched ? 1 : 0}">Falsches Passwort
+            <span class="warning" [ngStyle]="{'opacity': !password.valid && password.touched ? 1 : 0}">Falsches
+                Passwort
                 oder E-Mail.. Bitte noch einmal versuchen.</span>
             <div class="link">
                 <a routerLink="forget">Passwort vergessen?</a>
