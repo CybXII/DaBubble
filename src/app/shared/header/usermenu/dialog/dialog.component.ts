@@ -73,6 +73,7 @@ export class DialogComponent {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('introPlayed');
     this.auth.logout();
   }
 
@@ -142,9 +143,9 @@ export class DialogComponent {
   profileDataChange() {
     if (
       (this.userData?.name ?? '') !=
-        (this.profileForm.get('userInputName')?.value ?? '') ||
+      (this.profileForm.get('userInputName')?.value ?? '') ||
       (this.userData?.email ?? '') !=
-        (this.profileForm.get('userInputEmail')?.value ?? '')
+      (this.profileForm.get('userInputEmail')?.value ?? '')
     ) {
       this.profileDataChanged.set(true);
       console.log('Profile data changed');
