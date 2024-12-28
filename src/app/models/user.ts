@@ -8,6 +8,7 @@ export class UserModel {
   channels: string[] = []; // Eigene Eigenschaft
   email: string; // email aus Firebase
   privateNoteRef: string; // Eigene Eigenschaft
+  provider: string; // Eigene Eigenschaft
 
   constructor(firebaseUser: FirebaseUser | null, additionalData?: Partial<UserModel>)  {
     // Firebase-Daten übernehmen
@@ -20,5 +21,6 @@ export class UserModel {
     this.status = additionalData?.status ?? false;
     this.channels = additionalData?.channels ?? [];
     this.privateNoteRef = additionalData?.privateNoteRef || '';
+    this.provider = additionalData?.provider || '';
   }
 }
