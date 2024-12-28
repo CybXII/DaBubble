@@ -1,0 +1,8 @@
+<form action="" (ngSubmit)="onSubmit()" [formGroup]="messageForm">
+    <div class="form-group">
+        <label for="message">Message</label>
+        <input type="text" class="form-control" id="message" formControlName="message" required />
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="messageForm.invalid">Edit</button>
+    <button type="button" class="btn btn-danger">Cancel</button>
+</form>

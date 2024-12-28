@@ -14,7 +14,7 @@ import { switchMap } from 'rxjs/operators';
   styleUrl: './mainchat-header.component.scss'
 })
 export class MainchatHeaderComponent {
-  private avatarCache = new Map<string, string>();
+  avatarCache = new Map<string, string>();
   avatarsLoaded = false;
   memberAvatars: { [key: string]: string } = {};
   channelTitle: string = '';
@@ -26,30 +26,55 @@ export class MainchatHeaderComponent {
   
   }
 
-    ngOnInit(): void {
-      this.channel.subscribe(async (channel) => {
-        if (channel) {
-          this.channelTitle = channel.name;
-          await this.loadMemberAvatars(channel.members).then((memberAvatars) => {
+  ngOnInit(): void {
+    this.channel.subscribe((channel) => {
+      if (channel) {
+        this.channelTitle = channel.name;
+        const members = channel.members.map((memberId) => ({
+          id: memberId,
+          photoURL: this.authService.avatarCache.get(memberId),
+        }));
+        this.loadMemberAvatars(members).then((memberAvatars) => {
           this.channelMembers = memberAvatars;
-          });
-        }
-      });
-    }
+          this.loading = false;
+        });
+      }
+    });
+  }
 
 
   /**
    * Lädt Avatare für alle Channel-Mitglieder.
    */
-  private async loadMemberAvatars(members: string[]): Promise<{ id: string; photoURL: string }[]> {
+  private async loadMemberAvatars(members: { id: string; photoURL?: string }[]): Promise<{ id: string; photoURL: string }[]> {
     const memberAvatars: { id: string; photoURL: string }[] = [];
-    for (const memberId of members) {
-      const avatarUrl = await this.authService.getCachedAvatar(memberId);
-      memberAvatars.push({ id: memberId, photoURL: avatarUrl });
+    
+    for (const member of members) {
+      let avatarUrl = member.photoURL || this.avatarCache.get(member.id); // Nutze Cache oder vorhandene URL
+  
+      if (!avatarUrl) {
+        // Falls der Avatar nicht vorhanden ist, lade ihn
+        avatarUrl = await this.authService.getCachedAvatar(member.id);
+        this.avatarCache.set(member.id, avatarUrl); // Im Cache speichern
+      }
+  
+      memberAvatars.push({ id: member.id, photoURL: avatarUrl });
     }
     return memberAvatars;
   }
-    currentChannel() {
-      return this.channelsService.currentChannel$;
+
+  currentChannel() {
+    return this.channelsService.currentChannel$;
+  }
+
+  loadMessageAvatars(messages: { createdBy: string; photoURL?: string }[]): void {
+    for (const message of messages) {
+      if (!message.photoURL) {
+        // Nur laden, wenn keine photoURL vorhanden ist
+        this.authService.getCachedAvatar(message.createdBy).then((avatarUrl) => {
+          message.photoURL = avatarUrl;
+        });
+      }
     }
+  }
 }

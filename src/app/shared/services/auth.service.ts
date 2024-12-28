@@ -32,8 +32,10 @@ import { ToastMessageService } from './toastmessage.service';
   providedIn: 'root',
 })
 export class AuthService {
-  private avatarCache = new Map<string, string>();
 
+  public avatarCache = new Map<string, string>();
+  private cacheExpirationTime = 3600000; // 1 Stunde in Millisekunden
+  private avatarCacheTimestamps = new Map<string, number>();
   // Reactive signals
   userId = signal<string | null>(null);
   userData = signal<UserModel | null>(null);
@@ -381,16 +383,22 @@ export class AuthService {
    * Ruft die Avatar-URL eines Benutzers ab und verwendet einen Cache für Performance.
    */
   async getCachedAvatar(userId: string): Promise<string> {
+    const now = Date.now();
+  
     if (this.avatarCache.has(userId)) {
-      return this.avatarCache.get(userId)!;
+      const cachedTime = this.avatarCacheTimestamps.get(userId);
+      if (cachedTime && now - cachedTime < this.cacheExpirationTime) {
+        return this.avatarCache.get(userId)!;
+      }
     }
-
+  
     try {
       const userDoc = await getDoc(doc(this.firestore, `users/${userId}`));
       if (userDoc.exists()) {
         const userData = userDoc.data() as UserModel;
         const avatarUrl = userData.photoURL || 'img/avatars/picPlaceholder.svg';
         this.avatarCache.set(userId, avatarUrl);
+        this.avatarCacheTimestamps.set(userId, now);
         return avatarUrl;
       } else {
         return 'img/avatars/picPlaceholder.svg';
