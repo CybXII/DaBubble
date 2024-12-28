@@ -19,7 +19,7 @@ export class LoginComponent {
     this.checkside();
 
     // check if it was played
-    let introPlayedVar = sessionStorage.getItem('introPlayed');
+    let introPlayedVar = localStorage.getItem('introPlayed');
     if (introPlayedVar !== null) {
       this.introPlayed = JSON.parse(introPlayedVar);
     }
@@ -27,8 +27,8 @@ export class LoginComponent {
     // save entry after delay
     setTimeout(() => {
       this.introPlayed = true;
-      sessionStorage.setItem('introPlayed', JSON.stringify(this.introPlayed));
-    }, 3000);
+      localStorage.setItem('introPlayed', JSON.stringify(this.introPlayed));
+    }, 6000);
   }
 
   homeroute: any = '';

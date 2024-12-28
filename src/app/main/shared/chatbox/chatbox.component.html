@@ -58,6 +58,7 @@
       </svg>
       <div class="chatbox__editmsg-container">
         <span class="chatbox__editmsg">Nachricht bearbeiten</span>
+        <span class="chatbox__editmsg">Nachricht löschen</span>
       </div>
     </div>
   </button>
@@ -106,7 +107,8 @@
         </g>
       </svg>
       <div class="chatbox__editmsg-container">
-        <span (click)="editMessage(message)" class="chatbox__editmsg">Nachricht bearbeiten</span>
+        <span (click)="editMessage(message, false)" class="chatbox__editmsg">Nachricht bearbeiten</span>
+        <span (click)="editMessage(message, true)" class="chatbox__editmsg">Nachricht löschen</span>
       </div>
     </div>
   </button>
