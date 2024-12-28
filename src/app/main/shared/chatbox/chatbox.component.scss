@@ -21,12 +21,58 @@
   border-radius: 30px;
 }
 
+.chatbox__mainthread-container {
+  @include mixins.flexbox(row, flex-start, flex-start, nowrap);
+  gap: 20px;
+  padding: 10px 40px;
+  margin-top:17px;
+  position: relative;
+  width: 100%;
+
+  &:hover {
+    background-color: colors.$bg-color;
+  }
+  &:hover .chatbox__msg {
+    background-color: colors.$white;
+  }
+  &:hover .chatbox__msg-sent {
+    background-color: colors.$purple2;
+  }
+
+  &:hover .chatbox__addemoji-container {
+    @include mixins.flexbox(row, center, center, nowrap);
+  }
+}
+
+.chatbox__threads-divider {
+  width: 100%;
+  display: flex;
+  align-self: flex-start;
+  align-items: center;
+  font-size: 1.125rem;
+  color: colors.$light-purple;
+  margin-inline: auto;
+  padding-left: 33px;
+  padding-right: 32px;
+}
+
+.chatbox__threads-divider::after {
+  flex: 1;
+  content: "";
+  padding: 1px;
+  background-color: colors.$light-purple;
+  margin-left: 20px;
+  margin-top: 8px;
+  margin-bottom: 2px;
+}
+
 .chatbox__msg-container {
   @include mixins.flexbox(row, flex-start, flex-start, nowrap);
   gap: 20px;
   padding: 10px 40px;
   margin-top: 17px;
   position: relative;
+  width: 100%;
 
   &:hover {
     background-color: colors.$bg-color;
