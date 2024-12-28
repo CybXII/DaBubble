@@ -91,10 +91,14 @@ export class ChatboxComponent implements OnInit, OnDestroy {
 
 
   private handleThreadChatMessage(messageId: string | null): void {
+    this.activeMessageId = messageId;
+    console.log('Thread-Nachrichten für Nachricht geladen:', messageId);
+
     if (messageId) {
       this.loadingMessages.set(true);
       try {
         this.messagesService.loadThreadMessages(messageId);
+        this.activeMessageId = messageId;
       } catch (error) {
         console.error('Fehler beim Laden der Thread-Nachrichten:', error);
       } finally {
@@ -111,6 +115,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
    */
   onMessageSelect(messageId: string): void {
     this.activeMessageId = messageId;
+    console.log('Nachricht ausgewählt:', messageId);
     this.messagesService.setMessageId(messageId);
     this.messagesService.loadThreadMessages(messageId);
   }
@@ -128,5 +133,16 @@ export class ChatboxComponent implements OnInit, OnDestroy {
           height: 'fit-content',
           data: { message, deleteMessage },
         });
+  }
+
+
+  editThreadMessage(message: Partial<ThreadMessage>, deleteMessage: boolean, parentMessageId: string, docId: string | undefined) {
+    console.log('Editmessage wird ausgeführt:', message);
+    this.dialog.open(EditmessageComponent, {
+      width: 'fit-content',
+      maxWidth: '100vw',
+      height: 'fit-content',
+      data: { message, deleteMessage, thread: true, parentMessageId, docId },
+    });
   }
 }
