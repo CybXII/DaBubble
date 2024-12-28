@@ -348,8 +348,8 @@ export class AuthService {
   private setAnonymousUserData(userId: string): UserModel {
     return {
       userId,
-      name: 'Guest',
-      email: 'guest@guest.de',
+      name: 'Gast',
+      email: 'gast@gast.de',
       photoURL: 'img/avatars/picPlaceholder.svg',
       channels: [],
       privateNoteRef: '',
