@@ -63,45 +63,6 @@ export class MessagesService {
   }
 
 
-  // loadMessagesForChannel(channelId: string): Promise<void> {
-  //   return new Promise((resolve, reject) => {
-  //     const messagesRef = collection(this.firestore, 'messages');
-  //     const q = query(messagesRef, where('channelId', '==', channelId));
-  
-  //     const unsubscribe = onSnapshot(q, (snapshot) => {
-  //       try {
-  //         const messages = snapshot.docs.map((doc) => {
-  //           const data = doc.data();
-  //           return {
-  //             id: doc.id,
-  //             createdBy: data['createdBy'] || 'Unbekannt',
-  //             creatorName: data['creatorName'] || 'Unbekannt',
-  //             creatorPhotoURL: data['creatorPhotoURL'] || '',
-  //             isPrivate: data['isPrivate'] || false,
-  //             message: data['message'] || '',
-  //             timestamp: data['timestamp']
-  //               ? new Date(data['timestamp'].seconds * 1000)
-  //               : new Date(),
-  //             members: data['members'] || [],
-  //             reactions: data['reactions'] || [],
-  //             thread: data['thread'] || null,
-  //             docId: doc.id,
-  //           } as Message;
-  //         });
-  //         this.messagesSubject.next(messages);
-  //         resolve(); // Daten erfolgreich geladen
-  //       } catch (error) {
-  //         reject(error); // Fehler beim Laden der Daten
-  //       } finally {
-  //         unsubscribe(); // Event-Listener entfernen
-  //       }
-  //     });
-  //   });
-  // }
-
-
-
-
   /**
    * Lädt Thread-Nachrichten einer bestimmten Nachricht und speichert sie lokal.
    * @param parentMessageId ID der Parent-Nachricht
@@ -114,17 +75,17 @@ export class MessagesService {
       const processedMessages = threadMessages.map((threadMessage) => {
         return {
           ...threadMessage,
-          parentMessageId, // parentMessageId hinzufügen
+          parentMessageId,
           timestamp: (threadMessage.timestamp as any).seconds
             ? new Date((threadMessage.timestamp as any).seconds * 1000)
-            : threadMessage.timestamp, // Behalte andere Werte bei
+            : threadMessage.timestamp,
         };
       });
   
       this.threadMessagesSubject.next(processedMessages);
     });
   
-    this.openThreadChat(); // Öffne den Thread-Chat
+    this.openThreadChat();
   }
   
 
@@ -178,16 +139,13 @@ export class MessagesService {
   
   setMessageId(messageId: string): void {
     this.messageIdSubject.next(messageId);
-    // console.log('Message-ID gesetzt:', messageId);
   }
 
   async updateMessage(docId: string, userId: string, updateData: Partial<Message>): Promise<void> {
     const messageRef = doc(this.firestore, 'messages', docId);
   
     try {
-      // Prüfe, ob es sich um eine Änderung der Reaktionen handelt
       if (updateData.reactions) {
-        // Logik für das Hinzufügen/Entfernen von Reaktionen
         const currentMessage = await this.getMessage(docId);
         if (!currentMessage) throw new Error('Nachricht nicht gefunden.');
   
@@ -199,7 +157,6 @@ export class MessagesService {
         await updateDoc(messageRef, { reactions: updatedReactions });
       }
   
-      // Prüfe, ob der Benutzer der Ersteller der Nachricht ist, um Text zu ändern oder zu löschen
       if (updateData.message) {
         const currentMessage = await this.getMessage(docId);
         if(currentMessage){
@@ -230,7 +187,6 @@ export class MessagesService {
     );
   
     try {
-      // Prüfe, ob es sich um eine Änderung der Reaktionen handelt
       if (updateData.reactions) {
         const currentThreadMessage = await this.getThreadMessage(messageId, threadDocId);
         if (!currentThreadMessage) throw new Error('Thread-Nachricht nicht gefunden.');
@@ -242,7 +198,6 @@ export class MessagesService {
         );
         await updateDoc(threadMessageRef, { reactions: updatedReactions });
       }
-      // Prüfe, ob der Benutzer der Ersteller der Nachricht ist, um Text zu ändern oder zu löschen
       if (updateData.message) {
         const currentThreadMessage = await this.getThreadMessage(messageId, threadDocId);
         if (currentThreadMessage){
@@ -260,11 +215,11 @@ export class MessagesService {
   }
 
   private updateReactions(
-    currentReactions: Reaction[] = [], // Standardwert hinzufügen
-    newReactions: Reaction[] = [], // Standardwert hinzufügen
+    currentReactions: Reaction[] = [],
+    newReactions: Reaction[] = [],
     userId: string
   ): Reaction[] {
-    const updatedReactions = [...(currentReactions || [])]; // Verhindere Zugriff auf undefined
+    const updatedReactions = [...(currentReactions || [])];
   
     newReactions.forEach((reaction) => {
       const existingReactionIndex = updatedReactions.findIndex(
@@ -272,10 +227,8 @@ export class MessagesService {
       );
   
       if (existingReactionIndex >= 0) {
-        // Reaktion entfernen
         updatedReactions.splice(existingReactionIndex, 1);
       } else {
-        // Reaktion hinzufügen
         updatedReactions.push({ emoji: reaction.emoji, userName: userId });
       }
     });
@@ -298,29 +251,7 @@ export class MessagesService {
     return docSnapshot.exists() ? (docSnapshot.data() as ThreadMessage) : null;
   }
 
-  // async deleteMessage(docId: string, userId: string): Promise<void> {
-  //   const messageRef = doc(this.firestore, 'messages', docId);
-  
-  //   try {
-  //     // Prüfen, ob die Nachricht existiert
-  //     const currentMessage = await this.getMessage(docId);
-  //     if (!currentMessage) {
-  //       throw new Error('Nachricht nicht gefunden.');
-  //     }
-  
-  //     // Prüfen, ob der Benutzer der Ersteller der Nachricht ist
-  //     if (currentMessage.createdBy !== userId) {
-  //       throw new Error('Nur der Ersteller darf die Nachricht löschen.');
-  //     }
-  
-  //     // Nachricht löschen
-  //     await deleteDoc(messageRef);
-  //     console.log('Nachricht erfolgreich gelöscht:', docId);
-  //   } catch (error) {
-  //     console.error('Fehler beim Löschen der Nachricht:', error);
-  //     throw error;
-  //   }
-  // }
+
   async deleteMessage(
     docId: string,
     userId: string,
@@ -342,7 +273,6 @@ export class MessagesService {
         messageRef = doc(this.firestore, 'messages', docId);
       }
   
-      // Prüfen, ob die Nachricht existiert
       const currentMessageSnapshot = await getDoc(messageRef);
       if (!currentMessageSnapshot.exists()) {
         throw new Error(isThread ? 'Thread-Nachricht nicht gefunden.' : 'Nachricht nicht gefunden.');
@@ -350,12 +280,10 @@ export class MessagesService {
   
       const currentMessage = currentMessageSnapshot.data() as Message | ThreadMessage;
   
-      // Prüfen, ob der Benutzer der Ersteller ist
       if (currentMessage.createdBy !== userId) {
         throw new Error('Nur der Ersteller darf die Nachricht löschen.');
       }
   
-      // Nachricht löschen
       await deleteDoc(messageRef);
       console.log(isThread ? 'Thread-Nachricht erfolgreich gelöscht.' : 'Nachricht erfolgreich gelöscht.');
     } catch (error) {
@@ -369,18 +297,15 @@ export class MessagesService {
     const threadMessageRef = doc(this.firestore, `messages/${parentMessageId}/threadMessages`, threadDocId);
   
     try {
-      // Prüfen, ob die Thread-Nachricht existiert
       const currentThreadMessage = await this.getThreadMessage(parentMessageId, threadDocId);
       if (!currentThreadMessage) {
         throw new Error('Thread-Nachricht nicht gefunden.');
       }
   
-      // Prüfen, ob der Benutzer der Ersteller der Nachricht ist
       if (currentThreadMessage.createdBy !== userId) {
         throw new Error('Nur der Ersteller darf die Thread-Nachricht löschen.');
       }
   
-      // Thread-Nachricht löschen
       await deleteDoc(threadMessageRef);
       console.log('Thread-Nachricht erfolgreich gelöscht:', threadDocId);
     } catch (error) {
