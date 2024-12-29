@@ -1,24 +1,64 @@
-@use '../../mixins.scss' as mixins;
-@use '../../colors.scss' as colors;
+@use "../../mixins.scss" as mixins;
+@use "../../colors.scss" as colors;
 
-.main{
-    background-color:colors.$bg-color;
-    height: 100%;
-    width: 100%;
-    max-width: 1920px;
-    padding: 20px;
-    @include mixins.flexbox(column, flex-start, center, nowrap);
-    gap: 20px;
-    overflow: hidden
+.main {
+  background-color: colors.$bg-color;
+  height: 100%;
+  width: 100%;
+  max-width: 1920px;
+  padding: 20px;
+  @include mixins.flexbox(column, flex-start, center, nowrap);
+  gap: 20px;
+  overflow: hidden;
 }
 
-.builder-main{
-    @include mixins.flexbox(column, flex-start, unset);
-    height: calc(100% - 104px);
-    width: 100%;
+.spinner {
+  z-index: 777;
+  position: absolute;
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  justify-content: center;
+  align-items: center;
+  background-color: colors.$light-grey;
 }
 
-.header-main{
-    @include mixins.flexbox(row, space-between, center);
-    width: 100%;
+.builder-main {
+  @include mixins.flexbox(column, flex-start, unset);
+  height: calc(100% - 104px);
+  width: 100%;
+}
+
+.header-main {
+  @include mixins.flexbox(row, space-between, center);
+  width: 100%;
+}
+
+.d-none {
+  display: none;
+}
+
+.opacity30 {
+  opacity: 30%;
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #fff;
+  border-bottom-color: #444df2;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

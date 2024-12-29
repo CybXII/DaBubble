@@ -18,9 +18,6 @@ export class SignInComponent implements OnInit {
   };
   loginError = ''; // Fehlernachricht für das UI
 
-
-  loadingStatus: boolean = false;
-
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -37,7 +34,6 @@ export class SignInComponent implements OnInit {
   async login(ngForm: NgForm): Promise<void> {
     if (ngForm.valid && ngForm.submitted) {
       try {
-        this.loadingStatus = true;
         await this.authService.login(this.loginData.email, this.loginData.password);
         this.redirectToBoard();
       } catch (error) {
@@ -49,7 +45,6 @@ export class SignInComponent implements OnInit {
 
   async loginAsGuest(): Promise<void> {
     try {
-      this.loadingStatus = true;
       await this.authService.guestLogin();
       this.redirectToBoard();
     } catch (error) {
@@ -60,7 +55,6 @@ export class SignInComponent implements OnInit {
 
   async loginWithGoogle(): Promise<void> {
     try {
-      this.loadingStatus = true;
       await this.authService.googleLogin();
       this.redirectToBoard();
     } catch (error) {
