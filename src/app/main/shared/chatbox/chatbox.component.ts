@@ -3,7 +3,7 @@ import { MessagesService } from '../../../shared/services/messages.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { Message, ThreadMessage } from '../../../models/message';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { catchError, takeUntil, tap } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { Channel } from '../../../models/channel';
 import { ChannelsService } from '../../../shared/services/channels.service';
@@ -19,9 +19,12 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class ChatboxComponent implements OnInit, OnDestroy {
   @Input() builder!: string;
+  // @Input() channelId!: string; // channelId als Input-Property hinzugefügt
   @Output() threadChatToggle = new EventEmitter<void>();
+  
   currentChannel$: Observable<Channel | null>;
   messages$: Observable<Partial<Message>[]>;
+  avatars$!: Observable<Map<string, string>>; // `!`-Operator verwendet
   threadMessages$: Observable<ThreadMessage[]>;
   activeUserId: string | null = null;
   activeMessageId: string | null = null;
@@ -36,11 +39,10 @@ export class ChatboxComponent implements OnInit, OnDestroy {
     private dialog: MatDialog
   ) {
     this.currentChannel$ = this.channelsService.currentChannel$;
-    this.messages$ = this.messagesService.messages$; 
+    this.messages$ = this.messagesService.messages$;
     this.threadMessages$ = this.messagesService.threadMessages$;
     this.activeUserId = this.authService.userId();
   }
-
 
   ngOnInit(): void {
     this.channelsService.setDefaultChannel();
@@ -50,7 +52,6 @@ export class ChatboxComponent implements OnInit, OnDestroy {
       this.initThreadChat();
     }
   }
-
 
   ngOnDestroy(): void {
     console.log('Chatbox wird zerstört', this.builder);
@@ -65,14 +66,17 @@ export class ChatboxComponent implements OnInit, OnDestroy {
     this.currentChannel$
       .pipe(takeUntil(this.destroy$))
       .subscribe((channel) => this.handleMainChatChannel(channel));
+    this.avatars$ = this.messagesService.avatars$;
   }
 
 
-  private handleMainChatChannel(channel: Channel | null): void {
+  private async handleMainChatChannel(channel: Channel | null): Promise<void> {
     if (channel) {
       this.loadingMessages.set(true);
       try {
-        this.messagesService.loadMessagesForChannel(channel.id || '');
+        const loadMessages = this.messagesService.loadMessagesForChannel(channel.id || '');
+        this.messages$ = loadMessages
+        this.loadingAvatars = true;
       } catch (error) {
         console.error('Fehler beim Laden der Nachrichten:', error);
       } finally {
@@ -80,16 +84,20 @@ export class ChatboxComponent implements OnInit, OnDestroy {
       }
     }
   }
-  loadMessagesForChannel(channelId: string) {
+
+  loadMessagesForChannel(channelId: string): void {
     this.loadingAvatars = true;
-    this.messagesService.loadMessagesForChannel(channelId)
-      .then(() => {
+    this.messages$ = this.messagesService.loadMessagesForChannel(channelId).pipe(
+      takeUntil(this.destroy$),
+      tap(() => {
         this.loadingAvatars = false;
-      })
-      .catch((error) => {
+      }),
+      catchError((error) => {
         console.error('Fehler beim Laden der Nachrichten:', error);
         this.loadingAvatars = false;
-      });
+        return [];
+      })
+    );
   }
 
 
@@ -98,6 +106,7 @@ export class ChatboxComponent implements OnInit, OnDestroy {
     this.messagesService.messageId$
       .pipe(takeUntil(this.destroy$))
       .subscribe((messageId) => this.handleThreadChatMessage(messageId));
+      this.avatars$ = this.messagesService.avatars$;
   }
 
 

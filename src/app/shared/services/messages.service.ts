@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, query,getDocs, collectionData, addDoc, where, onSnapshot, updateDoc, doc, getDoc, deleteDoc } from '@angular/fire/firestore';
+import { Firestore, collection, query, collectionData, addDoc, where, onSnapshot, updateDoc, doc, getDoc, deleteDoc } from '@angular/fire/firestore';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Message, Reaction, ThreadMessage } from '../../models/message';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -10,48 +11,95 @@ export class MessagesService {
   private messagesSubject = new BehaviorSubject<Partial<Message>[]>([]);
   messages$: Observable<Partial<Message>[]> = this.messagesSubject.asObservable();  
   private threadMessagesSubject = new BehaviorSubject<ThreadMessage[]>([]);
-  private threadchatStateSubject = new BehaviorSubject<boolean>(false); // Zustand des Thread-Chats
+  private threadchatStateSubject = new BehaviorSubject<boolean>(false);
   threadMessages$: Observable<ThreadMessage[]> = this.threadMessagesSubject.asObservable();
-  threadchatState$ = this.threadchatStateSubject.asObservable(); // Observable für den Thread-Chat-Zustand
+  threadchatState$ = this.threadchatStateSubject.asObservable();
   private messageIdSubject = new BehaviorSubject<string | null>(null);
   messageId$ = this.messageIdSubject.asObservable();
   constructor(private firestore: Firestore) {}
+  private avatarsSubject = new BehaviorSubject<Map<string, string>>(new Map());
+  avatars$: Observable<Map<string, string>> = this.avatarsSubject.asObservable();
 
-  loadMessagesForChannel(channelId: string): Promise<void> {
-    return new Promise((resolve, reject) => {
-      const messagesRef = collection(this.firestore, 'messages');
-      const q = query(messagesRef, where('channelId', '==', channelId));
-  
-      const unsubscribe = onSnapshot(q, (snapshot) => {
-        try {
-          const messages = snapshot.docs.map((doc) => {
-            const data = doc.data();
-            return {
-              id: doc.id,
-              createdBy: data['createdBy'] || 'Unbekannt',
-              creatorName: data['creatorName'] || 'Unbekannt',
-              creatorPhotoURL: data['creatorPhotoURL'] || '',
-              isPrivate: data['isPrivate'] || false,
-              message: data['message'] || '',
-              timestamp: data['timestamp']
-                ? new Date(data['timestamp'].seconds * 1000)
-                : new Date(),
-              members: data['members'] || [],
-              reactions: data['reactions'] || [],
-              thread: data['thread'] || null,
-              docId: doc.id,
-            } as Message;
-          });
-          this.messagesSubject.next(messages);
-          resolve(); // Daten erfolgreich geladen
-        } catch (error) {
-          reject(error); // Fehler beim Laden der Daten
-        } finally {
-          unsubscribe(); // Event-Listener entfernen
-        }
-      });
+
+  loadAvatars(messages: Message[]): void {
+    const avatarMap = new Map<string, string>();
+    messages.forEach((message) => {
+      avatarMap.set(
+        message.createdBy,
+        message.creatorPhotoURL || '/assets/default-avatar.png'
+      );
     });
+    this.avatarsSubject.next(avatarMap);
   }
+
+  loadMessagesForChannel(channelId: string): Observable<Message[]> {
+    const messagesRef = collection(this.firestore, 'messages');
+    const q = query(messagesRef, where('channelId', '==', channelId));
+  
+    return collectionData(q, { idField: 'docId' }).pipe(
+      map((docs) => {
+        const messages = docs.map((doc) => ({
+          docId: doc.docId,
+          createdBy: doc['createdBy'] || 'Unbekannt',
+          creatorName: doc['creatorName'] || 'Unbekannt',
+          creatorPhotoURL: doc['creatorPhotoURL'] || '',
+          isPrivate: doc['isPrivate'] || false,
+          message: doc['message'] || '',
+          timestamp: doc['timestamp']
+            ? new Date(doc['timestamp'].seconds * 1000)
+            : new Date(),
+          members: doc['members'] || [],
+          reactions: doc['reactions'] || [],
+          thread: doc['thread'] || null,
+        }));
+        this.loadAvatars(messages);
+        return messages;
+      }),
+      catchError((error) => {
+        console.error('Fehler beim Abrufen der Nachrichten:', error);
+        return [];
+      })
+    );
+  }
+
+
+  // loadMessagesForChannel(channelId: string): Promise<void> {
+  //   return new Promise((resolve, reject) => {
+  //     const messagesRef = collection(this.firestore, 'messages');
+  //     const q = query(messagesRef, where('channelId', '==', channelId));
+  
+  //     const unsubscribe = onSnapshot(q, (snapshot) => {
+  //       try {
+  //         const messages = snapshot.docs.map((doc) => {
+  //           const data = doc.data();
+  //           return {
+  //             id: doc.id,
+  //             createdBy: data['createdBy'] || 'Unbekannt',
+  //             creatorName: data['creatorName'] || 'Unbekannt',
+  //             creatorPhotoURL: data['creatorPhotoURL'] || '',
+  //             isPrivate: data['isPrivate'] || false,
+  //             message: data['message'] || '',
+  //             timestamp: data['timestamp']
+  //               ? new Date(data['timestamp'].seconds * 1000)
+  //               : new Date(),
+  //             members: data['members'] || [],
+  //             reactions: data['reactions'] || [],
+  //             thread: data['thread'] || null,
+  //             docId: doc.id,
+  //           } as Message;
+  //         });
+  //         this.messagesSubject.next(messages);
+  //         resolve(); // Daten erfolgreich geladen
+  //       } catch (error) {
+  //         reject(error); // Fehler beim Laden der Daten
+  //       } finally {
+  //         unsubscribe(); // Event-Listener entfernen
+  //       }
+  //     });
+  //   });
+  // }
+
+
 
 
   /**

@@ -58,11 +58,11 @@
       </div>
     </div>
   </button>
-  @if (message.creatorPhotoURL) {
-  <img class="chatbox__msg-avatar" [src]="message.creatorPhotoURL" alt="" width="70" height="70" />
+  @if (avatars$ == null || undefined || '' || !avatars$) {
+  <img class="chatbox__msg-avatar" src="/img/avatars/picPlaceholder.svg" alt="" width="70" height="70" />
   }
-  @else {
-  <img class="chatbox__msg-avatar" src='/img/icons/default_avatar.svg' alt="" width="70" height="70" />
+  @else if (message.creatorPhotoURL ) {
+  <img class="chatbox__msg-avatar" [src]="(avatars$ | async)?.get(message.createdBy) || '/img/avatars/picPlaceholder.svg'" alt="Avatar" width="70" height="70" /> 
   }
   <div class="chatbox__msg-item2" [class.chatbox__msg-sent-item2]="message.createdBy === activeUserId">
     <div class="chatbox__msg-info" [class.chatbox__msg-sent-info]="message.createdBy === activeUserId">
@@ -75,7 +75,7 @@
     <div class="chatbox__emojis-container">
       <div class="chatbox__emojis">
         <img src="/img/icons/emoji.svg" alt="" />
-        <span>1</span>
+        <span>{{ message.reactions.length }}</span>
       </div>
       <div class="chatbox__addreaction-container">
         <img src="/img/icons/add_reaction.svg" alt="" />
@@ -85,7 +85,7 @@
 </div>
 }
 } @else {
-@for (message of (messages$ | async); track (message || 'fallback')) {
+@for (message of (messages$ | async); track message.docId) {
 <div class="thread__divider">
   <span class="thread__divider-text">{{ message.timestamp | date: 'longDate' }}</span>
 </div>
@@ -113,11 +113,14 @@
       </div>
     </div>
   </button>
-  @if (message.creatorPhotoURL){
-  <img class="chatbox__msg-avatar" [src]="message.creatorPhotoURL" alt="" width="70" height="70" />
-  }
-  @if (message.creatorPhotoURL == null || undefined || '' || !message.creatorPhotoURL) {
+  @if (avatars$ == null || undefined || '' || !avatars$) {
+    <img class="chatbox__msg-avatar" src="/img/avatars/picPlaceholder.svg" alt="" width="70" height="70" />
+    }
+  @else if (message.creatorPhotoURL == null || undefined || '' || !message.creatorPhotoURL) {
   <img class="chatbox__msg-avatar" src="/img/avatars/picPlaceholder.svg" alt="" width="70" height="70" />
+  }
+  @else if (message.createdBy ) {
+    <img class="chatbox__msg-avatar" [src]="(avatars$ | async)?.get(message.createdBy) || '/img/avatars/picPlaceholder.svg'" alt="Avatar" width="70" height="70" /> 
   }
   <div class="chatbox__msg-item2" [class.chatbox__msg-sent-item2]="message.createdBy === activeUserId">
     <div class="chatbox__msg-info" [class.chatbox__msg-sent-info]="message.createdBy === activeUserId">
@@ -129,15 +132,20 @@
     </p>
     <div class="chatbox__info">
       <div class="chatbox__answers-container">
-        <span (click)="onMessageSelect(message.docId || 'fallback')" class="chatbox__answers">
+        @if (message) {
+          <span (click)="onMessageSelect(message.docId || 'fallback')" class="chatbox__answers">
           Antworten
         </span>
+      }
         <span class="chatbox__last-answer">Letzte Antwort 14:56</span>
       </div>
       <div class="chatbox__emojis-container">
         <div class="chatbox__emojis">
           <img src="/img/icons/emoji.svg" alt="" />
-          <span>1</span>
+          @if(message.reactions){
+          <img src="/img/icons/emoji.svg" alt="" />
+          <span>{{ message.reactions.length }}</span>
+          }
         </div>
         <div class="chatbox__addreaction-container">
           <img src="/img/icons/add_reaction.svg" alt="" />
