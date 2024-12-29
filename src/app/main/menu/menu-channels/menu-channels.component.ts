@@ -4,10 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Channel } from '../../../models/channel';
 import { ChannelsService } from '../../../shared/services/channels.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MessagesService } from '../../../shared/services/messages.service';
-import { Auth } from '@angular/fire/auth';
 import { AddchatComponent } from '../../addchat/addchat.component';
-import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-menu-channels',
@@ -17,22 +14,19 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./menu-channels.component.scss'],
 })
 export class MenuChannelsComponent implements OnInit, OnDestroy {
-  private unsubscribeFn: (() => void) | null = null; // Abmeldefunktion für Echtzeit-Listener
+  private unsubscribeFn: (() => void) | null = null;
   channelsOpen: boolean = false;
   channelActive: boolean = false;
-  channels: Channel[] = []; // Channels-Array
-  loading: boolean = true; // Ladeanzeige
+  channels: Channel[] = [];
+  loading: boolean = true;
   channelForm: FormGroup;
-  currentChannelId: string | null = null; // Aktuelle Channel-ID
-  messages: any[] = []; // Nachrichten für den ausgewählten Channel
+  currentChannelId: string | null = null;
+  messages: any[] = [];
 
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog,
     public channelsService: ChannelsService,
-    private messagesService: MessagesService,
-    private auth: Auth,
-    // public dialogRef: MatDialogRef<FullscreenModalComponent>,
   ) {
     this.channelForm = this.fb.group({
       name: ['', Validators.required],
@@ -56,7 +50,6 @@ export class MenuChannelsComponent implements OnInit, OnDestroy {
     this.unsubscribeFn = this.channelsService.loadChannelsRealtime((channels) => {
       this.channels = channels;
       this.loading = false;
-      // console.log('Channels aktualisiert:', this.channels);
     });
   }
 
@@ -64,7 +57,6 @@ export class MenuChannelsComponent implements OnInit, OnDestroy {
     console.error('addChannel() wurde nicht implementiert.');
   }
 
-  // Dialog öffnen
   openDialog(): void {
     this.dialog.open(AddchatComponent, {
       width: 'fit-content',
@@ -74,10 +66,6 @@ export class MenuChannelsComponent implements OnInit, OnDestroy {
   }
 
   selectChannel(channelId: string): void {
-    this.channelsService.selectChannel(channelId).then(() => {
-      // console.log('Channel erfolgreich ausgewählt:', channelId);
-    }).catch((error) => {
-      console.error('Fehler beim Auswählen des Channels:', error);
-    });
+    this.channelsService.selectChannel(channelId)
   }
 }
