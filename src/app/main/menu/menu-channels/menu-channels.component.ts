@@ -1,12 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
-import { FullscreenModalComponent } from '../../../shared/fullscreen-modal/fullscreen-modal.component';
 import { Channel } from '../../../models/channel';
 import { ChannelsService } from '../../../shared/services/channels.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MessagesService } from '../../../shared/services/messages.service';
-import { Auth } from '@angular/fire/auth';
 import { AddchatComponent } from '../../addchat/addchat.component';
 
 @Component({
@@ -17,21 +14,19 @@ import { AddchatComponent } from '../../addchat/addchat.component';
   styleUrls: ['./menu-channels.component.scss'],
 })
 export class MenuChannelsComponent implements OnInit, OnDestroy {
-  private unsubscribeFn: (() => void) | null = null; // Abmeldefunktion für Echtzeit-Listener
+  private unsubscribeFn: (() => void) | null = null;
   channelsOpen: boolean = false;
   channelActive: boolean = false;
-  channels: Channel[] = []; // Channels-Array
-  loading: boolean = true; // Ladeanzeige
+  channels: Channel[] = [];
+  loading: boolean = true;
   channelForm: FormGroup;
-  currentChannelId: string | null = null; // Aktuelle Channel-ID
-  messages: any[] = []; // Nachrichten für den ausgewählten Channel
+  currentChannelId: string | null = null;
+  messages: any[] = [];
 
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog,
     public channelsService: ChannelsService,
-    private messagesService: MessagesService,
-    private auth: Auth
   ) {
     this.channelForm = this.fb.group({
       name: ['', Validators.required],
@@ -55,31 +50,22 @@ export class MenuChannelsComponent implements OnInit, OnDestroy {
     this.unsubscribeFn = this.channelsService.loadChannelsRealtime((channels) => {
       this.channels = channels;
       this.loading = false;
-      console.log('Channels aktualisiert:', this.channels);
     });
   }
 
   async addChannel(): Promise<void> {
-
     console.error('addChannel() wurde nicht implementiert.');
-
   }
 
-  // Dialog öffnen
   openDialog(): void {
-    this.dialog.open(FullscreenModalComponent, {
-      data: AddchatComponent,
+    this.dialog.open(AddchatComponent, {
       width: 'fit-content',
       maxWidth: '100vw',
       height: 'fit-content',
-      panelClass: 'fullscreen-modal',
     });
   }
 
-  // Channel auswählen und Nachrichten laden
   selectChannel(channelId: string): void {
-    this.currentChannelId = channelId;
-    this.messagesService.loadMessagesForChannel(channelId);
-    console.log('Lade Nachrichten für Channel mit ID:', channelId);
+    this.channelsService.selectChannel(channelId)
   }
 }

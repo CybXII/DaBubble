@@ -16,6 +16,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { UserModel } from '../../../../models/user';
 
 @Component({
   selector: 'app-dialog',
@@ -44,7 +45,9 @@ export class DialogComponent {
         this.userData?.name,
         [
           Validators.required,
-          Validators.pattern('^[a-zA-ZÀ-ÿ]{1,}(?: [a-zA-ZÀ-ÿ]{1,})+$'),
+          //Validators.pattern('^[a-zA-ZÀ-ÿ]{1,}(?: [a-zA-ZÀ-ÿ]{1,})+$'),
+          //Validators.pattern('^[a-zA-ZÀ-ÿ]{1,}(?:[-' ][a-zA-ZÀ-ÿ]{1,})*$')
+          Validators.pattern('^[a-zA-ZÀ-ÿ]+(?:-[a-zA-ZÀ-ÿ]+)?(?: [a-zA-ZÀ-ÿ]+(?:-[a-zA-ZÀ-ÿ]+)?)$')
         ],
       ],
       userInputEmail: [
@@ -57,6 +60,10 @@ export class DialogComponent {
         ],
       ],
     });
+  }
+
+  ngOnInit() {
+    this.dataChangeAllowedCheck();
   }
 
   dontCloseDialog(event: Event) {
@@ -81,8 +88,13 @@ export class DialogComponent {
       userInputName: this.userData?.name,
       userInputEmail: this.userData?.email,
     });
-    
+  }
+
+  dataChangeAllowedCheck() {
+    if (this.userData?.provider !== 'password') {
+      this.profileForm.disable();
     }
+  }
 
   closeProfileEdit() {
     this.profileDialog = true;
@@ -95,11 +107,32 @@ export class DialogComponent {
     this.dialogChange.emit(this.dialog);
   }
 
-  saveProfile() {
-    this.profileDialog = false;
-    this.profileDialogEdit = false;
-    this.dialogChange.emit(this.dialog);
-    this.toastMessageService.showToastSignal('Profil erfolgreich aktualisiert');
+  // saveProfile() {
+  //   this.profileDialog = false;
+  //   this.profileDialogEdit = false;
+  //   this.dialogChange.emit(this.dialog);
+  //   this.toastMessageService.showToastSignal('Profil erfolgreich aktualisiert');
+  // }
+
+  async saveProfile(): Promise<void> {
+    if (this.profileForm.valid && this.userData) {
+      const updatedData: Partial<UserModel> = {
+        name: this.profileForm.value.userInputName ?? '',
+        email: this.profileForm.value.userInputEmail ?? undefined,
+      };
+
+      try {
+        await this.authService.updateUserData(this.userData.userId, updatedData);
+        this.profileDialog = false;
+        this.profileDialogEdit = false;
+        this.dialogChange.emit(this.dialog);
+        this.toastMessageService.showToastSignal(
+          'Profil erfolgreich aktualisiert'
+        );
+      } catch (error) {
+        console.error('Fehler beim Speichern der Profiländerungen:', error);
+      }
+    }
   }
 
   get userData() {
@@ -109,9 +142,9 @@ export class DialogComponent {
   profileDataChange() {
     if (
       (this.userData?.name ?? '') !=
-        (this.profileForm.get('userInputName')?.value ?? '') ||
+      (this.profileForm.get('userInputName')?.value ?? '') ||
       (this.userData?.email ?? '') !=
-        (this.profileForm.get('userInputEmail')?.value ?? '')
+      (this.profileForm.get('userInputEmail')?.value ?? '')
     ) {
       this.profileDataChanged.set(true);
       console.log('Profile data changed');

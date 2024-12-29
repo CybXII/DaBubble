@@ -1,16 +1,65 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, doc, getDoc, query, where, getDocs, addDoc,onSnapshot  } from '@angular/fire/firestore';
+import { Firestore, collection, doc, getDoc, query, where, getDocs, setDoc, addDoc, onSnapshot  } from '@angular/fire/firestore';
 import { Channel } from '../../models/channel';
+import { BehaviorSubject } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChannelsService {
   private collectionName = 'channels';
-  private messagesCollectionName = 'messages';
   threadAktive: boolean = false;
+  private currentChannelSubject = new BehaviorSubject<Channel | null>(null);
+  currentChannel$ = this.currentChannelSubject.asObservable();
   constructor(private firestore: Firestore) {}
   channelsOpen: boolean = false;
+
+  async setDefaultChannel(): Promise<void> {
+    try {
+      const channels = await this.getAllChannels();
+      if (channels.length > 0) {
+        const cachedChannelId = localStorage.getItem('lastChannelId');
+        const defaultChannel = cachedChannelId
+          ? channels.find(channel => channel.id === cachedChannelId) || channels[0]
+          : channels[0];
+        if (defaultChannel && defaultChannel.id) {
+          await this.selectChannel(defaultChannel.id);
+        } else {
+          console.warn('Kein gültiger Default-Channel gefunden.');
+        }
+      } else {
+        console.warn('Keine Channels verfügbar.');
+      }
+    } catch (error) {
+      console.error('Fehler beim Setzen des Default Channels:', error);
+    }
+  }
+
+
+  async selectChannel(channelId: string): Promise<void> {
+    if (!channelId) {
+      console.error('Ungültige Channel-ID.');
+      return;
+    }
+  
+    const channelRef = doc(this.firestore, `${this.collectionName}/${channelId}`);
+    try {
+      const channelDoc = await getDoc(channelRef);
+      if (channelDoc.exists()) {
+        const channel = { id: channelId, ...channelDoc.data() } as Channel;
+        this.currentChannelSubject.next(channel);
+        localStorage.setItem('lastChannelId', channelId); // Speichere den zuletzt besuchten Channel
+        console.log('Channel ausgewählt und im Cache gespeichert:', channel.name);
+      } else {
+        console.error('Channel nicht gefunden.');
+      }
+    } catch (error) {
+      console.error('Fehler beim Abrufen des Channels:', error);
+    }
+  }
+  
+
   async createChannel(channel: Channel): Promise<void> {
     const channelsCollection = collection(this.firestore, this.collectionName);
     try {
@@ -43,20 +92,6 @@ export class ChannelsService {
   }
 
 
-  async getMessagesForChannel(channelId: string): Promise<any[]> {
-    const messagesRef = collection(this.firestore, this.messagesCollectionName);
-    const q = query(messagesRef, where('id', '==', channelId)); // Filter nach channelId
-
-    try {
-      const querySnapshot = await getDocs(q);
-      return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); // Rückgabe der Nachrichten
-    } catch (error) {
-      console.error('Fehler beim Abrufen der Nachrichten:', error);
-      throw error;
-    }
-  }
-
-
   async getAllChannels(): Promise<Channel[]> {
     const channelsRef = collection(this.firestore, this.collectionName);
     try {
@@ -81,5 +116,16 @@ export class ChannelsService {
 
   toggleChannelsOpen(): void {
     this.channelsOpen = !this.channelsOpen;
+  }
+
+  async updateChannel(channelId: string, updatedData: Partial<Channel>): Promise<void> {
+    const channelRef = doc(this.firestore, `${this.collectionName}/${channelId}`);
+    try {
+      await setDoc(channelRef, updatedData, { merge: true });
+      // console.log('Channel erfolgreich aktualisiert:', updatedData);
+    } catch (error) {
+      console.error('Fehler beim Aktualisieren des Channels:', error);
+      throw error;
+    }
   }
 }

@@ -22,7 +22,7 @@ export class SignInComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (this.authService.isAuthenticated()) {
@@ -65,5 +65,6 @@ export class SignInComponent implements OnInit {
 
   private redirectToBoard(): void {
     const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/board';
-    this.router.navigateByUrl(returnUrl, { replaceUrl: true });  }
+    this.router.navigateByUrl(returnUrl, { replaceUrl: true });
+  }
 }

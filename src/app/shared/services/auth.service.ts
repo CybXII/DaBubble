@@ -13,13 +13,14 @@ import {
   sendEmailVerification,
   sendPasswordResetEmail,
   updatePassword,
-  confirmPasswordReset
+  confirmPasswordReset,
 } from '@angular/fire/auth';
 import {
   Firestore,
   doc,
   setDoc,
   getDoc,
+  updateDoc,
   collection,
   onSnapshot,
 } from '@angular/fire/firestore';
@@ -30,23 +31,18 @@ import { ToastMessageService } from './toastmessage.service';
 @Injectable({
   providedIn: 'root',
 })
-
 export class AuthService {
 
-  /**
-   * Bestätigt den Passwort-Reset mit dem erhaltenen oobCode und setzt das neue Passwort.
-   */
-  confirmPasswordReset(oobCode: string, newPassword: string): Promise<void> {
-    return confirmPasswordReset(this.auth, oobCode, newPassword);
-  }
-
-
+  public avatarCache = new Map<string, string>();
+  private cacheExpirationTime = 3600000; // 1 Stunde in Millisekunden
+  private avatarCacheTimestamps = new Map<string, number>();
   // Reactive signals
   userId = signal<string | null>(null);
   userData = signal<UserModel | null>(null);
   isUserAuthenticated = signal<boolean>(false);
   loginError = signal<string>('');
   userList = signal<UserModel[]>([]);
+  public loadingSpinnerBoard: boolean = true;
   private loginType = signal<'guest' | 'google' | 'email' | null>(null);
   currentUser = signal<UserModel | null>(null); // Typisiertes Signal
   constructor(
@@ -64,12 +60,20 @@ export class AuthService {
         this.currentUser.set(null); // Kein Benutzer angemeldet
       }
     });
-  
+
     this.monitorAuthState(); // Überwachung des Auth-Status starten
     this.getUserList(); // Benutzerliste aus Firestore laden
     this.intializeUserData(); // Benutzer-Daten initialisieren
   }
 
+  /**
+   * Bestätigt den Passwort-Reset mit dem erhaltenen oobCode und setzt das neue Passwort.
+   */
+  confirmPasswordReset(oobCode: string, newPassword: string): Promise<void> {
+    return confirmPasswordReset(this.auth, oobCode, newPassword);
+  }
+
+  /**
   // sendEmail(email: string) {
   //   const actionCodeSettings = {
   //     // URL you want to redirect back to. The domain (www.example.com) for this
@@ -169,8 +173,10 @@ export class AuthService {
         user.uid,
         user.displayName || '',
         user.email || '',
-        user.photoURL || ''
+        user.photoURL || '',
+        user.providerData[0].providerId || ''
       );
+
       await setDoc(doc(this.firestore, 'users', user.uid), userData);
     } catch (error) {
       console.error('Registration failed:', error);
@@ -183,9 +189,6 @@ export class AuthService {
   resetPassword(email: string): Promise<void> {
     return sendPasswordResetEmail(this.auth, email);
   }
-
-
-
 
   /**
    * Passwort updaten
@@ -200,7 +203,6 @@ export class AuthService {
     }
   }
 
-
   /**
    * Benutzer einloggen (E-Mail und Passwort)
    */
@@ -211,7 +213,10 @@ export class AuthService {
         email,
         password
       );
+      console.log('Login successful:', userCredential.user);
+
       this.userId.set(userCredential.user.uid);
+      await this.loadUserData(userCredential.user.uid);
     } catch (error) {
       this.handleLoginError(error);
     }
@@ -226,6 +231,7 @@ export class AuthService {
       const user = userCredential.user;
       const userData = this.setAnonymousUserData(user.uid);
       await setDoc(doc(this.firestore, `users/${user.uid}`), userData);
+      await this.loadUserData(user.uid);
     } catch (error) {
       console.error('Anonymous login failed:', error);
     }
@@ -239,15 +245,17 @@ export class AuthService {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(this.auth, provider);
       const user = result.user;
+      console.log('Google login successful:', user);
+
       const userData = this.setUserData(
         user.uid,
         user.displayName || '',
         user.email || '',
-        user.photoURL || ''
+        user.photoURL || '',
+        user.providerData[0].providerId || ''
       );
       await setDoc(doc(this.firestore, `users/${user.uid}`), userData);
       await this.loadUserData(user.uid);
-
     } catch (error) {
       console.error('Google login failed:', error);
     }
@@ -281,7 +289,7 @@ export class AuthService {
   /**
    * Benutzerdaten laden
    */
-  private async loadUserData(userId: string): Promise<void> {
+  async loadUserData(userId: string): Promise<void> {
     try {
       const userDoc = await getDoc(doc(this.firestore, 'users', userId));
       if (userDoc.exists()) {
@@ -315,7 +323,8 @@ export class AuthService {
     userId: string,
     username: string,
     email: string,
-    avatarURL: string
+    avatarURL: string,
+    provider: string = ''
   ): UserModel {
     return {
       userId,
@@ -325,6 +334,7 @@ export class AuthService {
       channels: [],
       privateNoteRef: '',
       status: false,
+      provider: provider,
     };
   }
 
@@ -334,12 +344,13 @@ export class AuthService {
   private setAnonymousUserData(userId: string): UserModel {
     return {
       userId,
-      name: 'Guest',
-      email: 'guest@guest.de',
+      name: 'Gast',
+      email: 'gast@gast.de',
       photoURL: 'img/avatars/picPlaceholder.svg',
       channels: [],
       privateNoteRef: '',
       status: true,
+      provider: 'anonymous',
     };
   }
 
@@ -361,6 +372,64 @@ export class AuthService {
     if (this.auth.currentUser) {
       this.router.navigate(['/board']);
       this.toastMessageService.showToastSignal('Anmeldung erfolgreich');
+    }
+  }
+
+  async getUserById(userId: string | null): Promise<UserModel | null> {
+    const userDoc = await getDoc(doc(this.firestore, `users/${userId}`));
+    return userDoc.exists() ? (userDoc.data() as UserModel) : null;
+  }
+
+  /**
+   * Ruft die Avatar-URL eines Benutzers ab und verwendet einen Cache für Performance.
+   */
+  async getCachedAvatar(userId: string): Promise<string> {
+    const now = Date.now();
+  
+    if (this.avatarCache.has(userId)) {
+      const cachedTime = this.avatarCacheTimestamps.get(userId);
+      if (cachedTime && now - cachedTime < this.cacheExpirationTime) {
+        return this.avatarCache.get(userId)!;
+      }
+    }
+  
+    try {
+      const userDoc = await getDoc(doc(this.firestore, `users/${userId}`));
+      if (userDoc.exists()) {
+        const userData = userDoc.data() as UserModel;
+        const avatarUrl = userData.photoURL || 'img/avatars/picPlaceholder.svg';
+        this.avatarCache.set(userId, avatarUrl);
+        this.avatarCacheTimestamps.set(userId, now);
+        return avatarUrl;
+      } else {
+        return 'img/avatars/picPlaceholder.svg';
+      }
+    } catch (error) {
+      return 'img/avatars/picPlaceholder.svg';
+    }
+  }
+
+  async updateUserData(
+    userId: string,
+    updatedData: Partial<UserModel>
+  ): Promise<void> {
+    try {
+      const userDocRef = doc(this.firestore, `users/${userId}`);
+      await updateDoc(userDocRef, updatedData);
+      const updatedUserDoc = await getDoc(userDocRef);
+      if (updatedUserDoc.exists()) {
+        const updatedUserData = updatedUserDoc.data() as UserModel;
+        localStorage.setItem('userData', JSON.stringify(updatedUserData));
+        this.userData.set(updatedUserData);
+        this.toastMessageService.showToastSignal(
+          'Benutzerdaten erfolgreich aktualisiert'
+        );
+      }
+    } catch (error) {
+      console.error('Fehler beim Aktualisieren der Benutzerdaten:', error);
+      this.toastMessageService.showToastSignal(
+        'Fehler beim Aktualisieren der Benutzerdaten'
+      );
     }
   }
 }

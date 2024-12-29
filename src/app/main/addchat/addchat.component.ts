@@ -3,7 +3,6 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators,ReactiveFormsModule } from '@angular/forms';
 import { ChannelsService } from '../../shared/services/channels.service';
 import { AuthService } from '../../shared/services/auth.service';
-import { FullscreenModalComponent } from '../../shared/fullscreen-modal/fullscreen-modal.component';
 @Component({
   selector: 'app-addchat',
   standalone: true,
@@ -13,15 +12,12 @@ import { FullscreenModalComponent } from '../../shared/fullscreen-modal/fullscre
 })
 export class AddchatComponent {
   channelForm: FormGroup;
-  @Input() dialogRef!: MatDialogRef<FullscreenModalComponent>;
 
-  close(): void {
-    this.dialogRef.close(); // Schließt den Dialog
-  }
   constructor(
     private fb: FormBuilder,
     private channelsService: ChannelsService,
     private auth: AuthService,
+    public dialogRef: MatDialogRef<AddchatComponent>
   ) {
     // Formular initialisieren
     this.channelForm = this.fb.group({
@@ -44,7 +40,7 @@ export class AddchatComponent {
         .then(() => {
           console.log('Channel erfolgreich erstellt!' , newChannel);
 
-          this.channelForm.reset(); // Formular zurücksetzen
+          this.channelForm.reset();
         })
         .catch((error) => {
           console.error('Fehler beim Erstellen des Channels:', error);
@@ -54,4 +50,9 @@ export class AddchatComponent {
     }
   }
 
+
+  close(): void {
+    this.channelForm.reset();
+    this.dialogRef.close(); 
+  }
 }
