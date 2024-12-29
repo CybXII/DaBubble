@@ -36,7 +36,7 @@
   gap: 16px;
   z-index: 100;
   max-width: 1920px;
-  animation: moveToTopLeft 1s 5s forwards;
+  animation: moveToTopLeft 1s 5s forwards; //, hide 0.3s 5.7s forwards;
   //border: 1px solid black;
 
   img {
@@ -44,9 +44,11 @@
     position: absolute;
     left: 0px;
     height: 184px;
-    animation: moveLeft 0.5s ease-in-out 1s forwards, makeStatic 1s 5s forwards,
+    animation: moveLeft 0.5s 1s forwards,
+      makeStatic 1s 5s forwards,
       shrinkImage 1s 5s forwards;
     z-index: 2;
+    //border: 1px solid black;
   }
 
   .textcontainer {
@@ -104,7 +106,7 @@ header {
   @include mixins.flexbox($justify: space-between);
   // padding: 0px 30px;
 
-  > div {
+  >div {
     @include mixins.flexbox($direction: column, $justify: start);
     gap: 5px;
   }
@@ -113,7 +115,7 @@ header {
     @include mixins.flexbox();
     gap: 10px;
 
-    > span {
+    >span {
       font-size: 30px;
       font-weight: 700;
     }
@@ -162,6 +164,7 @@ input {
   &:focus-visible {
     outline: unset;
   }
+
   &:-webkit-autofill {
     transition: background-color 5000s ease-in-out 0s;
   }
@@ -194,12 +197,14 @@ input {
       display: none;
     }
   }
+
   input {
     @include mixins.border-marker($color: colors.$white);
     border-radius: 100px;
     padding: 10px;
     padding-left: 50px;
   }
+
   svg {
     position: absolute;
     left: 20px;
@@ -264,6 +269,7 @@ button {
 
   &:hover {
     cursor: pointer;
+
     &:disabled {
       cursor: not-allowed;
     }
@@ -350,108 +356,10 @@ form {
   }
 }
 
-@keyframes hide {
-  from {
-    opacity: 1;
-  }
 
-  to {
-    opacity: 0;
-  }
-}
 
-@keyframes changeHeadline {
-  from {
-    color: white;
-  }
 
-  to {
-    color: black;
-    font-size: 32px;
-    font-weight: 700;
-  }
-}
-
-@keyframes shrinkImage {
-  from {
-    height: 184px;
-  }
-
-  to {
-    height: 70px;
-  }
-}
-
-@keyframes moveToTopLeft {
-  from {
-    transform: translate(-50%, -50%);
-  }
-
-  to {
-    top: 75px;
-    left: 75px;
-    transform: translate(0%, 0%);
-  }
-}
-
-@keyframes reveal {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes moveLeft {
-  from {
-    //left: 0;
-    transform: translateX(0);
-  }
-
-  to {
-    //left: -200px;
-    transform: translateX(-50%);
-  }
-}
-
-@keyframes moveLittleLeft {
-  from {
-    //left: 0;
-  }
-
-  to {
-    //left: -200px;
-    transform: translateX(28%);
-  }
-}
-
-@keyframes moveRight {
-  from {
-    //left: -200px;
-    transform: translateX(-100%);
-  }
-
-  to {
-    //left: 0;
-    transform: translateX(0);
-  }
-}
-
-@keyframes makeStatic {
-  from {
-  }
-
-  to {
-    transform: translateX(0);
-    //top: 0;
-    /* Als ob das Element static wird */
-    //left: 0;
-    //transform: translate(0, 0);
-    /* Entferne jegliche Verschiebung */
-  }
-}
+// RESPONSIVE ...
 
 @media (max-width: 600px) {
   section {
@@ -465,13 +373,14 @@ form {
 
   .mainCont {
     padding: 25px;
+
     h1 {
       font-size: 32px;
     }
   }
 
   .input {
-    > input {
+    >input {
       &::placeholder {
         font-weight: bolder;
       }
@@ -487,6 +396,7 @@ form {
     top: unset;
     right: unset;
     bottom: 40px;
+
     a {
       font-weight: 700;
     }
