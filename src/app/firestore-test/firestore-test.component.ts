@@ -58,9 +58,9 @@ export class FirestoreTestComponent implements OnInit {
     this.auth.googleLogin();
   }
 
-  logout() {
-    this.auth.logout();
-  }
+  // logout() {
+  //   this.auth.logout();
+  // }
 
   // get userList() {
   //   return this.auth.userList();

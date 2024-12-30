@@ -3,8 +3,8 @@
     <span>{{ userData?.name}}</span>
     <div class="avatar-container">
       <img [src]="userData?.photoURL" alt="" />
-      <div target="online-status"></div>
-    </div>
+    <div target="online-status" [ngStyle]="{'background-color': userData?.status ? '#92c83e' : '#696969'}"></div>
+      </div>
     <svg
       class="arrow-down"
       width="14"
