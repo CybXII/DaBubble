@@ -183,6 +183,36 @@ export class AuthService {
     }
   }
 
+  async register1(email: string, password: string, data: {name: string, photoURL: string}): Promise<void> {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        this.auth,
+        email,
+        password
+      );
+
+      const user = userCredential.user;
+
+      // Sende E-Mail-Bestätigung
+      if (user) {
+        await sendEmailVerification(user);
+        console.log('Verification email sent to:', user.email);
+      }
+
+      const userData = this.setUserData(
+        user.uid,
+        data.name || '',
+        user.email || '',
+        data.photoURL || '',
+        user.providerData[0].providerId || ''
+      );
+
+      await setDoc(doc(this.firestore, 'users', user.uid), userData);
+    } catch (error) {
+      console.error('Registration failed:', error);
+    }
+  }
+
   /**
    * Passwort zurücksetzen
    */
