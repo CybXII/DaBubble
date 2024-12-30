@@ -49,7 +49,7 @@ export class ChooseAvatarComponent {
   signUpAvatar() {
     this.userData.photoURL = `${this.path}${this.profilesPics[this.activePic]}`;
     console.log(this.userData);
-    this.auth.register1(this.userData.email, this.userData.password, this.userData[this.userData.name, this.userData.photoURL]);
+    this.auth.register(this.userData.email, this.userData.password, this.userData.name, this.userData.photoURL);
     console.log("Name & photoURL", this.userData.name, this.userData.photoURL);
     
     console.log("mail sent to", this.userData.email);
