@@ -25,6 +25,7 @@ import {
   updateDoc,
   collection,
   onSnapshot,
+  deleteDoc,
 } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { UserModel } from '../../models/user';
@@ -332,12 +333,33 @@ export class AuthService {
    */
   logout(): void {
     let userId = this.userData()?.userId;
-    if (userId) {
+    if (userId && this.userData()?.provider !== 'anonymous') {
       this.auth.signOut().then(() => {
         this.clearAuthState();
         this.updateDataInFirestore(userId, { status: false });
         this.router.navigate(['']);
         this.toastMessageService.showToastSignal('Erfolgreich ausgeloggt');
+      });
+    }
+    if (this.userData()?.provider === 'anonymous') {
+      console.log('Anonymous user logged out');
+      this.deleteAnonymousUserFromFirestore();
+      this.auth.signOut().then(() => {
+        this.clearAuthState();
+        this.router.navigate(['']);
+        this.toastMessageService.showToastSignal('Erfolgreich ausgeloggt');
+      });
+    }
+  }
+
+  deleteAnonymousUserFromFirestore(): void {
+    const user = this.auth.currentUser;
+    console.log('user', user);
+    
+    if (user) {
+      deleteDoc(doc(this.firestore, `users/${user.uid}`));
+      user.delete().then(() => {
+        console.log('Anonymous user deleted');
       });
     }
   }
