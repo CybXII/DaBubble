@@ -14,6 +14,8 @@ import {
   sendPasswordResetEmail,
   updatePassword,
   confirmPasswordReset,
+  updateProfile,
+  updateEmail,
 } from '@angular/fire/auth';
 import {
   Firestore,
@@ -254,6 +256,7 @@ export class AuthService {
       console.log('Login successful:', userCredential.user);
 
       this.userId.set(userCredential.user.uid);
+      this.updateDataInFirestore(userCredential.user.uid, { status: true });
       await this.loadUserData(userCredential.user.uid);
       setTimeout(() => {
         this.toastMessageService.showToastSignal('Erfolgreich eingeloggt');
@@ -296,7 +299,9 @@ export class AuthService {
         user.displayName || '',
         user.email || '',
         'img/avatars/picPlaceholder.svg',
-        user.providerData[0].providerId || ''
+        user.providerData[0].providerId || '',
+        true
+  
       );
       await setDoc(doc(this.firestore, `users/${user.uid}`), userData);
       await this.loadUserData(user.uid);
@@ -326,11 +331,15 @@ export class AuthService {
    * Logout
    */
   logout(): void {
-    this.auth.signOut().then(() => {
-      this.clearAuthState();
-      this.router.navigate(['']);
-      this.toastMessageService.showToastSignal('Erfolgreich ausgeloggt');
-    });
+    let userId = this.userData()?.userId;
+    if (userId) {
+      this.auth.signOut().then(() => {
+        this.clearAuthState();
+        this.updateDataInFirestore(userId, { status: false });
+        this.router.navigate(['']);
+        this.toastMessageService.showToastSignal('Erfolgreich ausgeloggt');
+      });
+    }
   }
 
   /**
@@ -380,7 +389,8 @@ export class AuthService {
     username: string,
     email: string,
     avatarURL: string,
-    provider: string = ''
+    provider: string = '',
+    status: boolean = false
   ): UserModel {
     return {
       userId,
@@ -389,7 +399,7 @@ export class AuthService {
       photoURL: avatarURL,
       channels: [],
       privateNoteRef: '',
-      status: false,
+      status: status,
       provider: provider,
     };
   }
@@ -466,6 +476,30 @@ export class AuthService {
     }
   }
 
+  // async updateUserData(
+  //   userId: string,
+  //   updatedData: Partial<UserModel>
+  // ): Promise<void> {
+  //   try {
+  //     const userDocRef = doc(this.firestore, `users/${userId}`);
+  //     await updateDoc(userDocRef, updatedData);
+  //     const updatedUserDoc = await getDoc(userDocRef);
+  //     if (updatedUserDoc.exists()) {
+  //       const updatedUserData = updatedUserDoc.data() as UserModel;
+  //       localStorage.setItem('userData', JSON.stringify(updatedUserData));
+  //       this.userData.set(updatedUserData);
+  //       this.toastMessageService.showToastSignal(
+  //         'Benutzerdaten erfolgreich aktualisiert'
+  //       );
+  //     }
+  //   } catch (error) {
+  //     console.error('Fehler beim Aktualisieren der Benutzerdaten:', error);
+  //     this.toastMessageService.showToastSignal(
+  //       'Fehler beim Aktualisieren der Benutzerdaten'
+  //     );
+  //   }
+  // }
+
   async updateUserData(
     userId: string,
     updatedData: Partial<UserModel>
@@ -478,6 +512,20 @@ export class AuthService {
         const updatedUserData = updatedUserDoc.data() as UserModel;
         localStorage.setItem('userData', JSON.stringify(updatedUserData));
         this.userData.set(updatedUserData);
+
+        // Update Firebase Auth profile
+        const user = this.auth.currentUser;
+        if (user) {
+          if (updatedData.name) {
+            await updateProfile(user, { displayName: updatedData.name });
+            this.updateDataInFirestore(userId, { name: updatedData.name });
+          }
+          if (updatedData.email) {
+            await updateEmail(user, updatedData.email);
+            this.updateDataInFirestore(userId, { email: updatedData.email });
+          }
+        }
+
         this.toastMessageService.showToastSignal(
           'Benutzerdaten erfolgreich aktualisiert'
         );
@@ -489,4 +537,11 @@ export class AuthService {
       );
     }
   }
+
+  updateDataInFirestore(userId: string, updatedData: Partial<UserModel>) {
+    const userDocRef = doc(this.firestore, `users/${userId}`);
+    updateDoc(userDocRef, updatedData);
+  }
+
+
 }
