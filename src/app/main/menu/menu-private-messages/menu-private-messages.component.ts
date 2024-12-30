@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AddchatComponent } from '../../addchat/addchat.component';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ChannelsService } from '../../../shared/services/channels.service';
+import { MatDialog } from '@angular/material/dialog';
+import { Channel } from '../../../models/channel';
 
 @Component({
   selector: 'app-menu-private-messages',
@@ -11,28 +16,74 @@ import { CommonModule } from '@angular/common';
 export class MenuPrivateMessagesComponent {
   messagesOpen: boolean = false
 
-  privateChannels: { id: number; name: string ; imgPath: string ; status: boolean }[]=[  //Example Data
-    { id: 1, name: 'Dirk Müller', imgPath: 'img/avatars/avatar3.svg', status: true }, 
-    { id: 2, name: 'Franziska Stark', imgPath: 'img/avatars/avatar2.svg', status: false },
-    { id: 1, name: 'Dirk Müller', imgPath: 'img/avatars/avatar3.svg', status: true }, 
-    { id: 2, name: 'Franziska Stark', imgPath: 'img/avatars/avatar2.svg', status: false },
-    { id: 1, name: 'Dirk Müller', imgPath: 'img/avatars/avatar3.svg', status: true }, 
-    { id: 2, name: 'Franziska Stark', imgPath: 'img/avatars/avatar2.svg', status: false },
-    { id: 1, name: 'Dirk Müller', imgPath: 'img/avatars/avatar3.svg', status: true }, 
-    { id: 2, name: 'Franziska Stark', imgPath: 'img/avatars/avatar2.svg', status: false },
-    { id: 1, name: 'Dirk Müller', imgPath: 'img/avatars/avatar3.svg', status: true }, 
-    { id: 2, name: 'Franziska Stark', imgPath: 'img/avatars/avatar2.svg', status: false },
-    { id: 1, name: 'Dirk Müller', imgPath: 'img/avatars/avatar3.svg', status: true }, 
-    { id: 2, name: 'Franziska Stark', imgPath: 'img/avatars/avatar2.svg', status: false },
-    { id: 1, name: 'Dirk Müller', imgPath: 'img/avatars/avatar3.svg', status: true }, 
-    { id: 2, name: 'Franziska Stark', imgPath: 'img/avatars/avatar2.svg', status: false },
-  ]
+  private unsubscribeFn: (() => void) | null = null;
+  privateChannels: Channel[] = [];
+  loading: boolean = true;
+  channelForm: FormGroup;
+  currentChannelId: string | null = null;
+
+
+  constructor(
+    private fb: FormBuilder,
+    private dialog: MatDialog,
+    public channelsService: ChannelsService,
+    ) {
+      this.channelForm = this.fb.group({
+        name: ['', Validators.required],
+        description: [''],
+        isPrivate: [false],
+      });
+    }
+
+
+    ngOnInit(): void {
+      this.loadChannelsRealtime();
+    }
+
+
+    ngOnDestroy(): void {
+      if (this.unsubscribeFn) {
+        this.unsubscribeFn();
+      }
+    }
+
+
+    loadChannelsRealtime(): void {
+      this.loading = true;
+      this.unsubscribeFn = this.channelsService.loadChannelsRealtime((channels) => {
+        this.privateChannels = channels;
+        this.loading = false;
+      });
+    }
+
+
+    async addChannel(): Promise<void> {
+      console.error('addChannel() wurde nicht implementiert.');
+    }
+
+
+    openDialog(): void {
+      this.dialog.open(AddchatComponent, {
+        width: 'fit-content',
+        maxWidth: '100vw',
+        height: 'fit-content',
+      });
+    }
+  
+
+    selectChannel(channelId: string): void {
+      this.channelsService.selectChannel(channelId)
+    }
 
 
   toggleMessagesOpen(): void {
     this.messagesOpen = !this.messagesOpen
   }
 
-
+  getAvatar(privateChannel: Channel): string {
+    console.log(privateChannel);
+    // return this.channelsService.getAvatar(privateChannel);
+    return '/img/avatars/avatar1.svg';
+  }
 
 }

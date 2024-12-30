@@ -25,15 +25,17 @@
     </div>
     @if (this.messagesOpen) {
         @for (private of this.privateChannels; track private; let index=$index){
-            <div class="channel">
-                <div class="channel-box">
-                    <div class="avatar-box">
-                        <img src="{{private.imgPath}}" alt="">
-                        <div [ngClass]="{'online': private.status == true}" class="status"></div>
+            @if (private.isPrivate) {
+                <div class="channel">
+                    <div class="channel-box" (click)="private.id ? selectChannel(private.id) : null">
+                        <div class="avatar-box">
+                            <img [src]="this.getAvatar(private)" alt="">
+                            <!-- <div [ngClass]="{'online': private == this.activeChannel}" class="status"></div> -->
+                        </div>
+                        <p>{{private.name}}</p>
                     </div>
-                    <p>{{private.name}}</p>
                 </div>
-            </div>
+            }
             }
     }
 </section>
