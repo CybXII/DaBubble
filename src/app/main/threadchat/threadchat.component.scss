@@ -8,13 +8,13 @@
   overflow: hidden;
 }
 
-.threadchat__item1 {
-  @include mixins.flexbox(column, flex-start, center, nowrap);
-  height: calc(100% - 200px);
-  overflow-y: auto;
-  position: relative;
-  top: 110px;
-  margin-bottom: 116px;
+.threadchat {
+  overflow: hidden;
+  height: 100%;
+}
+
+.threadchat__item1:has(.message:last-child:not(:first-child)) {
+  flex-direction: column-reverse; /* Umkehrung, wenn Scrollbalken vorhanden */
 }
 
 .threadchat__header {
