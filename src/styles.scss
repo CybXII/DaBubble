@@ -30,3 +30,100 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
+
+// ANIMATIONEN //
+
+@keyframes hide {
+    from {
+      opacity: 1;
+    }
+  
+    to {
+      opacity: 0;
+    }
+  }
+  
+  @keyframes changeHeadline {
+    from {
+      color: white;
+    }
+  
+    to {
+      color: black;
+      font-size: 32px;
+      font-weight: 700;
+    }
+  }
+  
+  @keyframes shrinkImage {
+    from {
+      height: 184px;
+    }
+  
+    to {
+      height: 75px;
+    }
+  }
+  
+  @keyframes moveToTopLeft {
+    from {
+      transform: translate(-50%, -50%);
+    }
+  
+    to {
+      top: 75px;
+      left: 75px;
+      transform: translate(0%, 0%);
+    }
+  }
+  
+  @keyframes reveal {
+    from {
+      opacity: 0;
+    }
+  
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes moveLeft {
+    from {
+      transform: translateX(0);
+    }
+  
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  
+  @keyframes moveLittleLeft {
+    from {
+      transform: translateX(35%);
+    }
+  
+    to {
+      transform: translateX(31%);
+    }
+  }
+  
+  @keyframes moveRight {
+    from {
+      transform: translateX(-100%);
+    }
+  
+    to {
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes makeStatic {
+    from {
+      //transform: translateX(0);
+      transform: translateX(-50%);
+    }
+  
+    to {
+      transform: translateX(0);
+    }
+  }
