@@ -42,6 +42,7 @@ export class AuthService {
   isUserAuthenticated = signal<boolean>(false);
   loginError = signal<string>('');
   userList = signal<UserModel[]>([]);
+  public loadingSpinnerBoard: boolean = true;
   private loginType = signal<'guest' | 'google' | 'email' | null>(null);
   currentUser = signal<UserModel | null>(null); // Typisiertes Signal
   constructor(
