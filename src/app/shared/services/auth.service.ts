@@ -32,7 +32,6 @@ import { ToastMessageService } from './toastmessage.service';
   providedIn: 'root',
 })
 export class AuthService {
-
   public avatarCache = new Map<string, string>();
   private cacheExpirationTime = 3600000; // 1 Stunde in Millisekunden
   private avatarCacheTimestamps = new Map<string, number>();
@@ -153,13 +152,51 @@ export class AuthService {
   /**
    * Benutzer registrieren (E-Mail und Passwort)
    */
-  async register(email: string, password: string): Promise<void> {
+  // async register(email: string, password: string): Promise<void> {
+  //   try {
+  //     const userCredential = await createUserWithEmailAndPassword(
+  //       this.auth,
+  //       email,
+  //       password
+  //     );
+
+  //     const user = userCredential.user;
+
+  //     // Sende E-Mail-Bestätigung
+  //     if (user) {
+  //       await sendEmailVerification(user);
+  //       console.log('Verification email sent to:', user.email);
+  //     }
+
+  //     const userData = this.setUserData(
+  //       user.uid,
+  //       user.displayName || '',
+  //       user.email || '',
+  //       user.photoURL || '',
+  //       user.providerData[0].providerId || ''
+  //     );
+
+  //     await setDoc(doc(this.firestore, 'users', user.uid), userData);
+  //   } catch (error) {
+  //     console.error('Registration failed:', error);
+  //   }
+  // }
+
+  async register(
+    email: string,
+    password: string,
+    name: string,
+    photoURL: string
+  ): Promise<void> {
+    console.log('registerIncomingData', email, password, name, photoURL);
+
     try {
       const userCredential = await createUserWithEmailAndPassword(
         this.auth,
         email,
         password
       );
+      console.log('userCredential', userCredential.user);
 
       const user = userCredential.user;
 
@@ -171,41 +208,12 @@ export class AuthService {
 
       const userData = this.setUserData(
         user.uid,
-        user.displayName || '',
+        name || '',
         user.email || '',
-        user.photoURL || '',
-        user.providerData[0].providerId || ''
+        photoURL || '',
+        'password'
       );
-
-      await setDoc(doc(this.firestore, 'users', user.uid), userData);
-    } catch (error) {
-      console.error('Registration failed:', error);
-    }
-  }
-
-  async register1(email: string, password: string, data: {name: string, photoURL: string}): Promise<void> {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        this.auth,
-        email,
-        password
-      );
-
-      const user = userCredential.user;
-
-      // Sende E-Mail-Bestätigung
-      if (user) {
-        await sendEmailVerification(user);
-        console.log('Verification email sent to:', user.email);
-      }
-
-      const userData = this.setUserData(
-        user.uid,
-        data.name || '',
-        user.email || '',
-        data.photoURL || '',
-        user.providerData[0].providerId || ''
-      );
+      console.log('userData', userData);
 
       await setDoc(doc(this.firestore, 'users', user.uid), userData);
     } catch (error) {
@@ -247,6 +255,9 @@ export class AuthService {
 
       this.userId.set(userCredential.user.uid);
       await this.loadUserData(userCredential.user.uid);
+      setTimeout(() => {
+        this.toastMessageService.showToastSignal('Erfolgreich eingeloggt');
+      }, 1000);
     } catch (error) {
       this.handleLoginError(error);
     }
@@ -262,6 +273,9 @@ export class AuthService {
       const userData = this.setAnonymousUserData(user.uid);
       await setDoc(doc(this.firestore, `users/${user.uid}`), userData);
       await this.loadUserData(user.uid);
+      setTimeout(() => {
+        this.toastMessageService.showToastSignal('Erfolgreich eingeloggt');
+      }, 1000);
     } catch (error) {
       console.error('Anonymous login failed:', error);
     }
@@ -281,11 +295,14 @@ export class AuthService {
         user.uid,
         user.displayName || '',
         user.email || '',
-        user.photoURL || '',
+        'img/avatars/picPlaceholder.svg',
         user.providerData[0].providerId || ''
       );
       await setDoc(doc(this.firestore, `users/${user.uid}`), userData);
       await this.loadUserData(user.uid);
+      setTimeout(() => {
+        this.toastMessageService.showToastSignal('Erfolgreich eingeloggt');
+      }, 1000);
     } catch (error) {
       console.error('Google login failed:', error);
     }
@@ -328,6 +345,15 @@ export class AuthService {
       }
     } catch (error) {
       console.error('Failed to load user data:', error);
+    }
+  }
+
+  async checkUserId(userId: string) {
+    if (userId) {
+      const userDoc = await getDoc(doc(this.firestore, 'users', userId));
+      return userDoc.exists();
+    } else {
+      return false;
     }
   }
 
@@ -401,7 +427,8 @@ export class AuthService {
   redirectIfAuthenticated(): void {
     if (this.auth.currentUser) {
       this.router.navigate(['/board']);
-      this.toastMessageService.showToastSignal('Anmeldung erfolgreich');
+    } else {
+      this.router.navigate(['/']);
     }
   }
 
@@ -415,14 +442,14 @@ export class AuthService {
    */
   async getCachedAvatar(userId: string): Promise<string> {
     const now = Date.now();
-  
+
     if (this.avatarCache.has(userId)) {
       const cachedTime = this.avatarCacheTimestamps.get(userId);
       if (cachedTime && now - cachedTime < this.cacheExpirationTime) {
         return this.avatarCache.get(userId)!;
       }
     }
-  
+
     try {
       const userDoc = await getDoc(doc(this.firestore, `users/${userId}`));
       if (userDoc.exists()) {

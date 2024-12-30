@@ -29,9 +29,9 @@ export class FirestoreTestComponent implements OnInit {
   email: string = '';
   password: string = '';
 
-  register() {
-    this.auth.register(this.email, this.password);
-  }
+  // register() {
+  //   this.auth.register(this.email, this.password);
+  // }
 
   // get userId() {
   //   return this.auth.userId();
