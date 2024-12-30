@@ -29,9 +29,9 @@ export class FirestoreTestComponent implements OnInit {
   email: string = '';
   password: string = '';
 
-  register() {
-    this.auth.register(this.email, this.password);
-  }
+  // register() {
+  //   this.auth.register(this.email, this.password);
+  // }
 
   // get userId() {
   //   return this.auth.userId();
@@ -58,9 +58,9 @@ export class FirestoreTestComponent implements OnInit {
     this.auth.googleLogin();
   }
 
-  logout() {
-    this.auth.logout();
-  }
+  // logout() {
+  //   this.auth.logout();
+  // }
 
   // get userList() {
   //   return this.auth.userList();

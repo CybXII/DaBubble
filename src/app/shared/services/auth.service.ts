@@ -14,6 +14,8 @@ import {
   sendPasswordResetEmail,
   updatePassword,
   confirmPasswordReset,
+  updateProfile,
+  updateEmail,
 } from '@angular/fire/auth';
 import {
   Firestore,
@@ -23,6 +25,7 @@ import {
   updateDoc,
   collection,
   onSnapshot,
+  deleteDoc,
 } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { UserModel } from '../../models/user';
@@ -32,7 +35,6 @@ import { ToastMessageService } from './toastmessage.service';
   providedIn: 'root',
 })
 export class AuthService {
-
   public avatarCache = new Map<string, string>();
   private cacheExpirationTime = 3600000; // 1 Stunde in Millisekunden
   private avatarCacheTimestamps = new Map<string, number>();
@@ -153,13 +155,51 @@ export class AuthService {
   /**
    * Benutzer registrieren (E-Mail und Passwort)
    */
-  async register(email: string, password: string): Promise<void> {
+  // async register(email: string, password: string): Promise<void> {
+  //   try {
+  //     const userCredential = await createUserWithEmailAndPassword(
+  //       this.auth,
+  //       email,
+  //       password
+  //     );
+
+  //     const user = userCredential.user;
+
+  //     // Sende E-Mail-Bestätigung
+  //     if (user) {
+  //       await sendEmailVerification(user);
+  //       console.log('Verification email sent to:', user.email);
+  //     }
+
+  //     const userData = this.setUserData(
+  //       user.uid,
+  //       user.displayName || '',
+  //       user.email || '',
+  //       user.photoURL || '',
+  //       user.providerData[0].providerId || ''
+  //     );
+
+  //     await setDoc(doc(this.firestore, 'users', user.uid), userData);
+  //   } catch (error) {
+  //     console.error('Registration failed:', error);
+  //   }
+  // }
+
+  async register(
+    email: string,
+    password: string,
+    name: string,
+    photoURL: string
+  ): Promise<void> {
+    console.log('registerIncomingData', email, password, name, photoURL);
+
     try {
       const userCredential = await createUserWithEmailAndPassword(
         this.auth,
         email,
         password
       );
+      console.log('userCredential', userCredential.user);
 
       const user = userCredential.user;
 
@@ -171,41 +211,12 @@ export class AuthService {
 
       const userData = this.setUserData(
         user.uid,
-        user.displayName || '',
+        name || '',
         user.email || '',
-        user.photoURL || '',
-        user.providerData[0].providerId || ''
+        photoURL || '',
+        'password'
       );
-
-      await setDoc(doc(this.firestore, 'users', user.uid), userData);
-    } catch (error) {
-      console.error('Registration failed:', error);
-    }
-  }
-
-  async register1(email: string, password: string, data: {name: string, photoURL: string}): Promise<void> {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        this.auth,
-        email,
-        password
-      );
-
-      const user = userCredential.user;
-
-      // Sende E-Mail-Bestätigung
-      if (user) {
-        await sendEmailVerification(user);
-        console.log('Verification email sent to:', user.email);
-      }
-
-      const userData = this.setUserData(
-        user.uid,
-        data.name || '',
-        user.email || '',
-        data.photoURL || '',
-        user.providerData[0].providerId || ''
-      );
+      console.log('userData', userData);
 
       await setDoc(doc(this.firestore, 'users', user.uid), userData);
     } catch (error) {
@@ -246,7 +257,11 @@ export class AuthService {
       console.log('Login successful:', userCredential.user);
 
       this.userId.set(userCredential.user.uid);
+      this.updateDataInFirestore(userCredential.user.uid, { status: true });
       await this.loadUserData(userCredential.user.uid);
+      setTimeout(() => {
+        this.toastMessageService.showToastSignal('Erfolgreich eingeloggt');
+      }, 1000);
     } catch (error) {
       this.handleLoginError(error);
     }
@@ -262,6 +277,9 @@ export class AuthService {
       const userData = this.setAnonymousUserData(user.uid);
       await setDoc(doc(this.firestore, `users/${user.uid}`), userData);
       await this.loadUserData(user.uid);
+      setTimeout(() => {
+        this.toastMessageService.showToastSignal('Erfolgreich eingeloggt');
+      }, 1000);
     } catch (error) {
       console.error('Anonymous login failed:', error);
     }
@@ -281,11 +299,16 @@ export class AuthService {
         user.uid,
         user.displayName || '',
         user.email || '',
-        user.photoURL || '',
-        user.providerData[0].providerId || ''
+        'img/avatars/picPlaceholder.svg',
+        user.providerData[0].providerId || '',
+        true
+  
       );
       await setDoc(doc(this.firestore, `users/${user.uid}`), userData);
       await this.loadUserData(user.uid);
+      setTimeout(() => {
+        this.toastMessageService.showToastSignal('Erfolgreich eingeloggt');
+      }, 1000);
     } catch (error) {
       console.error('Google login failed:', error);
     }
@@ -309,11 +332,36 @@ export class AuthService {
    * Logout
    */
   logout(): void {
-    this.auth.signOut().then(() => {
-      this.clearAuthState();
-      this.router.navigate(['']);
-      this.toastMessageService.showToastSignal('Erfolgreich ausgeloggt');
-    });
+    let userId = this.userData()?.userId;
+    if (userId && this.userData()?.provider !== 'anonymous') {
+      this.auth.signOut().then(() => {
+        this.clearAuthState();
+        this.updateDataInFirestore(userId, { status: false });
+        this.router.navigate(['']);
+        this.toastMessageService.showToastSignal('Erfolgreich ausgeloggt');
+      });
+    }
+    if (this.userData()?.provider === 'anonymous') {
+      console.log('Anonymous user logged out');
+      this.deleteAnonymousUserFromFirestore();
+      this.auth.signOut().then(() => {
+        this.clearAuthState();
+        this.router.navigate(['']);
+        this.toastMessageService.showToastSignal('Erfolgreich ausgeloggt');
+      });
+    }
+  }
+
+  deleteAnonymousUserFromFirestore(): void {
+    const user = this.auth.currentUser;
+    console.log('user', user);
+    
+    if (user) {
+      deleteDoc(doc(this.firestore, `users/${user.uid}`));
+      user.delete().then(() => {
+        console.log('Anonymous user deleted');
+      });
+    }
   }
 
   /**
@@ -328,6 +376,15 @@ export class AuthService {
       }
     } catch (error) {
       console.error('Failed to load user data:', error);
+    }
+  }
+
+  async checkUserId(userId: string) {
+    if (userId) {
+      const userDoc = await getDoc(doc(this.firestore, 'users', userId));
+      return userDoc.exists();
+    } else {
+      return false;
     }
   }
 
@@ -354,7 +411,8 @@ export class AuthService {
     username: string,
     email: string,
     avatarURL: string,
-    provider: string = ''
+    provider: string = '',
+    status: boolean = false
   ): UserModel {
     return {
       userId,
@@ -363,7 +421,7 @@ export class AuthService {
       photoURL: avatarURL,
       channels: [],
       privateNoteRef: '',
-      status: false,
+      status: status,
       provider: provider,
     };
   }
@@ -401,7 +459,8 @@ export class AuthService {
   redirectIfAuthenticated(): void {
     if (this.auth.currentUser) {
       this.router.navigate(['/board']);
-      this.toastMessageService.showToastSignal('Anmeldung erfolgreich');
+    } else {
+      this.router.navigate(['/']);
     }
   }
 
@@ -415,14 +474,14 @@ export class AuthService {
    */
   async getCachedAvatar(userId: string): Promise<string> {
     const now = Date.now();
-  
+
     if (this.avatarCache.has(userId)) {
       const cachedTime = this.avatarCacheTimestamps.get(userId);
       if (cachedTime && now - cachedTime < this.cacheExpirationTime) {
         return this.avatarCache.get(userId)!;
       }
     }
-  
+
     try {
       const userDoc = await getDoc(doc(this.firestore, `users/${userId}`));
       if (userDoc.exists()) {
@@ -439,6 +498,30 @@ export class AuthService {
     }
   }
 
+  // async updateUserData(
+  //   userId: string,
+  //   updatedData: Partial<UserModel>
+  // ): Promise<void> {
+  //   try {
+  //     const userDocRef = doc(this.firestore, `users/${userId}`);
+  //     await updateDoc(userDocRef, updatedData);
+  //     const updatedUserDoc = await getDoc(userDocRef);
+  //     if (updatedUserDoc.exists()) {
+  //       const updatedUserData = updatedUserDoc.data() as UserModel;
+  //       localStorage.setItem('userData', JSON.stringify(updatedUserData));
+  //       this.userData.set(updatedUserData);
+  //       this.toastMessageService.showToastSignal(
+  //         'Benutzerdaten erfolgreich aktualisiert'
+  //       );
+  //     }
+  //   } catch (error) {
+  //     console.error('Fehler beim Aktualisieren der Benutzerdaten:', error);
+  //     this.toastMessageService.showToastSignal(
+  //       'Fehler beim Aktualisieren der Benutzerdaten'
+  //     );
+  //   }
+  // }
+
   async updateUserData(
     userId: string,
     updatedData: Partial<UserModel>
@@ -451,6 +534,20 @@ export class AuthService {
         const updatedUserData = updatedUserDoc.data() as UserModel;
         localStorage.setItem('userData', JSON.stringify(updatedUserData));
         this.userData.set(updatedUserData);
+
+        // Update Firebase Auth profile
+        const user = this.auth.currentUser;
+        if (user) {
+          if (updatedData.name) {
+            await updateProfile(user, { displayName: updatedData.name });
+            this.updateDataInFirestore(userId, { name: updatedData.name });
+          }
+          if (updatedData.email) {
+            await updateEmail(user, updatedData.email);
+            this.updateDataInFirestore(userId, { email: updatedData.email });
+          }
+        }
+
         this.toastMessageService.showToastSignal(
           'Benutzerdaten erfolgreich aktualisiert'
         );
@@ -462,4 +559,11 @@ export class AuthService {
       );
     }
   }
+
+  updateDataInFirestore(userId: string, updatedData: Partial<UserModel>) {
+    const userDocRef = doc(this.firestore, `users/${userId}`);
+    updateDoc(userDocRef, updatedData);
+  }
+
+
 }
