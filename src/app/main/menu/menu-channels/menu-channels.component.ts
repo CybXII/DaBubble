@@ -21,7 +21,6 @@ export class MenuChannelsComponent implements OnInit, OnDestroy {
   loading: boolean = true;
   channelForm: FormGroup;
   currentChannelId: string | null = null;
-  messages: any[] = [];
 
   constructor(
     private fb: FormBuilder,
