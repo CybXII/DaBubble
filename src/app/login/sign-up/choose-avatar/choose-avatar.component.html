@@ -45,7 +45,7 @@
   </div>
   <div class="choseContainer">
     <div>
-      <span class="name">{{ name }}</span>
+      <span class="name">{{ userData.name }}</span>
       <p>Aus der Liste wählen</p>
     </div>
     <div class="charakterPics">
@@ -61,7 +61,7 @@
     </div>
   </div>
   <div class="buttons">
-    <button class="button_blue" (click)="onSignup()">Weiter</button>
+    <button class="button_blue" (click)="signUpAvatar()">Weiter</button>
   </div>
 </div>
 } @else {

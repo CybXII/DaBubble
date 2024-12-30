@@ -217,6 +217,7 @@
   *ngIf="avatar"
   [ngClass]="avatar ? 'flex' : 'd-none'"
   (backward)="close()"
-  [name]="userData.name"
+  [userData] = "userData"
 ></app-choose-avatar>
 
+<!-- [name]="userData.name" -->
