@@ -1,6 +1,35 @@
 @use "../../../../mixins.scss" as mixins;
 @use "../../../../colors.scss" as colors;
 
+
+.mainchat__chatbox{
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  flex: 1;
+  height: calc(100% - 8px);
+  overflow: auto;
+  margin: 0 0 24px ;
+  top: 4px;
+}
+
+
+.threadchat__chatbox{
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  height: calc(100% - 114px);
+  overflow: auto;
+  margin: 20px 0 0;
+  top: 90px;
+}
+
+
+.mainchat__chatbox.has-scroll,
+.threadchat__chatbox.has-scroll {
+  flex-direction: column-reverse;
+}
+
 .thread__divider {
   @include mixins.flexbox(row, center, center, nowrap);
   margin: 20px 35px;
@@ -20,6 +49,7 @@
   border: 1px solid colors.$light-purple;
   border-radius: 30px;
 }
+
 
 .chatbox__mainthread-container {
   @include mixins.flexbox(row, flex-start, flex-start, nowrap);

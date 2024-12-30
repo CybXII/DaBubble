@@ -48,7 +48,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
           this.messageId = messageId;
           console.log('Threadchat aktiv, Message-ID:', messageId);
         } else {
-          console.log('Keine gültige Message-ID für den Threadchat gefunden.');
+          // console.log('Keine gültige Message-ID für den Threadchat gefunden.');
         }
       });
       this.subscriptions.add(threadSubscription);

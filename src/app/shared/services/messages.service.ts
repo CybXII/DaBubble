@@ -71,18 +71,23 @@ export class MessagesService {
     const threadMessagesRef = collection(this.firestore, `messages/${parentMessageId}/threadMessages`);
     const threadMessages$ = collectionData(threadMessagesRef, { idField: 'docId' }) as Observable<ThreadMessage[]>;
   
-    threadMessages$.subscribe((threadMessages) => {
-      const processedMessages = threadMessages.map((threadMessage) => {
-        return {
+    threadMessages$.pipe(
+      map((threadMessages) => 
+        threadMessages.map((threadMessage) => ({
           ...threadMessage,
           parentMessageId,
           timestamp: (threadMessage.timestamp as any).seconds
             ? new Date((threadMessage.timestamp as any).seconds * 1000)
             : threadMessage.timestamp,
-        };
-      });
-  
-      this.threadMessagesSubject.next(processedMessages);
+        }))
+        .sort((a, b) => {
+          const dateA = a.timestamp ? new Date(a.timestamp).getTime() : 0;
+          const dateB = b.timestamp ? new Date(b.timestamp).getTime() : 0;
+          return dateB - dateA; // Sortiert absteigend nach Datum
+        })
+      )
+    ).subscribe((sortedThreadMessages) => {
+      this.threadMessagesSubject.next(sortedThreadMessages);
     });
   
     this.openThreadChat();
@@ -124,7 +129,6 @@ export class MessagesService {
    * Öffnet den Thread-Chat.
    */
   openThreadChat(): void {
-    
     this.threadchatStateSubject.next(true);
   }
 
