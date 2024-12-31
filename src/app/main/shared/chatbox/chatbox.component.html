@@ -65,7 +65,7 @@
     }
     @else if (message.creatorPhotoURL ) {
     <img class="chatbox__msg-avatar"
-      [src]="(avatars$ | async)?.get(message.createdBy) || '/img/avatars/picPlaceholder.svg'" alt="Avatar" width="70"
+      src="{{(avatars$ | async)?.get(message.createdBy) || '/img/avatars/picPlaceholder.svg'}}" alt="Avatar" width="70"
       height="70" />
     }
     <div class="chatbox__msg-item2" [class.chatbox__msg-sent-item2]="message.createdBy === activeUserId">

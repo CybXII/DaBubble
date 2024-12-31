@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, doc, getDoc, query, where, getDocs, setDoc, addDoc, onSnapshot  } from '@angular/fire/firestore';
+import { Firestore, collection, doc, getDoc, getDocs, setDoc, addDoc, onSnapshot, query, where  } from '@angular/fire/firestore';
 import { Channel } from '../../models/channel';
 import { BehaviorSubject } from 'rxjs';
+import { AuthService } from './auth.service';
 
 
 @Injectable({
@@ -12,7 +13,7 @@ export class ChannelsService {
   threadAktive: boolean = false;
   private currentChannelSubject = new BehaviorSubject<Channel | null>(null);
   currentChannel$ = this.currentChannelSubject.asObservable();
-  constructor(private firestore: Firestore) {}
+  constructor(private firestore: Firestore, private authService: AuthService) {}
   channelsOpen: boolean = false;
 
   async setDefaultChannel(): Promise<void> {
@@ -105,14 +106,15 @@ export class ChannelsService {
 
 
   loadChannelsRealtime(callback: (channels: Channel[]) => void): () => void {
+    const userId = this.authService.userId();
     const channelsRef = collection(this.firestore, this.collectionName);
-    const unsubscribe = onSnapshot(channelsRef, (snapshot) => {
+    const queryRef = query(channelsRef, where('members', 'array-contains', userId));
+    const unsubscribe = onSnapshot(queryRef, (snapshot) => {
       const channels = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Channel));
       callback(channels);
     });
     return unsubscribe;
   }
-
 
   toggleChannelsOpen(): void {
     this.channelsOpen = !this.channelsOpen;
@@ -122,7 +124,6 @@ export class ChannelsService {
     const channelRef = doc(this.firestore, `${this.collectionName}/${channelId}`);
     try {
       await setDoc(channelRef, updatedData, { merge: true });
-      // console.log('Channel erfolgreich aktualisiert:', updatedData);
     } catch (error) {
       console.error('Fehler beim Aktualisieren des Channels:', error);
       throw error;
