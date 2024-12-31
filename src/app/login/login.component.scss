@@ -360,13 +360,14 @@ form {
 
 
 
-
 // RESPONSIVE ...
 
 @media (max-width: 600px) {
   section {
-    padding: 0px 20px;
+    padding: 150px 20px 50px 20px;
     gap: 20px;
+    height: fit-content;
+    justify-content: unset;
   }
 
   form {
@@ -410,5 +411,9 @@ form {
 
   footer {
     display: none;
+  }
+
+  .paddingBottom {
+    padding-bottom: 150px;
   }
 }

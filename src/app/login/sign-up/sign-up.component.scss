@@ -86,3 +86,14 @@ button {
         }
     }
 }
+
+@media (max-width: 500px) {
+    .mainCont {
+        padding: 40px 20px;
+    }
+
+    .arrowBack {
+        top: unset;
+        left: 10px;
+    }
+}

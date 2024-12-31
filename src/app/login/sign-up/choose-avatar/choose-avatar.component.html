@@ -61,7 +61,7 @@
     </div>
   </div>
   <div class="buttons">
-    <button class="button_blue" (click)="signUpAvatar()">Weiter</button>
+    <button [disabled]="this.activePic === -1" class="button_blue" (click)="signUpAvatar()">Weiter</button>
   </div>
 </div>
 } @else {
