@@ -81,7 +81,6 @@ export class MenuPrivateMessagesComponent {
   }
 
   getAvatar(privateChannel: Channel): string {
-    console.log(privateChannel);
     // return this.channelsService.getAvatar(privateChannel);
     return '/img/avatars/avatar1.svg';
   }

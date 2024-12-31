@@ -29,7 +29,7 @@
                 <div class="channel">
                     <div class="channel-box" (click)="private.id ? selectChannel(private.id) : null">
                         <div class="avatar-box">
-                            <img [src]="this.getAvatar(private)" alt="">
+                            <img src="{{this.getAvatar(private)}}" alt="">
                             <!-- <div [ngClass]="{'online': private == this.activeChannel}" class="status"></div> -->
                         </div>
                         <p>{{private.name}}</p>
