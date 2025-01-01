@@ -227,13 +227,13 @@ export class MessagesService {
   
     newReactions.forEach((reaction) => {
       const existingReactionIndex = updatedReactions.findIndex(
-        (r) => r.emoji === reaction.emoji && r.userName === userId
+        (r) => r.emoji === reaction.emoji && r.userId === userId
       );
   
       if (existingReactionIndex >= 0) {
         updatedReactions.splice(existingReactionIndex, 1);
       } else {
-        updatedReactions.push({ emoji: reaction.emoji, userName: userId });
+        updatedReactions.push({ emoji: reaction.emoji, userId: userId });
       }
     });
   

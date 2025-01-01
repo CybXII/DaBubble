@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+  OnDestroy,
+  HostListener,
+} from '@angular/core';
 import { ChannelsService } from '../../../shared/services/channels.service';
 import { MessagesService } from '../../../shared/services/messages.service';
 import { Subscription } from 'rxjs';
@@ -7,11 +14,12 @@ import { AuthService } from '../../../shared/services/auth.service';
 import { UserModel } from '../../../models/user';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { EmojiPickerComponent } from "../emoji-picker/emoji-picker.component";
 
 @Component({
   selector: 'app-messagebox',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, EmojiPickerComponent],
   templateUrl: './messagebox.component.html',
   styleUrls: ['./messagebox.component.scss'], // Korrektur: "styleUrl" zu "styleUrls"
   changeDetection: ChangeDetectionStrategy.Default,
@@ -24,33 +32,41 @@ export class MessageboxComponent implements OnInit, OnDestroy {
   messageContent: string = '';
   private subscriptions: Subscription = new Subscription();
   activeUserId: string | null = null;
+  emojiPickerOpened: boolean = false;
 
-  constructor(private channelsService: ChannelsService, private messagesService: MessagesService, private authService: AuthService) {}
+  constructor(
+    private channelsService: ChannelsService,
+    private messagesService: MessagesService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.activeUserId = this.authService.userId();
     if (this.builder === 'mainchat') {
       // Beobachtet den aktuellen Channel
-      const channelSubscription = this.channelsService.currentChannel$.subscribe((channel) => {
-        if (channel) {
-          this.channelId = channel.id;
-          this.activeChannelName = channel.name;
-          console.log('Aktueller Channel-Name:', this.activeChannelName);
-        } else {
-          console.log('Kein aktiver Channel ausgewählt.');
-        }
-      });
+      const channelSubscription =
+        this.channelsService.currentChannel$.subscribe((channel) => {
+          if (channel) {
+            this.channelId = channel.id;
+            this.activeChannelName = channel.name;
+            console.log('Aktueller Channel-Name:', this.activeChannelName);
+          } else {
+            console.log('Kein aktiver Channel ausgewählt.');
+          }
+        });
       this.subscriptions.add(channelSubscription);
     } else if (this.builder === 'threadchat') {
       // Beobachtet die Message-ID für den Threadchat
-      const threadSubscription = this.messagesService.messageId$.subscribe((messageId) => {
-        if (messageId) {
-          this.messageId = messageId;
-          console.log('Threadchat aktiv, Message-ID:', messageId);
-        } else {
-          // console.log('Keine gültige Message-ID für den Threadchat gefunden.');
+      const threadSubscription = this.messagesService.messageId$.subscribe(
+        (messageId) => {
+          if (messageId) {
+            this.messageId = messageId;
+            console.log('Threadchat aktiv, Message-ID:', messageId);
+          } else {
+            // console.log('Keine gültige Message-ID für den Threadchat gefunden.');
+          }
         }
-      });
+      );
       this.subscriptions.add(threadSubscription);
     }
   }
@@ -66,7 +82,9 @@ export class MessageboxComponent implements OnInit, OnDestroy {
       return;
     }
 
-    let user: UserModel = await this.authService.getUserById(this.activeUserId) as UserModel;
+    let user: UserModel = (await this.authService.getUserById(
+      this.activeUserId
+    )) as UserModel;
 
     // Erstelle ein Message-Objekt
     const message: Message = {
@@ -103,7 +121,9 @@ export class MessageboxComponent implements OnInit, OnDestroy {
       console.error('Nachricht darf nicht leer sein.');
       return;
     }
-    let user : UserModel = await this.authService.getUserById(this.activeUserId) as unknown as UserModel;
+    let user: UserModel = (await this.authService.getUserById(
+      this.activeUserId
+    )) as unknown as UserModel;
     console.log('User:', user);
     // Erstelle ein ThreadMessage-Objekt
     const threadMessage: ThreadMessage = {
@@ -112,7 +132,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
       creatorPhotoURL: user.photoURL || '',
       message: this.messageContent.trim(),
       timestamp: new Date(),
-      reactions: []
+      reactions: [],
     };
 
     // Sende die Nachricht über den Service
@@ -129,5 +149,22 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     } else {
       console.error('Keine gültige Message-ID für den Thread verfügbar.');
     }
+  }
+
+  toggleEmojiPicker() {
+    this.emojiPickerOpened = !this.emojiPickerOpened;
+  }
+
+  onEmojiPickerClick(event: Event): void {
+    event.stopPropagation();
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event): void {
+    this.emojiPickerOpened = false; 
+  }
+
+  addEmoji(emoji: string){
+    this.messageContent += emoji;
   }
 }

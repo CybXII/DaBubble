@@ -9,6 +9,7 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getDatabase, provideDatabase } from '@angular/fire/database';
 import data from '../../firebase.json';
 import { ReactiveFormsModule } from '@angular/forms';
+import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,5 +22,6 @@ export const appConfig: ApplicationConfig = {
     provideFirestore(() => getFirestore()),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
+    provideHttpClient(),
   ],
 };
