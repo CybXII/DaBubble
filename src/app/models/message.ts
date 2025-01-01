@@ -26,5 +26,5 @@ export interface ThreadMessage {
 
 export interface Reaction {
     emoji: string; // Das verwendete Emoji
-    userName: string; // ID des Nutzers, der reagiert hat
+    userId: string; // ID des Nutzers, der reagiert hat
 }
