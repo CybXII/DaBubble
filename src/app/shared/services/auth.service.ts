@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Inject, Injectable, signal } from '@angular/core';
 import {
   Auth,
   User,
@@ -48,7 +48,7 @@ export class AuthService {
   private loginType = signal<'guest' | 'google' | 'email' | null>(null);
   currentUser = signal<UserModel | null>(null); // Typisiertes Signal
   constructor(
-    public auth: Auth,
+    private auth: Auth,
     private firestore: Firestore,
     private router: Router,
     private toastMessageService: ToastMessageService
@@ -302,7 +302,6 @@ export class AuthService {
         'img/avatars/picPlaceholder.svg',
         user.providerData[0].providerId || '',
         true
-  
       );
       await setDoc(doc(this.firestore, `users/${user.uid}`), userData);
       await this.loadUserData(user.uid);
@@ -355,7 +354,7 @@ export class AuthService {
   deleteAnonymousUserFromFirestore(): void {
     const user = this.auth.currentUser;
     console.log('user', user);
-    
+
     if (user) {
       deleteDoc(doc(this.firestore, `users/${user.uid}`));
       user.delete().then(() => {
@@ -564,6 +563,4 @@ export class AuthService {
     const userDocRef = doc(this.firestore, `users/${userId}`);
     updateDoc(userDocRef, updatedData);
   }
-
-
 }
