@@ -29,8 +29,12 @@
         <a (click)="openProfileEdit()">Bearbeiten</a>
       </div>
       <div>
-        <div target="online-status"></div>
-        <span>Aktiv</span>
+        <div target="online-status" [ngStyle]="{'background-color': userData?.status ? '#92c83e' : '#696969'}"></div>
+        @if (userData?.status) {
+        <span style="color:#92c83e">Aktiv</span>
+        } @else {
+        <span style="color:#696969">Offline</span>
+        }
       </div>
     </div>
     <div class="dialog-profile-mail">

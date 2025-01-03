@@ -10,10 +10,9 @@
     width: 100%;
 }
 
-.mainchat__chatbox{
-    flex: 1;
-    overflow: auto;
-    margin: 4px 0;
+.mainchat{
+    overflow: hidden;
+    height: 100%;
 }
 
 .mainchat__messagebox{

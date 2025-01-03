@@ -1,6 +1,32 @@
 @use "../../../../mixins.scss" as mixins;
 @use "../../../../colors.scss" as colors;
 
+.mainchat__chatbox {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  flex: 1;
+  height: calc(100% - 8px);
+  overflow: auto;
+  margin: 0 0 24px;
+  top: 4px;
+}
+
+.threadchat__chatbox {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  height: calc(100% - 114px);
+  overflow: auto;
+  margin: 20px 0 0;
+  top: 90px;
+}
+
+.mainchat__chatbox.has-scroll,
+.threadchat__chatbox.has-scroll {
+  flex-direction: column-reverse;
+}
+
 .thread__divider {
   @include mixins.flexbox(row, center, center, nowrap);
   margin: 20px 35px;
@@ -25,7 +51,7 @@
   @include mixins.flexbox(row, flex-start, flex-start, nowrap);
   gap: 20px;
   padding: 10px 40px;
-  margin-top:17px;
+  margin-top: 17px;
   position: relative;
   width: 100%;
 
@@ -130,6 +156,17 @@
   }
 }
 
+.emoji-picker__wrapper{
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 9;
+}
+
+.emoji-picker__wrapper-20pxright{
+  right: 20px;
+}
+
 .chatbox__editmsg-btn__container {
   &:hover .chatbox__editmsg-container {
     display: flex;
@@ -156,10 +193,10 @@
   border-bottom-right-radius: 30px;
 
   &:hover .chatbox__editmsg:hover {
-      color: colors.$purple3;
-      font-weight: 700;
-      background-color: colors.$bg-color;
-      border-radius: 100px;
+    color: colors.$purple3;
+    font-weight: 700;
+    background-color: colors.$bg-color;
+    border-radius: 100px;
   }
 }
 
@@ -210,7 +247,7 @@
   gap: 20px;
 }
 
-.chatbox__answers-container{
+.chatbox__answers-container {
   @include mixins.flexbox(row, flex-start, center, nowrap);
 }
 
@@ -254,19 +291,18 @@
 
 .chatbox__emojis-container {
   @include mixins.flexbox(row, flex-start, center, nowrap);
+  gap:12px;
+  max-width: 300px;
+  overflow-x: auto;
 }
 
 .chatbox__emojis {
+  @include mixins.flexbox(row, center, center, nowrap);
   border: 1px solid colors.$light-purple;
-  display: inline-block;
   padding: 5px 10px;
   border-radius: 20px;
+  gap: 10px;
   cursor: pointer;
-
-  span {
-    margin-left: 10px;
-    vertical-align: super;
-  }
 
   &:hover {
     border: 1px solid colors.$purple3;
