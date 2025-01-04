@@ -1,0 +1,38 @@
+@if (this.menuDialog&& !this.membersDialog && !this.channelDialog) {
+    <div class="dialog-menu-container" (click)="dontCloseDialog($event)">
+        <div class="dialog-header">
+            <h3>Leute Hinzufügen</h3>
+            <img src="/img/icons/close.svg" alt="close" (click)="closeDialog($event , 'menuDialog')" />
+        </div>
+        <div class="dialog-scrollContainer">
+            <div class="dialog-search">
+                <input type="text" placeholder="Suche nach Namen" />
+            </div>
+        </div>
+    </div>
+} @if (this.membersDialog && !this.menuDialog && !this.channelDialog) {
+    <div class="dialog-members-container" (click)="dontCloseDialog($event)">
+        <div class="dialog-header">
+            <h3>Leute</h3>
+            <img src="/img/icons/close.svg" alt="close" (click)="closeDialog($event, 'membersDialog')" />
+        </div>
+        <div class="dialog-scrollContainer">
+            <div class="dialog-search">
+                <input type="text" placeholder="Suche nach Namen" />
+            </div>
+        </div>
+    </div>
+}
+@if (this.channelDialog && !this.menuDialog && !this.membersDialog) {
+    <div class="dialog-channel-container" (click)="dontCloseDialog($event)">
+        <div class="dialog-header">
+            <h3># {{dialogData.name}}</h3>
+            <img src="/img/icons/close.svg" alt="close" (click)="closeDialog($event, 'channelDialog')" />
+        </div>
+        <div class="dialog-scrollContainer">
+            <div class="dialog-search">
+                <input type="text" placeholder="Suche nach Namen" />
+            </div>
+        </div>
+    </div>
+}
