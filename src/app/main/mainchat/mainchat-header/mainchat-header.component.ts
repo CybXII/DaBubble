@@ -21,6 +21,9 @@ export class MainchatHeaderComponent {
   channel: Observable<Channel | null>;
   channelMembers: { id: string; photoURL: string }[] = [];
   loading = true;
+  open = false;
+  active:string = '';
+  
   constructor(private channelsService: ChannelsService, private authService: AuthService) {
     this.channel = this.channelsService.currentChannel$;  
   
@@ -76,5 +79,19 @@ export class MainchatHeaderComponent {
         });
       }
     }
+  }
+
+  addPeople() {
+    this.active = 'addPeople'
+    this.open = true;
+  }
+
+  showAddedPeople() {
+    this.active = 'showPeople'
+    this.open = true;
+  }
+
+  closeDialog() {
+    this.open = false;
   }
 }
