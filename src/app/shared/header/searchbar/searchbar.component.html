@@ -11,28 +11,31 @@
 @if (isSearchActive && searchResults.length > 0) {
 <div class="feedback-wrapper">
   <div class="feedback-container">
-    <div class="feedback-box" *ngFor="let result of searchResults">
-      <span>{{ result.creatorName }}</span>
-      <span>{{ result.message }}</span>
-      <span>{{ result.timestamp.seconds | timestampToDate }}</span>
+    <div
+      class="feedback-box"
+      *ngFor="let result of searchResults"
+      (click)="goToSearchResult(result.channelId, result.docId)"
+    >
+      <img
+        src="{{ result.creatorPhotoURL }}"
+        alt="img/avatars/picPlaceholder.svg"
+      />
+      <div class="feedback-message">
+        <div class="feedback-message-header">
+          <span>{{ result.creatorName }}</span>
+          <span style="font-style: italic;">{{ result.timestamp.seconds | timestampToDate }}</span>
+        </div>
+        <span>{{ result.message }}</span>
+      </div>
     </div>
   </div>
 </div>
 } @else if (isSearchActive && searchResults.length === 0) {
 <div class="feedback-wrapper">
-  <div class="feedback-container">
-    <div class="feedback-box">
-      <span>Keine Ergebnisse gefunden</span>
-    </div>
-  </div>
+  <span>Keine Ergebnisse gefunden</span>
 </div>
-}
-@else if (isSearchTouched){
+} @else if (isSearchTouched){
 <div class="feedback-wrapper">
-  <div class="feedback-container">
-    <div class="feedback-box">
-      <span>Bitte gib mindestens 4 Zeichen ein</span>
-    </div>
-  </div>
+  <span>Bitte gib mindestens 4 Zeichen ein</span>
 </div>
 }

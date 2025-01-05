@@ -32,4 +32,8 @@ export class SearchbarComponent {
       this.searchService.searchMessages(this.searchText);
     }
   }
+
+  goToSearchResult(channelId: string, docId: string): void {
+    console.log('Navigating to:', channelId, docId);
+}
 }
