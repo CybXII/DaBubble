@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ProfileviewComponent } from '../profileview/profileview.component';
 
 
 
@@ -23,11 +25,9 @@ export class MenuDialogComponent  implements OnInit {
   memberIds: string[] = [];
   memberNames: { name: string; userId: string; photoURL: string }[] = [];
   addMembersForm!: FormGroup;
+  activeMember: any = {};
 
-
-  constructor(private fb: FormBuilder, public authService: AuthService) {}
-
-
+  constructor(private fb: FormBuilder, public authService: AuthService, private dialog: MatDialog,) {}
   async ngOnInit(): Promise<void> {
     this.memberIds = this.dialogData.members.map((member) => member.id);
     this.memberNames = await this.authService.getUsernamesByIds(this.memberIds);
@@ -68,7 +68,7 @@ export class MenuDialogComponent  implements OnInit {
 
 
   selectMember(member: any) {
-    console.log(member);
+    this.activeMember = member
   }
 
 
@@ -79,5 +79,14 @@ export class MenuDialogComponent  implements OnInit {
 
   addMembers(){
     console.log(this.addMembersForm);
+  }
+
+  openDialog(): void {
+    this.dialog.open(ProfileviewComponent, {
+      width: 'fit-content',
+      maxWidth: '100vw',
+      height: 'fit-content',
+      data: {member: this.activeMember}
+    });
   }
 }

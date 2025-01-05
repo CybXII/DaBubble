@@ -113,9 +113,13 @@ img{
 .dialog-scrollContainer{
     overflow: scroll;
     max-height: 310px;
-    img{
-        width: 50px;
+    .avatar-box {
         height: 50px;
+        width: 50px;
+    }
+    img{
+        width: 100%;
+        height: 100%;
         border-radius: 50%;
     }
 }
