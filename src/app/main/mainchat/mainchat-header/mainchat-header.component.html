@@ -6,7 +6,16 @@
       <img src="img/icons/arrow_down.svg" alt="" height="8" width="14" />
     </div>
     @if (this.channelDialog) {
-      <app-menu-dialog class="channelDialog" [dialogData]="dialogData" [channelDialog]="channelDialog" (channelDialogChange)="onDialogChange($event, 'channelDialog')"></app-menu-dialog>
+      <app-menu-dialog
+        class="channelDialog"
+        [menuDialog]="menuDialog"
+        [membersDialog]="membersDialog"
+        [channelDialog]="channelDialog"
+        [dialogData]="dialogData"
+        (dialogChange)="onDialogChange($event, 'menuDialog')"
+        (membersDialogChange)="onDialogChange($event, 'membersDialog')"
+        (channelDialogChange)="onDialogChange($event, 'channelDialog')">
+      </app-menu-dialog>
       <div [ngClass]="{
         'dialog-background': channelDialog
       }" (click)="closeDialog($event)">
@@ -28,15 +37,32 @@
     <div class="mainchat__header__addperson-img-container">
       <img class="mainchat__header__addperson-img" src="img/icons/person_add.svg" alt="" (click)="openDialog('menuDialog')" />
       @if (this.menuDialog){
-        <app-menu-dialog class="dialogMenu" [menuDialog]="menuDialog" (dialogChange)="onDialogChange($event , 'menuDialog')"></app-menu-dialog>
+        <app-menu-dialog
+          class="dialogMenu"
+          [menuDialog]="menuDialog"
+          [membersDialog]="membersDialog"
+          [channelDialog]="channelDialog"
+          [dialogData]="dialogData"
+          (dialogChange)="onDialogChange($event, 'menuDialog')"
+          (membersDialogChange)="onDialogChange($event, 'membersDialog')"
+          (channelDialogChange)="onDialogChange($event, 'channelDialog')">
+        </app-menu-dialog>
         <div [ngClass]="{
           'dialog-background': menuDialog
         }" (click)="closeDialog($event)">
         </div>
         }
       @if (this.membersDialog){
-        <app-menu-dialog class="membersDialog" [membersDialog]="membersDialog" (membersDialogChange)="onDialogChange($event, 'membersDialog')"></app-menu-dialog>
-        <div [ngClass]="{
+        <app-menu-dialog
+          class="membersDialog"
+          [menuDialog]="menuDialog"
+          [membersDialog]="membersDialog"
+          [channelDialog]="channelDialog"
+          [dialogData]="dialogData"
+          (dialogChange)="onDialogChange($event, 'menuDialog')"
+          (membersDialogChange)="onDialogChange($event, 'membersDialog')"
+          (channelDialogChange)="onDialogChange($event, 'channelDialog')">
+        </app-menu-dialog>        <div [ngClass]="{
           'dialog-background': membersDialog
         }" (click)="closeDialog($event)">
         </div>

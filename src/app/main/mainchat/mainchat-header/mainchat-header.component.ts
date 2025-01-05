@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../shared/services/auth.service';
 import { MenuDialogComponent } from "../../../shared/menu-dialog/menu-dialog.component";
+import { ChangeDetectorRef } from '@angular/core';
 
 
 @Component({
@@ -30,7 +31,7 @@ export class MainchatHeaderComponent {
   dialogData: any = null;
 
 
-  constructor(private channelsService: ChannelsService, private authService: AuthService) {
+  constructor(private channelsService: ChannelsService, private authService: AuthService, private cdr: ChangeDetectorRef) {
     this.channel = this.channelsService.currentChannel$;  
   }
 
@@ -61,7 +62,7 @@ export class MainchatHeaderComponent {
       let avatarUrl = member.photoURL || this.avatarCache.get(member.id);
       if (!avatarUrl) {
         avatarUrl = await this.authService.getCachedAvatar(member.id);
-        this.avatarCache.set(member.id, avatarUrl);
+        this.avatarCache.set(member.id, avatarUrl );
       }
       memberAvatars.push({ id: member.id, photoURL: avatarUrl });
     }
@@ -89,15 +90,14 @@ export class MainchatHeaderComponent {
     this.closeAllDialogs();
     this.dialogData = { name: this.channelTitle, members: this.channelMembers };
     if (menu === 'membersDialog') {
+      console.log(this.dialogData.members);
       this.membersDialog = true;
-      this.dialogData = this.channelMembers;
     } else if (menu === 'menuDialog') {
       this.menuDialog = true;
-      this.dialogData = { message: 'Hier kannst du Leute hinzufügen' };
     } else if (menu === 'channelDialog') {
       this.channelDialog = true;
-      this.dialogData = { name: this.channelTitle, members: this.channelMembers };
     }
+    this.cdr.detectChanges();
   }
 
   closeAllDialogs() {
