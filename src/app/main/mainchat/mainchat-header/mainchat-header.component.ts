@@ -53,20 +53,32 @@ export class MainchatHeaderComponent {
   }
 
 
-  /**
-   * Lädt Avatare für alle Channel-Mitglieder.
-   */
   private async loadMemberAvatars(members: { id: string; photoURL?: string }[]): Promise<{ id: string; photoURL: string }[]> {
     const memberAvatars: { id: string; photoURL: string }[] = [];
     for (const member of members) {
       let avatarUrl = member.photoURL || this.avatarCache.get(member.id);
       if (!avatarUrl) {
         avatarUrl = await this.authService.getCachedAvatar(member.id);
-        this.avatarCache.set(member.id, avatarUrl );
+        this.avatarCache.set(member.id, avatarUrl);
       }
       memberAvatars.push({ id: member.id, photoURL: avatarUrl });
     }
     return memberAvatars;
+  }
+
+
+  onDialogSwitch(event: { from: string; to: string }) {
+    this.closeAllDialogs();
+    this.cdr.detectChanges();
+    if (event.to === 'menuDialog') {
+      this.menuDialog = true;
+    } else if (event.to === 'membersDialog') {
+      this.membersDialog = true;
+    } else if (event.to === 'channelDialog') {
+      this.channelDialog = true;
+    }
+  
+    console.log(`Dialog switched: from ${event.from} to ${event.to}`);
   }
 
 
@@ -100,11 +112,13 @@ export class MainchatHeaderComponent {
     this.cdr.detectChanges();
   }
 
+
   closeAllDialogs() {
     this.menuDialog = false;
     this.membersDialog = false;
     this.channelDialog = false;
   }
+
 
   onDialogChange(newValue: boolean, menu: string) {
     this.closeAllDialogs();
@@ -116,6 +130,7 @@ export class MainchatHeaderComponent {
       this.channelDialog = newValue;
   }
 
+
   closeDialog(event: Event) {
     event?.preventDefault();
     event.stopPropagation();
@@ -123,6 +138,7 @@ export class MainchatHeaderComponent {
     this.membersDialog = false;
     this.channelDialog = false;
   }
+
 
   get userData() {
     return this.authService.userData();
