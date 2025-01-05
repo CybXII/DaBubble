@@ -107,6 +107,7 @@ export class MainchatHeaderComponent {
   }
 
   onDialogChange(newValue: boolean, menu: string) {
+    this.closeAllDialogs();
     if (menu === 'membersDialog') 
       this.membersDialog = newValue;
     else if (menu === 'menuDialog')
