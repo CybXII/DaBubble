@@ -58,6 +58,7 @@ img {
   border-radius: 30px;
   box-shadow: -2px -2px 10px 0px rgba(0, 0, 0, 0.18);
   outline: 1px solid colors.$purple2;
+      background-color: colors.$white;
 }
 
 .feedback-container {
@@ -66,17 +67,15 @@ img {
   color: #f50000;
   @include mixins.flexbox(row, center, center);
   max-width: 1440px;
-  gap: 16px;
+  border-radius: 30px;
 
   .feedback-box {
     opacity: 1;
-    background-color: colors.$white;
     color: colors.$grey;
     box-sizing: border-box;
     width: 100%;
     z-index: 4;
     padding: 24px;
-    border-radius: 30px;
     @include mixins.flexbox(column, flex-start, flex-start);
   }
 }
