@@ -1,0 +1,79 @@
+@use '../../../mixins.scss' as mixins;
+@use '../../../colors.scss' as colors;
+
+.container {
+    padding: 12px;
+    min-height: 700px;
+    min-width: 500px;
+    @include mixins.flexbox($direction: column, $justify: space-around);
+    >div {
+        width: 100%;
+    }
+}
+
+.headline {
+    h2 {
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 32.74px;
+    }
+    padding: 12px;
+    @include mixins.flexbox($justify: space-between);
+    svg {
+        width: 24px;
+        height: 25px;
+        padding: 2px;
+        &:hover {
+            cursor: pointer;
+            background-color: colors.$bg-color;
+            border-radius: 50%;
+            path {
+                fill: colors.$purple3;
+            }
+        }
+    }
+}
+
+.imageCont {
+    @include mixins.flexbox($justify: center);
+    img {
+        height: 200px;
+        width: 200px;
+        border-radius: 100%;
+    }
+}
+
+.nameCont {
+    span {
+        padding: 12px;
+        font-weight: 700;
+        font-size: 32px;
+        line-height: 43.65px;
+    }
+}
+
+.mailCont {
+    >div {
+        @include mixins.flexbox($justify: start);
+        gap: 15px;
+    }
+    span {
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 27.28px;
+    }
+    p {
+        padding-left: 45px;
+        color: rgba(19, 129, 255, 1);
+    }
+}
+
+.buttonCont {
+    @include mixins.flexbox();
+}
+
+button {
+    @include mixins.flexbox();
+    width: fit-content;
+    gap: 10px;
+}

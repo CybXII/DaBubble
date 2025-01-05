@@ -28,7 +28,7 @@
     <div class="dialog-scrollContainer">
         @if (this.dialogData && this.memberNames) {
         @for (member of this.memberNames; track member) {
-        <div class="channel-box" (click)="member.name ? selectMember(member.userId) : null">
+        <div class="channel-box" (click)="member.name ? selectMember(member) : null; openDialog()">
             <div class="avatar-box">
                 <img src="{{member.photoURL}}" alt="">
             </div>
