@@ -402,7 +402,7 @@ export class AuthService {
     } else {
       this.loginError.set('Unexpected error occurred');
     }
-    console.error('Login error:', error);
+    throw error
   }
 
   /**
