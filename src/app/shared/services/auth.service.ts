@@ -567,7 +567,7 @@ export class AuthService {
     updateDoc(userDocRef, updatedData);
   }
 
-  async getUsernamesByIds(userIds: string[]): Promise<{ name: string; userId: string; photoURL: string }[]> {
+  async getUsernamesByIds(userIds: string[]): Promise<{ name: string; userId: string; photoURL: string; email: string; status: boolean }[]> {
     if (!userIds || userIds.length === 0) {
       return [];
     }
@@ -583,6 +583,8 @@ export class AuthService {
           name: data.name,
           userId: data.userId,
           photoURL: data.photoURL,
+          email: data.email,
+          status: data.status,
         };
       });
   
