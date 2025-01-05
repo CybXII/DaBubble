@@ -18,7 +18,7 @@
     <div class="nameCont">
         <span>{{ member.name }}</span>
     </div>
-    <div>
+    <div class="status">
         <div target="online-status" [ngStyle]="{'background-color': member?.status ? '#92c83e' : '#696969'}"></div>
         @if (member?.status) {
         <span style="color:#92c83e">Aktiv</span>
