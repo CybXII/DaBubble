@@ -8,7 +8,7 @@ import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-main',
-  standalone: true, // <-- Add this line
+  standalone: true,
   imports: [
     HeaderComponent,
     BuilderComponent,

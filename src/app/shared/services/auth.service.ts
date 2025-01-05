@@ -26,6 +26,9 @@ import {
   collection,
   onSnapshot,
   deleteDoc,
+  getDocs,
+  query,
+  where,
 } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { UserModel } from '../../models/user';
@@ -563,4 +566,33 @@ export class AuthService {
     const userDocRef = doc(this.firestore, `users/${userId}`);
     updateDoc(userDocRef, updatedData);
   }
-}
+
+  async getUsernamesByIds(userIds: string[]): Promise<{ name: string; userId: string; photoURL: string }[]> {
+    if (!userIds || userIds.length === 0) {
+      return [];
+    }
+  
+    try {
+      const usersCollection = collection(this.firestore, 'users');
+      const userDocsQuery = query(usersCollection, where('userId', 'in', userIds));
+      const querySnapshot = await getDocs(userDocsQuery);
+  
+      const userDetails = querySnapshot.docs.map(doc => {
+        const data = doc.data() as UserModel;
+        return {
+          name: data.name,
+          userId: data.userId,
+          photoURL: data.photoURL,
+        };
+      });
+  
+      // Sortiere die UserDetails alphabetisch nach Namen
+      userDetails.sort((a, b) => a.name.localeCompare(b.name));
+  
+      return userDetails;
+    } catch (error) {
+      console.error('Error fetching and sorting user details:', error);
+      return [];
+    }
+  }
+  }
