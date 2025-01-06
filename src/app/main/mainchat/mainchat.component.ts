@@ -17,6 +17,7 @@ export class MainchatComponent implements OnInit {
   @Input() builder!: string;
   sharedVariable!: string;
 
+  createmessage = "createmessage";
 
   constructor(private sharedService: SharedService) { }
 
