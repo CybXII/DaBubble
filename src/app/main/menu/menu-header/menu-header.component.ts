@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { AddchatComponent } from '../../addchat/addchat.component';
 
 @Component({
   selector: 'app-menu-header',
@@ -8,5 +10,17 @@ import { Component } from '@angular/core';
   styleUrl: './menu-header.component.scss'
 })
 export class MenuHeaderComponent {
+
+  openNewMessage() {
+    this.dialog.open(AddchatComponent, {
+      width: 'fit-content',
+      maxWidth: '100vw',
+      height: 'fit-content',
+    });
+  }
+
+
+  constructor(private dialog: MatDialog) { }
+
 
 }
