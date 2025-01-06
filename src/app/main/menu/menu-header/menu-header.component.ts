@@ -14,7 +14,6 @@ export class MenuHeaderComponent {
 
 
   constructor(private sharedService: SharedService) {
-
   }
 
 
@@ -22,10 +21,6 @@ export class MenuHeaderComponent {
   createNewMessage() {
     // mainchat updaten
     this.sharedService.updateVariable('createMessagePressed');
-    
-    
-
-    
 
   }
 
