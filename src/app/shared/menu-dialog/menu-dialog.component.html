@@ -28,7 +28,7 @@
     <div class="dialog-scrollContainer">
         @if (this.dialogData && this.memberNames) {
         @for (member of this.memberNames; track member) {
-        <div class="channel-box" (click)="member.name ? selectMember(member.userId) : null">
+        <div class="channel-box" (click)="member.name ? selectMember(member) : null; openDialog()">
             <div class="avatar-box">
                 <img src="{{member.photoURL}}" alt="">
             </div>
@@ -38,7 +38,7 @@
         }
     </div>
     <div class="addMember">
-        <div class="addperson-img-container channel-box">
+        <div class="addperson-img-container channel-box" (click)="switchDialog('menuDialog')">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <mask id="mask0_100188_15121" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
                     height="24">
@@ -62,5 +62,20 @@
         <h3># {{dialogData.name}}</h3>
         <img src="/img/icons/close.svg" alt="close" (click)="closeDialog($event, 'channelDialog')" />
     </div>
+    <div class="edit-dialog-channelName">
+        <div>
+            <h4>Channel-Name</h4>
+            <span>Bearbeiten</span>
+        </div>
+        <div>
+            <span>#</span>
+            <span>{{dialogData.name}}</span>
+        </div>
+    </div>
+    <h4>Bearbeiten</h4>
+    <input type="text" placeholder="Dein Text hier">
+    <hr>
+    <h4>Erstellt von</h4>
+    <span>{{ 'platzhalter' }}</span>
 </div>
 }

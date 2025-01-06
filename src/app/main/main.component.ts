@@ -37,6 +37,6 @@ export class MainComponent implements OnInit {
   clearLoadingSpinner() {
     setTimeout(() => {
       this.loadingStatus = false;
-    }, 3000);
+    }, 1500);
   }
 }
