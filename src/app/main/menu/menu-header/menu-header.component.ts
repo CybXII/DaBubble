@@ -19,11 +19,12 @@ export class MenuHeaderComponent {
 
 
 
-  selectNewMessage() {
-    console.log("new message pressed");
+  createNewMessage() {
     // mainchat updaten
-    this.sharedService.updateVariable('newMessagePressed');
-    console.log(this.sharedService.updateVariable);
+    this.sharedService.updateVariable('createMessagePressed');
+    
+    
+
     
 
   }
