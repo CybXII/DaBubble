@@ -270,6 +270,7 @@
       alt=""
       width="70"
       height="70"
+      (click)="checkIdIsUser(message.createdBy)"
     />
     } @else if (message.creatorPhotoURL == null || undefined || '' ||
     !message.creatorPhotoURL) {
@@ -279,6 +280,7 @@
       alt=""
       width="70"
       height="70"
+      (click)="checkIdIsUser(message.createdBy)"
     />
     } @else if (message.createdBy ) {
     <img
@@ -290,6 +292,7 @@
       alt="Avatar"
       width="70"
       height="70"
+      (click)="checkIdIsUser(message.createdBy)"
     />
     }
     <div
@@ -300,7 +303,7 @@
         class="chatbox__msg-info"
         [class.chatbox__msg-sent-info]="message.createdBy === activeUserId"
       >
-        <h3 class="chatbox__msg-name">{{ message.creatorName }}</h3>
+        <h3 class="chatbox__msg-name" (click)="checkIdIsUser(message.createdBy)">{{ message.creatorName }}</h3>
         <p class="chatbox__msg-time">
           {{ message.timestamp | date : "short" }}
         </p>
@@ -346,3 +349,17 @@
   }
 </div>
 } }
+
+@if (this.dialogUser == true){
+  <div
+    [ngClass]="{
+      'dialog-background': dialogUser
+    }"
+    (click)="closeDialog($event)"
+  >
+    <app-dialog
+      [dialogUser]="dialogUser"
+      (dialogChange)="onDialogChange($event)"
+    ></app-dialog>
+  </div>
+  }

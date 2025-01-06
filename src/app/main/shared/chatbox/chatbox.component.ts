@@ -22,11 +22,13 @@ import { ChannelsService } from '../../../shared/services/channels.service';
 import { EditmessageComponent } from '../editmessage/editmessage.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EmojiPickerComponent } from '../emoji-picker/emoji-picker.component';
+import { ProfileviewComponent } from '../../../shared/profileview/profileview.component';
+import { DialogComponent } from '../../../shared/header/usermenu/dialog/dialog.component';
 
 @Component({
   selector: 'app-chatbox',
   standalone: true,
-  imports: [CommonModule, EmojiPickerComponent],
+  imports: [CommonModule, EmojiPickerComponent, DialogComponent],
   templateUrl: './chatbox.component.html',
   styleUrls: ['./chatbox.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,12 +48,13 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   emojiPickerOpened: boolean = false;
   emojiPickerOpenedFor: string | null = null;
   selectedEmoji = '';
+  dialogUser: boolean = false;
 
   constructor(
     private channelsService: ChannelsService,
     private messagesService: MessagesService,
     private authService: AuthService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
   ) {
     this.currentChannel$ = this.channelsService.currentChannel$;
     this.messages$ = this.messagesService.messages$;
@@ -280,5 +283,37 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       });
 
     this.emojiPickerOpened = false;
+  }
+
+  checkIdIsUser(id:string | undefined) {
+    if (this.activeUserId !== id ) {
+      this.openDialogUser(id)
+    } else {
+      this.openDialog()
+      console.log("DU ", id, this.dialogUser);
+    }
+  }
+
+  openDialogUser(id:string | undefined): void {
+    this.dialog.open(ProfileviewComponent, {
+      width: 'fit-content',
+      maxWidth: '100vw',
+      height: 'fit-content',
+      data: {ID: id}
+    });
+  }
+
+  openDialog() {
+    this.dialogUser = true;
+  }
+
+  onDialogChange(newValue: boolean) {
+    this.dialogUser = newValue;
+  }
+
+  closeDialog(event: Event) {
+    event?.preventDefault();
+    event.stopPropagation();
+    this.dialogUser = false;
   }
 }

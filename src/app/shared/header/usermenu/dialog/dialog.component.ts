@@ -27,6 +27,7 @@ import { UserModel } from '../../../../models/user';
 })
 export class DialogComponent {
   @Input() dialog: boolean = false;
+  @Input() dialogUser: boolean = false;
   @Output() dialogChange = new EventEmitter<boolean>();
   profileDialog: boolean = false;
   profileDialogEdit: boolean = false;
@@ -60,6 +61,13 @@ export class DialogComponent {
         ],
       ],
     });
+    if (this.dialogUser) {
+      this.profileDialog = true;
+      this.dialog = false;
+      console.log("Dialog offnen ", this.dialogUser)
+    } else {
+      console.warn("Dialog lässt sich nicht öffnen ", this.dialogUser)
+    }
   }
 
   ngOnInit() {
