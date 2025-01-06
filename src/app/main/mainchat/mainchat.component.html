@@ -6,6 +6,9 @@
   <app-mainchat-header class="mainchat__header"></app-mainchat-header>
   <app-chatbox [builder]="builder" class="mainchat"></app-chatbox>
   <app-messagebox [builder]="builder" class="mainchat__messagebox"></app-messagebox>
+  } @else {
+    Neue Nachricht!
+  <app-messagebox [builder]="builder" class="mainchat__messagebox"></app-messagebox>
   }
 
 </div>
