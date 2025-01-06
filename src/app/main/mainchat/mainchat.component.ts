@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ChatboxComponent } from '../shared/chatbox/chatbox.component';
 import { MessageboxComponent } from '../shared/messagebox/messagebox.component';
 import { MainchatHeaderComponent } from './mainchat-header/mainchat-header.component';
 import { Firestore, collection, query, where, getDocs } from '@angular/fire/firestore';
+import { SharedService } from '../../shared/services/newmessage.service';
 
 @Component({
   selector: 'app-mainchat',
@@ -11,7 +12,19 @@ import { Firestore, collection, query, where, getDocs } from '@angular/fire/fire
   templateUrl: './mainchat.component.html',
   styleUrls: ['./mainchat.component.scss'] // Korrigiere styleUrl zu styleUrls (Plural)
 })
-export class MainchatComponent {
+export class MainchatComponent implements OnInit {
   @Input() builder!: string;
-  constructor() {}
+  sharedVariable!: string;
+
+
+  constructor(private sharedService: SharedService) { }
+
+  ngOnInit() {
+    this.sharedService.sharedVariable$.subscribe(
+      (value) => (this.sharedVariable = value)
+    );
+  }
+
 }
+
+
