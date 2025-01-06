@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { AddchatComponent } from '../../addchat/addchat.component';
+import { Component} from '@angular/core';
+import { SharedService } from '../../../shared/services/newmessage.service';
+
 
 @Component({
   selector: 'app-menu-header',
@@ -11,16 +11,24 @@ import { AddchatComponent } from '../../addchat/addchat.component';
 })
 export class MenuHeaderComponent {
 
-  openNewMessage() {
-    this.dialog.open(AddchatComponent, {
-      width: 'fit-content',
-      maxWidth: '100vw',
-      height: 'fit-content',
-    });
+
+
+  constructor(private sharedService: SharedService) {
+
   }
 
 
-  constructor(private dialog: MatDialog) { }
+
+  createNewMessage() {
+    // mainchat updaten
+    this.sharedService.updateVariable('createMessagePressed');
+    
+    
+
+    
+
+  }
+
 
 
 }
