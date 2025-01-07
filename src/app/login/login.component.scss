@@ -1,425 +1,430 @@
-@use './../../mixins.scss' as mixins;
-@use './../../colors.scss' as colors;
-
+@use "./../../mixins.scss" as mixins;
+@use "./../../colors.scss" as colors;
 
 .afterIntro {
-    opacity: 0;
-    animation: reveal 1s 5s forwards;
+  opacity: 0;
+  animation: reveal 1s 5s forwards;
 }
 
 .animationBackground {
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
-    left: 0;
-    top: 0;
-    background: colors.$bg-intro;
-    animation: hide 1s 5s forwards;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  background: colors.$bg-intro;
+  animation: hide 1s 5s forwards;
+}
+
+.d-none {
+  display: none !important;
+}
+
+.flex {
+  display: flex !important;
 }
 
 .container {
+  position: absolute;
+  //width: 100vw;
+  //height: 100vh;
+  display: flex;
+  align-items: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  gap: 16px;
+  z-index: 100;
+  max-width: 1920px;
+  animation: moveToTopLeft 1s 5s forwards; //, hide 0.3s 5.7s forwards;
+  //border: 1px solid black;
+
+  img {
+    width: auto;
     position: absolute;
-    //width: 100vw;
-    //height: 100vh;
-    display: flex;
-    align-items: center;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    gap: 16px;
-    z-index: 100;
-    max-width: 1920px;
-    animation: moveToTopLeft 1s 5s forwards;
+    left: 0px;
+    height: 184px;
+    animation: moveLeft 0.5s 1s forwards,
+      makeStatic 1s 5s forwards,
+      shrinkImage 1s 5s forwards;
+    z-index: 2;
     //border: 1px solid black;
+  }
 
-    img {
-        width: auto;
-        position: absolute;
-        left: 0px;
-        height: 184px;
-        animation: moveLeft .5s ease-in-out 1s forwards,
-            makeStatic 1s 5s forwards,
-            shrinkImage 1s 5s forwards;
-        z-index: 2;
-    }
-
-    .textcontainer {
-        position: relative;
-        display: flex;
-        align-items: center;
-        transform: translateX(35%);
-        width: 300px;
-        height: 70px;
-        overflow: hidden;
-        //border: 1px solid red;
-        animation: moveLittleLeft 1s 5s forwards;
-
-
-        h1 {
-            position: absolute;
-            //left: -200px;
-            transform: translateX(-100%);
-            font-size: 60px;
-            font-weight: 700;
-            animation: moveRight .5s 2s ease-in-out forwards,
-                changeHeadline 1s 5s forwards;
-            color: white;
-        }
-
-
-    }
-
-
-}
-
-
-.containerNoAnimation {
-    position: absolute;
+  .textcontainer {
+    position: relative;
     display: flex;
     align-items: center;
-    top: 75px;
-    left: 75px;
-    gap: 16px;
-    max-width: 1920px;
-
-    img {
-        width: auto;
-        height: 75px;
-        z-index: 2;
-    }
+    transform: translateX(35%);
+    width: 300px;
+    height: 70px;
+    overflow: hidden;
+    //border: 1px solid red;
+    animation: moveLittleLeft 1s 5s forwards;
 
     h1 {
-        color: black;
-        font-size: 32px;
-        font-weight: 700;
+      position: absolute;
+      //left: -200px;
+      transform: translateX(-100%);
+      font-size: 60px;
+      font-weight: 700;
+      animation: moveRight 0.5s 2s ease-in-out forwards,
+        changeHeadline 1s 5s forwards;
+      color: white;
     }
-
+  }
 }
 
+.containerNoAnimation {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: 75px;
+  left: 75px;
+  gap: 16px;
+  max-width: 1920px;
 
+  img {
+    width: auto;
+    height: 75px;
+    z-index: 2;
+  }
+
+  h1 {
+    color: black;
+    font-size: 32px;
+    font-weight: 700;
+  }
+}
 
 header {
-    position: absolute;
-    // height: 100px;
-    // width: 100%;
-    top: 90px;
-    right: 75px;
-    @include mixins.flexbox($justify: space-between);
-    // padding: 0px 30px;
+  position: absolute;
+  // height: 100px;
+  // width: 100%;
+  top: 90px;
+  right: 75px;
+  @include mixins.flexbox($justify: space-between);
+  // padding: 0px 30px;
 
-    >div {
-        @include mixins.flexbox($direction: column, $justify: start);
-        gap: 5px
+  >div {
+    @include mixins.flexbox($direction: column, $justify: start);
+    gap: 5px;
+  }
+
+  .logo {
+    @include mixins.flexbox();
+    gap: 10px;
+
+    >span {
+      font-size: 30px;
+      font-weight: 700;
     }
-
-    .logo {
-        @include mixins.flexbox();
-        gap: 10px;
-
-        >span {
-            font-size: 30px;
-            font-weight: 700;
-        }
-    }
+  }
 }
 
 a {
-    &:hover {
-        transform: scale(1.05);
-    }
+  &:hover {
+    //transform: scale(1.05);
+    font-weight: 500;
+  }
 }
 
 header,
 footer {
-    a {
-        padding: 10px;
-        border-radius: 100px;
-        @include mixins.border-marker($color: colors.$bg-color);
+  a {
+    padding: 10px;
+    border-radius: 100px;
+    @include mixins.border-marker($color: colors.$bg-color);
 
-        &:hover {
-            border-color: colors.$light-purple;
-        }
+    &:hover {
+      border-color: colors.$light-purple;
     }
+  }
 }
 
-
-
 section {
-    @include mixins.flexbox($direction: column);
-    height: 100vh;
-    width: 100vw;
-    max-width: 1980px;
-    text-align: center;
-    position: relative;
+  @include mixins.flexbox($direction: column);
+  height: 100vh;
+  width: 100vw;
+  max-width: 1980px;
+  text-align: center;
+  position: relative;
+
+  &:hover {
+    cursor: default;
+  }
 }
 
 input {
-    background-color: colors.$bg-color;
-    border: none;
-    flex: 1;
+  background-color: colors.$bg-color;
+  border: none;
+  flex: 1;
+  font-size: 18px;
 
-    &:focus-visible {
-        outline: unset;
-    }
+  &:focus-visible {
+    outline: unset;
+  }
+
+  &:-webkit-autofill {
+    transition: background-color 5000s ease-in-out 0s;
+  }
 }
 
 .inputCont {
-    @include mixins.flexbox($direction: column);
-    gap: 10px;
-    width: 100%;
+  @include mixins.flexbox($direction: column);
+  gap: 10px;
+  width: 100%;
 }
 
 .input {
-    @include mixins.flexbox($justify: start);
+  @include mixins.flexbox($justify: start);
+  @include mixins.border-marker($color: colors.$white);
+  width: 100%;
+  border-radius: 100px;
+  position: relative;
+
+  &:hover,
+  input {
+    cursor: pointer;
+    border-color: colors.$purple2;
+  }
+
+  &:focus-within,
+  input {
+    border-color: colors.$purple2;
+
+    &::placeholder {
+      display: none;
+    }
+  }
+
+  input {
     @include mixins.border-marker($color: colors.$white);
-    background-color: colors.$bg-color;
-    width: 100%;
-    padding: 10px;
     border-radius: 100px;
+    padding: 10px;
+    padding-left: 50px;
+  }
 
-    &:hover,
-    input {
-        cursor: pointer;
-        border-color: colors.$purple2;
-    }
-
-    &:focus-within,
-    input {
-        border-color: colors.$purple2;
-        padding-left: 10px;
-
-        &::placeholder {
-            display: none;
-        }
-    }
+  svg {
+    position: absolute;
+    left: 20px;
+  }
 }
 
 .mainCont {
-    @include mixins.flexbox($direction: column, $justify: space-around);
-    border-radius: 30px;
-    background-color: colors.$white;
-    padding: 50px;
-    gap: 40px;
-    position: relative;
-    max-width: 606px;
+  @include mixins.flexbox($direction: column, $justify: space-around);
+  border-radius: 30px;
+  background-color: colors.$white;
+  padding: 50px;
+  gap: 40px;
+  position: relative;
+  max-width: 606px;
 
-    a {
-        padding: 5px 10px;
-        border-radius: 100px;
+  a {
+    padding: 5px 10px;
+    border-radius: 100px;
 
-        &:hover {
-            background-color: colors.$bg-color;
-            color: colors.$purple3;
-        }
+    &:hover {
+      background-color: colors.$bg-color;
+      color: colors.$purple3;
     }
+  }
+
+  span {
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  .headline {
+    @include mixins.flexbox();
+  }
 }
 
 h1 {
-    color: colors.$purple;
-    font-size: 46px;
-    font-weight: 700px;
+  color: colors.$purple;
+  font-size: 46px;
+  font-weight: 700;
 }
 
 .line {
-    @include mixins.border-marker($color: colors.$light-purple);
+  @include mixins.border-marker($color: colors.$light-purple);
 }
 
 a {
-    color: colors.$purple2;
-    text-decoration: none;
+  color: colors.$purple2;
+  text-decoration: none;
 }
 
-
-
 .buttons {
-    @include mixins.flexbox();
-    gap: 25px;
-
-    button:disabled {
-        background-color: gray;
-        border-color: colors.$white;
-    }
+  @include mixins.flexbox();
+  gap: 25px;
 }
 
 button {
-    background-color: unset;
-    border-radius: 25px;
-    padding: 12px 25px;
+  background-color: unset;
+  border-radius: 25px;
+  padding: 12px 25px;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 24.55px;
+  border-style: solid;
 
-    &:hover {
-        cursor: pointer;
+  &:hover {
+    cursor: pointer;
+
+    &:disabled {
+      cursor: not-allowed;
     }
+  }
+}
+
+button:disabled {
+  background-color: colors.$grey;
+  border: unset;
 }
 
 .button_blue {
-    background-color: colors.$purple;
-    color: colors.$white;
-    border-color: colors.$purple;
+  background-color: colors.$purple;
+  color: colors.$white;
+  border-color: colors.$purple;
+  font-weight: 700;
 
-    &:hover {
-        opacity: 0.8;
-    }
+  &:hover {
+    opacity: 0.8;
+  }
 }
 
 .button_white {
-    @include mixins.border-marker(colors.$light-purple);
-    color: colors.$purple;
+  @include mixins.border-marker(colors.$light-purple);
+  color: colors.$purple;
 
-    &:hover {
-        border-color: colors.$light-purple;
-        background-color: colors.$purple;
-        color: colors.$white;
-    }
-
+  &:hover {
+    border-color: colors.$light-purple;
+    background-color: colors.$purple;
+    color: colors.$white;
+  }
 }
 
 .arrowBack {
-    position: absolute;
-    left: 10px;
-    top: 30px;
+  position: absolute;
+  left: 15px;
+  padding: 8px;
+  border-radius: 50px;
+  cursor: pointer;
 
-    :hover {
-        background-color: colors.$light-purple;
-        border-radius: 50%;
-        cursor: pointer;
+  svg {
+    display: block;
+    margin: auto;
+  }
 
-        path {
-            fill: colors.$purple;
-        }
-    }
+  &:hover {
+    background-color: colors.$bg-color;
+  }
+
+  &:hover path {
+    fill: colors.$purple;
+  }
 }
 
 footer {
-    position: absolute;
-    width: 100%;
-    bottom: 30px;
-    @include mixins.flexbox();
-    gap: 40px;
+  position: absolute;
+  width: 100%;
+  bottom: 30px;
+  @include mixins.flexbox();
+  gap: 40px;
 }
 
 .warning {
-    @include mixins.flexbox($justify: start);
-    width: 100%;
-    color: red;
+  @include mixins.flexbox($justify: start);
+  width: 100%;
+  color: colors.$error;
+  font-size: 14px !important;
+  line-height: 19.1px !important;
+}
+
+.input-warning {
+  width: 100%;
+  @include mixins.flexbox();
+  gap: 5px;
 }
 
 form {
-    @include mixins.flexbox($direction: column, $align: start);
-    gap: 40px;
+  @include mixins.flexbox($direction: column, $align: start);
+  gap: 12px;
+  width: 100%;
+
+  .link {
     width: 100%;
-
-    span {
-        padding-left: 20px;
-    }
-
-    .link {
-        width: 100%;
-    }
+  }
 }
 
 
-@keyframes hide {
-    from {
-        opacity: 1;
-    }
 
-    to {
-        opacity: 0;
-    }
+// RESPONSIVE ...
+
+@media (max-width: 1200px) {
+  header {
+    top: 60px;
+  }
+
+  .containerNoAnimation {
+    top:40px
+  }
 }
 
-@keyframes changeHeadline {
-    from {
+@media (max-width: 600px) {
 
-        color: white;
+  section {
+    padding: 150px 20px 50px 20px;
+    gap: 20px;
+    height: fit-content;
+    justify-content: unset;
+  }
+
+  form {
+    gap: 20px;
+  }
+
+  .mainCont {
+    padding: 25px;
+
+    h1 {
+      font-size: 32px;
     }
+  }
 
-    to {
-        color: black;
-        font-size: 32px;
-        font-weight: 700;
+  .input {
+    >input {
+      &::placeholder {
+        font-weight: bolder;
+      }
     }
-}
+  }
 
+  .containerNoAnimation {
+    top: 50px;
+    left: unset;
+  }
 
-@keyframes shrinkImage {
-    from {
-        height: 184px;
+  header {
+    top: unset;
+    right: unset;
+    bottom: 40px;
+
+    a {
+      font-weight: 700;
     }
+  }
 
-    to {
-        height: 70px;
-    }
-}
+  button {
+    font-weight: 700 !important;
+  }
 
-@keyframes moveToTopLeft {
+  footer {
+    display: none;
+  }
 
-    from {
-        transform: translate(-50%, -50%);
-    }
-
-    to {
-        top: 75px;
-        left: 75px;
-        transform: translate(0%, 0%);
-    }
-}
-
-@keyframes reveal {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-
-@keyframes moveLeft {
-    from {
-        //left: 0;
-        transform: translateX(0);
-    }
-
-    to {
-        //left: -200px;
-        transform: translateX(-50%);
-    }
-}
-
-@keyframes moveLittleLeft {
-    from {
-        //left: 0;
-    }
-
-    to {
-        //left: -200px;
-        transform: translateX(28%);
-    }
-}
-
-@keyframes moveRight {
-    from {
-        //left: -200px;
-        transform: translateX(-100%);
-    }
-
-    to {
-        //left: 0;
-        transform: translateX(0);
-    }
-}
-
-@keyframes makeStatic {
-    from {}
-
-    to {
-        transform: translateX(0);
-        //top: 0;
-        /* Als ob das Element static wird */
-        //left: 0;
-        //transform: translate(0, 0);
-        /* Entferne jegliche Verschiebung */
-    }
+  .paddingBottom {
+    padding-bottom: 150px;
+  }
 }

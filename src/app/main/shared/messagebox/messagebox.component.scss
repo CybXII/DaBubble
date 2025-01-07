@@ -8,11 +8,15 @@
   resize: none;
   font-size: 1.125rem;
   color: colors.$grey;
-  padding: 0 20px;
-  margin: 20px 0 0 0;
+  padding:20px;
+  border-radius: inherit;
   overflow-y: auto;
   &:focus {
     outline: none;
+  }
+
+  &::placeholder {
+    color: colors.$grey;
   }
 }
 
@@ -27,6 +31,9 @@
   img {
     display: block;
     padding: 10px;
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   div {
@@ -35,8 +42,20 @@
   }
 }
 
+.messagebox-wrapper {
+  position: relative;
+  border: 1px solid colors.$light-purple;
+  border-radius: 20px;
+}
+
 .messagebox-wrapper{
   position: relative;
   border: 1px solid colors.$light-purple;
   border-radius: 20px;
+}
+
+.emoji-picker__wrapper{
+  position: absolute;
+  bottom: 130px;
+  left: 35px;
 }

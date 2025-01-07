@@ -1,4 +1,28 @@
 @use './../host.scss';
+@use './../../../colors.scss' as colors;
+@use './../../../mixins.scss' as mixins;
+
+button {
+    border: unset;
+}
+
+
+.mainCont {
+    padding: 40px 50px;
+}
+
+.arrowBack {
+    position: absolute;
+    top: 45px;
+    left: 32px;
+}
+
+.headline {
+    //margin-top: 40px;
+    display: flex;
+    gap: 40px;
+}
+
 
 .d-none {
     display: none !important;
@@ -11,5 +35,65 @@
 .mainCont {
     a {
         padding: 0px 5px;
+    }
+}
+
+.privacy {
+
+    [type="checkbox"] {
+        -webkit-appearance: none;
+        appearance: none;
+    }
+
+    [type="checkbox"] {
+        width: 24px !important;
+        height: 24px;
+        background-image: url('/img/icons/Check button.svg');
+        border-radius: 50%;
+        background-color: unset;
+        display: block;
+        float: left;
+        margin-right: 10px;
+        z-index: 5;
+        position: relative;
+    }
+
+
+
+    input[type="checkbox"]:checked {
+        background-image: url('/img/icons/Property 1=Checked.svg');
+    }
+
+    [type="checkbox"]:hover {
+        cursor: pointer;
+        background-color: colors.$bg-color;
+        // box-shadow: 0px 0px 3px 3px colors.$bg-color;
+    }
+
+    >div {
+        @include mixins.flexbox($direction: column, $justify: start);
+        padding: 5px 0px;
+
+        >span {
+            padding: 5px 0px 0px 0px;
+        }
+    }
+
+    label {
+        span {
+            font-size: 16px;
+            font-weight: 400;
+        }
+    }
+}
+
+@media (max-width: 500px) {
+    .mainCont {
+        padding: 40px 20px;
+    }
+
+    .arrowBack {
+        top: unset;
+        left: 10px;
     }
 }

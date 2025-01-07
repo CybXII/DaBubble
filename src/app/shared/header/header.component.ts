@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { LogoComponent } from '../logo/logo.component';
 import { SearchbarComponent } from './searchbar/searchbar.component';
 import { UsermenuComponent } from './usermenu/usermenu.component';
@@ -15,11 +15,9 @@ import { Router, RouterModule } from '@angular/router';
 export class HeaderComponent {
 
   currentUrl: string = '';
+  
 
   constructor(private router: Router) {
     this.currentUrl = this.router.url;
-    console.log(this.currentUrl);
-
   }
-
 }

@@ -1,7 +1,5 @@
 <div class="threadchat-container">
-  <div class="threadchat__item1">
-    <app-threadchat-header class="threadchat__header"></app-threadchat-header>
-    <app-chatbox class="threadchat__chatbox" />
-  </div>
-  <app-messagebox class="threadchat__messagebox"></app-messagebox>
+  <app-threadchat-header class="threadchat__header"></app-threadchat-header>
+  <app-chatbox [builder]="builder" class="threadchat"></app-chatbox>
+  <app-messagebox [builder]="builder" class="threadchat__messagebox"></app-messagebox>
 </div>

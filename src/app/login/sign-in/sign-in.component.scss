@@ -4,9 +4,10 @@
 // @use './../login.component.scss';
 
 .separation {
-    @include mixins.flexbox($direction:row);
+    @include mixins.flexbox($direction: row);
     gap: 10px;
     width: 100%;
+
     >span {
         padding: 0px;
     }
@@ -20,10 +21,15 @@
     justify-content: center;
 }
 
+form {
+    gap: 40px
+}
+
 .googleBtn {
     @include mixins.flexbox();
     width: 100%;
     color: colors.$purple;
+
     >div {
         @include mixins.flexbox();
         width: 100%;
@@ -32,13 +38,31 @@
         border-radius: 25px;
         padding: 5px;
         gap: 10px;
+
         >span {
             padding: 0px;
+            font-size: 18px;
         }
+
         &:hover {
             cursor: pointer;
+            font-weight: 700;
             border-color: colors.$purple2;
-            transform: scale(1.01);
+        }
+    }
+}
+
+@media (max-width: 500px) {
+
+    .googleBtn {
+        >div>span {
+            font-size: 17px;
+        }
+    }
+
+    .mainCont {
+        span {
+            font-size: 17px;
         }
     }
 }

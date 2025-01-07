@@ -6,6 +6,8 @@
 >
   @if (this.dialog) {
   <a (click)="openProfile()" class="dialog-link">Profil</a>
+  <a routerLink="/imprint" class="dialog-link">Impressum</a>
+  <a routerLink="/legalnotice" class="dialog-link">Datenschutz</a>
   <a (click)="logout()" class="dialog-link">Logout</a>
   } @else if (this.profileDialog) {
 
@@ -19,30 +21,32 @@
       />
     </div>
     <div class="dialog-avatar">
-      <img src="img/avatars/avatar3.svg" alt="" />
+      <img [src]="userData?.photoURL" alt="" />
     </div>
     <div class="dialog-profile-info">
       <div>
-        <span>Frederik Beck</span>
+        <span>{{ userData?.name }}</span>
         <a (click)="openProfileEdit()">Bearbeiten</a>
       </div>
       <div>
-        <div target="online-status"></div>
-        <span>Aktiv</span>
+        <div target="online-status" [ngStyle]="{'background-color': userData?.status ? '#92c83e' : '#696969'}"></div>
+        @if (userData?.status) {
+        <span style="color:#92c83e">Aktiv</span>
+        } @else {
+        <span style="color:#696969">Offline</span>
+        }
       </div>
     </div>
     <div class="dialog-profile-mail">
       <img src="/img/icons/mail.svg" alt="" />
       <div>
         <span>E-Mail-Adresse</span>
-        <a href="mailto:fred.beck&commat;email.com"
-          >fred.beck&commat;email.com</a
-        >
+        <p>{{ userData?.email }}</p>
       </div>
     </div>
   </div>
   } @else if (this.profileDialogEdit){
-  <div class="dialog-profile-container">
+  <form class="dialog-profile-container" [formGroup]="profileForm">
     <div class="dialog-header">
       <span>Dein Profil bearbeiten</span>
       <img
@@ -52,7 +56,7 @@
       />
     </div>
     <div class="dialog-avatar">
-      <img src="img/avatars/avatar3.svg" alt="" />
+      <img [src]="userData?.photoURL" alt="" />
     </div>
 
     <div class="dialog-profile-info-edit">
@@ -60,7 +64,31 @@
         <img src="/img/icons/account_circle.svg" alt="account_circle" />
         <span>Vollständiger Name</span>
       </div>
-      <input type="text" placeholder="Frederik Beck" />
+      <input
+        type="text"
+        (input)="profileDataChange()"
+        placeholder="Bitte vollständigen Namen eingeben"
+        formControlName="userInputName"
+        [ngClass]="{'data-change-not-allowed': profileForm.disabled}"
+      />
+      <div
+        *ngIf="
+          profileForm.get('userInputName')?.hasError('required') &&
+          profileForm.get('userInputName')?.dirty
+        "
+        class="error-message"
+      >
+        <p>Feld darf nicht leer sein.</p>
+      </div>
+      <div
+        *ngIf="
+          profileForm.get('userInputName')?.hasError('pattern') &&
+          profileForm.get('userInputName')?.dirty
+        "
+        class="error-message"
+      >
+        <p>Bitte Vor- und Nachnamen angeben.</p>
+      </div>
     </div>
 
     <div class="dialog-profile-info-edit">
@@ -68,12 +96,45 @@
         <img src="/img/icons/mail.svg" alt="mail" />
         <span>E-Mail-Adresse</span>
       </div>
-      <input type="text" placeholder="fred.beck&commat;email.com" />
+      <input
+        type="text"
+        (input)="profileDataChange()"
+        placeholder="Bitte E-Mail-Adresse eingeben"
+        formControlName="userInputEmail"
+        [ngClass]="{'data-change-not-allowed': profileForm.disabled}"
+      />
+      <div
+        *ngIf="
+          profileForm.get('userInputEmail')?.hasError('required') &&
+          profileForm.get('userInputEmail')?.dirty
+        "
+        class="error-message"
+      >
+        <p>Feld darf nicht leer sein.</p>
+      </div>
+      <div
+        *ngIf="
+          profileForm.get('userInputEmail')?.hasError('pattern') &&
+          profileForm.get('userInputEmail')?.dirty
+        "
+        class="error-message"
+      >
+        <p>E-Mail ist ungültig.</p>
+      </div>
     </div>
+
     <div class="dialog-buttons">
-      <app-button type="secondary" (click)="closeProfileEdit()">Abbrechen</app-button>
-      <app-button type="primary" (click)="saveProfile()">Speichern</app-button>
+      <button class="cancel default" (click)="closeProfileEdit()">
+        Abbrechen
+      </button>
+      <button
+        class="save default"
+        [disabled]="!profileDataChanged() || profileForm.invalid"
+        (click)="saveProfile()"
+      >
+        Speichern
+      </button>
     </div>
-  </div>
+  </form>
   }
 </div>

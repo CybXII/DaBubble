@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FullscreenModalComponent } from './fullscreen-modal.component';
+import { CreatemessageComponent } from './createmessage.component';
 
-describe('FullscreenModalComponent', () => {
-  let component: FullscreenModalComponent;
-  let fixture: ComponentFixture<FullscreenModalComponent>;
+describe('CreatemessageComponent', () => {
+  let component: CreatemessageComponent;
+  let fixture: ComponentFixture<CreatemessageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FullscreenModalComponent]
+      imports: [CreatemessageComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(FullscreenModalComponent);
+    fixture = TestBed.createComponent(CreatemessageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

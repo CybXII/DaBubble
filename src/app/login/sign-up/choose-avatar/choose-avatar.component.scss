@@ -2,27 +2,37 @@
 @use './../../../../colors.scss' as colors;
 @use './../../host.scss';
 
-.mainCont {
-    >p {
-        @include mixins.flexbox($justify: start);
-        width: 100%;
-    }
-}
-
 .name {
     @include mixins.flexbox($justify: center);
-    font-size: 32px;
+    font-size: 32px !important;
+    line-height: 43.65px !important;
     font-weight: 700;
 }
 
+.choseContainer {
+    @include mixins.flexbox();
+    gap: 16px;
+    max-width: 472px;
+    >div {
+        @include mixins.flexbox();
+        gap: 8px;
+        width: 100%;
+    }
+    p {
+        @include mixins.flexbox($justify: start);
+        width: 100%;
+        font-size: 20px;
+    }
+}
+
 .charakterPics {
-    @include mixins.flexbox($justify: center);
-    gap: 10px;
+    @include mixins.flexbox($justify: space-between !important);
+    gap: 8px;
     >div>img {
         @include mixins.border-marker($color: colors.$white);
-        border-width: 8px;
-        width: 64px;
-        height: 64px;
+        border-width: 6px;
+        width: 72px;// 64px
+        height: 72px;
         border-radius: 50%;
         &:hover {
             cursor: pointer;
@@ -37,7 +47,7 @@
 .activProfilPic {
     >img {
         @include mixins.border-marker($color: colors.$white);
-        border-width: 8px;
+        border-width: 2px;
         height: 170px;
         width: 170px;
         border-radius: 100%;
@@ -50,4 +60,51 @@
 
 .activSelector {
     border: 8px solid rgba(230, 230, 230, 1);
+}
+
+.signup-success-container{
+    border: 1px solid colors.$purple3;
+    text-align: center;
+    margin-top: 55px;
+    padding: 100px;
+    border-radius: 20px;
+
+    h1 {
+        margin-bottom: 32px;
+        max-width: 15ch;
+    }
+
+    p {
+        margin-bottom: 32px;
+        max-width: 30ch;
+        margin-inline: auto;
+    }
+}
+
+@media (max-width: 500px) {
+    .charakterPics {
+        gap: unset;
+        justify-content: center !important;
+        >div>img {
+            width: 46px !important;
+            height: 46px !important;
+            border-width: 4px;
+        }
+    }
+
+    .choseContainer>div {
+        gap: 0px;
+    }
+
+    .activProfilPic {
+        >img {
+            border-width: 4px !important;
+            width: 100px !important;
+            height: 100px !important;
+        }
+    }
+
+    .activSelector {
+        border-width: 4px;
+    }
 }
