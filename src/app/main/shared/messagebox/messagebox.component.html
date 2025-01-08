@@ -32,6 +32,7 @@
 @if (builder === 'mainchat') {
 <form id="messagebox" class="messagebox-wrapper">
   <textarea
+  (click)="preventMsgBoxEmojiPickerClose($event)"
     class="messagebox"
     name="messagebox"
     id="messagebox"
@@ -72,6 +73,7 @@
   class="messagebox-wrapper"
 >
   <textarea
+  (click)="preventMsgBoxEmojiPickerClose($event)"
     class="messagebox"
     name="threadmessagebox"
     id="threadmessagebox"
