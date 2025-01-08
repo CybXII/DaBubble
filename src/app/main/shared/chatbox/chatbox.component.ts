@@ -22,6 +22,7 @@ import { ChannelsService } from '../../../shared/services/channels.service';
 import { EditmessageComponent } from '../editmessage/editmessage.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EmojiPickerComponent } from '../emoji-picker/emoji-picker.component';
+import { EmojiPickerService } from '../../../shared/services/emoji-picker.service';
 
 @Component({
   selector: 'app-chatbox',
