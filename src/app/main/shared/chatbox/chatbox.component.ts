@@ -22,6 +22,7 @@ import { ChannelsService } from '../../../shared/services/channels.service';
 import { EditmessageComponent } from '../editmessage/editmessage.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EmojiPickerComponent } from '../emoji-picker/emoji-picker.component';
+import { ProfileviewComponent } from '../../../shared/profileview/profileview.component';
 import { EmojiPickerService } from '../../../shared/services/emoji-picker.service';
 
 @Component({
@@ -44,6 +45,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   loadingMessages: WritableSignal<boolean> = signal(true);
   private destroy$ = new Subject<void>();
   loadingAvatars: boolean = false;
+  dialogUser: boolean = false;
   selectedEmoji: string = '';
   isChatBoxEmojiPickerOpen: boolean = false;
   chatBoxEmojiPickerOpenFor: string | null = null;
@@ -53,7 +55,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     private channelsService: ChannelsService,
     private messagesService: MessagesService,
     private authService: AuthService,
-    private dialog: MatDialog,
+    public dialog: MatDialog,
     public emojiPickerService: EmojiPickerService
   ) {
     this.currentChannel$ = this.channelsService.currentChannel$;
@@ -299,5 +301,23 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       });
 
     this.emojiPickerService.closeChatBoxEmojiPicker();
+  }
+
+  checkIdIsUser(id:string | undefined) {
+    if (this.activeUserId !== id ) {
+      this.openDialogUser(id)
+    } else {
+      // this.userDialog$.openProfile();
+      console.log("DU ", id, this.dialogUser);
+    }
+  }
+
+  openDialogUser(id:string | undefined): void {
+    this.dialog.open(ProfileviewComponent, {
+      width: 'fit-content',
+      maxWidth: '100vw',
+      height: 'fit-content',
+      data: {ID: id}
+    });
   }
 }
