@@ -18,19 +18,28 @@ export class ChannelsService {
 
   async setDefaultChannel(): Promise<void> {
     try {
+      const userId = this.authService.userId(); // Aktuelle Benutzer-ID abrufen
+      if (!userId) {
+        console.warn('Keine Benutzer-ID verfügbar.');
+        return;
+      }
       const channels = await this.getAllChannels();
-      if (channels.length > 0) {
+      const userChannels = channels.filter(channel => 
+        channel.members && channel.members.includes(userId)
+      );
+      if (userChannels.length > 0) {
         const cachedChannelId = localStorage.getItem('lastChannelId');
         const defaultChannel = cachedChannelId
-          ? channels.find(channel => channel.id === cachedChannelId) || channels[0]
-          : channels[0];
+          ? userChannels.find(channel => channel.id === cachedChannelId) || userChannels[0]
+          : userChannels[0];
         if (defaultChannel && defaultChannel.id) {
           await this.selectChannel(defaultChannel.id);
         } else {
           console.warn('Kein gültiger Default-Channel gefunden.');
         }
       } else {
-        console.warn('Keine Channels verfügbar.');
+        console.warn('Keine Channels verfügbar, in denen der Benutzer Mitglied ist.');
+        this.clearCurrentChannel(); // Setze den aktuellen Channel auf null
       }
     } catch (error) {
       console.error('Fehler beim Setzen des Default Channels:', error);
@@ -126,6 +135,24 @@ export class ChannelsService {
       await setDoc(channelRef, updatedData, { merge: true });
     } catch (error) {
       console.error('Fehler beim Aktualisieren des Channels:', error);
+      throw error;
+    }
+  }
+
+  clearCurrentChannel(): void {
+    this.currentChannelSubject.next(null); // Setze den aktuellen Channel auf null
+    localStorage.removeItem('lastChannelId'); // Entferne die zuletzt gespeicherte Channel-ID
+    console.log('Aktiver Channel wurde geleert.');
+    this.setDefaultChannel();
+  }
+
+  async deleteChannel(channelId: string): Promise<void> {
+    const channelRef = doc(this.firestore, `${this.collectionName}/${channelId}`);
+    try {
+      await setDoc(channelRef, {}, { merge: false }); // Dokument leeren
+      console.log('Channel erfolgreich gelöscht.');
+    } catch (error) {
+      console.error('Fehler beim Löschen des Channels:', error);
       throw error;
     }
   }
