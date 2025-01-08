@@ -28,7 +28,7 @@ import { DialogComponent } from '../../../shared/header/usermenu/dialog/dialog.c
 @Component({
   selector: 'app-chatbox',
   standalone: true,
-  imports: [CommonModule, EmojiPickerComponent, DialogComponent],
+  imports: [CommonModule, EmojiPickerComponent],
   templateUrl: './chatbox.component.html',
   styleUrls: ['./chatbox.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -54,7 +54,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     private channelsService: ChannelsService,
     private messagesService: MessagesService,
     private authService: AuthService,
-    private dialog: MatDialog,
+    public dialog: MatDialog,
   ) {
     this.currentChannel$ = this.channelsService.currentChannel$;
     this.messages$ = this.messagesService.messages$;
@@ -289,7 +289,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.activeUserId !== id ) {
       this.openDialogUser(id)
     } else {
-      this.openDialog()
+      // this.userDialog$.openProfile();
       console.log("DU ", id, this.dialogUser);
     }
   }
@@ -301,19 +301,5 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       height: 'fit-content',
       data: {ID: id}
     });
-  }
-
-  openDialog() {
-    this.dialogUser = true;
-  }
-
-  onDialogChange(newValue: boolean) {
-    this.dialogUser = newValue;
-  }
-
-  closeDialog(event: Event) {
-    event?.preventDefault();
-    event.stopPropagation();
-    this.dialogUser = false;
   }
 }

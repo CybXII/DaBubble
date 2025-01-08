@@ -349,17 +349,3 @@
   }
 </div>
 } }
-
-@if (this.dialogUser == true){
-  <div
-    [ngClass]="{
-      'dialog-background': dialogUser
-    }"
-    (click)="closeDialog($event)"
-  >
-    <app-dialog
-      [dialogUser]="dialogUser"
-      (dialogChange)="onDialogChange($event)"
-    ></app-dialog>
-  </div>
-  }

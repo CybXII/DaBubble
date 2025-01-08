@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, Inject, Input } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from '../services/auth.service';
-import { UserModel } from '../../models/user';
 
 @Component({
   selector: 'app-profileview',
