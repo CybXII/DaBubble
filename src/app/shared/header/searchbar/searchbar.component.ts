@@ -16,6 +16,8 @@ export class SearchbarComponent {
   searchText: string = '';
   messageResults: any[] = [];
   userResults: any[] = [];
+  channelResults: any[] = [];
+  privateChannelResults: any[] = [];
   isSearchActive: boolean = false;
   isSearchTouched: boolean = false;
 
@@ -28,12 +30,21 @@ export class SearchbarComponent {
       this.userResults = results;
       console.log('Search results user:', this.userResults);
     });
+    this.searchService.channelResults$.subscribe((results) => {
+      this.channelResults = results;
+      console.log('Search results channel:', this.channelResults);
+    });
+    this.searchService.privateChannelResults$.subscribe((results) => {
+      this.privateChannelResults = results;
+      console.log('Search results chats:', this.privateChannelResults);
+    });
   }
 
   onInputChange(): void {
     if (this.searchText.length == 1) {
       this.searchService.loadMessages();
       this.searchService.loadUsers();
+      this.searchService.loadChannels();
     }
 
     this.isSearchActive = this.searchText.length >= 4;
@@ -43,6 +54,8 @@ export class SearchbarComponent {
     if (this.searchText.length >= 4) {
       this.searchService.searchMessages(this.searchText);
       this.searchService.searchUsers(this.searchText);
+      this.searchService.searchChannels(this.searchText);
+      this.searchService.searchPrivateChannels(this.searchText);
     }
   }
 
@@ -51,6 +64,9 @@ export class SearchbarComponent {
     this.isSearchActive = false;
     this.isSearchTouched = false;
     this.messageResults = [];
+    this.userResults = [];
+    this.channelResults = [];
+    this.privateChannelResults = [];
   }
 
   goToSearchResult(
