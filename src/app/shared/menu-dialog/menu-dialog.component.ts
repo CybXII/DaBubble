@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ProfileviewComponent } from '../profileview/profileview.component';
 import { Channel } from '../../models/channel';
 import { ChannelsService } from '../services/channels.service';
+import { UserModel } from '../../models/user';
 
 
 
@@ -36,24 +37,76 @@ export class MenuDialogComponent  implements OnInit {
   activeMember: any = {};
   editChannelName: boolean = false;
   editChannelDescription: boolean = false;
+  allUsers: { id: string; name: string; photoURL: string }[] = []; // Liste aller Mitglieder
+  filteredUsers: { id: string; name: string; photoURL: string }[] = [];
+  searchInput: string = ''; // Suchinput
+  toSave: { id: string; name: string; photoURL: string }[] = [];
 
 
   constructor(private fb: FormBuilder, public authService: AuthService, private dialog: MatDialog,private channelsService: ChannelsService) {}
-  async ngOnInit(): Promise<void> {
+  async ngOnInit(): Promise<void> {  
+    // Lade Channel-Mitglieder
     this.memberIds = this.dialogData.members.map((member) => member.id);
     this.memberNames = await this.authService.getUsernamesByIds(this.memberIds);
-    this.addMembersForm = this.fb.group({
-      members: ['', Validators.required],
-    });
-    console.log(this.dialogData.createdBy);
+    
+      // Lade alle Benutzer und filtere Channel-Mitglieder aus
+  this.authService.getUserList().subscribe(
+    (users) => {
+      this.allUsers = users.map((user) => ({
+        id: user.userId,
+        name: user.name,
+        photoURL: user.photoURL,
+      }));
+      this.updateFilteredUsers(); // Aktualisiere gefilterte Benutzer
+    },
+    (error) => {
+      console.error('Fehler beim Laden der Benutzerliste:', error);
+    }
+  );
+
   }
 
+  /**
+   * Aktualisiert die gefilterte Mitgliederliste.
+   */
+  updateFilteredUsers() {
+    this.filteredUsers = this.allUsers.filter(
+      (user) =>
+        !this.memberIds.includes(user.id) && // Ausschließen der Channel-Mitglieder
+        user.name.toLowerCase().includes(this.searchInput.toLowerCase()) // Filter nach Suchinput
+    );
+    console.log('updated',this.filteredUsers );
+    console.log(this.memberIds);
+  }
+
+
+  addToSave(item: any) {
+    this.toSave.push(item); // Beispiel: Item hinzufügen
+  }
+
+  clearToSave() {
+    this.toSave = []; // Beispiel: Array leeren
+  }
+
+  removeFromSave(user: { id: string; name: string; photoURL: string }): void {
+    this.toSave = this.toSave.filter((u) => u.id !== user.id); // Entfernt den Benutzer aus dem Array
+  }
 
   closeDialog(event: Event, menu: string) {
     event?.preventDefault();
     event?.stopPropagation();
     this.dialogSwitch.emit({ from: menu, to: 'none' });
   }
+
+    /**
+   * Wird bei Eingabe in das Suchfeld aufgerufen.
+   */
+    onSearchInput(event: Event) {
+      const target = event.target as HTMLInputElement;
+      this.searchInput = target.value;
+      console.log(this.searchInput);
+      this.updateFilteredUsers();
+    }
 
 
   switchDialog(to: string) {
@@ -130,10 +183,13 @@ export class MenuDialogComponent  implements OnInit {
       this.editChannelDescription = false;
     }
     console.log(field);
-    if (this.dialogData) {
+    if (this.dialogData) {  
+      console.log(updatedData);
+      console.log(field);
       this.channelsService.updateChannel(this.dialogData.channelId, updatedData)
         .then(() => {
             this.dialogData[field] = updatedData[field] as string;
+            this.dialogData.members = this.memberIds
         })
         .catch((error) => console.error(`Fehler beim Aktualisieren des ${field}:`, error));
     }
