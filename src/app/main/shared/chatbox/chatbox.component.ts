@@ -23,7 +23,6 @@ import { EditmessageComponent } from '../editmessage/editmessage.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EmojiPickerComponent } from '../emoji-picker/emoji-picker.component';
 import { ProfileviewComponent } from '../../../shared/profileview/profileview.component';
-import { DialogComponent } from '../../../shared/header/usermenu/dialog/dialog.component';
 
 @Component({
   selector: 'app-chatbox',
