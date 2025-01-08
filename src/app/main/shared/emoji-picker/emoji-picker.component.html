@@ -1,26 +1,24 @@
 @if (componentName == 'messagebox') {
+<emoji-mart
+  set="apple"
+  (emojiClick)="onSelectEmoji($event)"
+  title="Pick your emoji…"
+  emoji="point_up"
+  color="#797EF3"
+  [totalFrequentLines]="1"
+  [showSingleCategory]="true"
+  [autoFocus]="true"
+></emoji-mart>
+} @else if (componentName == 'chatbox') {
+<div class="chatbox-emoji">
   <emoji-mart
     set="apple"
     (emojiClick)="onSelectEmoji($event)"
-    title="Pick your emoji…"
-    emoji="point_up"
     color="#797EF3"
-    [darkMode]="false"
-    [perLine]="9"
-    [showPreview]="true"
-    [enableSearch]="true"
+    [totalFrequentLines]="1"
+    [showPreview]="false"
+    [enableSearch]="false"
+    [showSingleCategory]="true"
   ></emoji-mart>
-  } @else if (componentName == 'chatbox') {
-    <div class="chatbox-emoji">
-      <emoji-mart
-        set="apple"
-        (emojiClick)="onSelectEmoji($event)"
-        color="#797EF3"
-        [darkMode]="false"
-        [perLine]="9"
-        [showPreview]="false"
-        [enableSearch]="false"
-      ></emoji-mart>
-    </div>
-  }
-  
+</div>
+}
