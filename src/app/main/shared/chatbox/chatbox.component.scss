@@ -156,15 +156,60 @@
   }
 }
 
-.emoji-picker__wrapper{
+.emoji-picker__wrapper-top-right{
   position: absolute;
   top: 0;
   right: 0;
   z-index: 9;
 }
 
-.emoji-picker__wrapper-20pxright{
-  right: 20px;
+.emoji-picker__wrapper-top-right-thread{
+  position: absolute;
+  top: 0;
+  right: 27px;
+  z-index: 9;
+}
+
+.emoji-picker__wrapper-top-left{
+  position: absolute;
+  top: 0;
+  left: 27px;
+  z-index: 9;
+}
+
+.emoji-picker__wrapper-top-left-thread{
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9;
+}
+
+.emoji-picker__wrapper-left{
+  position: absolute;
+  bottom: -180px;
+  left: 19px;
+  z-index: 9;
+}
+
+.emoji-picker__wrapper-left-thread{
+position: absolute;
+top: 0px;
+left: 109px;
+z-index: 9;
+}
+
+.emoji-picker__wrapper-right{
+  position: absolute;
+  bottom: -180px;
+  right: 19px;
+  z-index: 9;
+}
+
+.emoji-picker__wrapper-right-thread{
+position: absolute;
+bottom: 0;
+right: 118px;
+z-index: 9;
 }
 
 .chatbox__editmsg-btn__container {
@@ -240,15 +285,18 @@
   border-bottom-left-radius: 20px;
   line-height: 24.55px;
   display: block;
+  word-break: break-word;
+  max-width: fit-content;
 }
 
 .chatbox__info {
-  @include mixins.flexbox(row, flex-start, center, nowrap);
+  @include mixins.flexbox(row, flex-start, flex-start, nowrap);
   gap: 20px;
 }
 
 .chatbox__answers-container {
   @include mixins.flexbox(row, flex-start, center, nowrap);
+  padding-top: 0.3em;
 }
 
 .chatbox__answers {
@@ -287,13 +335,21 @@
   line-height: 24.55px;
   color: colors.$white;
   display: inline-block;
+  word-break: break-word;
+  max-width: fit-content;
+}
+
+.chatbox__reaction-wrapper {
+  display: flex;
+  gap: 8px;
 }
 
 .chatbox__emojis-container {
   @include mixins.flexbox(row, flex-start, center, nowrap);
   gap:12px;
-  max-width: 300px;
+  max-width: 180px;
   overflow-x: auto;
+  padding-bottom: 0.3em;
 }
 
 .chatbox__emojis {
@@ -310,14 +366,6 @@
 }
 
 .chatbox__addreaction-container {
-  display: inline-block;
-  padding: 5px;
-  margin-left: 8px;
-  vertical-align: text-bottom;
-  border-radius: 20px;
-  img {
-    display: block;
-  }
   &:hover {
     filter: invert(30%) sepia(72%) saturate(3091%) hue-rotate(229deg)
       brightness(98%) contrast(92%);
