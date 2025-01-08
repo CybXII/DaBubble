@@ -13,10 +13,10 @@
         </div>
     </div>
     <div class="imageCont">
-        <img [src]="member.photoURL" alt="">
+        <img [src]="member?.photoURL" alt="">
     </div>
     <div class="nameCont">
-        <span>{{ member.name }}</span>
+        <span>{{ member?.name }}</span>
     </div>
     <div class="status">
         <div target="online-status" [ngStyle]="{'background-color': member?.status ? '#92c83e' : '#696969'}"></div>
@@ -31,7 +31,7 @@
             <img src="/img/icons/mail.svg" alt="" />   
             <span>E-Mail-Adresse</span>
         </div>
-        <p>{{ member.email }}</p>
+        <p>{{ member?.email }}</p>
     </div>
     <div class="buttonCont">
         <button class="default save" (click)="sendMessage()">
