@@ -30,6 +30,15 @@ export class CreatemessageComponent {
 
   onInputChange() {
     console.log("du schreibst!");
+    if (this.searchText.length == 1) {
+      this.searchService.loadMessages();
+      this.searchService.loadUsers();
+      this.searchService.loadChannels();
+      this.searchService.searchUsers(this.searchText);
+      //this.searchService.searchChannels(this.searchText);
+    }
+
+
   }
 
 

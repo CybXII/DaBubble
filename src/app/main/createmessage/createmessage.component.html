@@ -5,5 +5,11 @@
     (input)="onInputChange()" />
 
 
+@if(searchText[0]=="#") {
+Channels: {{channelResults}}
+}
 
-{{searchText}}
+
+@if(searchText[0]=="@") {
+{{userResults}}
+}
