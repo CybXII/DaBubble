@@ -46,7 +46,6 @@ export class UserDialogService {
   openProfile() {
     this.profileDialog = true;
     this.dialog = false;
-    console.log("open",this.dialog, this.profileDialog);
   }
 
   openProfileEdit() {
@@ -67,7 +66,6 @@ export class UserDialogService {
     this.profileDialog = false;
     this.profileDialogEdit = false;
     this.dialog = true;
-    console.log("close",this.dialog, this.profileDialog);
   }
 
   async saveProfile(): Promise<void> {
