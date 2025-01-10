@@ -7,6 +7,7 @@ import { AuthService } from '../../services/auth.service';
 import { ChannelsService } from '../../services/channels.service';
 import { UserDialogService } from '../../services/user-dialog.service';
 import { MessagesService } from '../../services/messages.service';
+import { doc } from 'firebase/firestore';
 
 @Component({
   selector: 'app-searchbar',
@@ -19,6 +20,7 @@ export class SearchbarComponent {
   messageResultsActive = false;
   searchText: string = '';
   messageResults: any[] = [];
+  threadMessageResults: any[] = [];
   userResults: any[] = [];
   channelResults: any[] = [];
   privateChannelResults: any[] = [];
@@ -35,6 +37,10 @@ export class SearchbarComponent {
     this.searchService.messageResults$.subscribe((results) => {
       this.messageResults = results;
       console.log('Search results messages:', this.messageResults);
+    });
+    this.searchService.threadMessageResults$.subscribe((results) => {
+      this.threadMessageResults = results;
+      console.log('Search results messages:', this.threadMessageResults);
     });
     this.searchService.userResults$.subscribe((results) => {
       this.userResults = results;
@@ -53,6 +59,7 @@ export class SearchbarComponent {
   onInputChange(): void {
     if (this.searchText.length == 1) {
       this.searchService.loadMessages();
+      this.searchService.loadThreadMessages();
       this.searchService.loadUsers(this.userId);
       this.searchService.loadChannels();
     }
@@ -63,6 +70,7 @@ export class SearchbarComponent {
 
     if (this.searchText.length >= 4) {
       this.searchService.searchMessages(this.searchText, this.userId);
+      this.searchService.searchThreadMessages(this.searchText);
       this.searchService.searchUsers(this.searchText, 'name');
       this.searchService.searchChannels(
         this.searchText,
@@ -83,6 +91,7 @@ export class SearchbarComponent {
     this.isSearchActive = false;
     this.isSearchTouched = false;
     this.messageResults = [];
+    this.threadMessageResults = [];
     this.userResults = [];
     this.channelResults = [];
     this.privateChannelResults = [];
@@ -90,8 +99,10 @@ export class SearchbarComponent {
 
   goToSearchResult(
     channelId: string | null,
+    messageId: string | null,
     docId: string | null,
-    userId: string | null
+    userId: string | null,
+    isThreadMessage: boolean | null
   ): void {
     console.log(
       'Navigating to:',
@@ -100,15 +111,23 @@ export class SearchbarComponent {
       'docId: ',
       docId,
       'userId: ',
-      userId
+      userId,
+      'isThreadMessage: ',
+      isThreadMessage,
+      'messageId: ',
+      messageId
     );
     // alert('Zu früh gefreut, ist noch nicht fertig!');
     if (channelId && !docId) {
       this.channelService.selectChannel(channelId);
     } 
-    else if (channelId && docId) {
+    else if (channelId && messageId && isThreadMessage) {
       this.channelService.selectChannel(channelId);
-      // this.messageService.loadThreadMessages(docId);
+      this.messageService.setMessageId(messageId);
+      this.messageService.openThreadChat();
+
+      // TODO: Scroll to message
+
     }
     // else if (userId) {
     //   this.userDialogService.openUserDialog(userId);

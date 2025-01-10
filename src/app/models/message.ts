@@ -13,6 +13,8 @@ export interface Message {
 }
 
 export interface ThreadMessage {
+  channelId? : string; 
+  messageId?: string; // ID der Ursprungsnachricht
   docId?: string; // Firestore-Dokument-ID (optional, falls nicht von Firebase bereitgestellt)
   createdBy: string; // User-ID des Erstellers
   creatorName: string; // Anzeigename des Erstellers

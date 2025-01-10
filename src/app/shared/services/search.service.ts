@@ -1,11 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { MessagesService } from './messages.service';
 import { BehaviorSubject, from } from 'rxjs';
-import { Message } from '../../models/message';
+import { Message, ThreadMessage } from '../../models/message';
 import { AuthService } from './auth.service';
 import { UserModel } from '../../models/user';
 import { ChannelsService } from './channels.service';
 import { Channel } from '../../models/channel';
+import { collection, getDocs } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +19,8 @@ export class SearchService {
   // BehaviorSubject, um die Suchergebnisse zu speichern
   private messageResultsSubject = new BehaviorSubject<any[]>([]);
   messageResults$ = this.messageResultsSubject.asObservable();
+  private threadMessageResultsSubject = new BehaviorSubject<any[]>([]);
+  threadMessageResults$ = this.threadMessageResultsSubject.asObservable();
   private userResultsSubject = new BehaviorSubject<any[]>([]);
   userResults$ = this.userResultsSubject.asObservable();
   private channelResultsSubject = new BehaviorSubject<any[]>([]);
@@ -25,6 +28,7 @@ export class SearchService {
   private privateChannelResultsSubject = new BehaviorSubject<any[]>([]);
   privateChannelResults$ = this.privateChannelResultsSubject.asObservable();
   private allMessages: Message[] = [];
+  private allThreadMessages: ThreadMessage[] = [];
   private allUsers: UserModel[] = [];
   private allChannels: Channel[] = [];
 
@@ -36,6 +40,14 @@ export class SearchService {
       console.log('Messages loaded:', this.allMessages);
     });
   }
+
+  public loadThreadMessages(): void {
+    from(this.messageService.getAllThreadMessages()).subscribe((messages) => {
+      this.allThreadMessages = Array.isArray(messages) ? messages : [];
+      console.log('Thread Messages loaded:', this.allThreadMessages);
+    });
+  }
+
 
   public loadUsers(userId: string): void {
     this.authService.getUserList().subscribe((users) => {
@@ -63,12 +75,24 @@ export class SearchService {
       return;
     }
 
-    const filteredMessages = this.allMessages.filter(
-      (message) =>
-        message.message.toLowerCase().includes(searchText.toLowerCase())
+    const filteredMessages = this.allMessages.filter((message) =>
+      message.message.toLowerCase().includes(searchText.toLowerCase())
     );
 
     this.messageResultsSubject.next(filteredMessages);
+  }
+
+  searchThreadMessages(searchText: string): void {
+    if (!searchText) {
+      this.threadMessageResultsSubject.next([]);
+      return;
+    }
+    const filteredMessages = this.allThreadMessages.filter((message) =>
+      message.message.toLowerCase().includes(searchText.toLowerCase())
+  );
+  console.log('Thread Messages:', filteredMessages);
+
+    this.threadMessageResultsSubject.next(filteredMessages);
   }
 
   searchUsers(searchText: string, type: string): void {

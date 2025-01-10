@@ -11,10 +11,12 @@ import {
   doc,
   getDoc,
   deleteDoc,
+  getDocs,
 } from '@angular/fire/firestore';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Message, Reaction, ThreadMessage } from '../../models/message';
 import { catchError, map } from 'rxjs/operators';
+import { Thread } from '../../models/thread';
 
 @Injectable({
   providedIn: 'root',
@@ -305,6 +307,31 @@ export class MessagesService {
     );
     const docSnapshot = await getDoc(docRef);
     return docSnapshot.exists() ? (docSnapshot.data() as ThreadMessage) : null;
+  }
+
+  public async getAllThreadMessages(): Promise<ThreadMessage[]> {
+    const messagesSnapshot = await getDocs(
+      collection(this.firestore, 'messages')
+    );
+    console.log('Messages Snapshot:', messagesSnapshot);
+    const threadMessagesPromises = messagesSnapshot.docs.map(
+      async (messageDoc) => {
+        console.log('Message Doc ID:', messageDoc);
+        
+        const threadMessagesSnapshot = await getDocs(
+          collection(this.firestore, `messages/${messageDoc.id}/threadMessages`)
+        );
+        return threadMessagesSnapshot.docs.map(
+          (doc) => ({ channelId: messageDoc.data()['channelId'], messageId: messageDoc.id, docId: doc.id, ...doc.data() } as ThreadMessage)
+        );
+      }
+    );
+    console.log('Thread Messages Promises:', threadMessagesPromises);
+    
+
+    const threadMessagesArrays = await Promise.all(threadMessagesPromises);
+    console.log('Thread Messages Arrays:', threadMessagesArrays);
+    return threadMessagesArrays.flat();
   }
 
   async deleteMessage(
