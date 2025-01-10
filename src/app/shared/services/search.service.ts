@@ -4,6 +4,8 @@ import { BehaviorSubject, from } from 'rxjs';
 import { Message } from '../../models/message';
 import { AuthService } from './auth.service';
 import { UserModel } from '../../models/user';
+import { ChannelsService } from './channels.service';
+import { Channel } from '../../models/channel';
 
 @Injectable({
   providedIn: 'root',
@@ -11,17 +13,22 @@ import { UserModel } from '../../models/user';
 export class SearchService {
   messageService = inject(MessagesService);
   authService = inject(AuthService);
+  channelService = inject(ChannelsService);
 
   // BehaviorSubject, um die Suchergebnisse zu speichern
   private messageResultsSubject = new BehaviorSubject<any[]>([]);
   messageResults$ = this.messageResultsSubject.asObservable();
   private userResultsSubject = new BehaviorSubject<any[]>([]);
   userResults$ = this.userResultsSubject.asObservable();
+  private channelResultsSubject = new BehaviorSubject<any[]>([]);
+  channelResults$ = this.channelResultsSubject.asObservable();
+  private privateChannelResultsSubject = new BehaviorSubject<any[]>([]);
+  privateChannelResults$ = this.privateChannelResultsSubject.asObservable();
   private allMessages: Message[] = [];
   private allUsers: UserModel[] = [];
+  private allChannels: Channel[] = [];
 
-  constructor() {
-  }
+  constructor() {}
 
   public loadMessages(): void {
     from(this.messageService.getAllMessages()).subscribe((messages) => {
@@ -39,6 +46,13 @@ export class SearchService {
     });
   }
 
+  public loadChannels(): void {
+    from(this.channelService.getAllChannels()).subscribe((channels) => {
+      this.allChannels = Array.isArray(channels) ? channels : [];
+      console.log('Channels loaded:', this.allChannels);
+    });
+  }
+
   // Filterfunktion für die Suche
   searchMessages(searchText: string): void {
     if (!searchText) {
@@ -53,7 +67,6 @@ export class SearchService {
     this.messageResultsSubject.next(filteredMessages);
   }
 
-
   searchUsers(searchText: string): void {
     if (!searchText) {
       this.userResultsSubject.next([]);
@@ -63,5 +76,31 @@ export class SearchService {
       user.name.toLowerCase().includes(searchText.toLowerCase())
     );
     this.userResultsSubject.next(filteredUsers);
+  }
+
+  searchChannels(searchText: string): void {
+    if (!searchText) {
+      this.channelResultsSubject.next([]);
+      return;
+    }
+    const filteredChannels = this.allChannels.filter(
+      (channel) =>
+        !channel.isPrivate &&
+        channel.name.toLowerCase().includes(searchText.toLowerCase())
+    );
+    this.channelResultsSubject.next(filteredChannels);
+  }
+
+  searchPrivateChannels(searchText: string): void {
+    if (!searchText) {
+      this.channelResultsSubject.next([]);
+      return;
+    }
+    const filteredChannels = this.allChannels.filter(
+      (channel) =>
+        channel.isPrivate &&
+        channel.name.toLowerCase().includes(searchText.toLowerCase())
+    );
+    this.privateChannelResultsSubject.next(filteredChannels);
   }
 }
