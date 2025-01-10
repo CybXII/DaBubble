@@ -26,11 +26,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { EmojiPickerComponent } from '../emoji-picker/emoji-picker.component';
 import { ProfileviewComponent } from '../../../shared/profileview/profileview.component';
 import { EmojiPickerService } from '../../../shared/services/emoji-picker.service';
+import { UserDialogService } from '../../../shared/services/user-dialog.service';
+import { DialogComponent } from '../../../shared/header/usermenu/dialog/dialog.component';
 
 @Component({
   selector: 'app-chatbox',
   standalone: true,
-  imports: [CommonModule, EmojiPickerComponent],
+  imports: [CommonModule, EmojiPickerComponent, DialogComponent],
   templateUrl: './chatbox.component.html',
   styleUrls: ['./chatbox.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -58,6 +60,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     private messagesService: MessagesService,
     private authService: AuthService,
     public dialog: MatDialog,
+    private userDialog$: UserDialogService,
     public emojiPickerService: EmojiPickerService,
     private cdRef: ChangeDetectorRef,
     private destroyRef: DestroyRef
@@ -318,8 +321,8 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.activeUserId !== id) {
       this.openDialogUser(id);
     } else {
-      // this.userDialog$.openProfile();
-      console.log('DU ', id, this.dialogUser);
+      this.openDialog();
+      this.userDialog$.openProfile();
     }
   }
 
@@ -330,5 +333,15 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       height: 'fit-content',
       data: { ID: id },
     });
+  }
+
+  openDialog() {
+    this.dialogUser = true;
+  }
+
+  closeDialog(event: Event) {
+    event?.preventDefault();
+    event.stopPropagation();
+    this.dialogUser = false;
   }
 }
