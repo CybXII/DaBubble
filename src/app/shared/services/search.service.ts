@@ -37,10 +37,12 @@ export class SearchService {
     });
   }
 
-  public loadUsers(): void {
+  public loadUsers(userId: string): void {
     this.authService.getUserList().subscribe((users) => {
       this.allUsers = Array.isArray(users)
-        ? users.filter((user) => user.provider !== 'anonymous')
+        ? users.filter(
+            (user) => user.provider !== 'anonymous' && user.userId !== userId
+          )
         : [];
 
       console.log('Users loaded:', this.allUsers);
@@ -70,43 +72,43 @@ export class SearchService {
     this.messageResultsSubject.next(filteredMessages);
   }
 
-  searchUsers(searchText: string): void {
+  searchUsers(searchText: string, type: string): void {
     if (!searchText) {
       this.userResultsSubject.next([]);
       return;
     }
-    const filteredUsers = this.allUsers.filter((user) =>
-      user.name.toLowerCase().includes(searchText.toLowerCase())
-    || user.email.toLowerCase().includes(searchText.toLowerCase())
-    );
+    const filteredUsers = this.allUsers.filter((user) => {
+      if (type === 'name') {
+        return user.name.toLowerCase().includes(searchText.toLowerCase());
+      } else if (type === 'email') {
+        return user.email.toLowerCase().includes(searchText.toLowerCase());
+      }
+      return false;
+    });
     this.userResultsSubject.next(filteredUsers);
   }
 
-  searchChannels(searchText: string, userId: string): void {
+  searchChannels(searchText: string, userId: string, type: string): void {
     if (!searchText) {
       this.channelResultsSubject.next([]);
       return;
     }
-    const filteredChannels = this.allChannels.filter(
-      (channel) =>
-        !channel.isPrivate &&
-        channel.name.toLowerCase().includes(searchText.toLowerCase()) &&
-        channel.members.includes(userId)
-    );
-    this.channelResultsSubject.next(filteredChannels);
-  }
-
-  searchPrivateChannels(searchText: string, userId: string): void {
-    if (!searchText) {
-      this.channelResultsSubject.next([]);
-      return;
+    if (type === 'channel') {
+      const filteredChannels = this.allChannels.filter(
+        (channel) =>
+          !channel.isPrivate &&
+          channel.name.toLowerCase().includes(searchText.toLowerCase()) &&
+          channel.members.includes(userId)
+      );
+      this.channelResultsSubject.next(filteredChannels);
+    } else if (type === 'private') {
+      const filteredChannels = this.allChannels.filter(
+        (channel) =>
+          channel.isPrivate &&
+          channel.name.toLowerCase().includes(searchText.toLowerCase()) &&
+          channel.members.includes(userId)
+      );
+      this.privateChannelResultsSubject.next(filteredChannels);
     }
-    const filteredChannels = this.allChannels.filter(
-      (channel) =>
-        channel.isPrivate &&
-        channel.name.toLowerCase().includes(searchText.toLowerCase()) &&
-        channel.members.includes(userId)
-    );
-    this.privateChannelResultsSubject.next(filteredChannels);
   }
 }
