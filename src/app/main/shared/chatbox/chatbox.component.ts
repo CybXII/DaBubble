@@ -10,6 +10,8 @@ import {
   WritableSignal,
   AfterViewInit,
   HostListener,
+  ChangeDetectorRef,
+  DestroyRef,
 } from '@angular/core';
 import { MessagesService } from '../../../shared/services/messages.service';
 import { AuthService } from '../../../shared/services/auth.service';
@@ -56,7 +58,9 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     private messagesService: MessagesService,
     private authService: AuthService,
     public dialog: MatDialog,
-    public emojiPickerService: EmojiPickerService
+    public emojiPickerService: EmojiPickerService,
+    private cdRef: ChangeDetectorRef,
+    private destroyRef: DestroyRef
   ) {
     this.currentChannel$ = this.channelsService.currentChannel$;
     this.messages$ = this.messagesService.messages$;
@@ -72,13 +76,20 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       this.initThreadChat();
     }
 
-    this.emojiPickerService.isChatBoxPickerOpen$.subscribe((open) => {
+    const emojiSubscription1 = this.emojiPickerService.isChatBoxPickerOpen$.subscribe((open) => {
       this.isChatBoxEmojiPickerOpen = open;
+      this.cdRef.markForCheck();
     });
 
-    this.emojiPickerService.chatBoxEmojiPickerForId$.subscribe(
-      (id) => (this.chatBoxEmojiPickerOpenFor = id)
-    );
+    const emojiSubscription2 = this.emojiPickerService.chatBoxEmojiPickerForId$.subscribe((id) => {
+      this.chatBoxEmojiPickerOpenFor = id;
+      this.cdRef.markForCheck();
+    });
+
+    this.destroyRef.onDestroy(() => {
+      emojiSubscription1.unsubscribe();
+      emojiSubscription2.unsubscribe();
+    })
   }
 
   ngAfterViewInit(): void {
@@ -303,21 +314,21 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     this.emojiPickerService.closeChatBoxEmojiPicker();
   }
 
-  checkIdIsUser(id:string | undefined) {
-    if (this.activeUserId !== id ) {
-      this.openDialogUser(id)
+  checkIdIsUser(id: string | undefined) {
+    if (this.activeUserId !== id) {
+      this.openDialogUser(id);
     } else {
       // this.userDialog$.openProfile();
-      console.log("DU ", id, this.dialogUser);
+      console.log('DU ', id, this.dialogUser);
     }
   }
 
-  openDialogUser(id:string | undefined): void {
+  openDialogUser(id: string | undefined): void {
     this.dialog.open(ProfileviewComponent, {
       width: 'fit-content',
       maxWidth: '100vw',
       height: 'fit-content',
-      data: {ID: id}
+      data: { ID: id },
     });
   }
 }

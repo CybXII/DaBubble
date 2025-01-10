@@ -169,22 +169,26 @@ export class MessageboxComponent implements OnInit, OnDestroy {
 
   toggleEmojiPickerMain(){
     if(!this.isMessageBoxMainPickerOpen && !this.isMessageBoxThreadPickerOpen){
+      this.emojiPickerService.closeChatBoxEmojiPicker();
       this.emojiPickerService.openMsgBoxEmojiPickerMain();
     }else if(this.isMessageBoxMainPickerOpen){
       this.emojiPickerService.closeMsgBoxEmojiPickerMain();
     }else if(this.isMessageBoxThreadPickerOpen){
       this.emojiPickerService.closeMsgBoxEmojiPickerThread();
+      this.emojiPickerService.closeChatBoxEmojiPicker();
       this.emojiPickerService.openMsgBoxEmojiPickerMain();
     }
   }
 
   toggleEmojiPickerThread(){
     if(!this.isMessageBoxMainPickerOpen && !this.isMessageBoxThreadPickerOpen){
+      this.emojiPickerService.closeChatBoxEmojiPicker();
       this.emojiPickerService.openMsgBoxEmojiPickerThread();
     } else if(this.isMessageBoxThreadPickerOpen){
       this.emojiPickerService.closeMsgBoxEmojiPickerThread();
     } else if(this.isMessageBoxMainPickerOpen){
       this.emojiPickerService.closeMsgBoxEmojiPickerMain();
+      this.emojiPickerService.closeChatBoxEmojiPicker();
       this.emojiPickerService.openMsgBoxEmojiPickerThread();
     }
   }
