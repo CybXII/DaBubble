@@ -16,14 +16,16 @@
             </span>
             <input (input)="onSearchInput($event)" type="text" placeholder="Suche nach Namen" />
         </div>
-        <div *ngFor="let user of filteredUsers" class="user-item">
-            <img [src]="user.photoURL" alt="{{ user.name }}" />
-            <span>{{ user.name }}</span>
-            <button (click)="addToSave(user)">Hinzufügen</button>
-        </div>
+        @if (filteredUsers && searchInput.length > 0) {
+            <div *ngFor="let user of filteredUsers" class="user-item">
+                <img [src]="user.photoURL" alt="{{ user.name }}" />
+                <span>{{ user.name }}</span>
+                <button (click)="addToSave(user)">Hinzufügen</button>
+            </div>
+        }
     </div>
     <div class="buttonContainer">
-        <button class="save default" type="submit" [disabled]="toSave.length === 0">
+        <button class="save default" (click)="saveAddedUser()" [disabled]="toSave.length === 0">
             Speichern
         </button>
     </div>
