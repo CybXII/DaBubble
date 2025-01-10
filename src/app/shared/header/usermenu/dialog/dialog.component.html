@@ -1,15 +1,15 @@
 <div
   [ngClass]="{
-    'dialog-container': dialog || profileDialog || profileDialogEdit
+    'dialog-container': userDialog$.dialog || userDialog$.profileDialog || userDialog$.profileDialogEdit
   }"
-  (click)="dontCloseDialog($event)"
+  (click)="userDialog$.dontCloseDialog($event)"
 >
-  @if (this.dialog) {
-  <a (click)="openProfile()" class="dialog-link">Profil</a>
+  @if (userDialog$.dialog) {
+  <a (click)="userDialog$.openProfile()" class="dialog-link">Profil</a>
   <a routerLink="/imprint" class="dialog-link">Impressum</a>
   <a routerLink="/legalnotice" class="dialog-link">Datenschutz</a>
-  <a (click)="logout()" class="dialog-link">Logout</a>
-  } @else if (this.profileDialog) {
+  <a (click)="userDialog$.logout()" class="dialog-link">Logout</a>
+  } @else if (userDialog$.profileDialog) {
 
   <div class="dialog-profile-container">
     <div class="dialog-header">
@@ -17,20 +17,20 @@
       <img
         src="/img/icons/close.svg"
         alt="close"
-        (click)="closeDialog($event)"
+        (click)="userDialog$.closeDialog($event)"
       />
     </div>
     <div class="dialog-avatar">
-      <img [src]="userData?.photoURL" alt="" />
+      <img [src]="userDialog$.userData?.photoURL" alt="" />
     </div>
     <div class="dialog-profile-info">
       <div>
-        <span>{{ userData?.name }}</span>
-        <a (click)="openProfileEdit()">Bearbeiten</a>
+        <span>{{ userDialog$.userData?.name }}</span>
+        <a (click)="userDialog$.openProfileEdit()">Bearbeiten</a>
       </div>
       <div>
-        <div target="online-status" [ngStyle]="{'background-color': userData?.status ? '#92c83e' : '#696969'}"></div>
-        @if (userData?.status) {
+        <div target="online-status" [ngStyle]="{'background-color': userDialog$.userData?.status ? '#92c83e' : '#696969'}"></div>
+        @if (userDialog$.userData?.status) {
         <span style="color:#92c83e">Aktiv</span>
         } @else {
         <span style="color:#696969">Offline</span>
@@ -41,22 +41,22 @@
       <img src="/img/icons/mail.svg" alt="" />
       <div>
         <span>E-Mail-Adresse</span>
-        <p>{{ userData?.email }}</p>
+        <p>{{ userDialog$.userData?.email }}</p>
       </div>
     </div>
   </div>
-  } @else if (this.profileDialogEdit){
-  <form class="dialog-profile-container" [formGroup]="profileForm">
+  } @else if (userDialog$.profileDialogEdit){
+  <form class="dialog-profile-container" [formGroup]="userDialog$.profileForm">
     <div class="dialog-header">
       <span>Dein Profil bearbeiten</span>
       <img
         src="/img/icons/close.svg"
         alt="close"
-        (click)="closeDialog($event)"
+        (click)="userDialog$.closeDialog($event)"
       />
     </div>
     <div class="dialog-avatar">
-      <img [src]="userData?.photoURL" alt="" />
+      <img [src]="userDialog$.userData?.photoURL" alt="" />
     </div>
 
     <div class="dialog-profile-info-edit">
@@ -66,15 +66,15 @@
       </div>
       <input
         type="text"
-        (input)="profileDataChange()"
+        (input)="userDialog$.profileDataChange()"
         placeholder="Bitte vollständigen Namen eingeben"
         formControlName="userInputName"
-        [ngClass]="{'data-change-not-allowed': profileForm.disabled}"
+        [ngClass]="{'data-change-not-allowed': userDialog$.profileForm.disabled}"
       />
       <div
         *ngIf="
-          profileForm.get('userInputName')?.hasError('required') &&
-          profileForm.get('userInputName')?.dirty
+          userDialog$.profileForm.get('userInputName')?.hasError('required') &&
+          userDialog$.profileForm.get('userInputName')?.dirty
         "
         class="error-message"
       >
@@ -82,8 +82,8 @@
       </div>
       <div
         *ngIf="
-          profileForm.get('userInputName')?.hasError('pattern') &&
-          profileForm.get('userInputName')?.dirty
+          userDialog$.profileForm.get('userInputName')?.hasError('pattern') &&
+          userDialog$.profileForm.get('userInputName')?.dirty
         "
         class="error-message"
       >
@@ -98,15 +98,15 @@
       </div>
       <input
         type="text"
-        (input)="profileDataChange()"
+        (input)="userDialog$.profileDataChange()"
         placeholder="Bitte E-Mail-Adresse eingeben"
         formControlName="userInputEmail"
-        [ngClass]="{'data-change-not-allowed': profileForm.disabled}"
+        [ngClass]="{'data-change-not-allowed': userDialog$.profileForm.disabled}"
       />
       <div
         *ngIf="
-          profileForm.get('userInputEmail')?.hasError('required') &&
-          profileForm.get('userInputEmail')?.dirty
+          userDialog$.profileForm.get('userInputEmail')?.hasError('required') &&
+          userDialog$.profileForm.get('userInputEmail')?.dirty
         "
         class="error-message"
       >
@@ -114,8 +114,8 @@
       </div>
       <div
         *ngIf="
-          profileForm.get('userInputEmail')?.hasError('pattern') &&
-          profileForm.get('userInputEmail')?.dirty
+          userDialog$.profileForm.get('userInputEmail')?.hasError('pattern') &&
+          userDialog$.profileForm.get('userInputEmail')?.dirty
         "
         class="error-message"
       >
@@ -124,13 +124,13 @@
     </div>
 
     <div class="dialog-buttons">
-      <button class="cancel default" (click)="closeProfileEdit()">
+      <button class="cancel default" (click)="userDialog$.closeProfileEdit()">
         Abbrechen
       </button>
       <button
         class="save default"
-        [disabled]="!profileDataChanged() || profileForm.invalid"
-        (click)="saveProfile()"
+        [disabled]="!userDialog$.profileDataChanged() || userDialog$.profileForm.invalid"
+        (click)="userDialog$.saveProfile()"
       >
         Speichern
       </button>

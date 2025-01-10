@@ -10,6 +10,8 @@ import {
   WritableSignal,
   AfterViewInit,
   HostListener,
+  ChangeDetectorRef,
+  DestroyRef,
 } from '@angular/core';
 import { MessagesService } from '../../../shared/services/messages.service';
 import { AuthService } from '../../../shared/services/auth.service';
@@ -24,11 +26,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { EmojiPickerComponent } from '../emoji-picker/emoji-picker.component';
 import { ProfileviewComponent } from '../../../shared/profileview/profileview.component';
 import { EmojiPickerService } from '../../../shared/services/emoji-picker.service';
+import { UserDialogService } from '../../../shared/services/user-dialog.service';
+import { DialogComponent } from '../../../shared/header/usermenu/dialog/dialog.component';
 
 @Component({
   selector: 'app-chatbox',
   standalone: true,
-  imports: [CommonModule, EmojiPickerComponent],
+  imports: [CommonModule, EmojiPickerComponent, DialogComponent],
   templateUrl: './chatbox.component.html',
   styleUrls: ['./chatbox.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -56,7 +60,10 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     private messagesService: MessagesService,
     private authService: AuthService,
     public dialog: MatDialog,
-    public emojiPickerService: EmojiPickerService
+    private userDialog$: UserDialogService,
+    public emojiPickerService: EmojiPickerService,
+    private cdRef: ChangeDetectorRef,
+    private destroyRef: DestroyRef
   ) {
     this.currentChannel$ = this.channelsService.currentChannel$;
     this.messages$ = this.messagesService.messages$;
@@ -72,13 +79,20 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       this.initThreadChat();
     }
 
-    this.emojiPickerService.isChatBoxPickerOpen$.subscribe((open) => {
+    const emojiSubscription1 = this.emojiPickerService.isChatBoxPickerOpen$.subscribe((open) => {
       this.isChatBoxEmojiPickerOpen = open;
+      this.cdRef.markForCheck();
     });
 
-    this.emojiPickerService.chatBoxEmojiPickerForId$.subscribe(
-      (id) => (this.chatBoxEmojiPickerOpenFor = id)
-    );
+    const emojiSubscription2 = this.emojiPickerService.chatBoxEmojiPickerForId$.subscribe((id) => {
+      this.chatBoxEmojiPickerOpenFor = id;
+      this.cdRef.markForCheck();
+    });
+
+    this.destroyRef.onDestroy(() => {
+      emojiSubscription1.unsubscribe();
+      emojiSubscription2.unsubscribe();
+    })
   }
 
   ngAfterViewInit(): void {
@@ -303,21 +317,31 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     this.emojiPickerService.closeChatBoxEmojiPicker();
   }
 
-  checkIdIsUser(id:string | undefined) {
-    if (this.activeUserId !== id ) {
-      this.openDialogUser(id)
+  checkIdIsUser(id: string | undefined) {
+    if (this.activeUserId !== id) {
+      this.openDialogUser(id);
     } else {
-      // this.userDialog$.openProfile();
-      console.log("DU ", id, this.dialogUser);
+      this.openDialog();
+      this.userDialog$.openProfile();
     }
   }
 
-  openDialogUser(id:string | undefined): void {
+  openDialogUser(id: string | undefined): void {
     this.dialog.open(ProfileviewComponent, {
       width: 'fit-content',
       maxWidth: '100vw',
       height: 'fit-content',
-      data: {ID: id}
+      data: { ID: id },
     });
+  }
+
+  openDialog() {
+    this.dialogUser = true;
+  }
+
+  closeDialog(event: Event) {
+    event?.preventDefault();
+    event.stopPropagation();
+    this.dialogUser = false;
   }
 }
