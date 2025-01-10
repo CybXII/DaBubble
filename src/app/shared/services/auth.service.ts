@@ -303,8 +303,7 @@ export class AuthService {
         user.uid,
         user.displayName || '',
         user.email || '',
-        user.photoURL || '',
-        // 'img/avatars/picPlaceholder.svg',
+        'img/avatars/picPlaceholder.svg',
         user.providerData[0].providerId || '',
         true
       );
