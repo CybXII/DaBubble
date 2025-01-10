@@ -352,6 +352,11 @@ z-index: 9;
   padding-bottom: 0.3em;
 }
 
+
+.chatbox__emojis-container ::-webkit-scrollbar {
+  height: 8px
+}
+
 .chatbox__emojis {
   @include mixins.flexbox(row, center, center, nowrap);
   border: 1px solid colors.$light-purple;
