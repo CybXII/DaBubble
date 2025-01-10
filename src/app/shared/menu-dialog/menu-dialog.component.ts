@@ -84,6 +84,34 @@ export class MenuDialogComponent  implements OnInit {
     this.toSave.push(item); // Beispiel: Item hinzufügen
   }
 
+  saveAddedUser(): void {
+    if (!this.dialogData || !this.dialogData.channelId) {
+      console.error('Channel-ID fehlt.');
+      return;
+    }
+  
+    // IDs der hinzugefügten Benutzer sammeln
+    const addedMemberIds = this.toSave.map(user => user.id);
+  
+    // Bestehende Mitglieder und neue Mitglieder zusammenführen
+    const updatedMembers = [...this.memberIds, ...addedMemberIds];
+  
+    // Aktualisiere den Channel in Firebase
+    this.channelsService.updateChannel(this.dialogData.channelId, { members: updatedMembers })
+      .then(() => {
+        console.log('Mitglieder erfolgreich hinzugefügt.');
+  
+        // Lokalen State aktualisieren
+        this.memberIds = updatedMembers;
+        this.dialogData.members = updatedMembers.map(id => ({ id })); // Wenn mehr Infos zu jedem Mitglied benötigt werden, passe dies an
+        this.toSave = []; // Leere das `toSave`-Array
+        this.updateFilteredUsers(); // Aktualisiere gefilterte Benutzerliste
+      })
+      .catch(error => {
+        console.error('Fehler beim Hinzufügen der Mitglieder:', error);
+      });
+  }
+
   clearToSave() {
     this.toSave = []; // Beispiel: Array leeren
   }
