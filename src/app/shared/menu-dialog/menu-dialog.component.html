@@ -1,5 +1,5 @@
 @if (this.menuDialog&& !this.membersDialog && !this.channelDialog) {
-<form [formGroup]="addMembersForm" class="dialog-menu-container" (ngSubmit)="addMembers()">
+<div class="dialog-menu-container">
     <div class="dialog-header">
         <h3>Leute Hinzufügen</h3>
         <img src="/img/icons/close.svg" alt="close" (click)="closeDialog($event , 'menuDialog')" />
@@ -10,15 +10,24 @@
     </div>
     <div class="dialog-scrollContainer">
         <div class="dialog-search">
-            <input type="text" placeholder="Suche nach Namen" />
+            <span *ngFor="let user of toSave" class="user-tag">
+                {{ user.name }}
+                <button (click)="removeFromSave(user)">x</button>
+            </span>
+            <input (input)="onSearchInput($event)" type="text" placeholder="Suche nach Namen" />
+        </div>
+        <div *ngFor="let user of filteredUsers" class="user-item">
+            <img [src]="user.photoURL" alt="{{ user.name }}" />
+            <span>{{ user.name }}</span>
+            <button (click)="addToSave(user)">Hinzufügen</button>
         </div>
     </div>
     <div class="buttonContainer">
-        <button class="save default" type="submit" [disabled]="addMembersForm.invalid">
+        <button class="save default" type="submit" [disabled]="toSave.length === 0">
             Speichern
         </button>
     </div>
-</form>
+</div>
 } @if (this.membersDialog && !this.menuDialog && !this.channelDialog) {
 <div class="dialog-members-container" (click)="dontCloseDialog($event)">
     <div class="dialog-header">
@@ -65,10 +74,12 @@
     <div class="edit-dialog-channelName">
         <div [ngStyle]="{'padding': editChannelName ? '0 0 30px 0' : '30px 20px 0 20px'}">
             <h4>Channel-Name</h4>
-            @if (!editChannelName) {
-                <span (click)="activateEditChannelName()">Bearbeiten</span>
-            } @else {
-                <span (click)="activateEditChannelName()">Speichern</span>
+            @if(this.dialogData.createdBy === this.authService.userId()) {
+                @if (!editChannelName) {
+                    <span (click)="activateEditChannelName()">Bearbeiten</span>
+                } @else {
+                    <span (click)="saveChanges('name')">Speichern</span>
+                }
             }
         </div>
         <div [ngStyle]="{'height': editChannelName ? '60px' : '114px'}" class="animation-border-channelName"></div>
@@ -84,10 +95,12 @@
     <div class="edit-dialog-channelDescription" [ngStyle]="{'padding': editChannelDescription ? '0 0 0 0' : '20px 20px'}">
         <div>
             <h4>Beschreibung</h4>
-            @if (!editChannelDescription) {
-                <span (click)="activateEditChannelDescription()">Bearbeiten</span>
-            } @else {
-                <span (click)="activateEditChannelDescription()">Speichern</span>
+            @if(this.dialogData.createdBy === this.authService.userId()) {
+                @if (!editChannelDescription) {
+                    <span (click)="activateEditChannelDescription()">Bearbeiten</span>
+                } @else {
+                    <span (click)="saveChanges('description')">Speichern</span>
+                }
             }
         </div>
         @if (editChannelDescription) {
@@ -99,11 +112,14 @@
         <h4  [ngStyle]="{'padding': !editChannelDescription ? '0 0 0 0' : '20px 0 0 0'}">Erstellt von</h4>
         <div [ngStyle]="{'opacity': !editChannelDescription ? '1' : '0'}" class="animation-border-channelDescription"></div>
         <div>
+            @if (dialogData.creator === undefined) {
+                <span>Not available</span>
+            }
             <span>{{ dialogData.creator }}</span>
         </div>
     </div>
     <div class="buttonContainer">
-        <button class="save default">Channel verlassen</button>
+            <button (click)="leaveChannel()" class="save default">Channel verlassen</button>
     </div>
 </div>
 }
