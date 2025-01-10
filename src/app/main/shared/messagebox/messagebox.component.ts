@@ -110,7 +110,6 @@ export class MessageboxComponent implements OnInit, OnDestroy {
       creatorPhotoURL: user.photoURL || '',
       message: this.messageContent.trim(),
       timestamp: new Date(),
-      isPrivate: false,
       members: [],
       reactions: [],
     };
@@ -149,6 +148,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
       message: this.messageContent.trim(),
       timestamp: new Date(),
       reactions: [],
+      isThreadMessage: true,
     };
 
     // Sende die Nachricht über den Service

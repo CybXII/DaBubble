@@ -57,7 +57,6 @@ export class MessagesService {
           createdBy: doc['createdBy'] || 'Unbekannt',
           creatorName: doc['creatorName'] || 'Unbekannt',
           creatorPhotoURL: doc['creatorPhotoURL'] || '',
-          isPrivate: doc['isPrivate'] || false,
           message: doc['message'] || '',
           timestamp: doc['timestamp']
             ? new Date(doc['timestamp'].seconds * 1000)
@@ -287,7 +286,9 @@ export class MessagesService {
 
   public getAllMessages(): Observable<Message[]> {
     const messagesRef = collection(this.firestore, 'messages');
-    return collectionData(messagesRef, { idField: 'docId' }) as Observable<Message[]>;
+    return collectionData(messagesRef, { idField: 'docId' }) as Observable<
+      Message[]
+    >;
   }
 
   private async getThreadMessage(

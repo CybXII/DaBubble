@@ -65,8 +65,7 @@ export class SearchService {
 
     const filteredMessages = this.allMessages.filter(
       (message) =>
-        message.message.toLowerCase().includes(searchText.toLowerCase()) &&
-        message.members.includes(userId)
+        message.message.toLowerCase().includes(searchText.toLowerCase())
     );
 
     this.messageResultsSubject.next(filteredMessages);

@@ -4,6 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { SearchService } from '../../services/search.service';
 import { TimestampToDatePipe } from '../../../pipes/timestamp-to-date.pipe';
 import { AuthService } from '../../services/auth.service';
+import { ChannelsService } from '../../services/channels.service';
+import { UserDialogService } from '../../services/user-dialog.service';
+import { MessagesService } from '../../services/messages.service';
 
 @Component({
   selector: 'app-searchbar',
@@ -22,7 +25,13 @@ export class SearchbarComponent {
   isSearchActive: boolean = false;
   isSearchTouched: boolean = false;
 
-  constructor(private searchService: SearchService, private authService: AuthService) {
+  constructor(
+    private searchService: SearchService,
+    private authService: AuthService,
+    private channelService: ChannelsService,
+    private userDialogService: UserDialogService,
+    private messageService: MessagesService
+  ) {
     this.searchService.messageResults$.subscribe((results) => {
       this.messageResults = results;
       console.log('Search results messages:', this.messageResults);
@@ -55,9 +64,17 @@ export class SearchbarComponent {
     if (this.searchText.length >= 4) {
       this.searchService.searchMessages(this.searchText, this.userId);
       this.searchService.searchUsers(this.searchText, 'name');
-      this.searchService.searchChannels(this.searchText, this.userId, 'channel');
-      this.searchService.searchChannels(this.searchText, this.userId, 'private');
-      console.log('userid searchbar',this.userId);
+      this.searchService.searchChannels(
+        this.searchText,
+        this.userId,
+        'channel'
+      );
+      this.searchService.searchChannels(
+        this.searchText,
+        this.userId,
+        'private'
+      );
+      console.log('userid searchbar', this.userId);
     }
   }
 
@@ -85,7 +102,18 @@ export class SearchbarComponent {
       'userId: ',
       userId
     );
-    alert('Zu früh gefreut, ist noch nicht fertig!');
+    // alert('Zu früh gefreut, ist noch nicht fertig!');
+    if (channelId && !docId) {
+      this.channelService.selectChannel(channelId);
+    } 
+    else if (channelId && docId) {
+      this.channelService.selectChannel(channelId);
+      // this.messageService.loadThreadMessages(docId);
+    }
+    // else if (userId) {
+    //   this.userDialogService.openUserDialog(userId);
+    // }
+
     this.clearSearch();
   }
 
