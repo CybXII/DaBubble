@@ -3,6 +3,7 @@ import { DialogComponent } from './dialog/dialog.component';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { UserModel } from '../../../models/user';
+import { UserDialogService } from '../../services/user-dialog.service';
 
 @Component({
   selector: 'app-usermenu',
@@ -15,8 +16,11 @@ export class UsermenuComponent {
   authService = inject(AuthService);
   dialog: boolean = false;
 
+  constructor(public userDialog: UserDialogService) {}
+
   openDialog(event: Event) {
     this.dialog = true;
+    this.userDialog.dialog = true;
   }
 
   onDialogChange(newValue: boolean) {
@@ -27,6 +31,7 @@ export class UsermenuComponent {
     event?.preventDefault();
     event.stopPropagation();
     this.dialog = false;
+    this.userDialog.dialog = false;
   }
 
   get userData() {

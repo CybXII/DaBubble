@@ -23,6 +23,7 @@ import { EditmessageComponent } from '../editmessage/editmessage.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EmojiPickerComponent } from '../emoji-picker/emoji-picker.component';
 import { ProfileviewComponent } from '../../../shared/profileview/profileview.component';
+import { UserDialogService } from '../../../shared/services/user-dialog.service';
 
 @Component({
   selector: 'app-chatbox',
@@ -47,13 +48,13 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   emojiPickerOpened: boolean = false;
   emojiPickerOpenedFor: string | null = null;
   selectedEmoji = '';
-  dialogUser: boolean = false;
 
   constructor(
     private channelsService: ChannelsService,
     private messagesService: MessagesService,
     private authService: AuthService,
     public dialog: MatDialog,
+    private userDialog$: UserDialogService
   ) {
     this.currentChannel$ = this.channelsService.currentChannel$;
     this.messages$ = this.messagesService.messages$;
@@ -288,8 +289,8 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.activeUserId !== id ) {
       this.openDialogUser(id)
     } else {
-      // this.userDialog$.openProfile();
-      console.log("DU ", id, this.dialogUser);
+      this.userDialog$.openProfile();
+      console.log("DU ", id, this.userDialog$);
     }
   }
 
