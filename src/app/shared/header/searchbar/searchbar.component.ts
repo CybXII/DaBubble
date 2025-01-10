@@ -44,7 +44,7 @@ export class SearchbarComponent {
   onInputChange(): void {
     if (this.searchText.length == 1) {
       this.searchService.loadMessages();
-      this.searchService.loadUsers();
+      this.searchService.loadUsers(this.userId);
       this.searchService.loadChannels();
     }
 
@@ -54,11 +54,10 @@ export class SearchbarComponent {
 
     if (this.searchText.length >= 4) {
       this.searchService.searchMessages(this.searchText, this.userId);
-      this.searchService.searchUsers(this.searchText);
-      this.searchService.searchChannels(this.searchText, this.userId);
+      this.searchService.searchUsers(this.searchText, 'name');
+      this.searchService.searchChannels(this.searchText, this.userId, 'channel');
+      this.searchService.searchChannels(this.searchText, this.userId, 'private');
       console.log('userid searchbar',this.userId);
-      
-      this.searchService.searchPrivateChannels(this.searchText, this.userId);
     }
   }
 
