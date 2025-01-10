@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SearchService } from '../../services/search.service';
 import { TimestampToDatePipe } from '../../../pipes/timestamp-to-date.pipe';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-searchbar',
@@ -21,7 +22,7 @@ export class SearchbarComponent {
   isSearchActive: boolean = false;
   isSearchTouched: boolean = false;
 
-  constructor(private searchService: SearchService) {
+  constructor(private searchService: SearchService, private authService: AuthService) {
     this.searchService.messageResults$.subscribe((results) => {
       this.messageResults = results;
       console.log('Search results messages:', this.messageResults);
@@ -52,10 +53,12 @@ export class SearchbarComponent {
     this.isSearchTouched = this.searchText.length > 0;
 
     if (this.searchText.length >= 4) {
-      this.searchService.searchMessages(this.searchText);
+      this.searchService.searchMessages(this.searchText, this.userId);
       this.searchService.searchUsers(this.searchText);
-      this.searchService.searchChannels(this.searchText);
-      this.searchService.searchPrivateChannels(this.searchText);
+      this.searchService.searchChannels(this.searchText, this.userId);
+      console.log('userid searchbar',this.userId);
+      
+      this.searchService.searchPrivateChannels(this.searchText, this.userId);
     }
   }
 
@@ -85,5 +88,13 @@ export class SearchbarComponent {
     );
     alert('Zu früh gefreut, ist noch nicht fertig!');
     this.clearSearch();
+  }
+
+  get userId() {
+    return this.authService.userId() as string;
+  }
+
+  logUserId() {
+    console.log(this.userId);
   }
 }

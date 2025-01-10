@@ -36,6 +36,7 @@ export class SearchService {
       console.log('Messages loaded:', this.allMessages);
     });
   }
+
   public loadUsers(): void {
     this.authService.getUserList().subscribe((users) => {
       this.allUsers = Array.isArray(users)
@@ -54,14 +55,16 @@ export class SearchService {
   }
 
   // Filterfunktion für die Suche
-  searchMessages(searchText: string): void {
+  searchMessages(searchText: string, userId: string): void {
     if (!searchText) {
       this.messageResultsSubject.next([]);
       return;
     }
 
-    const filteredMessages = this.allMessages.filter((message) =>
-      message.message.toLowerCase().includes(searchText.toLowerCase())
+    const filteredMessages = this.allMessages.filter(
+      (message) =>
+        message.message.toLowerCase().includes(searchText.toLowerCase()) &&
+        message.members.includes(userId)
     );
 
     this.messageResultsSubject.next(filteredMessages);
@@ -74,11 +77,12 @@ export class SearchService {
     }
     const filteredUsers = this.allUsers.filter((user) =>
       user.name.toLowerCase().includes(searchText.toLowerCase())
+    || user.email.toLowerCase().includes(searchText.toLowerCase())
     );
     this.userResultsSubject.next(filteredUsers);
   }
 
-  searchChannels(searchText: string): void {
+  searchChannels(searchText: string, userId: string): void {
     if (!searchText) {
       this.channelResultsSubject.next([]);
       return;
@@ -86,12 +90,13 @@ export class SearchService {
     const filteredChannels = this.allChannels.filter(
       (channel) =>
         !channel.isPrivate &&
-        channel.name.toLowerCase().includes(searchText.toLowerCase())
+        channel.name.toLowerCase().includes(searchText.toLowerCase()) &&
+        channel.members.includes(userId)
     );
     this.channelResultsSubject.next(filteredChannels);
   }
 
-  searchPrivateChannels(searchText: string): void {
+  searchPrivateChannels(searchText: string, userId: string): void {
     if (!searchText) {
       this.channelResultsSubject.next([]);
       return;
@@ -99,7 +104,8 @@ export class SearchService {
     const filteredChannels = this.allChannels.filter(
       (channel) =>
         channel.isPrivate &&
-        channel.name.toLowerCase().includes(searchText.toLowerCase())
+        channel.name.toLowerCase().includes(searchText.toLowerCase()) &&
+        channel.members.includes(userId)
     );
     this.privateChannelResultsSubject.next(filteredChannels);
   }
