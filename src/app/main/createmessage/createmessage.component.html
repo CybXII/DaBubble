@@ -1,3 +1,17 @@
 <h2>Neue Nachricht</h2>
 
-<input type="text" placeholder="An: #channel, oder @jemand oder E-Mail Adresse">
+
+<input type="text" placeholder="An: #channel, oder @jemand oder E-Mail Adresse" [(ngModel)]="searchText"
+    (input)="onInputChange()" />
+
+
+@if (searchText[0] == "@" ) {
+Users (Namensuche):
+{{userResults}}
+} @else if (searchText[0] == "#" ) {
+Channels:
+{{channelResults}}
+} @else if (searchText) {
+Users (Emailsuche):
+{{userResults}}
+}
