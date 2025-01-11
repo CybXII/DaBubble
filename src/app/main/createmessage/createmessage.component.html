@@ -1,11 +1,33 @@
 <h2>Neue Nachricht</h2>
 
+<div>
+    <input type="text" placeholder="An: #channel, oder @jemand oder E-Mail Adresse" [(ngModel)]="searchText"
+        (input)="onInputChange()" />
 
-<input type="text" placeholder="An: #channel, oder @jemand oder E-Mail Adresse" [(ngModel)]="searchText"
-    (input)="onInputChange()" />
+
+    @if (userResults.length > 0 && searchFor == 'users') {
+    <div class="resultcontainer">
+        <div class="result" *ngFor="let result of userResults" (click)="click()">
+            {{result.name}}
+        </div>
+    </div>
+    }
+
+    @if (channelResults.length > 0 && searchFor == 'channels') {
+    <div class="resultcontainer">
+        <div class="result" *ngFor="let result of channelResults" (click)="click()">
+            {{result.name}}
+        </div>
+    </div>
+
+    }
+
+</div>
 
 
-@if (searchText[0] == "@" ) {
+
+
+<!-- @if (searchText[0] == "@" ) {
 Users (Namensuche):
 {{userResults}}
 } @else if (searchText[0] == "#" ) {
@@ -14,4 +36,4 @@ Channels:
 } @else if (searchText) {
 Users (Emailsuche):
 {{userResults}}
-}
+} -->
