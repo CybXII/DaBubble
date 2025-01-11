@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms'; // Importiere FormsModule
 import { CommonModule } from '@angular/common';
 import { SearchService } from '../../shared/services/search.service';
 import { AuthService } from '../../shared/services/auth.service';
+import { SharedService } from '../../shared/services/newmessage.service';
 
 @Component({
   selector: 'app-createmessage',
@@ -21,11 +22,20 @@ export class CreatemessageComponent {
   privateChannelResults: any[] = [];
   mailadressResults: any[] = [];
 
-  click(target: string) {
-    this.searchText = target;
+
+  clearResults() {
+    this.userResults = [];
+    this.channelResults = [];
+    this.privateChannelResults = [];
+    this.mailadressResults = [];
   }
 
-  constructor(private searchService: SearchService, private authService: AuthService) {
+  click(target: string) {
+    this.searchText = target;
+    this.clearResults();
+  }
+
+  constructor(private searchService: SearchService, private authService: AuthService, private sharedService: SharedService) {
     this.searchService.loadUsers(this.userId);
     this.searchService.loadChannels();
 
@@ -44,11 +54,19 @@ export class CreatemessageComponent {
       console.log('Search results priv channel komp:', this.privateChannelResults);
     });
 
+    this.sharedService.searchString$.subscribe((value) => {
+      this.searchText = value;
+      this.onInputChange();
+    });
+
   }
 
 
+
+
+
   onInputChange() {
-    //console.log("du schreibst was!");
+    console.log("ch ch changes!");
     if (this.searchText[0] === "#") {
       this.searchFor = "channels";
       if (this.searchText.length == 1) {
