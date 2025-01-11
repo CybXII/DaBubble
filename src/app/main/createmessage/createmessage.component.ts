@@ -1,24 +1,29 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms'; // Importiere FormsModule
+import { CommonModule } from '@angular/common';
 import { SearchService } from '../../shared/services/search.service';
 import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-createmessage',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './createmessage.component.html',
   styleUrl: './createmessage.component.scss'
 })
 export class CreatemessageComponent {
 
   searchText: string = '';
+  searchFor: string = '';
 
   userResults: any[] = [];
   channelResults: any[] = [];
   privateChannelResults: any[] = [];
   mailadressResults: any[] = [];
 
+  click(target: string) {
+    this.searchText = target;
+  }
 
   constructor(private searchService: SearchService, private authService: AuthService) {
     this.searchService.loadUsers(this.userId);
@@ -43,8 +48,9 @@ export class CreatemessageComponent {
 
 
   onInputChange() {
-    console.log("du schreibst was!");
+    //console.log("du schreibst was!");
     if (this.searchText[0] === "#") {
+      this.searchFor = "channels";
       if (this.searchText.length == 1) {
         //alle!
         this.searchService.searchChannels('', this.userId, 'channel');
@@ -54,6 +60,7 @@ export class CreatemessageComponent {
       }
     }
     else if (this.searchText[0] === "@") {
+      this.searchFor = "users";
       if (this.searchText.length == 1) {
         //alle!
         this.searchService.searchUsers('', 'name');
@@ -64,6 +71,7 @@ export class CreatemessageComponent {
     }
     // ohne "vorzeichen"
     else {
+      this.searchFor = "users";
       if (this.searchText.length == 0) {
         //alle!
         this.searchService.searchUsers('', 'email');
@@ -72,7 +80,6 @@ export class CreatemessageComponent {
         this.searchService.searchUsers(this.searchText, 'email');
       }
     }
-
   }
 
 
