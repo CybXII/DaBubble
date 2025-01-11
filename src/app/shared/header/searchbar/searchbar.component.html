@@ -28,7 +28,7 @@
         <div
           class="feedback-box"
           *ngFor="let result of privateChannelResults"
-          (click)="goToSearchResult(result.id, null, null)"
+          (click)="goToSearchResult(result.id, null, null, null, null)"
         >
           <div class="feedback-message">
             <div class="feedback-message-header">
@@ -47,7 +47,7 @@
         <div
           class="feedback-box"
           *ngFor="let result of channelResults"
-          (click)="goToSearchResult(result.id, null, null)"
+          (click)="goToSearchResult(result.id, null, null, null, null)"
         >
           <div class="feedback-message">
             <div class="feedback-message-header">
@@ -66,7 +66,7 @@
         <div
           class="feedback-box"
           *ngFor="let result of messageResults"
-          (click)="goToSearchResult(result.channelId, result.docId, null)"
+          (click)="goToSearchResult(result.channelId, result.messageId, result.docId, null, result.isThreadMessage)"
         >
           <img
             src="{{ result.creatorPhotoURL }}"
@@ -84,14 +84,41 @@
         </div>
       </div>
     </div>
-    } @if (userResults.length > 0) {
+    } 
+    @if (threadMessageResults.length > 0) {
+    <div class="feedback-container">
+      <h3>{{ threadMessageResults.length }} Antwort(en) gefunden:</h3>
+      <div class="feedback-message-container">
+        <div
+          class="feedback-box"
+          *ngFor="let result of threadMessageResults"
+          (click)="goToSearchResult(result.channelId, result.messageId, result.docId, null, result.isThreadMessage)"
+        >
+          <img
+            src="{{ result.creatorPhotoURL }}"
+            alt="img/avatars/picPlaceholder.svg"
+          />
+          <div class="feedback-message">
+            <div class="feedback-message-header">
+              <span>{{ result.creatorName }}</span>
+              <span style="font-style: italic">{{
+                result.timestamp.seconds | timestampToDate
+              }}</span>
+            </div>
+            <span>{{ result.message }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    }    
+    @if (userResults.length > 0) {
     <div class="feedback-container">
       <h3>{{ userResults.length }} Benutzer gefunden:</h3>
       <div class="feedback-message-container">
         <div
           class="feedback-box"
           *ngFor="let user of userResults"
-          (click)="goToSearchResult(null, null, user.userId)"
+          (click)="goToSearchResult(null, null, null, user.userId, null)"
         >
           <img src="{{ user.photoURL }}" alt="img/avatars/picPlaceholder.svg" />
           <div class="feedback-message">
@@ -120,7 +147,7 @@
   </div>
 </div>
 } @if (isSearchActive && (userResults.length === 0 && messageResults.length ===
-0 && channelResults.length === 0 && privateChannelResults.length === 0)) {
+0 && channelResults.length === 0 && privateChannelResults.length === 0 && threadMessageResults.length === 0)) {
 <div class="feedback-wrapper feedback-wrapper-error">
   <span>Keine Ergebnisse gefunden</span>
 </div>
