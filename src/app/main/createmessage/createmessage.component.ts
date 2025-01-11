@@ -21,8 +21,17 @@ export class CreatemessageComponent {
   privateChannelResults: any[] = [];
   mailadressResults: any[] = [];
 
+
+  clearResults() {
+    this.userResults = [];
+    this.channelResults = [];
+    this.privateChannelResults = [];
+    this.mailadressResults = [];
+  }
+
   click(target: string) {
     this.searchText = target;
+    this.clearResults();
   }
 
   constructor(private searchService: SearchService, private authService: AuthService) {

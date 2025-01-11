@@ -5,23 +5,23 @@
         (input)="onInputChange()" />
 
 
-    @if (userResults.length > 0 && searchFor == 'users') {
+    @if (searchText && userResults.length > 0 && searchFor == 'users') {
     <div class="resultcontainer">
         <div class="result" *ngFor="let result of userResults" (click)="click('@'+result.name)">
-            {{result.name}}
+            {{'@'+result.name}}
         </div>
     </div>
     }
 
-    @if (channelResults.length > 0 && searchFor == 'channels') {
+    @if (searchText && channelResults.length > 0 && searchFor == 'channels') {
     <div class="resultcontainer">
         <div class="result" *ngFor="let result of channelResults" (click)="click('#'+result.name)">
-            {{result.name}}
+            {{'#'+result.name}}
         </div>
     </div>
     }
 
-    @if (channelResults.length > 0 && searchFor == 'emails') {
+    @if (searchText && channelResults.length > 0 && searchFor == 'emails') {
     <div class="resultcontainer">
         <div class="result" *ngFor="let result of userResults" (click)="click(result.name)">
             {{result.name}}
