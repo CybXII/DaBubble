@@ -178,7 +178,7 @@
       >
         <h3 class="chatbox__msg-name">{{ message.creatorName }}</h3>
         <p class="chatbox__msg-time">
-          {{ message.timestamp | date : "short" }}
+          {{ message.timestamp | date:'dd.MM.yyyy HH:mm:ss' }}
         </p>
       </div>
       <p
@@ -215,7 +215,7 @@
   @for (message of (messages$ | async); track message.docId) {
   <div class="thread__divider" style="position: relative">
     <span class="thread__divider-text">{{
-      message.timestamp | date : "longDate"
+      message.timestamp | date:'dd. MMMM yyyy'
     }}</span>
     @if (isChatBoxEmojiPickerOpen && chatBoxEmojiPickerOpenFor ===
     message.docId){
