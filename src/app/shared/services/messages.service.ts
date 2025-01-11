@@ -313,11 +313,8 @@ export class MessagesService {
     const messagesSnapshot = await getDocs(
       collection(this.firestore, 'messages')
     );
-    console.log('Messages Snapshot:', messagesSnapshot);
     const threadMessagesPromises = messagesSnapshot.docs.map(
-      async (messageDoc) => {
-        console.log('Message Doc ID:', messageDoc);
-        
+      async (messageDoc) => {        
         const threadMessagesSnapshot = await getDocs(
           collection(this.firestore, `messages/${messageDoc.id}/threadMessages`)
         );

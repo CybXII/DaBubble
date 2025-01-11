@@ -75,7 +75,7 @@ img {
 
 .feedback-wrapper-error {
   justify-content: center;
-      color: colors.$grey;
+      color: black;
 }
 
 .feedback-user-status-container{
@@ -97,8 +97,8 @@ img {
 
   .feedback-box {
     opacity: 1;
-    @include mixins.flexbox(row, flex-start, flex-start);
-    color: colors.$grey;
+    @include mixins.flexbox(row, flex-start, center);
+    color: black;
     box-sizing: border-box;
     padding: 10px;
     border: 1px solid colors.$light-purple;
@@ -124,17 +124,24 @@ img {
   .feedback-message {
     @include mixins.flexbox(column, space-evenly, flex-start, nowrap);
     flex: 1;
-    height: 60px;
+    height: 70px;
     overflow-y: scroll;
     gap: 4px;
     word-break: break-word;
     padding-right: 5px;
   }
 }
+.ellipsis {
+white-space: nowrap; 
+overflow: hidden;   
+text-overflow: ellipsis; 
+max-width: 80%;    
+display: inline-block; 
+}
 
 h3 {
   font-size: 20px;
-  color: colors.$grey;
+  color: black;
   text-align: start;
 }
 
