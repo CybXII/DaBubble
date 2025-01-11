@@ -71,6 +71,7 @@ export class CreatemessageComponent {
     }
     // ohne "vorzeichen"
     else {
+      this.searchFor = "users";
       if (this.searchText.length == 0) {
         //alle!
         this.searchService.searchUsers('', 'email');
@@ -79,7 +80,6 @@ export class CreatemessageComponent {
         this.searchService.searchUsers(this.searchText, 'email');
       }
     }
-
   }
 
 

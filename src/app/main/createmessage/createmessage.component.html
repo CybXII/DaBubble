@@ -19,8 +19,15 @@
             {{result.name}}
         </div>
     </div>
-
     }
+
+    @if (channelResults.length > 0 && searchFor == 'emails') {
+        <div class="resultcontainer">
+            <div class="result" *ngFor="let result of userResults" (click)="click()">
+                {{result.name}}
+            </div>
+        </div>
+        }
 
 </div>
 
