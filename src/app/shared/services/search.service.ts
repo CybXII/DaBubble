@@ -20,6 +20,11 @@ export class SearchService {
   messageResults$ = this.messageResultsSubject.asObservable();
   private userResultsSubject = new BehaviorSubject<any[]>([]);
   userResults$ = this.userResultsSubject.asObservable();
+
+  // added by Christoph
+  //private emailResultsSubject = new BehaviorSubject<any[]>([]);
+  //emailResults$ = this.userResultsSubject.asObservable();
+
   private channelResultsSubject = new BehaviorSubject<any[]>([]);
   channelResults$ = this.channelResultsSubject.asObservable();
   private privateChannelResultsSubject = new BehaviorSubject<any[]>([]);
@@ -28,7 +33,7 @@ export class SearchService {
   private allUsers: UserModel[] = [];
   private allChannels: Channel[] = [];
 
-  constructor() {}
+  constructor() { }
 
   public loadMessages(): void {
     from(this.messageService.getAllMessages()).subscribe((messages) => {
@@ -41,8 +46,8 @@ export class SearchService {
     this.authService.getUserList().subscribe((users) => {
       this.allUsers = Array.isArray(users)
         ? users.filter(
-            (user) => user.provider !== 'anonymous' && user.userId !== userId
-          )
+          (user) => user.provider !== 'anonymous' && user.userId !== userId
+        )
         : [];
 
       console.log('Users loaded:', this.allUsers);
@@ -72,11 +77,32 @@ export class SearchService {
     this.messageResultsSubject.next(filteredMessages);
   }
 
+  // searchUsers(searchText: string, type: string): void {
+  //   if (!searchText) {
+  //     this.userResultsSubject.next([]);
+  //     return;
+  //   }
+  //   const filteredUsers = this.allUsers.filter((user) => {
+  //     if (type === 'name') {
+  //       return user.name.toLowerCase().includes(searchText.toLowerCase());
+  //     } else if (type === 'email') {
+  //       return user.email.toLowerCase().includes(searchText.toLowerCase());
+  //     }
+  //     return false;
+  //   });
+  //   this.userResultsSubject.next(filteredUsers);
+  // }
+
+
+  // update Christoph, 11.1.25
   searchUsers(searchText: string, type: string): void {
-    if (!searchText) {
-      this.userResultsSubject.next([]);
+
+    if (!searchText.trim()) {
+      // Alle Benutzer anzeigen, wenn der Suchtext leer ist
+      this.userResultsSubject.next(this.allUsers);
       return;
     }
+    // Filterlogik basierend auf Typ und Suchtext
     const filteredUsers = this.allUsers.filter((user) => {
       if (type === 'name') {
         return user.name.toLowerCase().includes(searchText.toLowerCase());
@@ -88,11 +114,42 @@ export class SearchService {
     this.userResultsSubject.next(filteredUsers);
   }
 
+
+
+  // searchChannels(searchText: string, userId: string, type: string): void {
+  //   if (!searchText) {
+  //     this.channelResultsSubject.next([]);
+  //     return;
+  //   }
+  //   if (type === 'channel') {
+  //     const filteredChannels = this.allChannels.filter(
+  //       (channel) =>
+  //         !channel.isPrivate &&
+  //         channel.name.toLowerCase().includes(searchText.toLowerCase()) &&
+  //         channel.members.includes(userId)
+  //     );
+  //     this.channelResultsSubject.next(filteredChannels);
+  //   } else if (type === 'private') {
+  //     const filteredChannels = this.allChannels.filter(
+  //       (channel) =>
+  //         channel.isPrivate &&
+  //         channel.name.toLowerCase().includes(searchText.toLowerCase()) &&
+  //         channel.members.includes(userId)
+  //     );
+  //     this.privateChannelResultsSubject.next(filteredChannels);
+  //   }
+  // }
+
+
+  // update  Christoph, 11.1.25
   searchChannels(searchText: string, userId: string, type: string): void {
-    if (!searchText) {
-      this.channelResultsSubject.next([]);
+
+    if (!searchText.trim()) {
+      // Alle Channels anzeigen, wenn der Suchtext leer ist
+      this.channelResultsSubject.next(this.allChannels);
       return;
     }
+
     if (type === 'channel') {
       const filteredChannels = this.allChannels.filter(
         (channel) =>
@@ -101,6 +158,7 @@ export class SearchService {
           channel.members.includes(userId)
       );
       this.channelResultsSubject.next(filteredChannels);
+
     } else if (type === 'private') {
       const filteredChannels = this.allChannels.filter(
         (channel) =>
@@ -111,4 +169,5 @@ export class SearchService {
       this.privateChannelResultsSubject.next(filteredChannels);
     }
   }
+
 }

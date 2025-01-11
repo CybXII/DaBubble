@@ -5,11 +5,13 @@
     (input)="onInputChange()" />
 
 
-@if(searchText[0]=="#") {
-Channels: {{channelResults}}
-}
-
-
-@if(searchText[0]=="@") {
-Users: {{userResults}}
+@if (searchText[0] == "@" ) {
+Users (Namensuche):
+{{userResults}}
+} @else if (searchText[0] == "#" ) {
+Channels:
+{{channelResults}}
+} @else if (searchText) {
+Users (Emailsuche):
+{{userResults}}
 }
