@@ -1,8 +1,10 @@
 <h2>Neue Nachricht</h2>
 
+<!-- (input)="onInputChange()" -->
+
 <div>
     <input type="text" placeholder="An: #channel, oder @jemand oder E-Mail Adresse" [(ngModel)]="searchText"
-        (input)="onInputChange()" />
+        (ngModelChange)="onInputChange()" />
 
 
     @if (searchText && userResults.length > 0 && searchFor == 'users') {

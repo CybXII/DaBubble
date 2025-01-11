@@ -56,6 +56,7 @@ export class CreatemessageComponent {
 
     this.sharedService.searchString$.subscribe((value) => {
       this.searchText = value;
+      this.onInputChange();
     });
 
   }
@@ -65,7 +66,7 @@ export class CreatemessageComponent {
 
 
   onInputChange() {
-    //console.log("du schreibst was!");
+    console.log("ch ch changes!");
     if (this.searchText[0] === "#") {
       this.searchFor = "channels";
       if (this.searchText.length == 1) {
