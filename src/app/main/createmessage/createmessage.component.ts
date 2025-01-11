@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms'; // Importiere FormsModule
 import { CommonModule } from '@angular/common';
 import { SearchService } from '../../shared/services/search.service';
 import { AuthService } from '../../shared/services/auth.service';
+import { SharedService } from '../../shared/services/newmessage.service';
 
 @Component({
   selector: 'app-createmessage',
@@ -34,7 +35,7 @@ export class CreatemessageComponent {
     this.clearResults();
   }
 
-  constructor(private searchService: SearchService, private authService: AuthService) {
+  constructor(private searchService: SearchService, private authService: AuthService, private sharedService: SharedService) {
     this.searchService.loadUsers(this.userId);
     this.searchService.loadChannels();
 
@@ -53,7 +54,14 @@ export class CreatemessageComponent {
       console.log('Search results priv channel komp:', this.privateChannelResults);
     });
 
+    this.sharedService.searchString$.subscribe((value) => {
+      this.searchText = value;
+    });
+
   }
+
+
+
 
 
   onInputChange() {

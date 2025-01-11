@@ -14,6 +14,7 @@ import { AuthService } from '../../../shared/services/auth.service';
 import { UserModel } from '../../../models/user';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { SharedService } from '../../../shared/services/newmessage.service'
 import { EmojiPickerComponent } from '../emoji-picker/emoji-picker.component';
 import { EmojiPickerService } from '../../../shared/services/emoji-picker.service';
 
@@ -40,8 +41,9 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     private channelsService: ChannelsService,
     private messagesService: MessagesService,
     private authService: AuthService,
-    public emojiPickerService: EmojiPickerService
-  ) {}
+    public emojiPickerService: EmojiPickerService,
+    private sharedService: SharedService
+  ) { }
 
   ngOnInit(): void {
     this.activeUserId = this.authService.userId();
@@ -91,6 +93,13 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     // Alle Subscriptions aufräumen
     this.subscriptions.unsubscribe();
   }
+
+  jumpToAtAbove() {
+    console.log("you clicked (at)");
+    //this.searchString = "@";
+    this.sharedService.setSearchString("@");
+  }
+
 
   async sendMessage(): Promise<void> {
     if (!this.messageContent.trim()) {
@@ -167,26 +176,26 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleEmojiPickerMain(){
-    if(!this.isMessageBoxMainPickerOpen && !this.isMessageBoxThreadPickerOpen){
+  toggleEmojiPickerMain() {
+    if (!this.isMessageBoxMainPickerOpen && !this.isMessageBoxThreadPickerOpen) {
       this.emojiPickerService.closeChatBoxEmojiPicker();
       this.emojiPickerService.openMsgBoxEmojiPickerMain();
-    }else if(this.isMessageBoxMainPickerOpen){
+    } else if (this.isMessageBoxMainPickerOpen) {
       this.emojiPickerService.closeMsgBoxEmojiPickerMain();
-    }else if(this.isMessageBoxThreadPickerOpen){
+    } else if (this.isMessageBoxThreadPickerOpen) {
       this.emojiPickerService.closeMsgBoxEmojiPickerThread();
       this.emojiPickerService.closeChatBoxEmojiPicker();
       this.emojiPickerService.openMsgBoxEmojiPickerMain();
     }
   }
 
-  toggleEmojiPickerThread(){
-    if(!this.isMessageBoxMainPickerOpen && !this.isMessageBoxThreadPickerOpen){
+  toggleEmojiPickerThread() {
+    if (!this.isMessageBoxMainPickerOpen && !this.isMessageBoxThreadPickerOpen) {
       this.emojiPickerService.closeChatBoxEmojiPicker();
       this.emojiPickerService.openMsgBoxEmojiPickerThread();
-    } else if(this.isMessageBoxThreadPickerOpen){
+    } else if (this.isMessageBoxThreadPickerOpen) {
       this.emojiPickerService.closeMsgBoxEmojiPickerThread();
-    } else if(this.isMessageBoxMainPickerOpen){
+    } else if (this.isMessageBoxMainPickerOpen) {
       this.emojiPickerService.closeMsgBoxEmojiPickerMain();
       this.emojiPickerService.closeChatBoxEmojiPicker();
       this.emojiPickerService.openMsgBoxEmojiPickerThread();
@@ -201,7 +210,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
   closeEmojiPicker(event: Event): void {
     if (this.isMessageBoxMainPickerOpen) {
       this.emojiPickerService.closeMsgBoxEmojiPickerMain();
-    } else if(this.isMessageBoxThreadPickerOpen){
+    } else if (this.isMessageBoxThreadPickerOpen) {
       this.emojiPickerService.closeMsgBoxEmojiPickerThread();
     }
   }
