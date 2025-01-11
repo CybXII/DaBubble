@@ -1,12 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { MessagesService } from './messages.service';
-import { BehaviorSubject, from } from 'rxjs';
+import { BehaviorSubject, forkJoin, from, map } from 'rxjs';
 import { Message, ThreadMessage } from '../../models/message';
 import { AuthService } from './auth.service';
 import { UserModel } from '../../models/user';
 import { ChannelsService } from './channels.service';
 import { Channel } from '../../models/channel';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDoc, getDocs } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -36,13 +36,52 @@ export class SearchService {
   private allThreadMessages: ThreadMessage[] = [];
   private allUsers: UserModel[] = [];
   private allChannels: Channel[] = [];
+  public searchChannelsMessages: any = [];
+  private messageResults: any[] = [];
 
-  constructor() { }
+  constructor() {}
 
-  public loadMessages(): void {
+  public loadMessages() {
     from(this.messageService.getAllMessages()).subscribe((messages) => {
       this.allMessages = Array.isArray(messages) ? messages : [];
       console.log('Messages loaded:', this.allMessages);
+      
+      this.getChannelName();
+    });
+  }
+
+  getChannelName() {
+    this.searchChannelsMessages = [];
+    console.log('subject', this.messageResultsSubject);
+
+    this.messageResults$.subscribe((results) => {
+      this.messageResults = results;
+      console.log('Search results messages NEW:', this.messageResults);
+
+      // Only process if there are results
+      if (this.messageResults.length > 0) {
+        const channelNames$ = this.messageResults
+          .filter((element) => element.channelId) // Ensure the element has a channelId
+          .map((element) =>
+            from(this.channelService.getChannelById(element.channelId)).pipe(
+              map((channel) => channel?.name || 'Unknown Channel')
+            )
+          );
+
+        forkJoin(channelNames$).subscribe(
+          (channelNames) => {
+            this.searchChannelsMessages = channelNames.filter((name) => !!name);
+            console.log('TEST: ', this.searchChannelsMessages);
+          },
+          (error) => {
+            console.error('Error fetching channel names:', error);
+          }
+        );
+      } else {
+        console.log('No messages to process.');
+        // Optional: Reset searchChannelsMessages if no results
+        this.searchChannelsMessages = [];
+      }
     });
   }
 
@@ -53,13 +92,12 @@ export class SearchService {
     });
   }
 
-
   public loadUsers(userId: string): void {
     this.authService.getUserList().subscribe((users) => {
       this.allUsers = Array.isArray(users)
         ? users.filter(
-          (user) => user.provider !== 'anonymous' && user.userId !== userId
-        )
+            (user) => user.provider !== 'anonymous' && user.userId !== userId
+          )
         : [];
 
       console.log('Users loaded:', this.allUsers);
@@ -94,8 +132,8 @@ export class SearchService {
     }
     const filteredMessages = this.allThreadMessages.filter((message) =>
       message.message.toLowerCase().includes(searchText.toLowerCase())
-  );
-  console.log('Thread Messages:', filteredMessages);
+    );
+    console.log('Thread Messages:', filteredMessages);
 
     this.threadMessageResultsSubject.next(filteredMessages);
   }
@@ -116,10 +154,8 @@ export class SearchService {
   //   this.userResultsSubject.next(filteredUsers);
   // }
 
-
   // update Christoph, 11.1.25
   searchUsers(searchText: string, type: string): void {
-
     if (!searchText.trim()) {
       // Alle Benutzer anzeigen, wenn der Suchtext leer ist
       this.userResultsSubject.next(this.allUsers);
@@ -136,8 +172,6 @@ export class SearchService {
     });
     this.userResultsSubject.next(filteredUsers);
   }
-
-
 
   // searchChannels(searchText: string, userId: string, type: string): void {
   //   if (!searchText) {
@@ -163,10 +197,8 @@ export class SearchService {
   //   }
   // }
 
-
   // update  Christoph, 11.1.25
   searchChannels(searchText: string, userId: string, type: string): void {
-
     if (!searchText.trim()) {
       // Alle Channels anzeigen, wenn der Suchtext leer ist
       this.channelResultsSubject.next(this.allChannels);
@@ -181,7 +213,6 @@ export class SearchService {
           channel.members.includes(userId)
       );
       this.channelResultsSubject.next(filteredChannels);
-
     } else if (type === 'private') {
       const filteredChannels = this.allChannels.filter(
         (channel) =>
@@ -192,5 +223,4 @@ export class SearchService {
       this.privateChannelResultsSubject.next(filteredChannels);
     }
   }
-
 }

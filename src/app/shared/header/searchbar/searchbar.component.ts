@@ -28,7 +28,7 @@ export class SearchbarComponent {
   isSearchTouched: boolean = false;
 
   constructor(
-    private searchService: SearchService,
+    public searchService: SearchService,
     private authService: AuthService,
     private channelService: ChannelsService,
     private userDialogService: UserDialogService,
@@ -36,7 +36,7 @@ export class SearchbarComponent {
   ) {
     this.searchService.messageResults$.subscribe((results) => {
       this.messageResults = results;
-      console.log('Search results messages:', this.messageResults);
+      console.log('Search results messages PAUL:', this.messageResults);
     });
     this.searchService.threadMessageResults$.subscribe((results) => {
       this.threadMessageResults = results;
@@ -128,6 +128,10 @@ export class SearchbarComponent {
 
       // TODO: Scroll to message
 
+    }
+    else if (channelId && messageId && isThreadMessage == undefined) {
+      this.channelService.selectChannel(channelId);
+      this.messageService.setMessageId(messageId);
     }
     // else if (userId) {
     //   this.userDialogService.openUserDialog(userId);
