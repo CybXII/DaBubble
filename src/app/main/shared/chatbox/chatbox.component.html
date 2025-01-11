@@ -337,7 +337,7 @@
       >
         <h3 class="chatbox__msg-name" (click)="checkIdIsUser(message.createdBy)">{{ message.creatorName }}</h3>
         <p class="chatbox__msg-time">
-          {{ message.timestamp | date : "short" }}
+          {{ message.timestamp | date : "HH:mm" }} Uhr
         </p>
       </div>
       <p
@@ -356,7 +356,7 @@
             Antworten
           </span>
           }
-          <span class="chatbox__last-answer">Letzte Antwort 14:56</span>
+          <span class="chatbox__last-answer">Letzte Antwort 14:56 Uhr</span>
         </div>
         <div class="chatbox__reaction-wrapper">
           <div class="chatbox__emojis-container">
