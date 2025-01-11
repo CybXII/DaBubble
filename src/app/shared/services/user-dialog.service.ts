@@ -43,6 +43,10 @@ export class UserDialogService {
     });
   }
 
+  openDialog(event: Event) {
+    this.dialog = true;
+  }
+
   openProfile() {
     this.profileDialog = true;
     this.dialog = false;
@@ -62,10 +66,22 @@ export class UserDialogService {
     this.profileDialogEdit = false;
   }
 
-  closeDialog(event: Event) {
+  closeProfileDialogs(event: Event) {
     this.profileDialog = false;
     this.profileDialogEdit = false;
     this.dialog = true;
+  }
+
+  closeDialog(event: Event) {
+    event?.preventDefault();
+    event.stopPropagation();
+    this.profileDialog = false;
+    this.profileDialogEdit = false;
+    this.dialog = false;
+  }
+
+  onDialogChange(newValue: boolean) {
+    this.dialog = newValue;
   }
 
   async saveProfile(): Promise<void> {
