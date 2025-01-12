@@ -32,12 +32,14 @@ export class CreatemessageComponent {
 
   click(target: string) {
     this.searchText = target;
+    this.sharedService.setSearchString(target);
     this.clearResults();
   }
 
   constructor(private searchService: SearchService, private authService: AuthService, private sharedService: SharedService) {
     this.searchService.loadUsers(this.userId);
     this.searchService.loadChannels();
+
 
     this.searchService.userResults$.subscribe((results) => {
       console.log('Search results user komp:', this.userResults);
@@ -108,4 +110,6 @@ export class CreatemessageComponent {
   }
 
 }
+
+
 
