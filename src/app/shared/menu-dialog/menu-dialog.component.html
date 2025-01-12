@@ -121,7 +121,11 @@
         </div>
     </div>
     <div class="buttonContainer">
-            <button (click)="leaveChannel()" class="save default">Channel verlassen</button>
+            @if (this.dialogData.createdBy === this.authService.userId()) {
+                <button (click)="leaveChannel()" class="save default">Channel löschen</button>
+            } @else {
+                <button (click)="leaveChannel()" class="save default">Channel verlassen</button>
+            }
     </div>
 </div>
 }
