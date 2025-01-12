@@ -223,6 +223,23 @@ export class MenuDialogComponent  implements OnInit {
     }
   }
 
+  deleteChannel(): void {
+    this.channelsService
+    .deleteChannel(this.dialogData.channelId)
+    .then(() => {
+      console.log('Channel wurde gelöscht, da der Ersteller den Channel verlassen hat.');
+
+      // Setze den aktuellen Channel auf null
+      this.channelsService.clearCurrentChannel();
+
+      // Schließe den Dialog
+      this.closeDialog(new Event('close'), 'channelDialog');
+    })
+    .catch((error) => {
+      console.error('Fehler beim Löschen des Channels:', error);
+    });
+  }
+
   leaveChannel(): void {
     if (!this.dialogData || !this.dialogData.channelId) {
       console.error('Channel-ID fehlt.');
@@ -237,34 +254,24 @@ export class MenuDialogComponent  implements OnInit {
   
     // Prüfen, ob der Benutzer der Ersteller des Channels ist
     if (this.dialogData.creator === userId) {
-      // Channel löschen, wenn der Benutzer der Ersteller ist
-      this.channelsService
-        .deleteChannel(this.dialogData.channelId)
-        .then(() => {
-          console.log('Channel wurde gelöscht, da der Ersteller den Channel verlassen hat.');
-  
-          // Setze den aktuellen Channel auf null
-          this.channelsService.clearCurrentChannel();
-  
-          // Schließe den Dialog
-          this.closeDialog(new Event('close'), 'channelDialog');
-        })
-        .catch((error) => {
-          console.error('Fehler beim Löschen des Channels:', error);
-        });
+      console.log('Der Ersteller des Channels kann den Channel nicht einfach verlassen.');
+      return; // Optional: Logik zum Löschen des Channels implementieren
     } else {
-      // Mitglieder-Array aktualisieren
-      const updatedMembers = this.dialogData.members.filter((member: any) => member.id !== userId);
+      // Mitglieder-Array aktualisieren (nur IDs extrahieren)
+      const updatedMembers = this.dialogData.members
+        .map((member: any) => member.id) // Extrahiere nur die ID
+        .filter((id: string) => id !== userId); // Entferne die User-ID des aktuellen Benutzers
   
+      console.log('Updated Members (IDs only):', updatedMembers);
+      this.dialogData.members = updatedMembers.map(id => ({ id }));
       // Channel aktualisieren
       this.channelsService
         .updateChannel(this.dialogData.channelId, { members: updatedMembers })
         .then(() => {
           console.log('Du hast den Channel erfolgreich verlassen.');
-  
-          // Setze den aktuellen Channel auf null
-          this.channelsService.clearCurrentChannel();
-  
+          // Lokalen State aktualisieren
+          this.memberIds = [];
+          this.dialogData.members = updatedMembers.map(id => ({ id }));
           // Schließe den Dialog
           this.closeDialog(new Event('close'), 'channelDialog');
         })
