@@ -21,7 +21,7 @@
           (click)="onEmojiPickerClick($event)"
           alt=""
         /> -->
-      <img src="/img/icons/alternate_email.svg" alt="" />
+      <img (click)="jumpToAtAbove()" src="/img/icons/alternate_email.svg" alt="" />
     </div>
 
     <img (click)="sendMessage()" src="/img/icons/send.svg" alt="" />
