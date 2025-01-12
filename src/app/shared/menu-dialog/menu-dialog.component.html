@@ -8,24 +8,25 @@
         <p>#</p>
         <p>{{ dialogData.name }}</p>
     </div>
-    <div class="dialog-scrollContainer">
-        <div class="dialog-search">
-            <span *ngFor="let user of toSave" class="user-tag">
-                {{ user.name }}
-                <button (click)="removeFromSave(user)">x</button>
-            </span>
-            <input (input)="onSearchInput($event)" type="text" placeholder="Suche nach Namen" />
-        </div>
-        @if (filteredUsers && searchInput.length > 0) {
-            <div *ngFor="let user of filteredUsers" class="user-item">
+    <input (input)="onSearchInput($event)" type="text" placeholder="Suche nach Namen" />
+    <div class="dialog-search">
+        <div  class="user-container">
+            <div (click)="removeFromSave(user)" *ngFor="let user of toSave" class="user-item">
                 <img [src]="user.photoURL" alt="{{ user.name }}" />
                 <span>{{ user.name }}</span>
-                <button (click)="addToSave(user)">Hinzufügen</button>
+            </div>
+        </div>
+    </div>
+    <div class="dialog-scrollContainer">
+        @if (filteredUsers && searchInput.length > 0) {
+            <div (click)="addToSave(user)" *ngFor="let user of filteredUsers" class="user-item">
+                <img [src]="user.photoURL" alt="{{ user.name }}" />
+                <span>{{ user.name }}</span>
             </div>
         }
     </div>
     <div class="buttonContainer">
-        <button class="save default" (click)="saveAddedUser()" [disabled]="toSave.length === 0">
+        <button class="save default" (click)="saveAddedUser() ; closeDialog($event, 'menuDialog')" [disabled]="toSave.length === 0">
             Speichern
         </button>
     </div>

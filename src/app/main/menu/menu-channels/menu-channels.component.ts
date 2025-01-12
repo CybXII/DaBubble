@@ -54,9 +54,6 @@ export class MenuChannelsComponent implements OnInit, OnDestroy {
     });
   }
 
-  async addChannel(): Promise<void> {
-    console.error('addChannel() wurde nicht implementiert.');
-  }
 
   openDialog(): void {
     this.dialog.open(AddchatComponent, {
@@ -66,6 +63,7 @@ export class MenuChannelsComponent implements OnInit, OnDestroy {
       panelClass: 'custom-dialog-container'
     });
   }
+
 
   selectChannel(channelId: string): void {
     this.sharedService.updateVariable('false');

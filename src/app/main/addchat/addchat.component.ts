@@ -65,15 +65,36 @@ export class AddchatComponent {
 
   createChannel() {
     if (this.channelForm.valid) {
-      this.updateData ;
-      this.channelsService.createChannel(      this.updateData as Channel
-      )
+      const currentUserId = this.auth.userId(); // Hole die aktuelle User-ID
+      if (!currentUserId) {
+        console.error('User-ID konnte nicht abgerufen werden.');
+        return;
+      }
+  
+      // Erstelle das Channel-Objekt
+      const newChannel: Channel = {
+        name: this.channelForm.value.name,
+        description: this.channelForm.value.description || '',
+        isPrivate: this.channelForm.value.isPrivate,
+        createdBy: currentUserId, // Ersteller des Channels
+        members: [
+          currentUserId, // Der Ersteller wird immer hinzugefügt
+          ...(this.allMembers
+            ? this.allMembersArray.map(member => member.userId) // Alle Mitglieder
+            : this.choosenMembers.map(member => member.userId)) // Nur ausgewählte Mitglieder
+        ].filter((id, index, self) => self.indexOf(id) === index), // Entfernt doppelte IDs
+      };
+  
+      // Channel erstellen
+      this.channelsService.createChannel(newChannel)
         .then(() => {
-          console.log('Channel erfolgreich erstellt!' , this.updateData);
-
+          console.log('Channel erfolgreich erstellt!', newChannel);
+  
+          // Formular zurücksetzen und Dialog schließen
           this.channelForm.reset();
+          this.dialogRef.close();
         })
-        .catch((error) => {
+        .catch(error => {
           console.error('Fehler beim Erstellen des Channels:', error);
         });
     } else {

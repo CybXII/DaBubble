@@ -25,8 +25,9 @@
     box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.2);
     position: absolute;
     z-index: 5;
-    span{
-        color:colors.$purple3;
+
+    span {
+        color: colors.$purple3;
         font-size: 18px;
         font-weight: 600;
         line-height: 24.55px;
@@ -34,7 +35,8 @@
         text-underline-position: from-font;
         text-decoration-skip-ink: none;
     }
-    p{
+
+    p {
         color: black
     }
 }
@@ -52,28 +54,30 @@
     z-index: 5;
 }
 
-.dialog-header{
+.dialog-header {
     display: flex;
     width: 100%;
     justify-content: space-between;
-    img{
+
+    img {
         width: 24px;
         height: 24px;
         border-radius: 50%;
         padding: 4px;
         box-sizing: content-box;
-        &:hover{
+
+        &:hover {
             background-color: colors.$bg-color;
         }
     }
 }
 
-.buttonContainer{
+.buttonContainer {
     width: 100%;
 }
 
-.dialog-channelName{
-    display: flex;  
+.dialog-channelName {
+    display: flex;
     gap: 15px;
     color: colors.$purple3;
 }
@@ -84,7 +88,7 @@ h3 {
     text-wrap: nowrap;
 }
 
-img{
+img {
     cursor: pointer;
 }
 
@@ -102,13 +106,14 @@ input {
     text-underline-position: from-font;
     text-decoration-skip-ink: none;
     z-index: 5;
+
     &:focus {
         border: 1px solid colors.$light-purple;
         outline: none;
     }
 }
 
-.addMember{
+.addMember {
     display: flex;
     justify-content: flex-start;
     width: 100%;
@@ -116,38 +121,100 @@ input {
     align-items: center;
     cursor: pointer;
     padding: 0 30px 0 20px;
-    :hover{
+
+    :hover {
         color: colors.$purple3;
     }
-    svg{
+
+    svg {
         background-color: rgb(236, 238, 254);
         border-radius: 20px;
         width: 40px;
         height: 40px;
         padding: 8px;
         position: relative;
-            path{
-                fill: colors.$purple3;
-            }
+
+        path {
+            fill: colors.$purple3;
+        }
     }
+}
+
+.dialog-search {
+    @include mixins.flexbox(row, flex-start, center, nowrap);
+    position: relative;
+    font-size: 18px;
+    height: 100%;
+    width: 100%;
+    overflow-x: auto;
+    .user-container {
+        @include mixins.flexbox(row, flex-start, center, nowrap);
+        border: none;
+        height: 100%;
+        width: 100%;
+        overflow: auto;
+        gap: 10px;
+        .user-item {
+            @include mixins.flexbox(row, flex-start, center, nowrap);
+            height: 100%;
+            width: fit-content;
+            z-index: 10;
+            padding: 10px; 
+            background-color: colors.$bg-color;
+            gap: 4px;
+            cursor: pointer;
+        }
+    }
+
 
 }
 
-.dialog-scrollContainer{
+.dialog-scrollContainer {
+    @include mixins.flexbox(column, flex-start, center, nowrap);
+    width: 100%;
+    height: 100%;
     overflow: scroll;
     max-height: 310px;
-    .avatar-box {
-        height: 50px;
-        width: 50px;
+    gap: 8px;
+    &:focus-visible {
+        outline: unset;
     }
-    img{
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
+
+    &:-webkit-autofill {
+        transition: background-color 5000s ease-in-out 0s;
+    }
+
+}
+
+.user-item {
+    @include mixins.flexbox(row, flex-start, center, nowrap);   
+    width: 100%;
+    border-radius: 30px;
+    padding: 8px;
+    span {
+        width: fit-content;
+        text-wrap: nowrap;
+    }
+
+    img {
+        width: 40px;
+        height: 40px;
+        border-radius: 30px;
+    }
+
+    &:hover {
+        background-color: colors.$bg-color;
     }
 }
 
-.channel-box{
+
+img {
+    width: 40px;
+    height: 40px;
+    border-radius: 30px;
+}
+
+.channel-box {
     width: 400px;
     gap: 10px;
     height: 58px;
@@ -158,19 +225,23 @@ input {
     border-radius: 29px;
     padding: 0 30px 0 20px;
 }
-.channel-box:hover{ 
+
+.channel-box:hover {
     background-color: colors.$bg-color;
-    svg{
-        path{
+
+    svg {
+        path {
             fill: colors.$purple3;
         }
     }
-}  
+}
+
 .channel-box:active {
     color: colors.$purple3;
     font-weight: 700;
-    svg{
-        path{
+
+    svg {
+        path {
             fill: colors.$purple3;
         }
     }
@@ -181,7 +252,7 @@ hr {
     margin: 10px 0;
 }
 
-.edit-dialog-channelName{
+.edit-dialog-channelName {
     position: relative;
     display: flex;
     width: 792px;
@@ -189,27 +260,32 @@ hr {
     gap: 15px;
     padding: 20px 0px;
     transition: 250ms ease-in-out;
-    input{
+
+    input {
         border: none;
-        
+
     }
-    :first-child{
-        display:flex;
+
+    :first-child {
+        display: flex;
         justify-content: space-between;
         transition: 250ms ease-in-out;
-        span{
+
+        span {
             z-index: 5;
             cursor: pointer;
             padding: 0;
         }
     }
-    :last-child{
-        display:flex;
+
+    :last-child {
+        display: flex;
         justify-content: flex-start;
         align-items: center;
         gap: 5px;
         padding: 0 20px;
-        p{
+
+        p {
             font-size: 18px;
             font-weight: 400;
             line-height: 24.55px;
@@ -220,7 +296,7 @@ hr {
     }
 }
 
-.edit-dialog-channelDescription{
+.edit-dialog-channelDescription {
     position: relative;
     display: flex;
     width: 792px;
@@ -229,21 +305,26 @@ hr {
     gap: 15px;
     padding: 20px;
     transition: 150ms ease-in-out;
-    input{
+
+    input {
         padding: 15px 20px 15px 40px;
     }
-    h4{
+
+    h4 {
         transition: 150ms ease-in-out;
     }
-    :first-child{
-        display:flex;
+
+    :first-child {
+        display: flex;
         justify-content: space-between;
-        span{
+
+        span {
             z-index: 5;
             cursor: pointer;
         }
     }
-    p{
+
+    p {
         width: 100%;
         font-size: 18px;
         font-weight: 400;
@@ -252,13 +333,15 @@ hr {
         text-underline-position: from-font;
         text-decoration-skip-ink: none;
     }
-    :last-child{
-        display:flex;
+
+    :last-child {
+        display: flex;
         justify-content: flex-start;
         align-items: center;
         gap: 5px;
         cursor: pointer;
-        p{
+
+        p {
             font-size: 18px;
             font-weight: 400;
             line-height: 24.55px;
@@ -266,7 +349,8 @@ hr {
             text-underline-position: from-font;
             text-decoration-skip-ink: none;
         }
-        span{
+
+        span {
             color: colors.$purple3;
             font-size: 24px;
             font-weight: 400;
@@ -279,7 +363,7 @@ hr {
     }
 }
 
-.animation-border-channelName{
+.animation-border-channelName {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -290,7 +374,7 @@ hr {
     transition: 250ms ease-in-out;
 }
 
-.animation-border-channelDescription{
+.animation-border-channelDescription {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -301,11 +385,11 @@ hr {
     transition: 250ms ease-in-out;
 }
 
-.editChannelDescription{
+.editChannelDescription {
     height: 60px;
 }
 
-.buttonContainer{
+.buttonContainer {
     width: 100%;
     display: flex;
     justify-content: flex-end;
