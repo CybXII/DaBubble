@@ -1,4 +1,4 @@
-import { NgStyle, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router, RouterOutlet, RouterModule } from '@angular/router';
 import { ToastMessageService } from '../shared/services/toastmessage.service';

@@ -1,8 +1,14 @@
-import { Component,Input  } from '@angular/core';
+import { Component  } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators,ReactiveFormsModule } from '@angular/forms';
 import { ChannelsService } from '../../shared/services/channels.service';
 import { AuthService } from '../../shared/services/auth.service';
+import { Channel } from '../../models/channel';
+import { UserModel } from '../../models/user';
+import { Subscription } from 'rxjs';
+
+
+
 @Component({
   selector: 'app-addchat',
   standalone: true,
@@ -12,6 +18,14 @@ import { AuthService } from '../../shared/services/auth.service';
 })
 export class AddchatComponent {
   channelForm: FormGroup;
+  updateData: Partial<Channel> = {};
+  addMembers: boolean = false;
+  allMembers: boolean = true;
+  filteredMembersArray: { userId: string; name: string; photoURL: string }[] = [];
+  membersArray: { userId: string; name: string; photoURL: string }[] = [];
+  allMembersArray: { userId: string; name: string; photoURL: string }[] = [];
+  subscriptions: Subscription = new Subscription()
+  choosenMembers: { userId: string; name: string; photoURL: string }[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -27,18 +41,35 @@ export class AddchatComponent {
     });
   }
 
-  // Funktion, die aufgerufen wird, wenn das Formular abgeschickt wird
-  onSubmit() {
-    if (this.channelForm.valid) {
-      const newChannel = {
-        ...this.channelForm.value,
-        createdBy: this.auth.userId(), // Signal aufrufen, um den aktuellen Wert zu erhalten
-        members: [this.auth.userId()], // Signal aufrufen
-      };
 
-      this.channelsService.createChannel(newChannel)
+  ngOnInit(): void {
+    this.allMembers = true;
+  
+    // Benutzerliste aus dem AuthService abrufen
+    this.subscriptions.add(
+      this.auth.getUserList().subscribe({
+        next: (users: UserModel[]) => {
+          this.allMembersArray = users.map(user => ({
+            userId: user.userId,
+            name: user.name,
+            photoURL: user.photoURL,
+          }));
+          console.log('All member details loaded:', this.allMembersArray);
+        },
+        error: (error) => {
+          console.error('Error fetching user list:', error);
+        },
+      })
+    );
+  }
+
+  createChannel() {
+    if (this.channelForm.valid) {
+      this.updateData ;
+      this.channelsService.createChannel(      this.updateData as Channel
+      )
         .then(() => {
-          console.log('Channel erfolgreich erstellt!' , newChannel);
+          console.log('Channel erfolgreich erstellt!' , this.updateData);
 
           this.channelForm.reset();
         })
@@ -51,8 +82,62 @@ export class AddchatComponent {
   }
 
 
+  toggleAllMembers(addAll: boolean): void {
+    this.allMembers = addAll;
+    console.log('All members:', this.allMembers);
+  }
+
+
+  switchMembersForm() {
+      this.addMembers = true; 
+      this.membersArray = [];
+  }
+
+
+  addMembersToChannelArray(member: { userId: string; name: string; photoURL: string }): void {
+    const index = this.choosenMembers.findIndex(selected => selected.userId === member.userId);
+    
+    if (index === -1) {
+      // Benutzer hinzufügen
+      this.choosenMembers.push(member);
+    } else {
+      // Benutzer entfernen, wenn er bereits ausgewählt ist
+      this.choosenMembers.splice(index, 1);
+    }
+  
+    // Input-Feld zurücksetzen
+    const inputElement = document.querySelector('input[type="text"]') as HTMLInputElement;
+    if (inputElement) {
+      inputElement.value = ''; // Input leeren
+    }
+  
+    // Gefilterte Liste leeren
+    this.filteredMembersArray = [];
+  
+    console.log('Choosen Members:', this.choosenMembers);
+  }
+
+
   close(): void {
+    this.addMembers = false
     this.channelForm.reset();
     this.dialogRef.close(); 
+  }
+
+
+  onSearchInput(event: Event): void {
+    if ((event.target as HTMLInputElement).value === '') {
+      this.filteredMembersArray = [];
+    } else {
+      const searchValue = (event.target as HTMLInputElement).value.toLowerCase();
+      this.filteredMembersArray = this.allMembersArray.filter(member =>
+        member.name.toLowerCase().includes(searchValue)
+      );
+      console.log('Filtered members:', this.filteredMembersArray);
+    }
+  }
+
+  isMemberSelected(member: { userId: string; name: string; photoURL: string }): boolean {
+    return this.choosenMembers.some(selected => selected.userId === member.userId);
   }
 }
