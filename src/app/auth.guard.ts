@@ -12,7 +12,10 @@ export const authGuard: CanActivateFn = async (route, state) => {
 
   if (authService.isAuthenticated() && userIdIsValid) {
     if (state.url === '/') {
-      router.navigateByUrl('/board'); // Weiterleitung zur Board-Seite
+      setTimeout(() => {
+        
+        router.navigateByUrl('/board'); // Weiterleitung zur Board-Seite
+      }, 6000);
       return false; // Zugriff auf "/" verweigern
     }
     return true; // Zugriff erlauben
