@@ -466,7 +466,10 @@ export class AuthService {
 
   redirectIfAuthenticated(): void {
     if (this.auth.currentUser) {
-      this.router.navigate(['/board']);
+      setTimeout(() => {
+        
+        this.router.navigate(['/board']);
+      }, 4000);
     } else {
       this.router.navigate(['/']);
     }

@@ -28,12 +28,11 @@ import { ProfileviewComponent } from '../../../shared/profileview/profileview.co
 import { EmojiPickerService } from '../../../shared/services/emoji-picker.service';
 import { UserDialogService } from '../../../shared/services/user-dialog.service';
 import { DialogComponent } from '../../../shared/header/usermenu/dialog/dialog.component';
-import { TimestampToDatePipe } from '../../../pipes/timestamp-to-date.pipe';
 
 @Component({
   selector: 'app-chatbox',
   standalone: true,
-  imports: [CommonModule, EmojiPickerComponent, DialogComponent, TimestampToDatePipe],
+  imports: [CommonModule, EmojiPickerComponent, DialogComponent],
   templateUrl: './chatbox.component.html',
   styleUrls: ['./chatbox.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
