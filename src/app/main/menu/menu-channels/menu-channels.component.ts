@@ -60,16 +60,15 @@ export class MenuChannelsComponent implements OnInit, OnDestroy {
 
   openDialog(): void {
     this.dialog.open(AddchatComponent, {
-      width: 'fit-content',
-      maxWidth: '100vw',
+      width: '600px',
+      maxWidth: '90vw',
       height: 'fit-content',
+      panelClass: 'custom-dialog-container'
     });
   }
 
   selectChannel(channelId: string): void {
-    // neue nachricht deaktivieren
     this.sharedService.updateVariable('false');
-
     this.channelsService.selectChannel(channelId)
   }
 }
