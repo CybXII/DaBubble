@@ -28,11 +28,12 @@ import { ProfileviewComponent } from '../../../shared/profileview/profileview.co
 import { EmojiPickerService } from '../../../shared/services/emoji-picker.service';
 import { UserDialogService } from '../../../shared/services/user-dialog.service';
 import { DialogComponent } from '../../../shared/header/usermenu/dialog/dialog.component';
+import { TimestampToDatePipe } from '../../../pipes/timestamp-to-date.pipe';
 
 @Component({
   selector: 'app-chatbox',
   standalone: true,
-  imports: [CommonModule, EmojiPickerComponent, DialogComponent],
+  imports: [CommonModule, EmojiPickerComponent, DialogComponent, TimestampToDatePipe],
   templateUrl: './chatbox.component.html',
   styleUrls: ['./chatbox.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -49,7 +50,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   loadingMessages: WritableSignal<boolean> = signal(true);
   private destroy$ = new Subject<void>();
   loadingAvatars: boolean = false;
-  dialogUser: boolean = false;
   selectedEmoji: string = '';
   isChatBoxEmojiPickerOpen: boolean = false;
   chatBoxEmojiPickerOpenFor: string | null = null;
@@ -321,7 +321,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.activeUserId !== id) {
       this.openDialogUser(id);
     } else {
-      this.openDialog();
       this.userDialog$.openProfile();
     }
   }
@@ -333,15 +332,5 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       height: 'fit-content',
       data: { ID: id },
     });
-  }
-
-  openDialog() {
-    this.dialogUser = true;
-  }
-
-  closeDialog(event: Event) {
-    event?.preventDefault();
-    event.stopPropagation();
-    this.dialogUser = false;
   }
 }

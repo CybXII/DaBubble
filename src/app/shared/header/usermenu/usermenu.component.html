@@ -1,9 +1,9 @@
 <div class="usermenu-container">
-  <div class="usermenu-container-box" (click)="openDialog($event)">
-    <span>{{ userData?.name}}</span>
+  <div class="usermenu-container-box" (click)="userDialog.openDialog($event)">
+    <span>{{ userDialog.userData?.name}}</span>
     <div class="avatar-container">
-      <img [src]="userData?.photoURL" alt="" />
-    <div target="online-status" [ngStyle]="{'background-color': userData?.status ? '#92c83e' : '#696969'}"></div>
+      <img [src]="userDialog.userData?.photoURL" alt="" />
+    <div target="online-status" [ngStyle]="{'background-color': userDialog.userData?.status ? '#92c83e' : '#696969'}"></div>
       </div>
     <svg
       class="arrow-down"
@@ -20,15 +20,15 @@
   </div>
 </div>
 
-@if (this.dialog == true){
-<div
-  [ngClass]="{
-    'dialog-background': dialog
-  }"
-  (click)="closeDialog($event)"
->
-  <app-dialog
-    (dialogChange)="onDialogChange($event)"
-  ></app-dialog>
-</div>
-}
+@if (userDialog.dialog == true || userDialog.profileDialog || userDialog.profileDialogEdit){
+  <div
+    [ngClass]="{
+      'dialog-background': userDialog.dialog || userDialog.profileDialog || userDialog.profileDialogEdit
+    }"
+    (click)="userDialog.closeDialog($event)"
+  >
+    <app-dialog
+      (dialogChange)="userDialog.onDialogChange($event)"
+    ></app-dialog>
+  </div>
+  }
