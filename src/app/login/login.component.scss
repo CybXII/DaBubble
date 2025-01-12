@@ -280,7 +280,7 @@ button {
 
 button:disabled {
   background-color: colors.$grey;
-  border: unset;
+  border-color: colors.$white;
 }
 
 .button_blue {

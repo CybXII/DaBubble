@@ -16,6 +16,7 @@ export class ForgetPasswordComponent {
   userData = {
     email: "",
   }
+  emailSended:boolean = false;
 
   constructor(private router: Router, private authService: AuthService) { }
 
@@ -25,10 +26,15 @@ export class ForgetPasswordComponent {
 
   sendMail(form: NgForm) {
     if (form.valid && form.submitted) {
-      console.log(this.userData);
+      // console.log(this.userData);
     }
     this.authService.resetPassword(this.userData.email).then(() => {
       console.log("erfolgreich mail verschickt!");
+      form.resetForm();
+      this.emailSended = true;
+      setTimeout(() => {
+        this.router.navigateByUrl('');
+      }, 10000)
     })
       .catch((error) => {
         console.log(error);

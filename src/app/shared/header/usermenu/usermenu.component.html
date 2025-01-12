@@ -1,5 +1,5 @@
 <div class="usermenu-container">
-  <div class="usermenu-container-box" (click)="userDialog.openDialog($event)">
+  <div class="usermenu-container-box" (click)="userDialog.openDialog($event, true)">
     <span>{{ userDialog.userData?.name}}</span>
     <div class="avatar-container">
       <img [src]="userDialog.userData?.photoURL" alt="" />

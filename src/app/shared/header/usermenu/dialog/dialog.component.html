@@ -6,19 +6,25 @@
 >
   @if (userDialog$.dialog) {
   <a (click)="userDialog$.openProfile()" class="dialog-link">Profil</a>
-  <a routerLink="/imprint" class="dialog-link">Impressum</a>
-  <a routerLink="/legalnotice" class="dialog-link">Datenschutz</a>
+  <a (click)="userDialog$.closeDialog($event)" routerLink="/imprint" class="dialog-link">Impressum</a>
+  <a (click)="userDialog$.closeDialog($event)" routerLink="/legalnotice" class="dialog-link">Datenschutz</a>
   <a (click)="userDialog$.logout()" class="dialog-link">Logout</a>
   } @else if (userDialog$.profileDialog) {
 
   <div class="dialog-profile-container">
     <div class="dialog-header">
       <span>Profil</span>
-      <img
+      @if(userDialog$.exitActiv) {
+        <img
         src="/img/icons/close.svg"
         alt="close"
-        (click)="userDialog$.closeProfileDialogs($event)"
-      />
+        (click)="userDialog$.closeProfileDialogs($event)"/>
+      } @else {
+        <img
+        src="/img/icons/close.svg"
+        alt="close"
+        (click)="userDialog$.closeDialog($event)"/>
+      }
     </div>
     <div class="dialog-avatar">
       <img [src]="userDialog$.userData?.photoURL" alt="" />

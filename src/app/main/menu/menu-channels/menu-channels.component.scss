@@ -55,7 +55,7 @@ dialog {
         width: 100%;
         .titel-box{
             @include mixins.flexbox(row, flex-start, center);
-            cursor: default;
+            cursor: pointer;
             gap: 15px;
             font-weight: 700;
             font-size: 20px;
