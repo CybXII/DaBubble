@@ -32,13 +32,18 @@ export class CreatemessageComponent {
 
   clickUser(target: string, userId: string) {
     this.searchText = target;
+    
+    this.sharedService.setTargetString("toUser");
+
     this.sharedService.setSearchString(target);
     this.sharedService.setUserIdString(userId);
+
     this.clearResults();
   }
 
   clickChannel(target: string, channelId: string) {
     this.searchText = target;
+    this.sharedService.setTargetString("toChannel");
     this.sharedService.setSearchString(target);
     this.sharedService.setChannelIdString(channelId);
     this.clearResults();

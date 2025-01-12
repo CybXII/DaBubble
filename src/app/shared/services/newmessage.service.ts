@@ -11,6 +11,9 @@ export class SharedService {
   private searchStringSubject = new BehaviorSubject<string>('');
   searchString$ = this.searchStringSubject.asObservable();
 
+  private targetStringSubject = new BehaviorSubject<string>('');
+  targetString$ = this.targetStringSubject.asObservable();
+
   private userIdSubject = new BehaviorSubject<string>('');
   userId$ = this.userIdSubject.asObservable();
 
@@ -34,12 +37,20 @@ export class SharedService {
     this.channelIdSubject.next(value);
   }
 
+  setTargetString(value: string) {
+    this.targetStringSubject.next(value);
+  }
+
   getUserIdString() {
     return this.userIdSubject.value;
   }
 
   getChannelIdString() {
     return this.channelIdSubject.value;
+  }
+
+  getTargetString() {
+    return this.targetStringSubject.value;
   }
 
   getSearchString() {

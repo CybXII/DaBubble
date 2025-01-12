@@ -103,6 +103,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
 
 
   // von christoph
+  sendToId: string = "";
   async createNewMessage(): Promise<void> {
     if (!this.messageContent.trim()) {
       console.error('Nachricht darf nicht leer sein.');
@@ -112,8 +113,14 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     // searchText auswerten
     let sendToUserId = this.sharedService.getUserIdString();
     let sendToChannelId = this.sharedService.getChannelIdString();
-    console.log(sendToUserId);
-    console.log(sendToChannelId);
+    let sendToTarget = this.sharedService.getTargetString();
+
+    if (sendToTarget == "user") {
+      this.sendToId = sendToUserId;
+    }
+    else if (sendToTarget == "channel") {
+      this.sendToId = sendToChannelId;
+    }
 
     // senden
     let user: UserModel = (await this.authService.getUserById(
@@ -122,8 +129,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
 
     // Erstelle ein Message-Objekt
     const message: Message = {
-      //channelId: sendToUserId || '',
-      channelId: sendToChannelId || '',
+      channelId: this.sendToId || '',
       createdBy: this.activeUserId || '',
       creatorName: user.name || '',
       creatorPhotoURL: user.photoURL || '',
