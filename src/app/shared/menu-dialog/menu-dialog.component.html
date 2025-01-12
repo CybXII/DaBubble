@@ -78,9 +78,9 @@
         <div [ngStyle]="{'padding': editChannelName ? '0 0 30px 0' : '30px 20px 0 20px'}">
             <h4>Channel-Name</h4>
             @if(this.dialogData.createdBy === this.authService.userId()) {
-                @if (!editChannelName) {
+                @if (!editChannelName && !this.dialogData.isPrivate) {
                     <span (click)="activateEditChannelName()">Bearbeiten</span>
-                } @else {
+                } @else if (editChannelName) {
                     <span (click)="saveChanges('name')">Speichern</span>
                 }
             }
@@ -101,7 +101,7 @@
             @if(this.dialogData.createdBy === this.authService.userId()) {
                 @if (!editChannelDescription) {
                     <span (click)="activateEditChannelDescription()">Bearbeiten</span>
-                } @else {
+                } @else if(editChannelDescription) {
                     <span (click)="saveChanges('description')">Speichern</span>
                 }
             }

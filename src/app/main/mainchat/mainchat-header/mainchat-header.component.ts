@@ -33,39 +33,43 @@ export class MainchatHeaderComponent {
   dialogData: any = null;
   channelCreator: string = '';
   channelCreatorId: string = '';
-
-
+  isPrivate: boolean = false;
   constructor(private channelsService: ChannelsService, private authService: AuthService, private cdr: ChangeDetectorRef) {
-    this.channel = this.channelsService.currentChannel$;  
+    this.channel = this.channelsService.currentChannel$ as Observable<Channel | null>;  
   }
 
 
   ngOnInit(): void {
-    this.channel.subscribe((channel) => {
+    this.channelsService.currentChannel$.subscribe((channel) => {
       if (channel) {
         this.channelTitle = channel.name;
         this.channelId = channel.id;
         this.channelDescription = channel.description;
         this.channelCreatorId = channel.createdBy;
+        this.isPrivate = channel.isPrivate;
+  
+        // Aktualisiere die Mitglieder und lade die Avatare
         const members = channel.members.map((memberId) => ({
           id: memberId,
           photoURL: this.authService.avatarCache.get(memberId),
-          createdBy: channel.createdBy
         }));
         this.loadMemberAvatars(members).then((memberAvatars) => {
           this.channelMembers = memberAvatars;
           this.loading = false;
+          this.cdr.detectChanges(); // Erzwinge ein erneutes Rendern
         });
+  
+        // Lade den Namen des Channel-Erstellers
         this.authService.getUsernamesByIds([channel.createdBy]).then((creatorDetails) => {
-          if (creatorDetails) {
-            if (creatorDetails.length > 0) {
-              this.channelCreator = creatorDetails[0].name; // Name des Erstellers setzen
-            }
+          if (creatorDetails && creatorDetails.length > 0) {
+            this.channelCreator = creatorDetails[0].name;
+            this.cdr.detectChanges(); // Erzwinge ein erneutes Rendern
           }
         });
       }
     });
   }
+  
 
 
   private async loadMemberAvatars(members: { id: string; photoURL?: string }[]): Promise<{ id: string; photoURL: string }[]> {
@@ -120,7 +124,8 @@ export class MainchatHeaderComponent {
       description: this.channelDescription,
       creator: this.channelCreator,
       createdBy: this.channelCreatorId,
-      channelId: this.channelId
+      channelId: this.channelId,
+      isPrivate: this.isPrivate
     };
     console.log(this.dialogData);
     if (menu === 'membersDialog') {
@@ -136,6 +141,7 @@ export class MainchatHeaderComponent {
   
 
   closeAllDialogs() {
+    this.cdr.detectChanges();
     this.menuDialog = false;
     this.membersDialog = false;
     this.channelDialog = false;
