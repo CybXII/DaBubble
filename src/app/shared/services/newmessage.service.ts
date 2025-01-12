@@ -21,5 +21,6 @@ export class SharedService {
 
   getSearchString() {
     return this.searchStringSubject.value;
+    //return this.sharedVariable.value;
   }
 }
