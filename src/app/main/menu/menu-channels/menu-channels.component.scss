@@ -11,18 +11,20 @@ dialog {
     box-shadow: 0 0 20px 8px #d0d0d0;
     height: 100px;
     width: 200px;
- }
+}
 
 
-.channels{
+.channels {
     width: 100%;
     @include mixins.flexbox(row, flex-start, center);
     gap: 15px;
-    .channel{
+
+    .channel {
         width: 100%;
         @include mixins.flexbox(row, flex-start, center, nowrap);
         margin: 0px 0px 0px 25px;
-        .channel-box{
+
+        .channel-box {
             @include mixins.flexbox(row, flex-start, center, nowrap);
             gap: 15px;
             cursor: pointer;
@@ -30,101 +32,118 @@ dialog {
             line-height: 24.55px;
             border-radius: 12px;
             padding: 0 30px 0 20px;
+
             p {
                 text-wrap: nowrap;
             }
         }
-        .channel-box:hover{ 
+
+        .channel-box:hover {
             background-color: colors.$bg-color;
-            svg{
-                path{
-                    fill: colors.$purple3;
-                }
-            }
-        }  
-        .channel-box:active {
-            color: colors.$purple3;
-            font-weight: 700;
-            svg{
-                path{
+
+            svg {
+                path {
                     fill: colors.$purple3;
                 }
             }
         }
-    }  
-    .menu-titel-box{
+
+        .channel-box:active {
+            color: colors.$purple3;
+            font-weight: 700;
+
+            svg {
+                path {
+                    fill: colors.$purple3;
+                }
+            }
+        }
+    }
+
+    .menu-titel-box {
         @include mixins.flexbox(row, space-between, center);
         width: 100%;
-        .titel-box{
+
+        .titel-box {
             @include mixins.flexbox(row, flex-start, center);
-            cursor: default;
+            cursor: pointer;
             gap: 15px;
             font-weight: 700;
             font-size: 20px;
             line-height: 27.28px;
-            div{
+
+            div {
                 @include mixins.flexbox(row, flex-start, center);
                 gap: 10px;
             }
-            .arrow-box{
+
+            .arrow-box {
                 @include mixins.flexbox(row, center, center);
                 width: 30px;
                 height: 30px;
                 cursor: pointer;
-                svg{
+
+                svg {
                     transform: rotate(270deg);
                     width: 9px;
                 }
-            };
-            .active{
-                svg{
+            }
+
+            ;
+
+            .active {
+                svg {
                     transform: rotate(0deg);
                 }
             }
         }
 
-        .titel-box:hover{
+        .titel-box:hover {
             color: colors.$purple3;
-                svg{
-                    path{
-                        fill: colors.$purple3;
-                    }
+
+            svg {
+                path {
+                    fill: colors.$purple3;
                 }
+            }
         }
     }
 
-    .add-button{
+    .add-button {
         cursor: pointer;
         width: 24px;
         height: 24px;
     }
 
-    .add-button:hover{
+    .add-button:hover {
         background-color: colors.$bg-color;
         border-radius: 12px;
-        path{
+
+        path {
             fill: colors.$purple3;
         }
     }
-};
+}
 
-.channels-closed{
+;
+
+.channels-closed {
     svg {
         transform: rotate(0deg);
     }
 }
 
-.add-channel-box{
+.add-channel-box {
     @include mixins.flexbox(row, flex-start, center, nowrap);
     gap: 10px;
     padding: 0 0 0 10px;
 }
 
-.add-channel-box:hover{
+.add-channel-box:hover {
     color: colors.$purple3;
     cursor: pointer;
-    path{
+
+    path {
         fill: colors.$purple3;
     }
-}   
-
+}
