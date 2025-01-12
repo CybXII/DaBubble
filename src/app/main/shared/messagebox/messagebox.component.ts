@@ -73,6 +73,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
         }
       );
       this.subscriptions.add(threadSubscription);
+
     }
 
     const emojiPickerMainSubscription =
@@ -98,6 +99,28 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     console.log("you clicked (at)");
     //this.searchString = "@";
     this.sharedService.setSearchString("@");
+  }
+
+
+  // von christoph
+  async createNewMessage(): Promise<void> {
+    if (!this.messageContent.trim()) {
+      console.error('Nachricht darf nicht leer sein.');
+      return;
+    }
+
+    // searchText auswerten
+    let sendTo = this.sharedService.getSearchString();
+    console.log(sendTo);
+
+    // senden
+    // brauche u.a. channel id
+    console.log("du klicktest!");
+
+
+
+    // direkt da hin wechseln?
+
   }
 
 
