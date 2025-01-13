@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, Inject, Input } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from '../services/auth.service';
+import { ChannelsService } from '../services/channels.service';
+import { Channel } from '../../models/channel';
 
 @Component({
   selector: 'app-profileview',
@@ -31,7 +33,7 @@ export class ProfileviewComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<ProfileviewComponent>,
     public authService: AuthService,
-  ) {
+    public channelService: ChannelsService) {
     if (data.member == null || '') {
       this.ID.push(data.ID)
       this.getUser();
@@ -57,7 +59,74 @@ export class ProfileviewComponent {
     this.dialogRef.close(); 
   }
 
-  sendMessage() {
-    console.log(this.member);
+  async sendMessage() {
+    const currentUserId = this.authService.userId();
+    const otherUserId = this.member?.userId;
+
+    if (!currentUserId || !otherUserId) {
+      console.error('Benutzer-IDs fehlen. Kanal kann nicht erstellt werden.');
+      return;
+    }
+
+    try {
+      // Prüfe, ob ein privater Channel existiert
+      const existingChannels = await this.channelService.getPrivateChannelByMembers([currentUserId, otherUserId]);
+
+      if (existingChannels.length > 0) {
+        const existingChannel = existingChannels[0];
+        if (existingChannel.id) {
+          console.log('Zu bestehendem Channel wechseln:', existingChannel.id);
+          await this.channelService.selectChannel(existingChannel.id);
+          this.closeProfile();
+        }
+        return;
+      }
+      // Erstelle einen neuen privaten Channel
+      const newChannel: Channel = {
+        name: 'Privater Channel',
+        description: '',
+        isPrivate: true,
+        createdBy: currentUserId,
+        members: [currentUserId, otherUserId],
+      };
+      await this.channelService.createChannel(newChannel);
+      this.closeProfile();
+      console.log('Privater Channel erfolgreich erstellt:', newChannel);
+    } catch (error) {
+      console.error('Fehler beim Überprüfen oder Erstellen des Channels:', error);
+    }
   }
 }
+
+
+
+
+// const currentUserId = this.authService.userId();
+// const otherUserId = this.member?.userId;
+
+// if (!currentUserId || !otherUserId) {
+//   console.error('Benutzer-IDs fehlen. Kanal kann nicht erstellt werden.');
+//   return;
+// }
+
+// try {
+//   // Prüfe, ob ein privater Channel existiert
+//   const existingChannels = await this.channelService.getPrivateChannelByMembers([currentUserId, otherUserId]);
+
+//   if (existingChannels.length > 0) {
+//     const existingChannel = existingChannels[0];
+//     if (existingChannel.id) {
+//       console.log('Zu bestehendem Channel wechseln:', existingChannel.id);
+//       await this.channelService.selectChannel(existingChannel.id);
+//     }
+//     return;
+//   }
+
+//   // Erstelle neuen privaten Channel
+//   const newChannel: Channel = {
+//     name: 'Privater Channel',
+//     description: '',
+//     isPrivate: true,
+//     createdBy: currentUserId,
+//     members: [currentUserId, otherUserId],
+//   };

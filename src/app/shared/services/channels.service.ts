@@ -64,8 +64,7 @@ export class ChannelsService {
       if (channelDoc.exists()) {
         const channel = { id: channelId, ...channelDoc.data() } as Channel;
         this.currentChannelSubject.next(channel);
-        localStorage.setItem('lastChannelId', channelId); // Speichere den zuletzt besuchten Channel
-        console.log('Channel ausgewählt und im Cache gespeichert:', channel.name);
+        localStorage.setItem('lastChannelId', channelId);
       } else {
         console.error('Channel nicht gefunden.');
       }
@@ -82,7 +81,6 @@ export class ChannelsService {
         ...channel,
         createdAt: new Date(),
       });
-      console.log('Channel erfolgreich erstellt');
     } catch (error) {
       console.error('Fehler beim Erstellen des Channels:', error);
       throw error;
@@ -159,9 +157,24 @@ export class ChannelsService {
     const channelRef = doc(this.firestore, `${this.collectionName}/${channelId}`);
     try {
       await deleteDoc(channelRef); // Löscht das Dokument komplett
-      console.log(`Channel mit ID ${channelId} erfolgreich gelöscht.`);
     } catch (error) {
       console.error('Fehler beim Löschen des Channels:', error);
+    }
+  }
+
+
+  async getPrivateChannelByMembers(memberIds: string[]): Promise<Channel[]> {
+    const channelsRef = collection(this.firestore, this.collectionName);
+    const queryRef = query(channelsRef, where('isPrivate', '==', true));
+    try {
+      const querySnapshot = await getDocs(queryRef);
+      const channels = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Channel));
+      return channels.filter(channel =>
+        memberIds.every(memberId => channel.members.includes(memberId))
+      );
+    } catch (error) {
+      console.error('Fehler beim Abrufen privater Channels:', error);
+      return [];
     }
   }
 }
