@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { MainchatComponent } from '../../main/mainchat/mainchat.component';
 import { ThreadchatComponent } from '../../main/threadchat/threadchat.component';
 import { MenuComponent } from '../../main/menu/menu.component';
@@ -21,14 +21,31 @@ export class BuilderComponent {
   threadchatOpened = false;
   menuState = 'in';
   threadchatState = 'out';
+  isMobile = false;
   
+  
+
   constructor(private messagesService: MessagesService) {}
 
+  
+  @HostListener('window:resize', [])
+  onResize(): void {
+    this.isMobile = window.innerWidth <= 1400;
+  }
+
+
   ngOnInit(): void {
+    this.onResize(); // Initial prüfen, ob mobil oder Desktop
+
     this.messagesService.threadchatState$.subscribe((state) => {
-      this.threadchatState = state ? 'in' : 'out'; // Aktualisieren des Animationszustands
+      this.threadchatState = state ? 'in' : 'out';
+      if (this.isMobile) {
+        this.menuOpened = !state; // Menü ausblenden, wenn Threadchat offen ist
+      }
     });
   }
+
+
   toggleMenu() {
     if (this.menuState === 'in') {
       this.menuState = 'out';
@@ -43,14 +60,20 @@ export class BuilderComponent {
     }
   }
   
-  toggleThreadChat() {
+  toggleThreadChat(): void {
     if (this.threadchatState === 'in') {
       this.threadchatState = 'out';
       setTimeout(() => {
         this.threadchatOpened = false;
+        if (this.isMobile) {
+          this.menuOpened = true;
+        }
       }, 300);
     } else {
       this.threadchatOpened = true;
+      if (this.isMobile) {
+        this.menuOpened = false; // Menü ausblenden
+      }
       setTimeout(() => {
         this.threadchatState = 'in';
       });
@@ -79,6 +102,9 @@ export class BuilderComponent {
         this.threadchatOpened = false;
       }
     }
-  
+  }
+
+  shouldHideMainChat(): boolean {
+    return this.isMobile && this.threadchatOpened;
   }
 }

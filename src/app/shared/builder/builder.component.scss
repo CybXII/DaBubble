@@ -5,7 +5,7 @@
   @include mixins.flexbox(row, space-between, center, nowrap);
   position: relative;
   height: 100%;
-  width: 100%;
+  max-width: 100%;
   gap: 20px;
   transition: gap 0.3s ease-in-out;
 }
@@ -14,6 +14,7 @@
   @include mixins.flexbox(column, flex-start, flex-start, nowrap);
   background-color: colors.$white;
   height: 100%;
+  max-width: 100%;
   border-radius: 30px;
   gap: 25px;
 }
@@ -23,19 +24,16 @@
 }
 
 .mainchat-container {
-  min-width: 485px;
   flex: 1;
   transition: flex 0.3s ease-in-out;
 }
 
 .menu-width {
   max-width: 366px;
-  min-width: 366px;
 }
 
 .thread-width {
   max-width: 485px;
-  min-width: 485px;
 }
 
 .menu-container.hidden,
@@ -46,9 +44,52 @@
 }
 
 .thread-width {
-  max-width: 366px;
   flex: 0 0 366px;
   transition: flex 0.3s ease-in-out, max-width 0.3s ease-in-out;
+}
+
+.toggleButton {
+  position: absolute;
+  bottom: 10%;
+  left: -20px;
+  z-index: 444;
+  cursor: pointer;
+}
+
+$breakpoint-mobile: 1400px;
+
+.builder-container {
+
+  .menu-container {
+    transition: all 0.3s ease-in-out;
+  }
+
+  .mainchat-container {
+    flex: 1;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+
+    &.hidden {
+      width: unset;
+      max-width: 0;
+    }
+  }
+
+  .thread-container {
+    flex: 0 0 100%;
+    max-width: 100%;
+    transition: all 0.3s ease-in-out;
+
+    @media (max-width: $breakpoint-mobile) {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      width: 100%;
+      height: 100%;
+      max-width: none;
+    }
+  }
 }
 
 .toggleButton {

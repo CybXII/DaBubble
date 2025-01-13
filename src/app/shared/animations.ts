@@ -39,15 +39,62 @@ export const slideAnimationLeft = trigger('slideAnimationLeft', [
 ]);
 
 
+// export const slideAnimationRight = trigger('slideAnimationRight', [
+//     state('in', style({ width: '100%', transform: 'translateX(0)', overflow: 'hidden' })), // Ursprungszustand
+//     state('out', style({ width: '0', transform: 'translateX(100%)', overflow: 'hidden' })), // Endzustand
+//     transition('in => out', [
+//       animate('300ms ease-in-out', style({ transform: 'translateX(100%)', width: '0px' })), // Zwischenschritt
+//       animate('300ms ease-in-out') // Vollständiges Heraussliden
+//     ]),
+//     transition('out => in', [
+//       animate('300ms ease-in-out', style({ width: '0', transform: 'translateX(100%)' })), // Breite wächst
+//       animate('300ms ease-in-out', style({ width: '100%', transform: 'translateX(0)' })) // Vollständig reinsliden
+//     ]),
+// ]);
+
+
 export const slideAnimationRight = trigger('slideAnimationRight', [
-    state('in', style({ width: '485px', transform: 'translateX(0)', overflow: 'hidden' })), // Ursprungszustand
-    state('out', style({ width: '0', transform: 'translateX(100%)', overflow: 'hidden' })), // Endzustand
-    transition('in => out', [
-      animate('300ms ease-in-out', style({ transform: 'translateX(485px)', width: '0px' })), // Zwischenschritt
-      animate('300ms ease-in-out') // Vollständiges Heraussliden
-    ]),
-    transition('out => in', [
-      animate('300ms ease-in-out', style({ width: '0', transform: 'translateX(100%)' })), // Breite wächst
-      animate('300ms ease-in-out', style({ width: '485px', transform: 'translateX(0)' })) // Vollständig reinsliden
-    ]),
+  state(
+    'in',
+    style({
+      width: '{{width}}', // Dynamische Breite
+      transform: 'translateX(0)',
+      overflow: 'hidden',
+    }),
+    { params: { width: '485px' } } // Standardwert
+  ),
+  state(
+    'out',
+    style({
+      width: '0',
+      transform: 'translateX(100%)',
+      overflow: 'hidden',
+    })
+  ),
+  transition('in => out', [
+    animate(
+      '300ms ease-in-out',
+      style({
+        transform: 'translateX({{width}})', // Dynamischer Zielwert
+        width: '0px',
+      })
+    ),
+    animate('300ms ease-in-out'),
+  ]),
+  transition('out => in', [
+    animate(
+      '300ms ease-in-out',
+      style({
+        width: '0',
+        transform: 'translateX(100%)',
+      })
+    ),
+    animate(
+      '300ms ease-in-out',
+      style({
+        width: '{{width}}',
+        transform: 'translateX(0)',
+      })
+    ),
+  ]),
 ]);
