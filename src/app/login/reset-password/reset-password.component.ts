@@ -35,14 +35,12 @@ export class ResetPasswordComponent implements OnInit {
     });
   }
 
-
   back() {
     this.router.navigateByUrl('');
   }
 
   changePassword(ngform: NgForm) {
     if (ngform.valid && ngform.submitted && this.checkPasswordsMatch()) {
-      console.log(this.passwords);
       //this.auth.updateUserPassword(this.passwords.password);
       this.auth.confirmPasswordReset(this.oobCode, this.passwords.password)
         .then(() => {

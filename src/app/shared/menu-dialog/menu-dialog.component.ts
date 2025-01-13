@@ -26,9 +26,9 @@ export class MenuDialogComponent  implements OnInit {
   @Input() membersDialog: boolean = false;
   @Input() channelDialog: boolean = false;
   @Input() dialogData: { 
-      name: string; members: any[] ; description: string ; creator: string; createdBy: string ; channelId: string
+      name: string; members: any[] ; description: string ; creator: string; createdBy: string ; channelId: string ; isPrivate: boolean
     } = {
-      name: '', members: [], description: '' , creator: '', createdBy: '', channelId: ''
+      name: '', members: [], description: '' , creator: '', createdBy: '', channelId: '', isPrivate: false
   };
   @Output() dialogSwitch = new EventEmitter<{ from: string; to: string }>();
   memberIds: string[] = [];
@@ -37,19 +37,16 @@ export class MenuDialogComponent  implements OnInit {
   activeMember: any = {};
   editChannelName: boolean = false;
   editChannelDescription: boolean = false;
-  allUsers: { id: string; name: string; photoURL: string }[] = []; // Liste aller Mitglieder
+  allUsers: { id: string; name: string; photoURL: string }[] = [];
   filteredUsers: { id: string; name: string; photoURL: string }[] = [];
-  searchInput: string = ''; // Suchinput
+  searchInput: string = '';
   toSave: { id: string; name: string; photoURL: string }[] = [];
 
 
   constructor(private fb: FormBuilder, public authService: AuthService, private dialog: MatDialog,private channelsService: ChannelsService) {}
   async ngOnInit(): Promise<void> {  
-    // Lade Channel-Mitglieder
     this.memberIds = this.dialogData.members.map((member) => member.id);
     this.memberNames = await this.authService.getUsernamesByIds(this.memberIds);
-    
-      // Lade alle Benutzer und filtere Channel-Mitglieder aus
   this.authService.getUserList().subscribe(
     (users) => {
       this.allUsers = users.map((user) => ({
@@ -57,23 +54,20 @@ export class MenuDialogComponent  implements OnInit {
         name: user.name,
         photoURL: user.photoURL,
       }));
-      this.updateFilteredUsers(); // Aktualisiere gefilterte Benutzer
+      this.updateFilteredUsers();
     },
     (error) => {
       console.error('Fehler beim Laden der Benutzerliste:', error);
     }
   );
-
   }
 
-  /**
-   * Aktualisiert die gefilterte Mitgliederliste.
-   */
+
   updateFilteredUsers() {
     this.filteredUsers = this.allUsers.filter(
       (user) =>
-        !this.memberIds.includes(user.id) && // Ausschließen der Channel-Mitglieder
-        user.name.toLowerCase().includes(this.searchInput.toLowerCase()) // Filter nach Suchinput
+        !this.memberIds.includes(user.id) &&
+        user.name.toLowerCase().includes(this.searchInput.toLowerCase())
     );
     console.log('updated',this.filteredUsers );
     console.log(this.memberIds);
@@ -81,7 +75,7 @@ export class MenuDialogComponent  implements OnInit {
 
 
   addToSave(item: any) {
-    this.toSave.push(item); // Beispiel: Item hinzufügen
+    this.toSave.push(item);
   }
 
   saveAddedUser(): void {
@@ -89,23 +83,14 @@ export class MenuDialogComponent  implements OnInit {
       console.error('Channel-ID fehlt.');
       return;
     }
-  
-    // IDs der hinzugefügten Benutzer sammeln
     const addedMemberIds = this.toSave.map(user => user.id);
-  
-    // Bestehende Mitglieder und neue Mitglieder zusammenführen
     const updatedMembers = [...this.memberIds, ...addedMemberIds];
-  
-    // Aktualisiere den Channel in Firebase
     this.channelsService.updateChannel(this.dialogData.channelId, { members: updatedMembers })
       .then(() => {
-        console.log('Mitglieder erfolgreich hinzugefügt.');
-  
-        // Lokalen State aktualisieren
         this.memberIds = updatedMembers;
-        this.dialogData.members = updatedMembers.map(id => ({ id })); // Wenn mehr Infos zu jedem Mitglied benötigt werden, passe dies an
-        this.toSave = []; // Leere das `toSave`-Array
-        this.updateFilteredUsers(); // Aktualisiere gefilterte Benutzerliste
+        this.dialogData.members = updatedMembers.map(id => ({ id }));
+        this.toSave = []; 
+        this.updateFilteredUsers();
       })
       .catch(error => {
         console.error('Fehler beim Hinzufügen der Mitglieder:', error);
@@ -113,11 +98,11 @@ export class MenuDialogComponent  implements OnInit {
   }
 
   clearToSave() {
-    this.toSave = []; // Beispiel: Array leeren
+    this.toSave = [];
   }
 
   removeFromSave(user: { id: string; name: string; photoURL: string }): void {
-    this.toSave = this.toSave.filter((u) => u.id !== user.id); // Entfernt den Benutzer aus dem Array
+    this.toSave = this.toSave.filter((u) => u.id !== user.id);
   }
 
   closeDialog(event: Event, menu: string) {
@@ -126,9 +111,7 @@ export class MenuDialogComponent  implements OnInit {
     this.dialogSwitch.emit({ from: menu, to: 'none' });
   }
 
-    /**
-   * Wird bei Eingabe in das Suchfeld aufgerufen.
-   */
+
     onSearchInput(event: Event) {
       const target = event.target as HTMLInputElement;
       this.searchInput = target.value;
@@ -170,10 +153,6 @@ export class MenuDialogComponent  implements OnInit {
   }
 
 
-  addMembers(){
-    console.log(this.addMembersForm);
-  }
-
   openDialog(): void {
     this.dialog.open(ProfileviewComponent, {
       width: 'fit-content',
@@ -210,10 +189,7 @@ export class MenuDialogComponent  implements OnInit {
       updatedData.description = this.channelDescInput.nativeElement.value.trim();
       this.editChannelDescription = false;
     }
-    console.log(field);
     if (this.dialogData) {  
-      console.log(updatedData);
-      console.log(field);
       this.channelsService.updateChannel(this.dialogData.channelId, updatedData)
         .then(() => {
             this.dialogData[field] = updatedData[field] as string;
@@ -222,6 +198,7 @@ export class MenuDialogComponent  implements OnInit {
         .catch((error) => console.error(`Fehler beim Aktualisieren des ${field}:`, error));
     }
   }
+
 
   leaveChannel(): void {
     if (!this.dialogData || !this.dialogData.channelId) {
@@ -235,42 +212,32 @@ export class MenuDialogComponent  implements OnInit {
       return;
     }
   
-    // Prüfen, ob der Benutzer der Ersteller des Channels ist
-    if (this.dialogData.creator === userId) {
-      // Channel löschen, wenn der Benutzer der Ersteller ist
-      this.channelsService
-        .deleteChannel(this.dialogData.channelId)
+    if (this.dialogData.createdBy === userId || this.dialogData.isPrivate) {
+      this.channelsService.deleteChannel(this.dialogData.channelId)
         .then(() => {
-          console.log('Channel wurde gelöscht, da der Ersteller den Channel verlassen hat.');
-  
-          // Setze den aktuellen Channel auf null
           this.channelsService.clearCurrentChannel();
-  
-          // Schließe den Dialog
           this.closeDialog(new Event('close'), 'channelDialog');
         })
         .catch((error) => {
-          console.error('Fehler beim Löschen des Channels:', error);
+          console.error('Fehler beim Löschen:', error);
         });
-    } else {
-      // Mitglieder-Array aktualisieren
-      const updatedMembers = this.dialogData.members.filter((member: any) => member.id !== userId);
-  
-      // Channel aktualisieren
+    } else if (!(this.dialogData.creator === userId || !this.dialogData.isPrivate)) {
+      const updatedMembers = this.dialogData.members
+        .map((member: any) => member.id)
+        .filter((id: string) => id !== userId);
+      this.dialogData.members = updatedMembers.map(id => ({ id }));
       this.channelsService
         .updateChannel(this.dialogData.channelId, { members: updatedMembers })
         .then(() => {
           console.log('Du hast den Channel erfolgreich verlassen.');
-  
-          // Setze den aktuellen Channel auf null
-          this.channelsService.clearCurrentChannel();
-  
-          // Schließe den Dialog
+          this.memberIds = [];
+          this.dialogData.members = updatedMembers.map(id => ({ id }));
           this.closeDialog(new Event('close'), 'channelDialog');
         })
         .catch((error) => {
           console.error('Fehler beim Verlassen des Channels:', error);
         });
+      this.channelsService.clearCurrentChannel();
     }
   }
 }

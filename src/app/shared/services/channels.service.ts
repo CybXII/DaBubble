@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, doc, getDoc, getDocs, setDoc, addDoc, onSnapshot, query, where  } from '@angular/fire/firestore';
+import { Firestore, collection, doc, getDoc, getDocs, setDoc, addDoc, onSnapshot, query, where, deleteDoc  } from '@angular/fire/firestore';
 import { Channel } from '../../models/channel';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from './auth.service';
@@ -15,6 +15,8 @@ export class ChannelsService {
   currentChannel$ = this.currentChannelSubject.asObservable();
   constructor(private firestore: Firestore, private authService: AuthService) {}
   channelsOpen: boolean = false;
+  default: boolean = false;
+
 
   async setDefaultChannel(): Promise<void> {
     try {
@@ -39,7 +41,11 @@ export class ChannelsService {
         }
       } else {
         console.warn('Keine Channels verfügbar, in denen der Benutzer Mitglied ist.');
-        this.clearCurrentChannel(); // Setze den aktuellen Channel auf null
+        if (!this.default){
+          this.clearCurrentChannel();
+          this.default = true;
+          this.currentChannelSubject.next(null);
+        }
       }
     } catch (error) {
       console.error('Fehler beim Setzen des Default Channels:', error);
@@ -52,15 +58,13 @@ export class ChannelsService {
       console.error('Ungültige Channel-ID.');
       return;
     }
-  
     const channelRef = doc(this.firestore, `${this.collectionName}/${channelId}`);
     try {
       const channelDoc = await getDoc(channelRef);
       if (channelDoc.exists()) {
         const channel = { id: channelId, ...channelDoc.data() } as Channel;
         this.currentChannelSubject.next(channel);
-        localStorage.setItem('lastChannelId', channelId); // Speichere den zuletzt besuchten Channel
-        console.log('Channel ausgewählt und im Cache gespeichert:', channel.name);
+        localStorage.setItem('lastChannelId', channelId);
       } else {
         console.error('Channel nicht gefunden.');
       }
@@ -77,7 +81,6 @@ export class ChannelsService {
         ...channel,
         createdAt: new Date(),
       });
-      console.log('Channel erfolgreich erstellt');
     } catch (error) {
       console.error('Fehler beim Erstellen des Channels:', error);
       throw error;
@@ -106,7 +109,9 @@ export class ChannelsService {
     const channelsRef = collection(this.firestore, this.collectionName);
     try {
       const querySnapshot = await getDocs(channelsRef);
-      return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Channel));
+      return querySnapshot.docs
+        .map(doc => ({ id: doc.id, ...doc.data() } as Channel))
+        .sort((a, b) => a.name.localeCompare(b.name)); // Alphabetische Sortierung nach Name
     } catch (error) {
       console.error('Fehler beim Abrufen der Channels:', error);
       throw error;
@@ -119,7 +124,9 @@ export class ChannelsService {
     const channelsRef = collection(this.firestore, this.collectionName);
     const queryRef = query(channelsRef, where('members', 'array-contains', userId));
     const unsubscribe = onSnapshot(queryRef, (snapshot) => {
-      const channels = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Channel));
+      const channels = snapshot.docs
+        .map(doc => ({ id: doc.id, ...doc.data() } as Channel))
+        .sort((a, b) => a.name.localeCompare(b.name)); // Alphabetische Sortierung
       callback(channels);
     });
     return unsubscribe;
@@ -140,20 +147,34 @@ export class ChannelsService {
   }
 
   clearCurrentChannel(): void {
-    this.currentChannelSubject.next(null); // Setze den aktuellen Channel auf null
-    localStorage.removeItem('lastChannelId'); // Entferne die zuletzt gespeicherte Channel-ID
-    console.log('Aktiver Channel wurde geleert.');
+    this.currentChannelSubject.next(null);
+    localStorage.removeItem('lastChannelId');
+    this.default
     this.setDefaultChannel();
   }
 
   async deleteChannel(channelId: string): Promise<void> {
     const channelRef = doc(this.firestore, `${this.collectionName}/${channelId}`);
     try {
-      await setDoc(channelRef, {}, { merge: false }); // Dokument leeren
-      console.log('Channel erfolgreich gelöscht.');
+      await deleteDoc(channelRef); // Löscht das Dokument komplett
     } catch (error) {
       console.error('Fehler beim Löschen des Channels:', error);
-      throw error;
+    }
+  }
+
+
+  async getPrivateChannelByMembers(memberIds: string[]): Promise<Channel[]> {
+    const channelsRef = collection(this.firestore, this.collectionName);
+    const queryRef = query(channelsRef, where('isPrivate', '==', true));
+    try {
+      const querySnapshot = await getDocs(queryRef);
+      const channels = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Channel));
+      return channels.filter(channel =>
+        memberIds.every(memberId => channel.members.includes(memberId))
+      );
+    } catch (error) {
+      console.error('Fehler beim Abrufen privater Channels:', error);
+      return [];
     }
   }
 }

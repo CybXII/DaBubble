@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { MainchatComponent } from '../../main/mainchat/mainchat.component';
 import { ThreadchatComponent } from '../../main/threadchat/threadchat.component';
 import { MenuComponent } from '../../main/menu/menu.component';
@@ -21,14 +21,28 @@ export class BuilderComponent {
   threadchatOpened = false;
   menuState = 'in';
   threadchatState = 'out';
+  smallWindow = false;
   
+  
+
   constructor(private messagesService: MessagesService) {}
 
+  
+  @HostListener('window:resize', [])
+  onResize(): void {
+    this.smallWindow = window.innerWidth <= 1400;
+  }
+
+
   ngOnInit(): void {
+    this.onResize(); // Initial prüfen, ob mobil oder Desktop
+
     this.messagesService.threadchatState$.subscribe((state) => {
-      this.threadchatState = state ? 'in' : 'out'; // Aktualisieren des Animationszustands
+      this.threadchatState = state ? 'in' : 'out';
     });
   }
+
+
   toggleMenu() {
     if (this.menuState === 'in') {
       this.menuState = 'out';
@@ -43,7 +57,7 @@ export class BuilderComponent {
     }
   }
   
-  toggleThreadChat() {
+  toggleThreadChat(): void {
     if (this.threadchatState === 'in') {
       this.threadchatState = 'out';
       setTimeout(() => {
@@ -79,6 +93,9 @@ export class BuilderComponent {
         this.threadchatOpened = false;
       }
     }
-  
+  }
+
+  shouldHideMainChat(): boolean {
+    return this.smallWindow && this.threadchatOpened;
   }
 }

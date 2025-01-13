@@ -100,6 +100,7 @@ export class SearchService {
         : [];
 
       console.log('Users loaded:', this.allUsers);
+      //console.log('Users Ids loaded:', this.allUsers[0].userId);
     });
   }
 
@@ -169,7 +170,10 @@ export class SearchService {
       }
       return false;
     });
+
     this.userResultsSubject.next(filteredUsers);
+    //console.log(this.userResultsSubject);
+    
   }
 
   // searchChannels(searchText: string, userId: string, type: string): void {

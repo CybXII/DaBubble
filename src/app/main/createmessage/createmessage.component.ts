@@ -30,11 +30,25 @@ export class CreatemessageComponent {
     this.mailadressResults = [];
   }
 
-  click(target: string) {
+  clickUser(target: string, userId: string) {
     this.searchText = target;
+    
+    this.sharedService.setTargetString("toUser");
+
     this.sharedService.setSearchString(target);
+    this.sharedService.setUserIdString(userId);
+
     this.clearResults();
   }
+
+  clickChannel(target: string, channelId: string) {
+    this.searchText = target;
+    this.sharedService.setTargetString("toChannel");
+    this.sharedService.setSearchString(target);
+    this.sharedService.setChannelIdString(channelId);
+    this.clearResults();
+  }
+
 
   constructor(private searchService: SearchService, private authService: AuthService, private sharedService: SharedService) {
     this.searchService.loadUsers(this.userId);

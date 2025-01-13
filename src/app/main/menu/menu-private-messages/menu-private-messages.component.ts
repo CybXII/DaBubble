@@ -6,6 +6,7 @@ import { ChannelsService } from '../../../shared/services/channels.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Channel } from '../../../models/channel';
 import { SharedService } from '../../../shared/services/newmessage.service';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-menu-private-messages',
@@ -20,8 +21,9 @@ export class MenuPrivateMessagesComponent {
   private unsubscribeFn: (() => void) | null = null;
   privateChannels: Channel[] = [];
   loading: boolean = true;
-  channelForm: FormGroup;
   currentChannelId: string | null = null;
+  conversationPartnerName = '';
+  channelMembers: { [channelId: string]: string[] } = {}; 
 
 
   constructor(
@@ -29,13 +31,8 @@ export class MenuPrivateMessagesComponent {
     private dialog: MatDialog,
     public channelsService: ChannelsService,
     private sharedService: SharedService,
-    ) {
-      this.channelForm = this.fb.group({
-        name: ['', Validators.required],
-        description: [''],
-        isPrivate: [false],
-      });
-    }
+    private authService: AuthService
+    ) {}
 
 
     ngOnInit(): void {
@@ -52,10 +49,26 @@ export class MenuPrivateMessagesComponent {
 
     loadChannelsRealtime(): void {
       this.loading = true;
-      this.unsubscribeFn = this.channelsService.loadChannelsRealtime((channels) => {
-        this.privateChannels = channels;
+      this.unsubscribeFn = this.channelsService.loadChannelsRealtime(async (channels) => {
+        this.privateChannels = channels.filter(channel => channel.isPrivate);
+        this.channelMembers = {};
+        for (const channel of this.privateChannels) {
+          if (!channel.id) {
+            console.error('Channel hat keine ID:', channel);
+            continue;
+          }
+          const memberIds = channel.members.filter(id => id !== this.authService.userId());
+          const usernames = await this.authService.getUsernamesByIds(memberIds);
+          this.channelMembers[channel.id] = usernames.map(user => user.name);
+        }
         this.loading = false;
       });
+    }
+    
+  
+    getConversationPartnerName(channelId: string): string {
+      const members = this.channelMembers[channelId];
+      return members && members.length > 0 ? members[0] : 'Unbekannt';
     }
 
 
@@ -74,9 +87,7 @@ export class MenuPrivateMessagesComponent {
   
 
     selectChannel(channelId: string): void {
-      // neue nachricht uU ausblenden
       this.sharedService.updateVariable('false');
-
       this.channelsService.selectChannel(channelId)
     }
 
@@ -86,8 +97,8 @@ export class MenuPrivateMessagesComponent {
   }
 
   getAvatar(privateChannel: Channel): string {
-    // return this.channelsService.getAvatar(privateChannel);
     return '/img/avatars/avatar1.svg';
   }
+
 
 }

@@ -9,23 +9,23 @@
 
     @if (searchText && userResults.length > 0 && searchFor == 'users') {
     <div class="resultcontainer">
-        <div class="result" *ngFor="let result of userResults" (click)="click('@'+result.name)">
-            {{'@'+result.name}}
+        <div class="result" *ngFor="let result of userResults" (click)="clickUser('@'+result.name, result.userId)">
+            {{'@'+result.name}} <!-- + result.userId}} -->
         </div>
     </div>
     }
 
     @if (searchText && channelResults.length > 0 && searchFor == 'channels') {
     <div class="resultcontainer">
-        <div class="result" *ngFor="let result of channelResults" (click)="click('#'+result.name)">
+        <div class="result" *ngFor="let result of channelResults" (click)="clickChannel('#'+result.name, result.id)">
             {{'#'+result.name}}
         </div>
     </div>
     }
 
-    @if (searchText && channelResults.length > 0 && searchFor == 'emails') {
+    @if (searchText && userResults.length > 0 && searchFor == 'emails') {
     <div class="resultcontainer">
-        <div class="result" *ngFor="let result of userResults" (click)="click(result.name)">
+        <div class="result" *ngFor="let result of userResults" (click)="clickUser(result.name, result.userId)">
             {{result.name}}
         </div>
     </div>
