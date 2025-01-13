@@ -322,6 +322,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       this.openDialogUser(id);
     } else {
       this.userDialog$.openProfile();
+      this.userDialog$.exitActiv = false;
     }
   }
 

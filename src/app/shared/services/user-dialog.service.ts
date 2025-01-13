@@ -15,6 +15,7 @@ export class UserDialogService {
   profileDataChanged = signal<boolean>(false);
   @Output() dialogChange = new EventEmitter<boolean>();
   profileForm;
+  exitActiv = true;
 
   constructor(
     private auth: AuthService,
@@ -45,6 +46,7 @@ export class UserDialogService {
 
   openDialog(event: Event) {
     this.dialog = true;
+    this.exitActiv = true;
   }
 
   openProfile() {
@@ -129,6 +131,7 @@ export class UserDialogService {
   }
 
   logout() {
+    this.dialog = false;
     localStorage.removeItem('token');
     this.auth.logout();
   }
