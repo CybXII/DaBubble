@@ -7,11 +7,11 @@
   </div>
   }
   @if (build === "mainchat") {
-  <app-mainchat [builder]="'mainchat'" class="menu-container mainchat-container" [ngClass]="{ hidden: isMobile && threadchatOpened }"></app-mainchat>
+  <app-mainchat [builder]="'mainchat'" class="menu-container mainchat-container" [ngClass]="{ hidden: smallWindow && threadchatOpened }"></app-mainchat>
   }
   @if (build === "threadchat") {
   <div class="m-height" *ngIf="threadchatState === 'in' || threadchatState === 'out'"
-  [@slideAnimationRight]="{ value: threadchatState, params: { width: isMobile ? '100%' : '485px' } }"
+  [@slideAnimationRight]="{ value: threadchatState, params: { width: smallWindow ? '100%' : '485px' } }"
   (@slideAnimationRight.done)="onAnimationDone($event, 'threadchat')">
     <app-threadchat [builder]="'threadchat'" class="menu-container thread-container thread-width"></app-threadchat>
   </div>

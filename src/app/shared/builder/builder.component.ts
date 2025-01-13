@@ -21,7 +21,7 @@ export class BuilderComponent {
   threadchatOpened = false;
   menuState = 'in';
   threadchatState = 'out';
-  isMobile = false;
+  smallWindow = false;
   
   
 
@@ -30,7 +30,7 @@ export class BuilderComponent {
   
   @HostListener('window:resize', [])
   onResize(): void {
-    this.isMobile = window.innerWidth <= 1400;
+    this.smallWindow = window.innerWidth <= 1400;
   }
 
 
@@ -39,9 +39,6 @@ export class BuilderComponent {
 
     this.messagesService.threadchatState$.subscribe((state) => {
       this.threadchatState = state ? 'in' : 'out';
-      if (this.isMobile) {
-        this.menuOpened = !state; // Menü ausblenden, wenn Threadchat offen ist
-      }
     });
   }
 
@@ -65,15 +62,9 @@ export class BuilderComponent {
       this.threadchatState = 'out';
       setTimeout(() => {
         this.threadchatOpened = false;
-        if (this.isMobile) {
-          this.menuOpened = true;
-        }
       }, 300);
     } else {
       this.threadchatOpened = true;
-      if (this.isMobile) {
-        this.menuOpened = false; // Menü ausblenden
-      }
       setTimeout(() => {
         this.threadchatState = 'in';
       });
@@ -105,6 +96,6 @@ export class BuilderComponent {
   }
 
   shouldHideMainChat(): boolean {
-    return this.isMobile && this.threadchatOpened;
+    return this.smallWindow && this.threadchatOpened;
   }
 }
