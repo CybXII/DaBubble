@@ -29,6 +29,7 @@ import {
   getDocs,
   query,
   where,
+  addDoc,
 } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { UserModel } from '../../models/user';
@@ -218,11 +219,25 @@ export class AuthService {
         name || '',
         user.email || '',
         photoURL || '',
-        'password'
+        'password',
       );
       console.log('userData', userData);
 
       await setDoc(doc(this.firestore, 'users', user.uid), userData);
+
+      // hier noch private channel erstellen mit user (13.1.2025)
+      await setDoc(doc(this.firestore, 'channels', user.uid),
+        {
+          createdAt: new Date(),
+          isPrivate: true,
+          createdBy: user.uid,
+          description: "me, myself and I",
+          name: "me, myself and I",
+          members: [user.uid],
+        },
+      );
+
+
     } catch (error) {
       console.error('Registration failed:', error);
     }
@@ -422,7 +437,7 @@ export class AuthService {
       name: username,
       email,
       photoURL: avatarURL,
-      channels: [],
+      channels: [userId], // changed by christoph
       privateNoteRef: '',
       status: status,
       provider: provider,
@@ -467,7 +482,7 @@ export class AuthService {
   redirectIfAuthenticated(): void {
     if (this.auth.currentUser) {
       setTimeout(() => {
-        
+
         this.router.navigate(['/board']);
       }, 4000);
     } else {
@@ -580,12 +595,12 @@ export class AuthService {
     if (!userIds || userIds.length === 0) {
       return [];
     }
-  
+
     try {
       const usersCollection = collection(this.firestore, 'users');
       const userDocsQuery = query(usersCollection, where('userId', 'in', userIds));
       const querySnapshot = await getDocs(userDocsQuery);
-  
+
       const userDetails = querySnapshot.docs.map(doc => {
         const data = doc.data() as UserModel;
         return {
@@ -596,14 +611,14 @@ export class AuthService {
           status: data.status,
         };
       });
-  
+
       // Sortiere die UserDetails alphabetisch nach Namen
       userDetails.sort((a, b) => a.name.localeCompare(b.name));
-  
+
       return userDetails;
     } catch (error) {
       console.error('Error fetching and sorting user details:', error);
       return [];
     }
   }
-  }
+}
