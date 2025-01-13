@@ -59,7 +59,7 @@
     width: 100%;
     justify-content: space-between;
 
-    img {
+    svg {
         width: 24px;
         height: 24px;
         border-radius: 50%;
@@ -67,7 +67,11 @@
         box-sizing: content-box;
 
         &:hover {
+            path {
+                fill: colors.$purple3;
+            }
             background-color: colors.$bg-color;
+            cursor: pointer;
         }
     }
 }

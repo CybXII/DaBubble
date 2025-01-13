@@ -36,12 +36,7 @@ export class SignUpComponent {
 
   signUp(form: NgForm) {
     if (form.valid && form.submitted) {
-      // console.log(this.userData);
       this.avatar = true;
-      //this.auth.sendEmail(this.userData.email);
-      // this.auth.register(this.userData.email, this.userData.password);
-      // console.log("mail sent to", this.userData.email);
-      // this.router.navigateByUrl('chooseAvatar');
     }
   }
 
