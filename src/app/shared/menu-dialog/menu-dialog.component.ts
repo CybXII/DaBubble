@@ -253,10 +253,17 @@ export class MenuDialogComponent  implements OnInit {
     }
   
     // Prüfen, ob der Benutzer der Ersteller des Channels ist
-    if (this.dialogData.creator === userId) {
-      console.log('Der Ersteller des Channels kann den Channel nicht einfach verlassen.');
-      return; // Optional: Logik zum Löschen des Channels implementieren
-    } else {
+    if (this.dialogData.createdBy === userId) {
+      this.channelsService.deleteChannel(this.dialogData.channelId)
+        .then(() => {
+          console.log('Channel erfolgreich gelöscht!');
+          this.channelsService.clearCurrentChannel();
+          this.closeDialog(new Event('close'), 'channelDialog');
+        })
+        .catch((error) => {
+          console.error('Fehler beim Löschen:', error);
+        });
+    } else if (!(this.dialogData.creator === userId)) {
       // Mitglieder-Array aktualisieren (nur IDs extrahieren)
       const updatedMembers = this.dialogData.members
         .map((member: any) => member.id) // Extrahiere nur die ID
@@ -278,6 +285,7 @@ export class MenuDialogComponent  implements OnInit {
         .catch((error) => {
           console.error('Fehler beim Verlassen des Channels:', error);
         });
+      this.channelsService.clearCurrentChannel();
     }
   }
 }

@@ -103,6 +103,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
 
 
   // von christoph
+  sendToId: string = "";
   async createNewMessage(): Promise<void> {
     if (!this.messageContent.trim()) {
       console.error('Nachricht darf nicht leer sein.');
@@ -110,14 +111,46 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     }
 
     // searchText auswerten
-    let sendTo = this.sharedService.getSearchString();
-    console.log(sendTo);
+    let sendToUserId = this.sharedService.getUserIdString();
+    let sendToChannelId = this.sharedService.getChannelIdString();
+    let sendToTarget = this.sharedService.getTargetString();
+
+    if (sendToTarget == "user") {
+      this.sendToId = sendToUserId;
+    }
+    else if (sendToTarget == "channel") {
+      this.sendToId = sendToChannelId;
+    }
 
     // senden
-    // brauche u.a. channel id
-    console.log("du klicktest!");
+    let user: UserModel = (await this.authService.getUserById(
+      this.activeUserId
+    )) as UserModel;
 
+    // Erstelle ein Message-Objekt
+    const message: Message = {
+      channelId: this.sendToId || '',
+      createdBy: this.activeUserId || '',
+      creatorName: user.name || '',
+      creatorPhotoURL: user.photoURL || '',
+      message: this.messageContent.trim(),
+      timestamp: new Date(),
+      members: [],
+      reactions: [],
+    };
 
+    // Sende die Nachricht über den Service
+    if (1 == 1) {
+      try {
+        await this.messagesService.addMessage(message);
+        console.log('Nachricht erfolgreich gesendet:', message);
+        this.messageContent = '';
+      } catch (error) {
+        console.error('Fehler beim Senden der Nachricht:', error);
+      }
+    } else {
+      console.error('Keine gültige Channel-ID verfügbar.');
+    }
 
     // direkt da hin wechseln?
 
