@@ -1,16 +1,18 @@
 @use "../../../../mixins.scss" as mixins;
 @use "../../../../colors.scss" as colors;
 
-.channels{
+.channels {
     margin-top: 25px;
     width: 100%;
     @include mixins.flexbox(row, flex-start, center);
     gap: 15px;
-    .channel{
+
+    .channel {
         width: 100%;
         @include mixins.flexbox(row, flex-start, center);
         margin: 0px 0px 0px 25px;
-        .channel-box{
+
+        .channel-box {
             gap: 10px;
             height: 58px;
             @include mixins.flexbox(row, flex-start, center);
@@ -20,68 +22,83 @@
             border-radius: 29px;
             padding: 0 30px 0 20px;
         }
-        .channel-box:hover{ 
+
+        .channel-box:hover {
             background-color: colors.$bg-color;
-            svg{
-                path{
-                    fill: colors.$purple3;
-                }
-            }
-        }  
-        .channel-box:active {
-            color: colors.$purple3;
-            font-weight: 700;
-            svg{
-                path{
+
+            svg {
+                path {
                     fill: colors.$purple3;
                 }
             }
         }
-    }  
-    .menu-titel-box{
+
+        .channel-box:active {
+            color: colors.$purple3;
+            font-weight: 700;
+
+            svg {
+                path {
+                    fill: colors.$purple3;
+                }
+            }
+        }
+    }
+
+    .menu-titel-box {
         @include mixins.flexbox(row, space-between, center);
         width: 100%;
-        .titel-box{
+
+        .titel-box {
             @include mixins.flexbox(row, flex-start, center);
             cursor: pointer;
             gap: 15px;
             font-weight: 700;
             font-size: 20px;
             line-height: 27.28px;
-            div{
+
+            div {
                 @include mixins.flexbox(row, flex-start, center);
                 gap: 10px;
             }
-            .arrow-box{
+
+            .arrow-box {
                 @include mixins.flexbox(row, center, center);
                 width: 30px;
                 height: 30px;
                 cursor: pointer;
-                svg{
+
+                svg {
                     transform: rotate(270deg);
                     width: 9px;
                 }
-            };
-            .active{
-                svg{
+            }
+
+            ;
+
+            .active {
+                svg {
                     transform: rotate(0deg);
                 }
             }
         }
 
-        .titel-box:hover{
+        .titel-box:hover {
             color: colors.$purple3;
-                svg{
-                    path{
-                        fill: colors.$purple3;
-                    }
+
+            svg {
+                path {
+                    fill: colors.$purple3;
                 }
+            }
         }
     }
-    .avatar-box{
+
+    .avatar-box {
         display: flex;
         position: relative;
-        .status{
+
+        .status {
             position: absolute;
             width: 12px;
             height: 12px;
@@ -91,53 +108,55 @@
             bottom: 0px;
             right: 0px;
         }
-        
-        .online{
+
+        .online {
             background-color: #92C83E;
         }
-        
+
     }
 
-    .add-button{
+    .add-button {
         cursor: pointer;
         width: 24px;
         height: 24px;
     }
 
-    .add-button:hover{
+    .add-button:hover {
         background-color: colors.$bg-color;
         border-radius: 12px;
-        path{
+
+        path {
             fill: colors.$purple3;
         }
     }
-};
+}
 
-.channels-closed{
+;
+
+.channels-closed {
     svg {
         transform: rotate(0deg);
     }
 }
 
-.add-channel-box{
+.add-channel-box {
     @include mixins.flexbox(row, flex-start, center);
     gap: 10px;
     margin: 0px 0px 0px 35px;
     padding: 4px 0 4px 10px;
 }
 
-.add-channel-box:hover{
+.add-channel-box:hover {
     color: colors.$purple3;
     cursor: pointer;
-    path{
+
+    path {
         fill: colors.$purple3;
     }
-}   
+}
 
-img{
+img {
     width: 50px;
     height: 50px;
     border-radius: 50%;
 }
-
-
