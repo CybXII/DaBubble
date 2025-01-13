@@ -71,7 +71,6 @@ export class SearchService {
         forkJoin(channelNames$).subscribe(
           (channelNames) => {
             this.searchChannelsMessages = channelNames.filter((name) => !!name);
-            console.log('TEST: ', this.searchChannelsMessages);
           },
           (error) => {
             console.error('Error fetching channel names:', error);
