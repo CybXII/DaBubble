@@ -36,6 +36,8 @@ export class MessagesService {
   private avatarsSubject = new BehaviorSubject<Map<string, string>>(new Map());
   avatars$: Observable<Map<string, string>> =
   this.avatarsSubject.asObservable();
+  private parentMessageSubject = new BehaviorSubject<Message | null>(null);
+  parentMessage$ = this.parentMessageSubject.asObservable();
 
   loadAvatars(messages: Message[]): void {
     const avatarMap = new Map<string, string>();
@@ -112,8 +114,26 @@ export class MessagesService {
         this.threadMessagesSubject.next(sortedThreadMessages);
       });
 
+    // Holen der Parent-Nachricht
+    const parentMessageRef = doc(this.firestore, `messages/${parentMessageId}`);
+    getDoc(parentMessageRef)
+      .then((docSnap) => {
+        if (docSnap.exists()) {
+          const parentMessage = { docId: parentMessageId, ...docSnap.data() } as Message;
+          this.parentMessageSubject.next(parentMessage);
+        } else {
+          console.warn('Parent-Nachricht nicht gefunden');
+          this.parentMessageSubject.next(null);
+        }
+      })
+      .catch((error) => {
+        console.error('Fehler beim Laden der Parent-Nachricht:', error);
+        this.parentMessageSubject.next(null);
+      });
+
     this.openThreadChat();
   }
+
 
   /**
    * Fügt eine neue Nachricht hinzu.

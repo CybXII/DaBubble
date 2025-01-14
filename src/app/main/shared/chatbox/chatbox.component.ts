@@ -54,6 +54,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   isChatBoxEmojiPickerOpen: boolean = false;
   chatBoxEmojiPickerOpenFor: string | null = null;
   displayPickerBottom: boolean = false;
+  parentMessage: Message | null = null;
 
   constructor(
     private channelsService: ChannelsService,
@@ -105,7 +106,9 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
         observer.disconnect();
       }
     });
-
+    if (this.builder === 'threadchat') {
+      console.log('ChatboxComponent initialized', this.parentMessage);
+    }
     observer.observe(document.body, { childList: true, subtree: true });
   }
 
@@ -117,6 +120,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       }, 0);
     }
   }
+
 
   checkForScrollbar(selector: string): void {
     const chatbox = document.querySelector(selector) as HTMLElement;
@@ -144,6 +148,15 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     this.messagesService.messageId$
       .pipe(takeUntil(this.destroy$))
       .subscribe((messageId) => this.handleThreadChatMessage(messageId));
+  
+    // Abonniere die Parent-Nachricht
+    this.messagesService.parentMessage$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((parentMessage) => {
+        this.parentMessage = parentMessage;
+        console.log('Parent-Nachricht:', this.parentMessage);
+      });
+  
     this.avatars$ = this.messagesService.avatars$;
   }
 
