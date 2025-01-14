@@ -4,11 +4,6 @@
 </div>
 } @else { @if (builder == "threadchat") {
 <div class="threadchat__chatbox">
-  <!-- @if(emojiPickerOpened){
-  <div class="emoji-picker__wrapper" (click)="onEmojiPickerClick($event)">
-    <app-emoji-picker (selectEmoji)="addReaction($event)" />
-  </div>
-  } -->
   <div class="chatbox__mainthread-container">
     <button
       class="chatbox__addemoji-container"
@@ -27,11 +22,13 @@
       height="70"
     />
     <div class="chatbox__msg-item2">
+      @if (parentMessage){
       <div class="chatbox__msg-info">
-        <h3 class="chatbox__msg-name">Name</h3>
-        <p class="chatbox__msg-time">07.12.2024</p>
+        <h3 class="chatbox__msg-name">{{ parentMessage.creatorName || 'Name' }}</h3>
+        <p class="chatbox__msg-time">{{ parentMessage.timestamp }}</p>
       </div>
-      <p class="chatbox__msg">Test message</p>
+      <p class="chatbox__msg">{{ parentMessage.message || 'Keine Nachricht' }}</p>
+      }
       <div class="chatbox__emojis-container">
         <div class="chatbox__emojis">
           <img src="/img/icons/emoji.svg" alt="Emoji" />
