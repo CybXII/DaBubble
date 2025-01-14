@@ -17,6 +17,8 @@ import { CommonModule } from '@angular/common';
 import { SharedService } from '../../../shared/services/newmessage.service'
 import { EmojiPickerComponent } from '../emoji-picker/emoji-picker.component';
 import { EmojiPickerService } from '../../../shared/services/emoji-picker.service';
+import { Channel } from '../../../models/channel';
+
 
 @Component({
   selector: 'app-messagebox',
@@ -36,6 +38,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
   activeUserId: string | null = null;
   isMessageBoxMainPickerOpen: boolean = false;
   isMessageBoxThreadPickerOpen: boolean = false;
+  members: any = [];
 
   constructor(
     private channelsService: ChannelsService,
@@ -115,12 +118,37 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     let sendToChannelId = this.sharedService.getChannelIdString();
     let sendToTarget = this.sharedService.getTargetString();
 
-    if (sendToTarget == "user") {
+    console.log("dahin 1:", sendToTarget);
+
+
+    if (sendToTarget == "toUser") {
       this.sendToId = sendToUserId;
+
+      // unklar ob das wichtig ist ...
+      this.members = [sendToUserId, this.activeUserId];
+      console.log("members:", this.members);
+
+      // Achtung: Channel muss u.U. erstellt werden!!
+      // Erstelle einen neuen privaten Channel
+      const newChannel: Channel = {
+        name: 'Privater Channel',
+        description: '',
+        isPrivate: true,
+        createdBy: this.activeUserId ?? "",
+        members: [this.activeUserId ?? "", sendToUserId ?? ""],
+      };
+      await this.channelsService.createChannel(newChannel);
+
+
+
     }
-    else if (sendToTarget == "channel") {
+    else if (sendToTarget == "toChannel") {
       this.sendToId = sendToChannelId;
+      this.members = [];
     }
+
+    console.log("dahin:", this.sendToId);
+
 
     // senden
     let user: UserModel = (await this.authService.getUserById(
@@ -135,7 +163,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
       creatorPhotoURL: user.photoURL || '',
       message: this.messageContent.trim(),
       timestamp: new Date(),
-      members: [],
+      members: this.members,
       reactions: [],
     };
 
