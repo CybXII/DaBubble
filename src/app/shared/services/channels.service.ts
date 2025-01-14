@@ -3,6 +3,7 @@ import { Firestore, collection, doc, getDoc, getDocs, setDoc, addDoc, onSnapshot
 import { Channel } from '../../models/channel';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from './auth.service';
+import { MessagesService } from './messages.service';
 
 
 @Injectable({
@@ -13,7 +14,7 @@ export class ChannelsService {
   threadAktive: boolean = false;
   private currentChannelSubject = new BehaviorSubject<Channel | null>(null);
   currentChannel$ = this.currentChannelSubject.asObservable();
-  constructor(private firestore: Firestore, private authService: AuthService) {}
+  constructor(private firestore: Firestore, private authService: AuthService , private messagesService: MessagesService) {}
   channelsOpen: boolean = false;
   default: boolean = false;
 
@@ -64,6 +65,7 @@ export class ChannelsService {
       if (channelDoc.exists()) {
         const channel = { id: channelId, ...channelDoc.data() } as Channel;
         this.currentChannelSubject.next(channel);
+        this.messagesService.closeThreadChat();
         localStorage.setItem('lastChannelId', channelId);
       } else {
         console.error('Channel nicht gefunden.');

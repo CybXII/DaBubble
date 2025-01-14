@@ -13,5 +13,6 @@ import { ChatboxComponent } from '../shared/chatbox/chatbox.component';
 })
 export class ThreadchatComponent implements OnInit {
   @Input() builder!: 'mainchat' | 'threadchat';
+  
   ngOnInit(): void {}
 }
