@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { MessagesService } from '../../../shared/services/messages.service';
+import { ChannelsService } from '../../../shared/services/channels.service';
+import { Channel } from '../../../models/channel';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-threadchat-header',
@@ -9,8 +12,19 @@ import { MessagesService } from '../../../shared/services/messages.service';
   styleUrl: './threadchat-header.component.scss'
 })
 export class ThreadchatHeaderComponent {
-    constructor(private messagesService: MessagesService) {}
+    currentChannel$: Observable<Channel | null>;
+    channelName: string = '';
+    constructor(private messagesService: MessagesService, private channelsService: ChannelsService) {
+      this.currentChannel$ = this.channelsService.currentChannel$;
+    }
 
+    ngOnInit(): void {
+      this.currentChannel$.subscribe((channel) => {
+        if (channel) {
+          this.channelName = channel.name;
+        }
+      });
+    }
     // Funktion zum Schließen des Threadchats
     closeThreadChat(): void {
       this.messagesService.closeThreadChat();
