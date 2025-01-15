@@ -124,9 +124,9 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     if (sendToTarget == "toUser") {
       this.sendToId = sendToUserId;
 
-      // unklar ob das wichtig ist ...
-      this.members = [sendToUserId, this.activeUserId];
-      console.log("members:", this.members);
+      // unklar ob das wichtig ist ... (nein!)
+      //this.members = [sendToUserId, this.activeUserId];
+      //console.log("members:", this.members);
 
       // Achtung: Channel muss u.U. erstellt werden!!
       // Erstelle einen neuen privaten Channel
@@ -180,7 +180,8 @@ export class MessageboxComponent implements OnInit, OnDestroy {
       console.error('Keine gültige Channel-ID verfügbar.');
     }
 
-    // direkt da hin wechseln?
+    // ansicht: direkt da hin wechseln!
+    // ....
 
   }
 
