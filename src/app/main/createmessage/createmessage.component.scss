@@ -7,6 +7,12 @@ input {
     border: unset;
     border: 1px solid #ADB0D9;
     font-size: 18px;
+    cursor: pointer;
+    outline: none;
+
+    &:hover, &:focus-within {
+        border-color: rgb(121, 126, 243);
+    }
 }
 
 h2 {

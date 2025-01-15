@@ -4,7 +4,7 @@
 
 <div>
     <input type="text" placeholder="An: #channel, oder @jemand oder E-Mail Adresse" [(ngModel)]="searchText"
-        (ngModelChange)="onInputChange()" />
+        (ngModelChange)="onInputChange()" /> <!-- (keyup)="arrowControl($event)" -->
 
 
     @if (searchText && userResults.length > 0 && searchFor == 'users') {

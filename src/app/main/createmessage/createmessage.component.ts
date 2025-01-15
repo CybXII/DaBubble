@@ -123,6 +123,29 @@ export class CreatemessageComponent {
     return this.authService.userId() as string;
   }
 
+  // activeArray:any;
+  // active:any= ''
+  // arrowControl(event: KeyboardEvent) {
+  //   if (this.searchText == '@') {
+  //     this.activeArray = this.userResults;
+  //   } else if (this.searchText == '#') {
+  //     this.activeArray = this.channelResults;
+  //   } else {
+  //     this.activeArray = this.mailadressResults;
+  //   }
+  //   for (let i = 0; i < this.activeArray.length; i++) {
+  //     if (event.key == 'ArrowUp') {
+  //       this.active = this.activeArray[i];
+  //       i--;
+  //       console.log('up', this.active)
+  //     } else if (event.key == 'ArrowDown') {
+  //       this.active = this.activeArray[i];
+  //       i++;
+  //       console.log('Down', i)
+  //     }      
+  //   }
+  // }
+
 }
 
 
