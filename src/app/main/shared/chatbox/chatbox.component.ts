@@ -27,13 +27,11 @@ import { EmojiPickerComponent } from '../emoji-picker/emoji-picker.component';
 import { ProfileviewComponent } from '../../../shared/profileview/profileview.component';
 import { EmojiPickerService } from '../../../shared/services/emoji-picker.service';
 import { UserDialogService } from '../../../shared/services/user-dialog.service';
-import { DialogComponent } from '../../../shared/header/usermenu/dialog/dialog.component';
-import { TimestampToDatePipe } from '../../../pipes/timestamp-to-date.pipe';
 
 @Component({
   selector: 'app-chatbox',
   standalone: true,
-  imports: [CommonModule, EmojiPickerComponent, DialogComponent, TimestampToDatePipe],
+  imports: [CommonModule, EmojiPickerComponent],
   templateUrl: './chatbox.component.html',
   styleUrls: ['./chatbox.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -149,16 +147,29 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe((messageId) => this.handleThreadChatMessage(messageId));
   
-    // Abonniere die Parent-Nachricht
+    // Parent-Message abonnieren und Change Detection auslösen
     this.messagesService.parentMessage$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((parentMessage) => {
-        this.parentMessage = parentMessage;
-        console.log('Parent-Nachricht:', this.parentMessage);
+      .pipe(
+        takeUntil(this.destroy$),
+        map((parentMessage) => {
+          if (parentMessage && parentMessage.timestamp) {
+            return {
+              ...parentMessage,
+            };
+          }
+          return parentMessage;
+        })
+      )
+      .subscribe((formattedParentMessage) => {
+        this.parentMessage = formattedParentMessage;
+        console.log('Formattierte Parent-Nachricht:', this.parentMessage);
+        console.log('ThreadNachrichten:', this.messages$);
+        this.cdRef.detectChanges(); // Manuelle Änderungserkennung
       });
-  
-    this.avatars$ = this.messagesService.avatars$;
   }
+
+
+
 
   private async handleMainChatChannel(channel: Channel | null): Promise<void> {
     if (channel) {
