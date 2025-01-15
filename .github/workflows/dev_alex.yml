@@ -21,6 +21,12 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+    # Firebase.json erstellen
+    - name: Create firebase.json
+      run: |
+        echo "$FIREBASE_CONFIG" > ./src/firebase.json
+      env:
+        FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
     - name: Install and build
       run: |
         npm i
