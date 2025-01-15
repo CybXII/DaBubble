@@ -24,7 +24,7 @@ jobs:
     # Firebase.json erstellen
     - name: Create firebase.json
       run: |
-        echo "$FIREBASE_CONFIG" > ./src/firebase.json
+        echo "$FIREBASE_CONFIG" > ./firebase.json
       env:
         FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
     - name: Install and build
