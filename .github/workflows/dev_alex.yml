@@ -43,3 +43,4 @@ jobs:
         protocol: ftps
         local-dir: ./dist/dabubble/browser/
         server-dir: /
+        concurrent-uploads: 2
