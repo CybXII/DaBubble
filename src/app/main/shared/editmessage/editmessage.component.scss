@@ -1,6 +1,41 @@
+@use "../../../../mixins.scss" as mixins;
+@use "../../../../colors.scss" as colors;
+@use "../../../../button.scss" as button;
+
 form {
     display: flex;
     flex-direction: column;
     gap: 10px;
     padding: 30px;
+}
+
+.form-group {
+    @include mixins.flexbox($direction: column);
+    gap: 10px;
+
+    label,span {
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 32.74px;
+        text-align: left;
+        text-underline-position: from-font;
+        text-decoration-skip-ink: none;
+    }
+    
+    textarea {
+        width: 430px;
+        height: 125px;
+        resize: none;
+        outline: unset;
+        border: 1px solid colors.$purple2;
+        border-radius: 20px;
+        padding: 10px;
+        padding-left: 15px;
+        font-size: 18px;
+        line-height: 24.55px;
+        color: colors.$grey;
+        &::-webkit-scrollbar-track {
+            margin: 12px;
+        }
+    }
 }
