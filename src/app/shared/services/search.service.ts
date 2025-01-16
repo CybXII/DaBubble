@@ -42,8 +42,8 @@ export class SearchService {
 
   constructor() {}
 
-  public loadMessages() {
-    from(this.messageService.getAllMessages()).subscribe((messages) => {
+  public loadMessages(userId: string) {
+    from(this.messageService.getAllMessages(userId)).subscribe((messages) => {
       this.allMessages = Array.isArray(messages) ? messages : [];
       console.log('Messages loaded:', this.allMessages);
 
@@ -121,8 +121,7 @@ export class SearchService {
 
     const filteredMessages = this.allMessages.filter(
       (message) =>
-        message.message.toLowerCase().includes(searchText.toLowerCase()) &&
-        message.members.includes(userId)
+        message.message.toLowerCase().includes(searchText.toLowerCase()) 
     );
 
     this.messageResultsSubject.next(filteredMessages);

@@ -58,7 +58,7 @@ export class SearchbarComponent {
 
   onInputChange(userId: string): void {
     if (this.searchText.length == 1) {
-      this.searchService.loadMessages();
+      this.searchService.loadMessages(userId);
       this.searchService.loadThreadMessages(userId);
       this.searchService.loadUsers(this.userId);
       this.searchService.loadChannels();

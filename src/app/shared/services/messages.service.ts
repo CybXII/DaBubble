@@ -15,7 +15,7 @@ import {
 } from '@angular/fire/firestore';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Message, Reaction, ThreadMessage } from '../../models/message';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { Thread } from '../../models/thread';
 
 @Injectable({
@@ -303,11 +303,37 @@ export class MessagesService {
     return docSnapshot.exists() ? (docSnapshot.data() as Message) : null;
   }
 
-  public getAllMessages(): Observable<Message[]> {
+  // public getAllMessages(): Observable<Message[]> {
+  //   const messagesRef = collection(this.firestore, 'messages');
+  //   return collectionData(messagesRef, { idField: 'docId' }) as Observable<
+  //     Message[]
+  //   >;
+  // }
+
+  public getAllMessages(userId: string): Observable<Message[]> {
+    const channelsRef = collection(this.firestore, 'channels');
     const messagesRef = collection(this.firestore, 'messages');
-    return collectionData(messagesRef, { idField: 'docId' }) as Observable<
-      Message[]
-    >;
+
+    // Fetch channels where the user is a member
+    const userChannels$ = collectionData(channelsRef, { idField: 'id' }).pipe(
+      map((channels: any[]) =>
+        channels.filter((channel) => (channel.members || []).includes(userId))
+      ),
+      map((channels) => channels.map((channel) => channel.id)) // Extract channel IDs
+    );
+
+    // Fetch messages only for relevant channels
+    return userChannels$.pipe(
+      switchMap((channelIds: string[]) => {
+        const messagesQuery = query(
+          messagesRef,
+          where('channelId', 'in', channelIds) // Fetch messages from relevant channels
+        );
+        return collectionData(messagesQuery, {
+          idField: 'docId',
+        }) as Observable<Message[]>;
+      })
+    );
   }
 
   private async getThreadMessage(
