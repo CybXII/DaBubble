@@ -22,6 +22,8 @@ export class CreatemessageComponent {
   privateChannelResults: any[] = [];
   mailadressResults: any[] = [];
 
+  input:boolean = true;
+
 
   clearResults() {
     this.userResults = [];
@@ -37,6 +39,7 @@ export class CreatemessageComponent {
 
     this.sharedService.setSearchString(target);
     this.sharedService.setUserIdString(userId);
+    this.input = false;
 
     this.clearResults();
   }
@@ -46,9 +49,9 @@ export class CreatemessageComponent {
     this.sharedService.setTargetString("toChannel");
     this.sharedService.setSearchString(target);
     this.sharedService.setChannelIdString(channelId);
+    this.input = false;
     this.clearResults();
   }
-
 
   constructor(private searchService: SearchService, private authService: AuthService, private sharedService: SharedService) {
     this.searchService.loadUsers(this.userId);
@@ -76,10 +79,6 @@ export class CreatemessageComponent {
     });
 
   }
-
-
-
-
 
   onInputChange() {
     console.log("ch ch changes!");
@@ -116,14 +115,36 @@ export class CreatemessageComponent {
     }
   }
 
-
-
-
   get userId() {
     return this.authService.userId() as string;
   }
 
+  // activeArray:any;
+  // active:any= ''
+  // arrowControl(event: KeyboardEvent) {
+  //   if (this.searchText == '@') {
+  //     this.activeArray = this.userResults;
+  //   } else if (this.searchText == '#') {
+  //     this.activeArray = this.channelResults;
+  //   } else {
+  //     this.activeArray = this.mailadressResults;
+  //   }
+  //   for (let i = 0; i < this.activeArray.length; i++) {
+  //     if (event.key == 'ArrowUp') {
+  //       this.active = this.activeArray[i];
+  //       i--;
+  //       console.log('up', this.active)
+  //     } else if (event.key == 'ArrowDown') {
+  //       this.active = this.activeArray[i];
+  //       i++;
+  //       console.log('Down', i)
+  //     }      
+  //   }
+  // }
+
+  deleteSearch() {
+    this.input = true;
+    this.searchText = '';
+  }
+
 }
-
-
-

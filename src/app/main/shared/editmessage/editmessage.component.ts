@@ -4,6 +4,7 @@ import { Message, ThreadMessage } from '../../../models/message';
 import { AuthService } from '../../../shared/services/auth.service';
 import { FormBuilder, FormGroup, Validators,ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ToastMessageService } from '../../../shared/services/toastmessage.service';
 @Component({
   selector: 'app-editmessage',
   standalone: true,
@@ -21,6 +22,7 @@ export class EditmessageComponent {
     private messagesService: MessagesService,
     private auth: AuthService,
     public dialogRef: MatDialogRef<EditmessageComponent>,
+    private toastMessageService: ToastMessageService,
     @Inject(MAT_DIALOG_DATA) public data: { 
       message: Partial<Message>; 
       deleteMessage: boolean; 
@@ -76,6 +78,7 @@ export class EditmessageComponent {
             .then(() => {
               console.log('Thread-Nachricht erfolgreich aktualisiert:', updatedData);
               this.dialogRef.close();
+              this.showToastMessage('Nachricht aktualisiert');
             })
             .catch((error) => {
               console.error('Fehler beim Aktualisieren der Thread-Nachricht:', error);
@@ -87,6 +90,7 @@ export class EditmessageComponent {
               console.log('Nachricht erfolgreich aktualisiert:', updatedData);
               this.messageForm.reset();
               this.dialogRef.close();
+              this.showToastMessage('Nachricht aktualisiert');
             })
             .catch((error) => {
               console.error('Fehler beim Aktualisieren der Nachricht:', error);
@@ -125,6 +129,7 @@ export class EditmessageComponent {
         .then(() => {
           console.log('Thread-Nachricht erfolgreich gelöscht.');
           this.dialogRef.close();
+          this.showToastMessage('Nachricht erfolgreich gelöscht');
         })
         .catch((error) => {
           console.error('Fehler beim Löschen der Thread-Nachricht:', error);
@@ -139,6 +144,7 @@ export class EditmessageComponent {
         .then(() => {
           console.log('Nachricht erfolgreich gelöscht.');
           this.dialogRef.close();
+          this.showToastMessage('Nachricht erfolgreich gelöscht');
         })
         .catch((error) => {
           console.error('Fehler beim Löschen der Nachricht:', error);
@@ -146,11 +152,27 @@ export class EditmessageComponent {
     }
   }
 
-
+  showToastMessage(text:string) {
+    setTimeout(() => {
+      this.toastMessageService.showToastSignal(text);
+    }, 500);
+  }
 
   onCancel(): void { 
     console.log('Edit cancelled');
     this.messageForm.reset();
     this.dialogRef.close(); 
+  }
+
+  checkKeyStatus(event: KeyboardEvent, chat: string): void {
+    if (event.shiftKey && event.keyCode == 13) {
+      event.preventDefault();
+    } else if (event.keyCode == 13) {
+      if (chat === 'save') {
+        this.onSubmit();
+      } else if (chat === 'deleteMessage') {
+        this.deleteMessage();
+      }
+    }
   }
 }
