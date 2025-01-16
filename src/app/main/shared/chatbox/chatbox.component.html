@@ -17,7 +17,7 @@
       <div class="chatbox__msg-info">
         <h3 class="chatbox__msg-name">{{ parentMessage.creatorName }}@if(parentMessage.createdBy == activeUserId){(Du)}
         </h3>
-        <p class="chatbox__msg-time">{{ parentMessage.timestamp }}</p>
+        <p class="chatbox__msg-time">{{ parentMessage.timestamp | relativeDate }}</p>
       </div>
       <p class="chatbox__msg">{{ parentMessage.message || 'Keine Nachricht' }}</p>
       <div class="chatbox__emojis-container">
@@ -105,7 +105,7 @@
       <div class="chatbox__msg-info" [class.chatbox__msg-sent-info]="message.createdBy === activeUserId">
         <h3 class="chatbox__msg-name" (click)="checkIdIsUser(message.createdBy)">{{ message.creatorName }}</h3>
         <p class="chatbox__msg-time">
-          {{ message.timestamp | date:'dd.MM.yyyy HH:mm' }}
+          {{ message.timestamp | relativeDate }}
         </p>
       </div>
       <p class="chatbox__msg" [class.chatbox__msg-sent]="message.createdBy === activeUserId">
@@ -196,7 +196,7 @@
       <div class="chatbox__msg-info" [class.chatbox__msg-sent-info]="message.createdBy === activeUserId">
         <h3 class="chatbox__msg-name" (click)="checkIdIsUser(message.createdBy)">{{ message.creatorName }}@if(message.createdBy == activeUserId){(Du)}</h3>
         <p class="chatbox__msg-time">
-          {{ message.timestamp | date : "HH:mm" }} Uhr
+          {{ message.timestamp | relativeDate }} Uhr
         </p>
       </div>
       <p class="chatbox__msg" [class.chatbox__msg-sent]="message.createdBy === activeUserId">
@@ -209,7 +209,7 @@
             Antworten
           </span>
           }
-          <span class="chatbox__last-answer">Letzte Antwort {{ message.timestamp | date : "HH:mm" }} Uhr</span>
+          <span class="chatbox__last-answer">Letzte Antwort  {{ message.timestamp | relativeDate }} Uhr</span>
         </div>
         <div class="chatbox__reaction-wrapper">
           <div class="chatbox__emojis-container">
