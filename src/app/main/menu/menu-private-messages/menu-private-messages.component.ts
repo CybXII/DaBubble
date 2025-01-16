@@ -52,23 +52,63 @@ export class MenuPrivateMessagesComponent {
       this.unsubscribeFn = this.channelsService.loadChannelsRealtime(async (channels) => {
         this.privateChannels = channels.filter(channel => channel.isPrivate);
         this.channelMembers = {};
+        
         for (const channel of this.privateChannels) {
           if (!channel.id) {
             console.error('Channel hat keine ID:', channel);
             continue;
           }
-          const memberIds = channel.members.filter(id => id !== this.authService.userId());
-          const usernames = await this.authService.getUsernamesByIds(memberIds);
-          this.channelMembers[channel.id] = usernames.map(user => user.name);
+        
+          // Überprüfen der Member-IDs
+          const memberIds = channel.members;
+        
+          if (memberIds.length === 2) {
+            // Wenn zwei Member vorhanden sind, Conversation-Partner-ID filtern
+            const conversationPartnerId = memberIds.find(id => id !== this.authService.userId());
+            if (conversationPartnerId) {
+              const usernames = await this.authService.getUsernamesByIds([conversationPartnerId]);
+              this.channelMembers[channel.id] = usernames.map(user => user.name);
+            } else {
+              this.channelMembers[channel.id] = ['Unbekannt'];
+            }
+          } else if (memberIds.length === 1 && memberIds[0] === this.authService.userId()) {
+            // Wenn nur ein Member vorhanden ist, und dieser der User selbst ist
+            const currentUserId = this.authService.userId();
+            if (currentUserId) {
+              const currentUser = await this.authService.getUsernamesByIds([currentUserId]);
+              this.channelMembers[channel.id] = currentUser.map(user => `${user.name} (Du)`);
+            } else {
+              this.channelMembers[channel.id] = ['Unbekannt'];
+            }
+          } else {
+            // Fallback für unerwartete Fälle
+            this.channelMembers[channel.id] = ['Unbekannt'];
+          }
         }
+    
+        console.log(this.channelMembers);
         this.loading = false;
       });
-    }
-    
+    }    
   
-    getConversationPartnerName(channelId: string): string {
+    getConversationPartnerName(channelId: string): string { 
       const members = this.channelMembers[channelId];
-      return members && members.length > 0 ? members[0] : 'Unbekannt';
+      
+      // Prüfen, ob nur ein Member existiert und dieser der angemeldete Benutzer ist
+      console.log (members)
+      if (members.length === 1 && members[0] === this.authService.userId()) {
+        const currentUserName = this.authService.currentUser()?.name || 'Unbekannt';
+        return `${members[0]} (Du)`;
+      }
+
+      if (!members || members.length === 0) {
+        return 'Unbekannt';
+      }
+    
+
+    
+      // Anderenfalls den ersten Member ausgeben
+      return members[0];
     }
 
 

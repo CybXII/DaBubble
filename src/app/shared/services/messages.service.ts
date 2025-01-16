@@ -99,9 +99,10 @@ export class MessagesService {
             .map((threadMessage) => ({
               ...threadMessage,
               parentMessageId,
-              timestamp: (threadMessage.timestamp as any).seconds
+              timestamp: (threadMessage.timestamp as any)?.seconds
                 ? new Date((threadMessage.timestamp as any).seconds * 1000)
-                : threadMessage.timestamp,            }))
+                : threadMessage.timestamp,
+            }))
             .sort((a, b) => {
               const dateA = new Date(a.timestamp).getTime();
               const dateB = new Date(b.timestamp).getTime();
@@ -121,9 +122,9 @@ export class MessagesService {
           const parentMessage = {
             docId: parentMessageId,
             ...docSnap.data(),
-            timestamp: this.formatTimestamp(docSnap.data()?.['timestamp']), // Timestamp formatieren
           } as Message;
           this.parentMessageSubject.next(parentMessage);
+          console.log('Parent-Nachricht geladen:', parentMessage);
         } else {
           console.warn('Parent-Nachricht nicht gefunden');
           this.parentMessageSubject.next(null);
@@ -135,22 +136,6 @@ export class MessagesService {
       });
   
     this.openThreadChat();
-  }
-
-
-  private formatTimestamp(timestamp: any): string {
-    if (timestamp?.seconds) {
-      // Firebase-Timestamp
-      const date = new Date(timestamp.seconds * 1000);
-      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    } else if (typeof timestamp === 'number') {
-      return new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    } else if (typeof timestamp === 'string') {
-      return new Date(Number(timestamp)).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    } else if (timestamp instanceof Date) {
-      return timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    }
-    return '???'; // Fallback für ungültige Werte
   }
 
 
