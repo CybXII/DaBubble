@@ -91,7 +91,7 @@ export class MessagesService {
     const threadMessages$ = collectionData(threadMessagesRef, {
       idField: 'docId',
     }) as Observable<ThreadMessage[]>;
-
+  
     threadMessages$
       .pipe(
         map((threadMessages) =>
@@ -99,21 +99,21 @@ export class MessagesService {
             .map((threadMessage) => ({
               ...threadMessage,
               parentMessageId,
-              timestamp: (threadMessage.timestamp as any)?.seconds
+              timestamp: (threadMessage.timestamp as any).seconds
                 ? new Date((threadMessage.timestamp as any).seconds * 1000)
                 : threadMessage.timestamp,
             }))
             .sort((a, b) => {
               const dateA = new Date(a.timestamp).getTime();
               const dateB = new Date(b.timestamp).getTime();
-              return dateB - dateA; // Sortiert absteigend nach Datum
+              return dateA - dateB; // Sortiert aufsteigend nach Datum
             })
         )
       )
       .subscribe((sortedThreadMessages) => {
         this.threadMessagesSubject.next(sortedThreadMessages);
       });
-
+  
     // Holen der Parent-Nachricht
     const parentMessageRef = doc(this.firestore, `messages/${parentMessageId}`);
     getDoc(parentMessageRef)
@@ -134,14 +134,11 @@ export class MessagesService {
         console.error('Fehler beim Laden der Parent-Nachricht:', error);
         this.parentMessageSubject.next(null);
       });
-
+  
     this.openThreadChat();
   }
-
-  /**
-   * Fügt eine neue Nachricht hinzu.
-   * @param message Die Nachricht, die hinzugefügt werden soll
-   */
+  
+  
   async addMessage(message: Message): Promise<void> {
     const messagesRef = collection(this.firestore, 'messages');
     try {
