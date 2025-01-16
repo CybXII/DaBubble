@@ -24,18 +24,18 @@ import { Thread } from '../../models/thread';
 export class MessagesService {
   private messagesSubject = new BehaviorSubject<Partial<Message>[]>([]);
   messages$: Observable<Partial<Message>[]> =
-  this.messagesSubject.asObservable();
+    this.messagesSubject.asObservable();
   private threadMessagesSubject = new BehaviorSubject<ThreadMessage[]>([]);
   private threadchatStateSubject = new BehaviorSubject<boolean>(false);
   threadMessages$: Observable<ThreadMessage[]> =
-  this.threadMessagesSubject.asObservable();
+    this.threadMessagesSubject.asObservable();
   threadchatState$ = this.threadchatStateSubject.asObservable();
   private messageIdSubject = new BehaviorSubject<string | null>(null);
   messageId$ = this.messageIdSubject.asObservable();
   constructor(private firestore: Firestore) {}
   private avatarsSubject = new BehaviorSubject<Map<string, string>>(new Map());
   avatars$: Observable<Map<string, string>> =
-  this.avatarsSubject.asObservable();
+    this.avatarsSubject.asObservable();
   private parentMessageSubject = new BehaviorSubject<Message | null>(null);
   parentMessage$ = this.parentMessageSubject.asObservable();
 
@@ -91,7 +91,7 @@ export class MessagesService {
     const threadMessages$ = collectionData(threadMessagesRef, {
       idField: 'docId',
     }) as Observable<ThreadMessage[]>;
-  
+
     threadMessages$
       .pipe(
         map((threadMessages) =>
@@ -113,7 +113,7 @@ export class MessagesService {
       .subscribe((sortedThreadMessages) => {
         this.threadMessagesSubject.next(sortedThreadMessages);
       });
-  
+
     // Holen der Parent-Nachricht
     const parentMessageRef = doc(this.firestore, `messages/${parentMessageId}`);
     getDoc(parentMessageRef)
@@ -134,10 +134,9 @@ export class MessagesService {
         console.error('Fehler beim Laden der Parent-Nachricht:', error);
         this.parentMessageSubject.next(null);
       });
-  
+
     this.openThreadChat();
   }
-
 
   /**
    * Fügt eine neue Nachricht hinzu.
@@ -176,11 +175,9 @@ export class MessagesService {
     }
   }
 
-
   openThreadChat(): void {
     this.threadchatStateSubject.next(true);
   }
-
 
   closeThreadChat(): void {
     this.threadchatStateSubject.next(false);
@@ -329,25 +326,76 @@ export class MessagesService {
     return docSnapshot.exists() ? (docSnapshot.data() as ThreadMessage) : null;
   }
 
-  public async getAllThreadMessages(): Promise<ThreadMessage[]> {
+  // public async getAllThreadMessages(): Promise<ThreadMessage[]> {
+  //   const messagesSnapshot = await getDocs(
+  //     collection(this.firestore, 'messages')
+  //   );
+  //   const threadMessagesPromises = messagesSnapshot.docs.map(
+  //     async (messageDoc) => {
+  //       const threadMessagesSnapshot = await getDocs(
+  //         collection(this.firestore, `messages/${messageDoc.id}/threadMessages`)
+  //       );
+  //       return threadMessagesSnapshot.docs.map(
+  //         (doc) => ({ channelId: messageDoc.data()['channelId'], messageId: messageDoc.id, docId: doc.id, ...doc.data() } as ThreadMessage)
+  //       );
+  //     }
+  //   );
+  //   console.log('Thread Messages Promises:', threadMessagesPromises);
+
+  //   const threadMessagesArrays = await Promise.all(threadMessagesPromises);
+  //   console.log('Thread Messages Arrays:', threadMessagesArrays);
+  //   return threadMessagesArrays.flat();
+  // }
+
+  public async getAllThreadMessages(userId: string): Promise<ThreadMessage[]> {
+    // Fetch all channels to check for membership
+    const channelsSnapshot = await getDocs(
+      collection(this.firestore, 'channels')
+    );
+
+    // Filter channels where the userId is a member
+    const relevantChannels = channelsSnapshot.docs.filter((channelDoc) => {
+      const members = channelDoc.data()['members'] || [];
+      return members.includes(userId); // Check if userId is in the members array
+    });
+
+    const relevantChannelIds = relevantChannels.map(
+      (channelDoc) => channelDoc.id
+    );
+
+    // Fetch messages only from relevant channels
     const messagesSnapshot = await getDocs(
       collection(this.firestore, 'messages')
     );
-    const threadMessagesPromises = messagesSnapshot.docs.map(
-      async (messageDoc) => {        
+    const relevantMessagesDocs = messagesSnapshot.docs.filter((messageDoc) => {
+      const channelId = messageDoc.data()['channelId'];
+      return relevantChannelIds.includes(channelId); // Check if the message belongs to a relevant channel
+    });
+
+    const threadMessagesPromises = relevantMessagesDocs.map(
+      async (messageDoc) => {
         const threadMessagesSnapshot = await getDocs(
           collection(this.firestore, `messages/${messageDoc.id}/threadMessages`)
         );
         return threadMessagesSnapshot.docs.map(
-          (doc) => ({ channelId: messageDoc.data()['channelId'], messageId: messageDoc.id, docId: doc.id, ...doc.data() } as ThreadMessage)
+          (doc) =>
+            ({
+              channelId: messageDoc.data()['channelId'],
+              messageId: messageDoc.id,
+              docId: doc.id,
+              ...doc.data(),
+            } as ThreadMessage)
         );
       }
     );
+
+    console.log('Filtered Channels:', relevantChannelIds);
+    console.log('Filtered Messages:', relevantMessagesDocs);
     console.log('Thread Messages Promises:', threadMessagesPromises);
-    
 
     const threadMessagesArrays = await Promise.all(threadMessagesPromises);
     console.log('Thread Messages Arrays:', threadMessagesArrays);
+
     return threadMessagesArrays.flat();
   }
 
