@@ -191,16 +191,12 @@ export class MessagesService {
     }
   }
 
-  /**
-   * Öffnet den Thread-Chat.
-   */
+
   openThreadChat(): void {
     this.threadchatStateSubject.next(true);
   }
 
-  /**
-   * Schließt den Thread-Chat.
-   */
+
   closeThreadChat(): void {
     this.threadchatStateSubject.next(false);
   }
