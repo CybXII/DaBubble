@@ -55,6 +55,7 @@ export class ChannelsService {
 
 
   async selectChannel(channelId: string): Promise<void> {
+    this.messagesService.closeThreadChat();
     if (!channelId) {
       console.error('Ungültige Channel-ID.');
       return;
@@ -65,7 +66,6 @@ export class ChannelsService {
       if (channelDoc.exists()) {
         const channel = { id: channelId, ...channelDoc.data() } as Channel;
         this.currentChannelSubject.next(channel);
-        this.messagesService.closeThreadChat();
         localStorage.setItem('lastChannelId', channelId);
       } else {
         console.error('Channel nicht gefunden.');
