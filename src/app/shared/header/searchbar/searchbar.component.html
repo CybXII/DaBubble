@@ -3,7 +3,7 @@
     type="text"
     placeholder="Devspace durchsuchen"
     [(ngModel)]="searchText"
-    (input)="onInputChange()"
+    (input)="onInputChange(userId)"
   />
   @if (searchText) {
   <button>
@@ -39,8 +39,7 @@
         </div>
       </div>
     </div>
-    } 
-    @if (channelResults.length > 0) {
+    } @if (channelResults.length > 0) {
     <div class="feedback-container">
       <h3>{{ channelResults.length }} Channel(s) gefunden:</h3>
       <div class="feedback-message-container">
@@ -58,15 +57,22 @@
         </div>
       </div>
     </div>
-    } 
-    @if (messageResults.length > 0) {
+    } @if (messageResults.length > 0) {
     <div class="feedback-container">
       <h3>{{ messageResults.length }} Nachricht(en) gefunden:</h3>
       <div class="feedback-message-container">
         <div
           class="feedback-box"
           *ngFor="let result of messageResults; let index = index"
-          (click)="goToSearchResult(result.channelId, result.docId, null, null, result.isThreadMessage)"
+          (click)="
+            goToSearchResult(
+              result.channelId,
+              result.docId,
+              null,
+              null,
+              result.isThreadMessage
+            )
+          "
         >
           <img
             src="{{ result.creatorPhotoURL }}"
@@ -74,26 +80,42 @@
           />
           <div class="feedback-message">
             <div class="feedback-message-header">
-              <span><b style="font-weight: 800;">Von:</b> {{ result.creatorName }}</span>
+              <span
+                ><b style="font-weight: 800">Von:</b>
+                {{ result.creatorName }}</span
+              >
               <span style="font-style: italic">{{
                 result.timestamp.seconds | timestampToDate
               }}</span>
             </div>
-            <span class="ellipsis"><b style="font-weight: 800;">Channel:</b> {{ searchService.searchChannelsMessages[index] }}</span>
-            <span class="ellipsis"><b style="font-weight: 800;">Nachricht:</b> {{ result.message }}</span>
+            <span class="ellipsis"
+              ><b style="font-weight: 800">Channel:</b>
+              {{ searchService.searchChannelsMessages[index] }}</span
+            >
+            <span class="ellipsis"
+              ><b style="font-weight: 800">Nachricht:</b>
+              {{ result.message }}</span
+            >
           </div>
         </div>
       </div>
     </div>
-    } 
-    @if (threadMessageResults.length > 0) {
+    } @if (threadMessageResults.length > 0) {
     <div class="feedback-container">
       <h3>{{ threadMessageResults.length }} Antwort(en) gefunden:</h3>
       <div class="feedback-message-container">
         <div
           class="feedback-box"
           *ngFor="let result of threadMessageResults"
-          (click)="goToSearchResult(result.channelId, result.messageId, result.docId, null, result.isThreadMessage)"
+          (click)="
+            goToSearchResult(
+              result.channelId,
+              result.messageId,
+              result.docId,
+              null,
+              result.isThreadMessage
+            )
+          "
         >
           <img
             src="{{ result.creatorPhotoURL }}"
@@ -111,8 +133,7 @@
         </div>
       </div>
     </div>
-    }    
-    @if (userResults.length > 0) {
+    } @if (userResults.length > 0) {
     <div class="feedback-container">
       <h3>{{ userResults.length }} Benutzer gefunden:</h3>
       <div class="feedback-message-container">
@@ -148,7 +169,8 @@
   </div>
 </div>
 } @if (isSearchActive && (userResults.length === 0 && messageResults.length ===
-0 && channelResults.length === 0 && privateChannelResults.length === 0 && threadMessageResults.length === 0)) {
+0 && channelResults.length === 0 && privateChannelResults.length === 0 &&
+threadMessageResults.length === 0)) {
 <div class="feedback-wrapper feedback-wrapper-error">
   <span>Keine Ergebnisse gefunden</span>
 </div>

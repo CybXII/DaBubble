@@ -7,6 +7,7 @@ import { UserModel } from '../../models/user';
 import { ChannelsService } from './channels.service';
 import { Channel } from '../../models/channel';
 import { collection, getDoc, getDocs } from 'firebase/firestore';
+import { user } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root',
@@ -41,11 +42,11 @@ export class SearchService {
 
   constructor() {}
 
-  public loadMessages() {
-    from(this.messageService.getAllMessages()).subscribe((messages) => {
+  public loadMessages(userId: string) {
+    from(this.messageService.getAllMessages(userId)).subscribe((messages) => {
       this.allMessages = Array.isArray(messages) ? messages : [];
       console.log('Messages loaded:', this.allMessages);
-      
+
       this.getChannelName();
     });
   }
@@ -84,8 +85,8 @@ export class SearchService {
     });
   }
 
-  public loadThreadMessages(): void {
-    from(this.messageService.getAllThreadMessages()).subscribe((messages) => {
+  public loadThreadMessages(userId: string): void {
+    from(this.messageService.getAllThreadMessages(userId)).subscribe((messages) => {
       this.allThreadMessages = Array.isArray(messages) ? messages : [];
       console.log('Thread Messages loaded:', this.allThreadMessages);
     });
@@ -118,8 +119,9 @@ export class SearchService {
       return;
     }
 
-    const filteredMessages = this.allMessages.filter((message) =>
-      message.message.toLowerCase().includes(searchText.toLowerCase())
+    const filteredMessages = this.allMessages.filter(
+      (message) =>
+        message.message.toLowerCase().includes(searchText.toLowerCase()) 
     );
 
     this.messageResultsSubject.next(filteredMessages);
@@ -131,7 +133,8 @@ export class SearchService {
       return;
     }
     const filteredMessages = this.allThreadMessages.filter((message) =>
-      message.message.toLowerCase().includes(searchText.toLowerCase())
+      message.message.toLowerCase().includes(searchText.toLowerCase()) 
+    
     );
     console.log('Thread Messages:', filteredMessages);
 
@@ -173,7 +176,6 @@ export class SearchService {
 
     this.userResultsSubject.next(filteredUsers);
     //console.log(this.userResultsSubject);
-    
   }
 
   // searchChannels(searchText: string, userId: string, type: string): void {
