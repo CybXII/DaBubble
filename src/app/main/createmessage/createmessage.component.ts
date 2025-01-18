@@ -24,7 +24,6 @@ export class CreatemessageComponent {
 
   input:boolean = true;
 
-
   clearResults() {
     this.userResults = [];
     this.channelResults = [];
