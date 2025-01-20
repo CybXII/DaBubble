@@ -132,7 +132,7 @@ export class UserDialogService {
 
   logout() {
     this.dialog = false;
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
     this.auth.logout();
   }
 
