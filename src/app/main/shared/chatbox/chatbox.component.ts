@@ -387,7 +387,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     // console.log(newDateB)
     
     if (newDateA === newDateB) {
-      this.sameDay = false; // sollte true sein nur zu testzwecken auf false gesetzt;
+      this.sameDay = false; // sollte true sein nur zu testzwecken auf false gesetzt; sameDay Variable in message model hinzufügen um sie bei jeder message abzurufen
       // console.warn("true")
     } else  {
       this.sameDay = false;
