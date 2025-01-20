@@ -27,6 +27,22 @@
   flex-direction: column-reverse;
 }
 
+.thread__days__devider {
+  margin: 10px 35px !important;
+
+  &::before, &::after {
+    background-color: white !important;
+  }
+
+  .thread__divider-text {
+    display: none;
+  }
+}
+
+.thread__days__chatbox__msg-container {
+  margin-top: 0px !important;
+}
+
 .thread__divider {
   @include mixins.flexbox(row, center, center, nowrap);
   margin: 20px 35px;

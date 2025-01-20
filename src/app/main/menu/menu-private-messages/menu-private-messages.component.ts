@@ -95,7 +95,7 @@ export class MenuPrivateMessagesComponent {
       const members = this.channelMembers[channelId];
       
       // Prüfen, ob nur ein Member existiert und dieser der angemeldete Benutzer ist
-      console.log (members)
+      // console.log (members)
       if (members.length === 1 && members[0] === this.authService.userId()) {
         const currentUserName = this.authService.currentUser()?.name || 'Unbekannt';
         return `${members[0]} (Du)`;
