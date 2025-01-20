@@ -108,7 +108,7 @@ export class AuthService {
   //       // Save the email locally so you don't need to ask the user for it again
   //       // if they open the link on the same device.
   //       console.log('Sign-in email sent successfully.');
-  //       window.localStorage.setItem('emailForSignIn', email);
+  //       window.sessionStorage.setItem('emailForSignIn', email);
   //       // ...
   //     })
   //     .catch((error) => {
@@ -147,7 +147,7 @@ export class AuthService {
     this.userData.set(null);
     this.isUserAuthenticated.set(false);
     this.loginType.set(null);
-    localStorage.removeItem('userData');
+    sessionStorage.removeItem('userData');
   }
 
   /**
@@ -333,15 +333,15 @@ export class AuthService {
   }
 
   private setUserDataInStorage(userData: UserModel) {
-    localStorage.setItem('userData', JSON.stringify(userData));
+    sessionStorage.setItem('userData', JSON.stringify(userData));
   }
 
   getUserDataFromStorage() {
-    this.userData.set(JSON.parse(localStorage.getItem('userData') || '{}'));
+    this.userData.set(JSON.parse(sessionStorage.getItem('userData') || '{}'));
   }
 
   intializeUserData() {
-    if (localStorage.getItem('userData')) {
+    if (sessionStorage.getItem('userData')) {
       this.getUserDataFromStorage();
     }
   }
@@ -534,7 +534,7 @@ export class AuthService {
   //     const updatedUserDoc = await getDoc(userDocRef);
   //     if (updatedUserDoc.exists()) {
   //       const updatedUserData = updatedUserDoc.data() as UserModel;
-  //       localStorage.setItem('userData', JSON.stringify(updatedUserData));
+  //       sessionStorage.setItem('userData', JSON.stringify(updatedUserData));
   //       this.userData.set(updatedUserData);
   //       this.toastMessageService.showToastSignal(
   //         'Benutzerdaten erfolgreich aktualisiert'
@@ -558,7 +558,7 @@ export class AuthService {
       const updatedUserDoc = await getDoc(userDocRef);
       if (updatedUserDoc.exists()) {
         const updatedUserData = updatedUserDoc.data() as UserModel;
-        localStorage.setItem('userData', JSON.stringify(updatedUserData));
+        sessionStorage.setItem('userData', JSON.stringify(updatedUserData));
         this.userData.set(updatedUserData);
 
         // Update Firebase Auth profile
