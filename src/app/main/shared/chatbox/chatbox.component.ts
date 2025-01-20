@@ -56,6 +56,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   chatBoxEmojiPickerOpenFor: string | null = null;
   displayPickerBottom: boolean = false;
   parentMessage: Message | null = null;
+  sameDay:boolean = false;
 
   constructor(
     private channelsService: ChannelsService,
@@ -95,6 +96,8 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       emojiSubscription1.unsubscribe();
       emojiSubscription2.unsubscribe();
     })
+
+    this.checkSameDay();
   }
 
   ngAfterViewInit(): void {
@@ -360,5 +363,29 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       height: 'fit-content',
       data: { ID: id },
     });
+  }
+
+  checkSameDay() {
+
+    this.getMessageTimestep();
+
+    console.warn(this.getMessageTimestep());
+    // if () {
+    //   this.sameDay = true;
+    // } else {
+    //   this.sameDay = false;
+    // }
+  }
+
+  getMessageTimestep() {
+    return this.messages$.pipe(
+      map((messages) =>
+        messages.sort((a, b) => {
+          const dateA = a.timestamp ? new Date(a.timestamp).getTime() : 0;
+          const dateB = b.timestamp ? new Date(b.timestamp).getTime() : 0;
+          return dateA;
+        })
+      ),
+    );
   }
 }

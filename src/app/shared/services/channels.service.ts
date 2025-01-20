@@ -31,7 +31,7 @@ export class ChannelsService {
         channel.members && channel.members.includes(userId)
       );
       if (userChannels.length > 0) {
-        const cachedChannelId = localStorage.getItem('lastChannelId');
+        const cachedChannelId = sessionStorage.getItem('lastChannelId');
         const defaultChannel = cachedChannelId
           ? userChannels.find(channel => channel.id === cachedChannelId) || userChannels[0]
           : userChannels[0];
@@ -66,7 +66,7 @@ export class ChannelsService {
       if (channelDoc.exists()) {
         const channel = { id: channelId, ...channelDoc.data() } as Channel;
         this.currentChannelSubject.next(channel);
-        localStorage.setItem('lastChannelId', channelId);
+        sessionStorage.setItem('lastChannelId', channelId);
       } else {
         console.error('Channel nicht gefunden.');
       }
@@ -150,7 +150,7 @@ export class ChannelsService {
 
   clearCurrentChannel(): void {
     this.currentChannelSubject.next(null);
-    localStorage.removeItem('lastChannelId');
+    sessionStorage.removeItem('lastChannelId');
     this.default
     this.setDefaultChannel();
   }

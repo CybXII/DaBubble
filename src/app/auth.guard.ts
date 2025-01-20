@@ -6,7 +6,7 @@ import { AuthService } from './shared/services/auth.service';
 export const authGuard: CanActivateFn = async (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
-  const localUserData = localStorage.getItem('userData');
+  const localUserData = sessionStorage.getItem('userData');
   const localUserId = JSON.parse(localUserData || '{}');
   const userIdIsValid = await authService.checkUserId(localUserId.userId);
 

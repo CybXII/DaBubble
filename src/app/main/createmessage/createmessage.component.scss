@@ -53,6 +53,12 @@ h2 {
     padding: 15px 20px;
     border-radius: 30px;
     width: 90%;
+    max-height: 400px;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar-track {
+        margin: 20px;
+    }
 
     .result {
         padding: 15px 20px;
