@@ -135,9 +135,13 @@
 <div class="mainchat__chatbox">
   @for (message of (messages$ | async); track message.docId) {
   <div class="thread__divider" style="position: relative" [ngClass]="{'thread__days__devider': sameDay}">
-    <span class="thread__divider-text">{{
-      message.timestamp | date:'dd. MMMM yyyy'
-      }}</span>
+    @if(currentDay) {
+      <span class="thread__divider-text">Heute</span>
+    } @else {
+      <span class="thread__divider-text">{{
+        message.timestamp | date:'dd. MMMM yyyy'
+        }}</span>
+    }
     @if (isChatBoxEmojiPickerOpen && chatBoxEmojiPickerOpenFor ===
     message.docId){
     <div [class]="{

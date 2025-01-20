@@ -57,6 +57,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   displayPickerBottom: boolean = false;
   parentMessage: Message | null = null;
   sameDay:boolean = false;
+  currentDay:boolean = false;
 
   constructor(
     private channelsService: ChannelsService,
@@ -96,8 +97,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       emojiSubscription1.unsubscribe();
       emojiSubscription2.unsubscribe();
     })
-
-    this.checkSameDay();
   }
 
   ngAfterViewInit(): void {
@@ -198,10 +197,13 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
               messages.sort((a, b) => {
                 const dateA = a.timestamp ? new Date(a.timestamp).getTime() : 0;
                 const dateB = b.timestamp ? new Date(b.timestamp).getTime() : 0;
+                // console.warn("checked Timestep", dateA, dateB, a.timestamp, b.timestamp )
+                this.checkSameDay(dateA, dateB);
                 return dateA - dateB;
               })
             ),
             tap(() => {
+              // this.checkSameDay();
               this.loadingAvatars = false;
             }),
             catchError((error) => {
@@ -365,27 +367,44 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  checkSameDay() {
+  checkSameDay(A_timestamp: number, B_timestamp: number) {
+    // console.log(Atimestamp, Btimestamp);
 
-    this.getMessageTimestep();
+    let dateObjA = new Date(A_timestamp);
+    let dateObjB = new Date(B_timestamp);
+    let currentDay = new Date().getDate();
 
-    console.warn(this.getMessageTimestep());
-    // if () {
-    //   this.sameDay = true;
-    // } else {
-    //   this.sameDay = false;
-    // }
+    var month = dateObjA.getUTCMonth() + 1;
+    var day = dateObjA.getUTCDate();
+    var year = dateObjA.getUTCFullYear();
+    var newDateA = month + "/" + day + "/" + year;
+    // console.log(newDateA)
+
+    var month = dateObjB.getUTCMonth() + 1;
+    var day = dateObjB.getUTCDate();
+    var year = dateObjB.getUTCFullYear();
+    var newDateB = month + "/" + day + "/" + year;
+    // console.log(newDateB)
+    
+    if (newDateA === newDateB) {
+      this.sameDay = false; // sollte true sein nur zu testzwecken auf false gesetzt;
+      // console.warn("true")
+    } else  {
+      this.sameDay = false;
+      // console.warn("false")
+      if (currentDay === (A_timestamp || B_timestamp)) {
+        console.log("current Day", currentDay, newDateA, newDateB)
+        this.currentDay = true;
+      } else {
+        console.log("not current Day", currentDay, newDateA, newDateB)
+        this.currentDay = false;
+      }
+    }
+
+    // this.getMessageTimestep();
   }
 
   getMessageTimestep() {
-    return this.messages$.pipe(
-      map((messages) =>
-        messages.sort((a, b) => {
-          const dateA = a.timestamp ? new Date(a.timestamp).getTime() : 0;
-          const dateB = b.timestamp ? new Date(b.timestamp).getTime() : 0;
-          return dateA;
-        })
-      ),
-    );
+    
   }
 }
