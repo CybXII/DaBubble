@@ -56,7 +56,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   chatBoxEmojiPickerOpenFor: string | null = null;
   displayPickerBottom: boolean = false;
   parentMessage: Message | null = null;
-  sameDay:boolean = false;
   currentDay:boolean = false;
 
   constructor(
@@ -197,8 +196,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
               messages.sort((a, b) => {
                 const dateA = a.timestamp ? new Date(a.timestamp).getTime() : 0;
                 const dateB = b.timestamp ? new Date(b.timestamp).getTime() : 0;
-                // console.warn("checked Timestep", dateA, dateB, a.timestamp, b.timestamp )
-                this.checkSameDay(dateA, dateB);
+                this.checkSameDay(dateA, dateB, messages);
                 return dateA - dateB;
               })
             ),
@@ -367,8 +365,9 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  checkSameDay(A_timestamp: number, B_timestamp: number) {
+  checkSameDay(A_timestamp: number, B_timestamp: number, messages: Message[]) {
     // console.log(Atimestamp, Btimestamp);
+    // console.warn(messages);
 
     let dateObjA = new Date(A_timestamp);
     let dateObjB = new Date(B_timestamp);
@@ -377,34 +376,76 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     var month = dateObjA.getUTCMonth() + 1;
     var day = dateObjA.getUTCDate();
     var year = dateObjA.getUTCFullYear();
-    var newDateA = month + "/" + day + "/" + year;
+    var newDateA = day + "." + month + "." + year;
     // console.log(newDateA)
 
     var month = dateObjB.getUTCMonth() + 1;
     var day = dateObjB.getUTCDate();
     var year = dateObjB.getUTCFullYear();
-    var newDateB = month + "/" + day + "/" + year;
+    var newDateB = day + "." + month + "." + year;
     // console.log(newDateB)
+
+    this.check(newDateA, newDateB, messages);
     
-    if (newDateA === newDateB) {
-      this.sameDay = false; // sollte true sein nur zu testzwecken auf false gesetzt; sameDay Variable in message model hinzufügen um sie bei jeder message abzurufen
-      // console.warn("true")
-    } else  {
-      this.sameDay = false;
-      // console.warn("false")
-      if (currentDay === (A_timestamp || B_timestamp)) {
-        console.log("current Day", currentDay, newDateA, newDateB)
-        this.currentDay = true;
-      } else {
-        console.log("not current Day", currentDay, newDateA, newDateB)
-        this.currentDay = false;
-      }
-    }
+    // if (newDateA === newDateB) {
+    //   // sollte true sein nur zu testzwecken auf false gesetzt; sameDay Variable in message model hinzufügen um sie bei jeder message abzurufen
+    //   // console.warn("true")
+    // } else  {
+    //   // console.warn("false")
+    //   if (currentDay === (A_timestamp || B_timestamp)) {
+    //     console.log("current Day", currentDay, newDateA, newDateB)
+    //     this.currentDay = true;
+    //   } else {
+    //     console.log("not current Day", currentDay, newDateA, newDateB)
+    //     this.currentDay = false;
+    //   }
+    // }
 
     // this.getMessageTimestep();
   }
 
   getMessageTimestep() {
     
+  }
+
+  check(newDateA:string, newDateB: string, messages:Message[]) {
+
+    messages.slice().reverse().forEach((element) => {
+      let dateC = new Date(element.timestamp);
+
+      var month = dateC.getUTCMonth() + 1;
+      var day = dateC.getUTCDate();
+      var year = dateC.getUTCFullYear();
+      var newDateC = day + "." + month + "." + year;
+
+      // console.error(newDateA, newDateB, newDateC);
+      if(newDateA === newDateB && newDateA === newDateC && newDateB === newDateC) {
+        // if (element == messages[messages.length -1]) {
+        //   element.sameDay = false;
+        // }
+        element.sameDay = true;
+        // console.log('true');
+      } else {
+        element.sameDay = false;
+        // console.log('false');
+      }
+    })
+
+    // for (let message = messages.length; message > 0; message--) {
+    //   const element = messages[message];
+    //   let dateC = new Date(element.timestamp);
+    //   var month = dateC.getUTCMonth() + 1;
+    //   var day = dateC.getUTCDate();
+    //   var year = dateC.getUTCFullYear();
+    //   var newDateC = day + "." + month + "." + year;
+    //   console.error(newDateA, newDateB, newDateC);
+    //   if(newDateA === newDateB && newDateA === newDateC && newDateB == newDateC) {
+    //     element.sameDay = true;
+    //     console.log('true');
+    //   } else {
+    //     element.sameDay = false;
+    //     console.log('false');
+    //   }
+    // }
   }
 }

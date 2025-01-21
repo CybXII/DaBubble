@@ -134,7 +134,7 @@
 } @else {
 <div class="mainchat__chatbox">
   @for (message of (messages$ | async); track message.docId) {
-  <div class="thread__divider" style="position: relative" [ngClass]="{'thread__days__devider': sameDay}">
+  <div class="thread__divider" style="position: relative" [ngClass]="{'thread__days__devider': message.sameDay}">
     @if(currentDay) {
       <span class="thread__divider-text">Heute</span>
     } @else {
@@ -158,7 +158,7 @@
     </div>
     }
   </div>
-  <div class="chatbox__msg-container" [class.chatbox__msg-container__sent]="message.createdBy === activeUserId" [ngClass]="{'thread__days__chatbox__msg-container': sameDay}">
+  <div class="chatbox__msg-container" [class.chatbox__msg-container__sent]="message.createdBy === activeUserId" [ngClass]="{'thread__days__chatbox__msg-container': message.sameDay}">
     <button (click)="preventEmojiPickerClose($event)" class="chatbox__addemoji-container"
       [class.chatbox__addemoji__sent]="message.createdBy === activeUserId">
       <div class="chatbox__addemoji__emoji-container" (click)="toggleEmojiPicker(message.docId || 'fallback', false)">

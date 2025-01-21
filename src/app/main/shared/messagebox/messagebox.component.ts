@@ -165,6 +165,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
       timestamp: new Date(),
       members: this.members,
       reactions: [],
+      sameDay: false,
     };
 
     // Sende die Nachricht über den Service
@@ -205,6 +206,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
       timestamp: new Date(),
       members: [],
       reactions: [],
+      sameDay: false,
     };
 
     // Sende die Nachricht über den Service
@@ -242,6 +244,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
       timestamp: new Date(),
       reactions: [],
       isThreadMessage: true,
+      sameDay: false,
     };
 
     // Sende die Nachricht über den Service
