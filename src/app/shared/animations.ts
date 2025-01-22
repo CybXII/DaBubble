@@ -26,7 +26,7 @@ import { trigger, state, style, transition, animate, sequence } from '@angular/a
 
 
 export const slideAnimationLeft = trigger('slideAnimationLeft', [
-    state('in', style({ width: '366px', transform: 'translateX(0)', overflow: 'hidden' })), // Ursprungszustand
+    state('in', style({ width: '366px', "min-width":'366px', transform: 'translateX(0)', overflow: 'hidden' })), // Ursprungszustand
     state('out', style({ width: '0', transform: 'translateX(-100%)', overflow: 'hidden' })), // Endzustand
     transition('in => out', [
       animate('300ms ease-in-out', style({ transform: 'translateX(-300px)', width: '0px' })), // Zwischenschritt
