@@ -78,7 +78,7 @@
     >
       <app-emoji-picker
         componentName="chatbox"
-        (emoji)="addEmoji(message.docId, message.createdBy, $event, true)"
+        (emoji)="addEmoji(message.docId, activeUserId!, $event, true)"
       />
     </div>
     }
@@ -249,7 +249,7 @@
     >
       <app-emoji-picker
         componentName="chatbox"
-        (emoji)="addEmoji(message.docId, message.createdBy!, $event, false)"
+        (emoji)="addEmoji(message.docId, activeUserId!, $event, false)"
       />
     </div>
     }
