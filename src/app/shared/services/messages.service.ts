@@ -255,16 +255,37 @@ export class MessagesService {
     userId: string
   ): Reaction[] {
     const updatedReactions = [...(currentReactions || [])];
+
     newReactions.forEach((reaction) => {
       const existingReactionIndex = updatedReactions.findIndex(
-        (r) => r.emoji === reaction.emoji && r.userId === userId
+        (r) => r.emoji === reaction.emoji
       );
+
       if (existingReactionIndex >= 0) {
-        updatedReactions.splice(existingReactionIndex, 1);
+        const existingReaction = updatedReactions[existingReactionIndex];
+        if (!existingReaction.userIds.includes(userId)) {
+          existingReaction.userIds.push(userId);
+        } else {
+          const index = existingReaction.userIds.indexOf(userId);
+
+          if (index > -1) {
+            existingReaction.userIds.splice(index, 1);
+            if (existingReaction.userIds.length === 0) {
+              const reactionIndex = updatedReactions.findIndex(
+                (r) => r.emoji === existingReaction.emoji
+              );
+              if (reactionIndex > -1) {
+                updatedReactions.splice(reactionIndex, 1);
+              }
+            }
+          }
+        }
       } else {
-        updatedReactions.push({ emoji: reaction.emoji, userId: userId });
+        updatedReactions.push({ emoji: reaction.emoji, userIds: [userId] });
       }
     });
+    console.log('messages service ', currentReactions);
+    console.log('messages service ', newReactions);
     return updatedReactions;
   }
 
