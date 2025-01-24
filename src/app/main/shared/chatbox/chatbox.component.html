@@ -5,13 +5,40 @@
 } @else { @if (builder == "threadchat") {
 <div class="threadchat__chatbox">
   <div class="chatbox__mainthread-container">
-    @if (this.parentMessage){
-    <button
-      class="chatbox__addemoji-container"
-      (click)="toggleEmojiPicker('fallback', false)"
+    @if (this.parentMessage){ @if (isChatBoxEmojiPickerOpen &&
+    chatBoxEmojiPickerOpenFor === parentMessage.docId &&
+    displayEmojiPickerMainThread){
+    <div
+      [class]="{
+        'emoji-picker__wrapper-left-thread':
+          displayPickerBottom && parentMessage.createdBy !== activeUserId,
+        'emoji-picker__wrapper-top-right-thread':
+          !displayPickerBottom && parentMessage.createdBy !== activeUserId,
+        'emoji-picker__wrapper-top-left-thread':
+          !displayPickerBottom && parentMessage.createdBy === activeUserId,
+        'emoji-picker__wrapper-right-thread':
+          displayPickerBottom && parentMessage.createdBy === activeUserId
+      }"
       (click)="preventEmojiPickerClose($event)"
     >
-      <div class="chatbox__addemoji__emoji-container">
+      <app-emoji-picker
+        componentName="chatbox"
+        (emoji)="addEmoji(parentMessage.docId, activeUserId!, $event, false)"
+      />
+    </div>
+    }
+    <button
+      class="chatbox__addemoji-container"
+      (click)="toggleEmojiPicker('fallback', false, true)"
+      (click)="preventEmojiPickerClose($event)"
+    >
+      <div
+        class="chatbox__addemoji__emoji-container"
+        (click)="
+          toggleEmojiPicker(parentMessage.docId || 'fallback', false, true)
+        "
+        (click)="preventEmojiPickerClose($event)"
+      >
         <img src="/img/icons/addemoji.svg" alt="" />
       </div>
     </button>
@@ -36,10 +63,13 @@
         {{ parentMessage.message || "Keine Nachricht" }}
       </p>
       <div class="chatbox__emojis-container">
+        @if(parentMessage.reactions){ @for (reaction of parentMessage.reactions;
+        track $index) {
         <div class="chatbox__emojis">
-          <img src="/img/icons/emoji.svg" alt="Emoji" />
-          <span>1</span>
+          <span>{{ reaction.emoji }}</span>
+          <span>{{ reaction.userIds.length }}</span>
         </div>
+        }}
         <div class="chatbox__addreaction-container">
           <img
             src="/img/icons/add_reaction.svg"
@@ -205,7 +235,6 @@
           <div class="chatbox__emojis">
             <span>{{ reaction.emoji }}</span>
             <span>{{ reaction.userIds.length }}</span>
-            <!-- Second span must be fixed -->
           </div>
           }}
         </div>
@@ -233,7 +262,7 @@
       message.timestamp | date : "dd. MMMM yyyy"
     }}</span>
     @if (isChatBoxEmojiPickerOpen && chatBoxEmojiPickerOpenFor ===
-    message.docId){
+    message.docId && !displayEmojiPickerMainThread){
     <div
       [class]="{
         'emoji-picker__wrapper-left':
