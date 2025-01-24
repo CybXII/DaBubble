@@ -313,7 +313,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   ): void {
     this.selectedEmoji = emoji;
 
-    const reaction: Reaction = { emoji, userId };
+    const reaction: Reaction = { emoji, userIds: [userId] };
     const updateData: Partial<Message> = {
       reactions: [reaction],
     };
@@ -335,9 +335,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     updatePromise
       .then(() => {
         console.log(
-          `Reaction added to ${
-            isThreadMessage ? 'thread message' : 'message'
-          } ${this.activeMessageId}`
+          `Reaction added to ${isThreadMessage ? `thread message` : 'message'}`
         );
       })
       .catch((error) => {
@@ -345,6 +343,9 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       });
 
     this.emojiPickerService.closeChatBoxEmojiPicker();
+    console.log('chatbox', messageIdOrThreadDocId);
+    console.log('chatbox', userId);
+    console.log('chatbox', updateData);
   }
 
   checkIdIsUser(id: string | undefined) {
