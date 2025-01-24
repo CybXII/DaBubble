@@ -365,7 +365,7 @@ z-index: 9;
 .chatbox__emojis-container {
   @include mixins.flexbox(row, flex-start, center, nowrap);
   gap:12px;
-  max-width: 180px;
+  max-width: 210px;
   overflow-x: auto;
   padding-bottom: 0.3em;
 }

@@ -57,6 +57,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   displayPickerBottom: boolean = false;
   parentMessage: Message | null = null;
   sameDay:boolean = false;
+  displayEmojiPickerMainThread:boolean = false;
 
   constructor(
     private channelsService: ChannelsService,
@@ -92,9 +93,15 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       this.cdRef.markForCheck();
     });
 
+    const emojiSubscription3 = this.emojiPickerService.displayEmojiPickerMainThread$.subscribe((display) => {
+      this.displayEmojiPickerMainThread = display;
+      this.cdRef.markForCheck();
+    })
+
     this.destroyRef.onDestroy(() => {
       emojiSubscription1.unsubscribe();
       emojiSubscription2.unsubscribe();
+      emojiSubscription3.unsubscribe();
     })
 
     this.checkSameDay();
@@ -274,8 +281,11 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  toggleEmojiPicker(messageId: string, displayPickerBottom: boolean) {
+  toggleEmojiPicker(messageId: string, displayPickerBottom: boolean, threadMain?: boolean) {
+    console.log('displayEmojiPickerMainThread', this.displayEmojiPickerMainThread);
+    // checks if the picker should display at the bottom or at the top of the message
     this.displayPickerBottom = displayPickerBottom;
+    // checks if any picker of the messagebox is open, and closes it
     if (
       this.emojiPickerService.isMessageBoxMainPickerOpen$ ||
       this.emojiPickerService.isMessageBoxThreadPickerOpen$
@@ -283,14 +293,17 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       this.emojiPickerService.closeMsgBoxEmojiPickerMain();
       this.emojiPickerService.closeMsgBoxEmojiPickerThread();
     }
+    // checks if any picker of the chatbox is open
     if (this.isChatBoxEmojiPickerOpen) {
+      // if the chatbox is already open for another message, closes it and opens it for a new message. If it's open for the message we clicked on, it closes
       if (messageId !== this.chatBoxEmojiPickerOpenFor) {
         this.emojiPickerService.openNewChatBoxEmojiPicker(messageId);
       } else {
         this.emojiPickerService.closeChatBoxEmojiPicker();
       }
     } else {
-      this.emojiPickerService.openChatBoxEmojiPicker(messageId);
+      // Opens a new emoji picker for the message we clicked on.
+      this.emojiPickerService.openChatBoxEmojiPicker(messageId, threadMain ? threadMain : false);
     }
   }
 
@@ -313,7 +326,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   ): void {
     this.selectedEmoji = emoji;
 
-    const reaction: Reaction = { emoji, userId };
+    const reaction: Reaction = { emoji, userIds: [userId] };
     const updateData: Partial<Message> = {
       reactions: [reaction],
     };
@@ -335,9 +348,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     updatePromise
       .then(() => {
         console.log(
-          `Reaction added to ${
-            isThreadMessage ? 'thread message' : 'message'
-          } ${this.activeMessageId}`
+          `Reaction added to ${isThreadMessage ? `thread message` : 'message'}`
         );
       })
       .catch((error) => {
@@ -345,6 +356,10 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       });
 
     this.emojiPickerService.closeChatBoxEmojiPicker();
+    console.log('chatbox', messageIdOrThreadDocId);
+    console.log('chatbox', userId);
+    console.log('chatbox', updateData);
+    this.cdRef.markForCheck();
   }
 
   checkIdIsUser(id: string | undefined) {
