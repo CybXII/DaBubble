@@ -1,20 +1,15 @@
 <div class="builder-container">
-  @if (shouldRenderMenu()) {
     <div class="m-height" *ngIf="menuState === 'in' || menuState === 'out'" [@slideAnimationLeft]="menuState"
       (@slideAnimationLeft.done)="onAnimationDone($event, 'menu')">
       <app-menu class="menu-container menu-width"></app-menu>
     </div>
-  }
 
-  @if (shouldRenderMainChat()) {
     <app-mainchat
       [builder]="'mainchat'"
       class="menu-container mainchat-container"
-      [ngClass]="{ hidden: smallWindow && threadchatOpened }"
+      [ngClass]="{ hidden: smallWindow && threadchatOpened || mobile && menuOpened }"
     ></app-mainchat>
-  }
 
-  @if (shouldRenderThreadChat()) {
     <div class="m-height" *ngIf="threadchatState === 'in' || threadchatState === 'out'"
       [@slideAnimationRight]="{ value: threadchatState, params: { width: smallWindow ? '100%' : '485px' } }"
       (@slideAnimationRight.done)="onAnimationDone($event, 'threadchat')">
@@ -23,7 +18,6 @@
         class="menu-container thread-container thread-width"
       ></app-threadchat>
     </div>
-  }
 
   <app-menutoggler class="toggleButton" (click)="toggleMenu()"
     [menuState]="menuOpened ? 'schließen' : 'öffnen'"></app-menutoggler>
