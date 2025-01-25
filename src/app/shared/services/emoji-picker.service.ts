@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 export class EmojiPickerService {
   private isMessageBoxMainPickerOpen = new BehaviorSubject<boolean>(false);
   private isMessageBoxThreadPickerOpen = new BehaviorSubject<boolean>(false);
+  private isMessageBoxCreateMessagePickerOpen = new BehaviorSubject<boolean>(false);
   private isChatBoxPickerOpen = new BehaviorSubject<boolean>(false);
   private chatBoxEmojiPickerForId = new BehaviorSubject<string>('');
   private displayEmojiPickerMainThread = new BehaviorSubject<boolean>(false);
@@ -14,6 +15,7 @@ export class EmojiPickerService {
   isMessageBoxMainPickerOpen$ = this.isMessageBoxMainPickerOpen.asObservable();
   isMessageBoxThreadPickerOpen$ =
     this.isMessageBoxThreadPickerOpen.asObservable();
+    isMessageBoxCreateMessagePickerOpen$ = this.isMessageBoxCreateMessagePickerOpen.asObservable();
   isChatBoxPickerOpen$ = this.isChatBoxPickerOpen.asObservable();
   chatBoxEmojiPickerForId$ = this.chatBoxEmojiPickerForId.asObservable();
   displayEmojiPickerMainThread$ = this.displayEmojiPickerMainThread.asObservable();
@@ -28,12 +30,20 @@ export class EmojiPickerService {
     this.isMessageBoxThreadPickerOpen.next(true);
   }
 
+  openMsgBoxCreateMessageEmojiPicker(){
+    this.isMessageBoxCreateMessagePickerOpen.next(true);
+  }
+
   closeMsgBoxEmojiPickerMain() {
     this.isMessageBoxMainPickerOpen.next(false);
   }
   
   closeMsgBoxEmojiPickerThread() {
     this.isMessageBoxThreadPickerOpen.next(false);
+  }
+
+  closeMsgBoxCreateMessageEmojiPicker(){
+    this.isMessageBoxCreateMessagePickerOpen.next(false);
   }
 
   openChatBoxEmojiPicker(messageId: string, threadMain: boolean) {
