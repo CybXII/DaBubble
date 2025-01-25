@@ -1,5 +1,5 @@
 <div class="builder-container">
-    <div class="m-height" *ngIf="menuState === 'in' || menuState === 'out'" [@slideAnimationLeft]="menuState"
+    <div class="m-height" *ngIf="menuState === 'in' || menuState === 'out'" [@slideAnimationLeft]="{ value: menuState, params: { width: mobile ? '100%' : '366px' } }"
       (@slideAnimationLeft.done)="onAnimationDone($event, 'menu')">
       <app-menu class="menu-container menu-width"></app-menu>
     </div>
