@@ -14,7 +14,7 @@ export interface Message {
 }
 
 export interface ThreadMessage {
-  channelId? : string; 
+  channelId?: string;
   messageId?: string; // ID der Ursprungsnachricht
   docId?: string; // Firestore-Dokument-ID (optional, falls nicht von Firebase bereitgestellt)
   createdBy: string; // User-ID des Erstellers
@@ -29,5 +29,5 @@ export interface ThreadMessage {
 
 export interface Reaction {
   emoji: string; // Das verwendete Emoji
-  userId: string; // ID des Nutzers, der reagiert hat
+  userIds: string[]; // IDs der Nutzer, die reagiert haben
 }
