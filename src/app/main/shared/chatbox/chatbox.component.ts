@@ -196,9 +196,8 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
               messages.sort((a, b) => {
                 const dateA = a.timestamp ? new Date(a.timestamp).getTime() : 0;
                 const dateB = b.timestamp ? new Date(b.timestamp).getTime() : 0;
-                this.checkSameDay(dateA, dateB, messages);
                 return dateA - dateB;
-              })
+              }),
             ),
             tap(() => {
               // this.checkSameDay();
@@ -213,10 +212,12 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
               return [];
             })
           );
+        this.getMessageTimestep();
       } catch (error) {
         console.error('Fehler beim Laden der Nachrichten:', error);
       } finally {
         this.loadingMessages.set(false);
+        // this.getMessageTimestep();
       }
     }
   }
@@ -365,13 +366,52 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+
+
+  // Activer Code
+
+
+
+  getMessageTimestep() {
+    this.messages$.subscribe( messages => {
+      messages.map((message) => {
+        // console.log(message.message);
+        const messageTime = message.timestamp ? new Date(message.timestamp) : 0;
+
+        let messTime = this.gettingDate(messageTime)
+
+        if (message.docId == 'dtak60DWUiZ9K5RZIqfi') {
+          console.log('id is da', messTime);
+          message.sameDay = true;
+        } else {
+          message.sameDay = false;
+        }
+
+        // console.log(message.sameDay);
+      })
+    })
+  }
+
+  gettingDate(date: any) {
+    var month = date.getUTCMonth() + 1;
+    var day = date.getUTCDate();
+    var year = date.getUTCFullYear();
+    var newDate = day + "." + month + "." + year;
+
+    return newDate;
+  }
+
+
+
+  // Inactiver Code
+
+
+
   checkSameDay(A_timestamp: number, B_timestamp: number, messages: Message[]) {
-    // console.log(Atimestamp, Btimestamp);
     // console.warn(messages);
 
     let dateObjA = new Date(A_timestamp);
     let dateObjB = new Date(B_timestamp);
-    let currentDay = new Date().getDate();
 
     var month = dateObjA.getUTCMonth() + 1;
     var day = dateObjA.getUTCDate();
@@ -385,7 +425,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     var newDateB = day + "." + month + "." + year;
     // console.log(newDateB)
 
-    this.check(newDateA, newDateB, messages);
+    // this.check(newDateA, newDateB, messages);
     
     // if (newDateA === newDateB) {
     //   // sollte true sein nur zu testzwecken auf false gesetzt; sameDay Variable in message model hinzufügen um sie bei jeder message abzurufen
@@ -400,12 +440,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     //     this.currentDay = false;
     //   }
     // }
-
-    // this.getMessageTimestep();
-  }
-
-  getMessageTimestep() {
-    
   }
 
   check(newDateA:string, newDateB: string, messages:Message[]) {
@@ -419,15 +453,18 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       var newDateC = day + "." + month + "." + year;
 
       // console.error(newDateA, newDateB, newDateC);
+      console.log( newDateA === newDateB || newDateA === newDateC || newDateB === newDateC);
       if(newDateA === newDateB && newDateA === newDateC && newDateB === newDateC) {
         // if (element == messages[messages.length -1]) {
         //   element.sameDay = false;
         // }
         element.sameDay = true;
+        console.log(element.docId, element.message, element.sameDay)
         // console.log('true');
       } else {
         element.sameDay = false;
         // console.log('false');
+        console.warn(element.docId, element.message, element.sameDay)
       }
     })
 
@@ -447,5 +484,39 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     //     console.log('false');
     //   }
     // }
+  }
+
+  checkCurrentDay(value: any):string {
+    if (!value) {
+      return 'Ungültiges Datum';
+    }
+
+    let date: Date;
+
+    if (value.seconds) {
+      date = new Date(value.seconds * 1000);
+    } else if (value instanceof Date) {
+      date = value;
+    } else if (typeof value === 'string' || typeof value === 'number') {
+      date = new Date(value);
+    } else {
+      return 'Ungültiges Datum';
+    }
+
+    const today = new Date();
+
+    if (
+      date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
+    ) {
+      return `Heute`;
+    }
+
+    return '';
+  }
+
+  checkSameDayMessage(messages:any) {
+
   }
 }
