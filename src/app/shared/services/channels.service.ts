@@ -4,6 +4,7 @@ import { Channel } from '../../models/channel';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from './auth.service';
 import { MessagesService } from './messages.service';
+import { StateService } from './state.service';
 
 
 @Injectable({
@@ -14,7 +15,7 @@ export class ChannelsService {
   threadAktive: boolean = false;
   private currentChannelSubject = new BehaviorSubject<Channel | null>(null);
   currentChannel$ = this.currentChannelSubject.asObservable();
-  constructor(private firestore: Firestore, private authService: AuthService , private messagesService: MessagesService) {}
+  constructor(private firestore: Firestore, private authService: AuthService , private messagesService: MessagesService ,private stateService: StateService) {}
   channelsOpen: boolean = false;
   default: boolean = false;
 
@@ -55,11 +56,14 @@ export class ChannelsService {
 
 
   async selectChannel(channelId: string): Promise<void> {
-    this.messagesService.closeThreadChat();
     if (!channelId) {
       console.error('Ungültige Channel-ID.');
       return;
     }
+  
+    // Menü im mobilen Modus schließen
+
+  
     const channelRef = doc(this.firestore, `${this.collectionName}/${channelId}`);
     try {
       const channelDoc = await getDoc(channelRef);
@@ -73,6 +77,13 @@ export class ChannelsService {
     } catch (error) {
       console.error('Fehler beim Abrufen des Channels:', error);
     }
+
+    console.log(window.innerWidth);
+    if (window.innerWidth <= 900) {
+      this.stateService.closeMenuAndThread();
+      console.log('closeMenuAndThread');
+    }
+    this.messagesService.closeThreadChat(); // Sicherstellen, dass der Threadchat geschlossen wird
   }
   
 
