@@ -43,10 +43,6 @@ onResize(): void {
   ngOnInit(): void {
     this.onResize();
 
-    this.messagesService.threadchatState$.subscribe((state) => {
-      this.threadchatState = state ? 'in' : 'out';
-    });
-
     this.stateService.menuState$.subscribe((state) => {
       this.menuState = state;
       this.menuOpened = state === 'in';
@@ -66,7 +62,7 @@ onResize(): void {
       // Schließe Threadchat im mobilen Modus, wenn das Menü geöffnet wird
       if (this.threadchatOpened) {
         this.threadWasOpen = true;
-        this.messagesService.closeThreadChat();
+        this.stateService.setThreadchatState('out');
       } else {
         this.threadWasOpen = false;
       }

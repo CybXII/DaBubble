@@ -22,7 +22,7 @@ export class ChannelsService {
 
   async setDefaultChannel(): Promise<void> {
     try {
-      const userId = this.authService.userId(); // Aktuelle Benutzer-ID abrufen
+      const userId = this.authService.userId();
       if (!userId) {
         console.warn('Keine Benutzer-ID verfügbar.');
         return;
@@ -60,10 +60,6 @@ export class ChannelsService {
       console.error('Ungültige Channel-ID.');
       return;
     }
-  
-    // Menü im mobilen Modus schließen
-
-  
     const channelRef = doc(this.firestore, `${this.collectionName}/${channelId}`);
     try {
       const channelDoc = await getDoc(channelRef);
@@ -81,9 +77,8 @@ export class ChannelsService {
     console.log(window.innerWidth);
     if (window.innerWidth <= 900) {
       this.stateService.closeMenuAndThread();
-      console.log('closeMenuAndThread');
     }
-    this.messagesService.closeThreadChat(); // Sicherstellen, dass der Threadchat geschlossen wird
+    this.stateService.setThreadchatState('out');
   }
   
 
@@ -124,7 +119,7 @@ export class ChannelsService {
       const querySnapshot = await getDocs(channelsRef);
       return querySnapshot.docs
         .map(doc => ({ id: doc.id, ...doc.data() } as Channel))
-        .sort((a, b) => a.name.localeCompare(b.name)); // Alphabetische Sortierung nach Name
+        .sort((a, b) => a.name.localeCompare(b.name));
     } catch (error) {
       console.error('Fehler beim Abrufen der Channels:', error);
       throw error;
@@ -139,7 +134,7 @@ export class ChannelsService {
     const unsubscribe = onSnapshot(queryRef, (snapshot) => {
       const channels = snapshot.docs
         .map(doc => ({ id: doc.id, ...doc.data() } as Channel))
-        .sort((a, b) => a.name.localeCompare(b.name)); // Alphabetische Sortierung
+        .sort((a, b) => a.name.localeCompare(b.name));
       callback(channels);
     });
     return unsubscribe;
@@ -169,7 +164,7 @@ export class ChannelsService {
   async deleteChannel(channelId: string): Promise<void> {
     const channelRef = doc(this.firestore, `${this.collectionName}/${channelId}`);
     try {
-      await deleteDoc(channelRef); // Löscht das Dokument komplett
+      await deleteDoc(channelRef);
     } catch (error) {
       console.error('Fehler beim Löschen des Channels:', error);
     }
