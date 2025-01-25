@@ -8,6 +8,7 @@ import { ChannelsService } from '../../services/channels.service';
 import { UserDialogService } from '../../services/user-dialog.service';
 import { MessagesService } from '../../services/messages.service';
 import { doc } from 'firebase/firestore';
+import { StateService } from '../../services/state.service';
 
 @Component({
   selector: 'app-searchbar',
@@ -32,7 +33,8 @@ export class SearchbarComponent {
     private authService: AuthService,
     private channelService: ChannelsService,
     private userDialogService: UserDialogService,
-    private messageService: MessagesService
+    private messageService: MessagesService,
+    private stateService: StateService
   ) {
     this.searchService.messageResults$.subscribe((results) => {
       this.messageResults = results;
@@ -124,7 +126,7 @@ export class SearchbarComponent {
     else if (channelId && messageId && isThreadMessage) {
       this.channelService.selectChannel(channelId);
       this.messageService.setMessageId(messageId);
-      this.messageService.openThreadChat();
+      this.stateService.setThreadchatState('in');
 
       // TODO: Scroll to message
 
