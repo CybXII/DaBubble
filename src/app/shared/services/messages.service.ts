@@ -11,6 +11,7 @@ import {
   getDoc,
   deleteDoc,
   getDocs,
+  onSnapshot,
 } from '@angular/fire/firestore';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Message, Reaction, ThreadMessage } from '../../models/message';
@@ -108,23 +109,17 @@ export class MessagesService {
         this.threadMessagesSubject.next(sortedThreadMessages);
       });
 
-    const parentMessageRef = doc(this.firestore, `messages/${parentMessageId}`);
-    getDoc(parentMessageRef)
-      .then((docSnap) => {
+      const parentMessageRef = doc(this.firestore, `messages/${parentMessageId}`);
+      onSnapshot(parentMessageRef, (docSnap) => {
         if (docSnap.exists()) {
           const parentMessage = {
             docId: parentMessageId,
             ...docSnap.data(),
           } as Message;
-          this.parentMessageSubject.next(parentMessage);
+          this.parentMessageSubject.next(parentMessage); // Echtzeit-Update
         } else {
-          console.warn('Parent-Nachricht nicht gefunden');
           this.parentMessageSubject.next(null);
         }
-      })
-      .catch((error) => {
-        console.error('Fehler beim Laden der Parent-Nachricht:', error);
-        this.parentMessageSubject.next(null);
       });
     this.stateService.setThreadchatState('in');
   }

@@ -101,5 +101,15 @@ $breakpoint-smallWindow: 1400px;
 
 $breakpoint-mobile: 900px;
 @media (max-width: $breakpoint-mobile) {
+  .builder-container {
+    gap: 0;
+  }
 
+  .menu-container{
+    border-radius: unset;
+  }
+  .menu-width {
+    width: 100%;
+    max-width: 100%;
+  }
 }
