@@ -89,6 +89,7 @@
   <div
     class="chatbox__msg-container"
     [class.chatbox__msg-container__sent]="message.createdBy === activeUserId"
+    id="{{ message.docId }}"
   >
     @if (isChatBoxEmojiPickerOpen && chatBoxEmojiPickerOpenFor ===
     message.docId){
@@ -286,6 +287,7 @@
     class="chatbox__msg-container"
     [class.chatbox__msg-container__sent]="message.createdBy === activeUserId"
     [ngClass]="{ 'thread__days__chatbox__msg-container': sameDay }"
+    id="{{ message.docId }}"
   >
     <button
       (click)="preventEmojiPickerClose($event)"
