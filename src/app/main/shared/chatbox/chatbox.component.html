@@ -64,7 +64,7 @@
       <div class="chatbox__emojis-container">
         @if(parentMessage.reactions){ @for (reaction of parentMessage.reactions;
         track $index) {
-        <div class="chatbox__emojis">
+        <div class="chatbox__emojis" [class.chatbox__emoji-reacted]="reaction.userIds.includes(activeUserId!) ? true : false" (click)="addEmoji(parentMessage.docId!, activeUserId!, reaction.emoji, false)">
           <span>{{ reaction.emoji }}</span>
           <span>{{ reaction.userIds.length }}</span>
         </div>
@@ -232,7 +232,7 @@
         <div class="chatbox__emojis-container">
           @if(message.reactions){ @for (reaction of message.reactions; track
           $index) {
-          <div class="chatbox__emojis">
+          <div class="chatbox__emojis" [class.chatbox__emoji-reacted]="reaction.userIds.includes(activeUserId!) ? true : false" (click)="addEmoji(message.docId!, activeUserId!, reaction.emoji, true)">
             <span>{{ reaction.emoji }}</span>
             <span>{{ reaction.userIds.length }}</span>
           </div>
@@ -415,7 +415,7 @@
           <div class="chatbox__emojis-container">
             @if(message.reactions){ @for (reaction of message.reactions; track
             $index) {
-            <div class="chatbox__emojis">
+            <div class="chatbox__emojis" [class.chatbox__emoji-reacted]="reaction.userIds.includes(activeUserId!) ? true : false" (click)="addEmoji(message.docId!, activeUserId!, reaction.emoji, false)">
               <span>{{ reaction.emoji }}</span>
               <span>{{ reaction.userIds.length }}</span>
             </div>
