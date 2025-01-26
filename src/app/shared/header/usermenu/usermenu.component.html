@@ -1,6 +1,6 @@
 <div class="usermenu-container">
   <div class="usermenu-container-box" (click)="userDialog.openDialog($event)">
-    <span>{{ userDialog.userData?.name}}</span>
+    <span class="elipsis">{{ userDialog.userData?.name}}</span>
     <div class="avatar-container">
       <img [src]="userDialog.userData?.photoURL" alt="" />
     <div target="online-status" [ngStyle]="{'background-color': userDialog.userData?.status ? '#92c83e' : '#696969'}"></div>

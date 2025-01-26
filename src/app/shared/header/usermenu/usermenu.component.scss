@@ -59,3 +59,7 @@
   background-color: colors.$light-grey;
   z-index: 555;
 }
+
+.elipsis {
+  @include mixins.elipsis(250px);
+}

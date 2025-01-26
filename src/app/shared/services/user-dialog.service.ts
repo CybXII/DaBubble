@@ -27,9 +27,8 @@ export class UserDialogService {
         this.userData?.name,
         [
           Validators.required,
-          //Validators.pattern('^[a-zA-ZÀ-ÿ]{1,}(?: [a-zA-ZÀ-ÿ]{1,})+$'),
-          //Validators.pattern('^[a-zA-ZÀ-ÿ]{1,}(?:[-' ][a-zA-ZÀ-ÿ]{1,})*$')
-          Validators.pattern('^[a-zA-ZÀ-ÿ]+(?:-[a-zA-ZÀ-ÿ]+)?(?: [a-zA-ZÀ-ÿ]+(?:-[a-zA-ZÀ-ÿ]+)?)$')
+          Validators.pattern('^[a-zA-ZÀ-ÿ]+(?:-[a-zA-ZÀ-ÿ]+)?(?: [a-zA-ZÀ-ÿ]+(?:-[a-zA-ZÀ-ÿ]+)?)$'),
+          Validators.maxLength(25),
         ],
       ],
       userInputEmail: [
