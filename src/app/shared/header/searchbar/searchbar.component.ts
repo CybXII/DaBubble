@@ -9,6 +9,7 @@ import { UserDialogService } from '../../services/user-dialog.service';
 import { MessagesService } from '../../services/messages.service';
 import { doc } from 'firebase/firestore';
 import { StateService } from '../../services/state.service';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-searchbar',
@@ -34,7 +35,8 @@ export class SearchbarComponent {
     private channelService: ChannelsService,
     private userDialogService: UserDialogService,
     private messageService: MessagesService,
-    private stateService: StateService
+    private stateService: StateService,
+    private viewportScroller: ViewportScroller
   ) {
     this.searchService.messageResults$.subscribe((results) => {
       this.messageResults = results;
@@ -119,26 +121,39 @@ export class SearchbarComponent {
       'messageId: ',
       messageId
     );
-    // alert('Zu früh gefreut, ist noch nicht fertig!');
-    if (channelId && !docId) {
+    if (channelId && !messageId && !isThreadMessage && !docId) {
       this.channelService.selectChannel(channelId);
-    } 
-    else if (channelId && messageId && isThreadMessage) {
+    } else if (channelId && messageId && !isThreadMessage && !docId) {
       this.channelService.selectChannel(channelId);
-      this.messageService.setMessageId(messageId);
-      this.stateService.setThreadchatState('in');
-
-      // TODO: Scroll to message
-
-    }
-    else if (channelId && messageId && isThreadMessage == undefined) {
+      setTimeout(() => {
+        const element = document.getElementById(messageId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 500);
+    } else if (channelId && messageId && isThreadMessage && docId) {
       this.channelService.selectChannel(channelId);
       this.messageService.setMessageId(messageId);
+      setTimeout(() => {
+        const element = document.getElementById(messageId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 500);
+      setTimeout(() => {    
+        this.stateService.setThreadchatState('in');
+        this.messageService.loadThreadMessages(messageId);
+        setTimeout(() => {
+        const element = document.getElementById(docId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 500);
+      }, 500);
+    } else if (channelId && messageId && isThreadMessage == undefined) {
+      this.channelService.selectChannel(channelId);
+      this.messageService.setMessageId(messageId);
     }
-    // else if (userId) {
-    //   this.userDialogService.openUserDialog(userId);
-    // }
-
     this.clearSearch();
   }
 
