@@ -29,7 +29,6 @@
     }
     <button
       class="chatbox__addemoji-container"
-      (click)="toggleEmojiPicker('fallback', false, true)"
       (click)="preventEmojiPickerClose($event)"
     >
       <div
@@ -74,7 +73,7 @@
           <img
             src="/img/icons/add_reaction.svg"
             alt="Reaktion hinzufügen"
-            (click)="toggleEmojiPicker('fallback', true)"
+            (click)="toggleEmojiPicker(parentMessage.docId || 'fallback', true, true)"
             (click)="preventEmojiPickerClose($event)"
           />
         </div>
