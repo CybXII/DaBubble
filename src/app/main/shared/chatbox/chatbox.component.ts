@@ -395,14 +395,14 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
 
         let messTime = this.gettingDate(messageTime)
 
-        if (message.docId == 'dtak60DWUiZ9K5RZIqfi') {
-          console.log('id is da', messTime);
+        if (messTime == '23.1.2025') {
+          console.log('id is da', message.message);
           message.sameDay = true;
         } else {
           message.sameDay = false;
         }
 
-        // console.log(message.sameDay);
+        console.log(message.sameDay, message.docId, messTime);
       })
     })
   }
