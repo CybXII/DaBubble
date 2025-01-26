@@ -45,7 +45,7 @@
     </div>
     <div class="dialog-profile-info">
       <div>
-        <span>{{ userDialog$.userData?.name }}</span>
+        <span class="elipsis">{{ userDialog$.userData?.name }}</span>
         <a (click)="userDialog$.openProfileEdit()">Bearbeiten</a>
       </div>
       <div>
@@ -128,6 +128,15 @@
         class="error-message"
       >
         <p>Bitte Vor- und Nachnamen angeben.</p>
+      </div>
+      <div
+        *ngIf="
+          userDialog$.profileForm.get('userInputName')?.hasError('maxlength') &&
+          userDialog$.profileForm.get('userInputName')?.dirty
+        "
+        class="error-message"
+      >
+        <p>Maximal 25 Buchstaben</p>
       </div>
     </div>
 

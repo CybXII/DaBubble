@@ -185,6 +185,10 @@
   color: grey !important;
 }
 
+.elipsis {
+  @include mixins.elipsis(250px);
+}
+
 @media screen and (min-width: 1920px) {
   .dialog-container {
     right: calc(100vw / 2 + -940px) !important;
