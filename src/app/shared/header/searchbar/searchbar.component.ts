@@ -128,7 +128,7 @@ export class SearchbarComponent {
       setTimeout(() => {
         const element = document.getElementById(messageId);
         if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
       }, 500);
     } else if (channelId && messageId && isThreadMessage && docId) {
@@ -137,7 +137,7 @@ export class SearchbarComponent {
       setTimeout(() => {
         const element = document.getElementById(messageId);
         if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
       }, 500);
       setTimeout(() => {    
@@ -146,7 +146,7 @@ export class SearchbarComponent {
         setTimeout(() => {
         const element = document.getElementById(docId);
         if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
       }, 500);
       }, 500);

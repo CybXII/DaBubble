@@ -1,4 +1,3 @@
-@if(!showSuccess){
 <div class="mainCont">
   <div class="headline">
     <div class="arrowBack">
@@ -64,15 +63,3 @@
     <button [disabled]="this.activePic === -1" class="button_blue" (click)="signUpAvatar()">Weiter</button>
   </div>
 </div>
-} @else {
-<div class="signup-success-container">
-  <h1>Registrierung erfolgreich</h1>
-  <p>Bitte prüfe deine E-Mails und aktiviere dein Konto.</p>
-  <img
-    src="/img/icons/successemail.svg"
-    height="250px"
-    width="250px"
-    alt="success"
-  />
-</div>
-}
