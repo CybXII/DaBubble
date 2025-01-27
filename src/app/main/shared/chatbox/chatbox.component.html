@@ -256,11 +256,15 @@
   <div
     class="thread__divider"
     style="position: relative"
-    [ngClass]="{ thread__days__devider: sameDay }"
+    [ngClass]="{ thread__days__devider: message.sameDay }"
   >
-    <span class="thread__divider-text">{{
-      message.timestamp | date : "dd. MMMM yyyy"
-    }}</span>
+    @if(currentDay) {
+      <span class="thread__divider-text">Heute</span>
+    } @else {
+      <span class="thread__divider-text">{{
+        message.timestamp | date : "dd. MMMM yyyy"
+      }}</span>
+    }
     @if (isChatBoxEmojiPickerOpen && chatBoxEmojiPickerOpenFor ===
     message.docId && !displayEmojiPickerMainThread){
     <div
@@ -286,7 +290,7 @@
   <div
     class="chatbox__msg-container"
     [class.chatbox__msg-container__sent]="message.createdBy === activeUserId"
-    [ngClass]="{ 'thread__days__chatbox__msg-container': sameDay }"
+    [ngClass]="{ 'thread__days__chatbox__msg-container': message.sameDay }"
     id="{{ message.docId }}"
   >
     <button

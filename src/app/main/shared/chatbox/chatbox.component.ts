@@ -18,7 +18,7 @@ import { MessagesService } from '../../../shared/services/messages.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { Message, Reaction, ThreadMessage } from '../../../models/message';
 import { Observable, Subject } from 'rxjs';
-import { catchError, map, takeUntil, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { Channel } from '../../../models/channel';
 import { ChannelsService } from '../../../shared/services/channels.service';
@@ -56,7 +56,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   chatBoxEmojiPickerOpenFor: string | null = null;
   displayPickerBottom: boolean = false;
   parentMessage: Message | null = null;
-  sameDay:boolean = false;
+  currentDay:boolean = false;
   displayEmojiPickerMainThread:boolean = false;
 
   constructor(
@@ -103,8 +103,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       emojiSubscription2.unsubscribe();
       emojiSubscription3.unsubscribe();
     })
-
-    this.checkSameDay();
   }
 
   ngAfterViewInit(): void {
@@ -206,9 +204,10 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
                 const dateA = a.timestamp ? new Date(a.timestamp).getTime() : 0;
                 const dateB = b.timestamp ? new Date(b.timestamp).getTime() : 0;
                 return dateA - dateB;
-              })
+              }),
             ),
             tap(() => {
+              // this.checkSameDay();
               this.loadingAvatars = false;
             }),
             catchError((error) => {
@@ -220,10 +219,12 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
               return [];
             })
           );
+        this.getMessageTimestep();
       } catch (error) {
         console.error('Fehler beim Laden der Nachrichten:', error);
       } finally {
         this.loadingMessages.set(false);
+        // this.getMessageTimestep();
       }
     }
   }
@@ -380,27 +381,68 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  checkSameDay() {
-
-    this.getMessageTimestep();
-
-    console.warn(this.getMessageTimestep());
-    // if () {
-    //   this.sameDay = true;
-    // } else {
-    //   this.sameDay = false;
-    // }
-  }
-
   getMessageTimestep() {
-    return this.messages$.pipe(
-      map((messages) =>
-        messages.sort((a, b) => {
-          const dateA = a.timestamp ? new Date(a.timestamp).getTime() : 0;
-          const dateB = b.timestamp ? new Date(b.timestamp).getTime() : 0;
-          return dateA;
+    this.messages$.pipe(
+      switchMap((messages: Partial<Message>[]) => this.getMessageTimestep2().pipe(
+        map((timestep2: string[]) => {
+          const groupedMessages = this.groupMessagesByDate(messages);
+  
+          Object.keys(groupedMessages).forEach(date => {
+            const messagesOnDate = groupedMessages[date];
+            messagesOnDate.forEach((message: Partial<Message>, index: number) => {
+              const messageTime = message.timestamp ? new Date(message.timestamp) : new Date(0);
+              let messTime = this.gettingDate(messageTime);
+  
+              if (index !== 0 && timestep2.includes(messTime)) {
+                message.sameDay = true;
+              } else if (index === 0) {
+                message.sameDay = false;
+                console.error("Info der Zeit", message.message, message.sameDay)
+              } else {
+                message.sameDay = false;
+              }
+            });
+            console.log(messagesOnDate);
+          });
         })
-      ),
+      ))
+    ).subscribe();
+  }
+  
+  groupMessagesByDate(messages: Partial<Message>[]): { [key: string]: Partial<Message>[] } {
+    return messages.reduce((acc, message) => {
+      const messageTime = message.timestamp ? new Date(message.timestamp) : new Date(0);
+      const messTime = this.gettingDate(messageTime);
+  
+      if (!acc[messTime]) {
+        acc[messTime] = [];
+      }
+      acc[messTime].push(message);
+  
+      return acc;
+    }, {} as { [key: string]: Partial<Message>[] });
+  }
+  
+  getMessageTimestep2(): Observable<string[]> {
+    return this.messages$.pipe(
+      map((messages: Partial<Message>[]) => {
+        let messageNew = messages.map((message: Partial<Message>) => {
+          const messageTime = message.timestamp ? new Date(message.timestamp) : new Date(0);
+          let messTime = this.gettingDate(messageTime);
+  
+          return messTime;
+        });
+        return messageNew;
+      })
     );
   }
+
+  gettingDate(date: any) {
+    var month = date.getUTCMonth() + 1;
+    var day = date.getUTCDate();
+    var year = date.getUTCFullYear();
+    var newDate = day + "." + month + "." + year;
+    return newDate;
+  }
+
 }

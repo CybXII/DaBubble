@@ -66,6 +66,7 @@ export class MessagesService {
           members: doc['members'] || [],
           reactions: doc['reactions'] || [],
           thread: doc['thread'] || null,
+          sameDay: false || true,
         }));
         this.loadAvatars(messages);
         return messages;
