@@ -184,27 +184,25 @@ export class MainchatHeaderComponent {
     return this.authService.userData();
   }
 
-getConversationName(): string {
-  if (this.channelId && this.channelMembersNames) {
-    const memberNames = this.channelMembersNames[this.channelId];
-    if (!memberNames || memberNames.length === 0) {
-      return 'Unbekannt';
-    }
-    if (memberNames.length === 1) {
-      return this.authService.currentUser()?.name || 'Unbekannt';
-    }
-    if (memberNames.length > 1) {
-      const currentUserName = this.authService.currentUser()?.name;
-      const conversationPartners = memberNames.filter(
-        (name) => name !== currentUserName
-      );
-      if (conversationPartners.length > 0) {
-        return conversationPartners[0]; 
+  getConversationName(): string {
+    if (this.channelId && this.channelMembersNames) {
+      const memberNames = this.channelMembersNames[this.channelId];
+      if (!memberNames || memberNames.length === 0) {
+        return 'Unbekannt';
+      }
+      if (memberNames.length === 1) {
+        return this.authService.currentUser()?.name + ' (Du)' || 'Unbekannt';
+      }
+      if (memberNames.length > 1) {
+        const currentUserName = this.authService.currentUser()?.name;
+        const conversationPartners = memberNames.filter(
+          (name) => name !== currentUserName
+        );
+        if (conversationPartners.length > 0) {
+          return conversationPartners[0]; 
+        }
       }
     }
+    return 'Unbekannt';
   }
-  return 'Unbekannt';
-}
-
-  
 }

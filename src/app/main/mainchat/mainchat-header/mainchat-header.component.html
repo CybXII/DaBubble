@@ -2,7 +2,7 @@
   <button class="mainchat__header-btn" (click)="openDialog('channelDialog')">
     <span class="mainchat__header-btn__hashtag">#</span>
     @if (this.isPrivate) {
-      <h3 class="mainchat__header-btn__title">{{ convPartner}}</h3>
+      <h3 class="mainchat__header-btn__title">{{convPartner}}</h3>
     } @else {
       <h3 class="mainchat__header-btn__title">{{channelTitle}}</h3>
     }
