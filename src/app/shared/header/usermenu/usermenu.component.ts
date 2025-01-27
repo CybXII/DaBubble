@@ -13,29 +13,7 @@ import { UserDialogService } from '../../services/user-dialog.service';
   styleUrl: './usermenu.component.scss',
 })
 export class UsermenuComponent {
-  // authService = inject(AuthService);
-  // dialog: boolean = false;
 
   constructor(public userDialog: UserDialogService) {}
-
-  // openDialog(event: Event) {
-  //   this.dialog = true;
-  //   this.userDialog.dialog = true;
-  // }
-
-  // onDialogChange(newValue: boolean) {
-  //   this.dialog = newValue;
-  // }
-
-  // closeDialog(event: Event) {
-  //   event?.preventDefault();
-  //   event.stopPropagation();
-  //   this.dialog = false;
-  //   this.userDialog.dialog = false;
-  // }
-
-  // get userData() {
-  //   return this.authService.userData();
-  // }
 }
 
