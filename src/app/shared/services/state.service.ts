@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class StateService {
-  private menuStateSubject = new BehaviorSubject<string>('out');
+  private menuStateSubject = new BehaviorSubject<string>('in');
   private threadchatStateSubject = new BehaviorSubject<string>('out');
 
   menuState$ = this.menuStateSubject.asObservable();
