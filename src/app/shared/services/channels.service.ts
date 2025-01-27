@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, doc, getDoc, getDocs, setDoc, addDoc, onSnapshot, query, where, deleteDoc  } from '@angular/fire/firestore';
+import { Firestore, collection, doc, getDoc, getDocs, setDoc, addDoc, onSnapshot, query, where, deleteDoc } from '@angular/fire/firestore';
 import { Channel } from '../../models/channel';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from './auth.service';
 import { MessagesService } from './messages.service';
 import { StateService } from './state.service';
-
 
 @Injectable({
   providedIn: 'root',
@@ -15,10 +14,19 @@ export class ChannelsService {
   threadAktive: boolean = false;
   private currentChannelSubject = new BehaviorSubject<Channel | null>(null);
   currentChannel$ = this.currentChannelSubject.asObservable();
-  constructor(private firestore: Firestore, private authService: AuthService , private messagesService: MessagesService ,private stateService: StateService) {}
-  channelsOpen: boolean = false;
+  channelsOpen: boolean = true;
   default: boolean = false;
+  private userChangesSubject = new BehaviorSubject<{ id: string; name: string } | null>(null);
+  userChanges$ = this.userChangesSubject.asObservable();
 
+
+  constructor(
+    private firestore: Firestore,
+    private authService: AuthService,
+    private stateService: StateService
+  ) {
+    this.trackUserChanges();
+  }
 
   async setDefaultChannel(): Promise<void> {
     try {
@@ -43,7 +51,7 @@ export class ChannelsService {
         }
       } else {
         console.warn('Keine Channels verfügbar, in denen der Benutzer Mitglied ist.');
-        if (!this.default){
+        if (!this.default) {
           this.clearCurrentChannel();
           this.default = true;
           this.currentChannelSubject.next(null);
@@ -53,7 +61,6 @@ export class ChannelsService {
       console.error('Fehler beim Setzen des Default Channels:', error);
     }
   }
-
 
   async selectChannel(channelId: string): Promise<void> {
     if (!channelId) {
@@ -74,13 +81,11 @@ export class ChannelsService {
       console.error('Fehler beim Abrufen des Channels:', error);
     }
 
-    console.log(window.innerWidth);
     if (window.innerWidth <= 900) {
       this.stateService.closeMenuAndThread();
     }
     this.stateService.setThreadchatState('out');
   }
-  
 
   async createChannel(channel: Channel): Promise<void> {
     const channelsCollection = collection(this.firestore, this.collectionName);
@@ -94,7 +99,6 @@ export class ChannelsService {
       throw error;
     }
   }
-
 
   async getChannelById(channelId: string): Promise<Channel | null> {
     const channelRef = doc(this.firestore, `${this.collectionName}/${channelId}`);
@@ -112,7 +116,6 @@ export class ChannelsService {
     }
   }
 
-
   async getAllChannels(): Promise<Channel[]> {
     const channelsRef = collection(this.firestore, this.collectionName);
     try {
@@ -126,7 +129,6 @@ export class ChannelsService {
     }
   }
 
-
   loadChannelsRealtime(callback: (channels: Channel[]) => void): () => void {
     const userId = this.authService.userId();
     const channelsRef = collection(this.firestore, this.collectionName);
@@ -138,6 +140,44 @@ export class ChannelsService {
       callback(channels);
     });
     return unsubscribe;
+  }
+
+  async getChannelMembers(privateChannels: Channel[]): Promise<{ [channelId: string]: string[] }> {
+    const userId = this.authService.userId();
+    const channelMembers: { [channelId: string]: string[] } = {};
+
+    for (const channel of privateChannels) {
+      const memberIds = channel.members;
+    
+      if (!channel.id) {
+        console.error('Channel hat keine ID:', channel);
+        continue; // Überspringt den aktuellen Channel, wenn keine ID vorhanden ist
+      }
+    
+      if (memberIds.length === 2) {
+        const conversationPartnerId = memberIds.find((id) => id !== userId);
+        if (conversationPartnerId) {
+          const usernames = await this.authService.getUsernamesByIds([conversationPartnerId]);
+          channelMembers[channel.id] = usernames.map((user) => user.name);
+        }
+      } else if (memberIds.length === 1 && memberIds[0] === userId) {
+        const currentUser = await this.authService.getUsernamesByIds([userId]);
+        channelMembers[channel.id] = currentUser.map((user) => `${user.name} (Du)`);
+      } else {
+        channelMembers[channel.id] = ['Unbekannt'];
+      }
+    }
+
+    return channelMembers;
+  }
+
+  getConversationPartnerName(channelId: string, channelMembers: { [channelId: string]: string[] }): string {
+    console.log(channelMembers);
+    const members = channelMembers[channelId];
+    if (!members || members.length === 0) {
+      return 'Unbekannt';
+    }
+    return members[0];
   }
 
   toggleChannelsOpen(): void {
@@ -170,7 +210,6 @@ export class ChannelsService {
     }
   }
 
-
   async getPrivateChannelByMembers(memberIds: string[]): Promise<Channel[]> {
     const channelsRef = collection(this.firestore, this.collectionName);
     const queryRef = query(channelsRef, where('isPrivate', '==', true));
@@ -184,5 +223,21 @@ export class ChannelsService {
       console.error('Fehler beim Abrufen privater Channels:', error);
       return [];
     }
+  }
+
+  updateUserName(userId: string, newName: string): void {
+    this.userChangesSubject.next({ id: userId, name: newName });
+  }
+
+  private trackUserChanges(): void {
+    const usersRef = collection(this.firestore, 'users'); // Passe 'users' an deinen tatsächlichen Pfad an
+    onSnapshot(usersRef, (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === 'modified') {
+          const updatedUser = { id: change.doc.id, ...change.doc.data() } as { id: string; name: string };
+          this.userChangesSubject.next(updatedUser);
+        }
+      });
+    });
   }
 }
