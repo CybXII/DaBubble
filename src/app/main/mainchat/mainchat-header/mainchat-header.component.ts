@@ -76,7 +76,24 @@ export class MainchatHeaderComponent {
       }
     })
   );
-  }
+
+  this.subscriptions.add(
+    this.channelsService.userChanges$.subscribe((change) => {
+      if (change && this.channelId) {
+        const memberNames = this.channelMembersNames[this.channelId];
+        if (memberNames) {
+          const memberIndex = memberNames.findIndex((name) => name === change.name);
+          if (memberIndex !== -1) {
+            memberNames[memberIndex] = change.name; // Aktualisiere den Namen
+          }
+          this.convPartner = change.name;
+          this.cdr.detectChanges(); // Aktualisiere die Ansicht
+        }
+      }
+    })
+  );
+}
+
 
 
   ngOnDestroy(): void {

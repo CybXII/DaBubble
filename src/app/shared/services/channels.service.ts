@@ -16,13 +16,17 @@ export class ChannelsService {
   currentChannel$ = this.currentChannelSubject.asObservable();
   channelsOpen: boolean = true;
   default: boolean = false;
+  private userChangesSubject = new BehaviorSubject<{ id: string; name: string } | null>(null);
+  userChanges$ = this.userChangesSubject.asObservable();
+
 
   constructor(
     private firestore: Firestore,
     private authService: AuthService,
-    private messagesService: MessagesService,
     private stateService: StateService
-  ) {}
+  ) {
+    this.trackUserChanges();
+  }
 
   async setDefaultChannel(): Promise<void> {
     try {
@@ -219,5 +223,21 @@ export class ChannelsService {
       console.error('Fehler beim Abrufen privater Channels:', error);
       return [];
     }
+  }
+
+  updateUserName(userId: string, newName: string): void {
+    this.userChangesSubject.next({ id: userId, name: newName });
+  }
+
+  private trackUserChanges(): void {
+    const usersRef = collection(this.firestore, 'users'); // Passe 'users' an deinen tatsächlichen Pfad an
+    onSnapshot(usersRef, (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === 'modified') {
+          const updatedUser = { id: change.doc.id, ...change.doc.data() } as { id: string; name: string };
+          this.userChangesSubject.next(updatedUser);
+        }
+      });
+    });
   }
 }
