@@ -29,7 +29,6 @@
     }
     <button
       class="chatbox__addemoji-container"
-      (click)="toggleEmojiPicker('fallback', false, true)"
       (click)="preventEmojiPickerClose($event)"
     >
       <div
@@ -65,7 +64,7 @@
       <div class="chatbox__emojis-container">
         @if(parentMessage.reactions){ @for (reaction of parentMessage.reactions;
         track $index) {
-        <div class="chatbox__emojis">
+        <div class="chatbox__emojis" [class.chatbox__emoji-reacted]="reaction.userIds.includes(activeUserId!) ? true : false" (click)="addEmoji(parentMessage.docId!, activeUserId!, reaction.emoji, false)">
           <span>{{ reaction.emoji }}</span>
           <span>{{ reaction.userIds.length }}</span>
         </div>
@@ -74,7 +73,7 @@
           <img
             src="/img/icons/add_reaction.svg"
             alt="Reaktion hinzufügen"
-            (click)="toggleEmojiPicker('fallback', true)"
+            (click)="toggleEmojiPicker(parentMessage.docId || 'fallback', true, true)"
             (click)="preventEmojiPickerClose($event)"
           />
         </div>
@@ -90,6 +89,7 @@
   <div
     class="chatbox__msg-container"
     [class.chatbox__msg-container__sent]="message.createdBy === activeUserId"
+    id="{{ message.docId }}"
   >
     @if (isChatBoxEmojiPickerOpen && chatBoxEmojiPickerOpenFor ===
     message.docId){
@@ -232,7 +232,7 @@
         <div class="chatbox__emojis-container">
           @if(message.reactions){ @for (reaction of message.reactions; track
           $index) {
-          <div class="chatbox__emojis">
+          <div class="chatbox__emojis" [class.chatbox__emoji-reacted]="reaction.userIds.includes(activeUserId!) ? true : false" (click)="addEmoji(message.docId!, activeUserId!, reaction.emoji, true)">
             <span>{{ reaction.emoji }}</span>
             <span>{{ reaction.userIds.length }}</span>
           </div>
@@ -287,6 +287,7 @@
     class="chatbox__msg-container"
     [class.chatbox__msg-container__sent]="message.createdBy === activeUserId"
     [ngClass]="{ 'thread__days__chatbox__msg-container': sameDay }"
+    id="{{ message.docId }}"
   >
     <button
       (click)="preventEmojiPickerClose($event)"
@@ -414,7 +415,7 @@
           <div class="chatbox__emojis-container">
             @if(message.reactions){ @for (reaction of message.reactions; track
             $index) {
-            <div class="chatbox__emojis">
+            <div class="chatbox__emojis" [class.chatbox__emoji-reacted]="reaction.userIds.includes(activeUserId!) ? true : false" (click)="addEmoji(message.docId!, activeUserId!, reaction.emoji, false)">
               <span>{{ reaction.emoji }}</span>
               <span>{{ reaction.userIds.length }}</span>
             </div>

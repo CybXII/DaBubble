@@ -11,10 +11,12 @@ import {
   getDoc,
   deleteDoc,
   getDocs,
+  onSnapshot,
 } from '@angular/fire/firestore';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Message, Reaction, ThreadMessage } from '../../models/message';
 import { catchError, map, switchMap } from 'rxjs/operators';
+import { StateService } from './state.service';
 
 
 @Injectable({
@@ -24,17 +26,15 @@ export class MessagesService {
   private messagesSubject = new BehaviorSubject<Partial<Message>[]>([]);
   messages$: Observable<Partial<Message>[]> = this.messagesSubject.asObservable();
   private threadMessagesSubject = new BehaviorSubject<ThreadMessage[]>([]);
-  private threadchatStateSubject = new BehaviorSubject<boolean>(false);
   threadMessages$: Observable<ThreadMessage[]> = this.threadMessagesSubject.asObservable();
-  threadchatState$ = this.threadchatStateSubject.asObservable();
   private messageIdSubject = new BehaviorSubject<string | null>(null);
   messageId$ = this.messageIdSubject.asObservable();
-  constructor(private firestore: Firestore) {}
   private avatarsSubject = new BehaviorSubject<Map<string, string>>(new Map());
   avatars$: Observable<Map<string, string>> = this.avatarsSubject.asObservable();
   private parentMessageSubject = new BehaviorSubject<Message | null>(null);
   parentMessage$ = this.parentMessageSubject.asObservable();
 
+  constructor(private firestore: Firestore, private stateService: StateService) {}
 
   loadAvatars(messages: Message[]): void {
     const avatarMap = new Map<string, string>();
@@ -86,7 +86,7 @@ export class MessagesService {
     const threadMessages$ = collectionData(threadMessagesRef, {
       idField: 'docId',
     }) as Observable<ThreadMessage[]>;
-  
+
     threadMessages$
       .pipe(
         map((threadMessages) =>
@@ -108,30 +108,23 @@ export class MessagesService {
       .subscribe((sortedThreadMessages) => {
         this.threadMessagesSubject.next(sortedThreadMessages);
       });
-  
-    const parentMessageRef = doc(this.firestore, `messages/${parentMessageId}`);
-    getDoc(parentMessageRef)
-      .then((docSnap) => {
+
+      const parentMessageRef = doc(this.firestore, `messages/${parentMessageId}`);
+      onSnapshot(parentMessageRef, (docSnap) => {
         if (docSnap.exists()) {
           const parentMessage = {
             docId: parentMessageId,
             ...docSnap.data(),
           } as Message;
-          this.parentMessageSubject.next(parentMessage);
+          this.parentMessageSubject.next(parentMessage); // Echtzeit-Update
         } else {
-          console.warn('Parent-Nachricht nicht gefunden');
           this.parentMessageSubject.next(null);
         }
-      })
-      .catch((error) => {
-        console.error('Fehler beim Laden der Parent-Nachricht:', error);
-        this.parentMessageSubject.next(null);
       });
-  
-    this.openThreadChat();
+    this.stateService.setThreadchatState('in');
   }
-  
-  
+
+
   async addMessage(message: Message): Promise<void> {
     const messagesRef = collection(this.firestore, 'messages');
     try {
@@ -159,13 +152,6 @@ export class MessagesService {
     }
   }
 
-  openThreadChat(): void {
-    this.threadchatStateSubject.next(true);
-  }
-
-  closeThreadChat(): void {
-    this.threadchatStateSubject.next(false);
-  }
 
   setMessageId(messageId: string): void {
     this.messageIdSubject.next(messageId);

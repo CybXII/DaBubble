@@ -4,6 +4,7 @@ import { Channel } from '../../models/channel';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from './auth.service';
 import { MessagesService } from './messages.service';
+import { StateService } from './state.service';
 
 
 @Injectable({
@@ -14,14 +15,14 @@ export class ChannelsService {
   threadAktive: boolean = false;
   private currentChannelSubject = new BehaviorSubject<Channel | null>(null);
   currentChannel$ = this.currentChannelSubject.asObservable();
-  constructor(private firestore: Firestore, private authService: AuthService , private messagesService: MessagesService) {}
+  constructor(private firestore: Firestore, private authService: AuthService , private messagesService: MessagesService ,private stateService: StateService) {}
   channelsOpen: boolean = false;
   default: boolean = false;
 
 
   async setDefaultChannel(): Promise<void> {
     try {
-      const userId = this.authService.userId(); // Aktuelle Benutzer-ID abrufen
+      const userId = this.authService.userId();
       if (!userId) {
         console.warn('Keine Benutzer-ID verfügbar.');
         return;
@@ -55,7 +56,6 @@ export class ChannelsService {
 
 
   async selectChannel(channelId: string): Promise<void> {
-    this.messagesService.closeThreadChat();
     if (!channelId) {
       console.error('Ungültige Channel-ID.');
       return;
@@ -73,6 +73,12 @@ export class ChannelsService {
     } catch (error) {
       console.error('Fehler beim Abrufen des Channels:', error);
     }
+
+    console.log(window.innerWidth);
+    if (window.innerWidth <= 900) {
+      this.stateService.closeMenuAndThread();
+    }
+    this.stateService.setThreadchatState('out');
   }
   
 
@@ -113,7 +119,7 @@ export class ChannelsService {
       const querySnapshot = await getDocs(channelsRef);
       return querySnapshot.docs
         .map(doc => ({ id: doc.id, ...doc.data() } as Channel))
-        .sort((a, b) => a.name.localeCompare(b.name)); // Alphabetische Sortierung nach Name
+        .sort((a, b) => a.name.localeCompare(b.name));
     } catch (error) {
       console.error('Fehler beim Abrufen der Channels:', error);
       throw error;
@@ -128,7 +134,7 @@ export class ChannelsService {
     const unsubscribe = onSnapshot(queryRef, (snapshot) => {
       const channels = snapshot.docs
         .map(doc => ({ id: doc.id, ...doc.data() } as Channel))
-        .sort((a, b) => a.name.localeCompare(b.name)); // Alphabetische Sortierung
+        .sort((a, b) => a.name.localeCompare(b.name));
       callback(channels);
     });
     return unsubscribe;
@@ -158,7 +164,7 @@ export class ChannelsService {
   async deleteChannel(channelId: string): Promise<void> {
     const channelRef = doc(this.firestore, `${this.collectionName}/${channelId}`);
     try {
-      await deleteDoc(channelRef); // Löscht das Dokument komplett
+      await deleteDoc(channelRef);
     } catch (error) {
       console.error('Fehler beim Löschen des Channels:', error);
     }

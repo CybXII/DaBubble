@@ -14,11 +14,10 @@ import { AuthService } from '../../../shared/services/auth.service';
 import { UserModel } from '../../../models/user';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { SharedService } from '../../../shared/services/newmessage.service'
+import { SharedService } from '../../../shared/services/newmessage.service';
 import { EmojiPickerComponent } from '../emoji-picker/emoji-picker.component';
 import { EmojiPickerService } from '../../../shared/services/emoji-picker.service';
 import { Channel } from '../../../models/channel';
-
 
 @Component({
   selector: 'app-messagebox',
@@ -38,6 +37,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
   activeUserId: string | null = null;
   isMessageBoxMainPickerOpen: boolean = false;
   isMessageBoxThreadPickerOpen: boolean = false;
+  isMessageBoxCreateMessagePickerOpen: boolean = false;
   members: any = [];
 
   constructor(
@@ -46,7 +46,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     public emojiPickerService: EmojiPickerService,
     private sharedService: SharedService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.activeUserId = this.authService.userId();
@@ -76,7 +76,6 @@ export class MessageboxComponent implements OnInit, OnDestroy {
         }
       );
       this.subscriptions.add(threadSubscription);
-
     }
 
     const emojiPickerMainSubscription =
@@ -89,8 +88,15 @@ export class MessageboxComponent implements OnInit, OnDestroy {
           this.isMessageBoxThreadPickerOpen = open;
         }
       );
+    const emojiPickerCreateMessageSubscription =
+      this.emojiPickerService.isMessageBoxCreateMessagePickerOpen$.subscribe(
+        (open) => {
+          this.isMessageBoxCreateMessagePickerOpen = open;
+        }
+      );
     this.subscriptions.add(emojiPickerMainSubscription);
     this.subscriptions.add(emojiPickerThreadSubscription);
+    this.subscriptions.add(emojiPickerCreateMessageSubscription);
   }
 
   ngOnDestroy(): void {
@@ -99,14 +105,13 @@ export class MessageboxComponent implements OnInit, OnDestroy {
   }
 
   jumpToAtAbove() {
-    console.log("you clicked (at)");
+    console.log('you clicked (at)');
     //this.searchString = "@";
-    this.sharedService.setSearchString("@");
+    this.sharedService.setSearchString('@');
   }
 
-
   // von christoph
-  sendToId: string = "";
+  sendToId: string = '';
   async createNewMessage(): Promise<void> {
     if (!this.messageContent.trim()) {
       console.error('Nachricht darf nicht leer sein.');
@@ -118,12 +123,14 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     let sendToChannelId = this.sharedService.getChannelIdString();
     let sendToTarget = this.sharedService.getTargetString();
 
-    console.log("dahin 1:", sendToTarget);
+    console.log('dahin 1:', sendToTarget);
 
-
-    if (sendToTarget == "toUser") {
+    if (sendToTarget == 'toUser') {
       this.sendToId = sendToUserId;
 
+      // unklar ob das wichtig ist ...
+      this.members = [sendToUserId, this.activeUserId];
+      console.log('members:', this.members);
 
       // Channel muss u.U. erstellt werden!!
       // Erstelle einen neuen privaten Channel
@@ -131,21 +138,16 @@ export class MessageboxComponent implements OnInit, OnDestroy {
         name: 'Privater Channel',
         description: '',
         isPrivate: true,
-        createdBy: this.activeUserId ?? "",
-        members: [this.activeUserId ?? "", sendToUserId ?? ""],
+        createdBy: this.activeUserId ?? '',
+        members: [this.activeUserId ?? '', sendToUserId ?? ''],
       };
       await this.channelsService.createChannel(newChannel);
-
-
-
-    }
-    else if (sendToTarget == "toChannel") {
+    } else if (sendToTarget == 'toChannel') {
       this.sendToId = sendToChannelId;
       this.members = [];
     }
 
-    console.log("dahin:", this.sendToId);
-
+    console.log('dahin:', this.sendToId);
 
     // senden
     let user: UserModel = (await this.authService.getUserById(
@@ -180,8 +182,8 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     // ansicht: direkt da hin wechseln!
     // ....
 
+    // direkt da hin wechseln?
   }
-
 
   async sendMessage(): Promise<void> {
     if (!this.messageContent.trim()) {
@@ -259,7 +261,10 @@ export class MessageboxComponent implements OnInit, OnDestroy {
   }
 
   toggleEmojiPickerMain() {
-    if (!this.isMessageBoxMainPickerOpen && !this.isMessageBoxThreadPickerOpen) {
+    if (
+      !this.isMessageBoxMainPickerOpen &&
+      !this.isMessageBoxThreadPickerOpen
+    ) {
       this.emojiPickerService.closeChatBoxEmojiPicker();
       this.emojiPickerService.openMsgBoxEmojiPickerMain();
     } else if (this.isMessageBoxMainPickerOpen) {
@@ -272,7 +277,10 @@ export class MessageboxComponent implements OnInit, OnDestroy {
   }
 
   toggleEmojiPickerThread() {
-    if (!this.isMessageBoxMainPickerOpen && !this.isMessageBoxThreadPickerOpen) {
+    if (
+      !this.isMessageBoxMainPickerOpen &&
+      !this.isMessageBoxThreadPickerOpen
+    ) {
       this.emojiPickerService.closeChatBoxEmojiPicker();
       this.emojiPickerService.openMsgBoxEmojiPickerThread();
     } else if (this.isMessageBoxThreadPickerOpen) {
@@ -281,6 +289,14 @@ export class MessageboxComponent implements OnInit, OnDestroy {
       this.emojiPickerService.closeMsgBoxEmojiPickerMain();
       this.emojiPickerService.closeChatBoxEmojiPicker();
       this.emojiPickerService.openMsgBoxEmojiPickerThread();
+    }
+  }
+
+  toggleEmojiPickerCreateMessage() {
+    if(this.isMessageBoxCreateMessagePickerOpen){
+      this.emojiPickerService.closeMsgBoxCreateMessageEmojiPicker();
+    } else {
+      this.emojiPickerService.openMsgBoxCreateMessageEmojiPicker();
     }
   }
 

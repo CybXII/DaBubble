@@ -32,7 +32,7 @@
                             <img src="{{this.getAvatar(private)}}" alt="">
                             <!-- <div [ngClass]="{'online': private == this.activeChannel}" class="status"></div> -->
                         </div>
-                        {{ private.id ? getConversationPartnerName(private.id) : null}}
+                        <span class="elipsis">{{ private.id ? getConversationPartnerName(private.id) : null}}</span>
                     </div>
                 </div>
             }

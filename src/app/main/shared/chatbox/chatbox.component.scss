@@ -388,6 +388,10 @@ z-index: 9;
   }
 }
 
+.chatbox__emoji-reacted {
+  border: 1px solid colors.$purple3;
+}
+
 .chatbox__addreaction-container {
   &:hover {
     filter: invert(30%) sepia(72%) saturate(3091%) hue-rotate(229deg)
