@@ -388,7 +388,7 @@
           {{ message.creatorName }}@if(message.createdBy == activeUserId){(Du)}
         </h3>
         <p class="chatbox__msg-time">
-          {{ message.timestamp | relativeDate }} Uhr
+          {{ message.timestamp | date:'HH:mm' }} Uhr
         </p>
       </div>
       <p
