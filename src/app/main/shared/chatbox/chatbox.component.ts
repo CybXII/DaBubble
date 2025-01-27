@@ -18,7 +18,7 @@ import { MessagesService } from '../../../shared/services/messages.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { Message, Reaction, ThreadMessage } from '../../../models/message';
 import { Observable, Subject } from 'rxjs';
-import { catchError, map, takeUntil, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { Channel } from '../../../models/channel';
 import { ChannelsService } from '../../../shared/services/channels.service';
@@ -381,30 +381,60 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-
-
-  // Activer Code
-
-
-
   getMessageTimestep() {
-    this.messages$.subscribe( messages => {
-      messages.map((message) => {
-        // console.log(message.message);
-        const messageTime = message.timestamp ? new Date(message.timestamp) : 0;
-
-        let messTime = this.gettingDate(messageTime)
-
-        if (messTime == '23.1.2025') {
-          console.log('id is da', message.message);
-          message.sameDay = true;
-        } else {
-          message.sameDay = false;
-        }
-
-        console.log(message.sameDay, message.docId, messTime);
+    this.messages$.pipe(
+      switchMap((messages: Partial<Message>[]) => this.getMessageTimestep2().pipe(
+        map((timestep2: string[]) => {
+          const groupedMessages = this.groupMessagesByDate(messages);
+  
+          Object.keys(groupedMessages).forEach(date => {
+            const messagesOnDate = groupedMessages[date];
+            messagesOnDate.forEach((message: Partial<Message>, index: number) => {
+              const messageTime = message.timestamp ? new Date(message.timestamp) : new Date(0);
+              let messTime = this.gettingDate(messageTime);
+  
+              if (index !== 0 && timestep2.includes(messTime)) {
+                message.sameDay = true;
+              } else if (index === 0) {
+                message.sameDay = false;
+                console.error("Info der Zeit", message.message, message.sameDay)
+              } else {
+                message.sameDay = false;
+              }
+            });
+            console.log(messagesOnDate);
+          });
+        })
+      ))
+    ).subscribe();
+  }
+  
+  groupMessagesByDate(messages: Partial<Message>[]): { [key: string]: Partial<Message>[] } {
+    return messages.reduce((acc, message) => {
+      const messageTime = message.timestamp ? new Date(message.timestamp) : new Date(0);
+      const messTime = this.gettingDate(messageTime);
+  
+      if (!acc[messTime]) {
+        acc[messTime] = [];
+      }
+      acc[messTime].push(message);
+  
+      return acc;
+    }, {} as { [key: string]: Partial<Message>[] });
+  }
+  
+  getMessageTimestep2(): Observable<string[]> {
+    return this.messages$.pipe(
+      map((messages: Partial<Message>[]) => {
+        let messageNew = messages.map((message: Partial<Message>) => {
+          const messageTime = message.timestamp ? new Date(message.timestamp) : new Date(0);
+          let messTime = this.gettingDate(messageTime);
+  
+          return messTime;
+        });
+        return messageNew;
       })
-    })
+    );
   }
 
   gettingDate(date: any) {
@@ -412,126 +442,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     var day = date.getUTCDate();
     var year = date.getUTCFullYear();
     var newDate = day + "." + month + "." + year;
-
     return newDate;
   }
 
-
-
-  // Inactiver Code
-
-
-
-  checkSameDay(A_timestamp: number, B_timestamp: number, messages: Message[]) {
-    // console.warn(messages);
-
-    let dateObjA = new Date(A_timestamp);
-    let dateObjB = new Date(B_timestamp);
-
-    var month = dateObjA.getUTCMonth() + 1;
-    var day = dateObjA.getUTCDate();
-    var year = dateObjA.getUTCFullYear();
-    var newDateA = day + "." + month + "." + year;
-    // console.log(newDateA)
-
-    var month = dateObjB.getUTCMonth() + 1;
-    var day = dateObjB.getUTCDate();
-    var year = dateObjB.getUTCFullYear();
-    var newDateB = day + "." + month + "." + year;
-    // console.log(newDateB)
-
-    // this.check(newDateA, newDateB, messages);
-    
-    // if (newDateA === newDateB) {
-    //   // sollte true sein nur zu testzwecken auf false gesetzt; sameDay Variable in message model hinzufügen um sie bei jeder message abzurufen
-    //   // console.warn("true")
-    // } else  {
-    //   // console.warn("false")
-    //   if (currentDay === (A_timestamp || B_timestamp)) {
-    //     console.log("current Day", currentDay, newDateA, newDateB)
-    //     this.currentDay = true;
-    //   } else {
-    //     console.log("not current Day", currentDay, newDateA, newDateB)
-    //     this.currentDay = false;
-    //   }
-    // }
-  }
-
-  check(newDateA:string, newDateB: string, messages:Message[]) {
-
-    messages.slice().reverse().forEach((element) => {
-      let dateC = new Date(element.timestamp);
-
-      var month = dateC.getUTCMonth() + 1;
-      var day = dateC.getUTCDate();
-      var year = dateC.getUTCFullYear();
-      var newDateC = day + "." + month + "." + year;
-
-      // console.error(newDateA, newDateB, newDateC);
-      console.log( newDateA === newDateB || newDateA === newDateC || newDateB === newDateC);
-      if(newDateA === newDateB && newDateA === newDateC && newDateB === newDateC) {
-        // if (element == messages[messages.length -1]) {
-        //   element.sameDay = false;
-        // }
-        element.sameDay = true;
-        console.log(element.docId, element.message, element.sameDay)
-        // console.log('true');
-      } else {
-        element.sameDay = false;
-        // console.log('false');
-        console.warn(element.docId, element.message, element.sameDay)
-      }
-    })
-
-    // for (let message = messages.length; message > 0; message--) {
-    //   const element = messages[message];
-    //   let dateC = new Date(element.timestamp);
-    //   var month = dateC.getUTCMonth() + 1;
-    //   var day = dateC.getUTCDate();
-    //   var year = dateC.getUTCFullYear();
-    //   var newDateC = day + "." + month + "." + year;
-    //   console.error(newDateA, newDateB, newDateC);
-    //   if(newDateA === newDateB && newDateA === newDateC && newDateB == newDateC) {
-    //     element.sameDay = true;
-    //     console.log('true');
-    //   } else {
-    //     element.sameDay = false;
-    //     console.log('false');
-    //   }
-    // }
-  }
-
-  checkCurrentDay(value: any):string {
-    if (!value) {
-      return 'Ungültiges Datum';
-    }
-
-    let date: Date;
-
-    if (value.seconds) {
-      date = new Date(value.seconds * 1000);
-    } else if (value instanceof Date) {
-      date = value;
-    } else if (typeof value === 'string' || typeof value === 'number') {
-      date = new Date(value);
-    } else {
-      return 'Ungültiges Datum';
-    }
-
-    const today = new Date();
-
-    if (
-      date.getDate() === today.getDate() &&
-      date.getMonth() === today.getMonth() &&
-      date.getFullYear() === today.getFullYear()
-    ) {
-      return `Heute`;
-    }
-
-    return '';
-  }
-
-  checkSameDayMessage(messages:any) {
-
-  }
 }
