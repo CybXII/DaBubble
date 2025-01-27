@@ -136,8 +136,8 @@ export class UserDialogService {
   }
 
   dataChangeAllowedCheck() {
-    if (this.userData?.provider !== 'password') {
-      console.log(this.userData?.provider);
+    console.log('provider user-dialog: ',this.userData?.provider);
+    if (this.userData?.provider != 'password') {
       
       this.profileForm.disable();
     }
