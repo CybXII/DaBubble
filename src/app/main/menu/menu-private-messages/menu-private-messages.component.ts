@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { collection, Firestore, onSnapshot } from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
 import { AddchatComponent } from '../../addchat/addchat.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,44 +12,67 @@ import { SharedService } from '../../../shared/services/newmessage.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './menu-private-messages.component.html',
-  styleUrl: './menu-private-messages.component.scss'
+  styleUrl: './menu-private-messages.component.scss',
 })
 export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
   messagesOpen: boolean = false;
   privateChannels: Channel[] = [];
   loading: boolean = true;
-  channelMembers: { [channelId: string]: string[] } = {};
-
+  channelMembers: { [channelId: string]: { id: string; name: string }[] } = {};
+  private unsubscribeUserListener: (() => void) | null = null;
   private unsubscribeFn: (() => void) | null = null;
 
   constructor(
     private dialog: MatDialog,
     public channelsService: ChannelsService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private firestore: Firestore
   ) {}
 
   ngOnInit(): void {
     this.loadPrivateChannels();
+    this.subscribeToAllUsers();
   }
 
   ngOnDestroy(): void {
-    if (this.unsubscribeFn) {
-      this.unsubscribeFn();
+    if (this.unsubscribeUserListener) {
+      this.unsubscribeUserListener();
+      console.log('Benutzer-Listener entfernt.');
     }
   }
 
-  loadPrivateChannels(): void {
-    this.loading = true;
-    this.unsubscribeFn = this.channelsService.loadChannelsRealtime(async (channels) => {
-      this.privateChannels = channels.filter((channel) => channel.isPrivate);
-      this.channelMembers = await this.channelsService.getChannelMembers(this.privateChannels);
-      this.loading = false;
+  subscribeToAllUsers(): void {
+    const usersCollectionRef = collection(this.firestore, 'users');
+    this.unsubscribeUserListener = onSnapshot(usersCollectionRef, (snapshot) => {
+      console.log('Benutzer-Änderungen erkannt:');
+      snapshot.docChanges().forEach((change) => {
+        console.log(`Typ der Änderung: ${change.type}`);
+        if (change.type === 'modified') {
+          const updatedUser = change.doc.data();
+          console.log('Aktualisierter Benutzer:', updatedUser);
+          this.loadPrivateChannels();
+        }
+      });
     });
   }
 
-  getConversationPartnerName(channelId: string): string {
-    return this.channelsService.getConversationPartnerName(channelId, this.channelMembers);
+
+  loadPrivateChannels(): void {
+    this.loading = true;
+    this.channelsService.loadChannelsRealtime(async (channels) => {
+      this.privateChannels = channels.filter((channel) => channel.isPrivate);
+      const rawChannelMembers = await this.channelsService.getChannelMembers(this.privateChannels);
+      this.channelMembers = Object.keys(rawChannelMembers).reduce((acc, channelId) => {
+        acc[channelId] = rawChannelMembers[channelId].map((name) => ({ id: '', name })); // Mapping anpassen, falls nötig
+        return acc;
+      }, {} as { [channelId: string]: { id: string; name: string }[] });
+
+      this.loading = false;
+      console.log('Private Channels geladen:', this.privateChannels);
+      console.log('Channel Members:', JSON.stringify(this.channelMembers, null, 2));
+    });
   }
+
 
   openDialog(): void {
     this.dialog.open(AddchatComponent, {
