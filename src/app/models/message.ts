@@ -10,6 +10,7 @@ export interface Message {
   timestamp: string | Date; // ISO-8601-Zeitstempel oder Date-Objekt
   reactions: Reaction[]; // Array von Reaktionen
   message: string; // Nachrichtentext
+  sameDay: boolean;
 }
 
 export interface ThreadMessage {
@@ -23,6 +24,7 @@ export interface ThreadMessage {
   reactions: Reaction[]; // Array von Reaktionen
   message: string; // Nachrichtentext
   isThreadMessage: boolean; // Gibt an, ob die Nachricht eine Antwort ist
+  sameDay: boolean;
 }
 
 export interface Reaction {
