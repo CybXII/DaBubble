@@ -37,9 +37,7 @@
                     @if (privateChannel.id) {
                         @if (channelMembers[privateChannel.id] && channelMembers[privateChannel.id] != null) {
                             <span class="elipsis">
-                                {{ channelMembers[privateChannel.id]?.length
-                                    ? channelMembers[privateChannel.id][0].name
-                                    : 'Unbekannt'}}
+                                {{ channelMembers[privateChannel.id].length > 0 ? channelMembers[privateChannel.id][0] : 'Unbekannt' }}
                             </span>
                         }
                     }
@@ -48,5 +46,4 @@
             }
         }
     }
-    
 </section>

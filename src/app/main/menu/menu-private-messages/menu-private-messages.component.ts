@@ -18,7 +18,7 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
   messagesOpen: boolean = false;
   privateChannels: Channel[] = [];
   loading: boolean = true;
-  channelMembers: { [channelId: string]: { id: string; name: string }[] } = {};
+  channelMembers: { [channelId: string]: string[]; } = {};
   private unsubscribeUserListener: (() => void) | null = null;
   private unsubscribeFn: (() => void) | null = null;
 
@@ -63,10 +63,9 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
       this.privateChannels = channels.filter((channel) => channel.isPrivate);
       const rawChannelMembers = await this.channelsService.getChannelMembers(this.privateChannels);
       this.channelMembers = Object.keys(rawChannelMembers).reduce((acc, channelId) => {
-        acc[channelId] = rawChannelMembers[channelId].map((name) => ({ id: '', name })); // Mapping anpassen, falls nötig
+        acc[channelId] = rawChannelMembers[channelId]; // Direkt die Namen übernehmen
         return acc;
-      }, {} as { [channelId: string]: { id: string; name: string }[] });
-
+      }, {} as { [channelId: string]: string[] }); // Typ auf string[] ändern
       this.loading = false;
       console.log('Private Channels geladen:', this.privateChannels);
       console.log('Channel Members:', JSON.stringify(this.channelMembers, null, 2));
