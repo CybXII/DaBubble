@@ -14,7 +14,7 @@ export class ChannelsService {
   threadAktive: boolean = false;
   private currentChannelSubject = new BehaviorSubject<Channel | null>(null);
   currentChannel$ = this.currentChannelSubject.asObservable();
-  channelsOpen: boolean = false;
+  channelsOpen: boolean = true;
   default: boolean = false;
 
   constructor(
