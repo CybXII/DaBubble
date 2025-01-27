@@ -46,7 +46,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     public emojiPickerService: EmojiPickerService,
     private sharedService: SharedService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.activeUserId = this.authService.userId();
@@ -112,6 +112,8 @@ export class MessageboxComponent implements OnInit, OnDestroy {
 
   // von christoph
   sendToId: string = '';
+
+
   async createNewMessage(): Promise<void> {
     if (!this.messageContent.trim()) {
       console.error('Nachricht darf nicht leer sein.');
@@ -126,25 +128,35 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     console.log('dahin 1:', sendToTarget);
 
     if (sendToTarget == 'toUser') {
+
       this.sendToId = sendToUserId;
 
       // unklar ob das wichtig ist ...
-      this.members = [sendToUserId, this.activeUserId];
-      console.log('members:', this.members);
+      //this.members = [sendToUserId, this.activeUserId];
+      //console.log('members:', this.members);
 
-      // Channel muss u.U. erstellt werden!!
-      // Erstelle einen neuen privaten Channel
-      const newChannel: Channel = {
-        name: 'Privater Channel',
-        description: '',
-        isPrivate: true,
-        createdBy: this.activeUserId ?? '',
-        members: [this.activeUserId ?? '', sendToUserId ?? ''],
-      };
-      await this.channelsService.createChannel(newChannel);
+      // finde channel wo nur die zwei drin sind
+
+      // Prüfe, ob ein privater Channel existiert
+      const existingChannels = await this.channelsService.getPrivateChannelByMembers([this.activeUserId ?? '', sendToUserId]);
+      console.log("test wegen privater channel: ", existingChannels);
+
+      if (existingChannels.length > 0) {
+        this.sendToId = existingChannels[0].id ?? '';
+      } else {
+        // Erstelle einen neuen privaten Channel
+        const newChannel: Channel = {
+          name: 'Privater Channel',
+          description: '',
+          isPrivate: true,
+          createdBy: this.activeUserId ?? '',
+          members: [this.activeUserId ?? '', sendToUserId ?? ''],
+        };
+        await this.channelsService.createChannel(newChannel);
+      }
     } else if (sendToTarget == 'toChannel') {
       this.sendToId = sendToChannelId;
-      this.members = [];
+      //this.members = [];
     }
 
     console.log('dahin:', this.sendToId);
@@ -180,9 +192,8 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     }
 
     // ansicht: direkt da hin wechseln!
-    // ....
+    await this.channelsService.selectChannel(this.sendToId);
 
-    // direkt da hin wechseln?
   }
 
   async sendMessage(): Promise<void> {
@@ -293,7 +304,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
   }
 
   toggleEmojiPickerCreateMessage() {
-    if(this.isMessageBoxCreateMessagePickerOpen){
+    if (this.isMessageBoxCreateMessagePickerOpen) {
       this.emojiPickerService.closeMsgBoxCreateMessageEmojiPicker();
     } else {
       this.emojiPickerService.openMsgBoxCreateMessageEmojiPicker();
