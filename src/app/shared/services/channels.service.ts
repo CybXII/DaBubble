@@ -168,6 +168,7 @@ export class ChannelsService {
   }
 
   getConversationPartnerName(channelId: string, channelMembers: { [channelId: string]: string[] }): string {
+    console.log(channelMembers);
     const members = channelMembers[channelId];
     if (!members || members.length === 0) {
       return 'Unbekannt';

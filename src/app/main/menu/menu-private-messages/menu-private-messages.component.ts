@@ -20,7 +20,6 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
   loading: boolean = true;
   channelMembers: { [channelId: string]: string[]; } = {};
   private unsubscribeUserListener: (() => void) | null = null;
-  private unsubscribeFn: (() => void) | null = null;
 
   constructor(
     private dialog: MatDialog,
