@@ -109,6 +109,7 @@
         (input)="userDialog$.profileDataChange()"
         placeholder="Bitte vollständigen Namen eingeben"
         formControlName="userInputName"
+        [ngClass]="{'data-change-not-allowed': userDialog$.profileForm.disabled}"
       />
       <div
         *ngIf="
