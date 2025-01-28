@@ -98,20 +98,29 @@
     display: flex;
     position: relative;
 
-    .status {
-      position: absolute;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background-color: #686868;
-      border: solid 2px #ffffff;
-      bottom: 0px;
-      right: 0px;
-    }
+    // .status {
+    //   position: absolute;
+    //   width: 12px;
+    //   height: 12px;
+    //   border-radius: 50%;
+    //   background-color: #686868;
+    //   border: solid 2px #ffffff;
+    //   bottom: 0px;
+    //   right: 0px;
+    // }
 
-    .online {
-      background-color: #92c83e;
-    }
+    // .online {
+    //   background-color: #92c83e;
+    // }
+    div {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 2px solid colors.$white;
+  }
   }
 
   .add-button {
