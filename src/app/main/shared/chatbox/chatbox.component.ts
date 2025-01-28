@@ -420,4 +420,8 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   
     return isDifferentDay;
   }
+
+  getOtherUserId(userIds: string[]): string[] {
+    return userIds.filter(id => id !== this.activeUserId);
+  }
 }

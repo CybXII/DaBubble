@@ -375,8 +375,8 @@ z-index: 9;
 .chatbox__emojis-container {
   @include mixins.flexbox(row, flex-start, center, nowrap);
   gap:12px;
-  max-width: 210px;
-  overflow-x: auto;
+  // max-width: 210px;
+  overflow-x: visible;
   padding-bottom: 0.3em;
 }
 
@@ -396,6 +396,40 @@ z-index: 9;
   &:hover {
     border: 1px solid colors.$purple3;
   }
+
+  &:hover .chatbox__reaction-users {
+    display: flex;
+  }
+}
+
+.chatbox__reaction-users {
+  @include mixins.flexbox(column, center, center, nowrap);
+  gap: 5px;
+  color: white;
+  background-color: colors.$purple;
+  position: absolute;
+  z-index: 5;
+  bottom: 22px;
+  left: 22px;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+  padding: 15px 28px;
+  display: none;
+}
+
+.chatbox__reaction-users__icon {
+  text-align: center;
+  font-size: 1.875rem;
+}
+
+.chatbox__reaction-users__title {
+  text-align: center;
+  font-size: 1.125rem;
+}
+
+.chatbox__reaction-users__description {
+  text-align: center;
 }
 
 .chatbox__emoji-reacted {
