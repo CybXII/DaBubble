@@ -227,6 +227,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       } catch (error) {
         console.error('Fehler beim Laden der Nachrichten:', error);
       } finally {
+        console.log('Nachrichten geladen:', this.messages$);
         this.loadingMessages.set(false);
       }
     }

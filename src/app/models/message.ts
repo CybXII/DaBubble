@@ -11,6 +11,7 @@ export interface Message {
   reactions: Reaction[]; // Array von Reaktionen
   message: string; // Nachrichtentext
   sameDay: boolean;
+  threadMessages?: ThreadMessage[]; // Array von Thread-Nachrichten
 }
 
 export interface ThreadMessage {

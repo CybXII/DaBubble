@@ -13,7 +13,6 @@
         (click)="preventMsgBoxEmojiPickerClose($event)" alt="" />
       <img (click)="jumpToAtAbove()" src="/img/icons/alternate_email.svg" alt="" />
     </div>
-
     <img (click)="createNewMessage()" src="/img/icons/send.svg" alt="" />
   </div>
 </form>
@@ -31,9 +30,7 @@
       }
       <img class="icon__add-emoji" src="/img/icons/sentiment_satisfied.svg" (click)="toggleEmojiPickerMain()"
         (click)="preventMsgBoxEmojiPickerClose($event)" alt="" />
-      <img src="/img/icons/alternate_email.svg" alt="" />
     </div>
-
     <img (click)="sendMessage()" src="/img/icons/send.svg" alt="" />
   </div>
 </form>
@@ -42,7 +39,6 @@
   <textarea (click)="preventMsgBoxEmojiPickerClose($event)" class="messagebox" name="threadmessagebox"
     id="threadmessagebox" [(ngModel)]="messageContent" placeholder="Antworten..."
     (keyup)="checkKeyStatus($event, 'threadchat')"></textarea>
-
   <div class="messagebox__icons-container">
     <div>
       @if (isMessageBoxThreadPickerOpen) {
