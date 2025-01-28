@@ -7,6 +7,7 @@ import { Channel } from '../../../models/channel';
 import { ChannelsService } from '../../../shared/services/channels.service';
 import { SharedService } from '../../../shared/services/newmessage.service';
 import { AuthService } from '../../../shared/services/auth.service';
+import { UserDialogService } from '../../../shared/services/user-dialog.service';
 
 @Component({
   selector: 'app-menu-private-messages',
@@ -19,7 +20,7 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
   messagesOpen: boolean = false;
   privateChannels: Channel[] = [];
   loading: boolean = true;
-  channelMembers: { [channelId: string]: string[]; } = {};
+  channelMembers: { [channelId: string]: string[] } = {};
   private unsubscribeUserListener: (() => void) | null = null;
 
   constructor(
@@ -27,7 +28,8 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
     public channelsService: ChannelsService,
     private sharedService: SharedService,
     private firestore: Firestore,
-    private authService: AuthService
+    private authService: AuthService,
+    public userDialog: UserDialogService
   ) {}
 
   ngOnInit(): void {
@@ -44,54 +46,66 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
 
   subscribeToAllUsers(): void {
     const usersCollectionRef = collection(this.firestore, 'users');
-    this.unsubscribeUserListener = onSnapshot(usersCollectionRef, (snapshot) => {
-      console.log('Benutzer-Änderungen erkannt:');
-      snapshot.docChanges().forEach((change) => {
-        console.log(`Typ der Änderung: ${change.type}`);
-        if (change.type === 'modified') {
-          const updatedUser = change.doc.data();
-          console.log('Aktualisierter Benutzer:', updatedUser);
-          this.loadPrivateChannels();
-        }
-      });
-    });
+    this.unsubscribeUserListener = onSnapshot(
+      usersCollectionRef,
+      (snapshot) => {
+        console.log('Benutzer-Änderungen erkannt:');
+        snapshot.docChanges().forEach((change) => {
+          console.log(`Typ der Änderung: ${change.type}`);
+          if (change.type === 'modified') {
+            const updatedUser = change.doc.data();
+            console.log('Aktualisierter Benutzer:', updatedUser);
+            this.loadPrivateChannels();
+          }
+        });
+      }
+    );
   }
-
 
   loadPrivateChannels(): void {
     this.loading = true;
-  
+
     this.channelsService.loadChannelsRealtime(async (channels) => {
       const privateChannels = channels.filter((channel) => channel.isPrivate);
-      const rawChannelMembers = await this.channelsService.getChannelMembers(privateChannels);
-      const userId = this.authService.userId()
+      const rawChannelMembers = await this.channelsService.getChannelMembers(
+        privateChannels
+      );
+      const userId = this.authService.userId();
       const channelsWithPartnerNames = await Promise.all(
         privateChannels.map(async (channel) => {
           const partnerIds = channel.members.filter((id) => id !== userId);
-          const partnerNames = await this.authService.getUsernamesByIds(partnerIds);
+          const partnerNames = await this.authService.getUsernamesByIds(
+            partnerIds
+          );
           return {
             ...channel,
-            partnerNames: partnerNames.map((user) => user.name).sort((a, b) => a.localeCompare(b)), // Sortiere die Partner-Namen alphabetisch
+            partnerNames: partnerNames
+              .map((user) => user.name)
+              .sort((a, b) => a.localeCompare(b)), // Sortiere die Partner-Namen alphabetisch
           };
         })
       );
       this.privateChannels = channelsWithPartnerNames.sort((a, b) => {
-        const isUserAloneInA = a.members.length === 1 && a.members[0] === userId;
-        const isUserAloneInB = b.members.length === 1 && b.members[0] === userId;
+        const isUserAloneInA =
+          a.members.length === 1 && a.members[0] === userId;
+        const isUserAloneInB =
+          b.members.length === 1 && b.members[0] === userId;
         if (isUserAloneInA && !isUserAloneInB) return -1;
         if (!isUserAloneInA && isUserAloneInB) return 1;
         const partnerA = a.partnerNames[0] || '';
         const partnerB = b.partnerNames[0] || '';
         return partnerA.localeCompare(partnerB);
       });
-        this.channelMembers = Object.keys(rawChannelMembers).reduce((acc, channelId) => {
-        acc[channelId] = rawChannelMembers[channelId];
-        return acc;
-      }, {} as { [channelId: string]: string[] });
+      this.channelMembers = Object.keys(rawChannelMembers).reduce(
+        (acc, channelId) => {
+          acc[channelId] = rawChannelMembers[channelId];
+          return acc;
+        },
+        {} as { [channelId: string]: string[] }
+      );
       this.loading = false;
     });
   }
-
 
   openDialog(): void {
     this.dialog.open(AddchatComponent, {
