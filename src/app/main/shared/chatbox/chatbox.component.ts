@@ -18,7 +18,7 @@ import { MessagesService } from '../../../shared/services/messages.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { Message, Reaction, ThreadMessage } from '../../../models/message';
 import { Observable, Subject } from 'rxjs';
-import { catchError, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { catchError, map, takeUntil, tap } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { Channel } from '../../../models/channel';
 import { ChannelsService } from '../../../shared/services/channels.service';
@@ -58,6 +58,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   parentMessage: Message | null = null;
   currentDay:boolean = false;
   displayEmojiPickerMainThread:boolean = false;
+  previousTimestamp: number | null = null;
 
   constructor(
     private channelsService: ChannelsService,
@@ -83,27 +84,32 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       this.initThreadChat();
     }
 
+
     const emojiSubscription1 = this.emojiPickerService.isChatBoxPickerOpen$.subscribe((open) => {
       this.isChatBoxEmojiPickerOpen = open;
       this.cdRef.markForCheck();
     });
+
 
     const emojiSubscription2 = this.emojiPickerService.chatBoxEmojiPickerForId$.subscribe((id) => {
       this.chatBoxEmojiPickerOpenFor = id;
       this.cdRef.markForCheck();
     });
 
+
     const emojiSubscription3 = this.emojiPickerService.displayEmojiPickerMainThread$.subscribe((display) => {
       this.displayEmojiPickerMainThread = display;
       this.cdRef.markForCheck();
     })
 
+  
     this.destroyRef.onDestroy(() => {
       emojiSubscription1.unsubscribe();
       emojiSubscription2.unsubscribe();
       emojiSubscription3.unsubscribe();
     })
   }
+
 
   ngAfterViewInit(): void {
     const chatboxSelector =
@@ -120,6 +126,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     observer.observe(document.body, { childList: true, subtree: true });
   }
+
 
   scrollToBottom(selector: string): void {
     const chatbox = document.querySelector(selector) as HTMLElement;
@@ -141,10 +148,12 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
 
   private initMainChat(): void {
     this.currentChannel$
@@ -153,12 +162,11 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     this.avatars$ = this.messagesService.avatars$;
   }
 
+
   private initThreadChat(): void {
     this.messagesService.messageId$
       .pipe(takeUntil(this.destroy$))
       .subscribe((messageId) => this.handleThreadChatMessage(messageId));
-  
-    // Parent-Message abonnieren und Change Detection auslösen
     this.messagesService.parentMessage$
       .pipe(
         takeUntil(this.destroy$),
@@ -175,11 +183,9 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
         this.parentMessage = formattedParentMessage;
         console.log('Formattierte Parent-Nachricht:', this.parentMessage);
         console.log('ThreadNachrichten:', this.messages$);
-        this.cdRef.detectChanges(); // Manuelle Änderungserkennung
+        this.cdRef.detectChanges();
       });
   }
-
-
 
 
   private async handleMainChatChannel(channel: Channel | null): Promise<void> {
@@ -207,7 +213,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
               }),
             ),
             tap(() => {
-              // this.checkSameDay();
               this.loadingAvatars = false;
             }),
             catchError((error) => {
@@ -219,12 +224,10 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
               return [];
             })
           );
-        this.getMessageTimestep();
       } catch (error) {
         console.error('Fehler beim Laden der Nachrichten:', error);
       } finally {
         this.loadingMessages.set(false);
-        // this.getMessageTimestep();
       }
     }
   }
@@ -381,68 +384,39 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  getMessageTimestep() {
-    this.messages$.pipe(
-      switchMap((messages: Partial<Message>[]) => this.getMessageTimestep2().pipe(
-        map((timestep2: string[]) => {
-          const groupedMessages = this.groupMessagesByDate(messages);
+
+  previousMessagesamDate(currentMessage: any, previousMessage: any): boolean {
+    if (!previousMessage || !currentMessage) {
+      return false;
+    }
+    const currentDate = new Date(currentMessage.timestamp);
+    const previousDate = new Date(previousMessage.timestamp);
   
-          Object.keys(groupedMessages).forEach(date => {
-            const messagesOnDate = groupedMessages[date];
-            messagesOnDate.forEach((message: Partial<Message>, index: number) => {
-              const messageTime = message.timestamp ? new Date(message.timestamp) : new Date(0);
-              let messTime = this.gettingDate(messageTime);
-  
-              if (index !== 0 && timestep2.includes(messTime)) {
-                message.sameDay = true;
-              } else if (index === 0) {
-                message.sameDay = false;
-                console.error("Info der Zeit", message.message, message.sameDay)
-              } else {
-                message.sameDay = false;
-              }
-            });
-            console.log(messagesOnDate);
-          });
-        })
-      ))
-    ).subscribe();
-  }
-  
-  groupMessagesByDate(messages: Partial<Message>[]): { [key: string]: Partial<Message>[] } {
-    return messages.reduce((acc, message) => {
-      const messageTime = message.timestamp ? new Date(message.timestamp) : new Date(0);
-      const messTime = this.gettingDate(messageTime);
-  
-      if (!acc[messTime]) {
-        acc[messTime] = [];
-      }
-      acc[messTime].push(message);
-  
-      return acc;
-    }, {} as { [key: string]: Partial<Message>[] });
-  }
-  
-  getMessageTimestep2(): Observable<string[]> {
-    return this.messages$.pipe(
-      map((messages: Partial<Message>[]) => {
-        let messageNew = messages.map((message: Partial<Message>) => {
-          const messageTime = message.timestamp ? new Date(message.timestamp) : new Date(0);
-          let messTime = this.gettingDate(messageTime);
-  
-          return messTime;
-        });
-        return messageNew;
-      })
+    return (
+      currentDate.getDate() === previousDate.getDate() &&
+      currentDate.getMonth() === previousDate.getMonth() &&
+      currentDate.getFullYear() === previousDate.getFullYear()
     );
   }
-
-  gettingDate(date: any) {
-    var month = date.getUTCMonth() + 1;
-    var day = date.getUTCDate();
-    var year = date.getUTCFullYear();
-    var newDate = day + "." + month + "." + year;
-    return newDate;
+  checkAndSetPreviousTimestamp(currentTimestamp: string | Date | undefined): boolean {
+    if (!currentTimestamp) {
+      return false;
+    }
+    const currentDate = new Date(currentTimestamp);
+    if (isNaN(currentDate.getTime())) {
+      throw new Error('Invalid timestamp provided');
+    }
+    if (!this.previousTimestamp) {
+      this.previousTimestamp = currentDate.getTime();
+      return true;
+    }
+    const previousDate = new Date(this.previousTimestamp);
+    const isDifferentDay =
+      currentDate.getDate() !== previousDate.getDate() ||
+      currentDate.getMonth() !== previousDate.getMonth() ||
+      currentDate.getFullYear() !== previousDate.getFullYear();
+    this.previousTimestamp = currentDate.getTime();
+  
+    return isDifferentDay;
   }
-
 }

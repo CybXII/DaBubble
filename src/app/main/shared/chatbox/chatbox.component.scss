@@ -45,7 +45,8 @@
 
 .thread__divider {
   @include mixins.flexbox(row, center, center, nowrap);
-  margin: 20px 35px;
+  position: absolute;
+  top: 50%;
 
   &::before,
   &::after {
@@ -56,11 +57,20 @@
   }
 }
 
+
+.message {
+  @include mixins.flexbox(row, center, center, nowrap);
+  margin: 20px 35px;
+
+}
+
 .thread__divider-text {
   font-size: 1.125rem;
   padding: 5px 15px;
   border: 1px solid colors.$light-purple;
   border-radius: 30px;
+  z-index: 1;
+  background-color: colors.$white;
 }
 
 .chatbox__mainthread-container {
