@@ -31,7 +31,6 @@
       <img class="icon__add-emoji" src="/img/icons/sentiment_satisfied.svg" (click)="toggleEmojiPickerMain()"
         (click)="preventMsgBoxEmojiPickerClose($event)" alt="" />
     </div>
-
     <img (click)="sendMessage()" src="/img/icons/send.svg" alt="" />
   </div>
 </form>
@@ -40,7 +39,6 @@
   <textarea (click)="preventMsgBoxEmojiPickerClose($event)" class="messagebox" name="threadmessagebox"
     id="threadmessagebox" [(ngModel)]="messageContent" placeholder="Antworten..."
     (keyup)="checkKeyStatus($event, 'threadchat')"></textarea>
-
   <div class="messagebox__icons-container">
     <div>
       @if (isMessageBoxThreadPickerOpen) {

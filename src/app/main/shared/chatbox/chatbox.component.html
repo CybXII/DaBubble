@@ -254,7 +254,11 @@
             Antworten
           </span>
           }
-          <span class="chatbox__last-answer">Letzte Antwort {{ message.timestamp | relativeDate }} Uhr</span>
+          @if (message.threadMessages) {
+            @if (message.threadMessages.length > 0) {
+              <span class="chatbox__last-answer">Letzte Antwort {{ message.timestamp | relativeDate }} Uhr</span>
+            }
+          }
         </div>
         <div class="chatbox__reaction-wrapper">
           <div class="chatbox__emojis-container">

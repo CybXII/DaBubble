@@ -51,33 +51,72 @@ export class MessagesService {
   loadMessagesForChannel(channelId: string): Observable<Message[]> {
     const messagesRef = collection(this.firestore, 'messages');
     const q = query(messagesRef, where('channelId', '==', channelId));
-
+  
     return collectionData(q, { idField: 'docId' }).pipe(
-      map((docs) => {
-        const messages = docs.map((doc) => ({
-          docId: doc.docId,
-          createdBy: doc['createdBy'] || 'Unbekannt',
-          creatorName: doc['creatorName'] || 'Unbekannt',
-          creatorPhotoURL: doc['creatorPhotoURL'] || '',
-          message: doc['message'] || '',
-          timestamp: doc['timestamp']
-            ? new Date(doc['timestamp'].seconds * 1000)
-            : new Date(),
-          members: doc['members'] || [],
-          reactions: doc['reactions'] || [],
-          thread: doc['thread'] || null,
-          sameDay: false || true,
-        }));
-        this.loadAvatars(messages);
-        return messages;
+      switchMap(async (docs) => {
+        const messagesWithThreads = await Promise.all(
+          docs.map(async (doc) => {
+            const message = {
+              docId: doc.docId,
+              createdBy: doc['createdBy'] || 'Unbekannt',
+              creatorName: doc['creatorName'] || 'Unbekannt',
+              creatorPhotoURL: doc['creatorPhotoURL'] || '',
+              message: doc['message'] || '',
+              timestamp: doc['timestamp']
+                ? new Date(doc['timestamp'].seconds * 1000)
+                : new Date(),
+              members: doc['members'] || [],
+              reactions: doc['reactions'] || [],
+              thread: doc['thread'] || null,
+              sameDay: false || true,
+            };
+  
+            // ThreadMessages laden
+            const threadMessages = await this.fetchThreadMessagesForMessage(doc.docId);
+            return { ...message, threadMessages };
+          })
+        );
+  
+        this.loadAvatars(messagesWithThreads);
+        console.log('messagesWithThreads', messagesWithThreads);
+        return messagesWithThreads;
       }),
       catchError((error) => {
-        console.error('Fehler beim Abrufen der Nachrichten:', error);
+        console.error('Fehler beim Abrufen der Nachrichten mit Threads:', error);
         return [];
       })
     );
   }
 
+
+  private async fetchThreadMessagesForMessage(messageId: string): Promise<ThreadMessage[]> {
+    try {
+      const threadMessagesRef = collection(this.firestore, `messages/${messageId}/threadMessages`);
+      const threadMessagesSnapshot = await getDocs(threadMessagesRef);
+  
+      return threadMessagesSnapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          docId: doc.id,
+          channelId: data['channelId'] || undefined,
+          messageId,
+          createdBy: data['createdBy'] || 'Unbekannt',
+          creatorName: data['creatorName'] || 'Unbekannt',
+          creatorPhotoURL: data['creatorPhotoURL'] || '/assets/default-avatar.png',
+          timestamp: data['timestamp']
+            ? new Date(data['timestamp'].seconds * 1000)
+            : new Date(),
+          reactions: data['reactions'] || [],
+          message: data['message'] || '',
+          isThreadMessage: true,
+          sameDay: false, // Default-Wert, falls keine Tagesprüfung erfolgt
+        } as ThreadMessage;
+      });
+    } catch (error) {
+      console.error(`Fehler beim Laden der ThreadMessages für Nachricht ${messageId}:`, error);
+      return [];
+    }
+  }
 
   loadThreadMessages(parentMessageId: string): void {
     const threadMessagesRef = collection(
