@@ -28,6 +28,7 @@ export class MenuChannelsComponent implements OnInit, OnDestroy {
     public channelsService: ChannelsService,
     private sharedService: SharedService,
   ) {
+    this.channelsService.channelsOpen = true; // Setzt den Standardwert direkt
     this.channelForm = this.fb.group({
       name: ['', Validators.required],
       description: [''],

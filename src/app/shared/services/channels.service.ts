@@ -14,7 +14,7 @@ export class ChannelsService {
   threadAktive: boolean = false;
   private currentChannelSubject = new BehaviorSubject<Channel | null>(null);
   currentChannel$ = this.currentChannelSubject.asObservable();
-  channelsOpen: boolean = true;
+  channelsOpen: boolean = true; // cvo test
   default: boolean = false;
   private userChangesSubject = new BehaviorSubject<{ id: string; name: string } | null>(null);
   userChanges$ = this.userChangesSubject.asObservable();
