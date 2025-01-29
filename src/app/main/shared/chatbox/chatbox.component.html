@@ -37,7 +37,7 @@
           activeUserId){(Du)}
         </h3>
         <p class="chatbox__msg-time">
-          {{ parentMessage.timestamp | date:'HH:mm' }}
+          {{ parentMessage.timestamp | relativeDate }}
         </p>
       </div>
       <p class="chatbox__msg">
@@ -249,10 +249,10 @@
             <div class="chatbox__answers-container">
               @if (message) {
               <span (click)="onMessageSelect(message.docId || 'fallback')" class="chatbox__answers">
-                 {{ message.threadMessages.length }} Antworten
+                  {{ message.threadMessages.length }} Antworten
               </span>
               }
-              <span class="chatbox__last-answer">Letzte Antwort {{ message.threadMessages[message.threadMessages.length - 1].timestamp | date:'HH:mm' }} Uhr</span>
+              <span class="chatbox__last-answer">Letzte Antwort {{ message.threadMessages[0].timestamp | relativeDate }} {{ message.threadMessages[0].timestamp | date:'HH:mm' }} Uhr</span>
             </div>
           }
         }

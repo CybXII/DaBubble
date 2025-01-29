@@ -73,13 +73,31 @@ export class MessagesService {
   
             // ThreadMessages laden
             const threadMessages = await this.fetchThreadMessagesForMessage(doc.docId);
-            return { ...message, threadMessages };
+  
+            // ✅ ThreadMessages nach `timestamp` sortieren
+            const sortedThreadMessages = threadMessages.sort((a, b) => {
+              const dateA = new Date(a.timestamp).getTime();
+              const dateB = new Date(b.timestamp).getTime();
+              return dateB - dateA; // Aufsteigend sortieren
+            });
+  
+            console.log(`ThreadMessages sortiert für Nachricht ${doc.docId}:`, sortedThreadMessages);
+  
+            return { ...message, threadMessages: sortedThreadMessages };
           })
         );
   
         this.loadAvatars(messagesWithThreads);
-        console.log('messagesWithThreads', messagesWithThreads);
-        return messagesWithThreads;
+  
+        // ✅ Sortiere Hauptnachrichten ebenfalls
+        const sortedMessages = messagesWithThreads.sort((a, b) => {
+          const dateA = a.timestamp.getTime();
+          const dateB = b.timestamp.getTime();
+          return dateA - dateB;
+        });
+  
+        console.log('Nachrichten nach Sortierung:', sortedMessages);
+        return sortedMessages;
       }),
       catchError((error) => {
         console.error('Fehler beim Abrufen der Nachrichten mit Threads:', error);
@@ -87,7 +105,8 @@ export class MessagesService {
       })
     );
   }
-
+  
+  
 
   private async fetchThreadMessagesForMessage(messageId: string): Promise<ThreadMessage[]> {
     try {
