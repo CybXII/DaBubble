@@ -232,6 +232,17 @@ export class AuthService {
       const user = userCredential.user;
       const userData = this.setAnonymousUserData(user.uid);
       await setDoc(doc(this.firestore, `users/${user.uid}`), userData);
+
+      // private channel erstellen mit guestuser (29.1.2025)
+      await setDoc(doc(this.firestore, 'channels', user.uid), {
+        createdAt: new Date(),
+        isPrivate: true,
+        createdBy: user.uid,
+        description: userData.name,
+        name: userData.name + ' (Du)',
+        members: [user.uid],
+      });
+
       await this.loadUserData(user.uid);
       setTimeout(() => {
         this.toastMessageService.showToastSignal('Erfolgreich eingeloggt');

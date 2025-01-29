@@ -17,7 +17,7 @@ import { UserDialogService } from '../../../shared/services/user-dialog.service'
   styleUrl: './menu-private-messages.component.scss',
 })
 export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
-  messagesOpen: boolean = false;
+  messagesOpen: boolean = true; // changed by christoph
   privateChannels: Channel[] = [];
   loading: boolean = true;
   channelMembers: { [channelId: string]: string[] } = {};
