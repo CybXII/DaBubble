@@ -22,6 +22,19 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
   loading: boolean = true;
   channelMembers: { [channelId: string]: string[] } = {};
   private unsubscribeUserListener: (() => void) | null = null;
+  users: {
+    name: string;
+    userId: string;
+    photoURL: string;
+    email: string;
+    status: boolean;
+  } = {
+    name: '',
+    userId: '',
+    photoURL: '',
+    email: '',
+    status: false,
+  };
 
   constructor(
     private dialog: MatDialog,
@@ -107,6 +120,20 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
     });
   }
 
+  async getUser(id:any) {
+    const ID = [id]
+    const user = await this.authService.getUsernamesByIds(ID);
+    this.users = {
+      name: user[0].name ? user[0].name : "",
+      userId: user[0].userId,
+      photoURL: user[0].photoURL ? user[0].photoURL : "",
+      email: user[0].email ? user[0].email : "",
+      status: user[0].status ? user[0].status : false,
+    }
+    // console.warn(this.users);
+    return this.users;
+  }
+
   openDialog(): void {
     this.dialog.open(AddchatComponent, {
       width: 'fit-content',
@@ -115,9 +142,11 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
     });
   }
 
-  selectChannel(channelId: string): void {
+  async selectChannel(channelId: string): Promise<void> {
     this.sharedService.updateVariable('false');
     this.channelsService.selectChannel(channelId);
+    let activechannel = this.channelsService.getChannelById(channelId)
+    // console.warn(this.users.name);
   }
 
   toggleMessagesOpen(): void {

@@ -52,10 +52,11 @@
     >
       <div class="avatar-box">
         <img [src]="getAvatar(privateChannel)" alt="" />
+        <!-- <img [src]="this.users.photoURL" alt=""> -->
         <div
           target="online-status"
           [ngStyle]="{
-            'background-color': userDialog.userData?.status
+            'background-color': this.users.status
               ? '#92c83e'
               : '#696969'
           }"
