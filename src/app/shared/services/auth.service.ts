@@ -30,6 +30,7 @@ import {
   query,
   where,
   addDoc,
+  arrayUnion,
 } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { UserModel } from '../../models/user';
@@ -147,13 +148,26 @@ export class AuthService {
 
       await setDoc(doc(this.firestore, 'users', user.uid), userData);
 
+      // zu zwei channels hinzufügen
+      // entwicklerchat
+      const docRefChannel1 = doc(this.firestore, 'channels', "vfphslFFYLqC4hHHlM8y");
+      await updateDoc(docRefChannel1, {
+        members: arrayUnion(user.uid)
+      });
+      // allgemeiner channel
+      const docRefChannel2 = doc(this.firestore, 'channels', "q6m6NQIQepOmjULyneBJ");
+      await updateDoc(docRefChannel2, {
+        members: arrayUnion(user.uid)
+      });
+
+
       // hier noch private channel erstellen mit user (13.1.2025)
       await setDoc(doc(this.firestore, 'channels', user.uid), {
         createdAt: new Date(),
         isPrivate: true,
         createdBy: user.uid,
         description: userData.name,
-        name: userData.name +' (Du)',
+        name: userData.name + ' (Du)',
         members: [user.uid],
       });
     } catch (error) {
@@ -360,7 +374,7 @@ export class AuthService {
       name: username,
       email,
       photoURL: avatarURL,
-      channels: [userId], // changed by christoph
+      channels: [],//[userId, "vfphslFFYLqC4hHHlM8y", "q6m6NQIQepOmjULyneBJ"], // changed by christoph: priv, allgm, entwickler? inzwischen egal?!?!
       privateNoteRef: '',
       status: status,
       provider: provider,
