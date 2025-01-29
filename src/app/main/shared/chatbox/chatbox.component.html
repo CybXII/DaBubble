@@ -249,7 +249,7 @@
             <div class="chatbox__answers-container">
               @if (message) {
               <span (click)="onMessageSelect(message.docId || 'fallback')" class="chatbox__answers">
-                Antworten
+                 {{ message.threadMessages.length }} Antworten
               </span>
               }
               <span class="chatbox__last-answer">Letzte Antwort {{ message.threadMessages[message.threadMessages.length - 1].timestamp | date:'HH:mm' }} Uhr</span>
