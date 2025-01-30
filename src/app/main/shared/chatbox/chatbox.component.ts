@@ -17,7 +17,7 @@ import {
 import { MessagesService } from '../../../shared/services/messages.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { Message, Reaction, ThreadMessage } from '../../../models/message';
-import { Observable, Subject } from 'rxjs';
+import { from, Observable, Subject } from 'rxjs';
 import { catchError, map, takeUntil, tap } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { Channel } from '../../../models/channel';
@@ -29,6 +29,7 @@ import { ProfileviewComponent } from '../../../shared/profileview/profileview.co
 import { EmojiPickerService } from '../../../shared/services/emoji-picker.service';
 import { UserDialogService } from '../../../shared/services/user-dialog.service';
 import { RelativeDatePipe } from '../../../pipes/timestamp-to-date.pipe';
+import { UserService } from '../../../shared/services/user.service';
 
 
 @Component({
@@ -68,7 +69,8 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     private userDialog$: UserDialogService,
     public emojiPickerService: EmojiPickerService,
     private cdRef: ChangeDetectorRef,
-    private destroyRef: DestroyRef
+    private destroyRef: DestroyRef,
+    private userService: UserService
   ) {
     this.currentChannel$ = this.channelsService.currentChannel$;
     this.messages$ = this.messagesService.messages$;
@@ -423,5 +425,9 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
 
   getOtherUserId(userIds: string[]): string[] {
     return userIds.filter(id => id !== this.activeUserId);
+  }
+
+  getOtherUser(userId: string): Observable<string> {
+    return this.userService.getUserById(userId).pipe(map((user) => user.name));
   }
 }

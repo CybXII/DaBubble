@@ -49,17 +49,14 @@ export class RelativeDatePipe implements PipeTransform {
       date.getMonth() === today.getMonth() &&
       date.getFullYear() === today.getFullYear()
     ) {
-      return `Heute, ${date.toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit',
-      })}`;
+      return `Heute`;
     }
 
-    // Andernfalls Standard-Datumsformat zurückgeben
-    return date.toLocaleDateString([], {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    }) + `,  ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+    // Datum mit Wochentag ausgeben
+    return date.toLocaleDateString('de-DE', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+    });
   }
-}
+} 
