@@ -49,7 +49,41 @@
         <div class="chatbox__emojis"
           [class.chatbox__emoji-reacted]="reaction.userIds.includes(activeUserId!) ? true : false"
           (click)="addEmoji(parentMessage.docId!, activeUserId!, reaction.emoji, false)">
-          <span>{{ reaction.emoji }}</span>
+          <span class="chatbox__emoji" style="position: relative">{{ reaction.emoji }}
+            <div class="chatbox__reaction-users">
+              <span class="chatbox__reaction-users__icon">
+                {{ reaction.emoji }}</span>
+              @if(reaction.userIds.includes(activeUserId!)){
+              @if(reaction.userIds.length === 1) {
+              <span class="chatbox__reaction-users__title"> Du</span>
+              <span class="chatbox__reaction-users__description">hast reagiert</span>
+              } @if(reaction.userIds.length === 2){
+              <span class="chatbox__reaction-users__title">
+                Du und {{ getOtherUser(reaction.userIds[0]) | async }}</span>
+              <span class="chatbox__reaction-users__description">haben reagiert</span>
+              } @if(reaction.userIds.length > 2){
+              <span class="chatbox__reaction-users__title">
+                Du, {{ getOtherUser(reaction.userIds[0]) | async }} und
+                {{ reaction.userIds.length - 2 }} weitere</span>
+              <span class="chatbox__reaction-users__description">haben reagiert</span>
+              } } @else { @if(reaction.userIds.length === 1) {
+              <span class="chatbox__reaction-users__title">
+                {{ getOtherUser(reaction.userIds[0]) | async }}
+              </span>
+              <span class="chatbox__reaction-users__description">hat reagiert</span>
+              } @if (reaction.userIds.length === 2) {
+              <span class="chatbox__reaction-users__title">
+                {{ getOtherUser(reaction.userIds[0]) | async }} und
+                {{ getOtherUser(reaction.userIds[1]) | async }}</span>
+              <span class="chatbox__reaction-users__description">haben reagiert</span>
+              } @if (reaction.userIds.length > 2){
+              <span class="chatbox__reaction-users__title">
+                {{ reaction.userIds[0] }}, {{ reaction.userIds[1] }} und
+                {{ reaction.userIds.length - 2 }} weitere</span>
+              <span class="chatbox__reaction-users__description">haben reagiert</span>
+              } }
+            </div>
+          </span>
           <span>{{ reaction.userIds.length }}</span>
         </div>
         }}
