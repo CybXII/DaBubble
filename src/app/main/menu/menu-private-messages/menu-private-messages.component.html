@@ -51,12 +51,12 @@
       (click)="privateChannel.id ? selectChannel(privateChannel.id) : null"
     >
       <div class="avatar-box">
-        <img [src]="getAvatar(privateChannel)" alt="" />
-        <!-- <img [src]="this.users.photoURL" alt=""> -->
+        <!-- <img [src]="getAvatar(privateChannel)" alt="" /> -->
+        <img [src]="this.activeUsers[index].photoURL" alt="">
         <div
           target="online-status"
           [ngStyle]="{
-            'background-color': this.users.status
+            'background-color': this.activeUsers[index].status
               ? '#92c83e'
               : '#696969'
           }"
