@@ -118,7 +118,7 @@
     </div>
     }
     <button class="chatbox__addemoji-container" [class.chatbox__addemoji__sent]="message.createdBy === activeUserId">
-      <div class="chatbox__addemoji__emoji-container" (click)="toggleEmojiPicker(message.docId || 'fallback', false)"
+      <div class="chatbox__addemoji__emoji-container" (click)="toggleEmojiPicker(message.docId || 'fallback', false, false)"
         (click)="preventEmojiPickerClose($event)">
         <img src="/img/icons/addemoji.svg" alt="" />
       </div>
@@ -222,7 +222,7 @@
           </div>
           }}
         </div>
-        <div class="chatbox__addreaction-container" (click)="toggleEmojiPicker(message.docId || 'fallback', true)"
+        <div class="chatbox__addreaction-container" (click)="toggleEmojiPicker(message.docId || 'fallback', true, false)"
           (click)="preventEmojiPickerClose($event)">
           <img src="/img/icons/add_reaction.svg" alt="" />
         </div>
@@ -264,7 +264,7 @@
     [ngClass]="{ 'thread__days__chatbox__msg-container': message.sameDay }" id="{{ message.docId }}">
     <button (click)="preventEmojiPickerClose($event)" class="chatbox__addemoji-container"
       [class.chatbox__addemoji__sent]="message.createdBy === activeUserId">
-      <div class="chatbox__addemoji__emoji-container" (click)="toggleEmojiPicker(message.docId || 'fallback', false)">
+      <div class="chatbox__addemoji__emoji-container" (click)="toggleEmojiPicker(message.docId || 'fallback', false, false)">
         <img src="/img/icons/addemoji.svg" alt="" />
       </div>
       <div class="chatbox__editmsg-btn__container" style="display: none"
@@ -373,7 +373,7 @@
             }}
           </div>
           <div class="chatbox__addreaction-container">
-            <img src="/img/icons/add_reaction.svg" (click)="toggleEmojiPicker(message.docId || 'fallback', true)"
+            <img src="/img/icons/add_reaction.svg" (click)="toggleEmojiPicker(message.docId || 'fallback', true, false)"
               (click)="preventEmojiPickerClose($event)" alt="" />
           </div>
         </div>

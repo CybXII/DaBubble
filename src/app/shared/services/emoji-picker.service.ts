@@ -47,12 +47,13 @@ export class EmojiPickerService {
   }
 
   openChatBoxEmojiPicker(messageId: string, threadMain: boolean) {
-    this.displayEmojiPickerMainThread.next(threadMain ? threadMain : false);
+    this.displayEmojiPickerMainThread.next(threadMain ? true : false);
     this.isChatBoxPickerOpen.next(true);
     this.chatBoxEmojiPickerForId.next(messageId);
   }
 
-  openNewChatBoxEmojiPicker(messageId: string) {
+  openNewChatBoxEmojiPicker(messageId: string, threadMain: boolean) {
+    this.displayEmojiPickerMainThread.next(threadMain ? true : false);
     this.isChatBoxPickerOpen.next(false);
     this.chatBoxEmojiPickerForId.next(messageId);
     this.isChatBoxPickerOpen.next(true);
@@ -61,6 +62,7 @@ export class EmojiPickerService {
   closeChatBoxEmojiPicker() {
     this.displayEmojiPickerMainThread.next(false);
     this.isChatBoxPickerOpen.next(false);
+    this.displayEmojiPickerMainThread.next(false);
     this.chatBoxEmojiPickerForId.next('');
   }
 }

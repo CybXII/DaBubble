@@ -101,6 +101,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
 
     const emojiSubscription3 = this.emojiPickerService.displayEmojiPickerMainThread$.subscribe((display) => {
       this.displayEmojiPickerMainThread = display;
+      console.log('Emoji main thread?' + display)
       this.cdRef.markForCheck();
     })
 
@@ -289,7 +290,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   toggleEmojiPicker(messageId: string, displayPickerBottom: boolean, threadMain?: boolean) {
-    console.log('displayEmojiPickerMainThread', this.displayEmojiPickerMainThread);
+    console.log('open picker for:' + messageId + ' picker bottom?: ' + displayPickerBottom + ' threadMain?: ' + threadMain);
     // checks if the picker should display at the bottom or at the top of the message
     this.displayPickerBottom = displayPickerBottom;
     // checks if any picker of the messagebox is open, and closes it
@@ -304,9 +305,9 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.isChatBoxEmojiPickerOpen) {
       // if the chatbox is already open for another message, closes it and opens it for a new message. If it's open for the message we clicked on, it closes
       if (messageId !== this.chatBoxEmojiPickerOpenFor) {
-        this.emojiPickerService.openNewChatBoxEmojiPicker(messageId);
+        this.emojiPickerService.openNewChatBoxEmojiPicker(messageId, threadMain ? threadMain : false);
       } else {
-        this.emojiPickerService.closeChatBoxEmojiPicker();
+        this.emojiPickerService.openChatBoxEmojiPicker(messageId, threadMain ? threadMain : false)
       }
     } else {
       // Opens a new emoji picker for the message we clicked on.
