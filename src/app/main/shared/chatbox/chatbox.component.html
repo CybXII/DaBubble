@@ -5,7 +5,7 @@
 } @else {
 @if (builder == "threadchat") {
 <div class="threadchat__chatbox">
-  <div class="chatbox__mainthread-container">
+  <div class="chatbox__mainthread-container" [class.chatbox__msg-container__sent]="parentMessage!.createdBy === activeUserId">
     @if (this.parentMessage){ @if (isChatBoxEmojiPickerOpen &&
     chatBoxEmojiPickerOpenFor === parentMessage.docId &&
     displayEmojiPickerMainThread){
@@ -30,8 +30,8 @@
       </div>
     </button>
     <img class="chatbox__msg-avatar" src="/img/avatars/avatar1.svg" alt="Avatar" width="70" height="70" />
-    <div class="chatbox__msg-item2">
-      <div class="chatbox__msg-info">
+    <div class="chatbox__msg-item2" [class.chatbox__msg-sent-item2]="parentMessage.createdBy === activeUserId">
+      <div class="chatbox__msg-info" [class.chatbox__msg-sent-info]="parentMessage.createdBy === activeUserId">
         <h3 class="chatbox__msg-name">
           {{ parentMessage.creatorName }}@if(parentMessage.createdBy ==
           activeUserId){(Du)}
@@ -40,7 +40,7 @@
           {{ parentMessage.timestamp | relativeDate }}
         </p>
       </div>
-      <p class="chatbox__msg">
+      <p class="chatbox__msg" [class.chatbox__msg-sent]="parentMessage.createdBy === activeUserId">
         {{ parentMessage.message || "Keine Nachricht" }}
       </p>
       <div class="chatbox__emojis-container">
