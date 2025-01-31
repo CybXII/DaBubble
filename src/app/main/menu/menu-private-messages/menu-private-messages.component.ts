@@ -184,7 +184,16 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
   }
 
   getAvatar(privateChannel: Channel): string {
+    // logik zum ermitteln des partners einbinden 
+    // dannach im return den userService getAvatar benutzen
+    // return this.userService.getAvatar(partnerID);
     return '/img/avatars/avatar1.svg';
+  }
+
+  getStatus(privateChannel: string): string {
+    // same game wie get avatar 
+
+    return true ? 'online' : 'offline';
   }
 }
 
