@@ -38,5 +38,11 @@ export class UserService {
     );
   }
 
+  getuserAvatar(userId: string) {
+    return this.getUserById(userId).pipe(
+      map((user) => user.photoURL || '/img/avatars/picPlaceholder.svg')
+    );
+  }
+
   
 }

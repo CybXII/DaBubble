@@ -206,7 +206,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
 
   toggleEmojiPicker(messageId: string, displayPickerBottom: boolean, threadMain?: boolean) {
     console.log('open picker for:' + messageId + ' picker bottom?: ' + displayPickerBottom + ' threadMain?: ' + threadMain);
-    // checks if the picker should display at the bottom or at the top of the message
     this.displayPickerBottom = displayPickerBottom;
     if (this.isChatBoxEmojiPickerOpen) {
       if (messageId !== this.chatBoxEmojiPickerOpenFor) {
@@ -293,6 +292,10 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
 
   getOtherUser(userId: string): Observable<string> {
     return this.userService.getUserById(userId).pipe(map((user) => user.name));
+  }
+
+  getUserAvatar(userId: string) {
+    return this.userService.getuserAvatar(userId);
   }
 
 
