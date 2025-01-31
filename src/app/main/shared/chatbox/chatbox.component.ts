@@ -17,8 +17,8 @@ import {
 import { MessagesService } from '../../../shared/services/messages.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { Message, Reaction, ThreadMessage } from '../../../models/message';
-import { from, Observable, Subject } from 'rxjs';
-import { catchError, map, takeUntil, tap } from 'rxjs/operators';
+import { combineLatest, from, Observable, Subject } from 'rxjs';
+import { catchError, map, startWith, takeUntil, tap } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { Channel } from '../../../models/channel';
 import { ChannelsService } from '../../../shared/services/channels.service';
@@ -30,35 +30,35 @@ import { EmojiPickerService } from '../../../shared/services/emoji-picker.servic
 import { UserDialogService } from '../../../shared/services/user-dialog.service';
 import { RelativeDatePipe } from '../../../pipes/timestamp-to-date.pipe';
 import { UserService } from '../../../shared/services/user.service';
-
+import { StateService } from '../../../shared/services/state.service';
 
 @Component({
   selector: 'app-chatbox',
+  templateUrl: './chatbox.component.html',
   standalone: true,
   imports: [CommonModule, EmojiPickerComponent, RelativeDatePipe],
-  templateUrl: './chatbox.component.html',
   styleUrls: ['./chatbox.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() builder!: string;
   @Output() threadChatToggle = new EventEmitter<void>();
+  
   currentChannel$: Observable<Channel | null>;
   messages$: Observable<Partial<Message>[]>;
-  avatars$!: Observable<Map<string, string>>;
   threadMessages$: Observable<ThreadMessage[]>;
+  avatars$!: Observable<Map<string, string>>;
+  parentMessage: Partial<Message> | null = null;  
   activeUserId: string | null = null;
   activeMessageId: string | null = null;
   loadingMessages: WritableSignal<boolean> = signal(true);
+  loadingAvatars  = true;
   private destroy$ = new Subject<void>();
-  loadingAvatars: boolean = false;
-  selectedEmoji: string = '';
+  displayEmojiPickerMainThread:boolean = false;
   isChatBoxEmojiPickerOpen: boolean = false;
   chatBoxEmojiPickerOpenFor: string | null = null;
   displayPickerBottom: boolean = false;
-  parentMessage: Message | null = null;
-  currentDay:boolean = false;
-  displayEmojiPickerMainThread:boolean = false;
+
   previousTimestamp: number | null = null;
 
   constructor(
@@ -70,85 +70,80 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     public emojiPickerService: EmojiPickerService,
     private cdRef: ChangeDetectorRef,
     private destroyRef: DestroyRef,
-    private userService: UserService
+    private userService: UserService,
+    private stateService: StateService
   ) {
     this.currentChannel$ = this.channelsService.currentChannel$;
-    this.messages$ = this.messagesService.messages$;
-    this.threadMessages$ = this.messagesService.threadMessages$;
+    this.messages$ = combineLatest([
+      this.channelsService.currentChannel$,
+      this.messagesService.messages$
+    ]).pipe(
+      map(([channel, messages]) => {
+        if (!channel) return [];
+        return messages.filter(message => message.channelId === channel.id);
+      })
+    );
+    this.threadMessages$ = combineLatest([
+      this.messagesService.messageId$.pipe(startWith(null)),
+      this.messagesService.threadMessages$.pipe(map(threads => threads || [])),
+    ]).pipe(
+      map(([messageId, threads]) => {
+        if (!messageId) return [];
+        return threads.filter(thread => thread.messageId === messageId);
+      })
+    );
+
     this.activeUserId = this.authService.userId();
   }
 
   ngOnInit(): void {
     this.channelsService.setDefaultChannel();
-    if (this.builder === 'mainchat') {
-      this.initMainChat();
-    } else if (this.builder === 'threadchat') {
-      this.initThreadChat();
-    }
-
-
+    this.channelsService.currentChannel$.subscribe(channel => {
+      if (channel) {
+        this.messagesService.loadMessagesForChannel(channel.id);
+      }
+    });
+    this.avatars$ = this.messagesService.avatars$;
+    
     const emojiSubscription1 = this.emojiPickerService.isChatBoxPickerOpen$.subscribe((open) => {
       this.isChatBoxEmojiPickerOpen = open;
       this.cdRef.markForCheck();
     });
-
-
+    
     const emojiSubscription2 = this.emojiPickerService.chatBoxEmojiPickerForId$.subscribe((id) => {
       this.chatBoxEmojiPickerOpenFor = id;
       this.cdRef.markForCheck();
     });
-
-
+    
     const emojiSubscription3 = this.emojiPickerService.displayEmojiPickerMainThread$.subscribe((display) => {
       this.displayEmojiPickerMainThread = display;
       console.log('Emoji main thread?' + display)
       this.cdRef.markForCheck();
-    })
-
-  
+    });
+    
     this.destroyRef.onDestroy(() => {
       emojiSubscription1.unsubscribe();
       emojiSubscription2.unsubscribe();
       emojiSubscription3.unsubscribe();
-    })
+    });
   }
 
 
   ngAfterViewInit(): void {
-    const chatboxSelector =
-      this.builder === 'mainchat' ? 'mainchat__chatbox' : 'threadchat__chatbox';
-    const observer = new MutationObserver(() => {
-      const chatbox = document.querySelector(chatboxSelector) as HTMLElement;
-      if (chatbox) {
-        chatbox.scrollTop = chatbox.scrollHeight;
-        observer.disconnect();
-      }
-    });
     if (this.builder === 'threadchat') {
-      console.log('ChatboxComponent initialized', this.parentMessage);
+      this.messagesService.parentMessageId$.subscribe((messageId) => {
+        if (messageId) {
+          this.setParentMessage(messageId);
+        }
+      });
     }
-    observer.observe(document.body, { childList: true, subtree: true });
-  }
 
 
-  scrollToBottom(selector: string): void {
-    const chatbox = document.querySelector(selector) as HTMLElement;
-    if (chatbox) {
-      setTimeout(() => {
-        chatbox.scrollTop = chatbox.scrollHeight;
-      }, 0);
-    }
-  }
-
-
-  checkForScrollbar(selector: string): void {
-    const chatbox = document.querySelector(selector) as HTMLElement;
-    if (chatbox.scrollHeight > chatbox.clientHeight) {
-      chatbox.classList.add('has-scroll');
-      this.scrollToBottom(selector);
-    } else {
-      chatbox.classList.remove('has-scroll');
-    }
+    setTimeout(() => {
+      this.scrollToBottom(
+        this.builder === 'mainchat' ? '.mainchat__chatbox' : '.threadchat__chatbox'
+      );
+    }, 0);
   }
 
 
@@ -158,112 +153,31 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
-  private initMainChat(): void {
-    this.currentChannel$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((channel) => this.handleMainChatChannel(channel));
-    this.avatars$ = this.messagesService.avatars$;
-  }
-
-
-  private initThreadChat(): void {
-    this.messagesService.messageId$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((messageId) => this.handleThreadChatMessage(messageId));
-    this.messagesService.parentMessage$
-      .pipe(
-        takeUntil(this.destroy$),
-        map((parentMessage) => {
-          if (parentMessage && parentMessage.timestamp) {
-            return {
-              ...parentMessage,
-            };
-          }
-          return parentMessage;
-        })
-      )
-      .subscribe((formattedParentMessage) => {
-        this.parentMessage = formattedParentMessage;
-        console.log('Formattierte Parent-Nachricht:', this.parentMessage);
-        console.log('ThreadNachrichten:', this.messages$);
-        this.cdRef.detectChanges();
-      });
-  }
-
-
-  private async handleMainChatChannel(channel: Channel | null): Promise<void> {
-    if (channel) {
-      this.loadingMessages.set(true);
-      try {
-        this.messages$ = this.messagesService
-          .loadMessagesForChannel(channel.id || '')
-          .pipe(
-            tap(() => {
-              setTimeout(() => {
-                this.scrollToBottom(
-                  this.builder === 'mainchat'
-                    ? '.mainchat__chatbox'
-                    : '.threadchat__chatbox'
-                );
-              }, 0);
-              this.loadingAvatars = true;
-            }),
-            map((messages) =>
-              messages.sort((a, b) => {
-                const dateA = a.timestamp ? new Date(a.timestamp).getTime() : 0;
-                const dateB = b.timestamp ? new Date(b.timestamp).getTime() : 0;
-                return dateA - dateB;
-              }),
-            ),
-            tap(() => {
-              this.loadingAvatars = false;
-            }),
-            catchError((error) => {
-              console.error(
-                'Fehler beim Laden und Sortieren der Nachrichten:',
-                error
-              );
-              this.loadingAvatars = false;
-              return [];
-            })
-          );
-      } catch (error) {
-        console.error('Fehler beim Laden der Nachrichten:', error);
-      } finally {
-        console.log('Nachrichten geladen:', this.messages$);
-        this.loadingMessages.set(false);
+  scrollToBottom(selector: string): void {
+    setTimeout(() => {
+      const chatbox = document.querySelector(selector) as HTMLElement;
+      if (chatbox) {
+        chatbox.scrollTop = chatbox.scrollHeight;
       }
-    }
+    }, 0);
   }
 
-  private handleThreadChatMessage(messageId: string | null): void {
-    this.activeMessageId = messageId;
-    if (messageId) {
-      this.loadingMessages.set(true);
-      try {
-        this.messagesService.loadThreadMessages(messageId);
-        this.activeMessageId = messageId;
-      } catch (error) {
-        console.error('Fehler beim Laden der Thread-Nachrichten:', error);
-      } finally {
-        this.loadingMessages.set(false);
-        setTimeout(() => {
-          this.scrollToBottom('.threadchat__chatbox');
-        }, 200);
-      }
-    } else {
-      console.log('Keine gültige Message-ID für Thread gefunden.');
-    }
-  }
 
-  onMessageSelect(messageId: string): void {
+  async onMessageSelect(messageId: string): Promise<void> {
+    this.messagesService.setParentMessageId(messageId);
     this.activeMessageId = messageId;
     this.messagesService.setMessageId(messageId);
-    this.messagesService.loadThreadMessages(messageId);
+    this.stateService.setThreadchatState('in');
   }
 
-  trackByMessageId(index: number, message: Message): string {
-    return message.docId || index.toString();
+
+  setParentMessage(messageId: string): void {
+    this.messages$.subscribe((messages) => {
+      const foundMessage = messages.find((msg) => msg.docId === messageId) || null;
+      if (foundMessage) {
+        this.parentMessage = foundMessage;
+      }
+    });
   }
 
   editMessage(message: Partial<Message>, deleteMessage: boolean) {
@@ -274,6 +188,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       data: { message, deleteMessage },
     });
   }
+
 
   editThreadMessage(
     message: Partial<ThreadMessage>,
@@ -291,33 +206,34 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
 
   toggleEmojiPicker(messageId: string, displayPickerBottom: boolean, threadMain?: boolean) {
     console.log('open picker for:' + messageId + ' picker bottom?: ' + displayPickerBottom + ' threadMain?: ' + threadMain);
-    // checks if the picker should display at the bottom or at the top of the message
     this.displayPickerBottom = displayPickerBottom;
-    // checks if any picker of the messagebox is open, and closes it
-    if (
-      this.emojiPickerService.isMessageBoxMainPickerOpen$ ||
-      this.emojiPickerService.isMessageBoxThreadPickerOpen$
-    ) {
-      this.emojiPickerService.closeMsgBoxEmojiPickerMain();
-      this.emojiPickerService.closeMsgBoxEmojiPickerThread();
-    }
-    // checks if any picker of the chatbox is open
     if (this.isChatBoxEmojiPickerOpen) {
-      // if the chatbox is already open for another message, closes it and opens it for a new message. If it's open for the message we clicked on, it closes
       if (messageId !== this.chatBoxEmojiPickerOpenFor) {
         this.emojiPickerService.openNewChatBoxEmojiPicker(messageId, threadMain ? threadMain : false);
       } else {
         this.emojiPickerService.openChatBoxEmojiPicker(messageId, threadMain ? threadMain : false)
       }
     } else {
-      // Opens a new emoji picker for the message we clicked on.
-      this.emojiPickerService.openChatBoxEmojiPicker(messageId, threadMain ? threadMain : false);
+      this.emojiPickerService.openChatBoxEmojiPicker(messageId, threadMain || false);
     }
   }
+
+
+  addEmoji(messageIdOrThreadDocId: string, userId: string, emoji: string, isThreadMessage: boolean): void {
+    const reaction: Reaction = { emoji, userIds: [userId] };
+    const updateData: Partial<Message> = { reactions: [reaction] };
+    const updatePromise = isThreadMessage
+      ? this.messagesService.updateThreadMessage(this.activeMessageId!, messageIdOrThreadDocId, userId, updateData)
+      : this.messagesService.updateMessage(messageIdOrThreadDocId, userId, updateData);
+    updatePromise.catch(error => console.error('Fehler beim Hinzufügen der Reaktion:', error));
+    this.emojiPickerService.closeChatBoxEmojiPicker();
+  }
+
 
   preventEmojiPickerClose(event: Event): void {
     event.stopPropagation();
   }
+
 
   @HostListener('document:click', ['$event'])
   onChatboxDocumentClick(event: MouseEvent): void {
@@ -326,49 +242,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  addEmoji(
-    messageIdOrThreadDocId: string,
-    userId: string,
-    emoji: string,
-    isThreadMessage: boolean
-  ): void {
-    this.selectedEmoji = emoji;
-
-    const reaction: Reaction = { emoji, userIds: [userId] };
-    const updateData: Partial<Message> = {
-      reactions: [reaction],
-    };
-
-    // Determine whether to update a thread message or a regular message
-    const updatePromise = isThreadMessage
-      ? this.messagesService.updateThreadMessage(
-          this.activeMessageId!,
-          messageIdOrThreadDocId,
-          userId,
-          updateData
-        )
-      : this.messagesService.updateMessage(
-          messageIdOrThreadDocId,
-          userId,
-          updateData
-        );
-
-    updatePromise
-      .then(() => {
-        console.log(
-          `Reaction added to ${isThreadMessage ? `thread message` : 'message'}`
-        );
-      })
-      .catch((error) => {
-        console.error('Error adding reaction:', error);
-      });
-
-    this.emojiPickerService.closeChatBoxEmojiPicker();
-    console.log('chatbox', messageIdOrThreadDocId);
-    console.log('chatbox', userId);
-    console.log('chatbox', updateData);
-    this.cdRef.markForCheck();
-  }
 
   checkIdIsUser(id: string | undefined) {
     if (this.activeUserId !== id) {
@@ -379,8 +252,9 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+
   openDialogUser(id: string | undefined): void {
-    this.dialog.open(ProfileviewComponent, {
+    this.dialog.open(EditmessageComponent, {
       width: 'fit-content',
       maxWidth: '100vw',
       height: 'fit-content',
@@ -389,19 +263,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
-  previousMessagesamDate(currentMessage: any, previousMessage: any): boolean {
-    if (!previousMessage || !currentMessage) {
-      return false;
-    }
-    const currentDate = new Date(currentMessage.timestamp);
-    const previousDate = new Date(previousMessage.timestamp);
-  
-    return (
-      currentDate.getDate() === previousDate.getDate() &&
-      currentDate.getMonth() === previousDate.getMonth() &&
-      currentDate.getFullYear() === previousDate.getFullYear()
-    );
-  }
   checkAndSetPreviousTimestamp(currentTimestamp: string | Date | undefined): boolean {
     if (!currentTimestamp) {
       return false;
@@ -420,15 +281,35 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       currentDate.getMonth() !== previousDate.getMonth() ||
       currentDate.getFullYear() !== previousDate.getFullYear();
     this.previousTimestamp = currentDate.getTime();
-  
     return isDifferentDay;
   }
+
 
   getOtherUserId(userIds: string[]): string[] {
     return userIds.filter(id => id !== this.activeUserId);
   }
 
+
   getOtherUser(userId: string): Observable<string> {
     return this.userService.getUserById(userId).pipe(map((user) => user.name));
+  }
+
+  getUserAvatar(userId: string) {
+    return this.userService.getuserAvatar(userId);
+  }
+
+
+  trackByMessage(index: number, message: ThreadMessage): string {
+    let timestampValue: number = 0;
+    if (message.timestamp instanceof Date) {
+      timestampValue = message.timestamp.getTime();
+    } else if (typeof message.timestamp === 'string') {
+      timestampValue = new Date(message.timestamp).getTime();
+    } else if (typeof message.timestamp === 'number') {
+      timestampValue = message.timestamp;
+    } else if (message.timestamp && 'seconds' in message.timestamp) {
+      timestampValue = message.timestamp;
+    }
+    return message.docId || `fallback-${timestampValue}-${index}`;
   }
 }
