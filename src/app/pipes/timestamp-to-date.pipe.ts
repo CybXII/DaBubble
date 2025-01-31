@@ -1,14 +1,22 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { Timestamp } from '@angular/fire/firestore'
 
 @Pipe({
   name: 'timestampToDate',
   standalone: true,
 })
 export class TimestampToDatePipe implements PipeTransform {
-  transform(value: number | undefined): string {
-    if (!value) return '';
+  transform(value: number | Date | Timestamp | undefined): string {
+    if (!value) return 'Ungültiges Datum';
 
-    const date = new Date(value * 1000);
+    let date: Date;
+    if (value instanceof Timestamp) {
+      date = value.toDate(); // Firestore-Timestamp zu Date konvertieren
+    } else if (typeof value === 'number') {
+      date = new Date(value * 1000); // Unix-Timestamp in Millisekunden umwandeln
+    } else {
+      date = new Date(value);
+    }
 
     return date.toLocaleDateString('de-DE', {
       day: '2-digit',
@@ -25,13 +33,12 @@ export class TimestampToDatePipe implements PipeTransform {
 })
 export class RelativeDatePipe implements PipeTransform {
   transform(value: any): string {
-    if (!value) {
-      return 'Ungültiges Datum';
-    }
+    if (!value) return 'Ungültiges Datum';
 
-    // Konvertiere Firebase-Timestamp zu Date
     let date: Date;
-    if (value.seconds) {
+    if (value instanceof Timestamp) {
+      date = value.toDate();
+    } else if (value.seconds) {
       date = new Date(value.seconds * 1000);
     } else if (value instanceof Date) {
       date = value;
@@ -42,8 +49,6 @@ export class RelativeDatePipe implements PipeTransform {
     }
 
     const today = new Date();
-
-    // Prüfen, ob das Datum heute ist
     if (
       date.getDate() === today.getDate() &&
       date.getMonth() === today.getMonth() &&
@@ -52,7 +57,6 @@ export class RelativeDatePipe implements PipeTransform {
       return `Heute`;
     }
 
-    // Datum mit Wochentag ausgeben
     return date.toLocaleDateString('de-DE', {
       weekday: 'long',
       day: 'numeric',
