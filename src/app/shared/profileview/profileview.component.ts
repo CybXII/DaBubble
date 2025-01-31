@@ -90,6 +90,7 @@ export class ProfileviewComponent {
         members: [currentUserId, otherUserId],
       };
       await this.channelService.createChannel(newChannel);
+      this.sendMessage();
       this.closeProfile();
       console.log('Privater Channel erfolgreich erstellt:', newChannel);
     } catch (error) {
