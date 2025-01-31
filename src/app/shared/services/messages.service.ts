@@ -12,29 +12,39 @@ import {
   deleteDoc,
   getDocs,
   onSnapshot,
+  orderBy,
+  Timestamp,
 } from '@angular/fire/firestore';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Message, Reaction, ThreadMessage } from '../../models/message';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { StateService } from './state.service';
 
-
 @Injectable({
   providedIn: 'root',
 })
 export class MessagesService {
-  private messagesSubject = new BehaviorSubject<Partial<Message>[]>([]);
-  messages$: Observable<Partial<Message>[]> = this.messagesSubject.asObservable();
+  private messagesSubject = new BehaviorSubject<Message[]>([]);
+  messages$ = this.messagesSubject.asObservable();
+
   private threadMessagesSubject = new BehaviorSubject<ThreadMessage[]>([]);
-  threadMessages$: Observable<ThreadMessage[]> = this.threadMessagesSubject.asObservable();
+  threadMessages$ = this.threadMessagesSubject.asObservable();
+
   private messageIdSubject = new BehaviorSubject<string | null>(null);
   messageId$ = this.messageIdSubject.asObservable();
+
+  private parentMessageIdSubject = new BehaviorSubject<string | null>(null);
+  parentMessageId$ = this.parentMessageIdSubject.asObservable();
+  
   private avatarsSubject = new BehaviorSubject<Map<string, string>>(new Map());
   avatars$: Observable<Map<string, string>> = this.avatarsSubject.asObservable();
-  private parentMessageSubject = new BehaviorSubject<Message | null>(null);
-  parentMessage$ = this.parentMessageSubject.asObservable();
 
-  constructor(private firestore: Firestore, private stateService: StateService) {}
+  private activeChannelId: string | null = null;
+  private activeMessageId: string | null = null;
+  private unsubscribeMessages: (() => void) | null = null;
+  private unsubscribeThreads: (() => void) | null = null;
+
+  constructor(private firestore: Firestore) {}
 
   loadAvatars(messages: Message[]): void {
     const avatarMap = new Map<string, string>();
@@ -48,173 +58,152 @@ export class MessagesService {
   }
 
 
-  loadMessagesForChannel(channelId: string): Observable<Message[]> {
+  /**
+     * 🔥 Lädt Nachrichten für einen Channel, sortiert und speichert sie im Cache.
+  */
+  loadMessagesForChannel(channelId: string | undefined): void {
+    if (!channelId) {
+      console.error('Channel-ID ist erforderlich für Nachrichtenabruf.');
+      return;
+    }
+
+    if (this.activeChannelId === channelId) return; // Verhindert doppelte Listener
+
+    this.activeChannelId = channelId;
+    if (this.unsubscribeMessages) this.unsubscribeMessages(); // Entferne vorherigen Listener
+
     const messagesRef = collection(this.firestore, 'messages');
     const q = query(messagesRef, where('channelId', '==', channelId));
-  
-    return collectionData(q, { idField: 'docId' }).pipe(
-      switchMap(async (docs) => {
-        const messagesWithThreads = await Promise.all(
-          docs.map(async (doc) => {
-            const message = {
-              docId: doc.docId,
-              createdBy: doc['createdBy'] || 'Unbekannt',
-              creatorName: doc['creatorName'] || 'Unbekannt',
-              creatorPhotoURL: doc['creatorPhotoURL'] || '',
-              message: doc['message'] || '',
-              timestamp: doc['timestamp']
-                ? new Date(doc['timestamp'].seconds * 1000)
-                : new Date(),
-              members: doc['members'] || [],
-              reactions: doc['reactions'] || [],
-              thread: doc['thread'] || null,
-              sameDay: false || true,
-            };
-  
-            // ThreadMessages laden
-            const threadMessages = await this.fetchThreadMessagesForMessage(doc.docId);
-  
-            // ✅ ThreadMessages nach `timestamp` sortieren
-            const sortedThreadMessages = threadMessages.sort((a, b) => {
-              const dateA = new Date(a.timestamp).getTime();
-              const dateB = new Date(b.timestamp).getTime();
-              return dateB - dateA; // Aufsteigend sortieren
-            });
-  
-            console.log(`ThreadMessages sortiert für Nachricht ${doc.docId}:`, sortedThreadMessages);
-  
-            return { ...message, threadMessages: sortedThreadMessages };
-          })
-        );
-  
-        this.loadAvatars(messagesWithThreads);
-  
-        // ✅ Sortiere Hauptnachrichten ebenfalls
-        const sortedMessages = messagesWithThreads.sort((a, b) => {
-          const dateA = a.timestamp.getTime();
-          const dateB = b.timestamp.getTime();
-          return dateA - dateB;
-        });
-  
-        console.log('Nachrichten nach Sortierung:', sortedMessages);
-        return sortedMessages;
-      }),
-      catchError((error) => {
-        console.error('Fehler beim Abrufen der Nachrichten mit Threads:', error);
-        return [];
-      })
-    );
-  }
-  
-  
 
-  private async fetchThreadMessagesForMessage(messageId: string): Promise<ThreadMessage[]> {
-    try {
-      const threadMessagesRef = collection(this.firestore, `messages/${messageId}/threadMessages`);
-      const threadMessagesSnapshot = await getDocs(threadMessagesRef);
-  
-      return threadMessagesSnapshot.docs.map((doc) => {
-        const data = doc.data();
+    this.unsubscribeMessages = onSnapshot(q, async (snapshot) => {
+      const messagesWithThreads = await Promise.all(
+        snapshot.docs.map(async (docSnap) => {
+          const data = docSnap.data();
+          const timestampValue = this.convertTimestamp(data['timestamp']);
+
+          const message: Message = {
+            docId: docSnap.id,
+            ...data,
+            timestamp: timestampValue,
+            createdBy: data['createdBy'] || 'Unknown',
+            creatorName: data['creatorName'] || 'Unknown',
+            creatorPhotoURL: data['creatorPhotoURL'] || '/assets/default-avatar.png',
+            members: data['members'] || [],
+            reactions: data['reactions'] || [],
+            message: data['message'] || '',
+            sameDay: false,
+          };
+          // 🔄 **ThreadMessages live beobachten**
+          this.loadThreadMessages(docSnap.id);
+          return message;
+        })
+      );
+      // ✅ Sortierung bleibt erhalten
+      messagesWithThreads.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+      // 🔥 Cache aktualisieren
+      this.messagesSubject.next(messagesWithThreads);
+    });
+  }
+
+
+  /**
+   * 🔥 Lädt Thread-Nachrichten für eine Parent-Nachricht, sortiert sie und speichert sie im Cache.
+   */
+  loadThreadMessages(parentMessageId: string): void {
+    if (this.activeMessageId === parentMessageId) return; // Verhindert doppelte Listener
+    this.activeMessageId = parentMessageId;
+    if (this.unsubscribeThreads) this.unsubscribeThreads(); // Entferne vorherigen Listener
+    const threadMessagesRef = collection(this.firestore, `messages/${parentMessageId}/threadMessages`);
+    const q = query(threadMessagesRef, orderBy('timestamp', 'asc'));
+    this.unsubscribeThreads = onSnapshot(q, async (snapshot) => {
+      const threadMessages = snapshot.docs.map((docSnap) => {
+        const data = docSnap.data();
         return {
-          docId: doc.id,
-          channelId: data['channelId'] || undefined,
-          messageId,
-          createdBy: data['createdBy'] || 'Unbekannt',
-          creatorName: data['creatorName'] || 'Unbekannt',
-          creatorPhotoURL: data['creatorPhotoURL'] || '/assets/default-avatar.png',
-          timestamp: data['timestamp']
-            ? new Date(data['timestamp'].seconds * 1000)
-            : new Date(),
-          reactions: data['reactions'] || [],
-          message: data['message'] || '',
+          docId: docSnap.id,
+          messageId: parentMessageId,
+          ...data,
+          timestamp: this.convertTimestamp(data['timestamp']),
           isThreadMessage: true,
-          sameDay: false, // Default-Wert, falls keine Tagesprüfung erfolgt
         } as ThreadMessage;
       });
-    } catch (error) {
-      console.error(`Fehler beim Laden der ThreadMessages für Nachricht ${messageId}:`, error);
-      return [];
-    }
+      // ✅ Sortierung beibehalten
+      threadMessages.sort((a, b) =>new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+      // 🔥 Cache aktualisieren
+      this.threadMessagesSubject.next(threadMessages);
+    });
   }
 
-  loadThreadMessages(parentMessageId: string): void {
-    const threadMessagesRef = collection(
-      this.firestore,
-      `messages/${parentMessageId}/threadMessages`
-    );
-    const threadMessages$ = collectionData(threadMessagesRef, {
-      idField: 'docId',
-    }) as Observable<ThreadMessage[]>;
 
-    threadMessages$
-      .pipe(
-        map((threadMessages) =>
-          threadMessages
-            .map((threadMessage) => ({
-              ...threadMessage,
-              parentMessageId,
-              timestamp: (threadMessage.timestamp as any).seconds
-                ? new Date((threadMessage.timestamp as any).seconds * 1000)
-                : threadMessage.timestamp,
-            }))
-            .sort((a, b) => {
-              const dateA = new Date(a.timestamp).getTime();
-              const dateB = new Date(b.timestamp).getTime();
-              return dateA - dateB;
-            })
-        )
-      )
-      .subscribe((sortedThreadMessages) => {
-        this.threadMessagesSubject.next(sortedThreadMessages);
-      });
-
-      const parentMessageRef = doc(this.firestore, `messages/${parentMessageId}`);
-      onSnapshot(parentMessageRef, (docSnap) => {
-        if (docSnap.exists()) {
-          const parentMessage = {
-            docId: parentMessageId,
-            ...docSnap.data(),
-          } as Message;
-          this.parentMessageSubject.next(parentMessage); // Echtzeit-Update
-        } else {
-          this.parentMessageSubject.next(null);
-        }
-      });
-    this.stateService.setThreadchatState('in');
+  setParentMessageId(messageId: string | null): void {
+    console.log('[MessagesService] setParentMessageId aufgerufen mit:', messageId);
+    this.parentMessageIdSubject.next(messageId);
   }
 
 
   async addMessage(message: Message): Promise<void> {
     const messagesRef = collection(this.firestore, 'messages');
-    try {
-      await addDoc(messagesRef, message);
-    } catch (error) {
-      console.error('Fehler beim Hinzufügen der Nachricht:', error);
-      throw error;
-    }
+    await addDoc(messagesRef, {
+      ...message,
+      timestamp: Timestamp.fromDate(new Date()), // ✅ Timestamp richtig speichern
+    });
   }
 
 
-  async addThreadMessage(
-    messageId: string,
-    threadMessage: ThreadMessage
-  ): Promise<void> {
-    const threadMessagesRef = collection(
-      this.firestore,
-      `messages/${messageId}/threadMessages`
-    );
-    try {
-      await addDoc(threadMessagesRef, threadMessage);
-    } catch (error) {
-      console.error('Fehler beim Hinzufügen der Thread-Nachricht:', error);
-      throw error;
-    }
+  async addThreadMessage(messageId: string, threadMessage: ThreadMessage): Promise<void> {
+    const threadMessagesRef = collection(this.firestore, `messages/${messageId}/threadMessages`);
+    await addDoc(threadMessagesRef, threadMessage);
   }
 
 
+  /**
+   * 🔥 Setzt die aktive Message-ID, um den Thread-Chat zu steuern
+   */
   setMessageId(messageId: string): void {
     this.messageIdSubject.next(messageId);
+    // this.loadThreadMessages(messageId);
   }
+
+
+  /**
+   * 🔥 Hilfsfunktion: Konvertiert Firestore-Timestamps sicher in JavaScript `Date`-Objekte.
+   */
+  private convertTimestamp(timestamp: any): Date {
+    if (timestamp instanceof Date) return timestamp;
+    if (timestamp?.seconds) return new Date(timestamp.seconds * 1000);
+    if (typeof timestamp === 'string') return new Date(timestamp);
+    return new Date(); // Fallback auf aktuelle Zeit
+  }
+
+
+  async deleteMessage(docId: string, userId: string, isThread = false, parentMessageId?: string): Promise<void> {
+    let messageRef;
+    if (isThread) {
+      if (!parentMessageId) throw new Error('ParentMessageId erforderlich für Thread-Nachrichtenlöschung.');
+      messageRef = doc(this.firestore, `messages/${parentMessageId}/threadMessages`, docId);
+    } else {
+      messageRef = doc(this.firestore, 'messages', docId);
+    }
+    await deleteDoc(messageRef);
+  }
+
+
+  async deleteThreadMessage(parentMessageId: string, threadDocId: string, userId: string): Promise<void> {
+    const threadMessageRef = doc(this.firestore, `messages/${parentMessageId}/threadMessages`, threadDocId);
+    await deleteDoc(threadMessageRef);
+  }
+
+
+  getAllThreadMessages(userId: string): Observable<ThreadMessage[]> {
+    const threadMessagesRef = collection(this.firestore, 'threads');
+    return collectionData(threadMessagesRef) as Observable<ThreadMessage[]>;
+  }
+
+
+  getAllMessages(userId: string): Observable<Message[]> {
+    const messagesRef = collection(this.firestore, 'messages');
+    return collectionData(messagesRef) as Observable<Message[]>;
+  }
+
 
   async updateMessage(
     docId: string,
@@ -222,12 +211,10 @@ export class MessagesService {
     updateData: Partial<Message>
   ): Promise<void> {
     const messageRef = doc(this.firestore, 'messages', docId);
-
     try {
       if (updateData.reactions) {
         const currentMessage = await this.getMessage(docId);
         if (!currentMessage) throw new Error('Nachricht nicht gefunden.');
-
         const updatedReactions = this.updateReactions(
           currentMessage.reactions,
           updateData.reactions,
@@ -235,7 +222,6 @@ export class MessagesService {
         );
         await updateDoc(messageRef, { reactions: updatedReactions });
       }
-
       if (updateData.message) {
         const currentMessage = await this.getMessage(docId);
         if (currentMessage) {
@@ -252,6 +238,7 @@ export class MessagesService {
       throw error;
     }
   }
+
 
   async updateThreadMessage(
     messageId: string,
@@ -294,25 +281,23 @@ export class MessagesService {
     }
   }
 
+
   private updateReactions(
     currentReactions: Reaction[] = [],
     newReactions: Reaction[] = [],
     userId: string
   ): Reaction[] {
     const updatedReactions = [...(currentReactions || [])];
-
     newReactions.forEach((reaction) => {
       const existingReactionIndex = updatedReactions.findIndex(
         (r) => r.emoji === reaction.emoji
       );
-
       if (existingReactionIndex >= 0) {
         const existingReaction = updatedReactions[existingReactionIndex];
         if (!existingReaction.userIds.includes(userId)) {
           existingReaction.userIds.push(userId);
         } else {
           const index = existingReaction.userIds.indexOf(userId);
-
           if (index > -1) {
             existingReaction.userIds.splice(index, 1);
             if (existingReaction.userIds.length === 0) {
@@ -334,34 +319,13 @@ export class MessagesService {
     return updatedReactions;
   }
 
-  private async getMessage(docId: string): Promise<Message | null> {
+
+    private async getMessage(docId: string): Promise<Message | null> {
     const docRef = doc(this.firestore, 'messages', docId);
     const docSnapshot = await getDoc(docRef);
     return docSnapshot.exists() ? (docSnapshot.data() as Message) : null;
   }
 
-
-  public getAllMessages(userId: string): Observable<Message[]> {
-    const channelsRef = collection(this.firestore, 'channels');
-    const messagesRef = collection(this.firestore, 'messages');
-    const userChannels$ = collectionData(channelsRef, { idField: 'id' }).pipe(
-      map((channels: any[]) =>
-        channels.filter((channel) => (channel.members || []).includes(userId))
-      ),
-      map((channels) => channels.map((channel) => channel.id))
-    );
-    return userChannels$.pipe(
-      switchMap((channelIds: string[]) => {
-        const messagesQuery = query(
-          messagesRef,
-          where('channelId', 'in', channelIds)
-        );
-        return collectionData(messagesQuery, {
-          idField: 'docId',
-        }) as Observable<Message[]>;
-      })
-    );
-  }
 
   private async getThreadMessage(
     messageId: string,
@@ -376,114 +340,4 @@ export class MessagesService {
     return docSnapshot.exists() ? (docSnapshot.data() as ThreadMessage) : null;
   }
 
-
-  public async getAllThreadMessages(userId: string): Promise<ThreadMessage[]> {
-    const channelsSnapshot = await getDocs(
-      collection(this.firestore, 'channels')
-    );
-    const relevantChannels = channelsSnapshot.docs.filter((channelDoc) => {
-      const members = channelDoc.data()['members'] || [];
-      return members.includes(userId);
-    });
-    const relevantChannelIds = relevantChannels.map(
-      (channelDoc) => channelDoc.id
-    );
-    const messagesSnapshot = await getDocs(
-      collection(this.firestore, 'messages')
-    );
-    const relevantMessagesDocs = messagesSnapshot.docs.filter((messageDoc) => {
-      const channelId = messageDoc.data()['channelId'];
-      return relevantChannelIds.includes(channelId);
-    });
-
-    const threadMessagesPromises = relevantMessagesDocs.map(
-      async (messageDoc) => {
-        const threadMessagesSnapshot = await getDocs(
-          collection(this.firestore, `messages/${messageDoc.id}/threadMessages`)
-        );
-        return threadMessagesSnapshot.docs.map(
-          (doc) =>
-            ({
-              channelId: messageDoc.data()['channelId'],
-              messageId: messageDoc.id,
-              docId: doc.id,
-              ...doc.data(),
-            } as ThreadMessage)
-        );
-      }
-    );
-    const threadMessagesArrays = await Promise.all(threadMessagesPromises);
-    return threadMessagesArrays.flat();
-  }
-
-  async deleteMessage(
-    docId: string,
-    userId: string,
-    isThread = false,
-    parentMessageId?: string
-  ): Promise<void> {
-    try {
-      let messageRef;
-
-      if (isThread) {
-        if (!parentMessageId) {
-          throw new Error(
-            'ParentMessageId ist erforderlich für das Löschen von Thread-Nachrichten.'
-          );
-        }
-        messageRef = doc(
-          this.firestore,
-          `messages/${parentMessageId}/threadMessages`,
-          docId
-        );
-      } else {
-        if (!docId) {
-          throw new Error(
-            'DocId ist erforderlich für das Löschen von Nachrichten.'
-          );
-        }
-        messageRef = doc(this.firestore, 'messages', docId);
-      }
-
-      const currentMessageSnapshot = await getDoc(messageRef);
-      if (!currentMessageSnapshot.exists()) {
-        throw new Error(
-          isThread
-            ? 'Thread-Nachricht nicht gefunden.'
-            : 'Nachricht nicht gefunden.'
-        );
-      }
-      const currentMessage = currentMessageSnapshot.data() as
-        | Message
-        | ThreadMessage;
-      if (currentMessage.createdBy !== userId) {
-        throw new Error('Nur der Ersteller darf die Nachricht löschen.');
-      }
-      await deleteDoc(messageRef);
-    } catch (error) {
-      console.error('Fehler beim Löschen der Nachricht:', error);
-      throw error;
-    }
-  }
-
-  async deleteThreadMessage(
-    parentMessageId: string,
-    threadDocId: string,
-    userId: string
-  ): Promise<void> {
-    const threadMessageRef = doc(this.firestore,`messages/${parentMessageId}/threadMessages`,threadDocId);
-    try {
-      const currentThreadMessage = await this.getThreadMessage(parentMessageId,threadDocId);
-      if (!currentThreadMessage) {
-        throw new Error('Thread-Nachricht nicht gefunden.');
-      }
-      if (currentThreadMessage.createdBy !== userId) {
-        throw new Error('Nur der Ersteller darf die Thread-Nachricht löschen.');
-      }
-      await deleteDoc(threadMessageRef);
-    } catch (error) {
-      console.error('Fehler beim Löschen der Thread-Nachricht:', error);
-      throw error;
-    }
-  }
 }
