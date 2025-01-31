@@ -216,6 +216,7 @@ img {
     width: 40px;
     height: 40px;
     border-radius: 30px;
+    display: block;
 }
 
 .channel-box {
@@ -227,7 +228,7 @@ img {
     font-size: 18px;
     line-height: 24.55px;
     border-radius: 29px;
-    padding: 0 30px 0 20px;
+    padding: 4px 20px;
 }
 
 .channel-box:hover {

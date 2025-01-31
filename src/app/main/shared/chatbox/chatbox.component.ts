@@ -117,6 +117,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     
     const emojiSubscription3 = this.emojiPickerService.displayEmojiPickerMainThread$.subscribe((display) => {
       this.displayEmojiPickerMainThread = display;
+      console.log('Emoji main thread?' + display)
       this.cdRef.markForCheck();
     });
     
@@ -204,12 +205,14 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   toggleEmojiPicker(messageId: string, displayPickerBottom: boolean, threadMain?: boolean) {
+    console.log('open picker for:' + messageId + ' picker bottom?: ' + displayPickerBottom + ' threadMain?: ' + threadMain);
+    // checks if the picker should display at the bottom or at the top of the message
     this.displayPickerBottom = displayPickerBottom;
     if (this.isChatBoxEmojiPickerOpen) {
       if (messageId !== this.chatBoxEmojiPickerOpenFor) {
-        this.emojiPickerService.openNewChatBoxEmojiPicker(messageId);
+        this.emojiPickerService.openNewChatBoxEmojiPicker(messageId, threadMain ? threadMain : false);
       } else {
-        this.emojiPickerService.closeChatBoxEmojiPicker();
+        this.emojiPickerService.openChatBoxEmojiPicker(messageId, threadMain ? threadMain : false)
       }
     } else {
       this.emojiPickerService.openChatBoxEmojiPicker(messageId, threadMain || false);
