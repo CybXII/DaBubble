@@ -15,9 +15,11 @@ import { StateService } from '../../../shared/services/state.service';
 export class ThreadchatHeaderComponent {
     currentChannel$: Observable<Channel | null>;
     channelName: string = '';
+
     constructor(private stateService: StateService, private channelsService: ChannelsService) {
       this.currentChannel$ = this.channelsService.currentChannel$;
     }
+
 
     ngOnInit(): void {
       this.currentChannel$.subscribe((channel) => {
@@ -26,7 +28,8 @@ export class ThreadchatHeaderComponent {
         }
       });
     }
-    // Funktion zum Schließen des Threadchats
+
+
     closeThreadChat(): void {
       this.stateService.setThreadchatState('out');
     }
