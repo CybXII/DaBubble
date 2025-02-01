@@ -5,19 +5,16 @@
 } @else {
 @if (builder == "threadchat") {
   <div class="threadchat__chatbox">
-    <div class="chatbox__mainthread-container"
-      [class.chatbox__msg-container__sent]="parentMessage?.createdBy === activeUserId">
-
+    <div class="chatbox__mainthread-container">
       @if (parentMessage) {
+      @if (parentMessage.createdBy){
       <button class="chatbox__addemoji-container" (click)="preventEmojiPickerClose($event)">
         <div class="chatbox__addemoji__emoji-container"
           (click)="toggleEmojiPicker(parentMessage.docId || 'fallback', false, true)">
           <img src="/img/icons/addemoji.svg" alt="" />
         </div>
       </button>
-
-      <img class="chatbox__msg-avatar" src="/img/avatars/avatar1.svg" alt="Avatar" width="70" height="70" />
-
+      <img class="chatbox__msg-avatar" [src]="getUserAvatar(parentMessage.createdBy) | async" alt="Avatar" width="70" height="70" />
       <div class="chatbox__msg-item2" [class.chatbox__msg-sent-item2]="parentMessage.createdBy === activeUserId">
         <div class="chatbox__msg-info" [class.chatbox__msg-sent-info]="parentMessage.createdBy === activeUserId">
           <h3 class="chatbox__msg-name">
@@ -51,14 +48,14 @@
         </div>
       </div>
       }
-
+      }
     </div>
-
     <div class="chatbox__threads-divider">
       {{ (threadMessages$ | async)?.length || 0 }} Antworten
     </div>
-
     @for (message of (threadMessages$ | async); track message.docId) {
+      @if (message.createdBy) {
+        
       <div class="chatbox__msg-container" [class.chatbox__msg-container__sent]="message.createdBy === activeUserId"
         id="{{ message.docId }}">
         @if (isChatBoxEmojiPickerOpen && chatBoxEmojiPickerOpenFor ===
@@ -114,6 +111,7 @@
             </div>
           </div>
         </button>
+        <img class="chatbox__msg-avatar" [src]="getUserAvatar(message.createdBy) | async" alt="Avatar" width="70" height="70" />
         <div class="chatbox__msg-item2" [class.chatbox__msg-sent-item2]="message.createdBy === activeUserId">
           <div class="chatbox__msg-info" [class.chatbox__msg-sent-info]="message.createdBy === activeUserId">
             <h3 class="chatbox__msg-name" (click)="checkIdIsUser(message.createdBy)">
@@ -180,10 +178,12 @@
         </div>
       </div>
       }
+      }
   </div>
 } @else {
     <div class="mainchat__chatbox">
       @for (message of (messages$ | async); track message.docId) {
+      @if (message.createdBy ) {
       @let shouldRenderDivider = checkAndSetPreviousTimestamp(message.timestamp);
       <div class="message" style="position: relative">
         @if (shouldRenderDivider) {
@@ -242,13 +242,11 @@
             </div>
           </div>
         </button>
-
-        @if (message.createdBy ) {
-        <img class="chatbox__msg-avatar" [src]="getUserAvatar(message.createdBy) | async" alt="Avatar" width="70" height="70" />        }
+        <img class="chatbox__msg-avatar" [src]="getUserAvatar(message.createdBy) | async" alt="Avatar" width="70" height="70" />        
         <div class="chatbox__msg-item2" [class.chatbox__msg-sent-item2]="message.createdBy === activeUserId">
           <div class="chatbox__msg-info" [class.chatbox__msg-sent-info]="message.createdBy === activeUserId">
             <h3 class="chatbox__msg-name" (click)="checkIdIsUser(message.createdBy)">
-              {{ message.creatorName }}@if(message.createdBy == activeUserId){(Du)}
+              {{ (getOtherUser(message.createdBy) | async) }}@if(message.createdBy == activeUserId){ (Du)}
             </h3>
             <p class="chatbox__msg-time">
               {{ message.timestamp | date:'HH:mm' }} Uhr
@@ -327,6 +325,7 @@
           </div>
         </div>
       </div>
+    }
     }
   </div>
   }
