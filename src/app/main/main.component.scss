@@ -7,8 +7,7 @@
   width: 100%;
   max-width: 1920px;
   padding: 20px;
-  @include mixins.flexbox(column, flex-start, center, nowrap);
-  gap: 20px;
+  @include mixins.flexbox(column, space-between, center, nowrap);
   overflow: hidden;
 }
 

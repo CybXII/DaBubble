@@ -17,7 +17,7 @@ import {
 import { MessagesService } from '../../../shared/services/messages.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { Message, Reaction, ThreadMessage } from '../../../models/message';
-import { combineLatest, from, Observable, Subject } from 'rxjs';
+import { combineLatest, from, Observable, of, Subject } from 'rxjs';
 import { catchError, map, startWith, takeUntil, tap } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { Channel } from '../../../models/channel';
@@ -301,6 +301,10 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   getUserStatus(userId: string) {
     return this.userService.getuserStatus(userId);
   }
+
+    getUserName(userId: string): Observable<string> {
+      return userId ? this.userService.getuserName(userId) : of('/img/avatars/avatar1.svg');
+    }
 
 
   trackByMessage(index: number, message: ThreadMessage): string {
