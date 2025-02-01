@@ -42,7 +42,7 @@ h1 {
 
 h2 {
   font-weight: 500;
-  font-size: x-large;
+  font-size: 2.5rem;
   color: black;
   margin: 16px 0 16px 0;
 }
@@ -53,7 +53,7 @@ h2 {
 
 h3 {
   font-weight: 500;
-  font-size: large;
+  font-size: 2rem;
   color: colors.$purple;
   margin: 16px 0;
 }
@@ -63,6 +63,7 @@ h3 {
 }
 
 h4 {
+  font-size: 1.5rem;
   margin: 8px 0;
 }
 
@@ -91,5 +92,141 @@ p {
 
   svg {
     display: block;
+  }
+}
+
+@media (max-width: 625px){
+  .legalNotice-content {
+    padding: 32px 40px;
+  }
+
+  .backButton {
+    margin-bottom: 24px;
+  }
+
+  h1 {
+    font-size: 2.2rem; 
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-size: 2rem; 
+    margin: 12px 0;
+  }
+
+  h3 {
+    font-size: 1.75rem; 
+    margin: 12px 0;
+  }
+
+  h4 {
+    font-size: 1.25rem; 
+    margin: 6px 0;
+  }
+
+  p {
+    line-height: 1.6rem; 
+  }
+}
+
+@media (max-width: 565px) {
+  .legalNotice-content {
+    padding: 24px 32px;
+  }
+
+  .backButton {
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-size: 2rem; 
+    margin-bottom: 10px;
+  }
+
+  h2 {
+    font-size: 1.85rem; 
+    margin: 10px 0;
+  }
+
+  h3 {
+    font-size: 1.6rem; 
+    margin: 10px 0;
+  }
+
+  h4 {
+    font-size: 1.2rem; 
+    margin: 6px 0;
+  }
+
+  p {
+    line-height: 1.5rem; 
+  }
+}
+
+@media (max-width: 483px) {
+  .legalNotice-content {
+    padding: 16px 24px;
+  }
+
+  .backButton {
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-size: 1.85rem; 
+    margin-bottom: 10px;
+  }
+
+  h2 {
+    font-size: 1.7rem; 
+    margin: 10px 0;
+  }
+
+  h3 {
+    font-size: 1.5rem; 
+    margin: 10px 0;
+  }
+
+  h4 {
+    font-size: 1.15rem; 
+    margin: 5px 0;
+  }
+
+  p {
+    line-height: 1.4rem; 
+  }
+}
+
+@media (max-width: 390px){
+  .legalNotice-content {
+    padding: 12px 16px; 
+  }
+
+  .backButton {
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-size: 1.4rem; 
+    margin-bottom: 8px;
+  }
+
+  h2 {
+    font-size: 1.3rem; 
+    margin: 8px 0;
+  }
+
+  h3 {
+    font-size: 1.2rem; 
+    margin: 8px 0;
+  }
+
+  h4 {
+    font-size: 1rem; 
+    margin: 4px 0;
+  }
+
+  p {
+    line-height: 1.3rem;
   }
 }
