@@ -134,6 +134,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       this.messagesService.parentMessageId$.subscribe((messageId) => {
         if (messageId) {
           this.setParentMessage(messageId);
+          this.activeMessageId = messageId;
         }
       });
     }
