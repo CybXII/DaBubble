@@ -298,6 +298,10 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.userService.getuserAvatar(userId);
   }
 
+  getUserStatus(userId: string) {
+    return this.userService.getuserStatus(userId);
+  }
+
 
   trackByMessage(index: number, message: ThreadMessage): string {
     let timestampValue: number = 0;

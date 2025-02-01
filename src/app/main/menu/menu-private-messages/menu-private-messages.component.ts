@@ -8,6 +8,8 @@ import { ChannelsService } from '../../../shared/services/channels.service';
 import { SharedService } from '../../../shared/services/newmessage.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { UserDialogService } from '../../../shared/services/user-dialog.service';
+import { UserService } from '../../../shared/services/user.service';
+import { BehaviorSubject, map, Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-menu-private-messages',
@@ -22,6 +24,7 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
   loading: boolean = true;
   channelMembers: { [channelId: string]: string[] } = {};
   private unsubscribeUserListener: (() => void) | null = null;
+  private avatarCache = new Map<string, BehaviorSubject<string>>();
   users: {
     name: string;
     userId: string;
@@ -43,7 +46,8 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
     private sharedService: SharedService,
     private firestore: Firestore,
     private authService: AuthService,
-    public userDialog: UserDialogService
+    public userDialog: UserDialogService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -179,22 +183,38 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
     console.warn(this.activeUsers)
   }
 
+
   toggleMessagesOpen(): void {
     this.messagesOpen = !this.messagesOpen;
   }
 
-  getAvatar(privateChannel: Channel): string {
-    // logik zum ermitteln des partners einbinden 
-    // dannach im return den userService getAvatar benutzen
-    // return this.userService.getAvatar(partnerID);
-    return '/img/avatars/avatar1.svg';
+
+  getUserAvatar(channel: Channel): Observable<string> {
+    const partnerId = this.getPartnerId(channel);
+    return partnerId ? this.userService.getuserAvatar(partnerId) : of('/img/avatars/avatar1.svg');
   }
 
-  getStatus(privateChannel: string): string {
-    // same game wie get avatar 
-
-    return true ? 'online' : 'offline';
+  getUserName(channel: Channel): Observable<string> {
+    const partnerId = this.getPartnerId(channel);
+    return partnerId ? this.userService.getuserName(partnerId) : of('/img/avatars/avatar1.svg');
   }
+
+
+  getUserStatus(channel: Channel): Observable<string> {
+    const partnerId = this.getPartnerId(channel);
+    return partnerId ? this.userService.getuserStatus(partnerId) : of('offline');
+  }
+
+
+  getPartnerId(channel: Channel): string | null {
+    const userId = this.authService.userId();
+    if (!channel.members || channel.members.length === 0) {
+        return null; // Kein Partner vorhanden
+    }
+    return channel.members.length === 1
+        ? userId // Der Nutzer selbst
+        : channel.members.find(id => id !== userId) || null;
+}
 }
 
 
