@@ -358,6 +358,10 @@ form {
   }
 }
 
+.sectionDisplayHeight {
+  height: 100vh;
+}
+
 
 
 // RESPONSIVE ...
@@ -375,10 +379,13 @@ form {
 @media (max-width: 600px) {
 
   section {
-    padding: 150px 20px 50px 20px;
+    padding: 0px 20px 0px 20px;
     gap: 20px;
     height: fit-content;
     justify-content: unset;
+    >div {
+      width: 100%;
+    }
   }
 
   form {
@@ -402,8 +409,10 @@ form {
   }
 
   .containerNoAnimation {
-    top: 50px;
+    top: 30px;
     left: unset;
+    display: flex;
+    justify-content: center;
   }
 
   header {
@@ -426,5 +435,42 @@ form {
 
   .paddingBottom {
     padding-bottom: 150px;
+    padding-top: 120px;
+    height: unset;
+  }
+}
+
+@media (max-height: 900px) {
+  .mainCont {
+    gap: 10px !important;
+  }
+
+  form {
+    gap: 10px !important;
+  }
+
+  section {
+    padding: 120px 20px 20px 20px;
+    gap: 20px;
+    justify-content: unset;
+    >div {
+      width: 100%;
+    }
+  }
+
+}
+
+@media (max-height: 600px) {
+  section {
+    padding-bottom: 100px;
+    height: fit-content;
+  }
+}
+
+@media (max-width: 500px) {
+
+  section {
+    // height: 100vh;
+    justify-content: center;
   }
 }

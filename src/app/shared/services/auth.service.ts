@@ -30,6 +30,7 @@ import {
   query,
   where,
   addDoc,
+  arrayUnion,
 } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { UserModel } from '../../models/user';
@@ -81,45 +82,6 @@ export class AuthService {
   }
 
   /**
-  // sendEmail(email: string) {
-  //   const actionCodeSettings = {
-  //     // URL you want to redirect back to. The domain (www.example.com) for this
-  //     // URL must be in the authorized domains list in the Firebase Console.
-  //     url: 'https://dab.christophvoelker.com/finishSignUp2',
-
-  //     // This must be true.
-  //     handleCodeInApp: true,
-  //     // iOS: {
-  //     //   bundleId: 'com.example.ios',
-  //     // },
-  //     // android: {
-  //     //   packageName: 'com.example.android',
-  //     //   installApp: true,
-  //     //   minimumVersion: '12',
-  //     // },
-  //     //dynamicLinkDomain: 'dab.christophvoelker.com'
-  //   };
-  //   const auth = getAuth();
-  //   //console.log(auth);
-
-  //   sendSignInLinkToEmail(auth, email, actionCodeSettings)
-  //     .then(() => {
-  //       // The link was successfully sent. Inform the user.
-  //       // Save the email locally so you don't need to ask the user for it again
-  //       // if they open the link on the same device.
-  //       console.log('Sign-in email sent successfully.');
-  //       window.localStorage.setItem('emailForSignIn', email);
-  //       // ...
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error sending email:', error.code, error.message);
-  //       const errorCode = error.code;
-  //       const errorMessage = error.message;
-  //       // ...
-  //     });
-  // }
-
-  /**
    * Überwacht den Firebase-Auth-Status
    */
   private monitorAuthState(): void {
@@ -147,7 +109,7 @@ export class AuthService {
     this.userData.set(null);
     this.isUserAuthenticated.set(false);
     this.loginType.set(null);
-    localStorage.removeItem('userData');
+    sessionStorage.removeItem('userData');
   }
 
   /**
@@ -156,39 +118,6 @@ export class AuthService {
   isAuthenticated(): boolean {
     return !!this.auth.currentUser || this.isUserAuthenticated();
   }
-
-  /**
-   * Benutzer registrieren (E-Mail und Passwort)
-   */
-  // async register(email: string, password: string): Promise<void> {
-  //   try {
-  //     const userCredential = await createUserWithEmailAndPassword(
-  //       this.auth,
-  //       email,
-  //       password
-  //     );
-
-  //     const user = userCredential.user;
-
-  //     // Sende E-Mail-Bestätigung
-  //     if (user) {
-  //       await sendEmailVerification(user);
-  //       console.log('Verification email sent to:', user.email);
-  //     }
-
-  //     const userData = this.setUserData(
-  //       user.uid,
-  //       user.displayName || '',
-  //       user.email || '',
-  //       user.photoURL || '',
-  //       user.providerData[0].providerId || ''
-  //     );
-
-  //     await setDoc(doc(this.firestore, 'users', user.uid), userData);
-  //   } catch (error) {
-  //     console.error('Registration failed:', error);
-  //   }
-  // }
 
   async register(
     email: string,
@@ -208,38 +137,46 @@ export class AuthService {
 
       const user = userCredential.user;
 
-      // Sende E-Mail-Bestätigung
-      if (user) {
-        await sendEmailVerification(user);
-        console.log('Verification email sent to:', user.email);
-      }
-
       const userData = this.setUserData(
         user.uid,
         name || '',
         user.email || '',
         photoURL || '',
-        'password',
+        'password'
       );
       console.log('userData', userData);
 
       await setDoc(doc(this.firestore, 'users', user.uid), userData);
 
+      // zu zwei channels hinzufügen
+      // entwicklerchat
+      const docRefChannel1 = doc(this.firestore, 'channels', "vfphslFFYLqC4hHHlM8y");
+      await updateDoc(docRefChannel1, {
+        members: arrayUnion(user.uid)
+      });
+      // allgemeiner channel
+      const docRefChannel2 = doc(this.firestore, 'channels', "q6m6NQIQepOmjULyneBJ");
+      await updateDoc(docRefChannel2, {
+        members: arrayUnion(user.uid)
+      });
+
+
       // hier noch private channel erstellen mit user (13.1.2025)
-      await setDoc(doc(this.firestore, 'channels', user.uid),
-        {
-          createdAt: new Date(),
-          isPrivate: true,
-          createdBy: user.uid,
-          description: "me, myself and I",
-          name: "me, myself and I",
-          members: [user.uid],
-        },
-      );
-
-
+      await setDoc(doc(this.firestore, 'channels', user.uid), {
+        createdAt: new Date(),
+        isPrivate: true,
+        createdBy: user.uid,
+        description: userData.name,
+        name: userData.name + ' (Du)',
+        members: [user.uid],
+      });
     } catch (error) {
       console.error('Registration failed:', error);
+    } finally {
+      this.router.navigate(['']);
+      setTimeout(() => {
+        this.toastMessageService.showToastSignal('Erfolgreich registriert');
+      }, 1000);
     }
   }
 
@@ -295,6 +232,17 @@ export class AuthService {
       const user = userCredential.user;
       const userData = this.setAnonymousUserData(user.uid);
       await setDoc(doc(this.firestore, `users/${user.uid}`), userData);
+
+      // private channel erstellen mit guestuser (29.1.2025)
+      await setDoc(doc(this.firestore, 'channels', user.uid), {
+        createdAt: new Date(),
+        isPrivate: true,
+        createdBy: user.uid,
+        description: userData.name,
+        name: userData.name + ' (Du)',
+        members: [user.uid],
+      });
+
       await this.loadUserData(user.uid);
       setTimeout(() => {
         this.toastMessageService.showToastSignal('Erfolgreich eingeloggt');
@@ -333,15 +281,15 @@ export class AuthService {
   }
 
   private setUserDataInStorage(userData: UserModel) {
-    localStorage.setItem('userData', JSON.stringify(userData));
+    sessionStorage.setItem('userData', JSON.stringify(userData));
   }
 
   getUserDataFromStorage() {
-    this.userData.set(JSON.parse(localStorage.getItem('userData') || '{}'));
+    this.userData.set(JSON.parse(sessionStorage.getItem('userData') || '{}'));
   }
 
   intializeUserData() {
-    if (localStorage.getItem('userData')) {
+    if (sessionStorage.getItem('userData')) {
       this.getUserDataFromStorage();
     }
   }
@@ -418,7 +366,7 @@ export class AuthService {
     } else {
       this.loginError.set('Unexpected error occurred');
     }
-    throw error
+    throw error;
   }
 
   /**
@@ -437,7 +385,7 @@ export class AuthService {
       name: username,
       email,
       photoURL: avatarURL,
-      channels: [userId], // changed by christoph
+      channels: [],//[userId, "vfphslFFYLqC4hHHlM8y", "q6m6NQIQepOmjULyneBJ"], // changed by christoph: priv, allgm, entwickler? inzwischen egal?!?!
       privateNoteRef: '',
       status: status,
       provider: provider,
@@ -466,23 +414,26 @@ export class AuthService {
   public getUserList(): Observable<UserModel[]> {
     return new Observable((observer) => {
       const userCollection = collection(this.firestore, 'users');
-      onSnapshot(userCollection, (snapshot) => {
-        const users: UserModel[] = [];
-        snapshot.forEach((doc) => {
-          users.push(doc.data() as UserModel);
-        });
-        this.userList.set(users);
-        observer.next(users);
-      }, (error) => {
-        observer.error(error);
-      });
+      onSnapshot(
+        userCollection,
+        (snapshot) => {
+          const users: UserModel[] = [];
+          snapshot.forEach((doc) => {
+            users.push(doc.data() as UserModel);
+          });
+          this.userList.set(users);
+          observer.next(users);
+        },
+        (error) => {
+          observer.error(error);
+        }
+      );
     });
   }
 
   redirectIfAuthenticated(): void {
     if (this.auth.currentUser) {
       setTimeout(() => {
-
         this.router.navigate(['/board']);
       }, 4000);
     } else {
@@ -534,7 +485,7 @@ export class AuthService {
   //     const updatedUserDoc = await getDoc(userDocRef);
   //     if (updatedUserDoc.exists()) {
   //       const updatedUserData = updatedUserDoc.data() as UserModel;
-  //       localStorage.setItem('userData', JSON.stringify(updatedUserData));
+  //       sessionStorage.setItem('userData', JSON.stringify(updatedUserData));
   //       this.userData.set(updatedUserData);
   //       this.toastMessageService.showToastSignal(
   //         'Benutzerdaten erfolgreich aktualisiert'
@@ -558,7 +509,7 @@ export class AuthService {
       const updatedUserDoc = await getDoc(userDocRef);
       if (updatedUserDoc.exists()) {
         const updatedUserData = updatedUserDoc.data() as UserModel;
-        localStorage.setItem('userData', JSON.stringify(updatedUserData));
+        sessionStorage.setItem('userData', JSON.stringify(updatedUserData));
         this.userData.set(updatedUserData);
 
         // Update Firebase Auth profile
@@ -591,17 +542,30 @@ export class AuthService {
     updateDoc(userDocRef, updatedData);
   }
 
-  async getUsernamesByIds(userIds: string[]): Promise<{ name: string; userId: string; photoURL: string; email: string; status: boolean }[]> {
+  async getUsernamesByIds(
+    userIds: string[]
+  ): Promise<
+    {
+      name: string;
+      userId: string;
+      photoURL: string;
+      email: string;
+      status: boolean;
+    }[]
+  > {
     if (!userIds || userIds.length === 0) {
       return [];
     }
 
     try {
       const usersCollection = collection(this.firestore, 'users');
-      const userDocsQuery = query(usersCollection, where('userId', 'in', userIds));
+      const userDocsQuery = query(
+        usersCollection,
+        where('userId', 'in', userIds)
+      );
       const querySnapshot = await getDocs(userDocsQuery);
 
-      const userDetails = querySnapshot.docs.map(doc => {
+      const userDetails = querySnapshot.docs.map((doc) => {
         const data = doc.data() as UserModel;
         return {
           name: data.name,

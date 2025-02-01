@@ -5,39 +5,112 @@
 } @else { @if (builder == "threadchat") {
 <div class="threadchat__chatbox">
   <div class="chatbox__mainthread-container">
-    @if (this.parentMessage){
-    <button class="chatbox__addemoji-container" (click)="toggleEmojiPicker('fallback', false)"
-      (click)="preventEmojiPickerClose($event)">
-      <div class="chatbox__addemoji__emoji-container">
+    @if (parentMessage) {
+    @if (parentMessage.createdBy) { @if (isChatBoxEmojiPickerOpen &&
+    chatBoxEmojiPickerOpenFor === parentMessage.docId &&
+    displayEmojiPickerMainThread){
+    <div [class]="{
+        'emoji-picker__wrapper-left-thread':
+          displayPickerBottom && parentMessage.createdBy !== activeUserId,
+        'emoji-picker__wrapper-top-right-thread':
+          !displayPickerBottom && parentMessage.createdBy !== activeUserId,
+        'emoji-picker__wrapper-top-left-thread':
+          !displayPickerBottom && parentMessage.createdBy === activeUserId,
+        'emoji-picker__wrapper-right-thread':
+          displayPickerBottom && parentMessage.createdBy === activeUserId
+      }" (click)="preventEmojiPickerClose($event)">
+      <app-emoji-picker componentName="chatbox" (emoji)="addEmoji(parentMessage.docId, activeUserId!, $event, false)" />
+    </div>
+    }
+    <button class="chatbox__addemoji-container" (click)="preventEmojiPickerClose($event)">
+      <div class="chatbox__addemoji__emoji-container" (click)="
+          toggleEmojiPicker(parentMessage.docId || 'fallback', false, true)
+        ">
         <img src="/img/icons/addemoji.svg" alt="" />
       </div>
     </button>
-    <img class="chatbox__msg-avatar" src="/img/avatars/avatar1.svg" alt="Avatar" width="70" height="70" />
-    <div class="chatbox__msg-item2">
-      <div class="chatbox__msg-info">
-        <h3 class="chatbox__msg-name">{{ parentMessage.creatorName }}</h3>
-        <p class="chatbox__msg-time">{{ parentMessage.timestamp }}</p>
+    <img class="chatbox__msg-avatar" [src]="getUserAvatar(parentMessage.createdBy) | async" alt="Avatar" width="70" height="70" />
+    <div class="chatbox__msg-item2" [class.chatbox__msg-sent-item2]="parentMessage.createdBy === activeUserId">
+      <div class="chatbox__msg-info" [class.chatbox__msg-sent-info]="
+          parentMessage.createdBy === activeUserId
+        ">
+        <h3 class="chatbox__msg-name">
+          {{ parentMessage.creatorName }}
+          @if (parentMessage.createdBy == activeUserId) { (Du) }
+        </h3>
+        <p class="chatbox__msg-time">
+          {{ parentMessage.timestamp | relativeDate }}
+        </p>
       </div>
-      <p class="chatbox__msg">{{ parentMessage.message || 'Keine Nachricht' }}</p>
+
+      <p class="chatbox__msg" [class.chatbox__msg-sent]="parentMessage.createdBy === activeUserId">
+        {{ parentMessage.message || "Keine Nachricht" }}
+      </p>
+
       <div class="chatbox__emojis-container">
-        <div class="chatbox__emojis">
-          <img src="/img/icons/emoji.svg" alt="Emoji" />
-          <span>1</span>
+        @if (parentMessage.reactions) { @for (reaction of
+        parentMessage.reactions; track $index) {
+        <div class="chatbox__emojis" [class.chatbox__emoji-reacted]="
+            reaction.userIds.includes(activeUserId!)
+          " (click)="
+            addEmoji(parentMessage.docId!, activeUserId!, reaction.emoji, false)
+          ">
+          <span class="chatbox__emoji" style="position: relative">{{ reaction.emoji }}
+            <div class="chatbox__reaction-users">
+              <span class="chatbox__reaction-users__icon">
+                {{ reaction.emoji }}</span>
+              @if(reaction.userIds.includes(activeUserId!)){
+              @if(reaction.userIds.length === 1) {
+              <span class="chatbox__reaction-users__title"> Du</span>
+              <span class="chatbox__reaction-users__description">hast reagiert</span>
+              } @if(reaction.userIds.length === 2){
+              <span class="chatbox__reaction-users__title">
+                Du und {{ getOtherUser(reaction.userIds[0]) | async }}</span>
+              <span class="chatbox__reaction-users__description">haben reagiert</span>
+              } @if(reaction.userIds.length > 2){
+              <span class="chatbox__reaction-users__title">
+                Du, {{ getOtherUser(reaction.userIds[0]) | async }} und
+                {{ reaction.userIds.length - 2 }} weitere</span>
+              <span class="chatbox__reaction-users__description">haben reagiert</span>
+              } } @else { @if(reaction.userIds.length === 1) {
+              <span class="chatbox__reaction-users__title">
+                {{ getOtherUser(reaction.userIds[0]) | async }}
+              </span>
+              <span class="chatbox__reaction-users__description">hat reagiert</span>
+              } @if (reaction.userIds.length === 2) {
+              <span class="chatbox__reaction-users__title">
+                {{ getOtherUser(reaction.userIds[0]) | async }} und
+                {{ getOtherUser(reaction.userIds[1]) | async }}</span>
+              <span class="chatbox__reaction-users__description">haben reagiert</span>
+              } @if (reaction.userIds.length > 2){
+              <span class="chatbox__reaction-users__title">
+                {{ reaction.userIds[0] }}, {{ reaction.userIds[1] }} und
+                {{ reaction.userIds.length - 2 }} weitere</span>
+              <span class="chatbox__reaction-users__description">haben reagiert</span>
+              } }
+            </div>
+          </span>
+          <span>{{ reaction.userIds.length }}</span>
         </div>
+        } }
         <div class="chatbox__addreaction-container">
-          <img src="/img/icons/add_reaction.svg" alt="Reaktion hinzufügen" (click)="toggleEmojiPicker('fallback', true)"
-          (click)="preventEmojiPickerClose($event)" />
+          <img src="/img/icons/add_reaction.svg" alt="Reaktion hinzufügen" (click)="
+              toggleEmojiPicker(parentMessage.docId || 'fallback', true, true)
+            " (click)="preventEmojiPickerClose($event)" />
         </div>
       </div>
     </div>
-  }
+    }
+    }
   </div>
+
   <div class="chatbox__threads-divider">
     {{ (threadMessages$ | async)?.length || 0 }} Antworten
   </div>
 
   @for (message of (threadMessages$ | async); track message.docId) {
-  <div class="chatbox__msg-container" [class.chatbox__msg-container__sent]="message.createdBy === activeUserId">
+  <div class="chatbox__msg-container" [class.chatbox__msg-container__sent]="message.createdBy === activeUserId"
+    id="{{ message.docId }}">
     @if (isChatBoxEmojiPickerOpen && chatBoxEmojiPickerOpenFor ===
     message.docId){
     <div [class]="{
@@ -50,11 +123,12 @@
         'emoji-picker__wrapper-right-thread':
           displayPickerBottom && message.createdBy === activeUserId
       }" (click)="preventEmojiPickerClose($event)">
-      <app-emoji-picker componentName="chatbox" (emoji)="addEmoji(message.docId, message.createdBy, $event, true)" />
+      <app-emoji-picker componentName="chatbox" (emoji)="addEmoji(message.docId, activeUserId!, $event, true)" />
     </div>
     }
     <button class="chatbox__addemoji-container" [class.chatbox__addemoji__sent]="message.createdBy === activeUserId">
-      <div class="chatbox__addemoji__emoji-container" (click)="toggleEmojiPicker(message.docId || 'fallback', false)"
+      <div class="chatbox__addemoji__emoji-container"
+        (click)="toggleEmojiPicker(message.docId || 'fallback', false, false)"
         (click)="preventEmojiPickerClose($event)">
         <img src="/img/icons/addemoji.svg" alt="" />
       </div>
@@ -91,20 +165,13 @@
         </div>
       </div>
     </button>
-    @if (avatars$ == null || undefined || '' || !avatars$) {
-    <img class="chatbox__msg-avatar" src="/img/avatars/picPlaceholder.svg" alt="" width="70" height="70"
-      (click)="checkIdIsUser(message.createdBy)" />
-    } @else if (message.creatorPhotoURL ) {
-    <img class="chatbox__msg-avatar" src="{{
-        (avatars$ | async)?.get(message.createdBy) ||
-          '/img/avatars/picPlaceholder.svg'
-      }}" alt="Avatar" width="70" height="70" (click)="checkIdIsUser(message.createdBy)" />
-    }
     <div class="chatbox__msg-item2" [class.chatbox__msg-sent-item2]="message.createdBy === activeUserId">
       <div class="chatbox__msg-info" [class.chatbox__msg-sent-info]="message.createdBy === activeUserId">
-        <h3 class="chatbox__msg-name" (click)="checkIdIsUser(message.createdBy)">{{ message.creatorName }}</h3>
+        <h3 class="chatbox__msg-name" (click)="checkIdIsUser(message.createdBy)">
+          {{ message.creatorName }}
+        </h3>
         <p class="chatbox__msg-time">
-          {{ message.timestamp | date:'dd.MM.yyyy HH:mm' }}
+          {{ message.timestamp | date : "HH:mm" }}
         </p>
       </div>
       <p class="chatbox__msg" [class.chatbox__msg-sent]="message.createdBy === activeUserId">
@@ -114,14 +181,52 @@
         <div class="chatbox__emojis-container">
           @if(message.reactions){ @for (reaction of message.reactions; track
           $index) {
-          <div class="chatbox__emojis">
-            <span>{{ reaction.emoji }}</span>
-            <span>{{ message.reactions.length }}</span>
-            <!-- Second span must be fixed -->
+          <div class="chatbox__emojis" [class.chatbox__emoji-reacted]="
+              reaction.userIds.includes(activeUserId!) ? true : false
+            " (click)="
+              addEmoji(message.docId!, activeUserId!, reaction.emoji, true)
+            ">
+            <span class="chatbox__emoji" style="position: relative">{{ reaction.emoji }}
+              <div class="chatbox__reaction-users">
+                <span class="chatbox__reaction-users__icon">
+                  {{ reaction.emoji }}</span>
+                @if(reaction.userIds.includes(activeUserId!)){
+                @if(reaction.userIds.length === 1) {
+                <span class="chatbox__reaction-users__title"> Du</span>
+                <span class="chatbox__reaction-users__description">hast reagiert</span>
+                } @if(reaction.userIds.length === 2){
+                <span class="chatbox__reaction-users__title">
+                  Du und {{ getOtherUser(reaction.userIds[0]) | async }}</span>
+                <span class="chatbox__reaction-users__description">haben reagiert</span>
+                } @if(reaction.userIds.length > 2){
+                <span class="chatbox__reaction-users__title">
+                  Du, {{ getOtherUser(reaction.userIds[0]) | async }} und
+                  {{ reaction.userIds.length - 2 }} weitere</span>
+                <span class="chatbox__reaction-users__description">haben reagiert</span>
+                } } @else { @if(reaction.userIds.length === 1) {
+                <span class="chatbox__reaction-users__title">
+                  {{ getOtherUser(reaction.userIds[0]) | async }}
+                </span>
+                <span class="chatbox__reaction-users__description">hat reagiert</span>
+                } @if (reaction.userIds.length === 2) {
+                <span class="chatbox__reaction-users__title">
+                  {{ getOtherUser(reaction.userIds[0]) | async }} und
+                  {{ getOtherUser(reaction.userIds[1]) | async }}</span>
+                <span class="chatbox__reaction-users__description">haben reagiert</span>
+                } @if (reaction.userIds.length > 2){
+                <span class="chatbox__reaction-users__title">
+                  {{ reaction.userIds[0] }}, {{ reaction.userIds[1] }} und
+                  {{ reaction.userIds.length - 2 }} weitere</span>
+                <span class="chatbox__reaction-users__description">haben reagiert</span>
+                } }
+              </div>
+            </span>
+            <span>{{ reaction.userIds.length }}</span>
           </div>
           }}
         </div>
-        <div class="chatbox__addreaction-container" (click)="toggleEmojiPicker(message.docId || 'fallback', true)"
+        <div class="chatbox__addreaction-container"
+          (click)="toggleEmojiPicker(message.docId || 'fallback', true, false)"
           (click)="preventEmojiPickerClose($event)">
           <img src="/img/icons/add_reaction.svg" alt="" />
         </div>
@@ -132,13 +237,23 @@
 </div>
 } @else {
 <div class="mainchat__chatbox">
-  @for (message of (messages$ | async); track message.docId) {
-  <div class="thread__divider" style="position: relative">
-    <span class="thread__divider-text">{{
-      message.timestamp | date:'dd. MMMM yyyy'
-      }}</span>
-    @if (isChatBoxEmojiPickerOpen && chatBoxEmojiPickerOpenFor ===
-    message.docId){
+  @for (message of (messages$ | async); track message.docId) { 
+  @if (message.createdBy ) {
+    
+  
+  @let shouldRenderDivider = checkAndSetPreviousTimestamp(message.timestamp);
+  <div class="message" style="position: relative">
+    @if (shouldRenderDivider) {
+    <div class="thread__divider" style="width: 100%" [ngStyle]="{
+        'background-color': shouldRenderDivider
+          ? 'rgb(236, 238, 254)'
+          : 'transparent'
+      }"></div>
+    <span class="thread__divider-text">
+      {{ message.timestamp | relativeDate }}
+    </span>
+    } @if (isChatBoxEmojiPickerOpen && chatBoxEmojiPickerOpenFor ===
+    message.docId && !displayEmojiPickerMainThread){
     <div [class]="{
         'emoji-picker__wrapper-left':
           displayPickerBottom && message.createdBy !== activeUserId,
@@ -149,16 +264,24 @@
         'emoji-picker__wrapper-right':
           displayPickerBottom && message.createdBy === activeUserId
       }" (click)="preventEmojiPickerClose($event)">
-      <app-emoji-picker componentName="chatbox" (emoji)="addEmoji(message.docId, message.createdBy!, $event, false)" />
+      <app-emoji-picker componentName="chatbox" (emoji)="addEmoji(message.docId, activeUserId!, $event, false)" />
     </div>
     }
   </div>
-  <div class="chatbox__msg-container" [class.chatbox__msg-container__sent]="message.createdBy === activeUserId">
+
+  <div class="chatbox__msg-container" [class.chatbox__msg-container__sent]="message.createdBy === activeUserId"
+    [ngClass]="{ 'thread__days__chatbox__msg-container': message.sameDay }" id="{{ message.docId }}">
     <button (click)="preventEmojiPickerClose($event)" class="chatbox__addemoji-container"
       [class.chatbox__addemoji__sent]="message.createdBy === activeUserId">
-      <div class="chatbox__addemoji__emoji-container" (click)="toggleEmojiPicker(message.docId || 'fallback', false)">
+      <div class="chatbox__addemoji__emoji-container"
+        (click)="toggleEmojiPicker(message.docId || 'fallback', false, false)">
         <img src="/img/icons/addemoji.svg" alt="" />
       </div>
+      @if (message.docId) {
+      <div (click)="onMessageSelect(message.docId)" class="chatbox__addemoji__emoji-container">
+        <img src="/img/icons/comment.svg" alt="" />
+      </div>
+      }
       <div class="chatbox__editmsg-btn__container" style="display: none"
         [style.display]="message.createdBy === activeUserId ? 'flex' : 'none'">
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -178,22 +301,16 @@
         </div>
       </div>
     </button>
-    @if (avatars$ == null || undefined || '' || !avatars$) {
-    <img class="chatbox__msg-avatar" src="/img/avatars/picPlaceholder.svg" alt="" width="70" height="70"
-      (click)="checkIdIsUser(message.createdBy)" />
-    } @else if (message.creatorPhotoURL == null || undefined || '' ||
-    !message.creatorPhotoURL) {
-    <img class="chatbox__msg-avatar" src="/img/avatars/picPlaceholder.svg" alt="" width="70" height="70"
-      (click)="checkIdIsUser(message.createdBy)" />
-    } @else if (message.createdBy ) {
-    <img class="chatbox__msg-avatar" [src]="
-        (avatars$ | async)?.get(message.createdBy) ||
-        '/img/avatars/picPlaceholder.svg'
-      " alt="Avatar" width="70" height="70" (click)="checkIdIsUser(message.createdBy)" />
+
+    @if (message.createdBy ) {
+    <img class="chatbox__msg-avatar" [src]="getUserAvatar(message.createdBy) | async" alt="Avatar" width="70"
+      height="70" />
     }
     <div class="chatbox__msg-item2" [class.chatbox__msg-sent-item2]="message.createdBy === activeUserId">
       <div class="chatbox__msg-info" [class.chatbox__msg-sent-info]="message.createdBy === activeUserId">
-        <h3 class="chatbox__msg-name" (click)="checkIdIsUser(message.createdBy)">{{ message.creatorName }}</h3>
+        <h3 class="chatbox__msg-name" (click)="checkIdIsUser(message.createdBy)">
+          {{ message.creatorName }}@if(message.createdBy == activeUserId){(Du)}
+        </h3>
         <p class="chatbox__msg-time">
           {{ message.timestamp | date : "HH:mm" }} Uhr
         </p>
@@ -202,32 +319,75 @@
         {{ message.message }}
       </p>
       <div class="chatbox__info">
+        @if (message.threadMessages) { @if (message.threadMessages.length > 0) {
         <div class="chatbox__answers-container">
           @if (message) {
           <span (click)="onMessageSelect(message.docId || 'fallback')" class="chatbox__answers">
-            Antworten
+            {{ message.threadMessages.length }} Antworten
           </span>
           }
-          <span class="chatbox__last-answer">Letzte Antwort {{ message.timestamp | date : "HH:mm" }} Uhr</span>
+          <span class="chatbox__last-answer">Letzte Antwort
+            {{ message.threadMessages[0].timestamp | relativeDate }}
+            {{ message.threadMessages[0].timestamp | date : "HH:mm" }} Uhr</span>
         </div>
+        } }
         <div class="chatbox__reaction-wrapper">
           <div class="chatbox__emojis-container">
             @if(message.reactions){ @for (reaction of message.reactions; track
             $index) {
-            <div class="chatbox__emojis">
-              <span>{{ reaction.emoji }}</span>
-              <span>{{ message.reactions.length }}</span>
+            <div class="chatbox__emojis" [class.chatbox__emoji-reacted]="
+                reaction.userIds.includes(activeUserId!) ? true : false
+              " (click)="
+                addEmoji(message.docId!, activeUserId!, reaction.emoji, false)
+              ">
+              <span class="chatbox__emoji" style="position: relative">{{ reaction.emoji }}
+                <div class="chatbox__reaction-users">
+                  <span class="chatbox__reaction-users__icon">
+                    {{ reaction.emoji }}</span>
+                  @if(reaction.userIds.includes(activeUserId!)){
+                  @if(reaction.userIds.length === 1) {
+                  <span class="chatbox__reaction-users__title"> Du</span>
+                  <span class="chatbox__reaction-users__description">hast reagiert</span>
+                  } @if(reaction.userIds.length === 2){
+                  <span class="chatbox__reaction-users__title">
+                    Du und {{ getOtherUser(reaction.userIds[0]) | async }}</span>
+                  <span class="chatbox__reaction-users__description">haben reagiert</span>
+                  } @if(reaction.userIds.length > 2){
+                  <span class="chatbox__reaction-users__title">
+                    Du, {{ getOtherUser(reaction.userIds[0]) | async }} und
+                    {{ reaction.userIds.length - 2 }} weitere</span>
+                  <span class="chatbox__reaction-users__description">haben reagiert</span>
+                  } } @else { @if(reaction.userIds.length === 1) {
+                  <span class="chatbox__reaction-users__title">
+                    {{ getOtherUser(reaction.userIds[0]) | async }}
+                  </span>
+                  <span class="chatbox__reaction-users__description">hat reagiert</span>
+                  } @if (reaction.userIds.length === 2) {
+                  <span class="chatbox__reaction-users__title">
+                    {{ getOtherUser(reaction.userIds[0]) | async }} und
+                    {{ getOtherUser(reaction.userIds[1]) | async }}</span>
+                  <span class="chatbox__reaction-users__description">haben reagiert</span>
+                  } @if (reaction.userIds.length > 2){
+                  <span class="chatbox__reaction-users__title">
+                    {{ reaction.userIds[0] }}, {{ reaction.userIds[1] }} und
+                    {{ reaction.userIds.length - 2 }} weitere</span>
+                  <span class="chatbox__reaction-users__description">haben reagiert</span>
+                  } }
+                </div>
+              </span>
+              <span>{{ reaction.userIds.length }}</span>
             </div>
             }}
           </div>
           <div class="chatbox__addreaction-container">
-            <img src="/img/icons/add_reaction.svg" (click)="toggleEmojiPicker(message.docId || 'fallback', true)"
-              (click)="preventEmojiPickerClose($event)" alt="" />
+            <img src="/img/icons/add_reaction.svg" (click)="
+                toggleEmojiPicker(message.docId || 'fallback', true, false)
+              " (click)="preventEmojiPickerClose($event)" alt="" />
           </div>
         </div>
       </div>
     </div>
   </div>
-  }
+  }}
 </div>
-} }
+}}

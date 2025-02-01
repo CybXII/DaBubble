@@ -44,3 +44,11 @@
   @include button(colors.$white, colors.$purple);
   border: 1px solid colors.$purple;
 }
+
+@mixin elipsis($max-width) {
+  display: block;
+  max-width: $max-width;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

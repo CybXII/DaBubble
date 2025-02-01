@@ -16,7 +16,6 @@ import { SharedService } from '../../../shared/services/newmessage.service';
 })
 export class MenuChannelsComponent implements OnInit, OnDestroy {
   private unsubscribeFn: (() => void) | null = null;
-  channelsOpen: boolean = false;
   channelActive: boolean = false;
   channels: Channel[] = [];
   loading: boolean = true;

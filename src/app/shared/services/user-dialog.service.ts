@@ -27,9 +27,8 @@ export class UserDialogService {
         this.userData?.name,
         [
           Validators.required,
-          //Validators.pattern('^[a-zA-ZÀ-ÿ]{1,}(?: [a-zA-ZÀ-ÿ]{1,})+$'),
-          //Validators.pattern('^[a-zA-ZÀ-ÿ]{1,}(?:[-' ][a-zA-ZÀ-ÿ]{1,})*$')
-          Validators.pattern('^[a-zA-ZÀ-ÿ]+(?:-[a-zA-ZÀ-ÿ]+)?(?: [a-zA-ZÀ-ÿ]+(?:-[a-zA-ZÀ-ÿ]+)?)$')
+          Validators.pattern('^[a-zA-ZÀ-ÿ]+(?:-[a-zA-ZÀ-ÿ]+)?(?: [a-zA-ZÀ-ÿ]+(?:-[a-zA-ZÀ-ÿ]+)?)$'),
+          Validators.maxLength(25),
         ],
       ],
       userInputEmail: [
@@ -132,12 +131,14 @@ export class UserDialogService {
 
   logout() {
     this.dialog = false;
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
     this.auth.logout();
   }
 
   dataChangeAllowedCheck() {
-    if (this.userData?.provider !== 'password') {
+    console.log('provider user-dialog: ',this.userData?.provider);
+    if (this.userData?.provider != 'password') {
+      
       this.profileForm.disable();
     }
   }

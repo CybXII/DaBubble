@@ -56,10 +56,9 @@
   cursor: pointer;
 }
 
-$breakpoint-mobile: 1400px;
+$breakpoint-smallWindow: 1400px;
 
 .builder-container {
-
   .menu-container {
     transition: all 0.3s ease-in-out;
   }
@@ -80,7 +79,7 @@ $breakpoint-mobile: 1400px;
     max-width: 100%;
     transition: all 0.3s ease-in-out;
 
-    @media (max-width: $breakpoint-mobile) {
+    @media (max-width: $breakpoint-smallWindow) {
       position: absolute;
       top: 0;
       left: 0;
@@ -98,4 +97,19 @@ $breakpoint-mobile: 1400px;
   left: -20px;
   z-index: 444;
   cursor: pointer;
+}
+
+$breakpoint-mobile: 900px;
+@media (max-width: $breakpoint-mobile) {
+  .builder-container {
+    gap: 0;
+  }
+
+  .menu-container{
+    border-radius: unset;
+  }
+  .menu-width {
+    width: 100%;
+    max-width: 100%;
+  }
 }

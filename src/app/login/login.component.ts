@@ -13,6 +13,7 @@ import { ToastMessageComponent } from '../shared/toastmessage/toastmessage.compo
 })
 export class LoginComponent {
   loginPage: boolean = true;
+  forgetPassword:boolean = true;
   introPlayed: boolean = false;
 
   constructor(public router: Router, private toastMessageService: ToastMessageService) {
@@ -38,6 +39,11 @@ export class LoginComponent {
       if (this.router.routerState.snapshot.url == '/') {
         this.loginPage = true;
       } else {
+        if (this.router.routerState.snapshot.url == '/forget') {
+          this.forgetPassword = true;
+        } else {
+          this.forgetPassword = false;
+        }
         this.loginPage = false;
       }
     },100)

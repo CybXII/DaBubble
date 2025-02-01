@@ -10,10 +10,9 @@ import { SharedService } from '../../shared/services/newmessage.service';
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './createmessage.component.html',
-  styleUrl: './createmessage.component.scss'
+  styleUrl: './createmessage.component.scss',
 })
-export class CreatemessageComponent {
-
+export class CreatemessageComponent implements OnInit {
   searchText: string = '';
   searchFor: string = '';
 
@@ -22,6 +21,12 @@ export class CreatemessageComponent {
   privateChannelResults: any[] = [];
   mailadressResults: any[] = [];
 
+  input: boolean = true;
+
+  ngOnInit() {
+    this.clearResults();
+    this.deleteSearch();
+  }
 
   clearResults() {
     this.userResults = [];
@@ -32,28 +37,32 @@ export class CreatemessageComponent {
 
   clickUser(target: string, userId: string) {
     this.searchText = target;
-    
-    this.sharedService.setTargetString("toUser");
+
+    this.sharedService.setTargetString('toUser');
 
     this.sharedService.setSearchString(target);
     this.sharedService.setUserIdString(userId);
+    this.input = false;
 
     this.clearResults();
   }
 
   clickChannel(target: string, channelId: string) {
     this.searchText = target;
-    this.sharedService.setTargetString("toChannel");
+    this.sharedService.setTargetString('toChannel');
     this.sharedService.setSearchString(target);
     this.sharedService.setChannelIdString(channelId);
+    this.input = false;
     this.clearResults();
   }
 
-
-  constructor(private searchService: SearchService, private authService: AuthService, private sharedService: SharedService) {
+  constructor(
+    private searchService: SearchService,
+    private authService: AuthService,
+    private sharedService: SharedService
+  ) {
     this.searchService.loadUsers(this.userId);
     this.searchService.loadChannels();
-
 
     this.searchService.userResults$.subscribe((results) => {
       console.log('Search results user komp:', this.userResults);
@@ -67,34 +76,35 @@ export class CreatemessageComponent {
 
     this.searchService.privateChannelResults$.subscribe((results) => {
       this.privateChannelResults = results;
-      console.log('Search results priv channel komp:', this.privateChannelResults);
+      console.log(
+        'Search results priv channel komp:',
+        this.privateChannelResults
+      );
     });
 
     this.sharedService.searchString$.subscribe((value) => {
       this.searchText = value;
       this.onInputChange();
     });
-
   }
 
-
-
-
-
   onInputChange() {
-    console.log("ch ch changes!");
-    if (this.searchText[0] === "#") {
-      this.searchFor = "channels";
+    console.log('ch ch changes!');
+    if (this.searchText[0] === '#') {
+      this.searchFor = 'channels';
       if (this.searchText.length == 1) {
         //alle!
         this.searchService.searchChannels('', this.userId, 'channel');
       } else {
         // filtern
-        this.searchService.searchChannels(this.searchText.slice(1), this.userId, 'channel');
+        this.searchService.searchChannels(
+          this.searchText.slice(1),
+          this.userId,
+          'channel'
+        );
       }
-    }
-    else if (this.searchText[0] === "@") {
-      this.searchFor = "users";
+    } else if (this.searchText[0] === '@') {
+      this.searchFor = 'users';
       if (this.searchText.length == 1) {
         //alle!
         this.searchService.searchUsers('', 'name');
@@ -105,7 +115,7 @@ export class CreatemessageComponent {
     }
     // ohne "vorzeichen"
     else {
-      this.searchFor = "users";
+      this.searchFor = 'users';
       if (this.searchText.length == 0) {
         //alle!
         this.searchService.searchUsers('', 'email');
@@ -116,14 +126,35 @@ export class CreatemessageComponent {
     }
   }
 
-
-
-
   get userId() {
     return this.authService.userId() as string;
   }
 
+  // activeArray:any;
+  // active:any= ''
+  // arrowControl(event: KeyboardEvent) {
+  //   if (this.searchText == '@') {
+  //     this.activeArray = this.userResults;
+  //   } else if (this.searchText == '#') {
+  //     this.activeArray = this.channelResults;
+  //   } else {
+  //     this.activeArray = this.mailadressResults;
+  //   }
+  //   for (let i = 0; i < this.activeArray.length; i++) {
+  //     if (event.key == 'ArrowUp') {
+  //       this.active = this.activeArray[i];
+  //       i--;
+  //       console.log('up', this.active)
+  //     } else if (event.key == 'ArrowDown') {
+  //       this.active = this.activeArray[i];
+  //       i++;
+  //       console.log('Down', i)
+  //     }
+  //   }
+  // }
+
+  deleteSearch() {
+    this.input = true;
+    this.searchText = '';
+  }
 }
-
-
-

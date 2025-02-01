@@ -29,11 +29,4 @@ export class DialogComponent {
     this.userDialog$.dataChangeAllowedCheck();
   }
 
-  // saveProfile() {
-  //   this.profileDialog = false;
-  //   this.profileDialogEdit = false;
-  //   this.dialogChange.emit(this.dialog);
-  //   this.toastMessageService.showToastSignal('Profil erfolgreich aktualisiert');
-  // }
-
 }
