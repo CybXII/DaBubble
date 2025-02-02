@@ -27,7 +27,7 @@ export class LoginComponent {
 
     // save entry after delay
     setTimeout(() => {
-      this.introPlayed = true;
+      this.introPlayed = true; // cvo
       sessionStorage.setItem('introPlayed', JSON.stringify(this.introPlayed));
     }, 6000);
   }
