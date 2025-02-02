@@ -2,6 +2,7 @@ import {
   Component,
   Output,
   EventEmitter,
+  OnInit,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -18,15 +19,17 @@ import { UserDialogService } from '../../../services/user-dialog.service';
   templateUrl: './dialog.component.html',
   styleUrl: './dialog.component.scss',
 })
-export class DialogComponent {
+export class DialogComponent implements OnInit {
   @Output() dialogChange = new EventEmitter<boolean>();
 
   constructor(
     public userDialog$: UserDialogService,
-  ) {}
-
-  ngOnInit() {
+  ) {
     this.userDialog$.dataChangeAllowedCheck();
+  }
+  
+  ngOnInit() {
+    
   }
 
 }

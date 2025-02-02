@@ -165,6 +165,7 @@
         </div>
       </div>
     </button>
+    <img class="chatbox__msg-avatar" [src]="getUserAvatar(message.createdBy) | async" alt="Avatar" width="70" height="70" />
     <div class="chatbox__msg-item2" [class.chatbox__msg-sent-item2]="message.createdBy === activeUserId">
       <div class="chatbox__msg-info" [class.chatbox__msg-sent-info]="message.createdBy === activeUserId">
         <h3 class="chatbox__msg-name" (click)="checkIdIsUser(message.createdBy)">
