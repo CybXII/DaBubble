@@ -40,23 +40,23 @@ export class SearchbarComponent {
   ) {
     this.searchService.messageResults$.subscribe((results) => {
       this.messageResults = results;
-      console.log('Search results messages PAUL:', this.messageResults);
+      // console.log('Search results messages PAUL:', this.messageResults);
     });
     this.searchService.threadMessageResults$.subscribe((results) => {
       this.threadMessageResults = results;
-      console.log('Search results messages:', this.threadMessageResults);
+      // console.log('Search results messages:', this.threadMessageResults);
     });
     this.searchService.userResults$.subscribe((results) => {
       this.userResults = results;
-      console.log('Search results user:', this.userResults);
+      // console.log('Search results user:', this.userResults);
     });
     this.searchService.channelResults$.subscribe((results) => {
       this.channelResults = results;
-      console.log('Search results channel:', this.channelResults);
+      // console.log('Search results channel:', this.channelResults);
     });
     this.searchService.privateChannelResults$.subscribe((results) => {
       this.privateChannelResults = results;
-      console.log('Search results chats:', this.privateChannelResults);
+      // console.log('Search results chats:', this.privateChannelResults);
     });
   }
 

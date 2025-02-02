@@ -239,8 +239,6 @@
 <div class="mainchat__chatbox">
   @for (message of (messages$ | async); track message.docId) { 
   @if (message.createdBy ) {
-    
-  
   @let shouldRenderDivider = checkAndSetPreviousTimestamp(message.timestamp);
   <div class="message" style="position: relative">
     @if (shouldRenderDivider) {
@@ -319,18 +317,19 @@
         {{ message.message }}
       </p>
       <div class="chatbox__info">
-        @if (message.threadMessages) { @if (message.threadMessages.length > 0) {
-        <div class="chatbox__answers-container">
-          @if (message) {
-          <span (click)="onMessageSelect(message.docId || 'fallback')" class="chatbox__answers">
-            {{ message.threadMessages.length }} Antworten
-          </span>
+        @if (message.threadMessages) { 
+          @if (message.threadMessages.length > 0) { 
+            <div class="chatbox__answers-container">
+              <span (click)="onMessageSelect(message.docId || 'fallback')" class="chatbox__answers">
+                {{ message.threadMessages.length }} Antworten
+              </span>
+              <span class="chatbox__last-answer">Letzte Antwort
+                {{ message.threadMessages[0].timestamp | relativeDate }}
+                {{ message.threadMessages[0].timestamp | date : "HH:mm" }} Uhr
+              </span>
+            </div>
           }
-          <span class="chatbox__last-answer">Letzte Antwort
-            {{ message.threadMessages[0].timestamp | relativeDate }}
-            {{ message.threadMessages[0].timestamp | date : "HH:mm" }} Uhr</span>
-        </div>
-        } }
+        }
         <div class="chatbox__reaction-wrapper">
           <div class="chatbox__emojis-container">
             @if(message.reactions){ @for (reaction of message.reactions; track
