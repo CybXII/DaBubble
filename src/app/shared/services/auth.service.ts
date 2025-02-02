@@ -284,39 +284,54 @@ export class AuthService {
     sessionStorage.setItem('userData', JSON.stringify(userData));
   }
 
-  getUserDataFromStorage() {
-    this.userData.set(JSON.parse(sessionStorage.getItem('userData') || '{}'));
-  }
+  // getUserDataFromStorage() {
+  //   this.userData.set(JSON.parse(sessionStorage.getItem('userData') || '{}'));
+  // }
 
   intializeUserData() {
     if (sessionStorage.getItem('userData')) {
-      this.getUserDataFromStorage();
+      this.userData.set(JSON.parse(sessionStorage.getItem('userData') || '{}'));
     }
   }
 
   /**
    * Logout
    */
-  logout(): void {
-    let userId = this.userData()?.userId;
+  async logout(): Promise<void> {
+    const userId = this.userData()?.userId;
+  
     if (userId && this.userData()?.provider !== 'anonymous') {
-      this.auth.signOut().then(() => {
-        this.clearAuthState();
-        this.updateDataInFirestore(userId, { status: false });
-        this.router.navigate(['']);
-        this.toastMessageService.showToastSignal('Erfolgreich ausgeloggt');
-      });
-    }
-    if (this.userData()?.provider === 'anonymous') {
-      console.log('Anonymous user logged out');
-      this.deleteAnonymousUserFromFirestore();
-      this.auth.signOut().then(() => {
+      console.log('[AuthService] Starte Logout für:', userId);
+      
+      try {
+        await this.updateDataInFirestore(userId, { status: false }); // 🔥 Status-Update
+        console.log('[AuthService] Status erfolgreich auf "false" gesetzt');
+  
+        await this.auth.signOut();
         this.clearAuthState();
         this.router.navigate(['']);
         this.toastMessageService.showToastSignal('Erfolgreich ausgeloggt');
-      });
+        
+      } catch (error) {
+        console.error('[AuthService] Fehler beim Logout:', error);
+      }
+  
+    } else if (this.userData()?.provider === 'anonymous') {
+      console.log('[AuthService] Anonymer Benutzer wird gelöscht.');
+      
+      try {
+        this.deleteAnonymousUserFromFirestore();
+        await this.auth.signOut();
+        this.clearAuthState();
+        this.router.navigate(['']);
+        this.toastMessageService.showToastSignal('Erfolgreich ausgeloggt');
+  
+      } catch (error) {
+        console.error('[AuthService] Fehler beim anonymen Logout:', error);
+      }
     }
   }
+
 
   deleteAnonymousUserFromFirestore(): void {
     const user = this.auth.currentUser;
@@ -475,29 +490,6 @@ export class AuthService {
     }
   }
 
-  // async updateUserData(
-  //   userId: string,
-  //   updatedData: Partial<UserModel>
-  // ): Promise<void> {
-  //   try {
-  //     const userDocRef = doc(this.firestore, `users/${userId}`);
-  //     await updateDoc(userDocRef, updatedData);
-  //     const updatedUserDoc = await getDoc(userDocRef);
-  //     if (updatedUserDoc.exists()) {
-  //       const updatedUserData = updatedUserDoc.data() as UserModel;
-  //       sessionStorage.setItem('userData', JSON.stringify(updatedUserData));
-  //       this.userData.set(updatedUserData);
-  //       this.toastMessageService.showToastSignal(
-  //         'Benutzerdaten erfolgreich aktualisiert'
-  //       );
-  //     }
-  //   } catch (error) {
-  //     console.error('Fehler beim Aktualisieren der Benutzerdaten:', error);
-  //     this.toastMessageService.showToastSignal(
-  //       'Fehler beim Aktualisieren der Benutzerdaten'
-  //     );
-  //   }
-  // }
 
   async updateUserData(
     userId: string,
@@ -537,9 +529,9 @@ export class AuthService {
     }
   }
 
-  updateDataInFirestore(userId: string, updatedData: Partial<UserModel>) {
+  updateDataInFirestore(userId: string, updatedData: Partial<UserModel>): Promise<void> {
     const userDocRef = doc(this.firestore, `users/${userId}`);
-    updateDoc(userDocRef, updatedData);
+    return updateDoc(userDocRef, updatedData);
   }
 
   async getUsernamesByIds(
@@ -553,18 +545,25 @@ export class AuthService {
       status: boolean;
     }[]
   > {
+    console.log('[AuthService] 🟢 getUsernamesByIds AUFGERUFEN mit userIds:', userIds);
+  
     if (!userIds || userIds.length === 0) {
+      console.warn('[AuthService] ⚠️ KEINE User-IDs erhalten!');
       return [];
     }
-
+  
+    // 🔥 Überprüfen, ob `undefined` in der Liste ist
+    if (userIds.some(id => id === undefined || id === null)) {
+      console.error('[AuthService] ❌ FEHLER: Die Liste enthält eine `undefined` oder `null` User-ID:', userIds);
+      return [];
+    }
+  
     try {
       const usersCollection = collection(this.firestore, 'users');
-      const userDocsQuery = query(
-        usersCollection,
-        where('userId', 'in', userIds)
-      );
+      const userDocsQuery = query(usersCollection, where('userId', 'in', userIds));
+  
       const querySnapshot = await getDocs(userDocsQuery);
-
+  
       const userDetails = querySnapshot.docs.map((doc) => {
         const data = doc.data() as UserModel;
         return {
@@ -575,14 +574,16 @@ export class AuthService {
           status: data.status,
         };
       });
-
-      // Sortiere die UserDetails alphabetisch nach Namen
+  
+      // 🔥 Zusätzlicher Log zur Debugging
+      console.log('[AuthService] ✅ Benutzer erfolgreich geladen:', userDetails);
+  
+      // 🔥 Sortiere die UserDetails alphabetisch nach Namen
       userDetails.sort((a, b) => a.name.localeCompare(b.name));
-
+  
       return userDetails;
     } catch (error) {
-      console.error('Error fetching and sorting user details:', error);
+      console.error('[AuthService] ❌ Fehler beim Abrufen der Benutzerdetails:', error);
       return [];
     }
-  }
-}
+  }}

@@ -18,6 +18,8 @@ import { BehaviorSubject, map, Observable, of } from 'rxjs';
   templateUrl: './menu-private-messages.component.html',
   styleUrl: './menu-private-messages.component.scss',
 })
+
+
 export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
   messagesOpen: boolean = true; // changed by christoph
   privateChannels: Channel[] = [];
@@ -40,6 +42,7 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
   };
   activeUsers:any = []
 
+
   constructor(
     private dialog: MatDialog,
     public channelsService: ChannelsService,
@@ -50,10 +53,12 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
     private userService: UserService
   ) {}
 
+
   ngOnInit(): void {
     this.loadPrivateChannels();
     this.subscribeToAllUsers();
   }
+
 
   ngOnDestroy(): void {
     if (this.unsubscribeUserListener) {
@@ -61,6 +66,7 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
       console.log('Benutzer-Listener entfernt.');
     }
   }
+
 
   subscribeToAllUsers(): void {
     const usersCollectionRef = collection(this.firestore, 'users');
@@ -76,9 +82,9 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
     );
   }
 
+
   async loadPrivateChannels(): Promise<void> {
     this.loading = true;
-
     this.channelsService.loadChannelsRealtime(async (channels) => {
       const privateChannels = channels.filter((channel) => channel.isPrivate);
       const rawChannelMembers = await this.channelsService.getChannelMembers(
@@ -125,7 +131,14 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
   async getUser(id:any, id2:any) {
     const ids = [id];
     if (id !== id2) {
-      ids.push(id2)
+      if (id2 !== undefined && id2 !== null) {        
+        ids.push(id2)
+      }
+    }
+
+    if (ids.some(id => id === undefined || id === null)) {
+      console.error('[MenuPrivateMessagesComponent] ❌ FEHLER: Mindestens eine User-ID ist undefined oder null:', ids);
+      throw new Error('[MenuPrivateMessagesComponent] ❌ FATAL ERROR: Eine User-ID ist undefined. Stacktrace:');
     }
     const user = await this.authService.getUsernamesByIds(ids);
     this.users = {
@@ -152,8 +165,8 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
     }
   }
 
+
   getSecondUser(user:any) {
-    // Den Benutzer von id2 hinzufügen
     const secondUser = {
       name: user[1].name ? user[1].name : "",
       userId: user[1].userId ? user[1].userId : "",
@@ -172,10 +185,10 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
     });
   }
 
+
   async selectChannel(channelId: string): Promise<void> {
     this.sharedService.updateVariable('false');
     this.channelsService.selectChannel(channelId);
-    console.warn(this.activeUsers)
   }
 
 
@@ -188,6 +201,7 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
     const partnerId = this.getPartnerId(channel);
     return partnerId ? this.userService.getuserAvatar(partnerId) : of('/img/avatars/avatar1.svg');
   }
+
 
   getUserName(channel: Channel): Observable<string> {
     const partnerId = this.getPartnerId(channel);
@@ -204,10 +218,10 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
   getPartnerId(channel: Channel): string | null {
     const userId = this.authService.userId();
     if (!channel.members || channel.members.length === 0) {
-        return null; // Kein Partner vorhanden
+        return null;
     }
     return channel.members.length === 1
-        ? userId // Der Nutzer selbst
+        ? userId
         : channel.members.find(id => id !== userId) || null;
-}
+  }
 }
