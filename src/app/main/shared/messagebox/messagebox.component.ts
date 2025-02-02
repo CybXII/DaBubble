@@ -51,27 +51,19 @@ export class MessageboxComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.activeUserId = this.authService.userId();
     if (this.builder === 'mainchat') {
-      // Beobachtet den aktuellen Channel
       const channelSubscription =
         this.channelsService.currentChannel$.subscribe((channel) => {
           if (channel) {
             this.channelId = channel.id;
             this.activeChannelName = channel.name;
-            console.log('Aktueller Channel-Name:', this.activeChannelName);
-          } else {
-            console.log('Kein aktiver Channel ausgewählt.');
           }
         });
       this.subscriptions.add(channelSubscription);
     } else if (this.builder === 'threadchat') {
-      // Beobachtet die Message-ID für den Threadchat
       const threadSubscription = this.messagesService.messageId$.subscribe(
         (messageId) => {
           if (messageId) {
             this.messageId = messageId;
-            console.log('Threadchat aktiv, Message-ID:', messageId);
-          } else {
-            // console.log('Keine gültige Message-ID für den Threadchat gefunden.');
           }
         }
       );
@@ -245,7 +237,6 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     let user: UserModel = (await this.authService.getUserById(
       this.activeUserId
     )) as unknown as UserModel;
-    console.log('User:', user);
     // Erstelle ein ThreadMessage-Objekt
     const threadMessage: ThreadMessage = {
       createdBy: this.activeUserId || '',
@@ -263,7 +254,6 @@ export class MessageboxComponent implements OnInit, OnDestroy {
       this.messagesService
         .addThreadMessage(this.messageId, threadMessage)
         .then(() => {
-          console.log('Thread-Nachricht erfolgreich gesendet:', threadMessage);
           this.messageContent = '';
         })
         .catch((error) => {

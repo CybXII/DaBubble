@@ -66,21 +66,16 @@ export class MessagesService {
       console.error('Channel-ID ist erforderlich für Nachrichtenabruf.');
       return;
     }
-
     if (this.activeChannelId === channelId) return; // Verhindert doppelte Listener
-
     this.activeChannelId = channelId;
     if (this.unsubscribeMessages) this.unsubscribeMessages(); // Entferne vorherigen Listener
-
     const messagesRef = collection(this.firestore, 'messages');
     const q = query(messagesRef, where('channelId', '==', channelId));
-
     this.unsubscribeMessages = onSnapshot(q, async (snapshot) => {
       const messagesWithThreads = await Promise.all(
         snapshot.docs.map(async (docSnap) => {
           const data = docSnap.data();
           const timestampValue = this.convertTimestamp(data['timestamp']);
-
           const message: Message = {
             docId: docSnap.id,
             ...data,
@@ -92,9 +87,10 @@ export class MessagesService {
             reactions: data['reactions'] || [],
             message: data['message'] || '',
             sameDay: false,
+            threadMessages: [],
           };
-          // 🔄 **ThreadMessages live beobachten**
-          this.loadThreadMessages(docSnap.id);
+          // 🔄 **ThreadMessages live abrufen und hinzufügen**
+          message.threadMessages = await this.getThreadArrays(docSnap.id);
           return message;
         })
       );
@@ -106,36 +102,54 @@ export class MessagesService {
   }
 
 
+    /**
+   * 🔥 Lädt alle ThreadMessages für eine bestimmte Nachricht.
+   */
+    async getThreadArrays(parentMessageId: string): Promise<ThreadMessage[]> {
+      const threadMessagesRef = collection(this.firestore, `messages/${parentMessageId}/threadMessages`);
+      const q = query(threadMessagesRef, orderBy('timestamp', 'asc'));
+  
+      const snapshot = await getDocs(q);
+      return snapshot.docs.map((docSnap) => ({
+        docId: docSnap.id,
+        messageId: parentMessageId,
+        message: docSnap.data()['message'] || '',
+        createdBy: docSnap.data()['createdBy'] || 'Unknown',
+        timestamp: this.convertTimestamp(docSnap.data()['timestamp']),
+        reactions: docSnap.data()['reactions'] || [],
+      }) as ThreadMessage);
+    }
+
+
   /**
    * 🔥 Lädt Thread-Nachrichten für eine Parent-Nachricht, sortiert sie und speichert sie im Cache.
    */
   loadThreadMessages(parentMessageId: string): void {
-    if (this.activeMessageId === parentMessageId) return; // Verhindert doppelte Listener
-    this.activeMessageId = parentMessageId;
-    if (this.unsubscribeThreads) this.unsubscribeThreads(); // Entferne vorherigen Listener
-    const threadMessagesRef = collection(this.firestore, `messages/${parentMessageId}/threadMessages`);
-    const q = query(threadMessagesRef, orderBy('timestamp', 'asc'));
-    this.unsubscribeThreads = onSnapshot(q, async (snapshot) => {
-      const threadMessages = snapshot.docs.map((docSnap) => {
-        const data = docSnap.data();
-        return {
-          docId: docSnap.id,
-          messageId: parentMessageId,
-          ...data,
-          timestamp: this.convertTimestamp(data['timestamp']),
-          isThreadMessage: true,
-        } as ThreadMessage;
-      });
-      // ✅ Sortierung beibehalten
-      threadMessages.sort((a, b) =>new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
-      // 🔥 Cache aktualisieren
-      this.threadMessagesSubject.next(threadMessages);
+  if (this.activeMessageId === parentMessageId) return; // Verhindert doppelte Listener
+  this.activeMessageId = parentMessageId;
+  if (this.unsubscribeThreads) this.unsubscribeThreads(); // Entferne vorherigen Listener
+  const threadMessagesRef = collection(this.firestore, `messages/${parentMessageId}/threadMessages`);
+  const q = query(threadMessagesRef, orderBy('timestamp', 'asc'));
+  this.unsubscribeThreads = onSnapshot(q, async (snapshot) => {
+    const threadMessages = snapshot.docs.map((docSnap) => {
+      const data = docSnap.data();
+      return {
+        docId: docSnap.id,
+        messageId: parentMessageId,
+        ...data,
+        timestamp: this.convertTimestamp(data['timestamp']),
+        isThreadMessage: true,
+      } as ThreadMessage;
     });
-  }
+    // ✅ Sortierung beibehalten
+    threadMessages.sort((a, b) =>new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+    // 🔥 Cache aktualisieren
+    this.threadMessagesSubject.next(threadMessages);
+  });
+}
 
 
   setParentMessageId(messageId: string | null): void {
-    console.log('[MessagesService] setParentMessageId aufgerufen mit:', messageId);
     this.parentMessageIdSubject.next(messageId);
   }
 
@@ -160,7 +174,7 @@ export class MessagesService {
    */
   setMessageId(messageId: string): void {
     this.messageIdSubject.next(messageId);
-    // this.loadThreadMessages(messageId);
+    this.loadThreadMessages(messageId);
   }
 
 
@@ -314,8 +328,6 @@ export class MessagesService {
         updatedReactions.push({ emoji: reaction.emoji, userIds: [userId] });
       }
     });
-    console.log('messages service ', currentReactions);
-    console.log('messages service ', newReactions);
     return updatedReactions;
   }
 

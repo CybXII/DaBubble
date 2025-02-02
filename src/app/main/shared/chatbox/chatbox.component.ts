@@ -75,13 +75,14 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {
     this.currentChannel$ = this.channelsService.currentChannel$;
     this.messages$ = combineLatest([
-      this.channelsService.currentChannel$,
-      this.messagesService.messages$
+      this.messagesService.messages$,
     ]).pipe(
-      map(([channel, messages]) => {
-        if (!channel) return [];
-        return messages.filter(message => message.channelId === channel.id);
-      })
+      map(([messages, ]) => {
+        return messages.map(message => ({
+          ...message,
+          threadMessages: message.threadMessages?.filter(thread => thread.messageId === message.docId)
+        }));
+      }),
     );
     this.threadMessages$ = combineLatest([
       this.messagesService.messageId$.pipe(startWith(null)),
@@ -92,7 +93,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
         return threads.filter(thread => thread.messageId === messageId);
       })
     );
-
     this.activeUserId = this.authService.userId();
   }
 
@@ -102,6 +102,14 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       if (channel) {
         this.messagesService.loadMessagesForChannel(channel.id);
       }
+    });
+    this.messagesService.messageId$.subscribe((messageId) => {
+      if (messageId) {
+        this.setParentMessage(messageId);
+      }
+    });
+    this.setParentMessage(this.activeMessageId || '');
+    this.threadMessages$.subscribe(threadMessages => {
     });
     this.avatars$ = this.messagesService.avatars$;
     
@@ -117,7 +125,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     
     const emojiSubscription3 = this.emojiPickerService.displayEmojiPickerMainThread$.subscribe((display) => {
       this.displayEmojiPickerMainThread = display;
-      console.log('Emoji main thread?' + display)
       this.cdRef.markForCheck();
     });
     
@@ -173,11 +180,14 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   setParentMessage(messageId: string): void {
-    this.messages$.subscribe((messages) => {
-      const foundMessage = messages.find((msg) => msg.docId === messageId) || null;
-      if (foundMessage) {
-        this.parentMessage = foundMessage;
-      }
+    combineLatest([
+      this.messagesService.parentMessageId$,
+      this.messagesService.messages$
+    ])
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(([parentMessageId, messages]) => {
+      this.parentMessage = messages.find(msg => msg.docId === parentMessageId) || null;
+      this.cdRef.markForCheck();
     });
   }
 
@@ -206,7 +216,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   toggleEmojiPicker(messageId: string, displayPickerBottom: boolean, threadMain?: boolean) {
-    console.log('open picker for:' + messageId + ' picker bottom?: ' + displayPickerBottom + ' threadMain?: ' + threadMain);
+    // console.log('open picker for:' + messageId + ' picker bottom?: ' + displayPickerBottom + ' threadMain?: ' + threadMain);
     this.displayPickerBottom = displayPickerBottom;
     if (this.isChatBoxEmojiPickerOpen) {
       if (messageId !== this.chatBoxEmojiPickerOpenFor) {

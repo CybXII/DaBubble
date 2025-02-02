@@ -67,12 +67,8 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
     this.unsubscribeUserListener = onSnapshot(
       usersCollectionRef,
       (snapshot) => {
-        console.log('Benutzer-Änderungen erkannt:');
         snapshot.docChanges().forEach((change) => {
-          console.log(`Typ der Änderung: ${change.type}`);
           if (change.type === 'modified') {
-            const updatedUser = change.doc.data();
-            console.log('Aktualisierter Benutzer:', updatedUser);
             this.loadPrivateChannels();
           }
         });
@@ -131,7 +127,6 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
     if (id !== id2) {
       ids.push(id2)
     }
-    console.log(ids)
     const user = await this.authService.getUsernamesByIds(ids);
     this.users = {
       name: user[0].name ? user[0].name : "",
@@ -216,34 +211,3 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
         : channel.members.find(id => id !== userId) || null;
 }
 }
-
-
-// const sortPromises = channelsWithPartnerNames.map(async (channel) => {
-//   const partnerA = channel.partnerNames[0] || '';
-//   const partnerB = channel.partnerNames[1] || '';
-//   const memberA = channel.members[1] !== userId ? channel.members[1] : undefined;
-//   const memberB = channel.members[2] !== userId ? channel.members[2] : undefined;
-  
-//   let userA = null;
-//   let userB = null;
-
-//   if (memberA && memberB) {
-//     userA = await this.getUser(memberA, memberB);
-//     userB = await this.getUser(memberB, memberA);
-//   }
-
-//   const isUserAloneInA = channel.members.length === 1 && channel.members[0] === userId;
-//   return { channel, partnerA, partnerB, userA, userB, isUserAloneInA };
-// });
-
-// const sortedChannels = (await Promise.all(sortPromises))
-//   .sort((a, b) => {
-//     const isUserAloneInA = a.channel.members.length === 1 && a.channel.members[0] === userId;
-//     const isUserAloneInB = b.channel.members.length === 1 && b.channel.members[0] === userId;
-//     if (isUserAloneInA && !isUserAloneInB) return -1;
-//     if (!isUserAloneInA && isUserAloneInB) return 1;
-//     return a.partnerA.localeCompare(b.partnerB);
-//   })
-//   .map(({ channel }) => channel);
-
-// this.privateChannels = sortedChannels;
