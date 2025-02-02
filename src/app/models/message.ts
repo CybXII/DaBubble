@@ -1,3 +1,5 @@
+import { BehaviorSubject } from "rxjs";
+
 export interface Message {
   docId?: string;
   channelId?: string;
@@ -11,7 +13,7 @@ export interface Message {
   reactions: Reaction[];
   message: string;
   sameDay: boolean;
-  threadMessages?: ThreadMessage[];
+  threadMessages$?: BehaviorSubject<ThreadMessage[]>;
 }
 
 

@@ -45,7 +45,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() threadChatToggle = new EventEmitter<void>();
   
   currentChannel$: Observable<Channel | null>;
-  messages$: Observable<Partial<Message>[]>;
+  messages$: Observable<Message[]>;
   threadMessages$: Observable<ThreadMessage[]>;
   avatars$!: Observable<Map<string, string>>;
   parentMessage: Partial<Message> | null = null;  
@@ -58,7 +58,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   isChatBoxEmojiPickerOpen: boolean = false;
   chatBoxEmojiPickerOpenFor: string | null = null;
   displayPickerBottom: boolean = false;
-
+  messages = signal<Message[]>([]);
   previousTimestamp: number | null = null;
 
   constructor(
@@ -74,15 +74,14 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     private stateService: StateService
   ) {
     this.currentChannel$ = this.channelsService.currentChannel$;
-    this.messages$ = combineLatest([
-      this.messagesService.messages$,
-    ]).pipe(
-      map(([messages, ]) => {
-        return messages.map(message => ({
+    this.messages$ = this.messagesService.messages$.pipe(
+      map(messages => 
+        messages.map(message => ({
           ...message,
-          threadMessages: message.threadMessages?.filter(thread => thread.messageId === message.docId)
-        }));
-      }),
+          timestamp: message['timestamp'] ? new Date(message['timestamp']) : new Date(),
+          threadMessages$: message.threadMessages$
+            }))
+      )
     );
     this.threadMessages$ = combineLatest([
       this.messagesService.messageId$.pipe(startWith(null)),
@@ -105,10 +104,33 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     this.messagesService.messageId$.subscribe((messageId) => {
       if (messageId) {
-        this.setParentMessage(messageId);
+        this.setParentMessage();
+        
       }
     });
-    this.setParentMessage(this.activeMessageId || '');
+    this.messagesService.messages$.subscribe(messages => {
+      this.messages.set(
+        messages.map(msg => ({
+          ...msg,
+          threadMessages: [],
+        }))
+      );
+    
+      // Jetzt abonnieren wir die Thread-Messages für jedes Message-Dokument
+      messages.forEach(msg => {
+        if (msg.docId) {
+          this.messagesService.getThreadMessagesForMessage(msg.docId).subscribe(threads => {
+            const updatedMessages = this.messages().map(m =>
+              m.docId === msg.docId ? { ...m, threadMessages: threads } : m
+            );
+            this.messages.set(updatedMessages);
+          });
+        };
+      });
+    
+      this.cdRef.markForCheck();
+    });    
+    this.setParentMessage();
     this.threadMessages$.subscribe(threadMessages => {
     });
     this.avatars$ = this.messagesService.avatars$;
@@ -140,7 +162,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.builder === 'threadchat') {
       this.messagesService.parentMessageId$.subscribe((messageId) => {
         if (messageId) {
-          this.setParentMessage(messageId);
+          this.setParentMessage();
           this.activeMessageId = messageId;
         }
       });
@@ -179,7 +201,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
-  setParentMessage(messageId: string): void {
+  setParentMessage(): void {
     combineLatest([
       this.messagesService.parentMessageId$,
       this.messagesService.messages$
