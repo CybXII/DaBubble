@@ -24,7 +24,7 @@
     <div class="mainchat__header__avatar-container" (click)="openDialog('membersDialog')">
       <div class="mainchat__header__avatar-box">
         @if (channelMembers) {
-        @for (member of this.channelMembers; track member) {
+        @for (member of this.channelMembers.slice(0,3); track member) {
         <img src="{{member.photoURL}}" alt="Avatar" class="mainchat__header-avatar" height="40px" width="40px" />
         }
         }
