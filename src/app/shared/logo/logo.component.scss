@@ -20,6 +20,16 @@
     }
 }
 
+
+@media (max-width: 1415px){
+    .logo-container{
+        span{
+            display: none;
+        }
+        width: 300px;
+    }
+}
+
 @media (max-width: 468px){
     .logo-container{
         width: auto;
