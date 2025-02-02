@@ -141,5 +141,8 @@ export class UserDialogService {
       
       this.profileForm.disable();
     }
+    else{
+      this.profileForm.enable();
+    }
   }
 }
