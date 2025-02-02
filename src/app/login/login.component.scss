@@ -453,9 +453,9 @@ form {
     padding: 120px 20px 20px 20px;
     gap: 20px;
     justify-content: unset;
-    >div {
-      width: 100%;
-    }
+    // >div { 
+    //   width: 100%;   entfernt von cvo, dann ist intro nicht mehr mittig
+    // }
   }
 
 }
