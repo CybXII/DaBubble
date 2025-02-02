@@ -1,9 +1,10 @@
 <header class="mainchat__header">
   <button class="mainchat__header-btn" (click)="openDialog('channelDialog')">
-    <span class="mainchat__header-btn__hashtag">#</span>
     @if (this.isPrivate) {
+      <!-- <img src="{{channelMembers[0].photoURL}}" alt="Avatar" class="mainchat__header-avatar" height="40px" width="40px" /> -->
       <h3 class="mainchat__header-btn__title">{{convPartner}}</h3>
     } @else {
+      <span class="mainchat__header-btn__hashtag">#</span>
       <h3 class="mainchat__header-btn__title">{{channelTitle}}</h3>
     }
     <div class="mainchat__header-btn__img-container">

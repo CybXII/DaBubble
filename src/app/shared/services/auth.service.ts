@@ -446,6 +446,7 @@ export class AuthService {
     });
   }
 
+
   redirectIfAuthenticated(): void {
     if (this.auth.currentUser) {
       setTimeout(() => {
@@ -456,24 +457,24 @@ export class AuthService {
     }
   }
 
+
   async getUserById(userId: string | null): Promise<UserModel | null> {
     const userDoc = await getDoc(doc(this.firestore, `users/${userId}`));
     return userDoc.exists() ? (userDoc.data() as UserModel) : null;
   }
+
 
   /**
    * Ruft die Avatar-URL eines Benutzers ab und verwendet einen Cache für Performance.
    */
   async getCachedAvatar(userId: string): Promise<string> {
     const now = Date.now();
-
     if (this.avatarCache.has(userId)) {
       const cachedTime = this.avatarCacheTimestamps.get(userId);
       if (cachedTime && now - cachedTime < this.cacheExpirationTime) {
         return this.avatarCache.get(userId)!;
       }
     }
-
     try {
       const userDoc = await getDoc(doc(this.firestore, `users/${userId}`));
       if (userDoc.exists()) {
@@ -503,8 +504,6 @@ export class AuthService {
         const updatedUserData = updatedUserDoc.data() as UserModel;
         sessionStorage.setItem('userData', JSON.stringify(updatedUserData));
         this.userData.set(updatedUserData);
-
-        // Update Firebase Auth profile
         const user = this.auth.currentUser;
         if (user) {
           if (updatedData.name) {
@@ -516,23 +515,20 @@ export class AuthService {
             this.updateDataInFirestore(userId, { email: updatedData.email });
           }
         }
-
-        this.toastMessageService.showToastSignal(
-          'Benutzerdaten erfolgreich aktualisiert'
-        );
+        this.toastMessageService.showToastSignal('Benutzerdaten erfolgreich aktualisiert');
       }
     } catch (error) {
       console.error('Fehler beim Aktualisieren der Benutzerdaten:', error);
-      this.toastMessageService.showToastSignal(
-        'Fehler beim Aktualisieren der Benutzerdaten'
-      );
+      this.toastMessageService.showToastSignal('Fehler beim Aktualisieren der Benutzerdaten');
     }
   }
+
 
   updateDataInFirestore(userId: string, updatedData: Partial<UserModel>): Promise<void> {
     const userDocRef = doc(this.firestore, `users/${userId}`);
     return updateDoc(userDocRef, updatedData);
   }
+
 
   async getUsernamesByIds(
     userIds: string[]
@@ -544,26 +540,18 @@ export class AuthService {
       email: string;
       status: boolean;
     }[]
-  > {
-    console.log('[AuthService] 🟢 getUsernamesByIds AUFGERUFEN mit userIds:', userIds);
-  
+  > {  
     if (!userIds || userIds.length === 0) {
-      console.warn('[AuthService] ⚠️ KEINE User-IDs erhalten!');
       return [];
     }
-  
-    // 🔥 Überprüfen, ob `undefined` in der Liste ist
     if (userIds.some(id => id === undefined || id === null)) {
       console.error('[AuthService] ❌ FEHLER: Die Liste enthält eine `undefined` oder `null` User-ID:', userIds);
       return [];
     }
-  
     try {
       const usersCollection = collection(this.firestore, 'users');
       const userDocsQuery = query(usersCollection, where('userId', 'in', userIds));
-  
       const querySnapshot = await getDocs(userDocsQuery);
-  
       const userDetails = querySnapshot.docs.map((doc) => {
         const data = doc.data() as UserModel;
         return {
@@ -574,13 +562,7 @@ export class AuthService {
           status: data.status,
         };
       });
-  
-      // 🔥 Zusätzlicher Log zur Debugging
-      console.log('[AuthService] ✅ Benutzer erfolgreich geladen:', userDetails);
-  
-      // 🔥 Sortiere die UserDetails alphabetisch nach Namen
-      userDetails.sort((a, b) => a.name.localeCompare(b.name));
-  
+        userDetails.sort((a, b) => a.name.localeCompare(b.name));
       return userDetails;
     } catch (error) {
       console.error('[AuthService] ❌ Fehler beim Abrufen der Benutzerdetails:', error);
