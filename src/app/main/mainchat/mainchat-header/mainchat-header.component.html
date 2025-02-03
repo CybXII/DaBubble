@@ -10,7 +10,8 @@
     <div class="mainchat__header-btn__img-container">
       <img src="img/icons/arrow_down.svg" alt="" height="8" width="14" />
     </div>
-    @if (this.channelDialog) {
+  </button>
+  @if (this.channelDialog) {
     <app-menu-dialog class="channelDialog" [menuDialog]="menuDialog" [membersDialog]="membersDialog"
       [channelDialog]="channelDialog" [dialogData]="dialogData" (dialogSwitch)="onDialogSwitch($event)">
     </app-menu-dialog>
@@ -19,7 +20,6 @@
       }" (click)="closeDialog($event)">
     </div>
     }
-  </button>
   @if (!this.isPrivate){
   <div class="mainchat__header__item2">
     <div class="mainchat__header__avatar-container" (click)="openDialog('membersDialog')">
