@@ -100,7 +100,12 @@ loadMessagesForChannel(channelId: string | undefined): void {
     });
 
     // 🔥 **Sortierung der Nachrichten im Frontend nach `timestamp`**
-    messages.sort((a, b) =>new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime())
+    //messages.sort((a, b) =>new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime())
+    
+    // doch anders sortieren, der Rest passiert dann via CSS
+    messages.sort((a, b) =>new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+
+
 
     // 🔄 **Live-Updates für `threadMessages`**
     messages.forEach(msg => {
