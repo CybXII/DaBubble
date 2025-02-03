@@ -104,16 +104,20 @@
 
 .menuDialog{
   position: absolute;
-  top: 50px;
-  right: 0px;
+  width: calc(100% - 89px);
+  max-width: 514px;
+  top: 86px;
+  right: 44px;
   z-index: 1000;
   cursor: default;
 }
 
 .membersDialog {
   position: absolute;
+  width: calc(100% - 148px);
+  max-width: 415px;
   top: 80px;
-  right: 96px;
+  right: 102px;
   z-index: 1000;
   cursor: default;
 }
