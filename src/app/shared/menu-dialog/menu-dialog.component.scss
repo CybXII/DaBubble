@@ -442,6 +442,29 @@ hr {
   height: 24px;
 }
 
+.mobile-dialog-channel-add-member-container{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 30px 10px 100px;
+    z-index: 9999;
+    border: 1px solid red;
+    background-color: white;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    box-shadow: 0px -3px 10px 0px rgba(0, 0, 0, 0.2);
+
+}
+
+.mobile-dialog-channel-add-member-divider{
+background-color: rgba(217, 217, 217, 1);
+height: 6px;
+width:62px;
+border-radius: 23px;
+margin-inline: auto;
+}
+
 @media (max-width: 550px) {
   .dialog-desktop-btn {
     display: none;
