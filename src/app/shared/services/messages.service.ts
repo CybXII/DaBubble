@@ -58,49 +58,75 @@ export class MessagesService {
   }
 
 
-  /**
-     * 🔥 Lädt Nachrichten für einen Channel, sortiert und speichert sie im Cache.
-  */
-  loadMessagesForChannel(channelId: string | undefined): void {
-    if (!channelId) {
-      console.error('Channel-ID ist erforderlich für Nachrichtenabruf.');
-      return;
-    }
-    if (this.activeChannelId === channelId) return; // Verhindert doppelte Listener
-    this.activeChannelId = channelId;
-    if (this.unsubscribeMessages) this.unsubscribeMessages(); // Entferne vorherigen Listener
-    const messagesRef = collection(this.firestore, 'messages');
-    const q = query(messagesRef, where('channelId', '==', channelId));
-    this.unsubscribeMessages = onSnapshot(q, async (snapshot) => {
-      const messagesWithThreads = await Promise.all(
-        snapshot.docs.map(async (docSnap) => {
-          const data = docSnap.data();
-          const timestampValue = this.convertTimestamp(data['timestamp']);
-          const message: Message = {
-            docId: docSnap.id,
-            ...data,
-            timestamp: timestampValue,
-            createdBy: data['createdBy'] || 'Unknown',
-            creatorName: data['creatorName'] || 'Unknown',
-            creatorPhotoURL: data['creatorPhotoURL'] || '/assets/default-avatar.png',
-            members: data['members'] || [],
-            reactions: data['reactions'] || [],
-            message: data['message'] || '',
-            sameDay: false,
-            threadMessages: [],
-          };
-          // 🔄 **ThreadMessages live abrufen und hinzufügen**
-          message.threadMessages = await this.getThreadArrays(docSnap.id);
-          return message;
-        })
-      );
-      // ✅ Sortierung bleibt erhalten
-      messagesWithThreads.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
-      // 🔥 Cache aktualisieren
-      this.messagesSubject.next(messagesWithThreads);
-    });
+
+loadMessagesForChannel(channelId: string | undefined): void {
+  if (!channelId) {
+    console.error('Channel-ID ist erforderlich für Nachrichtenabruf.');
+    return;
   }
 
+  if (this.activeChannelId !== channelId) {
+    this.activeChannelId = channelId;
+  } else {
+    console.log('Channel bereits aktiv:', channelId);
+    return;
+  }
+
+  console.log('🆕 Lade Nachrichten für Channel:', channelId);
+
+  // ⏭ **Alte Nachrichten löschen, um falsche Channel-Daten zu verhindern**
+  this.messagesSubject.next([]);  
+  if (this.unsubscribeMessages) this.unsubscribeMessages(); // Entferne vorherigen Listener
+
+  const messagesRef = collection(this.firestore, 'messages');
+  const q = query(messagesRef, where('channelId', '==', channelId));
+
+  this.unsubscribeMessages = onSnapshot(q, (snapshot) => {
+    let messages = snapshot.docs.map(docSnap => {
+      const data = docSnap.data();
+      return {
+        docId: docSnap.id,
+        ...data,
+        timestamp: this.convertTimestamp(data['timestamp']),
+        createdBy: data['createdBy'] || 'Unknown',
+        creatorName: data['creatorName'] || 'Unknown',
+        creatorPhotoURL: data['creatorPhotoURL'] || '/assets/default-avatar.png',
+        members: data['members'] || [],
+        reactions: data['reactions'] || [],
+        message: data['message'] || '',
+        sameDay: false,
+        threadMessages$: new BehaviorSubject<ThreadMessage[]>([])
+      } as Message;
+    });
+
+    // 🔥 **Sortierung der Nachrichten im Frontend nach `timestamp`**
+    messages.sort((a, b) =>new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime())
+
+    // 🔄 **Live-Updates für `threadMessages`**
+    messages.forEach(msg => {
+      const threadRef = collection(this.firestore, `messages/${msg.docId}/threadMessages`);
+      
+      onSnapshot(threadRef, (snapshot) => {
+        let updatedThreads = snapshot.docs.map(doc => ({
+          docId: doc.id,
+          ...doc.data(),
+          timestamp: this.convertTimestamp(doc.data()['timestamp']),
+        })) as ThreadMessage[];
+
+        // 🔥 Sortierung der Thread-Nachrichten im Frontend
+        updatedThreads.sort((a, b) =>new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime())
+
+        // 🔄 Aktualisiere `threadMessages$`
+        if (msg.threadMessages$) msg.threadMessages$.next(updatedThreads);
+      });
+    });
+
+    console.log('Aktualisierte Nachrichten:', messages);
+
+    // 🔥 Cache aktualisieren
+    this.messagesSubject.next(messages);
+  });
+}
 
     /**
    * 🔥 Lädt alle ThreadMessages für eine bestimmte Nachricht.
@@ -181,13 +207,12 @@ export class MessagesService {
   /**
    * 🔥 Hilfsfunktion: Konvertiert Firestore-Timestamps sicher in JavaScript `Date`-Objekte.
    */
-  private convertTimestamp(timestamp: any): Date {
+  convertTimestamp(timestamp: any): Date {
+    if (!timestamp) return new Date();
     if (timestamp instanceof Date) return timestamp;
-    if (timestamp?.seconds) return new Date(timestamp.seconds * 1000);
-    if (typeof timestamp === 'string') return new Date(timestamp);
-    return new Date(); // Fallback auf aktuelle Zeit
+    if (timestamp.seconds) return new Date(timestamp.seconds * 1000);
+    return new Date(timestamp);
   }
-
 
   async deleteMessage(docId: string, userId: string, isThread = false, parentMessageId?: string): Promise<void> {
     let messageRef;
@@ -352,4 +377,18 @@ export class MessagesService {
     return docSnapshot.exists() ? (docSnapshot.data() as ThreadMessage) : null;
   }
 
+  getThreadMessagesForMessage(parentMessageId: string): Observable<ThreadMessage[]> {
+    return new Observable(observer => {
+      const threadMessagesRef = collection(this.firestore, `messages/${parentMessageId}/threadMessages`);
+  
+      return onSnapshot(threadMessagesRef, snapshot => {
+        const threads = snapshot.docs.map(doc => ({
+          docId: doc.id,
+          ...doc.data(),
+        })) as ThreadMessage[];
+  
+        observer.next(threads);
+      }, error => observer.error(error));
+    });
+  }
 }
