@@ -17,11 +17,12 @@
 .threadchat__chatbox {
   display: flex;
   position: relative;
-  flex-direction: column;
+  flex-direction: column-reverse;  /*christoph*/
   height: calc(100% - 114px);
   overflow: auto;
   margin: 20px 0 0;
   top: 90px;
+  scroll-snap-type: y mandatory; /*christoph*/
 }
 
 .mainchat__chatbox.has-scroll,
