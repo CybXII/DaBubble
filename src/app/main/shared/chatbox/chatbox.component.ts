@@ -169,11 +169,15 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
 
-    setTimeout(() => {
-      this.scrollToBottom(
-        this.builder === 'mainchat' ? '.mainchat__chatbox' : '.threadchat__chatbox'
-      );
-    }, 0);
+    const chatbox = document.querySelector(this.builder === 'mainchat' ? '.mainchat__chatbox' : '.threadchat__chatbox');
+
+    if (chatbox) {
+      const observer = new MutationObserver(() => {
+        this.scrollToBottom(this.builder === 'mainchat' ? '.mainchat__chatbox' : '.threadchat__chatbox');
+      });
+  
+      observer.observe(chatbox, { childList: true, subtree: true });
+    }
   }
 
 
@@ -189,7 +193,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       if (chatbox) {
         chatbox.scrollTop = chatbox.scrollHeight;
       }
-    }, 0);
+    }, 500);
   }
 
 
@@ -336,7 +340,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
     getUserName(userId: string): Observable<string> {
-      return userId ? this.userService.getuserName(userId) : of('/img/avatars/avatar1.svg');
+      return this.userService.getuserName(userId);
     }
 
 
