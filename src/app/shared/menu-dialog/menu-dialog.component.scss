@@ -149,6 +149,7 @@ input {
     width: 100%;
     overflow: auto;
     gap: 10px;
+    margin-bottom: 20px;
     .user-item {
       @include mixins.flexbox(row, flex-start, center, nowrap);
       height: 100%;
@@ -166,7 +167,7 @@ input {
   @include mixins.flexbox(column, flex-start, stretch, nowrap);
   overflow: scroll;
   max-height: 310px;
-  width:335px;
+  width:100%;
   gap: 13px;
   &:focus-visible {
     outline: unset;
@@ -385,6 +386,8 @@ hr {
   display: flex;
   flex-direction: column;
   gap: 13px;
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 .dialog-channel-member-container {
@@ -395,6 +398,7 @@ hr {
   img {
     width: 50px;
     height: 50px;
+    border-radius: 50%;
   }
 
   span {
@@ -457,7 +461,7 @@ hr {
     box-shadow: none;
   }
 
-  .dialog-header {
+  .dialog-header-channel {
     padding: 40px 16px 10px;
     box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.08);
     margin-bottom: 25px;
@@ -485,5 +489,9 @@ hr {
     button {
       margin-right: 16px;
     }
+  }
+
+  .dialog-members-container {
+    padding: 16px 20px;
   }
 }

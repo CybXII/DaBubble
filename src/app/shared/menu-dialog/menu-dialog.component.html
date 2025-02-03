@@ -156,7 +156,7 @@
 </div>
 } @if (this.channelDialog && !this.menuDialog && !this.membersDialog) {
 <div class="dialog-channel-container">
-  <div class="dialog-header">
+  <div class="dialog-header dialog-header-channel">
     <h3># {{ dialogData.name }}</h3>
     <svg
       alt="close"
@@ -320,7 +320,7 @@
     <div class="dialog-channel-members-container-wrapper">
       @for (member of this.memberNames; track member) {
       <div class="dialog-channel-member-container">
-        <img src="{{ member.photoURL }}" alt="" />
+            <img src="{{ member.photoURL }}" alt="" />
         <span>{{ member.name }}</span>
       </div>
       }

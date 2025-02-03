@@ -15,7 +15,7 @@
     <app-menu-dialog class="channelDialog" [menuDialog]="menuDialog" [membersDialog]="membersDialog"
       [channelDialog]="channelDialog" [dialogData]="dialogData" (dialogSwitch)="onDialogSwitch($event)">
     </app-menu-dialog>
-    <div [ngClass]="{
+    <div class="dialog-background-channel" [ngClass]="{
         'dialog-background': channelDialog
       }" (click)="closeDialog($event)">
     </div>

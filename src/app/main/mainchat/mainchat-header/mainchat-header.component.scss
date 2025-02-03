@@ -155,7 +155,19 @@
     height: 100%;
   }
 
-  .dialog-background{
+  .membersDialog{
+    right: 16px;
+    width: 100%;
+    max-width: calc(100% - 32px);
+  }
+
+  .menuDialog{
+    width: 100%;
+    max-width: calc(100% - 32px);
+    right: 16px;
+  }
+
+  .dialog-background-channel{
     background-color: white;
   }
 }
