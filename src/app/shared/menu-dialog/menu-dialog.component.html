@@ -113,7 +113,7 @@
       (click)="member.name ? selectMember(member) : null; openDialog()"
     >
       <div class="avatar-box">
-        <img src="{{ member.photoURL }}" alt="" />
+        <img class="dialog-members-avatar" src="{{ member.photoURL }}" alt="" />
       </div>
       <p>
         {{ member.name }}@if (member.userId == this.authService.userId()) {(Du)}
@@ -121,9 +121,8 @@
     </div>
     } }
   </div>
-  <div class="addMember">
     <div
-      class="addperson-img-container channel-box"
+      class="addMember addperson-img-container"
       (click)="switchDialog('menuDialog')"
     >
       <svg
@@ -153,7 +152,6 @@
       </svg>
       <span>Mitglieder hinzufügen</span>
     </div>
-  </div>
 </div>
 } @if (this.channelDialog && !this.menuDialog && !this.membersDialog) {
 <div class="dialog-channel-container">

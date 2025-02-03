@@ -35,25 +35,26 @@
     <div class="mainchat__header__addperson-img-container">
       <img class="mainchat__header__addperson-img" src="img/icons/person_add.svg" alt=""
         (click)="openDialog('menuDialog')" />
-      @if (this.menuDialog){
-      <app-menu-dialog class="menuDialog" [menuDialog]="menuDialog" [membersDialog]="membersDialog"
-        [channelDialog]="channelDialog" [dialogData]="dialogData" (dialogSwitch)="onDialogSwitch($event)">
-      </app-menu-dialog>
-      <div [ngClass]="{
-            'dialog-background': menuDialog
-          }" (click)="closeDialog($event)">
-      </div>
-      }
-      @if (this.membersDialog){
-      <app-menu-dialog class="membersDialog" [menuDialog]="menuDialog" [membersDialog]="membersDialog"
-        [channelDialog]="channelDialog" [dialogData]="dialogData" (dialogSwitch)="onDialogSwitch($event)">
-      </app-menu-dialog>
-      <div [ngClass]="{
-            'dialog-background': membersDialog
-          }" (click)="closeDialog($event)">
-      </div>
-      }
+      
     </div>
   </div>
+  @if (this.menuDialog){
+    <app-menu-dialog class="menuDialog" [menuDialog]="menuDialog" [membersDialog]="membersDialog"
+      [channelDialog]="channelDialog" [dialogData]="dialogData" (dialogSwitch)="onDialogSwitch($event)">
+    </app-menu-dialog>
+    <div [ngClass]="{
+          'dialog-background': menuDialog
+        }" (click)="closeDialog($event)">
+    </div>
+    }
+    @if (this.membersDialog){
+    <app-menu-dialog class="membersDialog" [menuDialog]="menuDialog" [membersDialog]="membersDialog"
+      [channelDialog]="channelDialog" [dialogData]="dialogData" (dialogSwitch)="onDialogSwitch($event)">
+    </app-menu-dialog>
+    <div [ngClass]="{
+          'dialog-background': membersDialog
+        }" (click)="closeDialog($event)">
+    </div>
+    }
 }
 </header>

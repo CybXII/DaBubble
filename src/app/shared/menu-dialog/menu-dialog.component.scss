@@ -44,12 +44,8 @@
   background-color: colors.$white;
   border-radius: 30px 0px 30px 30px;
   padding: 40px;
-  width: fit-content;
-  gap: 15px;
+  gap: 20px;
   box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.2);
-  position: absolute;
-  right: 60px;
-  z-index: 5;
 }
 
 .dialog-header {
@@ -112,15 +108,20 @@ input {
 
 .addMember {
   display: flex;
-  justify-content: flex-start;
   width: 100%;
   gap: 15px;
   align-items: center;
   cursor: pointer;
-  padding: 0 30px 0 20px;
+  padding: 12px 29px;
+  border-radius:100px;
 
-  :hover {
+  &:hover {
     color: colors.$purple3;
+    background-color: colors.$bg-color;
+  }
+
+  &:hover path {
+    fill: colors.$purple3;
   }
 
   svg {
@@ -130,10 +131,6 @@ input {
     height: 40px;
     padding: 8px;
     position: relative;
-
-    path {
-      fill: colors.$purple3;
-    }
   }
 }
 
@@ -165,12 +162,11 @@ input {
 }
 
 .dialog-scrollContainer {
-  @include mixins.flexbox(column, flex-start, center, nowrap);
-  width: 100%;
-  height: 100%;
+  @include mixins.flexbox(column, flex-start, stretch, nowrap);
   overflow: scroll;
   max-height: 310px;
-  gap: 8px;
+  width:335px;
+  gap: 13px;
   &:focus-visible {
     outline: unset;
   }
@@ -191,8 +187,8 @@ input {
   }
 
   img {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 30px;
   }
 
@@ -201,17 +197,17 @@ input {
   }
 }
 
-img {
-  width: 40px;
-  height: 40px;
-  border-radius: 30px;
-  display: block;
+.dialog-members-avatar{
+    width: 50px;
+    height: 50px;
+    border-radius: 30px;
+    display: block;
 }
 
 .channel-box {
-  width: 400px;
+//   width: 400px;
   gap: 10px;
-  height: 58px;
+//   height: 58px;
   @include mixins.flexbox(row, flex-start, center, nowrap);
   cursor: pointer;
   font-size: 18px;
