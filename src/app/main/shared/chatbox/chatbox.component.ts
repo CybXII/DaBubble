@@ -287,7 +287,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   openDialogUser(id: string | undefined): void {
-    this.dialog.open(EditmessageComponent, {
+    this.dialog.open(ProfileviewComponent, {
       width: 'fit-content',
       maxWidth: '100vw',
       height: 'fit-content',

@@ -10,6 +10,8 @@ import { MessagesService } from '../../services/messages.service';
 import { doc } from 'firebase/firestore';
 import { StateService } from '../../services/state.service';
 import { ViewportScroller } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { ProfileviewComponent } from '../../profileview/profileview.component';
 
 @Component({
   selector: 'app-searchbar',
@@ -33,6 +35,7 @@ export class SearchbarComponent {
     public searchService: SearchService,
     private authService: AuthService,
     private channelService: ChannelsService,
+    public dialog: MatDialog,
     private userDialogService: UserDialogService,
     private messageService: MessagesService,
     private stateService: StateService,
@@ -153,15 +156,22 @@ export class SearchbarComponent {
     } else if (channelId && messageId && isThreadMessage == undefined) {
       this.channelService.selectChannel(channelId);
       this.messageService.setMessageId(messageId);
+    } else if (userId !== this.userId) {
+      this.openDialogUser(userId)
     }
     this.clearSearch();
   }
 
-  get userId() {
-    return this.authService.userId() as string;
+  openDialogUser(id: string | null): void {
+    this.dialog.open(ProfileviewComponent, {
+      width: 'fit-content',
+      maxWidth: '100vw',
+      height: 'fit-content',
+      data: { ID: id },
+    });
   }
 
-  logUserId() {
-    console.log(this.userId);
+  get userId() {
+    return this.authService.userId() as string;
   }
 }
