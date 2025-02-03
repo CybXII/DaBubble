@@ -4,12 +4,14 @@
 .mainchat__chatbox {
   display: flex;
   position: relative;
-  flex-direction: column;
+  flex-direction: column-reverse;  /*christoph*/
   flex: 1;
   height: calc(100% - 8px);
-  overflow: auto;
+  overflow: auto; /*christoph*/
   margin: 0 0 24px;
   top: 4px;
+  scroll-snap-type: y mandatory; /*christoph*/
+
 }
 
 .threadchat__chatbox {
@@ -61,6 +63,7 @@
 .message {
   @include mixins.flexbox(row, center, center, nowrap);
   margin: 20px 35px;
+  scroll-snap-align: end; /*christoph*/
 
 }
 
