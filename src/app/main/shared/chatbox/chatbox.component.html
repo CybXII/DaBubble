@@ -35,7 +35,7 @@
           <div class="chatbox__msg-info" [class.chatbox__msg-sent-info]="
               parentMessage.createdBy === activeUserId
             ">
-            <h3 class="chatbox__msg-name">
+            <h3 class="chatbox__msg-name" (click)="checkIdIsUser(parentMessage.createdBy)">
               {{ parentMessage.creatorName }}
               @if (parentMessage.createdBy == activeUserId) { (Du) }
             </h3>
