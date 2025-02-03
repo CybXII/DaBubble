@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { ChannelsService } from '../../../shared/services/channels.service';
 import { MessagesService } from '../../../shared/services/messages.service';
+import { UserService } from '../../../shared/services/user.service';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Message, ThreadMessage } from '../../../models/message';
 import { AuthService } from '../../../shared/services/auth.service';
@@ -18,6 +19,7 @@ import { SharedService } from '../../../shared/services/newmessage.service';
 import { EmojiPickerComponent } from '../emoji-picker/emoji-picker.component';
 import { EmojiPickerService } from '../../../shared/services/emoji-picker.service';
 import { Channel } from '../../../models/channel';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-messagebox',
@@ -41,6 +43,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
   members: any = [];
 
   constructor(
+    private userService: UserService,
     private channelsService: ChannelsService,
     private messagesService: MessagesService,
     private authService: AuthService,
@@ -106,6 +109,22 @@ export class MessageboxComponent implements OnInit, OnDestroy {
   sendToId: string = '';
 
 
+  async createNewChannel(sendToUserId: string) {
+    let user1 = await firstValueFrom(this.userService.getuserName(this.activeUserId ?? ''));
+    let user2 = await firstValueFrom(this.userService.getuserName(sendToUserId ?? ''));
+
+    const newChannel: Channel = {
+      name: `zwischen ${user1} und ${user2}`, // String korrekt zusammenfügen
+      description: '',
+      isPrivate: true,
+      createdBy: this.activeUserId ?? '',
+      members: [this.activeUserId ?? '', sendToUserId ?? ''],
+    };
+
+    await this.channelsService.createChannel(newChannel);
+  }
+
+
   async createNewMessage(): Promise<void> {
     if (!this.messageContent.trim()) {
       console.error('Nachricht darf nicht leer sein.');
@@ -136,15 +155,20 @@ export class MessageboxComponent implements OnInit, OnDestroy {
       if (existingChannels.length > 0) {
         this.sendToId = existingChannels[0].id ?? '';
       } else {
-        // Erstelle einen neuen privaten Channel
-        const newChannel: Channel = {
-          name: 'Privater Channel',
-          description: '',
-          isPrivate: true,
-          createdBy: this.activeUserId ?? '',
-          members: [this.activeUserId ?? '', sendToUserId ?? ''],
-        };
-        await this.channelsService.createChannel(newChannel);
+        // // Erstelle einen neuen privaten Channel
+        this.createNewChannel(sendToUserId);
+        // let user1 = this.userService.getuserName(this.activeUserId ?? '')
+        // let user2 = this.userService.getuserName(sendToUserId ?? '');
+        // console.log("user2:", user2);
+
+        // const newChannel: Channel = {
+        //   name: `Privater Channel zwischen ${user1} und ${user2}`,
+        //   description: '',
+        //   isPrivate: true,
+        //   createdBy: this.activeUserId ?? '',
+        //   members: [this.activeUserId ?? '', sendToUserId ?? ''],
+        // };
+        // await this.channelsService.createChannel(newChannel);
       }
     } else if (sendToTarget == 'toChannel') {
       this.sendToId = sendToChannelId;
