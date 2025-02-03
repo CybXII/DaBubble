@@ -243,6 +243,16 @@ export class AuthService {
         members: [user.uid],
       });
 
+      // in den gastchannel
+      await setDoc(doc(this.firestore, 'channels', 'guestsonly'), {
+        createdAt: new Date(),
+        isPrivate: false,
+        createdBy: "admin",
+        description: "Gäste only",
+        name: "Gäste only",
+        members: [user.uid],
+      });      
+
       await this.loadUserData(user.uid);
       setTimeout(() => {
         this.toastMessageService.showToastSignal('Erfolgreich eingeloggt');
