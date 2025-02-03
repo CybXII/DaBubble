@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { ChannelsService } from '../../../shared/services/channels.service';
 import { Channel } from '../../../models/channel';
-import { Observable, BehaviorSubject, Subscription } from 'rxjs';
+import { Observable, BehaviorSubject, Subscription, map } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../shared/services/auth.service';
 import { MenuDialogComponent } from "../../../shared/menu-dialog/menu-dialog.component";
 import { ChangeDetectorRef } from '@angular/core';
+import { User, UserService } from '../../../shared/services/user.service';
 
 
 @Component({
@@ -18,6 +19,9 @@ import { ChangeDetectorRef } from '@angular/core';
 
 
 export class MainchatHeaderComponent {
+  channel$: Observable<Channel | null>;
+  usersArray$: Observable<User[]> | undefined;
+  private subscriptions = new Subscription();
   avatarCache = new Map<string, string>();
   avatarsLoaded = false;
   memberAvatars: { [key: string]: string } = {};
@@ -25,7 +29,7 @@ export class MainchatHeaderComponent {
   channelDescription: string | undefined = '';
   channelId: string | undefined = '';
   channel: Observable<Channel | null>;
-  channelMembers: { id: string; photoURL: string }[] = [];
+  channelMembers: {id: string; photoURL: string;}[] = [];
   loading = true;
   channelMembersNames: { [channelId: string]: string[]; } = {};
   menuDialog: boolean = false;
@@ -36,63 +40,72 @@ export class MainchatHeaderComponent {
   channelCreatorId: string = '';
   isPrivate: boolean = false;
   convPartner: string = '';
-  private subscriptions = new Subscription();
-  constructor(private channelsService: ChannelsService, private authService: AuthService, private cdr: ChangeDetectorRef) {
+
+  constructor(
+    private channelsService: ChannelsService,
+    private authService: AuthService,
+    public userService: UserService,
+    private cdr: ChangeDetectorRef
+  ) {
+    this.channel$ = this.channelsService.currentChannel$;
     this.channel = this.channelsService.currentChannel$ as Observable<Channel | null>; 
   }
 
 
-  ngOnInit(): void {
-    this.subscriptions.add(
-    this.channelsService.currentChannel$.subscribe((channel) => {
+
+
+
+ngOnInit(): void {
+  this.subscriptions.add(
+    this.channel$.subscribe((channel) => {
       if (channel) {
         this.channelTitle = channel.name;
         this.channelId = channel.id;
         this.channelDescription = channel.description;
         this.channelCreatorId = channel.createdBy;
         this.isPrivate = channel.isPrivate;
-        const members = channel.members.map((memberId) => ({
-          id: memberId,
-          photoURL: this.authService.avatarCache.get(memberId),
-        }));
-        this.loadMemberAvatars(members).then((memberAvatars) => {
-          this.channelMembers = memberAvatars;
-          this.channelMembersNames[channel.id || ''] = [];
-          const memberIds = channel.members;
-          this.authService.getUsernamesByIds(memberIds).then((userDetails) => {
-            if (userDetails) {
-              userDetails.forEach((user) => {
-                this.channelMembersNames[channel.id || ''].push(user.name);
-              });
-              this.convPartner = this.getConversationName();
-            }
-          });
+        console.log('Init MainchatHeader',channel.members);
+        // 🆕 **UsersArray als Observable mit Echtzeit-Tracking**
+        this.usersArray$ = this.userService.users$.pipe(
+          map(users => users.filter(user => channel.members.includes(user.userId)))
+        );
+        console.log('Channel Log', channel)
+        this.loadMemberAvatars(channel.members).then((memberAvatars) => {
+          console.log('memberAvatars',memberAvatars);
+                  this.channelMembers = memberAvatars;
+                  this.channelMembersNames[channel.id || ''] = [];
+                  const memberIds = channel.members;
+                  this.authService.getUsernamesByIds(memberIds).then((userDetails) => {
+                    if (userDetails) {
+                      userDetails.forEach((user) => {
+                        this.channelMembersNames[channel.id || ''].push(user.name);
+                      });
+                      this.convPartner = this.getConversationName();
+                    }
+                  });
+                });
+
+        // 🆕 **Usernamen & Avatare tracken**
+        this.usersArray$.subscribe(users => {
+          this.channelMembers = users.map(user => ({ id: user.userId, photoURL: user.photoURL }));
+          this.convPartner = this.getConversationName();
+          this.cdr.detectChanges(); // ⚡ Force UI Update
         });
+
+        // **Lade Channel-Creator Namen**
         this.authService.getUsernamesByIds([channel.createdBy]).then((creatorDetails) => {
           if (creatorDetails && creatorDetails.length > 0) {
             this.channelCreator = creatorDetails[0].name;
+            this.cdr.detectChanges();
           }
         });
-      }
-    })
-  );
-
-  this.subscriptions.add(
-    this.channelsService.userChanges$.subscribe((change) => {
-      if (change && this.channelId) {
-        const memberNames = this.channelMembersNames[this.channelId];
-        if (memberNames) {
-          const memberIndex = memberNames.findIndex((name) => name === change.name);
-          if (memberIndex !== -1) {
-            memberNames[memberIndex] = change.name; // Aktualisiere den Namen
-          }
-          this.convPartner = change.name;
-          this.cdr.detectChanges(); // Aktualisiere die Ansicht
-        }
       }
     })
   );
 }
+
+
+
 
 
 
@@ -101,16 +114,14 @@ export class MainchatHeaderComponent {
   }
 
 
-  private async loadMemberAvatars(members: { id: string; photoURL?: string }[]): Promise<{ id: string; photoURL: string }[]> {
-    const memberAvatars: { id: string; photoURL: string }[] = [];
-    for (const member of members) {
-      let avatarUrl = member.photoURL || this.avatarCache.get(member.id);
-      if (!avatarUrl) {
-        avatarUrl = await this.authService.getCachedAvatar(member.id);
-        this.avatarCache.set(member.id, avatarUrl);
-      }
-      memberAvatars.push({ id: member.id, photoURL: avatarUrl });
-    }
+  private async loadMemberAvatars(members: string[]): Promise<{ id: string; photoURL: string }[]> {
+    const memberAvatars: { id: string; photoURL: string }[] = members.map((memberId) => ({ id: memberId, photoURL: '' }));
+    console.log('Members Log',members);
+    // for (const member of memberAvatars) {
+    //   this.userService.getuserAvatar(member.id).subscribe((avatarUrl) =>
+    //     memberAvatars.push({ id: member.id, photoURL: avatarUrl }));
+    //   console.log('Avatars Log',memberAvatars);
+    // }
     return memberAvatars;
   }
 
@@ -222,4 +233,62 @@ export class MainchatHeaderComponent {
     }
     return 'Unbekannt';
   }
+
+
+  
 }
+
+
+
+
+  // ngOnInit(): void {
+  //   this.subscriptions.add(
+  //   this.channelsService.currentChannel$.subscribe((channel) => {
+  //     if (channel) {
+  //       this.channelTitle = channel.name;
+  //       this.channelId = channel.id;
+  //       this.channelDescription = channel.description;
+  //       this.channelCreatorId = channel.createdBy;
+  //       this.isPrivate = channel.isPrivate;
+  //       const members = channel.members.map((memberId) => ({
+  //         id: memberId,
+  //         photoURL: this.authService.avatarCache.get(memberId),
+  //       }));
+  //       this.loadMemberAvatars(members).then((memberAvatars) => {
+  //         this.channelMembers = memberAvatars;
+  //         this.channelMembersNames[channel.id || ''] = [];
+  //         const memberIds = channel.members;
+  //         this.authService.getUsernamesByIds(memberIds).then((userDetails) => {
+  //           if (userDetails) {
+  //             userDetails.forEach((user) => {
+  //               this.channelMembersNames[channel.id || ''].push(user.name);
+  //             });
+  //             this.convPartner = this.getConversationName();
+  //           }
+  //         });
+  //       });
+  //       this.authService.getUsernamesByIds([channel.createdBy]).then((creatorDetails) => {
+  //         if (creatorDetails && creatorDetails.length > 0) {
+  //           this.channelCreator = creatorDetails[0].name;
+  //         }
+  //       });
+  //     }
+  //   })
+  // );
+
+//   this.subscriptions.add(
+//     this.channelsService.userChanges$.subscribe((change) => {
+//       if (change && this.channelId) {
+//         const memberNames = this.channelMembersNames[this.channelId];
+//         if (memberNames) {
+//           const memberIndex = memberNames.findIndex((name) => name === change.name);
+//           if (memberIndex !== -1) {
+//             memberNames[memberIndex] = change.name; // Aktualisiere den Namen
+//           }
+//           this.convPartner = change.name;
+//           this.cdr.detectChanges(); // Aktualisiere die Ansicht
+//         }
+//       }
+//     })
+//   );
+// }

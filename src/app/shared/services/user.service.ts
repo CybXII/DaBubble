@@ -3,7 +3,7 @@ import { Firestore, collection, doc, getDoc, onSnapshot } from '@angular/fire/fi
 import { BehaviorSubject, Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-interface User {
+export interface User {
   userId: string;
   name: string;
   photoURL: string;
@@ -89,4 +89,6 @@ export class UserService {
   getuserName(userId: string): Observable<string> {
     return this.getUserById(userId).pipe(map((user) => user.name ? user.name : 'Unbekannt'));
   }
+
+  
 }
