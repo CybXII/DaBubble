@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { ChannelsService } from '../../../shared/services/channels.service';
 import { MessagesService } from '../../../shared/services/messages.service';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { Message, ThreadMessage } from '../../../models/message';
 import { AuthService } from '../../../shared/services/auth.service';
 import { UserModel } from '../../../models/user';
@@ -159,7 +159,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     )) as UserModel;
 
     // Erstelle ein Message-Objekt
-    const message: Message = {
+    const message: Omit<Message, 'threadMessages$'> = {
       channelId: this.sendToId || '',
       createdBy: this.activeUserId || '',
       creatorName: user.name || '',
@@ -200,7 +200,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     )) as UserModel;
 
     // Erstelle ein Message-Objekt
-    const message: Message = {
+    const message: Omit<Message, 'threadMessages$'> = {
       channelId: this.channelId || '',
       createdBy: this.activeUserId || '',
       creatorName: user.name || '',
@@ -209,7 +209,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
       timestamp: new Date(),
       members: [],
       reactions: [],
-      sameDay: false,
+      sameDay: false
     };
 
     // Sende die Nachricht über den Service
