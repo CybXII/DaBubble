@@ -294,22 +294,22 @@ hr {
   display: flex;
   flex-direction: column;
   padding: 20px;
-  transition: 150ms ease-in-out;
+  transition: 250ms ease-in-out;
   border-radius: 20px;
 
   input {
     padding: 20px;
-    transition: 150ms ease-in-out;
+    transition: 250ms ease-in-out;
   }
 
   h4 {
-    transition: 150ms ease-in-out;
+    transition: 250ms ease-in-out;
   }
 
   hr {
     width: auto;
     border: 1px solid colors.$light-purple;
-    transition: 150ms ease-in-out;
+    transition: 250ms ease-in-out;
   }
 }
 
