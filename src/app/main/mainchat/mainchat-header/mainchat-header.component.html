@@ -22,7 +22,7 @@
     }
   @if (!this.isPrivate){
   <div class="mainchat__header__item2">
-    <div class="mainchat__header__avatar-container" (click)="openDialog('membersDialog')">
+    <div class="mainchat__header__avatar-container desktopIcon" (click)="openDialog('membersDialog')">
       <div class="mainchat__header__avatar-box">
         @if (channelMembers) {
         @for (member of this.channelMembers.slice(0,3); track member) {
@@ -33,8 +33,10 @@
       <span class="mainchat__header__accounts-number">{{channelMembers.length}}</span>
     </div>
     <div class="mainchat__header__addperson-img-container">
-      <img class="mainchat__header__addperson-img" src="img/icons/person_add.svg" alt=""
+      <img class="mainchat__header__addperson-img desktopIcon" src="img/icons/person_add.svg" alt=""
         (click)="openDialog('menuDialog')" />
+        <img class="mainchat__header__addperson-img mobileIcon" src="img/icons/person_add.svg" alt=""
+        (click)="openDialog('membersDialog')" />
       
     </div>
   </div>

@@ -145,7 +145,35 @@
   z-index: 555;
 }
 
+.mobileIcon {
+  display: none;
+}
+
+@media (max-width: 920px){
+  .mainchat__header-btn{
+    h3 {
+      font-size: 20px;
+    }
+  }
+
+  .mainchat__header-btn__title{
+    margin-right: 5px;
+  }
+}
+
 @media (max-width: 550px){
+  .mainchat__header{
+    padding: 10px 16px;
+  }
+
+  .desktopIcon {
+    display: none;
+  }
+
+  .mobileIcon {
+    display: block;
+  }
+
   .channelDialog {
     position: fixed;
     top: 0;
