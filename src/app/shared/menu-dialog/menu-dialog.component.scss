@@ -415,6 +415,8 @@ hr {
   margin-top: 15px;
   gap: 15px;
   padding: 12px 29px;
+  border-radius: 40px;
+  cursor:pointer;
 
   .dialog-channel-addperson-img-wrapper{
     background-color: colors.$bg-color;
@@ -430,6 +432,14 @@ hr {
   span {
     color: black;
     font-weight: 400;
+  }
+
+  &:hover {
+    background-color: colors.$bg-color;
+  }
+
+  &:hover span {
+    color: colors.$purple3;
   }
 }
 
