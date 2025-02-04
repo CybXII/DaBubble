@@ -198,14 +198,4 @@ closeDialog(event: Event) {
   this.membersDialog = false;
   this.channelDialog = false;
 }
-
-
-get userData() {
-  return this.authService.userData();
-}
-
-
-  currentChannel() {
-    return this.channelsService.currentChannel$;
-  }
 }
