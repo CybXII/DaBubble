@@ -33,7 +33,7 @@ export class MainchatHeaderComponent implements OnInit, OnDestroy {
   membersDialog: boolean = false;
   channelDialog: boolean = false;
   dialogData: any = null;
-
+  membersCount$: Observable<number> = new Observable<number>(obs => obs.next(0));
   constructor(
     private channelsService: ChannelsService,
     private authService: AuthService,
@@ -46,13 +46,13 @@ export class MainchatHeaderComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscriptions.add(
       this.channel$.subscribe((channel) => {
+
         if (channel) {
           this.channelTitle = channel.name;
           this.channelId = channel.id;
           this.channelDescription = channel.description;
           this.channelCreatorId = channel.createdBy;
           this.isPrivate = channel.isPrivate;
-
           // 🔥 Echtzeit-Tracking der Mitglieder (gefiltert aus Users-Observable)
           this.usersArray$ = this.userService.users$.pipe(
             map(users => users.filter(user => channel.members.includes(user.userId)))
@@ -61,13 +61,15 @@ export class MainchatHeaderComponent implements OnInit, OnDestroy {
           // 🔥 Setzt Namen & Avatare
           this.subscriptions.add(
             this.usersArray$?.subscribe((users: User[]) => {
-              this.channelMembers = users.map((user: User) => ({
+              const newChannelMembers = users.map(user => ({
                 id: user.userId, 
                 name: user.name, 
                 status: user.status, 
                 photoURL: user.photoURL 
               }));
 
+              this.channelMembers = [...newChannelMembers];
+              console.log('lenght changed',this.channelMembers);
               if (channel?.id) {
                 this.memberAvatars[channel.id] = users.reduce((acc, user) => {
                   acc[user.userId] = user.photoURL;
