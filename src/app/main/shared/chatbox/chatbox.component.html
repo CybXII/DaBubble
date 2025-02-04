@@ -35,7 +35,7 @@
           <div class="chatbox__msg-info" [class.chatbox__msg-sent-info]="
               parentMessage.createdBy === activeUserId
             ">
-            <h3 class="chatbox__msg-name">
+            <h3 class="chatbox__msg-name" (click)="checkIdIsUser(parentMessage.createdBy)">
               {{ parentMessage.creatorName }}
               @if (parentMessage.createdBy == activeUserId) { (Du) }
             </h3>
@@ -307,11 +307,10 @@
       @if (message.createdBy ) {
       <img class="chatbox__msg-avatar" [src]="getUserAvatar(message.createdBy) | async" alt="Avatar" width="70"
         height="70" />
-      }
       <div class="chatbox__msg-item2" [class.chatbox__msg-sent-item2]="message.createdBy === activeUserId">
         <div class="chatbox__msg-info" [class.chatbox__msg-sent-info]="message.createdBy === activeUserId">
           <h3 class="chatbox__msg-name" (click)="checkIdIsUser(message.createdBy)">
-            {{ message.creatorName }}@if(message.createdBy == activeUserId){(Du)}
+            {{ getUserName(message.createdBy) | async}}@if(message.createdBy == activeUserId){(Du)}
           </h3>
           <p class="chatbox__msg-time">
             {{ message.timestamp | date : "HH:mm" }} Uhr
@@ -334,8 +333,6 @@
                   {{ threadMessages[0].timestamp | relativeDate }}
                   {{ threadMessages[0].timestamp | date : "HH:mm" }} Uhr
                 </span>
-              } @else {
-                <span class="chatbox__last-answer">Keine Thread-Nachrichten</span>
               }
             </div>
           }       
@@ -395,6 +392,7 @@
           </div>
         </div>
       </div>
+    }
     </div>
     }
   }

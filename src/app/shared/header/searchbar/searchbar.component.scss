@@ -154,3 +154,16 @@ h3 {
 ::-webkit-scrollbar {
   width: 5px !important;
 }
+
+@media (max-width: 1000px){
+  .searchbar-container{
+    input{
+      height: 50px;
+    }
+  }
+}
+@media (max-width: 900px){
+    .logo-container{
+        min-width: auto;
+    }
+}
