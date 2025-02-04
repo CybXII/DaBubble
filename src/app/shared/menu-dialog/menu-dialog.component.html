@@ -35,6 +35,7 @@
     <p>{{ dialogData.name }}</p>
   </div>
   <input
+    class="dialog-menu-input"
     (input)="onSearchInput($event)"
     type="text"
     placeholder="Suche nach Namen"
@@ -113,7 +114,7 @@
       (click)="member.name ? selectMember(member) : null; openDialog()"
     >
       <div class="avatar-box">
-        <img src="{{ member.photoURL }}" alt="" />
+        <img class="dialog-members-avatar" src="{{ member.photoURL }}" alt="" />
       </div>
       <p>
         {{ member.name }}@if (member.userId == this.authService.userId()) {(Du)}
@@ -121,43 +122,41 @@
     </div>
     } }
   </div>
-  <div class="addMember">
-    <div
-      class="addperson-img-container channel-box"
-      (click)="switchDialog('menuDialog')"
+  <div
+    class="addMember addperson-img-container"
+    (click)="switchDialog('menuDialog')"
+  >
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
     >
-      <svg
+      <mask
+        id="mask0_100188_15121"
+        style="mask-type: alpha"
+        maskUnits="userSpaceOnUse"
+        x="0"
+        y="0"
         width="24"
         height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
       >
-        <mask
-          id="mask0_100188_15121"
-          style="mask-type: alpha"
-          maskUnits="userSpaceOnUse"
-          x="0"
-          y="0"
-          width="24"
-          height="24"
-        >
-          <rect width="24" height="24" fill="#D9D9D9" />
-        </mask>
-        <g mask="url(#mask0_100188_15121)">
-          <path
-            d="M19 14C18.7167 14 18.4793 13.904 18.288 13.712C18.096 13.5207 18 13.2833 18 13V11H16C15.7167 11 15.4793 10.904 15.288 10.712C15.096 10.5207 15 10.2833 15 10C15 9.71667 15.096 9.479 15.288 9.287C15.4793 9.09567 15.7167 9 16 9H18V7C18 6.71667 18.096 6.479 18.288 6.287C18.4793 6.09567 18.7167 6 19 6C19.2833 6 19.5207 6.09567 19.712 6.287C19.904 6.479 20 6.71667 20 7V9H22C22.2833 9 22.5207 9.09567 22.712 9.287C22.904 9.479 23 9.71667 23 10C23 10.2833 22.904 10.5207 22.712 10.712C22.5207 10.904 22.2833 11 22 11H20V13C20 13.2833 19.904 13.5207 19.712 13.712C19.5207 13.904 19.2833 14 19 14ZM9 12C7.9 12 6.95833 11.6083 6.175 10.825C5.39167 10.0417 5 9.1 5 8C5 6.9 5.39167 5.95833 6.175 5.175C6.95833 4.39167 7.9 4 9 4C10.1 4 11.0417 4.39167 11.825 5.175C12.6083 5.95833 13 6.9 13 8C13 9.1 12.6083 10.0417 11.825 10.825C11.0417 11.6083 10.1 12 9 12ZM2 20C1.71667 20 1.47933 19.904 1.288 19.712C1.096 19.5207 1 19.2833 1 19V17.2C1 16.6333 1.146 16.1123 1.438 15.637C1.72933 15.1623 2.11667 14.8 2.6 14.55C3.63333 14.0333 4.68333 13.6457 5.75 13.387C6.81667 13.129 7.9 13 9 13C10.1 13 11.1833 13.129 12.25 13.387C13.3167 13.6457 14.3667 14.0333 15.4 14.55C15.8833 14.8 16.2707 15.1623 16.562 15.637C16.854 16.1123 17 16.6333 17 17.2V19C17 19.2833 16.904 19.5207 16.712 19.712C16.5207 19.904 16.2833 20 16 20H2ZM3 18H15V17.2C15 17.0167 14.9543 16.85 14.863 16.7C14.771 16.55 14.65 16.4333 14.5 16.35C13.6 15.9 12.6917 15.5623 11.775 15.337C10.8583 15.1123 9.93333 15 9 15C8.06667 15 7.14167 15.1123 6.225 15.337C5.30833 15.5623 4.4 15.9 3.5 16.35C3.35 16.4333 3.22933 16.55 3.138 16.7C3.046 16.85 3 17.0167 3 17.2V18ZM9 10C9.55 10 10.021 9.804 10.413 9.412C10.8043 9.02067 11 8.55 11 8C11 7.45 10.8043 6.97933 10.413 6.588C10.021 6.196 9.55 6 9 6C8.45 6 7.97933 6.196 7.588 6.588C7.196 6.97933 7 7.45 7 8C7 8.55 7.196 9.02067 7.588 9.412C7.97933 9.804 8.45 10 9 10Z"
-            fill="black"
-          />
-        </g>
-      </svg>
-      <span>Mitglieder hinzufügen</span>
-    </div>
+        <rect width="24" height="24" fill="#D9D9D9" />
+      </mask>
+      <g mask="url(#mask0_100188_15121)">
+        <path
+          d="M19 14C18.7167 14 18.4793 13.904 18.288 13.712C18.096 13.5207 18 13.2833 18 13V11H16C15.7167 11 15.4793 10.904 15.288 10.712C15.096 10.5207 15 10.2833 15 10C15 9.71667 15.096 9.479 15.288 9.287C15.4793 9.09567 15.7167 9 16 9H18V7C18 6.71667 18.096 6.479 18.288 6.287C18.4793 6.09567 18.7167 6 19 6C19.2833 6 19.5207 6.09567 19.712 6.287C19.904 6.479 20 6.71667 20 7V9H22C22.2833 9 22.5207 9.09567 22.712 9.287C22.904 9.479 23 9.71667 23 10C23 10.2833 22.904 10.5207 22.712 10.712C22.5207 10.904 22.2833 11 22 11H20V13C20 13.2833 19.904 13.5207 19.712 13.712C19.5207 13.904 19.2833 14 19 14ZM9 12C7.9 12 6.95833 11.6083 6.175 10.825C5.39167 10.0417 5 9.1 5 8C5 6.9 5.39167 5.95833 6.175 5.175C6.95833 4.39167 7.9 4 9 4C10.1 4 11.0417 4.39167 11.825 5.175C12.6083 5.95833 13 6.9 13 8C13 9.1 12.6083 10.0417 11.825 10.825C11.0417 11.6083 10.1 12 9 12ZM2 20C1.71667 20 1.47933 19.904 1.288 19.712C1.096 19.5207 1 19.2833 1 19V17.2C1 16.6333 1.146 16.1123 1.438 15.637C1.72933 15.1623 2.11667 14.8 2.6 14.55C3.63333 14.0333 4.68333 13.6457 5.75 13.387C6.81667 13.129 7.9 13 9 13C10.1 13 11.1833 13.129 12.25 13.387C13.3167 13.6457 14.3667 14.0333 15.4 14.55C15.8833 14.8 16.2707 15.1623 16.562 15.637C16.854 16.1123 17 16.6333 17 17.2V19C17 19.2833 16.904 19.5207 16.712 19.712C16.5207 19.904 16.2833 20 16 20H2ZM3 18H15V17.2C15 17.0167 14.9543 16.85 14.863 16.7C14.771 16.55 14.65 16.4333 14.5 16.35C13.6 15.9 12.6917 15.5623 11.775 15.337C10.8583 15.1123 9.93333 15 9 15C8.06667 15 7.14167 15.1123 6.225 15.337C5.30833 15.5623 4.4 15.9 3.5 16.35C3.35 16.4333 3.22933 16.55 3.138 16.7C3.046 16.85 3 17.0167 3 17.2V18ZM9 10C9.55 10 10.021 9.804 10.413 9.412C10.8043 9.02067 11 8.55 11 8C11 7.45 10.8043 6.97933 10.413 6.588C10.021 6.196 9.55 6 9 6C8.45 6 7.97933 6.196 7.588 6.588C7.196 6.97933 7 7.45 7 8C7 8.55 7.196 9.02067 7.588 9.412C7.97933 9.804 8.45 10 9 10Z"
+          fill="black"
+        />
+      </g>
+    </svg>
+    <span>Mitglieder hinzufügen</span>
   </div>
 </div>
 } @if (this.channelDialog && !this.menuDialog && !this.membersDialog) {
 <div class="dialog-channel-container">
-  <div class="dialog-header">
+  <div class="dialog-header dialog-header-channel">
     <h3># {{ dialogData.name }}</h3>
     <svg
       alt="close"
@@ -326,7 +325,7 @@
       </div>
       }
     </div>
-    <div class="dialog-channel-addperson-container">
+    <div class="dialog-channel-addperson-container" (click)="openMobileDialogAddMember()">
       <div class="dialog-channel-addperson-img-wrapper">
         <img
           class="dialog-channel-addperson-img"
@@ -350,6 +349,76 @@
       Channel verlassen
     </button>
     }
+  </div>
+  <div class="mobile-dialog-channel-add-member-container" [class.open]="isMobileDialogAddMemberOpen">
+    <div class="mobile-dialog-channel-add-member-divider"></div>
+    <div class="mobile-dialog-channel-header">
+      <h3>Leute hinzufügen</h3>
+      <svg
+        alt="close"
+        (click)="closeMobileDialogAddMember()"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <mask
+          id="mask0_103447_3506"
+          style="mask-type: alpha"
+          maskUnits="userSpaceOnUse"
+          x="0"
+          y="0"
+          width="24"
+          height="24"
+        >
+          <rect width="24" height="24" fill="#D9D9D9" />
+        </mask>
+        <g mask="url(#mask0_103447_3506)">
+          <path
+            d="M12 13.4L7.09999 18.3C6.91665 18.4833 6.68332 18.575 6.39999 18.575C6.11665 18.575 5.88332 18.4833 5.69999 18.3C5.51665 18.1167 5.42499 17.8833 5.42499 17.6C5.42499 17.3167 5.51665 17.0833 5.69999 16.9L10.6 12L5.69999 7.09999C5.51665 6.91665 5.42499 6.68332 5.42499 6.39999C5.42499 6.11665 5.51665 5.88332 5.69999 5.69999C5.88332 5.51665 6.11665 5.42499 6.39999 5.42499C6.68332 5.42499 6.91665 5.51665 7.09999 5.69999L12 10.6L16.9 5.69999C17.0833 5.51665 17.3167 5.42499 17.6 5.42499C17.8833 5.42499 18.1167 5.51665 18.3 5.69999C18.4833 5.88332 18.575 6.11665 18.575 6.39999C18.575 6.68332 18.4833 6.91665 18.3 7.09999L13.4 12L18.3 16.9C18.4833 17.0833 18.575 17.3167 18.575 17.6C18.575 17.8833 18.4833 18.1167 18.3 18.3C18.1167 18.4833 17.8833 18.575 17.6 18.575C17.3167 18.575 17.0833 18.4833 16.9 18.3L12 13.4Z"
+            fill="black"
+          />
+        </g>
+      </svg>
+    </div>
+    <input
+      class="dialog-menu-input input--0margin-bottom"
+      (input)="onSearchInput($event)"
+      type="text"
+      placeholder="Suche nach Namen"
+    />
+    <div class="dialog-search">
+        <div class="user-container user-container-mobile">
+          <div
+            (click)="removeFromSave(user)"
+            *ngFor="let user of toSave"
+            class="user-item"
+          >
+            <img [src]="user.photoURL" alt="{{ user.name }}" />
+            <span>{{ user.name }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="dialog-scrollContainer dialog-scrollContainer-mobile" [style.height]="searchInput.length > 0 ? '200px' : '0px'">
+        @if (filteredUsers && searchInput.length > 0) {
+        <div
+          (click)="addToSave(user)"
+          *ngFor="let user of filteredUsers"
+          class="user-item"
+        >
+          <img [src]="user.photoURL" alt="{{ user.name }}" />
+          <span>{{ user.name }}</span>
+        </div>
+        }
+      </div>
+    <button
+      class="mobile-dialog-channel-add-member-button save default"
+      (click)="saveAddedUser(); closeDialog($event, 'channelDialog')"
+      [disabled]="toSave.length === 0"
+    >
+      Hinzufügen
+    </button>
   </div>
 </div>
 }

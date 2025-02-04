@@ -41,6 +41,7 @@ export class MenuDialogComponent  implements OnInit {
   filteredUsers: { id: string; name: string; photoURL: string }[] = [];
   searchInput: string = '';
   toSave: { id: string; name: string; photoURL: string }[] = [];
+  isMobileDialogAddMemberOpen: boolean = false;
 
 
   constructor(private fb: FormBuilder, public authService: AuthService, private dialog: MatDialog,private channelsService: ChannelsService) {}
@@ -239,5 +240,13 @@ export class MenuDialogComponent  implements OnInit {
         });
       this.channelsService.clearCurrentChannel();
     }
+  }
+
+  openMobileDialogAddMember(){
+    this.isMobileDialogAddMemberOpen = true;
+  }
+
+  closeMobileDialogAddMember(){
+    this.isMobileDialogAddMemberOpen = false;
   }
 }

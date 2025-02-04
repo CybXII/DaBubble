@@ -104,16 +104,20 @@
 
 .menuDialog{
   position: absolute;
-  top: 50px;
-  right: 0px;
+  width: calc(100% - 89px);
+  max-width: 514px;
+  top: 86px;
+  right: 44px;
   z-index: 1000;
   cursor: default;
 }
 
 .membersDialog {
   position: absolute;
-  top: 50px;
-  right: 20px;
+  width: calc(100% - 148px);
+  max-width: 415px;
+  top: 80px;
+  right: 102px;
   z-index: 1000;
   cursor: default;
 }
@@ -141,7 +145,35 @@
   z-index: 555;
 }
 
+.mobileIcon {
+  display: none;
+}
+
+@media (max-width: 920px){
+  .mainchat__header-btn{
+    h3 {
+      font-size: 20px;
+    }
+  }
+
+  .mainchat__header-btn__title{
+    margin-right: 5px;
+  }
+}
+
 @media (max-width: 550px){
+  .mainchat__header{
+    padding: 10px 16px;
+  }
+
+  .desktopIcon {
+    display: none;
+  }
+
+  .mobileIcon {
+    display: block;
+  }
+
   .channelDialog {
     position: fixed;
     top: 0;
@@ -151,7 +183,19 @@
     height: 100%;
   }
 
-  .dialog-background{
+  .membersDialog{
+    right: 16px;
+    width: 100%;
+    max-width: calc(100% - 32px);
+  }
+
+  .menuDialog{
+    width: 100%;
+    max-width: calc(100% - 32px);
+    right: 16px;
+  }
+
+  .dialog-background-channel{
     background-color: white;
   }
 }

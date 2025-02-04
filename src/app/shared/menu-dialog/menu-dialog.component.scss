@@ -3,16 +3,11 @@
 @use "../../../button.scss" as button;
 
 .dialog-menu-container {
-  @include mixins.flexbox(column, flex-start, flex-start, wrap);
+  @include mixins.flexbox(column, flex-start, stretch, nowrap);
   background-color: colors.$white;
   border-radius: 30px 0px 30px 30px;
-  max-width: 400px;
   padding: 40px;
-  gap: 15px;
   box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.2);
-  position: absolute;
-  right: 20px;
-  z-index: 5;
 }
 
 .dialog-channel-container {
@@ -44,18 +39,15 @@
   background-color: colors.$white;
   border-radius: 30px 0px 30px 30px;
   padding: 40px;
-  width: fit-content;
-  gap: 15px;
+  gap: 20px;
   box-shadow: 0px 6px 10px 0px rgba(0, 0, 0, 0.2);
-  position: absolute;
-  right: 60px;
-  z-index: 5;
 }
 
 .dialog-header {
   display: flex;
-  width: 100%;
   justify-content: space-between;
+  margin-bottom: 5px;
+  width: 100%;
 
   svg {
     width: 24px;
@@ -78,6 +70,7 @@
   display: flex;
   gap: 15px;
   color: colors.$purple3;
+  margin-bottom: 20px;
 }
 
 h3 {
@@ -87,6 +80,10 @@ h3 {
 
 img {
   cursor: pointer;
+}
+
+.dialog-menu-input{
+    margin-bottom: 20px;
 }
 
 input {
@@ -112,15 +109,20 @@ input {
 
 .addMember {
   display: flex;
-  justify-content: flex-start;
   width: 100%;
   gap: 15px;
   align-items: center;
   cursor: pointer;
-  padding: 0 30px 0 20px;
+  padding: 12px 29px;
+  border-radius:100px;
 
-  :hover {
+  &:hover {
     color: colors.$purple3;
+    background-color: colors.$bg-color;
+  }
+
+  &:hover path {
+    fill: colors.$purple3;
   }
 
   svg {
@@ -130,10 +132,6 @@ input {
     height: 40px;
     padding: 8px;
     position: relative;
-
-    path {
-      fill: colors.$purple3;
-    }
   }
 }
 
@@ -151,6 +149,7 @@ input {
     width: 100%;
     overflow: auto;
     gap: 10px;
+    margin-bottom: 20px;
     .user-item {
       @include mixins.flexbox(row, flex-start, center, nowrap);
       height: 100%;
@@ -165,12 +164,11 @@ input {
 }
 
 .dialog-scrollContainer {
-  @include mixins.flexbox(column, flex-start, center, nowrap);
-  width: 100%;
-  height: 100%;
+  @include mixins.flexbox(column, flex-start, stretch, nowrap);
   overflow: scroll;
   max-height: 310px;
-  gap: 8px;
+  width:100%;
+  gap: 13px;
   &:focus-visible {
     outline: unset;
   }
@@ -185,14 +183,15 @@ input {
   width: 100%;
   border-radius: 30px;
   padding: 8px;
+  gap: 15px;
   span {
     width: fit-content;
     text-wrap: nowrap;
   }
 
   img {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 30px;
   }
 
@@ -201,17 +200,17 @@ input {
   }
 }
 
-img {
-  width: 40px;
-  height: 40px;
-  border-radius: 30px;
-  display: block;
+.dialog-members-avatar{
+    width: 50px;
+    height: 50px;
+    border-radius: 30px;
+    display: block;
 }
 
 .channel-box {
-  width: 400px;
+//   width: 400px;
   gap: 10px;
-  height: 58px;
+//   height: 58px;
   @include mixins.flexbox(row, flex-start, center, nowrap);
   cursor: pointer;
   font-size: 18px;
@@ -254,7 +253,7 @@ hr {
   padding: 20px;
   transition: 250ms ease-in-out;
   border-radius: 20px;
-  border: 1px solid colors.$light-purple;
+//   border: 1px solid colors.$light-purple;
 
   input {
     border: none;
@@ -295,22 +294,22 @@ hr {
   display: flex;
   flex-direction: column;
   padding: 20px;
-  transition: 150ms ease-in-out;
+  transition: 250ms ease-in-out;
   border-radius: 20px;
 
   input {
     padding: 20px;
-    transition: 150ms ease-in-out;
+    transition: 250ms ease-in-out;
   }
 
   h4 {
-    transition: 150ms ease-in-out;
+    transition: 250ms ease-in-out;
   }
 
   hr {
     width: auto;
     border: 1px solid colors.$light-purple;
-    transition: 150ms ease-in-out;
+    transition: 250ms ease-in-out;
   }
 }
 
@@ -387,6 +386,8 @@ hr {
   display: flex;
   flex-direction: column;
   gap: 13px;
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 .dialog-channel-member-container {
@@ -397,6 +398,7 @@ hr {
   img {
     width: 50px;
     height: 50px;
+    border-radius: 50%;
   }
 
   span {
@@ -413,6 +415,8 @@ hr {
   margin-top: 15px;
   gap: 15px;
   padding: 12px 29px;
+  border-radius: 40px;
+  cursor:pointer;
 
   .dialog-channel-addperson-img-wrapper{
     background-color: colors.$bg-color;
@@ -429,6 +433,14 @@ hr {
     color: black;
     font-weight: 400;
   }
+
+  &:hover {
+    background-color: colors.$bg-color;
+  }
+
+  &:hover span {
+    color: colors.$purple3;
+  }
 }
 
 .dialog-mobile-icon-wrapper {
@@ -439,6 +451,75 @@ hr {
   width: 24px;
   height: 24px;
 }
+
+.mobile-dialog-channel-add-member-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 30px 10px 100px;
+    z-index: 9999;
+    background-color: white;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    box-shadow: 0px -3px 10px 0px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transform: translateY(100%);
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0.3s;
+
+    > * + * {
+        margin-top: 20px;
+    } 
+}
+
+.mobile-dialog-channel-add-member-container.open {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+}
+
+.mobile-dialog-channel-add-member-divider{
+background-color: rgba(217, 217, 217, 1);
+height: 6px;
+width:62px;
+border-radius: 23px;
+margin-inline: auto;
+}
+
+.mobile-dialog-channel-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.input--0margin-bottom{
+    margin-bottom: 0;
+}
+
+.mobile-dialog-channel-add-member-button{
+    display: block;
+    margin-left: auto;
+}
+
+.dialog-scrollContainer-mobile{
+    transition: height 0.3s ease-in-out;
+}
+
+.user-container-mobile .user-item {
+    animation: fadeInScale 0.3s ease-in-out;
+}
+
+@keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
 
 @media (max-width: 550px) {
   .dialog-desktop-btn {
@@ -459,7 +540,7 @@ hr {
     box-shadow: none;
   }
 
-  .dialog-header {
+  .dialog-header-channel {
     padding: 40px 16px 10px;
     box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.08);
     margin-bottom: 25px;
@@ -487,5 +568,9 @@ hr {
     button {
       margin-right: 16px;
     }
+  }
+
+  .dialog-members-container {
+    padding: 16px 20px;
   }
 }
