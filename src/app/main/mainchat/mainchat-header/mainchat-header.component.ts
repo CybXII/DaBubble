@@ -33,7 +33,7 @@ export class MainchatHeaderComponent implements OnInit, OnDestroy {
   membersDialog: boolean = false;
   channelDialog: boolean = false;
   dialogData: any = null;
-  membersCount$: Observable<number> = new Observable<number>(obs => obs.next(0));
+
   constructor(
     private channelsService: ChannelsService,
     private authService: AuthService,

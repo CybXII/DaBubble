@@ -19,7 +19,6 @@ export class ChannelsService {
   private userChangesSubject = new BehaviorSubject<{ id: string; name: string } | null>(null);
   userChanges$ = this.userChangesSubject.asObservable();
 
-
   constructor(
     private firestore: Firestore,
     private authService: AuthService,
@@ -68,19 +67,13 @@ export class ChannelsService {
       return;
     }
     const channelRef = doc(this.firestore, `${this.collectionName}/${channelId}`);
-    try {
-      const channelDoc = await getDoc(channelRef);
+    onSnapshot(channelRef, (channelDoc) => {
       if (channelDoc.exists()) {
         const channel = { id: channelId, ...channelDoc.data() } as Channel;
+        console.log('🔥 Firestore Echtzeit-Update für `channel$`:', channel);
         this.currentChannelSubject.next(channel);
-        sessionStorage.setItem('lastChannelId', channelId);
-      } else {
-        console.error('Channel nicht gefunden.');
       }
-    } catch (error) {
-      console.error('Fehler beim Abrufen des Channels:', error);
-    }
-
+    });
     if (window.innerWidth <= 900) {
       this.stateService.closeMenuAndThread();
     }
