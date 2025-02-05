@@ -31,12 +31,13 @@ import { UserDialogService } from '../../../shared/services/user-dialog.service'
 import { RelativeDatePipe } from '../../../pipes/timestamp-to-date.pipe';
 import { UserService } from '../../../shared/services/user.service';
 import { StateService } from '../../../shared/services/state.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-chatbox',
   templateUrl: './chatbox.component.html',
   standalone: true,
-  imports: [CommonModule, EmojiPickerComponent, RelativeDatePipe],
+  imports: [CommonModule, EmojiPickerComponent, RelativeDatePipe, FormsModule],
   styleUrls: ['./chatbox.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -226,6 +227,13 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  editMessage2(message: Partial<Message>) {
+    message.sameDay = true;
+  }
+
+  cancelEdit(message: Partial<Message>) {
+    message.sameDay = false;
+  }
 
   editThreadMessage(
     message: Partial<ThreadMessage>,
