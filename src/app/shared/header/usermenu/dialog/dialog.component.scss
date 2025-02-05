@@ -13,6 +13,8 @@
   top: 111px;
   right: 20px;
   z-index: 5;
+  width: 100%;
+  max-width: 480px
 }
 
 .dialog-profile-container {
@@ -86,7 +88,7 @@
   font-size: 24px;
   font-weight: 600;
   text-align: center;
-  padding: 10px 70px;
+  padding: 10px 0;
   text-decoration: none;
   color: black;
   cursor: pointer;
@@ -192,5 +194,12 @@
 @media screen and (min-width: 1920px) {
   .dialog-container {
     right: calc(100vw / 2 + -940px) !important;
+  }
+}
+
+@media (max-width: 920px){
+  .dialog-container{
+    width: 90%;
+    right: 5%;
   }
 }

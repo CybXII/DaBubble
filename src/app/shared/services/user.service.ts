@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Firestore, collection, doc, getDoc, onSnapshot } from '@angular/fire/firestore';
-import { BehaviorSubject, Observable, from } from 'rxjs';
+import { BehaviorSubject, Observable, firstValueFrom, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 export interface User {
@@ -90,5 +90,12 @@ export class UserService {
     return this.getUserById(userId).pipe(map((user) => user.name ? user.name : 'Unbekannt'));
   }
 
-  
+  async getUsernamesByIds(userIds: string[]): Promise<User[]> {
+    const users: User[] = [];
+    for (const userId of userIds) {
+      const user = await firstValueFrom(this.getUserById(userId));
+      users.push(user);
+    }
+    return users;
+  }
 }

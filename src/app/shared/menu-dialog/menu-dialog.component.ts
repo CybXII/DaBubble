@@ -7,6 +7,7 @@ import { ProfileviewComponent } from '../profileview/profileview.component';
 import { Channel } from '../../models/channel';
 import { ChannelsService } from '../services/channels.service';
 import { UserModel } from '../../models/user';
+import { UserService } from '../services/user.service';
 
 
 
@@ -44,10 +45,10 @@ export class MenuDialogComponent  implements OnInit {
   isMobileDialogAddMemberOpen: boolean = false;
 
 
-  constructor(private fb: FormBuilder, public authService: AuthService, private dialog: MatDialog,private channelsService: ChannelsService) {}
+  constructor(private fb: FormBuilder, public authService: AuthService, private dialog: MatDialog,private channelsService: ChannelsService, private userService: UserService) {}
   async ngOnInit(): Promise<void> {  
     this.memberIds = this.dialogData.members.map((member) => member.id);
-    this.memberNames = await this.authService.getUsernamesByIds(this.memberIds);
+    this.memberNames = await this.userService.getUsernamesByIds(this.memberIds);
   this.authService.getUserList().subscribe(
     (users) => {
       this.allUsers = users.map((user) => ({

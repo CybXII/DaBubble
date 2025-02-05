@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AuthService } from '../services/auth.service';
 import { ChannelsService } from '../services/channels.service';
 import { Channel } from '../../models/channel';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-profileview',
@@ -33,7 +34,9 @@ export class ProfileviewComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<ProfileviewComponent>,
     public authService: AuthService,
-    public channelService: ChannelsService) {
+    public channelService: ChannelsService,
+    private userService: UserService
+  ) {
     if (data.member == null || '') {
       this.ID.push(data.ID)
       this.getUser();
@@ -43,7 +46,7 @@ export class ProfileviewComponent {
   }
 
   async getUser() {
-    const user = await this.authService.getUsernamesByIds(this.ID);
+    const user = await this.userService.getUsernamesByIds(this.ID);
     this.users = {
       name: user[0].name ? user[0].name : "",
       userId: user[0].userId,
