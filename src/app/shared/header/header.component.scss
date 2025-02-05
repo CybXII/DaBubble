@@ -18,8 +18,23 @@
     gap: 25px;
 }
 
+.mobile-group{
+    @include mixins.flexbox(row, flex-start, center, nowrap);
+    .toggleButton{
+        border-radius: 50%;
+        cursor: pointer;
+        &:hover{
+            color: colors.$purple2;
+        }
+    }
+    img {
+        height: 50px;
+        width: 50px;
+    }
+}
+
 .searchbar-container {
-  min-width: 485px;
+    min-width: 485px;
     flex: 1;
     position: relative;
 }

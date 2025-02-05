@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, Input  } from '@angular/core';
+import { Component, HostListener, Input  } from '@angular/core';
 
 @Component({
   selector: 'app-menutoggler',
@@ -10,4 +10,16 @@ import { Component, Input  } from '@angular/core';
 })
 export class MenutogglerComponent {
   @Input() menuState!: string;
+
+  mobile = false;
+  menuOpen = false
+
+  constructor (){
+    this.onResize();
+  }
+      
+  @HostListener('window:resize', [])
+  onResize(): void {
+    this.mobile = window.innerWidth <= 900;
+  }
 }

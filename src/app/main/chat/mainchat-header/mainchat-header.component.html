@@ -7,9 +7,12 @@
       <span class="mainchat__header-btn__hashtag">#</span>
       <h3 class="mainchat__header-btn__title">{{channelTitle}}</h3>
     }
-    <div class="mainchat__header-btn__img-container">
-      <img src="img/icons/arrow_down.svg" alt="" height="8" width="14" />
-    </div>
+    @if (!mobile) {
+      <div class="mainchat__header-btn__img-container">
+        <img src="img/icons/arrow_down.svg" alt="" height="8" width="14" />
+      </div>
+  
+    }
   </button>
   @if (this.channelDialog) {
     <app-menu-dialog class="channelDialog" [menuDialog]="menuDialog" [membersDialog]="membersDialog"

@@ -1,7 +1,17 @@
 <div class="header-container">
-  <app-logo class="logo-container"></app-logo>
+  @if (mobile) {
+    <div class="mobile-group">
+      <app-menutoggler class="toggleButton" (click)="toggleMenu()"
+      [menuState]="menuOpened ? 'schließen' : 'öffnen'">></app-menutoggler>
+      <img src="img/logo/devspace-logo.svg" alt="">
+    </div>
+  } @else {
+    <app-logo class="logo-container"></app-logo>
+  }
   @if(currentUrl != "/legalnotice" && currentUrl != "/imprint") {
-  <app-searchbar class="searchbar-container"></app-searchbar>
+    @if (!mobile) {
+      <app-searchbar class="searchbar-container"></app-searchbar>
+    }
   <app-usermenu class="usermenu-container"></app-usermenu>
   }
 </div>
