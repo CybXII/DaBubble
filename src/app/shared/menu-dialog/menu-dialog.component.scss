@@ -386,8 +386,6 @@ hr {
   display: flex;
   flex-direction: column;
   gap: 13px;
-  max-height: 300px;
-  overflow-y: auto;
 }
 
 .dialog-channel-member-container {
@@ -457,7 +455,7 @@ hr {
     bottom: 0;
     left: 0;
     width: 100%;
-    padding: 30px 10px 100px;
+    padding: 30px 16px 100px;
     z-index: 9999;
     background-color: white;
     border-top-left-radius: 30px;
