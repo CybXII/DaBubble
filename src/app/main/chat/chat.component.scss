@@ -1,0 +1,214 @@
+@use "../../../mixins.scss" as mixins;
+@use "../../../colors.scss" as colors;
+
+.mainchat-container{
+    @include mixins.flexbox(column, space-between, space-between, nowrap);
+    height: 100%;
+    width: 100%;
+}
+
+.mainchat__header{ 
+    width: 100%;
+}
+
+.mainchat{
+    overflow: hidden;
+    height: 100%;
+}
+
+.mainchat__messagebox{
+    padding: 20px;
+    box-shadow: 0px -2px 10px 0px rgba(0, 0, 0, 0.08);
+    border-radius: 0 0 30px 30px;
+}
+
+
+
+.threadchat-container {
+  @include mixins.flexbox(column, space-between, space-between, nowrap);
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.threadchat {
+    overflow: hidden;
+    height: 100%;
+  }
+  
+  .threadchat__item1:has(.message:last-child:not(:first-child)) {
+    flex-direction: column-reverse; /* Umkehrung, wenn Scrollbalken vorhanden */
+  }
+  
+  .threadchat__header {
+    width: 100%;
+    position: fixed;
+  }
+  
+  .chatbox__mainthread-container {
+    @include mixins.flexbox(row, flex-start, flex-start, nowrap);
+    gap: 20px;
+    padding: 10px 40px;
+    margin-top:17px;
+    position: relative;
+  
+    &:hover {
+      background-color: colors.$bg-color;
+    }
+    &:hover .chatbox__msg {
+      background-color: colors.$white;
+    }
+    &:hover .chatbox__msg-sent {
+      background-color: colors.$purple2;
+    }
+  
+    &:hover .chatbox__addemoji-container {
+      @include mixins.flexbox(row, center, center, nowrap);
+    }
+  }
+  
+  .chatbox__msg-avatar {
+    border-radius: 40px;
+  }
+  
+  .chatbox__addemoji-container {
+    display: none;
+    background: colors.$white;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+    border: 1px solid colors.$light-purple;
+    padding: 3px 13px;
+    position: absolute;
+    top: -15px;
+    right: 60px;
+    img {
+      display: block;
+      border-radius: 20px;
+      width: 40px;
+      height: 40px;
+  
+      &:hover {
+        filter: invert(31%) sepia(41%) saturate(5436%) hue-rotate(231deg)
+          brightness(101%) contrast(99%);
+      }
+    }
+  
+    > div {
+      @include mixins.flexbox(row, center, center, nowrap);
+      width: 40px;
+      height: 40px;
+      border-radius: 20px;
+    }
+  
+    .chatbox__addemoji__emoji-container {
+      &:hover {
+        background-color: colors.$bg-color;
+      }
+    }
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+  
+  .chatbox__msg-info {
+    @include mixins.flexbox(row, flex-start, center);
+    gap: 20px;
+  }
+  
+  .chatbox__msg-name {
+    font-size: 1.125rem;
+    font-weight: 700;
+    cursor: pointer;
+  
+    &:hover {
+      color: colors.$purple;
+    }
+  }
+  
+  .chatbox__msg-time {
+    font-size: 0.875rem;
+    color: colors.$grey;
+  }
+  
+  .chatbox__msg {
+    background-color: colors.$bg-color;
+    padding: 15px;
+    margin-top: 8px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    line-height: 24.55px;
+    display: block;
+  }
+  
+  .chatbox__emojis {
+    border: 1px solid colors.$light-purple;
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    margin-top: 8px;
+    cursor: pointer;
+  
+    span {
+      margin-left: 10px;
+      vertical-align: super;
+    }
+  
+    &:hover {
+      border: 1px solid colors.$purple3;
+    }
+  }
+  
+  .chatbox__addreaction-container {
+    display: inline-block;
+    padding: 5px;
+    margin-left: 8px;
+    vertical-align: text-bottom;
+    border-radius: 20px;
+    img {
+      display: block;
+    }
+    &:hover {
+      filter: invert(30%) sepia(72%) saturate(3091%) hue-rotate(229deg)
+        brightness(98%) contrast(92%);
+    }
+  }
+  
+  .chatbox__threads-divider {
+    width: 100%;
+    display: flex;
+    align-self: flex-start;
+    align-items: center;
+    font-size: 1.125rem;
+    color: colors.$light-purple;
+    margin-inline: auto;
+    padding-left: 33px;
+    padding-right: 32px;
+  }
+  
+  .chatbox__threads-divider::after {
+    flex: 1;
+    content: "";
+    padding: 1px;
+    background-color: colors.$light-purple;
+    margin-left: 20px;
+    margin-top: 8px;
+    margin-bottom: 2px;
+  }
+  
+  .threadchat__chatbox {
+    width: 100%;
+    height: calc(100% - 104px);
+    position: relative;
+    top: 0;
+    bottom: -100px;
+  }
+  
+  .threadchat__messagebox {
+    padding: 20px;
+    flex: 1;
+    box-shadow: 0px -2px 10px 0px rgba(0, 0, 0, 0.08);
+  }
+  
