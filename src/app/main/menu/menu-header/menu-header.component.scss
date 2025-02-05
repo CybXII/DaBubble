@@ -1,6 +1,12 @@
 @use "../../../../mixins.scss" as mixins;
 @use "../../../../colors.scss" as colors;
 
+.searchbar{
+    width: 100%;
+    position: relative;
+    padding: 10px;
+}
+
 
 .menu-header {
     @include mixins.flexbox(row, flex-start, center, nowrap);

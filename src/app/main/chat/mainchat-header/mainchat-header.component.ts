@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { ChannelsService } from '../../../shared/services/channels.service';
 import { Channel } from '../../../models/channel';
 import { Observable, Subscription, combineLatest, map, switchMap, startWith } from 'rxjs';
@@ -33,6 +33,7 @@ export class MainchatHeaderComponent implements OnInit, OnDestroy {
   membersDialog: boolean = false;
   channelDialog: boolean = false;
   dialogData: any = null;
+  mobile = false
 
   constructor(
     private channelsService: ChannelsService,
@@ -41,7 +42,13 @@ export class MainchatHeaderComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef
   ) {
     this.channel$ = this.channelsService.currentChannel$;
+    this.onResize();
   }
+
+    @HostListener('window:resize', [])
+    onResize(): void {
+      this.mobile = window.innerWidth <= 900;
+    }
 
   ngOnInit(): void {
     this.subscriptions.add(

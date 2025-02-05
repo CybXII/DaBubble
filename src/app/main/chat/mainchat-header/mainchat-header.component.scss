@@ -158,6 +158,15 @@
   .mainchat__header-btn__title{
     margin-right: 5px;
   }
+
+  .mainchat__header {
+    @include mixins.flexbox(row, space-between, center, nowrap);
+    width: 100%;
+    padding: 25px 45px;
+    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.08);
+    border-radius: unset;
+    position:relative;
+  }
 }
 
 @media (max-width: 550px){

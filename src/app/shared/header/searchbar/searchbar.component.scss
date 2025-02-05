@@ -166,4 +166,10 @@ h3 {
     .logo-container{
         min-width: auto;
     }
+
+    .searchbar-container{
+      input{
+        outline: 1px solid colors.$light-purple;
+      }
+    }
 }
