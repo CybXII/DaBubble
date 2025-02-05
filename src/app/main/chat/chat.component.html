@@ -1,0 +1,21 @@
+<div class="mainchat-container">
+  @if(sharedVariable != "createMessagePressed"){
+    @if (builder === 'mainchat') {      
+      <app-mainchat-header class="{{builder}}__header"></app-mainchat-header>
+    }@else if (builder === 'threadchat') {
+      <app-threadchat-header class="{{builder}}__header"></app-threadchat-header>
+    }
+    <app-chatbox [builder]="builder" class="{{builder}}"></app-chatbox>
+  <app-messagebox [builder]="builder" class="{{builder}}__messagebox"></app-messagebox>
+  } @else {
+  <app-createmessage></app-createmessage>
+  <app-messagebox [builder]="createmessage" class="mainchat__messagebox"></app-messagebox>
+  }
+</div>
+
+
+<!-- <div class="threadchat-container">
+  <app-threadchat-header class="threadchat__header"></app-threadchat-header>
+  <app-chatbox [builder]="builder" class="threadchat"></app-chatbox>
+  <app-messagebox [builder]="builder" class="threadchat__messagebox"></app-messagebox>
+</div> -->

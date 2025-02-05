@@ -322,7 +322,7 @@ z-index: 9;
 }
 
 .chatbox__info {
-  @include mixins.flexbox(row, flex-start, flex-start, nowrap);
+  @include mixins.flexbox(column , flex-start, flex-start, nowrap);
   gap: 20px;
 }
 
@@ -335,6 +335,7 @@ z-index: 9;
   font-size: 1.125rem;
   color: colors.$purple3;
   margin-right: 20px;
+  text-wrap: nowrap;
   cursor: pointer;
 }
 
@@ -377,11 +378,12 @@ z-index: 9;
 }
 
 .chatbox__emojis-container {
-  @include mixins.flexbox(row, flex-start, center, nowrap);
+  @include mixins.flexbox(row, flex-start, center, wrap);
   gap:12px;
   // max-width: 210px;
   overflow-x: visible;
   padding-bottom: 0.3em;
+
 }
 
 
