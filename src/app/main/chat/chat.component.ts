@@ -5,15 +5,16 @@ import { MainchatHeaderComponent } from './mainchat-header/mainchat-header.compo
 import { Firestore, collection, query, where, getDocs } from '@angular/fire/firestore';
 import { SharedService } from '../../shared/services/newmessage.service';
 import { CreatemessageComponent } from '../createmessage/createmessage.component';
+import { ThreadchatHeaderComponent } from './threadchat-header/threadchat-header.component';
 
 @Component({
-  selector: 'app-mainchat',
+  selector: 'app-chat',
   standalone: true,
-  imports: [CreatemessageComponent, MainchatHeaderComponent, ChatboxComponent, MessageboxComponent],
-  templateUrl: './mainchat.component.html',
-  styleUrls: ['./mainchat.component.scss'] // Korrigiere styleUrl zu styleUrls (Plural)
+  imports: [ThreadchatHeaderComponent, CreatemessageComponent, MainchatHeaderComponent, ChatboxComponent, MessageboxComponent],
+  templateUrl: './chat.component.html',
+  styleUrls: ['./chat.component.scss'] // Korrigiere styleUrl zu styleUrls (Plural)
 })
-export class MainchatComponent implements OnInit {
+export class ChatComponent implements OnInit {
   @Input() builder!: string;
   sharedVariable!: string;
 
@@ -26,7 +27,6 @@ export class MainchatComponent implements OnInit {
       (value) => (this.sharedVariable = value)
     );
   }
-
 }
 
 

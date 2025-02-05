@@ -5,19 +5,19 @@
       <app-menu class="menu-container menu-width"></app-menu>
     </div>
 
-    <app-mainchat
+    <app-chat
       [builder]="'mainchat'"
       class="menu-container mainchat-container"
       [ngClass]="{ hidden: smallWindow && threadchatOpened || mobile && menuOpened }"
-    ></app-mainchat>
+    ></app-chat>
 
     <div class="m-height" *ngIf="threadchatState === 'in' || threadchatState === 'out'"
       [@slideAnimationRight]="{ value: threadchatState, params: { width: smallWindow ? '100%' : '485px' } }"
       (@slideAnimationRight.done)="onAnimationDone($event, 'threadchat')">
-      <app-threadchat
+      <app-chat
         [builder]="'threadchat'"
         class="menu-container thread-container thread-width"
-      ></app-threadchat>
+      ></app-chat>
     </div>
 
   <app-menutoggler class="toggleButton" (click)="toggleMenu()"

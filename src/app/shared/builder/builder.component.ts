@@ -1,17 +1,16 @@
 import { Component, HostListener } from '@angular/core';
-import { MainchatComponent } from '../../main/mainchat/mainchat.component';
-import { ThreadchatComponent } from '../../main/threadchat/threadchat.component';
 import { MenuComponent } from '../../main/menu/menu.component';
 import { MenutogglerComponent } from '../../main/shared/menutoggler/menutoggler.component';
 import { slideAnimationLeft, slideAnimationRight } from './../animations';
 import { CommonModule } from '@angular/common';
 import { MessagesService } from '../services/messages.service';
 import { StateService } from '../services/state.service';
+import { ChatComponent } from '../../main/chat/chat.component';
 
 @Component({
   selector: 'app-builder',
   standalone: true,
-  imports: [MainchatComponent, ThreadchatComponent, MenuComponent, MenutogglerComponent, CommonModule],
+  imports: [ChatComponent, MenuComponent, MenutogglerComponent, CommonModule],
   templateUrl: './builder.component.html',
   styleUrls: ['./builder.component.scss'],
   animations: [slideAnimationRight, slideAnimationLeft],
@@ -59,7 +58,6 @@ onResize(): void {
     this.menuOpened = this.menuState === 'in';
   
     if (this.mobile && this.menuOpened) {
-      // Schließe Threadchat im mobilen Modus, wenn das Menü geöffnet wird
       if (this.threadchatOpened) {
         this.threadWasOpen = true;
         this.stateService.setThreadchatState('out');
@@ -67,13 +65,12 @@ onResize(): void {
         this.threadWasOpen = false;
       }
     } else if (this.mobile && !this.menuOpened) {
-      // Wiederherstellen des Threadchats, falls er vorher geöffnet war
       if (this.threadWasOpen) {
         this.toggleThreadChat();
       }
     }
   }
-  
+
   toggleThreadChat(): void {
     if (this.threadchatState === 'in') {
       this.threadchatState = 'out';
@@ -82,7 +79,6 @@ onResize(): void {
       }, 300);
     } else {
       if (this.mobile && this.menuOpened) {
-        // Schließe das Menü, wenn Threadchat im mobilen Modus geöffnet wird
         this.closeMenu();
       }
       this.threadchatOpened = true;
@@ -92,27 +88,6 @@ onResize(): void {
     }
   }
 
-  // toggleThreadChat(): void {
-
-  //   if (this.threadchatState === 'in') {
-  //     this.threadchatState = 'out';
-  //     setTimeout(() => {
-  //       this.threadchatOpened = false;
-  //       this.threadWasOpen = false;
-  //     }, 300);
-  //   } else {
-  //     if (this.mobile && this.menuOpened) {
-  //       // Im mobilen Modus Menü schließen, wenn Threadchat geöffnet wird
-  //       this.closeMenu();
-  //     }
-
-  //     this.threadchatOpened = true;
-  //     setTimeout(() => {
-  //       this.threadchatState = 'in';
-  //       this.threadWasOpen = true;
-  //     });
-  //   }
-  // }
 
   closeMenu(): void {
     this.menuState = 'out';
