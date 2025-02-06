@@ -382,7 +382,6 @@ hr {
 }
 
 .dialog-channel-members-container-wrapper {
-  padding: 4px 20px;
   display: flex;
   flex-direction: column;
   gap: 13px;
@@ -392,6 +391,9 @@ hr {
   display: flex;
   align-items: center;
   gap: 15px;
+  border-radius: 35px;
+  padding: 4px 20px;
+  width: fit-content;
 
   img {
     width: 50px;
@@ -404,6 +406,10 @@ hr {
     font-weight: 400;
     line-height: 24.55px;
     color: black;
+  }
+
+  &:hover {
+    background-color: colors.$bg-color;
   }
 }
 
