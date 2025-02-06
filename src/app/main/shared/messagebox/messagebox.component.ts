@@ -5,6 +5,8 @@ import {
   OnInit,
   OnDestroy,
   HostListener,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
 import { ChannelsService } from '../../../shared/services/channels.service';
 import { MessagesService } from '../../../shared/services/messages.service';
@@ -30,6 +32,9 @@ import { firstValueFrom } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class MessageboxComponent implements OnInit, OnDestroy {
+  @ViewChild('mainMessageBox') mainMessageBox!: ElementRef<HTMLTextAreaElement>;
+  @ViewChild('threadMessageBox') threadMessageBox!: ElementRef<HTMLTextAreaElement>;
+  
   @Input() builder!: string;
   channelId: string | undefined;
   messageId: string | undefined;
@@ -59,6 +64,9 @@ export class MessageboxComponent implements OnInit, OnDestroy {
           if (channel) {
             this.channelId = channel.id;
             this.activeChannelName = channel.name;
+          if (this.mainMessageBox) {
+            setTimeout(() => this.mainMessageBox.nativeElement.focus(), 100);
+          }
           }
         });
       this.subscriptions.add(channelSubscription);
@@ -67,6 +75,9 @@ export class MessageboxComponent implements OnInit, OnDestroy {
         (messageId) => {
           if (messageId) {
             this.messageId = messageId;
+            if (this.threadMessageBox) {
+              setTimeout(() => this.threadMessageBox.nativeElement.focus(), 100);
+            }
           }
         }
       );
