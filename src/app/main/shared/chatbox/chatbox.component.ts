@@ -32,12 +32,13 @@ import { RelativeDatePipe } from '../../../pipes/timestamp-to-date.pipe';
 import { UserService } from '../../../shared/services/user.service';
 import { StateService } from '../../../shared/services/state.service';
 import { FormsModule } from '@angular/forms';
+import { ReactionsComponent } from '../../../shared/reactions/reactions.component';
 
 @Component({
   selector: 'app-chatbox',
   templateUrl: './chatbox.component.html',
   standalone: true,
-  imports: [CommonModule, EmojiPickerComponent, RelativeDatePipe, FormsModule],
+  imports: [CommonModule, EmojiPickerComponent, RelativeDatePipe, FormsModule, ReactionsComponent],
   styleUrls: ['./chatbox.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -106,7 +107,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     this.messagesService.messageId$.subscribe((messageId) => {
       if (messageId) {
         this.setParentMessage();
-        
       }
     });
     this.messagesService.messages$.subscribe(messages => {
@@ -117,7 +117,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
         }))
       );
     
-      // Jetzt abonnieren wir die Thread-Messages für jedes Message-Dokument
       messages.forEach(msg => {
         if (msg.docId) {
           this.messagesService.getThreadMessagesForMessage(msg.docId).subscribe(threads => {
@@ -129,7 +128,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
         };
       });
     
-      this.cdRef.markForCheck();
     });    
     this.setParentMessage();
     this.threadMessages$.subscribe(threadMessages => {
@@ -138,17 +136,17 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     
     const emojiSubscription1 = this.emojiPickerService.isChatBoxPickerOpen$.subscribe((open) => {
       this.isChatBoxEmojiPickerOpen = open;
-      this.cdRef.markForCheck();
+
     });
     
     const emojiSubscription2 = this.emojiPickerService.chatBoxEmojiPickerForId$.subscribe((id) => {
       this.chatBoxEmojiPickerOpenFor = id;
-      this.cdRef.markForCheck();
+
     });
     
     const emojiSubscription3 = this.emojiPickerService.displayEmojiPickerMainThread$.subscribe((display) => {
       this.displayEmojiPickerMainThread = display;
-      this.cdRef.markForCheck();
+
     });
     
     this.destroyRef.onDestroy(() => {
@@ -168,15 +166,11 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       });
     }
-
-
     const chatbox = document.querySelector(this.builder === 'mainchat' ? '.mainchat__chatbox' : '.threadchat__chatbox');
-
     if (chatbox) {
       const observer = new MutationObserver(() => {
         this.scrollToBottom(this.builder === 'mainchat' ? '.mainchat__chatbox' : '.threadchat__chatbox');
       });
-  
       observer.observe(chatbox, { childList: true, subtree: true });
     }
   }
@@ -218,6 +212,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+
   editMessage(message: Partial<Message>, deleteMessage: boolean) {
     this.dialog.open(EditmessageComponent, {
       width: 'fit-content',
@@ -250,7 +245,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   toggleEmojiPicker(messageId: string, displayPickerBottom: boolean, threadMain?: boolean) {
-    // console.log('open picker for:' + messageId + ' picker bottom?: ' + displayPickerBottom + ' threadMain?: ' + threadMain);
     this.displayPickerBottom = displayPickerBottom;
     if (this.isChatBoxEmojiPickerOpen) {
       if (messageId !== this.chatBoxEmojiPickerOpenFor) {
@@ -347,9 +341,9 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.userService.getuserStatus(userId);
   }
 
-    getUserName(userId: string): Observable<string> {
-      return this.userService.getuserName(userId);
-    }
+  getUserName(userId: string): Observable<string> {
+    return this.userService.getuserName(userId);
+  }
 
 
   trackByMessage(index: number, message: ThreadMessage): string {
