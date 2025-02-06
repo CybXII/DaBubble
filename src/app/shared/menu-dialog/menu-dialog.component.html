@@ -319,7 +319,7 @@
     <h4 class="dialog-channel-members-container-title">Mitglieder</h4>
     <div class="dialog-channel-members-container-wrapper">
       @for (member of this.memberNames; track member) {
-      <div class="dialog-channel-member-container">
+      <div class="dialog-channel-member-container" (click)="member.name ? selectMember(member) : null; openDialog()">
         <img src="{{ member.photoURL }}" alt="" />
         <span>{{ member.name }}</span>
       </div>
