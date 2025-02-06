@@ -203,3 +203,25 @@
     right: 5%;
   }
 }
+
+@media (max-width: 500px) {
+  .dialog-avatar {
+    width: 100%;
+  }
+
+  .dialog-container{
+    padding: 40px 20px;
+    height: fit-content;
+    max-height: 95%;
+    top: 20px;
+  }
+
+  .dialog-profile-container {
+    gap: 20px;
+    width: 100%;
+  }
+
+  .dialog-buttons {
+    gap: 10px;
+  }
+}
