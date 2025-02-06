@@ -91,3 +91,12 @@ button {
     width: fit-content;
     gap: 10px;
 }
+
+@media (max-width: 500px) {
+    .container {
+        width: 90vw;
+        height: 90vh;
+        min-width: unset;
+        min-height: unset;
+    }
+}
