@@ -18,7 +18,7 @@ import { MessagesService } from '../../../shared/services/messages.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { Message, Reaction, ThreadMessage } from '../../../models/message';
 import { combineLatest, from, Observable, of, Subject } from 'rxjs';
-import { catchError, map, startWith, takeUntil, tap } from 'rxjs/operators';
+import { catchError, isEmpty, map, startWith, takeUntil, tap } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { Channel } from '../../../models/channel';
 import { ChannelsService } from '../../../shared/services/channels.service';
@@ -62,6 +62,17 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   displayPickerBottom: boolean = false;
   messages = signal<Message[]>([]);
   previousTimestamp: number | null = null;
+  isEmptyMessage: boolean = false;
+  self:boolean = false;
+  private:boolean = false;
+  channelName:string = '';
+  user: {
+    name:string,
+    photoUrl:string,
+  } = {
+    name: '',
+    photoUrl: ''
+  };
 
   constructor(
     private channelsService: ChannelsService,
@@ -154,6 +165,29 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       emojiSubscription2.unsubscribe();
       emojiSubscription3.unsubscribe();
     });
+    
+    // this.checkMessages().then(result => {
+    //   this.isEmptyMessage = result;
+    //   console.warn(this.isEmptyMessage)
+    // })
+
+    this.currentChannel$.subscribe(channel => {
+      this.channelName = channel?.name ? channel.name : "";
+      if (channel?.isPrivate) {
+        this.private = true;
+        let user = channel.members.filter(id => id !== this.activeUserId);
+        let userobj = this.userService.getUserById(user[0]).pipe(map((user) => user));
+        userobj.subscribe(user => {
+          const data = {
+            name: user.name ? user.name : '',
+            photoUrl: user.photoURL ? user.photoURL : '',
+          }
+          this.user = data;
+        })
+      } else {
+        this.private = false
+      }
+    })
   }
 
 
@@ -358,5 +392,17 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       timestampValue = message.timestamp;
     }
     return message.docId || `fallback-${timestampValue}-${index}`;
+  }
+
+  checkMessages(): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.messages$.pipe(
+        isEmpty()
+      ).subscribe(isEmpty => {
+        resolve(isEmpty);
+      }, error => {
+        reject(error)
+      });
+    });
   }
 }
