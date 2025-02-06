@@ -42,9 +42,9 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
   public avatarCache = new Map<string, string>();
-  private cacheExpirationTime = 3600000; // 1 Stunde in Millisekunden
+  private cacheExpirationTime = 3600000;
   private avatarCacheTimestamps = new Map<string, number>();
-  // Reactive signals
+
   userId = signal<string | null>(null);
   userData = signal<UserModel | null>(null);
   isUserAuthenticated = signal<boolean>(false);
@@ -52,7 +52,9 @@ export class AuthService {
   userList = signal<UserModel[]>([]);
   public loadingSpinnerBoard: boolean = true;
   private loginType = signal<'guest' | 'google' | 'email' | null>(null);
-  currentUser = signal<UserModel | null>(null); // Typisiertes Signal
+  currentUser = signal<UserModel | null>(null);   
+  
+  
   constructor(
     private auth: Auth,
     private firestore: Firestore,
@@ -61,17 +63,14 @@ export class AuthService {
   ) {
     onAuthStateChanged(this.auth, (firebaseUser: User | null) => {
       if (firebaseUser) {
-        // Firebase-User in eigenes Modell umwandeln
         const userModel = new UserModel(firebaseUser);
-        this.currentUser.set(userModel); // Typisiertes Signal
+        this.currentUser.set(userModel);
       } else {
-        this.currentUser.set(null); // Kein Benutzer angemeldet
+        this.currentUser.set(null);
       }
     });
-
-    this.monitorAuthState(); // Überwachung des Auth-Status starten
-    this.getUserList(); // Benutzerliste aus Firestore laden
-    this.intializeUserData(); // Benutzer-Daten initialisieren
+    this.monitorAuthState();
+    this.intializeUserData();
   }
 
   /**
@@ -89,8 +88,6 @@ export class AuthService {
       if (user) {
         this.isUserAuthenticated.set(true);
         this.userId.set(user.uid);
-
-        // Weiterleitung nur, wenn der Benutzer auf der Home-Route ist
         if (this.router.url === '/') {
           this.redirectIfAuthenticated();
         }
@@ -125,18 +122,9 @@ export class AuthService {
     name: string,
     photoURL: string
   ): Promise<void> {
-    console.log('registerIncomingData', email, password, name, photoURL);
-
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        this.auth,
-        email,
-        password
-      );
-      console.log('userCredential', userCredential.user);
-
+      const userCredential = await createUserWithEmailAndPassword(this.auth,email,password);
       const user = userCredential.user;
-
       const userData = this.setUserData(
         user.uid,
         name || '',
@@ -144,30 +132,21 @@ export class AuthService {
         photoURL || '',
         'password'
       );
-      console.log('userData', userData);
-
       await setDoc(doc(this.firestore, 'users', user.uid), userData);
-
-      // zu zwei channels hinzufügen
-      // entwicklerchat
       const docRefChannel1 = doc(this.firestore, 'channels', "vfphslFFYLqC4hHHlM8y");
       await updateDoc(docRefChannel1, {
         members: arrayUnion(user.uid)
       });
-      // allgemeiner channel
       const docRefChannel2 = doc(this.firestore, 'channels', "q6m6NQIQepOmjULyneBJ");
       await updateDoc(docRefChannel2, {
         members: arrayUnion(user.uid)
       });
-
-
-      // hier noch private channel erstellen mit user (13.1.2025)
       await setDoc(doc(this.firestore, 'channels', user.uid), {
         createdAt: new Date(),
         isPrivate: true,
         createdBy: user.uid,
         description: userData.name,
-        name: userData.name + ' (Du)',
+        name: userData.name,
         members: [user.uid],
       });
     } catch (error) {
@@ -192,12 +171,10 @@ export class AuthService {
    */
   updateUserPassword(newPassword: string): Promise<void> {
     const currentUser = this.auth.currentUser;
-
-    if (currentUser) {
+    if (currentUser) 
       return updatePassword(currentUser, newPassword);
-    } else {
+    else 
       return Promise.reject('Kein Benutzer ist angemeldet.');
-    }
   }
 
   /**
@@ -205,13 +182,7 @@ export class AuthService {
    */
   async login(email: string, password: string): Promise<void> {
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        this.auth,
-        email,
-        password
-      );
-      console.log('Login successful:', userCredential.user);
-
+      const userCredential = await signInWithEmailAndPassword(this.auth,email,password);
       this.userId.set(userCredential.user.uid);
       this.updateDataInFirestore(userCredential.user.uid, { status: true });
       await this.loadUserData(userCredential.user.uid);
@@ -232,18 +203,14 @@ export class AuthService {
       const user = userCredential.user;
       const userData = this.setAnonymousUserData(user.uid);
       await setDoc(doc(this.firestore, `users/${user.uid}`), userData);
-
-      // private channel erstellen mit guestuser (29.1.2025)
       await setDoc(doc(this.firestore, 'channels', user.uid), {
         createdAt: new Date(),
         isPrivate: true,
         createdBy: user.uid,
         description: userData.name,
-        name: userData.name + ' (Du)',
+        name: userData.name,
         members: [user.uid],
       });
-
-      // in den gastchannel
       await setDoc(doc(this.firestore, 'channels', 'guestsonly'), {
         createdAt: new Date(),
         isPrivate: false,
@@ -252,7 +219,6 @@ export class AuthService {
         name: "Gäste only",
         members: [user.uid],
       });      
-
       await this.loadUserData(user.uid);
       setTimeout(() => {
         this.toastMessageService.showToastSignal('Erfolgreich eingeloggt');
@@ -270,8 +236,6 @@ export class AuthService {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(this.auth, provider);
       const user = result.user;
-      console.log('Google login successful:', user);
-
       const userData = this.setUserData(
         user.uid,
         user.displayName || '',
@@ -294,9 +258,6 @@ export class AuthService {
     sessionStorage.setItem('userData', JSON.stringify(userData));
   }
 
-  // getUserDataFromStorage() {
-  //   this.userData.set(JSON.parse(sessionStorage.getItem('userData') || '{}'));
-  // }
 
   intializeUserData() {
     if (sessionStorage.getItem('userData')) {
@@ -309,33 +270,23 @@ export class AuthService {
    */
   async logout(): Promise<void> {
     const userId = this.userData()?.userId;
-  
     if (userId && this.userData()?.provider !== 'anonymous') {
-      console.log('[AuthService] Starte Logout für:', userId);
-      
       try {
-        await this.updateDataInFirestore(userId, { status: false }); // 🔥 Status-Update
-        console.log('[AuthService] Status erfolgreich auf "false" gesetzt');
-  
+        await this.updateDataInFirestore(userId, { status: false });
         await this.auth.signOut();
         this.clearAuthState();
         this.router.navigate(['']);
         this.toastMessageService.showToastSignal('Erfolgreich ausgeloggt');
-        
       } catch (error) {
         console.error('[AuthService] Fehler beim Logout:', error);
       }
-  
     } else if (this.userData()?.provider === 'anonymous') {
-      console.log('[AuthService] Anonymer Benutzer wird gelöscht.');
-      
       try {
         this.deleteAnonymousUserFromFirestore();
         await this.auth.signOut();
         this.clearAuthState();
         this.router.navigate(['']);
         this.toastMessageService.showToastSignal('Erfolgreich ausgeloggt');
-  
       } catch (error) {
         console.error('[AuthService] Fehler beim anonymen Logout:', error);
       }
@@ -345,13 +296,9 @@ export class AuthService {
 
   deleteAnonymousUserFromFirestore(): void {
     const user = this.auth.currentUser;
-    console.log('user', user);
-
     if (user) {
       deleteDoc(doc(this.firestore, `users/${user.uid}`));
-      user.delete().then(() => {
-        console.log('Anonymous user deleted');
-      });
+      user.delete()
     }
   }
 
@@ -370,29 +317,27 @@ export class AuthService {
     }
   }
 
+
   async checkUserId(userId: string) {
     if (userId) {
       const userDoc = await getDoc(doc(this.firestore, 'users', userId));
       return userDoc.exists();
-    } else {
+    } else 
       return false;
-    }
   }
+
 
   /**
    * Fehler beim Login behandeln
    */
   private handleLoginError(error: any): void {
-    if (
-      error.code === 'auth/user-not-found' ||
-      error.code === 'auth/wrong-password'
-    ) {
+    if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') 
       this.loginError.set('Invalid email or password');
-    } else {
+    else 
       this.loginError.set('Unexpected error occurred');
-    }
     throw error;
   }
+
 
   /**
    * Benutzerinformationen für Firestore erstellen
@@ -410,7 +355,7 @@ export class AuthService {
       name: username,
       email,
       photoURL: avatarURL,
-      channels: [],//[userId, "vfphslFFYLqC4hHHlM8y", "q6m6NQIQepOmjULyneBJ"], // changed by christoph: priv, allgm, entwickler? inzwischen egal?!?!
+      channels: [],
       privateNoteRef: '',
       status: status,
       provider: provider,
@@ -439,13 +384,9 @@ export class AuthService {
   public getUserList(): Observable<UserModel[]> {
     return new Observable((observer) => {
       const userCollection = collection(this.firestore, 'users');
-      onSnapshot(
-        userCollection,
-        (snapshot) => {
+      onSnapshot(userCollection,(snapshot) => {
           const users: UserModel[] = [];
-          snapshot.forEach((doc) => {
-            users.push(doc.data() as UserModel);
-          });
+          snapshot.forEach((doc) => {users.push(doc.data() as UserModel);});
           this.userList.set(users);
           observer.next(users);
         },
@@ -458,47 +399,16 @@ export class AuthService {
 
 
   redirectIfAuthenticated(): void {
-    if (this.auth.currentUser) {
-      setTimeout(() => {
-        this.router.navigate(['/board']);
-      }, 4000);
-    } else {
+    if (this.auth.currentUser) 
+      setTimeout(() => {this.router.navigate(['/board']);}, 4000);
+    else 
       this.router.navigate(['/']);
-    }
   }
 
 
   async getUserById(userId: string | null): Promise<UserModel | null> {
     const userDoc = await getDoc(doc(this.firestore, `users/${userId}`));
     return userDoc.exists() ? (userDoc.data() as UserModel) : null;
-  }
-
-
-  /**
-   * Ruft die Avatar-URL eines Benutzers ab und verwendet einen Cache für Performance.
-   */
-  async getCachedAvatar(userId: string): Promise<string> {
-    const now = Date.now();
-    if (this.avatarCache.has(userId)) {
-      const cachedTime = this.avatarCacheTimestamps.get(userId);
-      if (cachedTime && now - cachedTime < this.cacheExpirationTime) {
-        return this.avatarCache.get(userId)!;
-      }
-    }
-    try {
-      const userDoc = await getDoc(doc(this.firestore, `users/${userId}`));
-      if (userDoc.exists()) {
-        const userData = userDoc.data() as UserModel;
-        const avatarUrl = userData.photoURL || 'img/avatars/picPlaceholder.svg';
-        this.avatarCache.set(userId, avatarUrl);
-        this.avatarCacheTimestamps.set(userId, now);
-        return avatarUrl;
-      } else {
-        return 'img/avatars/picPlaceholder.svg';
-      }
-    } catch (error) {
-      return 'img/avatars/picPlaceholder.svg';
-    }
   }
 
 
@@ -538,44 +448,4 @@ export class AuthService {
     const userDocRef = doc(this.firestore, `users/${userId}`);
     return updateDoc(userDocRef, updatedData);
   }
-
-
-  async getUsernamesByIds(
-    userIds: string[]
-  ): Promise<
-    {
-      name: string;
-      userId: string;
-      photoURL: string;
-      email: string;
-      status: boolean;
-    }[]
-  > {  
-    if (!userIds || userIds.length === 0) {
-      return [];
-    }
-    if (userIds.some(id => id === undefined || id === null)) {
-      console.error('[AuthService] ❌ FEHLER: Die Liste enthält eine `undefined` oder `null` User-ID:', userIds);
-      return [];
-    }
-    try {
-      const usersCollection = collection(this.firestore, 'users');
-      const userDocsQuery = query(usersCollection, where('userId', 'in', userIds));
-      const querySnapshot = await getDocs(userDocsQuery);
-      const userDetails = querySnapshot.docs.map((doc) => {
-        const data = doc.data() as UserModel;
-        return {
-          name: data.name,
-          userId: data.userId,
-          photoURL: data.photoURL,
-          email: data.email,
-          status: data.status,
-        };
-      });
-        userDetails.sort((a, b) => a.name.localeCompare(b.name));
-      return userDetails;
-    } catch (error) {
-      console.error('[AuthService] ❌ Fehler beim Abrufen der Benutzerdetails:', error);
-      return [];
-    }
-  }}
+}

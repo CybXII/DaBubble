@@ -15,6 +15,8 @@ import { ChatComponent } from '../../main/chat/chat.component';
   styleUrls: ['./builder.component.scss'],
   animations: [slideAnimationRight, slideAnimationLeft],
 })
+
+
 export class BuilderComponent {
   builder: string[] = ['menu', 'mainchat', 'threadchat'];
   menuOpened = true;
@@ -26,37 +28,36 @@ export class BuilderComponent {
   threadWasOpen = false;
   constructor(private messagesService: MessagesService, private stateService: StateService) {}
 
-  @HostListener('window:resize', [])
-onResize(): void {
-  const wasMobile = this.mobile;
-  this.smallWindow = window.innerWidth <= 1400;
-  this.mobile = window.innerWidth <= 900;
 
-  if (this.mobile && !wasMobile) {
-    this.closeMenu();
-    } else if (!this.mobile && wasMobile) {
-    this.menuOpened = true;
+  @HostListener('window:resize', [])
+  onResize(): void {
+    const wasMobile = this.mobile;
+    this.smallWindow = window.innerWidth <= 1400;
+    this.mobile = window.innerWidth <= 900;
+    if (this.mobile && !wasMobile) {
+      this.closeMenu();
+      } else if (!this.mobile && wasMobile) {
+      this.menuOpened = true;
+    }
   }
-}
+
 
   ngOnInit(): void {
     this.onResize();
-
     this.stateService.menuState$.subscribe((state) => {
       this.menuState = state;
       this.menuOpened = state === 'in';
     });
-
     this.stateService.threadchatState$.subscribe((state) => {
       this.threadchatState = state;
       this.threadchatOpened = state === 'in';
     });
   }
 
+
   toggleMenu(): void {
     this.menuState = this.menuState === 'in' ? 'out' : 'in';
     this.menuOpened = this.menuState === 'in';
-  
     if (this.mobile && this.menuOpened) {
       if (this.threadchatOpened) {
         this.threadWasOpen = true;
@@ -71,20 +72,16 @@ onResize(): void {
     }
   }
 
+
   toggleThreadChat(): void {
     if (this.threadchatState === 'in') {
       this.threadchatState = 'out';
-      setTimeout(() => {
-        this.threadchatOpened = false;
-      }, 300);
+      setTimeout(() => {this.threadchatOpened = false;}, 300);
     } else {
-      if (this.mobile && this.menuOpened) {
+      if (this.mobile && this.menuOpened) 
         this.closeMenu();
-      }
       this.threadchatOpened = true;
-      setTimeout(() => {
-        this.threadchatState = 'in';
-      });
+      setTimeout(() => {this.threadchatState = 'in';});
     }
   }
 
@@ -99,19 +96,15 @@ onResize(): void {
 
   onAnimationDone(event: any, type: string): void {
     if (event.toState === 'in') {
-      if (type === 'menu') {
+      if (type === 'menu') 
         this.menuOpened = true;
-      }
-      if (type === 'threadchat') {
+      if (type === 'threadchat') 
         this.threadchatOpened = true;
-      }
     } else if (event.toState === 'out') {
-      if (type === 'menu') {
+      if (type === 'menu') 
         this.menuOpened = false;
-      }
-      if (type === 'threadchat') {
+      if (type === 'threadchat') 
         this.threadchatOpened = false;
-      }
     }
   }
 }

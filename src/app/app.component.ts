@@ -30,9 +30,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     const isAuthenticated = this.authService.isUserAuthenticated();
     if (isAuthenticated && this.router.url === '/') {
-      console.log('User is authenticated, redirecting to /board');
       this.router.navigateByUrl('/board');
     }
   }
-
 }
