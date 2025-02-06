@@ -207,13 +207,13 @@ export class MenuDialogComponent  implements OnInit {
       console.error('Channel-ID fehlt.');
       return;
     }
-  
+    
     const userId = this.authService.userId();
     if (!userId) {
       console.error('User-ID konnte nicht abgerufen werden.');
       return;
     }
-  
+    
     if (this.dialogData.createdBy === userId || this.dialogData.isPrivate) {
       this.channelsService.deleteChannel(this.dialogData.channelId)
         .then(() => {
@@ -223,7 +223,7 @@ export class MenuDialogComponent  implements OnInit {
         .catch((error) => {
           console.error('Fehler beim Löschen:', error);
         });
-    } else if (!(this.dialogData.creator === userId || !this.dialogData.isPrivate)) {
+    } else if (!(this.dialogData.createdBy == userId) || !this.dialogData.isPrivate) {
       const updatedMembers = this.dialogData.members
         .map((member: any) => member.id)
         .filter((id: string) => id !== userId);
@@ -231,7 +231,6 @@ export class MenuDialogComponent  implements OnInit {
       this.channelsService
         .updateChannel(this.dialogData.channelId, { members: updatedMembers })
         .then(() => {
-          console.log('Du hast den Channel erfolgreich verlassen.');
           this.memberIds = [];
           this.dialogData.members = updatedMembers.map(id => ({ id }));
           this.closeDialog(new Event('close'), 'channelDialog');
@@ -240,6 +239,9 @@ export class MenuDialogComponent  implements OnInit {
           console.error('Fehler beim Verlassen des Channels:', error);
         });
       this.channelsService.clearCurrentChannel();
+    }
+    else {
+      console.error('Fehler beim Verlassen des Channels.' + this.dialogData , 'user'+ userId, 'isPrivate' + this.dialogData.isPrivate);
     }
   }
 
