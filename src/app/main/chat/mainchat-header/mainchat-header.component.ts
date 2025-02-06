@@ -88,7 +88,7 @@ export class MainchatHeaderComponent implements OnInit, OnDestroy {
           );
 
           // 🔥 Lade den Namen des Channel-Erstellers
-          this.authService.getUsernamesByIds([channel.createdBy]).then((creatorDetails) => {
+          this.userService.getUsernamesByIds([channel.createdBy]).then((creatorDetails) => {
             if (creatorDetails && creatorDetails.length > 0) {
               this.channelCreator = creatorDetails[0].name;
               this.cdr.detectChanges();

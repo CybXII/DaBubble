@@ -94,14 +94,12 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
       const channelsWithPartnerNames = await Promise.all(
         privateChannels.map(async (channel) => {
           const partnerIds = channel.members.filter((id) => id !== userId);
-          const partnerNames = await this.authService.getUsernamesByIds(
-            partnerIds
-          );
+          const partnerNames = await this.userService.getUsernamesByIds(partnerIds);
           return {
             ...channel,
             partnerNames: partnerNames
               .map((user) => user.name)
-              .sort((a, b) => a.localeCompare(b)), // Sortiere die Partner-Namen alphabetisch
+              .sort((a, b) => a.localeCompare(b)),
           };
         })
       );
@@ -140,7 +138,7 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
       console.error('[MenuPrivateMessagesComponent] ❌ FEHLER: Mindestens eine User-ID ist undefined oder null:', ids);
       throw new Error('[MenuPrivateMessagesComponent] ❌ FATAL ERROR: Eine User-ID ist undefined. Stacktrace:');
     }
-    const user = await this.authService.getUsernamesByIds(ids);
+    const user = await this.userService.getUsernamesByIds(ids);
     this.users = {
       name: user[0].name ? user[0].name : "",
       userId: user[0].userId ? user[0].userId : "",

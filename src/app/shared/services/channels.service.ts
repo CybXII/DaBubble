@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { AuthService } from './auth.service';
 import { MessagesService } from './messages.service';
 import { StateService } from './state.service';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,8 @@ export class ChannelsService {
   constructor(
     private firestore: Firestore,
     private authService: AuthService,
-    private stateService: StateService
+    private stateService: StateService,
+    private userService: UserService
   ) {
     this.trackUserChanges();
   }
@@ -150,11 +152,11 @@ export class ChannelsService {
       if (memberIds.length === 2) {
         const conversationPartnerId = memberIds.find((id) => id !== userId);
         if (conversationPartnerId) {
-          const usernames = await this.authService.getUsernamesByIds([conversationPartnerId]);
+          const usernames = await this.userService.getUsernamesByIds([conversationPartnerId]);
           channelMembers[channel.id] = usernames.map((user) => user.name);
         }
       } else if (memberIds.length === 1 && memberIds[0] === userId) {
-        const currentUser = await this.authService.getUsernamesByIds([userId]);
+        const currentUser = await this.userService.getUsernamesByIds([userId]);
         channelMembers[channel.id] = currentUser.map((user) => `${user.name} (Du)`);
       } else {
         channelMembers[channel.id] = ['Unbekannt'];
