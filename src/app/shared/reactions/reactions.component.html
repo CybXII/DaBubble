@@ -1,0 +1,14 @@
+<div class="chatbox__emojis-container">
+    <div *ngFor="let reaction of reactions; trackBy: trackByReaction" class="chatbox__emojis"
+        [class.chatbox__emoji-reacted]="isReacted(reaction)" (click)="addReaction(reaction.emoji)">
+        <span class="chatbox__emoji" style="position: relative">{{ reaction.emoji }}
+            <div class="chatbox__reaction-users">
+                <span class="chatbox__reaction-users__icon">{{ reaction.emoji }}</span>
+                <span class="chatbox__reaction-users__title">
+                    {{ getReactionUsers(reaction) | async }}
+                </span>
+            </div>
+        </span>
+        <span>{{ reaction.userIds.length }}</span>
+    </div>
+</div>

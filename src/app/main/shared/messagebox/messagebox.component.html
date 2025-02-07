@@ -1,7 +1,10 @@
 @if (builder === 'createmessage') {
-<form id="messagebox" class="messagebox-wrapper">
-  <textarea class="messagebox" name="messagebox" id="messagebox" [(ngModel)]="messageContent"
-    placeholder="Starte eine neue Nachricht" (keyup)="checkKeyStatus($event, 'mainchat')"></textarea>
+<form id="messageboxcontainer" class="messagebox-wrapper">
+  <textarea #mainMessageBox (click)="preventMsgBoxEmojiPickerClose($event)"
+    class="messagebox" name="messagebox" id="messagebox"
+    [(ngModel)]="messageContent" placeholder="Nachricht an {{ activeChannelName }}..."
+    (keyup)="checkKeyStatus($event, 'mainchat')">
+  </textarea>
   <div class="messagebox__icons-container">
     <div>
         @if (isMessageBoxCreateMessagePickerOpen) {
@@ -17,8 +20,8 @@
   </div>
 </form>
 } @if (builder === 'mainchat') {
-<form id="messagebox" class="messagebox-wrapper">
-  <textarea (click)="preventMsgBoxEmojiPickerClose($event)" class="messagebox" name="messagebox" id="messagebox"
+<form id="messageboxcontainer" class="messagebox-wrapper">
+  <textarea  #mainMessageBox (click)="preventMsgBoxEmojiPickerClose($event)" class="messagebox" name="messagebox" id="messagebox"
     [(ngModel)]="messageContent" placeholder="Nachricht an {{ activeChannelName }}..."
     (keyup)="checkKeyStatus($event, 'mainchat')"></textarea>
   <div class="messagebox__icons-container">
@@ -35,10 +38,12 @@
   </div>
 </form>
 } @if (builder === 'threadchat') {
-<form id="threadmessagebox" (ngSubmit)="sendThreadMessage()" class="messagebox-wrapper">
-  <textarea (click)="preventMsgBoxEmojiPickerClose($event)" class="messagebox" name="threadmessagebox"
-    id="threadmessagebox" [(ngModel)]="messageContent" placeholder="Antworten..."
-    (keyup)="checkKeyStatus($event, 'threadchat')"></textarea>
+<form id="threadmessageboxcontainer" (ngSubmit)="sendThreadMessage()" class="messagebox-wrapper">
+  <textarea #threadMessageBox (click)="preventMsgBoxEmojiPickerClose($event)"
+    class="messagebox" name="threadmessagebox" id="threadmessagebox"
+    [(ngModel)]="messageContent" placeholder="Antworten..."
+    (keyup)="checkKeyStatus($event, 'threadchat')">
+  </textarea>
   <div class="messagebox__icons-container">
     <div>
       @if (isMessageBoxThreadPickerOpen) {
