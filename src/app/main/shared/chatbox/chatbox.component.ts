@@ -34,6 +34,7 @@ import { StateService } from '../../../shared/services/state.service';
 import { FormsModule } from '@angular/forms';
 import { ReactionsComponent } from '../../../shared/reactions/reactions.component';
 import { SaveEditMessageService } from '../../../shared/services/save-edit-message.service';
+import { EmojiStorageService } from '../../../shared/services/emoji-storage.service';
 
 @Component({
   selector: 'app-chatbox',
@@ -88,7 +89,8 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     private destroyRef: DestroyRef,
     private userService: UserService,
     private stateService: StateService,
-    private saveEditedMessage: SaveEditMessageService
+    private saveEditedMessage: SaveEditMessageService,
+    private emojiStorageService: EmojiStorageService
   ) {
     this.currentChannel$ = this.channelsService.currentChannel$;
     this.messages$ = this.messagesService.messages$.pipe(
@@ -301,6 +303,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       : this.messagesService.updateMessage(messageIdOrThreadDocId, userId, updateData);
     updatePromise.catch(error => console.error('Fehler beim Hinzufügen der Reaktion:', error));
     this.emojiPickerService.closeChatBoxEmojiPicker();
+    this.emojiStorageService.saveEmoji(emoji);
   }
 
 
@@ -407,5 +410,10 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   
   saveEdit(message: Partial<Message>, threadMessage:boolean, parrentID: string) {
     this.saveEditedMessage.save(message, threadMessage, parrentID, message.docId)
+  }
+
+  getLastUsedEmojis(index: number) {
+    const emojis = this.emojiStorageService.getEmojis();
+    return emojis[index];
   }
 }

@@ -161,6 +161,7 @@
     border-radius: 20px;
     width: 40px;
     height: 40px;
+    cursor: pointer;
 
     &:hover {
       filter: invert(31%) sepia(41%) saturate(5436%) hue-rotate(231deg)
@@ -183,6 +184,20 @@
   svg {
     width: 24px;
     height: 24px;
+  }
+}
+
+.chatbox__addemoji__lastUsedEmoji{
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  font-size:20px;
+
+  &:hover{
+    background-color: colors.$bg-color;
   }
 }
 
