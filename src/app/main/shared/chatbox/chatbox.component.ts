@@ -33,6 +33,7 @@ import { UserService } from '../../../shared/services/user.service';
 import { StateService } from '../../../shared/services/state.service';
 import { FormsModule } from '@angular/forms';
 import { ReactionsComponent } from '../../../shared/reactions/reactions.component';
+import { SaveEditMessageService } from '../../../shared/services/save-edit-message.service';
 import { EmojiStorageService } from '../../../shared/services/emoji-storage.service';
 
 @Component({
@@ -70,9 +71,11 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   user: {
     name:string,
     photoUrl:string,
+    id:string,
   } = {
     name: '',
-    photoUrl: ''
+    photoUrl: '',
+    id: '',
   };
 
   constructor(
@@ -86,6 +89,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     private destroyRef: DestroyRef,
     private userService: UserService,
     private stateService: StateService,
+    private saveEditedMessage: SaveEditMessageService,
     private emojiStorageService: EmojiStorageService
   ) {
     this.currentChannel$ = this.channelsService.currentChannel$;
@@ -167,11 +171,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       emojiSubscription2.unsubscribe();
       emojiSubscription3.unsubscribe();
     });
-    
-    // this.checkMessages().then(result => {
-    //   this.isEmptyMessage = result;
-    //   console.warn(this.isEmptyMessage)
-    // })
 
     this.currentChannel$.subscribe(channel => {
       this.channelName = channel?.name ? channel.name : "";
@@ -183,6 +182,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
           const data = {
             name: user.name ? user.name : '',
             photoUrl: user.photoURL ? user.photoURL : '',
+            id: user.userId ? user.userId : '',
           }
           this.user = data;
         })
@@ -208,6 +208,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
         this.scrollToBottom(this.builder === 'mainchat' ? '.mainchat__chatbox' : '.threadchat__chatbox');
       });
       observer.observe(chatbox, { childList: true, subtree: true });
+      this.checkMessageIsEmpty();
     }
   }
 
@@ -397,16 +398,18 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     return message.docId || `fallback-${timestampValue}-${index}`;
   }
 
-  checkMessages(): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      this.messages$.pipe(
-        isEmpty()
-      ).subscribe(isEmpty => {
-        resolve(isEmpty);
-      }, error => {
-        reject(error)
-      });
-    });
+  checkMessageIsEmpty() {
+    this.messages$.subscribe(message => {
+      if (message.length === 0) {
+        this.isEmptyMessage = true;
+      } else {
+        this.isEmptyMessage = false;
+      }
+    })    
+  }
+  
+  saveEdit(message: Partial<Message>, threadMessage:boolean, parrentID: string) {
+    this.saveEditedMessage.save(message, threadMessage, parrentID, message.docId)
   }
 
   getLastUsedEmojis(index: number) {

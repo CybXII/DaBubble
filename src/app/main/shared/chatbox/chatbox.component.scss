@@ -453,6 +453,7 @@
   display: flex;
   flex-direction: column;
   justify-content: end;
+  cursor: default;
 
   h2 {
     font-weight: 700;
@@ -483,6 +484,32 @@
     margin: 20px 20px;
     span {
       display: flex;
+    }
+  }
+
+  .name {
+    color: colors.$purple3;
+
+    &:hover {
+      font-weight: 700;
+      cursor: pointer;
+    }
+  }
+
+  .nohover {
+    &:hover {
+      font-weight: 400;
+      cursor: default;
+    }
+  }
+}
+
+@media(max-width: 550px) {
+  .emptyMessage {
+    .text {
+      span {
+        flex-direction: column;
+      }
     }
   }
 }
