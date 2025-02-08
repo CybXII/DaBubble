@@ -88,7 +88,7 @@ export class ChannelsService {
     try {
       await addDoc(channelsCollection, {
         ...channel,
-        createdAt: new Date(),
+        createdAt: new Date().getTime(),
       });
     } catch (error) {
       console.error('Fehler beim Erstellen des Channels:', error);
