@@ -3,6 +3,7 @@ import {
   Output,
   EventEmitter,
   OnInit,
+  Input,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -21,6 +22,7 @@ import { UserDialogService } from '../../../services/user-dialog.service';
 })
 export class DialogComponent implements OnInit {
   @Output() dialogChange = new EventEmitter<boolean>();
+  @Input() mobileDialog = false;
 
   constructor(
     public userDialog$: UserDialogService,
@@ -32,4 +34,8 @@ export class DialogComponent implements OnInit {
     
   }
 
+  onOpenMobileProfile(){
+    this.userDialog$.openProfile();
+    // this.mobileDialog = !this.mobileDialog;
+  }
 }

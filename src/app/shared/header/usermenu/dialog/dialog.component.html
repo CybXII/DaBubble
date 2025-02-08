@@ -1,43 +1,133 @@
+@if (userDialog$.dialog) { @if(mobileDialog){
+<div class="mobileUserDialog" (click)="userDialog$.dontCloseDialog($event)">
+  <div class="mobile-userDialog-divider"></div>
+  <button class="mobile-userDialog-profil" (click)="userDialog$.openProfile()">
+    <svg
+      width="26"
+      height="26"
+      viewBox="0 0 26 26"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M5.3125 19.375C6.375 18.5625 7.5625 17.9217 8.875 17.4525C10.1875 16.9842 11.5625 16.75 13 16.75C14.4375 16.75 15.8125 16.9842 17.125 17.4525C18.4375 17.9217 19.625 18.5625 20.6875 19.375C21.4167 18.5208 21.9846 17.5521 22.3913 16.4688C22.7971 15.3854 23 14.2292 23 13C23 10.2292 22.0263 7.86958 20.0788 5.92125C18.1304 3.97375 15.7708 3 13 3C10.2292 3 7.87 3.97375 5.9225 5.92125C3.97417 7.86958 3 10.2292 3 13C3 14.2292 3.20333 15.3854 3.61 16.4688C4.01583 17.5521 4.58333 18.5208 5.3125 19.375ZM13 14.25C11.7708 14.25 10.7342 13.8283 9.89 12.985C9.04667 12.1408 8.625 11.1042 8.625 9.875C8.625 8.64583 9.04667 7.60917 9.89 6.765C10.7342 5.92167 11.7708 5.5 13 5.5C14.2292 5.5 15.2658 5.92167 16.11 6.765C16.9533 7.60917 17.375 8.64583 17.375 9.875C17.375 11.1042 16.9533 12.1408 16.11 12.985C15.2658 13.8283 14.2292 14.25 13 14.25ZM13 25.5C11.2708 25.5 9.64583 25.1717 8.125 24.515C6.60417 23.8592 5.28125 22.9688 4.15625 21.8438C3.03125 20.7188 2.14083 19.3958 1.485 17.875C0.828333 16.3542 0.5 14.7292 0.5 13C0.5 11.2708 0.828333 9.64583 1.485 8.125C2.14083 6.60417 3.03125 5.28125 4.15625 4.15625C5.28125 3.03125 6.60417 2.14042 8.125 1.48375C9.64583 0.827917 11.2708 0.5 13 0.5C14.7292 0.5 16.3542 0.827917 17.875 1.48375C19.3958 2.14042 20.7188 3.03125 21.8438 4.15625C22.9688 5.28125 23.8592 6.60417 24.515 8.125C25.1717 9.64583 25.5 11.2708 25.5 13C25.5 14.7292 25.1717 16.3542 24.515 17.875C23.8592 19.3958 22.9688 20.7188 21.8438 21.8438C20.7188 22.9688 19.3958 23.8592 17.875 24.515C16.3542 25.1717 14.7292 25.5 13 25.5ZM13 23C14.1042 23 15.1458 22.8388 16.125 22.5163C17.1042 22.1929 18 21.7292 18.8125 21.125C18 20.5208 17.1042 20.0571 16.125 19.7337C15.1458 19.4112 14.1042 19.25 13 19.25C11.8958 19.25 10.8542 19.4112 9.875 19.7337C8.89583 20.0571 8 20.5208 7.1875 21.125C8 21.7292 8.89583 22.1929 9.875 22.5163C10.8542 22.8388 11.8958 23 13 23ZM13 11.75C13.5417 11.75 13.9896 11.5729 14.3438 11.2188C14.6979 10.8646 14.875 10.4167 14.875 9.875C14.875 9.33333 14.6979 8.88542 14.3438 8.53125C13.9896 8.17708 13.5417 8 13 8C12.4583 8 12.0104 8.17708 11.6562 8.53125C11.3021 8.88542 11.125 9.33333 11.125 9.875C11.125 10.4167 11.3021 10.8646 11.6562 11.2188C12.0104 11.5729 12.4583 11.75 13 11.75Z"
+        fill="black"
+      />
+    </svg>
+    <span>Profil</span>
+  </button>
+  <button class="mobile-userDialog-Log out" (click)="userDialog$.logout()">
+    <svg
+      width="23"
+      height="24"
+      viewBox="0 0 23 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M16.1562 17.3438C15.9271 17.0729 15.8125 16.7654 15.8125 16.4212C15.8125 16.0779 15.9271 15.7917 16.1562 15.5625L18.4687 13.25H9.5C9.14583 13.25 8.84917 13.13 8.61 12.89C8.37 12.6508 8.25 12.3542 8.25 12C8.25 11.6458 8.37 11.3487 8.61 11.1087C8.84917 10.8696 9.14583 10.75 9.5 10.75H18.4687L16.1562 8.4375C15.9062 8.1875 15.7812 7.89083 15.7812 7.5475C15.7812 7.20333 15.9062 6.90625 16.1562 6.65625C16.3854 6.40625 16.6721 6.28125 17.0162 6.28125C17.3596 6.28125 17.6458 6.39583 17.875 6.625L22.375 11.125C22.5 11.25 22.5887 11.3854 22.6412 11.5312C22.6929 11.6771 22.7187 11.8333 22.7187 12C22.7187 12.1667 22.6929 12.3229 22.6412 12.4688C22.5887 12.6146 22.5 12.75 22.375 12.875L17.875 17.375C17.6042 17.6458 17.3075 17.7654 16.985 17.7337C16.6617 17.7029 16.3854 17.5729 16.1562 17.3438ZM3.25 23.25C2.5625 23.25 1.97375 23.0054 1.48375 22.5163C0.994583 22.0263 0.75 21.4375 0.75 20.75V3.25C0.75 2.5625 0.994583 1.97375 1.48375 1.48375C1.97375 0.994583 2.5625 0.75 3.25 0.75H10.75C11.1042 0.75 11.4012 0.869583 11.6412 1.10875C11.8804 1.34875 12 1.64583 12 2C12 2.35417 11.8804 2.65083 11.6412 2.89C11.4012 3.13 11.1042 3.25 10.75 3.25H3.25V20.75H10.75C11.1042 20.75 11.4012 20.87 11.6412 21.11C11.8804 21.3492 12 21.6458 12 22C12 22.3542 11.8804 22.6508 11.6412 22.89C11.4012 23.13 11.1042 23.25 10.75 23.25H3.25Z"
+        fill="black"
+      />
+    </svg>
+    <span>Log out</span>
+  </button>
+</div>
+} @else {
 <div
   [ngClass]="{
-    'dialog-container': userDialog$.dialog || userDialog$.profileDialog || userDialog$.profileDialogEdit
+    'dialog-container':
+      userDialog$.dialog ||
+      userDialog$.profileDialog ||
+      userDialog$.profileDialogEdit
   }"
+  [style.backgroundColor]="mobileDialog ? 'none' : 'white'"
   (click)="userDialog$.dontCloseDialog($event)"
 >
-  @if (userDialog$.dialog) {
   <a (click)="userDialog$.openProfile()" class="dialog-link">Profil</a>
-  <a (click)="userDialog$.closeDialog($event)" routerLink="/imprint" class="dialog-link">Impressum</a>
-  <a (click)="userDialog$.closeDialog($event)" routerLink="/legalnotice" class="dialog-link">Datenschutz</a>
+  <a
+    (click)="userDialog$.closeDialog($event)"
+    routerLink="/imprint"
+    class="dialog-link"
+    >Impressum</a
+  >
+  <a
+    (click)="userDialog$.closeDialog($event)"
+    routerLink="/legalnotice"
+    class="dialog-link"
+    >Datenschutz</a
+  >
   <a (click)="userDialog$.logout()" class="dialog-link">Logout</a>
-  } @else if (userDialog$.profileDialog) {
-
+</div>
+} } @else if (userDialog$.profileDialog) {
+<div
+  [ngClass]="{
+    'dialog-container':
+      userDialog$.dialog ||
+      userDialog$.profileDialog ||
+      userDialog$.profileDialogEdit
+  }"
+  [style.backgroundColor]="mobileDialog ? 'none' : 'white'"
+  (click)="userDialog$.dontCloseDialog($event)"
+>
   <div class="dialog-profile-container">
     <div class="dialog-header">
       <span>Profil</span>
       @if(userDialog$.exitActiv) {
-        <svg
-          alt="close"
-          (click)="userDialog$.closeProfileDialogs($event)"
-          width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <mask id="mask0_103447_3506" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
-          <rect width="24" height="24" fill="#D9D9D9"/>
-          </mask>
-          <g mask="url(#mask0_103447_3506)">
-          <path d="M12 13.4L7.09999 18.3C6.91665 18.4833 6.68332 18.575 6.39999 18.575C6.11665 18.575 5.88332 18.4833 5.69999 18.3C5.51665 18.1167 5.42499 17.8833 5.42499 17.6C5.42499 17.3167 5.51665 17.0833 5.69999 16.9L10.6 12L5.69999 7.09999C5.51665 6.91665 5.42499 6.68332 5.42499 6.39999C5.42499 6.11665 5.51665 5.88332 5.69999 5.69999C5.88332 5.51665 6.11665 5.42499 6.39999 5.42499C6.68332 5.42499 6.91665 5.51665 7.09999 5.69999L12 10.6L16.9 5.69999C17.0833 5.51665 17.3167 5.42499 17.6 5.42499C17.8833 5.42499 18.1167 5.51665 18.3 5.69999C18.4833 5.88332 18.575 6.11665 18.575 6.39999C18.575 6.68332 18.4833 6.91665 18.3 7.09999L13.4 12L18.3 16.9C18.4833 17.0833 18.575 17.3167 18.575 17.6C18.575 17.8833 18.4833 18.1167 18.3 18.3C18.1167 18.4833 17.8833 18.575 17.6 18.575C17.3167 18.575 17.0833 18.4833 16.9 18.3L12 13.4Z" fill="black"/>
-          </g>
-        </svg>
+      <svg
+        alt="close"
+        (click)="userDialog$.closeProfileDialogs($event)"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <mask
+          id="mask0_103447_3506"
+          style="mask-type: alpha"
+          maskUnits="userSpaceOnUse"
+          x="0"
+          y="0"
+          width="24"
+          height="24"
+        >
+          <rect width="24" height="24" fill="#D9D9D9" />
+        </mask>
+        <g mask="url(#mask0_103447_3506)">
+          <path
+            d="M12 13.4L7.09999 18.3C6.91665 18.4833 6.68332 18.575 6.39999 18.575C6.11665 18.575 5.88332 18.4833 5.69999 18.3C5.51665 18.1167 5.42499 17.8833 5.42499 17.6C5.42499 17.3167 5.51665 17.0833 5.69999 16.9L10.6 12L5.69999 7.09999C5.51665 6.91665 5.42499 6.68332 5.42499 6.39999C5.42499 6.11665 5.51665 5.88332 5.69999 5.69999C5.88332 5.51665 6.11665 5.42499 6.39999 5.42499C6.68332 5.42499 6.91665 5.51665 7.09999 5.69999L12 10.6L16.9 5.69999C17.0833 5.51665 17.3167 5.42499 17.6 5.42499C17.8833 5.42499 18.1167 5.51665 18.3 5.69999C18.4833 5.88332 18.575 6.11665 18.575 6.39999C18.575 6.68332 18.4833 6.91665 18.3 7.09999L13.4 12L18.3 16.9C18.4833 17.0833 18.575 17.3167 18.575 17.6C18.575 17.8833 18.4833 18.1167 18.3 18.3C18.1167 18.4833 17.8833 18.575 17.6 18.575C17.3167 18.575 17.0833 18.4833 16.9 18.3L12 13.4Z"
+            fill="black"
+          />
+        </g>
+      </svg>
       } @else {
-        <svg
-          alt="close"
-          (click)="userDialog$.closeDialog($event)"
-          width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <mask id="mask0_103447_3506" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
-          <rect width="24" height="24" fill="#D9D9D9"/>
-          </mask>
-          <g mask="url(#mask0_103447_3506)">
-          <path d="M12 13.4L7.09999 18.3C6.91665 18.4833 6.68332 18.575 6.39999 18.575C6.11665 18.575 5.88332 18.4833 5.69999 18.3C5.51665 18.1167 5.42499 17.8833 5.42499 17.6C5.42499 17.3167 5.51665 17.0833 5.69999 16.9L10.6 12L5.69999 7.09999C5.51665 6.91665 5.42499 6.68332 5.42499 6.39999C5.42499 6.11665 5.51665 5.88332 5.69999 5.69999C5.88332 5.51665 6.11665 5.42499 6.39999 5.42499C6.68332 5.42499 6.91665 5.51665 7.09999 5.69999L12 10.6L16.9 5.69999C17.0833 5.51665 17.3167 5.42499 17.6 5.42499C17.8833 5.42499 18.1167 5.51665 18.3 5.69999C18.4833 5.88332 18.575 6.11665 18.575 6.39999C18.575 6.68332 18.4833 6.91665 18.3 7.09999L13.4 12L18.3 16.9C18.4833 17.0833 18.575 17.3167 18.575 17.6C18.575 17.8833 18.4833 18.1167 18.3 18.3C18.1167 18.4833 17.8833 18.575 17.6 18.575C17.3167 18.575 17.0833 18.4833 16.9 18.3L12 13.4Z" fill="black"/>
-          </g>
-        </svg>
+      <svg
+        alt="close"
+        (click)="userDialog$.closeDialog($event)"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <mask
+          id="mask0_103447_3506"
+          style="mask-type: alpha"
+          maskUnits="userSpaceOnUse"
+          x="0"
+          y="0"
+          width="24"
+          height="24"
+        >
+          <rect width="24" height="24" fill="#D9D9D9" />
+        </mask>
+        <g mask="url(#mask0_103447_3506)">
+          <path
+            d="M12 13.4L7.09999 18.3C6.91665 18.4833 6.68332 18.575 6.39999 18.575C6.11665 18.575 5.88332 18.4833 5.69999 18.3C5.51665 18.1167 5.42499 17.8833 5.42499 17.6C5.42499 17.3167 5.51665 17.0833 5.69999 16.9L10.6 12L5.69999 7.09999C5.51665 6.91665 5.42499 6.68332 5.42499 6.39999C5.42499 6.11665 5.51665 5.88332 5.69999 5.69999C5.88332 5.51665 6.11665 5.42499 6.39999 5.42499C6.68332 5.42499 6.91665 5.51665 7.09999 5.69999L12 10.6L16.9 5.69999C17.0833 5.51665 17.3167 5.42499 17.6 5.42499C17.8833 5.42499 18.1167 5.51665 18.3 5.69999C18.4833 5.88332 18.575 6.11665 18.575 6.39999C18.575 6.68332 18.4833 6.91665 18.3 7.09999L13.4 12L18.3 16.9C18.4833 17.0833 18.575 17.3167 18.575 17.6C18.575 17.8833 18.4833 18.1167 18.3 18.3C18.1167 18.4833 17.8833 18.575 17.6 18.575C17.3167 18.575 17.0833 18.4833 16.9 18.3L12 13.4Z"
+            fill="black"
+          />
+        </g>
+      </svg>
       }
     </div>
     <div class="dialog-avatar">
@@ -49,11 +139,18 @@
         <a (click)="userDialog$.openProfileEdit()">Bearbeiten</a>
       </div>
       <div>
-        <div target="online-status" [ngStyle]="{'background-color': userDialog$.userData?.status ? '#92c83e' : '#696969'}"></div>
+        <div
+          target="online-status"
+          [ngStyle]="{
+            'background-color': userDialog$.userData?.status
+              ? '#92c83e'
+              : '#696969'
+          }"
+        ></div>
         @if (userDialog$.userData?.status) {
-        <span style="color:#92c83e">Aktiv</span>
+        <span style="color: #92c83e">Aktiv</span>
         } @else {
-        <span style="color:#696969">Offline</span>
+        <span style="color: #696969">Offline</span>
         }
       </div>
     </div>
@@ -65,34 +162,77 @@
       </div>
     </div>
   </div>
-  } @else if (userDialog$.profileDialogEdit){
+</div>
+} @else if (userDialog$.profileDialogEdit){
+<div
+  [ngClass]="{
+    'dialog-container':
+      userDialog$.dialog ||
+      userDialog$.profileDialog ||
+      userDialog$.profileDialogEdit
+  }"
+  [style.backgroundColor]="mobileDialog ? 'none' : 'white'"
+  (click)="userDialog$.dontCloseDialog($event)"
+>
   <form class="dialog-profile-container" [formGroup]="userDialog$.profileForm">
     <div class="dialog-header">
       <span>Dein Profil bearbeiten</span>
       @if(userDialog$.exitActiv) {
-        <svg
-          alt="close"
-          (click)="userDialog$.closeProfileDialogs($event)"
-          width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <mask id="mask0_103447_3506" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
-          <rect width="24" height="24" fill="#D9D9D9"/>
-          </mask>
-          <g mask="url(#mask0_103447_3506)">
-          <path d="M12 13.4L7.09999 18.3C6.91665 18.4833 6.68332 18.575 6.39999 18.575C6.11665 18.575 5.88332 18.4833 5.69999 18.3C5.51665 18.1167 5.42499 17.8833 5.42499 17.6C5.42499 17.3167 5.51665 17.0833 5.69999 16.9L10.6 12L5.69999 7.09999C5.51665 6.91665 5.42499 6.68332 5.42499 6.39999C5.42499 6.11665 5.51665 5.88332 5.69999 5.69999C5.88332 5.51665 6.11665 5.42499 6.39999 5.42499C6.68332 5.42499 6.91665 5.51665 7.09999 5.69999L12 10.6L16.9 5.69999C17.0833 5.51665 17.3167 5.42499 17.6 5.42499C17.8833 5.42499 18.1167 5.51665 18.3 5.69999C18.4833 5.88332 18.575 6.11665 18.575 6.39999C18.575 6.68332 18.4833 6.91665 18.3 7.09999L13.4 12L18.3 16.9C18.4833 17.0833 18.575 17.3167 18.575 17.6C18.575 17.8833 18.4833 18.1167 18.3 18.3C18.1167 18.4833 17.8833 18.575 17.6 18.575C17.3167 18.575 17.0833 18.4833 16.9 18.3L12 13.4Z" fill="black"/>
-          </g>
-        </svg>
+      <svg
+        alt="close"
+        (click)="userDialog$.closeProfileDialogs($event)"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <mask
+          id="mask0_103447_3506"
+          style="mask-type: alpha"
+          maskUnits="userSpaceOnUse"
+          x="0"
+          y="0"
+          width="24"
+          height="24"
+        >
+          <rect width="24" height="24" fill="#D9D9D9" />
+        </mask>
+        <g mask="url(#mask0_103447_3506)">
+          <path
+            d="M12 13.4L7.09999 18.3C6.91665 18.4833 6.68332 18.575 6.39999 18.575C6.11665 18.575 5.88332 18.4833 5.69999 18.3C5.51665 18.1167 5.42499 17.8833 5.42499 17.6C5.42499 17.3167 5.51665 17.0833 5.69999 16.9L10.6 12L5.69999 7.09999C5.51665 6.91665 5.42499 6.68332 5.42499 6.39999C5.42499 6.11665 5.51665 5.88332 5.69999 5.69999C5.88332 5.51665 6.11665 5.42499 6.39999 5.42499C6.68332 5.42499 6.91665 5.51665 7.09999 5.69999L12 10.6L16.9 5.69999C17.0833 5.51665 17.3167 5.42499 17.6 5.42499C17.8833 5.42499 18.1167 5.51665 18.3 5.69999C18.4833 5.88332 18.575 6.11665 18.575 6.39999C18.575 6.68332 18.4833 6.91665 18.3 7.09999L13.4 12L18.3 16.9C18.4833 17.0833 18.575 17.3167 18.575 17.6C18.575 17.8833 18.4833 18.1167 18.3 18.3C18.1167 18.4833 17.8833 18.575 17.6 18.575C17.3167 18.575 17.0833 18.4833 16.9 18.3L12 13.4Z"
+            fill="black"
+          />
+        </g>
+      </svg>
       } @else {
-        <svg
-          alt="close"
-          (click)="userDialog$.closeDialog($event)"
-          width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <mask id="mask0_103447_3506" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
-          <rect width="24" height="24" fill="#D9D9D9"/>
-          </mask>
-          <g mask="url(#mask0_103447_3506)">
-          <path d="M12 13.4L7.09999 18.3C6.91665 18.4833 6.68332 18.575 6.39999 18.575C6.11665 18.575 5.88332 18.4833 5.69999 18.3C5.51665 18.1167 5.42499 17.8833 5.42499 17.6C5.42499 17.3167 5.51665 17.0833 5.69999 16.9L10.6 12L5.69999 7.09999C5.51665 6.91665 5.42499 6.68332 5.42499 6.39999C5.42499 6.11665 5.51665 5.88332 5.69999 5.69999C5.88332 5.51665 6.11665 5.42499 6.39999 5.42499C6.68332 5.42499 6.91665 5.51665 7.09999 5.69999L12 10.6L16.9 5.69999C17.0833 5.51665 17.3167 5.42499 17.6 5.42499C17.8833 5.42499 18.1167 5.51665 18.3 5.69999C18.4833 5.88332 18.575 6.11665 18.575 6.39999C18.575 6.68332 18.4833 6.91665 18.3 7.09999L13.4 12L18.3 16.9C18.4833 17.0833 18.575 17.3167 18.575 17.6C18.575 17.8833 18.4833 18.1167 18.3 18.3C18.1167 18.4833 17.8833 18.575 17.6 18.575C17.3167 18.575 17.0833 18.4833 16.9 18.3L12 13.4Z" fill="black"/>
-          </g>
-        </svg>
+      <svg
+        alt="close"
+        (click)="userDialog$.closeDialog($event)"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <mask
+          id="mask0_103447_3506"
+          style="mask-type: alpha"
+          maskUnits="userSpaceOnUse"
+          x="0"
+          y="0"
+          width="24"
+          height="24"
+        >
+          <rect width="24" height="24" fill="#D9D9D9" />
+        </mask>
+        <g mask="url(#mask0_103447_3506)">
+          <path
+            d="M12 13.4L7.09999 18.3C6.91665 18.4833 6.68332 18.575 6.39999 18.575C6.11665 18.575 5.88332 18.4833 5.69999 18.3C5.51665 18.1167 5.42499 17.8833 5.42499 17.6C5.42499 17.3167 5.51665 17.0833 5.69999 16.9L10.6 12L5.69999 7.09999C5.51665 6.91665 5.42499 6.68332 5.42499 6.39999C5.42499 6.11665 5.51665 5.88332 5.69999 5.69999C5.88332 5.51665 6.11665 5.42499 6.39999 5.42499C6.68332 5.42499 6.91665 5.51665 7.09999 5.69999L12 10.6L16.9 5.69999C17.0833 5.51665 17.3167 5.42499 17.6 5.42499C17.8833 5.42499 18.1167 5.51665 18.3 5.69999C18.4833 5.88332 18.575 6.11665 18.575 6.39999C18.575 6.68332 18.4833 6.91665 18.3 7.09999L13.4 12L18.3 16.9C18.4833 17.0833 18.575 17.3167 18.575 17.6C18.575 17.8833 18.4833 18.1167 18.3 18.3C18.1167 18.4833 17.8833 18.575 17.6 18.575C17.3167 18.575 17.0833 18.4833 16.9 18.3L12 13.4Z"
+            fill="black"
+          />
+        </g>
+      </svg>
       }
     </div>
     <div class="dialog-avatar">
@@ -109,7 +249,9 @@
         (input)="userDialog$.profileDataChange()"
         placeholder="Bitte vollständigen Namen eingeben"
         formControlName="userInputName"
-        [ngClass]="{'data-change-not-allowed': userDialog$.profileForm.disabled}"
+        [ngClass]="{
+          'data-change-not-allowed': userDialog$.profileForm.disabled
+        }"
       />
       <div
         *ngIf="
@@ -150,7 +292,9 @@
         (input)="userDialog$.profileDataChange()"
         placeholder="Bitte E-Mail-Adresse eingeben"
         formControlName="userInputEmail"
-        [ngClass]="{'data-change-not-allowed': userDialog$.profileForm.disabled}"
+        [ngClass]="{
+          'data-change-not-allowed': userDialog$.profileForm.disabled
+        }"
       />
       <div
         *ngIf="
@@ -178,12 +322,14 @@
       </button>
       <button
         class="save default"
-        [disabled]="!userDialog$.profileDataChanged() || userDialog$.profileForm.invalid"
+        [disabled]="
+          !userDialog$.profileDataChanged() || userDialog$.profileForm.invalid
+        "
         (click)="userDialog$.saveProfile()"
       >
         Speichern
       </button>
     </div>
   </form>
-  }
 </div>
+}

@@ -50,6 +50,7 @@ export class UserDialogService {
 
   openProfile() {
     this.profileDialog = true;
+    console.log(this.profileDialog);
     this.dialog = false;
   }
 
@@ -83,6 +84,7 @@ export class UserDialogService {
 
   onDialogChange(newValue: boolean) {
     this.dialog = newValue;
+    console.log(newValue);
   }
 
   async saveProfile(): Promise<void> {

@@ -191,6 +191,62 @@
   @include mixins.elipsis(250px);
 }
 
+.mobileUserDialog {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 30px 26px;
+  z-index: 9999;
+  background-color: white;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  box-shadow: 0px -3px 10px 0px rgba(0, 0, 0, 0.2);
+  // opacity: 0;
+  // transform: translateY(100%);
+  // visibility: hidden;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out,
+    visibility 0.3s;
+
+  > * + * {
+    margin-top: 20px;
+  }
+
+  button {
+    all: unset;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: fit-content;
+    cursor: pointer;
+    padding: 10px 30px;
+    border-radius: 100px;
+
+    &:hover {
+      color: colors.$purple2;
+      background-color: colors.$bg-color;
+    }
+
+    &:hover path {
+      fill: colors.$purple2;
+    }
+
+    span {
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 27.78px;
+    }
+  }
+}
+
+.mobile-userDialog-divider {
+  background-color: rgba(217, 217, 217, 1);
+  height: 6px;
+  width: 62px;
+  border-radius: 23px;
+  margin-inline: auto;
+}
+
 @media screen and (min-width: 1920px) {
   .dialog-container {
     right: calc(100vw / 2 + -940px) !important;
