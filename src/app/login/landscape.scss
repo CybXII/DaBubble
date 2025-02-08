@@ -1,0 +1,18 @@
+@media (orientation: landscape) and (max-width: 800px) {
+
+    section {
+        padding-top: 140px;
+    }
+
+    .sectionDisplayHeight {
+        height: unset;
+        padding-top: 140px;
+    }
+    .reset {
+        .containerNoAnimation {
+            left: 0px;
+            justify-content: center;
+            width: 100%;
+        }
+    }
+}
