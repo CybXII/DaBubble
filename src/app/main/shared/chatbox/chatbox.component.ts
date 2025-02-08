@@ -18,7 +18,7 @@ import { MessagesService } from '../../../shared/services/messages.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { Message, Reaction, ThreadMessage } from '../../../models/message';
 import { combineLatest, from, Observable, of, Subject } from 'rxjs';
-import { catchError, isEmpty, map, startWith, takeUntil, tap } from 'rxjs/operators';
+import { catchError, filter, isEmpty, map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { Channel } from '../../../models/channel';
 import { ChannelsService } from '../../../shared/services/channels.service';
@@ -67,7 +67,9 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   isEmptyMessage: boolean = false;
   self:boolean = false;
   private:boolean = false;
-  channelName:string = '';
+  channelName: string = '';
+  channelCreatorName:string = '';
+  timestep: any;
   user: {
     name:string,
     photoUrl:string,
@@ -116,11 +118,42 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.channelsService.setDefaultChannel();
-    this.channelsService.currentChannel$.subscribe(channel => {
+    this.channelsService.currentChannel$.pipe(
+      filter(channel => !!channel),
+      switchMap((channel) => 
+        this.getUserName(channel?.createdBy ?? '').pipe(
+          map(userName => ({ channel, userName })),
+          tap(({ channel }) => {
+            let x = new Date(channel?.createdAt ? channel?.createdAt : '')
+          
+            if (typeof Date) {
+              const day = x.getDate();
+              const month = x.getMonth() + 1; // Monate sind 0-basiert
+              const year = x.getFullYear();
+              const newDate = `${day}.${month}.${year}`;
+              
+              if (
+                (x.getDate() === new Date().getDate()) &&
+                (x.getMonth()+1 === new Date().getMonth() +1) &&
+                (x.getFullYear() === new Date().getFullYear())
+              ) {
+                this.timestep = "Heute"
+              } else {
+                this.timestep = newDate;
+              }
+            } else {
+              console.error("Can't set Date, invalid timestamp");
+            }
+          }),
+        ),
+      )
+    ).subscribe(({ channel, userName }) => {
       if (channel) {
         this.messagesService.loadMessagesForChannel(channel.id);
       }
+      this.channelCreatorName = userName;
     });
+    
     this.messagesService.messageId$.subscribe((messageId) => {
       if (messageId) {
         this.setParentMessage();

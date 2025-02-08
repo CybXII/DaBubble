@@ -5,4 +5,5 @@ export interface Channel {
     createdBy: string;
     members: string[];
     isPrivate: boolean;
+    createdAt?: Date;
 }
