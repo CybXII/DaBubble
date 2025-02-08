@@ -68,6 +68,8 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   self:boolean = false;
   private:boolean = false;
   channelName:string = '';
+  creatingTime:string = '';
+  channelData: any;
   user: {
     name:string,
     photoUrl:string,
@@ -174,6 +176,12 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.currentChannel$.subscribe(channel => {
       this.channelName = channel?.name ? channel.name : "";
+      this.channelData = {
+        name: channel?.name ? channel.name : "",
+        createdBy: this.getUserName(channel?.createdBy ? channel.createdBy : ""),
+        creatingTime: channel ? channel : "",
+      }
+      console.warn("channel data : ", channel , this.channelData);
       if (channel?.isPrivate) {
         this.private = true;
 

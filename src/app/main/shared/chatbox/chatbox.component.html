@@ -310,7 +310,7 @@
           } @else if(private) {
             <span>Diese Unterhaltung findet nur zwischen &nbsp;<p (click)="openDialogUser(user.id)" class="name">&#64;{{ user.name }}&nbsp;</p> und dir statt.</span>
           } @else {
-            <span>Du hast diesen Channel heute erstellt. Das ist der Anfang des Channels &nbsp;<p class="name nohover"># {{ channelName }}</p>.</span>
+            <span>{{ getUserName(channelData.createdBy) | async }} hast diesen Channel {{ channelData.creatingTime}} erstellt. Das ist der Anfang des Channels &nbsp;<p class="name nohover"># {{ channelName }}</p>.</span>
           }
         </div>
       </div>
