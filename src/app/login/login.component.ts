@@ -9,7 +9,7 @@ import { ToastMessageComponent } from '../shared/toastmessage/toastmessage.compo
   standalone: true, // <-- Add this line
   imports: [RouterOutlet, RouterModule, NgClass, ToastMessageComponent],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+  styleUrls: ['./login.component.scss', './landscape.scss'],
 })
 export class LoginComponent {
   loginPage: boolean = true;
