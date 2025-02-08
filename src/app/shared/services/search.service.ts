@@ -205,17 +205,13 @@ export class SearchService {
   // update  Christoph, 11.1.25
   searchChannels(searchText: string, userId: string, type: string): void {
     if (!searchText.trim()) {
-      // Alle Channels anzeigen, wenn der Suchtext leer ist
-      //this.channelResultsSubject.next(this.allChannels);
-
+      // Alle public Channels anzeigen, wenn der Suchtext leer ist (wo user mitglied ist)
       const filteredChannels = this.allChannels.filter(
         (channel) =>
           !channel.isPrivate &&
           channel.members.includes(userId)
       );
       this.channelResultsSubject.next(filteredChannels);
-
-
       return;
     }
 
