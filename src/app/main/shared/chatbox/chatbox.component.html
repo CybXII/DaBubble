@@ -202,7 +202,7 @@
     <h2># {{ channelName }}</h2>
     }
     <div class="text">
-      @if (self) {
+      @if (self && private) {
       <span>Dieser Raum ist nur für dich da. Mache dir Notizen, liste deine To-dos auf oder bewahre Links und Dateien
         griffbereit auf. Du kannst hier auch gerne Dinge mit dir selbst besprechen.</span>
       } @else if(private) {

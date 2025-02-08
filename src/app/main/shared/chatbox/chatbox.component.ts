@@ -176,16 +176,23 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       this.channelName = channel?.name ? channel.name : "";
       if (channel?.isPrivate) {
         this.private = true;
-        let user = channel.members.filter(id => id !== this.activeUserId);
-        let userobj = this.userService.getUserById(user[0]).pipe(map((user) => user));
-        userobj.subscribe(user => {
-          const data = {
-            name: user.name ? user.name : '',
-            photoUrl: user.photoURL ? user.photoURL : '',
-            id: user.userId ? user.userId : '',
-          }
-          this.user = data;
-        })
+
+        if (channel.members.length == 1 && channel.members[0] === this.activeUserId) {
+          this.getOwnData()
+        } else {
+          this.self = false;
+          let user = channel.members.filter(id => id !== this.activeUserId);
+          let userobj = this.userService.getUserById(user[0]).pipe(map((user) => user));
+          userobj.subscribe(user => {
+            const data = {
+              name: user.name ? user.name : '',
+              photoUrl: user.photoURL ? user.photoURL : '',
+              id: user.userId ? user.userId : '',
+            }
+            this.user = data;
+          })
+        }
+        this.checkMessageIsEmpty();
       } else {
         this.private = false
       }
@@ -415,5 +422,19 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   getLastUsedEmojis(index: number) {
     const emojis = this.emojiStorageService.getEmojis();
     return emojis[index];
+  }
+
+  getOwnData() {
+    let id = this.activeUserId ? this.activeUserId : "";
+    let userObj = this.userService.getUserById(id).pipe(map((user) => user));
+    userObj.subscribe(user => {
+      const data = {
+        name: user.name ? user.name : '',
+        photoUrl: user.photoURL ? user.photoURL : '',
+        id: user.userId ? user.userId : '',
+      }
+      this.user = data;
+    })
+    this.self = true;
   }
 }

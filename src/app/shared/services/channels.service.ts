@@ -41,7 +41,7 @@ export class ChannelsService {
         channel.members && channel.members.includes(userId)
       );
       if (userChannels.length > 0) {
-        const cachedChannelId = sessionStorage.getItem('lastChannelId');
+        const cachedChannelId = localStorage.getItem('lastChannelId');
         const defaultChannel = cachedChannelId
           ? userChannels.find(channel => channel.id === cachedChannelId) || userChannels[0]
           : userChannels[0];
@@ -74,6 +74,7 @@ export class ChannelsService {
         const channel = { id: channelId, ...channelDoc.data() } as Channel;
         console.log('🔥 Firestore Echtzeit-Update für `channel$`:', channel);
         this.currentChannelSubject.next(channel);
+        localStorage.setItem('lastChannelId', channel.id || "");
       }
     });
     if (window.innerWidth <= 900) {
@@ -191,7 +192,7 @@ export class ChannelsService {
 
   clearCurrentChannel(): void {
     this.currentChannelSubject.next(null);
-    sessionStorage.removeItem('lastChannelId');
+    localStorage.removeItem('lastChannelId');
     this.default
     this.setDefaultChannel();
   }
