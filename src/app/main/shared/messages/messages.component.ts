@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, Signal, signal } from '@angular/core';
-import { Message } from '../../../models/message';
+import { Message, Reaction } from '../../../models/message';
 import { UserService } from '../../../shared/services/user.service';
 import { EmojiPickerService } from '../../../shared/services/emoji-picker.service';
 import { MessagesService } from '../../../shared/services/messages.service';
@@ -12,13 +12,16 @@ import { MatDialog } from '@angular/material/dialog';
 import { ProfileviewComponent } from '../../../shared/profileview/profileview.component';
 import { UserDialogService } from '../../../shared/services/user-dialog.service';
 import { StateService } from '../../../shared/services/state.service';
+import { FormsModule } from '@angular/forms';
+import { SaveEditMessageService } from '../../../shared/services/save-edit-message.service';
+import { EditmessageComponent } from '../editmessage/editmessage.component';
 
 @Component({
-  selector: 'app-message',
+  selector: 'app-messages',
   standalone: true,
-  imports: [CommonModule, EmojiPickerComponent, ReactionsComponent, RelativeDatePipe],
-  templateUrl: './message.component.html',
-  styleUrls: ['./message.component.scss', '../chatbox/chatbox.component.scss'],
+  imports: [CommonModule, EmojiPickerComponent, ReactionsComponent, RelativeDatePipe, FormsModule],
+  templateUrl: './messages.component.html',
+  styleUrls: ['./messages.component.scss', '../chatbox/chatbox.component.scss'],
 })
 export class MessageComponent {
   @Input() message!: Message;
@@ -41,9 +44,8 @@ export class MessageComponent {
     private emojiStorageService: EmojiStorageService,
     public dialog: MatDialog,
     private userDialog$: UserDialogService,
+    private saveEditedMessage: SaveEditMessageService,
     private stateService: StateService
-    
-    
   ) {}
 
   getUserName(userId: string) {
@@ -89,8 +91,13 @@ export class MessageComponent {
     }
   }
 
-  addEmoji(messageId: string, userId: string, emoji: string, isThreadMessage: boolean) {
-    this.messagesService.updateMessage(messageId, userId, { reactions: [{ emoji, userIds: [userId] }] });
+  addEmoji(messageIdOrThreadDocId: string, userId: string, emoji: string, isThreadMessage: boolean): void {
+    const reaction: Reaction = { emoji, userIds: [userId] };
+    const updateData: Partial<Message> = { reactions: [reaction] };
+    const updatePromise = isThreadMessage
+      ? this.messagesService.updateThreadMessage(this.activeMessageId!, messageIdOrThreadDocId, userId, updateData)
+      : this.messagesService.updateMessage(messageIdOrThreadDocId, userId, updateData);
+    updatePromise.catch(error => console.error('Fehler beim Hinzufügen der Reaktion:', error));
     this.emojiPickerService.closeChatBoxEmojiPicker();
     this.emojiStorageService.saveEmoji(emoji);
   }
@@ -128,4 +135,25 @@ export class MessageComponent {
     this.stateService.setThreadchatState('in');
   }
 
+  saveEdit(message: Partial<Message>, threadMessage:boolean, parrentID: string) {
+    this.saveEditedMessage.save(message, threadMessage, parrentID, message.docId)
+  }
+
+  
+  cancelEdit(message: Partial<Message>) {
+    message.sameDay = false;
+  }
+
+  editMessage2(message: Partial<Message>) {
+    message.sameDay = true;
+  }
+
+    editMessage(message: Partial<Message>, deleteMessage: boolean) {
+      this.dialog.open(EditmessageComponent, {
+        width: 'fit-content',
+        maxWidth: '100vw',
+        height: 'fit-content',
+        data: { message, deleteMessage },
+      });
+    }
 }

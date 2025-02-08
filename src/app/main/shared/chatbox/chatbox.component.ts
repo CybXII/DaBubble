@@ -35,12 +35,14 @@ import { FormsModule } from '@angular/forms';
 import { ReactionsComponent } from '../../../shared/reactions/reactions.component';
 import { SaveEditMessageService } from '../../../shared/services/save-edit-message.service';
 import { EmojiStorageService } from '../../../shared/services/emoji-storage.service';
+import { ParentMessageComponent } from '../parentmessage/parent-message.component';
+import { MessageComponent } from '../messages/messages.component';
 
 @Component({
   selector: 'app-chatbox',
   templateUrl: './chatbox.component.html',
   standalone: true,
-  imports: [CommonModule, EmojiPickerComponent, RelativeDatePipe, FormsModule, ReactionsComponent],
+  imports: [CommonModule, EmojiPickerComponent, RelativeDatePipe, FormsModule, ReactionsComponent, ParentMessageComponent, MessageComponent],
   styleUrls: ['./chatbox.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -366,6 +368,17 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.userDialog$.openProfile();
       this.userDialog$.exitActiv = false;
+    }
+  }
+
+  handleUserClick(userId: string): void {
+    if (userId) {
+      if (this.activeUserId !== userId) {
+        this.openDialogUser(userId);
+      } else {
+        this.userDialog$.openProfile();
+        this.userDialog$.exitActiv = false;
+      }
     }
   }
 
