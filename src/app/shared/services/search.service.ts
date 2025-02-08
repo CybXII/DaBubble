@@ -40,7 +40,7 @@ export class SearchService {
   public searchChannelsMessages: any = [];
   private messageResults: any[] = [];
 
-  constructor() {}
+  constructor() { }
 
   public loadMessages(userId: string) {
     from(this.messageService.getAllMessages(userId)).subscribe((messages) => {
@@ -96,8 +96,8 @@ export class SearchService {
     this.authService.getUserList().subscribe((users) => {
       this.allUsers = Array.isArray(users)
         ? users.filter(
-            (user) => user.provider !== 'anonymous' && user.userId !== userId
-          )
+          (user) => user.provider !== 'anonymous' && user.userId !== userId
+        )
         : [];
 
       console.log('Users loaded:', this.allUsers);
@@ -121,7 +121,7 @@ export class SearchService {
 
     const filteredMessages = this.allMessages.filter(
       (message) =>
-        message.message.toLowerCase().includes(searchText.toLowerCase()) 
+        message.message.toLowerCase().includes(searchText.toLowerCase())
     );
 
     this.messageResultsSubject.next(filteredMessages);
@@ -133,8 +133,8 @@ export class SearchService {
       return;
     }
     const filteredMessages = this.allThreadMessages.filter((message) =>
-      message.message.toLowerCase().includes(searchText.toLowerCase()) 
-    
+      message.message.toLowerCase().includes(searchText.toLowerCase())
+
     );
     console.log('Thread Messages:', filteredMessages);
 
@@ -206,7 +206,16 @@ export class SearchService {
   searchChannels(searchText: string, userId: string, type: string): void {
     if (!searchText.trim()) {
       // Alle Channels anzeigen, wenn der Suchtext leer ist
-      this.channelResultsSubject.next(this.allChannels);
+      //this.channelResultsSubject.next(this.allChannels);
+
+      const filteredChannels = this.allChannels.filter(
+        (channel) =>
+          !channel.isPrivate &&
+          channel.members.includes(userId)
+      );
+      this.channelResultsSubject.next(filteredChannels);
+
+
       return;
     }
 
