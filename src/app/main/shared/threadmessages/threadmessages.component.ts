@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditmessageComponent } from '../editmessage/editmessage.component';
 import { FormsModule } from '@angular/forms';
 import { SaveEditMessageService } from '../../../shared/services/save-edit-message.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-thread-message',
@@ -59,42 +60,31 @@ export class ThreadMessageComponent {
     this.saveEditedMessage.save(message, threadMessage, parrentID, message.docId)
   }
 
-
   addEmoji(messageIdOrThreadDocId: string, userId: string, emoji: string, isThreadMessage: boolean): void {
     const reaction: Reaction = { emoji, userIds: [userId] };
     const updateData: Partial<Message> = { reactions: [reaction] };
+  
     const updatePromise = isThreadMessage
       ? this.messagesService.updateThreadMessage(this.activeMessageId!, messageIdOrThreadDocId, userId, updateData)
       : this.messagesService.updateMessage(messageIdOrThreadDocId, userId, updateData);
+  
     updatePromise.then(() => {
-        this.isChatBoxEmojiPickerOpen.set(false);
-        this.chatBoxEmojiPickerOpenFor.set(null);
-      }).catch(error => console.error('Fehler beim Hinzufügen der Reaktion:', error));
-    this.emojiPickerService.closeChatBoxEmojiPicker();
+      console.log('Emoji hinzugefügt:', emoji);
+      this.emojiPickerService.closeChatBoxEmojiPicker(); // 🚀 Picker schließen
+    }).catch(error => console.error('Fehler beim Hinzufügen der Reaktion:', error));
+  
     this.emojiStorageService.saveEmoji(emoji);
   }
 
-  /**
-   * Öffnet oder schließt den Emoji-Picker für eine Thread-Nachricht
-   */
-  toggleEmojiPicker(messageId: string, isThreadMessage: boolean) {
-    console.log('toggleEmojiPicker aufgerufen mit:', messageId, isThreadMessage);
+  toggleEmojiPicker(messageId: string) {
+    console.log('🔄 toggleEmojiPicker für:', messageId);
   
-    this.displayPickerBottom = isThreadMessage;
-  
-    if (this.isChatBoxEmojiPickerOpen()) {
-      if (this.chatBoxEmojiPickerOpenFor() === messageId) {
-        console.log('Schließe Picker');
-        this.isChatBoxEmojiPickerOpen.set(false);
-        this.chatBoxEmojiPickerOpenFor.set(null);
-      } else {
-        console.log('Wechsle Picker zu:', messageId);
-        this.chatBoxEmojiPickerOpenFor.set(messageId);
-      }
+    if (this.emojiPickerService.isEmojiPickerOpenFor(messageId)) {
+      console.log('📌 Schließe Picker');
+      this.emojiPickerService.closeChatBoxEmojiPicker();
     } else {
-      console.log('Öffne Picker für:', messageId);
-      this.chatBoxEmojiPickerOpenFor.set(messageId);
-      this.isChatBoxEmojiPickerOpen.set(true);
+      console.log('✅ Öffne Picker für:', messageId);
+      this.emojiPickerService.openChatBoxEmojiPicker(messageId);
     }
   }
     
