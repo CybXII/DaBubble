@@ -1,68 +1,55 @@
-@if(isChatBoxEmojiPickerOpen() && chatBoxEmojiPickerOpenFor() === parentMessage.docId && displayEmojiPickerMainThread()){
-<div [class]="{
-            'emoji-picker__wrapper-left-thread':
+@if(!isChatBoxEmojiPickerOpen && chatBoxEmojiPickerOpenFor() === parentMessage.docId && !displayEmojiPickerMainThread){
+    <div [class]="{
+        'emoji-picker__wrapper-left-thread':
             displayPickerBottom && parentMessage.createdBy !== activeUserId,
-            'emoji-picker__wrapper-top-right-thread':
+        'emoji-picker__wrapper-top-right-thread':
             !displayPickerBottom && parentMessage.createdBy !== activeUserId,
-            'emoji-picker__wrapper-top-left-thread':
+        'emoji-picker__wrapper-top-left-thread':
             !displayPickerBottom && parentMessage.createdBy === activeUserId,
-            'emoji-picker__wrapper-right-thread':
+        'emoji-picker__wrapper-right-thread':
             displayPickerBottom && parentMessage.createdBy === activeUserId
         }" (click)="preventEmojiPickerClose($event)">
-    <app-emoji-picker componentName="chatbox" (emoji)="addEmoji(parentMessage.docId, activeUserId!, $event, false)" />
-</div>
+        <app-emoji-picker componentName="chatbox" (emoji)="addEmoji(parentMessage.docId, activeUserId!, $event, false)" />
+    </div>
 }
-<button class="chatbox__addemoji-container" (click)="preventEmojiPickerClose($event)">
-    @if(getLastUsedEmojis(0)){
-    <span class="chatbox__addemoji__lastUsedEmoji" (click)="
-                addEmoji(
-                parentMessage.docId!,
-                activeUserId!,
-                getLastUsedEmojis(0),
-                false
-                )
-            ">
-        {{ getLastUsedEmojis(0) }}
-    </span>
-    @if(getLastUsedEmojis(1)){
-    <span class="chatbox__addemoji__lastUsedEmoji" (click)="
-                addEmoji(
-                parentMessage.docId!,
-                activeUserId!,
-                getLastUsedEmojis(1),
-                false
-                )
-            ">
-        {{ getLastUsedEmojis(1) }}
-    </span>
-    } }
-    <div class="chatbox__addemoji__emoji-container" (click)="
-                toggleEmojiPicker(parentMessage.docId || 'fallback', true)
-            ">
-        <img src="/img/icons/addemoji.svg" alt="" />
-    </div>
-</button>
+    <button class="chatbox__addemoji-container" (click)="preventEmojiPickerClose($event)">
+        @if(getLastUsedEmojis(0)){
+        <span class="chatbox__addemoji__lastUsedEmoji" (click)="
+                        addEmoji(parentMessage.docId!,activeUserId!,getLastUsedEmojis(0),false)">
+            {{ getLastUsedEmojis(0) }}
+        </span>
+        }
+        @if(getLastUsedEmojis(1)){
+        <span class="chatbox__addemoji__lastUsedEmoji"
+            (click)="addEmoji(parentMessage.docId!,activeUserId!,getLastUsedEmojis(1),false)">
+            {{ getLastUsedEmojis(1) }}
+        </span>
+        }
+        @if (parentMessage.docId){
+        <div class="chatbox__addemoji__emoji-container" (click)="toggleEmojiPicker(parentMessage.docId , false)">
+            <img src="/img/icons/addemoji.svg" alt="" />
+        </div>
+        }
+    </button>
 @if (parentMessage.createdBy) {
-    <img class="chatbox__msg-avatar" [src]="getUserAvatar(parentMessage.createdBy) | async" alt="Avatar" width="70"
-    height="70" />
-<div class="chatbox__msg-item2" [class.chatbox__msg-sent-item2]="parentMessage.createdBy === activeUserId">
-    <div class="chatbox__msg-info" [class.chatbox__msg-sent-info]=" parentMessage.createdBy === activeUserId">
-        <h3 class="chatbox__msg-name" (click)="checkIdIsUser(parentMessage.createdBy)">
-            {{ parentMessage.creatorName }}
-            @if (parentMessage.createdBy == activeUserId) { (Du) }
-        </h3>
-        <p class="chatbox__msg-time">
-            {{ parentMessage.timestamp | relativeDate }}
+    <img class="chatbox__msg-avatar" [src]="getUserAvatar(parentMessage.createdBy) | async" alt="Avatar" width="70" height="70" />
+    <div class="chatbox__msg-item2" [class.chatbox__msg-sent-item2]="parentMessage.createdBy === activeUserId">
+        <div class="chatbox__msg-info" [class.chatbox__msg-sent-info]=" parentMessage.createdBy === activeUserId">
+            <h3 class="chatbox__msg-name" (click)="checkIdIsUser(parentMessage.createdBy)">
+                {{ parentMessage.creatorName }}
+                @if (parentMessage.createdBy == activeUserId) { (Du) }
+            </h3>
+            <p class="chatbox__msg-time">
+                {{ parentMessage.timestamp | relativeDate }}
+            </p>
+        </div>
+
+        <p class="chatbox__msg" [class.chatbox__msg-sent]="parentMessage.createdBy === activeUserId">
+            {{ parentMessage.message || "Keine Nachricht" }}
         </p>
+        <app-reactions class="chatbox__reaction-wrapper" [reactions]="parentMessage.reactions || []"
+            [activeUserId]="activeUserId || ''" [messageId]="parentMessage.docId || ''" [isThreadMessage]="false"
+            (reactionAdded)="addEmoji($event.messageId, activeUserId!, $event.emoji, $event.isThreadMessage)">
+        </app-reactions>
     </div>
-
-    <p class="chatbox__msg" [class.chatbox__msg-sent]="parentMessage.createdBy === activeUserId">
-        {{ parentMessage.message || "Keine Nachricht" }}
-    </p>
-    <app-reactions class="chatbox__reaction-wrapper" [reactions]="parentMessage.reactions || []"
-        [activeUserId]="activeUserId || ''" [messageId]="parentMessage.docId || ''" [isThreadMessage]="false"
-        (reactionAdded)="addEmoji($event.messageId, activeUserId!, $event.emoji, $event.isThreadMessage)">
-    </app-reactions>
-</div>
-
 }
