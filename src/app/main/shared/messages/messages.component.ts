@@ -31,6 +31,8 @@ export class MessageComponent {
   @Input() isCurrentUser!: boolean;
   @Input() activeMessageId!: string;
   subscriptions = new Subscription(); // ✅ RICHTIG
+  isChatBoxEmojiPickerOpen = signal(false);
+  chatBoxEmojiPickerOpenFor = signal<string | null>(null);
 
   previousTimestamp: number | null = null;
   displayPickerBottom: boolean = false;
@@ -47,24 +49,32 @@ export class MessageComponent {
     private userDialog$: UserDialogService,
     private saveEditedMessage: SaveEditMessageService,
     private stateService: StateService,
-    ) {
-      console.log("Emoji Picker geladen");
-
-      effect(() => {
-        const open = this.emojiPickerService.isPickerOpen();
-        const openFor = this.emojiPickerService.openForMessageId();
-    
-        this.isMessageBoxMainPickerOpen = open && openFor === 'main';
-        this.isMessageBoxThreadPickerOpen = open && openFor === 'thread';
-        this.isMessageBoxCreateMessagePickerOpen = open && openFor === 'createMessage';
-      });
-    }
+    ) {}
 
   ngOnInit() {
-
+    const emojiPickerMainSubscription =
+      this.emojiPickerService.isMessageBoxMainPickerOpen$.subscribe((open) => {
+        this.isMessageBoxMainPickerOpen = open;
+      });
+    const emojiPickerThreadSubscription =
+      this.emojiPickerService.isMessageBoxThreadPickerOpen$.subscribe(
+        (open) => {
+          this.isMessageBoxThreadPickerOpen = open;
+        }
+      );
+    const emojiPickerCreateMessageSubscription =
+      this.emojiPickerService.isMessageBoxCreateMessagePickerOpen$.subscribe(
+        (open) => {
+          this.isMessageBoxCreateMessagePickerOpen = open;
+        }
+      );
+    this.subscriptions.add(emojiPickerMainSubscription);
+    this.subscriptions.add(emojiPickerThreadSubscription);
+    this.subscriptions.add(emojiPickerCreateMessageSubscription);
   }
 
   ngOnDestroy(): void {
+    // Alle Subscriptions aufräumen
     this.subscriptions.unsubscribe();
   }
 
@@ -98,14 +108,21 @@ export class MessageComponent {
     event.stopPropagation();
   }
 
-  toggleEmojiPicker(messageId: string) {
-    console.log('🔄 toggleEmojiPicker für:', messageId);
-    if (this.emojiPickerService.isEmojiPickerOpenFor(messageId)) {
-      console.log('📌 Schließe Picker');
-      this.emojiPickerService.closeChatBoxEmojiPicker();
+  /**
+   * Öffnet oder schließt den Emoji-Picker für eine Thread-Nachricht
+   */
+  toggleEmojiPicker(messageId: string, isThreadMessage: boolean) {
+    console.log('toggleEmojiPicker', messageId, isThreadMessage);
+    this.displayPickerBottom = isThreadMessage;
+    if (this.isChatBoxEmojiPickerOpen()) {
+      if (messageId !== this.chatBoxEmojiPickerOpenFor()) {
+        this.chatBoxEmojiPickerOpenFor.set(messageId); // ✅ Signal richtig aktualisieren
+      } else {
+        this.isChatBoxEmojiPickerOpen.set(false); // ✅ Picker schließen
+      }
     } else {
-      console.log('✅ Öffne Picker für:', messageId);
-      this.emojiPickerService.openChatBoxEmojiPicker(messageId);
+      this.chatBoxEmojiPickerOpenFor.set(messageId); // ✅ Picker auf diese Nachricht setzen
+      this.isChatBoxEmojiPickerOpen.set(true); // ✅ Picker öffnen
     }
   }
   
