@@ -18,7 +18,7 @@ import { MessagesService } from '../../../shared/services/messages.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { Message, Reaction, ThreadMessage } from '../../../models/message';
 import { combineLatest, from, Observable, of, Subject } from 'rxjs';
-import { catchError, isEmpty, map, startWith, takeUntil, tap } from 'rxjs/operators';
+import { catchError, filter, isEmpty, map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { Channel } from '../../../models/channel';
 import { ChannelsService } from '../../../shared/services/channels.service';
@@ -35,12 +35,15 @@ import { FormsModule } from '@angular/forms';
 import { ReactionsComponent } from '../../../shared/reactions/reactions.component';
 import { SaveEditMessageService } from '../../../shared/services/save-edit-message.service';
 import { EmojiStorageService } from '../../../shared/services/emoji-storage.service';
+import { ParentMessageComponent } from '../parentmessage/parent-message.component';
+import { MessageComponent } from '../messages/messages.component';
+import { ThreadMessageComponent } from '../threadmessages/threadmessages.component';
 
 @Component({
   selector: 'app-chatbox',
   templateUrl: './chatbox.component.html',
   standalone: true,
-  imports: [CommonModule, EmojiPickerComponent, RelativeDatePipe, FormsModule, ReactionsComponent],
+  imports: [CommonModule, EmojiPickerComponent, RelativeDatePipe, FormsModule, ParentMessageComponent, MessageComponent, ThreadMessageComponent],
   styleUrls: ['./chatbox.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -67,7 +70,9 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   isEmptyMessage: boolean = false;
   self:boolean = false;
   private:boolean = false;
-  channelName:string = '';
+  channelName: string = '';
+  channelCreatorName:string = '';
+  timestep: any;
   user: {
     name:string,
     photoUrl:string,
@@ -116,11 +121,42 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.channelsService.setDefaultChannel();
-    this.channelsService.currentChannel$.subscribe(channel => {
+    this.channelsService.currentChannel$.pipe(
+      filter(channel => !!channel),
+      switchMap((channel) => 
+        this.getUserName(channel?.createdBy ?? '').pipe(
+          map(userName => ({ channel, userName })),
+          tap(({ channel }) => {
+            let x = new Date(channel?.createdAt ? channel?.createdAt : '')
+          
+            if (typeof Date) {
+              const day = x.getDate();
+              const month = x.getMonth() + 1; // Monate sind 0-basiert
+              const year = x.getFullYear();
+              const newDate = `${day}.${month}.${year}`;
+              
+              if (
+                (x.getDate() === new Date().getDate()) &&
+                (x.getMonth()+1 === new Date().getMonth() +1) &&
+                (x.getFullYear() === new Date().getFullYear())
+              ) {
+                this.timestep = "Heute"
+              } else {
+                this.timestep = newDate;
+              }
+            } else {
+              console.error("Can't set Date, invalid timestamp");
+            }
+          }),
+        ),
+      )
+    ).subscribe(({ channel, userName }) => {
       if (channel) {
         this.messagesService.loadMessagesForChannel(channel.id);
       }
+      this.channelCreatorName = userName;
     });
+    
     this.messagesService.messageId$.subscribe((messageId) => {
       if (messageId) {
         this.setParentMessage();
@@ -257,22 +293,22 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
-  editMessage(message: Partial<Message>, deleteMessage: boolean) {
-    this.dialog.open(EditmessageComponent, {
-      width: 'fit-content',
-      maxWidth: '100vw',
-      height: 'fit-content',
-      data: { message, deleteMessage },
-    });
-  }
+  // editMessage(message: Partial<Message>, deleteMessage: boolean) {
+  //   this.dialog.open(EditmessageComponent, {
+  //     width: 'fit-content',
+  //     maxWidth: '100vw',
+  //     height: 'fit-content',
+  //     data: { message, deleteMessage },
+  //   });
+  // }
 
   editMessage2(message: Partial<Message>) {
     message.sameDay = true;
   }
 
-  cancelEdit(message: Partial<Message>) {
-    message.sameDay = false;
-  }
+  // cancelEdit(message: Partial<Message>) {
+  //   message.sameDay = false;
+  // }
 
   editThreadMessage(
     message: Partial<ThreadMessage>,
@@ -327,12 +363,23 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
-  checkIdIsUser(id: string | undefined) {
-    if (this.activeUserId !== id) {
-      this.openDialogUser(id);
-    } else {
-      this.userDialog$.openProfile();
-      this.userDialog$.exitActiv = false;
+  // checkIdIsUser(id: string | undefined) {
+  //   if (this.activeUserId !== id) {
+  //     this.openDialogUser(id);
+  //   } else {
+  //     this.userDialog$.openProfile();
+  //     this.userDialog$.exitActiv = false;
+  //   }
+  // }
+
+  handleUserClick(userId: string): void {
+    if (userId) {
+      if (this.activeUserId !== userId) {
+        this.openDialogUser(userId);
+      } else {
+        this.userDialog$.openProfile();
+        this.userDialog$.exitActiv = false;
+      }
     }
   }
 
@@ -369,23 +416,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
-  getOtherUserId(userIds: string[]): string[] {
-    return userIds.filter(id => id !== this.activeUserId);
-  }
-
-
-  getOtherUser(userId: string): Observable<string> {
-    return this.userService.getUserById(userId).pipe(map((user) => user.name));
-  }
-
-  getUserAvatar(userId: string) {
-    return this.userService.getuserAvatar(userId);
-  }
-
-  getUserStatus(userId: string) {
-    return this.userService.getuserStatus(userId);
-  }
-
   getUserName(userId: string): Observable<string> {
     return this.userService.getuserName(userId);
   }
@@ -415,9 +445,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     })    
   }
   
-  saveEdit(message: Partial<Message>, threadMessage:boolean, parrentID: string) {
-    this.saveEditedMessage.save(message, threadMessage, parrentID, message.docId)
-  }
 
   getLastUsedEmojis(index: number) {
     const emojis = this.emojiStorageService.getEmojis();
