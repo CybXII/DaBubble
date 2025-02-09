@@ -78,17 +78,23 @@ export class ThreadMessageComponent {
    * Öffnet oder schließt den Emoji-Picker für eine Thread-Nachricht
    */
   toggleEmojiPicker(messageId: string, isThreadMessage: boolean) {
-    console.log('toggleEmojiPicker', messageId, isThreadMessage);
+    console.log('toggleEmojiPicker aufgerufen mit:', messageId, isThreadMessage);
+  
     this.displayPickerBottom = isThreadMessage;
+  
     if (this.isChatBoxEmojiPickerOpen()) {
-      if (messageId !== this.chatBoxEmojiPickerOpenFor()) {
-        this.chatBoxEmojiPickerOpenFor.set(messageId); // ✅ Signal richtig aktualisieren
+      if (this.chatBoxEmojiPickerOpenFor() === messageId) {
+        console.log('Schließe Picker');
+        this.isChatBoxEmojiPickerOpen.set(false);
+        this.chatBoxEmojiPickerOpenFor.set(null);
       } else {
-        this.isChatBoxEmojiPickerOpen.set(false); // ✅ Picker schließen
+        console.log('Wechsle Picker zu:', messageId);
+        this.chatBoxEmojiPickerOpenFor.set(messageId);
       }
     } else {
-      this.chatBoxEmojiPickerOpenFor.set(messageId); // ✅ Picker auf diese Nachricht setzen
-      this.isChatBoxEmojiPickerOpen.set(true); // ✅ Picker öffnen
+      console.log('Öffne Picker für:', messageId);
+      this.chatBoxEmojiPickerOpenFor.set(messageId);
+      this.isChatBoxEmojiPickerOpen.set(true);
     }
   }
     
