@@ -4,10 +4,9 @@
   </div>
   } @else { @if (builder == "threadchat") {
   <div class="threadchat__chatbox">
-    <div class="chatbox__mainthread-container">
       @if (parentMessage) { 
         @if (parentMessage && activeUserId && activeMessageId) {
-        <app-parent-message           
+        <app-parent-message class="chatbox__mainthread-container"
           [activeMessageId]="activeMessageId"
           [parentMessage]="parentMessage"
           [activeUserId]="activeUserId"
@@ -15,7 +14,6 @@
         </app-parent-message>
       }
     }
-    </div>
     <div class="chatbox__threads-divider">
       {{ (threadMessages$ | async)?.length || 0 }} Antworten
     </div>
