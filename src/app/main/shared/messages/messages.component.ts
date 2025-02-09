@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, Signal, signal } from '@angular/core';
-import { Message } from '../../../models/message';
+import { Message, Reaction } from '../../../models/message';
 import { UserService } from '../../../shared/services/user.service';
 import { EmojiPickerService } from '../../../shared/services/emoji-picker.service';
 import { MessagesService } from '../../../shared/services/messages.service';
@@ -12,25 +12,29 @@ import { MatDialog } from '@angular/material/dialog';
 import { ProfileviewComponent } from '../../../shared/profileview/profileview.component';
 import { UserDialogService } from '../../../shared/services/user-dialog.service';
 import { StateService } from '../../../shared/services/state.service';
+import { FormsModule } from '@angular/forms';
+import { SaveEditMessageService } from '../../../shared/services/save-edit-message.service';
+import { EditmessageComponent } from '../editmessage/editmessage.component';
 
 @Component({
-  selector: 'app-message',
+  selector: 'app-messages',
   standalone: true,
-  imports: [CommonModule, EmojiPickerComponent, ReactionsComponent, RelativeDatePipe],
-  templateUrl: './message.component.html',
-  styleUrls: ['./message.component.scss', '../chatbox/chatbox.component.scss'],
+  imports: [CommonModule, ReactionsComponent, RelativeDatePipe, FormsModule, EmojiPickerComponent],
+  templateUrl: './messages.component.html',
+  styleUrls: ['./messages.component.scss', '../chatbox/chatbox.component.scss'],
 })
 export class MessageComponent {
+  @Input() shouldRenderDivider!: boolean;
   @Input() message!: Message;
   @Input() activeUserId!: string;
   @Input() isCurrentUser!: boolean;
   @Input() activeMessageId!: string;
 
-  displayPickerBottom: boolean = false;
   previousTimestamp: number | null = null;
-  displayEmojiPickerMainThread: Signal<boolean> = signal(false);
-  isChatBoxEmojiPickerOpen: Signal<boolean> = signal(false);
-  chatBoxEmojiPickerOpenFor: Signal<string | null> = signal(null);
+  displayEmojiPickerMainThread: Signal<boolean> = signal(true);
+  displayPickerBottom: boolean = false;
+  isChatBoxEmojiPickerOpen = signal(false);
+  chatBoxEmojiPickerOpenFor = signal<string | null>(null);
 
 
 
@@ -41,10 +45,13 @@ export class MessageComponent {
     private emojiStorageService: EmojiStorageService,
     public dialog: MatDialog,
     private userDialog$: UserDialogService,
+    private saveEditedMessage: SaveEditMessageService,
     private stateService: StateService
-    
-    
   ) {}
+
+  ngOnInit() {
+    console.log("Emoji Picker geladen");
+  }
 
   getUserName(userId: string) {
     return this.userService.getuserName(userId);
@@ -63,8 +70,8 @@ export class MessageComponent {
     }
   }
 
-    openDialogUser(id: string | undefined): void {
-      this.dialog.open(ProfileviewComponent, {
+  openDialogUser(id: string | undefined): void {
+    this.dialog.open(ProfileviewComponent, {
         width: 'fit-content',
         maxWidth: '100vw',
         height: 'fit-content',
@@ -77,20 +84,37 @@ export class MessageComponent {
   }
 
   toggleEmojiPicker(messageId: string, isThreadMessage: boolean) {
+    console.log('toggleEmojiPicker aufgerufen mit:', messageId, isThreadMessage);
+    
     this.displayPickerBottom = isThreadMessage;
+  
     if (this.isChatBoxEmojiPickerOpen()) {
       if (messageId !== this.chatBoxEmojiPickerOpenFor()) {
-        this.emojiPickerService.openNewChatBoxEmojiPicker(messageId, isThreadMessage);
+        console.log('Setze chatBoxEmojiPickerOpenFor auf:', messageId);
+        this.chatBoxEmojiPickerOpenFor.set(messageId);
       } else {
-        this.emojiPickerService.openChatBoxEmojiPicker(messageId, isThreadMessage);
+        console.log('Schließe Picker');
+        this.isChatBoxEmojiPickerOpen.set(false);
+        this.chatBoxEmojiPickerOpenFor.set(null);
       }
     } else {
-      this.emojiPickerService.openChatBoxEmojiPicker(messageId, isThreadMessage);
+      console.log('Öffne Picker für:', messageId);
+      this.chatBoxEmojiPickerOpenFor.set(messageId);
+      this.isChatBoxEmojiPickerOpen.set(true);
     }
   }
+  
 
-  addEmoji(messageId: string, userId: string, emoji: string, isThreadMessage: boolean) {
-    this.messagesService.updateMessage(messageId, userId, { reactions: [{ emoji, userIds: [userId] }] });
+  addEmoji(messageIdOrThreadDocId: string, userId: string, emoji: string, isThreadMessage: boolean): void {
+    const reaction: Reaction = { emoji, userIds: [userId] };
+    const updateData: Partial<Message> = { reactions: [reaction] };
+    const updatePromise = isThreadMessage
+      ? this.messagesService.updateThreadMessage(this.activeMessageId!, messageIdOrThreadDocId, userId, updateData)
+      : this.messagesService.updateMessage(messageIdOrThreadDocId, userId, updateData);
+    updatePromise.then(() => {
+        this.isChatBoxEmojiPickerOpen.set(false);
+        this.chatBoxEmojiPickerOpenFor.set(null);
+      }).catch(error => console.error('Fehler beim Hinzufügen der Reaktion:', error));
     this.emojiPickerService.closeChatBoxEmojiPicker();
     this.emojiStorageService.saveEmoji(emoji);
   }
@@ -123,9 +147,32 @@ export class MessageComponent {
 
   async onMessageSelect(messageId: string): Promise<void> {
     this.messagesService.setParentMessageId(messageId);
-    // this.activeMessageId = messageId;
+    this.activeMessageId = messageId;
     this.messagesService.setMessageId(messageId);
     this.stateService.setThreadchatState('in');
   }
 
+  saveEdit(message: Partial<Message>, threadMessage:boolean, parrentID: string) {
+    this.saveEditedMessage.save(message, threadMessage, parrentID, message.docId)
+  }
+
+  
+  cancelEdit(message: Partial<Message>) {
+    message.sameDay = false;
+  }
+
+
+  editMessage(message: Partial<Message>, deleteMessage: boolean, inlineEdit = false) {
+    if (inlineEdit) {
+      message.sameDay = true;
+      return;
+    } else {
+      this.dialog.open(EditmessageComponent, {
+        width: 'fit-content',
+        maxWidth: '100vw',
+        height: 'fit-content',
+        data: { message, deleteMessage },
+      });
+    }
+  }
 }

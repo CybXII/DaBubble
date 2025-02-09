@@ -35,12 +35,15 @@ import { FormsModule } from '@angular/forms';
 import { ReactionsComponent } from '../../../shared/reactions/reactions.component';
 import { SaveEditMessageService } from '../../../shared/services/save-edit-message.service';
 import { EmojiStorageService } from '../../../shared/services/emoji-storage.service';
+import { ParentMessageComponent } from '../parentmessage/parent-message.component';
+import { MessageComponent } from '../messages/messages.component';
+import { ThreadMessageComponent } from '../threadmessages/threadmessages.component';
 
 @Component({
   selector: 'app-chatbox',
   templateUrl: './chatbox.component.html',
   standalone: true,
-  imports: [CommonModule, EmojiPickerComponent, RelativeDatePipe, FormsModule, ReactionsComponent],
+  imports: [CommonModule, EmojiPickerComponent, RelativeDatePipe, FormsModule, ParentMessageComponent, MessageComponent, ThreadMessageComponent],
   styleUrls: ['./chatbox.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -290,22 +293,22 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
-  editMessage(message: Partial<Message>, deleteMessage: boolean) {
-    this.dialog.open(EditmessageComponent, {
-      width: 'fit-content',
-      maxWidth: '100vw',
-      height: 'fit-content',
-      data: { message, deleteMessage },
-    });
-  }
+  // editMessage(message: Partial<Message>, deleteMessage: boolean) {
+  //   this.dialog.open(EditmessageComponent, {
+  //     width: 'fit-content',
+  //     maxWidth: '100vw',
+  //     height: 'fit-content',
+  //     data: { message, deleteMessage },
+  //   });
+  // }
 
   editMessage2(message: Partial<Message>) {
     message.sameDay = true;
   }
 
-  cancelEdit(message: Partial<Message>) {
-    message.sameDay = false;
-  }
+  // cancelEdit(message: Partial<Message>) {
+  //   message.sameDay = false;
+  // }
 
   editThreadMessage(
     message: Partial<ThreadMessage>,
@@ -360,12 +363,23 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
-  checkIdIsUser(id: string | undefined) {
-    if (this.activeUserId !== id) {
-      this.openDialogUser(id);
-    } else {
-      this.userDialog$.openProfile();
-      this.userDialog$.exitActiv = false;
+  // checkIdIsUser(id: string | undefined) {
+  //   if (this.activeUserId !== id) {
+  //     this.openDialogUser(id);
+  //   } else {
+  //     this.userDialog$.openProfile();
+  //     this.userDialog$.exitActiv = false;
+  //   }
+  // }
+
+  handleUserClick(userId: string): void {
+    if (userId) {
+      if (this.activeUserId !== userId) {
+        this.openDialogUser(userId);
+      } else {
+        this.userDialog$.openProfile();
+        this.userDialog$.exitActiv = false;
+      }
     }
   }
 
@@ -402,23 +416,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
-  getOtherUserId(userIds: string[]): string[] {
-    return userIds.filter(id => id !== this.activeUserId);
-  }
-
-
-  getOtherUser(userId: string): Observable<string> {
-    return this.userService.getUserById(userId).pipe(map((user) => user.name));
-  }
-
-  getUserAvatar(userId: string) {
-    return this.userService.getuserAvatar(userId);
-  }
-
-  getUserStatus(userId: string) {
-    return this.userService.getuserStatus(userId);
-  }
-
   getUserName(userId: string): Observable<string> {
     return this.userService.getuserName(userId);
   }
@@ -448,9 +445,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     })    
   }
   
-  saveEdit(message: Partial<Message>, threadMessage:boolean, parrentID: string) {
-    this.saveEditedMessage.save(message, threadMessage, parrentID, message.docId)
-  }
 
   getLastUsedEmojis(index: number) {
     const emojis = this.emojiStorageService.getEmojis();
