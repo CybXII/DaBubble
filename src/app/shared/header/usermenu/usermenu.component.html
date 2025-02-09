@@ -1,10 +1,29 @@
 <div class="usermenu-container">
-  <div class="usermenu-container-box" (click)="userDialog.openDialog($event)">
-    <span class="elipsis">{{ userDialog.userData?.name}}</span>
-    <div class="avatar-container">
+  <div
+    class="avatar-container avatar-container-mobile"
+    (click)="openMobileUserMenu($event)"
+  >
+    <img [src]="userDialog.userData?.photoURL" alt="" />
+    <div
+      target="online-status"
+      [ngStyle]="{
+        'background-color': userDialog.userData?.status ? '#92c83e' : '#696969'
+      }"
+    ></div>
+  </div>
+  <div class="usermenu-container-box" (click)="openDesktopUserMenu($event)">
+    <span class="elipsis">{{ userDialog.userData?.name }}</span>
+    <div class="avatar-container avatar-container-desktop">
       <img [src]="userDialog.userData?.photoURL" alt="" />
-    <div target="online-status" [ngStyle]="{'background-color': userDialog.userData?.status ? '#92c83e' : '#696969'}"></div>
-      </div>
+      <div
+        target="online-status"
+        [ngStyle]="{
+          'background-color': userDialog.userData?.status
+            ? '#92c83e'
+            : '#696969'
+        }"
+      ></div>
+    </div>
     <svg
       class="arrow-down"
       width="14"
@@ -20,15 +39,17 @@
   </div>
 </div>
 
-@if (userDialog.dialog == true || userDialog.profileDialog || userDialog.profileDialogEdit){
-  <div
-    [ngClass]="{
-      'dialog-background': userDialog.dialog || userDialog.profileDialog || userDialog.profileDialogEdit
-    }"
-    (click)="userDialog.closeDialog($event)"
-  >
-    <app-dialog
-      (dialogChange)="userDialog.onDialogChange($event)"
-    ></app-dialog>
-  </div>
-  }
+@if (userDialog.dialog == true || userDialog.profileDialog ||
+userDialog.profileDialogEdit){
+<div
+  [ngClass]="{
+    'dialog-background':
+      userDialog.dialog ||
+      userDialog.profileDialog ||
+      userDialog.profileDialogEdit
+  }"
+  (click)="userDialog.closeDialog($event)"
+>
+  <app-dialog (dialogChange)="userDialog.onDialogChange($event)" [mobileDialog]="mobileDialog"></app-dialog>
+</div>
+}
