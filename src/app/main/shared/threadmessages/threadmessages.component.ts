@@ -26,8 +26,6 @@ export class ThreadMessageComponent {
   @Input() activeMessageId!: string;
   @Output() userClicked = new EventEmitter<string>();
 
-  isChatBoxEmojiPickerOpen = signal(false);
-  chatBoxEmojiPickerOpenFor = signal<string | null>(null);
   displayPickerBottom: boolean = false;
 
   constructor(
@@ -60,38 +58,39 @@ export class ThreadMessageComponent {
     this.saveEditedMessage.save(message, threadMessage, parrentID, message.docId)
   }
 
-  addEmoji(messageIdOrThreadDocId: string, userId: string, emoji: string, isThreadMessage: boolean): void {
-    const reaction: Reaction = { emoji, userIds: [userId] };
-    const updateData: Partial<Message> = { reactions: [reaction] };
-  
-    const updatePromise = isThreadMessage
-      ? this.messagesService.updateThreadMessage(this.activeMessageId!, messageIdOrThreadDocId, userId, updateData)
-      : this.messagesService.updateMessage(messageIdOrThreadDocId, userId, updateData);
-  
-    updatePromise.then(() => {
-      console.log('Emoji hinzugefügt:', emoji);
-      this.emojiPickerService.closeChatBoxEmojiPicker(); // 🚀 Picker schließen
-    }).catch(error => console.error('Fehler beim Hinzufügen der Reaktion:', error));
-  
-    this.emojiStorageService.saveEmoji(emoji);
-  }
-
   /**
    * Öffnet oder schließt den Emoji-Picker für eine Thread-Nachricht
    */
-  toggleEmojiPicker(messageId: string, isThreadMessage: boolean) {
-    console.log('toggleEmojiPicker', messageId, isThreadMessage);
-    this.displayPickerBottom = isThreadMessage;
-    if (this.isChatBoxEmojiPickerOpen()) {
-      if (messageId !== this.chatBoxEmojiPickerOpenFor()) {
-        this.chatBoxEmojiPickerOpenFor.set(messageId); // ✅ Signal richtig aktualisieren
-      } else {
-        this.isChatBoxEmojiPickerOpen.set(false); // ✅ Picker schließen
-      }
-    } else {
-      this.chatBoxEmojiPickerOpenFor.set(messageId); // ✅ Picker auf diese Nachricht setzen
-      this.isChatBoxEmojiPickerOpen.set(true); // ✅ Picker öffnen
-    }
+  toggleEmojiPicker(messageId: string) {
+    console.log(`🛠 Toggle Emoji Picker für ThreadMessage: ${messageId}`);
+    this.emojiPickerService.openNewChatBoxEmojiPicker(messageId, true); // ✅ Thread aktivieren
+  }
+
+  /**
+   * Prüft, ob der Emoji-Picker für diese Nachricht offen ist
+   */
+  isEmojiPickerOpenForThisMessage(): boolean {
+    return (
+      this.emojiPickerService.displayEmojiPickerMainThread.value && 
+      this.emojiPickerService.chatBoxEmojiPickerForId.value === this.threadMessage.docId
+    );
+  }
+
+  /**
+   * Emoji zur Nachricht hinzufügen
+   */
+  addEmoji(messageIdOrThreadDocId: string, userId: string, emoji: string): void {
+    const reaction: Reaction = { emoji, userIds: [userId] };
+    const updateData: Partial<Message> = { reactions: [reaction] };
+
+    this.messagesService.updateThreadMessage(this.activeMessageId!, messageIdOrThreadDocId, userId, updateData)
+      .then(() => {
+        console.log('✅ Emoji hinzugefügt:', emoji);
+        this.emojiPickerService.closeChatBoxEmojiPicker('addEmoji in ThreadMessages');
+      })
+      .catch(error => console.error('❌ Fehler beim Hinzufügen der Reaktion:', error));
+
+    this.emojiStorageService.saveEmoji(emoji);
   }
     
 
@@ -99,8 +98,7 @@ export class ThreadMessageComponent {
    * Letzte verwendete Emojis abrufen
    */
   getLastUsedEmojis(index: number) {
-    const emojis = this.emojiStorageService.getEmojis();
-    return emojis[index];
+    return this.emojiStorageService.getEmojis()[index];
   }
 
   /**
