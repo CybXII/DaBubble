@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, Signal, signal } from '@angular/core';
+import { Component, effect, EventEmitter, Input, Output, Signal, signal, WritableSignal } from '@angular/core';
 import { Message, Reaction } from '../../../models/message';
 import { UserService } from '../../../shared/services/user.service';
 import { EmojiPickerService } from '../../../shared/services/emoji-picker.service';
@@ -15,6 +15,7 @@ import { StateService } from '../../../shared/services/state.service';
 import { FormsModule } from '@angular/forms';
 import { SaveEditMessageService } from '../../../shared/services/save-edit-message.service';
 import { EditmessageComponent } from '../editmessage/editmessage.component';
+import { firstValueFrom, Subscription, take } from 'rxjs';
 
 @Component({
   selector: 'app-messages',
@@ -29,28 +30,42 @@ export class MessageComponent {
   @Input() activeUserId!: string;
   @Input() isCurrentUser!: boolean;
   @Input() activeMessageId!: string;
+  subscriptions = new Subscription(); // ✅ RICHTIG
 
   previousTimestamp: number | null = null;
-  displayEmojiPickerMainThread: Signal<boolean> = signal(true);
   displayPickerBottom: boolean = false;
-  isChatBoxEmojiPickerOpen = signal(false);
-  chatBoxEmojiPickerOpenFor = signal<string | null>(null);
-
-
+  isMessageBoxMainPickerOpen = false;
+  isMessageBoxThreadPickerOpen = false;
+  isMessageBoxCreateMessagePickerOpen = false;
 
   constructor(
     private userService: UserService,
-    private emojiPickerService: EmojiPickerService,
+    public emojiPickerService: EmojiPickerService,
     private messagesService: MessagesService,
     private emojiStorageService: EmojiStorageService,
     public dialog: MatDialog,
     private userDialog$: UserDialogService,
     private saveEditedMessage: SaveEditMessageService,
-    private stateService: StateService
-  ) {}
+    private stateService: StateService,
+    ) {
+      console.log("Emoji Picker geladen");
+
+      effect(() => {
+        const open = this.emojiPickerService.isPickerOpen();
+        const openFor = this.emojiPickerService.openForMessageId();
+    
+        this.isMessageBoxMainPickerOpen = open && openFor === 'main';
+        this.isMessageBoxThreadPickerOpen = open && openFor === 'thread';
+        this.isMessageBoxCreateMessagePickerOpen = open && openFor === 'createMessage';
+      });
+    }
 
   ngOnInit() {
-    console.log("Emoji Picker geladen");
+
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   getUserName(userId: string) {
@@ -83,24 +98,14 @@ export class MessageComponent {
     event.stopPropagation();
   }
 
-  toggleEmojiPicker(messageId: string, isThreadMessage: boolean) {
-    console.log('toggleEmojiPicker aufgerufen mit:', messageId, isThreadMessage);
-    
-    this.displayPickerBottom = isThreadMessage;
-  
-    if (this.isChatBoxEmojiPickerOpen()) {
-      if (messageId !== this.chatBoxEmojiPickerOpenFor()) {
-        console.log('Setze chatBoxEmojiPickerOpenFor auf:', messageId);
-        this.chatBoxEmojiPickerOpenFor.set(messageId);
-      } else {
-        console.log('Schließe Picker');
-        this.isChatBoxEmojiPickerOpen.set(false);
-        this.chatBoxEmojiPickerOpenFor.set(null);
-      }
+  toggleEmojiPicker(messageId: string) {
+    console.log('🔄 toggleEmojiPicker für:', messageId);
+    if (this.emojiPickerService.isEmojiPickerOpenFor(messageId)) {
+      console.log('📌 Schließe Picker');
+      this.emojiPickerService.closeChatBoxEmojiPicker();
     } else {
-      console.log('Öffne Picker für:', messageId);
-      this.chatBoxEmojiPickerOpenFor.set(messageId);
-      this.isChatBoxEmojiPickerOpen.set(true);
+      console.log('✅ Öffne Picker für:', messageId);
+      this.emojiPickerService.openChatBoxEmojiPicker(messageId);
     }
   }
   
@@ -108,14 +113,16 @@ export class MessageComponent {
   addEmoji(messageIdOrThreadDocId: string, userId: string, emoji: string, isThreadMessage: boolean): void {
     const reaction: Reaction = { emoji, userIds: [userId] };
     const updateData: Partial<Message> = { reactions: [reaction] };
+  
     const updatePromise = isThreadMessage
       ? this.messagesService.updateThreadMessage(this.activeMessageId!, messageIdOrThreadDocId, userId, updateData)
       : this.messagesService.updateMessage(messageIdOrThreadDocId, userId, updateData);
+  
     updatePromise.then(() => {
-        this.isChatBoxEmojiPickerOpen.set(false);
-        this.chatBoxEmojiPickerOpenFor.set(null);
-      }).catch(error => console.error('Fehler beim Hinzufügen der Reaktion:', error));
-    this.emojiPickerService.closeChatBoxEmojiPicker();
+      console.log('Emoji hinzugefügt:', emoji);
+      this.emojiPickerService.closeChatBoxEmojiPicker(); // 🚀 Picker schließen
+    }).catch(error => console.error('Fehler beim Hinzufügen der Reaktion:', error));
+  
     this.emojiStorageService.saveEmoji(emoji);
   }
 

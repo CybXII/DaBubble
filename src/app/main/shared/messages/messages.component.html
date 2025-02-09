@@ -8,7 +8,7 @@
     <span class="thread__divider-text">
         {{ message.timestamp | relativeDate }}
     </span>
-    } @if (isChatBoxEmojiPickerOpen() && chatBoxEmojiPickerOpenFor() === message.docId && !displayEmojiPickerMainThread){
+    } @if ( message.docId && emojiPickerService.isEmojiPickerOpenFor(message.docId)) {
     <div [class]="{
             'emoji-picker__wrapper-left':
             displayPickerBottom && message.createdBy !== activeUserId,
@@ -19,7 +19,7 @@
             'emoji-picker__wrapper-right':
             displayPickerBottom && message.createdBy === activeUserId
             }" (click)="preventEmojiPickerClose($event)">
-        <app-emoji-picker componentName="chatbox" (emoji)="addEmoji(message.docId, activeUserId!, $event, false)" />
+        <app-emoji-picker componentName="chatbox" (emoji)="addEmoji(message.docId, activeUserId!, $event, false)"/>    
     </div>
     }
 </div>
@@ -42,7 +42,7 @@
         </span>
         }
         @if (message.docId) {
-            <div class="chatbox__addemoji__emoji-container" (click)="toggleEmojiPicker(message.docId, false)">
+            <div class="chatbox__addemoji__emoji-container" (click)="toggleEmojiPicker(message.docId)">
                 <img src="/img/icons/addemoji.svg" alt="" />
             </div>
         }

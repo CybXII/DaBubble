@@ -9,6 +9,7 @@ import { EmojiStorageService } from '../../../shared/services/emoji-storage.serv
 import { Message, Reaction } from '../../../models/message';
 import { ReactionsComponent } from '../../../shared/reactions/reactions.component';
 import { EmojiPickerComponent } from '../emoji-picker/emoji-picker.component';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-parent-message',
@@ -31,7 +32,7 @@ export class ParentMessageComponent {
 
   constructor(
     private userService: UserService,
-    private emojiPickerService: EmojiPickerService,
+    public emojiPickerService: EmojiPickerService,
     private messagesService: MessagesService,
     private emojiStorageService: EmojiStorageService
   ) {
@@ -56,25 +57,8 @@ export class ParentMessageComponent {
     }
   }
 
-  toggleEmojiPicker(messageId: string, isThreadMessage: boolean) {
-    console.log('toggleEmojiPicker aufgerufen mit:', messageId, isThreadMessage);
-    
-    this.displayPickerBottom = isThreadMessage;
-  
-    if (this.isChatBoxEmojiPickerOpen()) {
-      if (messageId !== this.chatBoxEmojiPickerOpenFor()) {
-        console.log('Setze chatBoxEmojiPickerOpenFor auf:', messageId);
-        this.chatBoxEmojiPickerOpenFor.set(messageId);
-      } else {
-        console.log('Schließe Picker');
-        this.isChatBoxEmojiPickerOpen.set(false);
-        this.chatBoxEmojiPickerOpenFor.set(null);
-      }
-    } else {
-      console.log('Öffne Picker für:', messageId);
-      this.chatBoxEmojiPickerOpenFor.set(messageId);
-      this.isChatBoxEmojiPickerOpen.set(true);
-    }
+  toggleEmojiPicker(messageId: string) {
+    this.emojiPickerService.openChatBoxEmojiPicker(messageId);
   }
 
 
@@ -84,16 +68,21 @@ export class ParentMessageComponent {
   }
 
   
-    addEmoji(messageIdOrThreadDocId: string, userId: string, emoji: string, isThreadMessage: boolean): void {
-      const reaction: Reaction = { emoji, userIds: [userId] };
-      const updateData: Partial<Message> = { reactions: [reaction] };
-      const updatePromise = isThreadMessage
-        ? this.messagesService.updateThreadMessage(this.activeMessageId!, messageIdOrThreadDocId, userId, updateData)
-        : this.messagesService.updateMessage(messageIdOrThreadDocId, userId, updateData);
-      updatePromise.catch(error => console.error('Fehler beim Hinzufügen der Reaktion:', error));
-      this.emojiPickerService.closeChatBoxEmojiPicker();
-      this.emojiStorageService.saveEmoji(emoji);
-    }
+  addEmoji(messageIdOrThreadDocId: string, userId: string, emoji: string, isThreadMessage: boolean): void {
+    const reaction: Reaction = { emoji, userIds: [userId] };
+    const updateData: Partial<Message> = { reactions: [reaction] };
+  
+    const updatePromise = isThreadMessage
+      ? this.messagesService.updateThreadMessage(this.activeMessageId!, messageIdOrThreadDocId, userId, updateData)
+      : this.messagesService.updateMessage(messageIdOrThreadDocId, userId, updateData);
+  
+    updatePromise.then(() => {
+      console.log('Emoji hinzugefügt:', emoji);
+      this.emojiPickerService.closeChatBoxEmojiPicker(); // 🚀 Picker schließen
+    }).catch(error => console.error('Fehler beim Hinzufügen der Reaktion:', error));
+  
+    this.emojiStorageService.saveEmoji(emoji);
+  }
   
   
     preventEmojiPickerClose(event: Event): void {

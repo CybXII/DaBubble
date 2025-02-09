@@ -4,78 +4,22 @@
   </div>
   } @else { @if (builder == "threadchat") {
   <div class="threadchat__chatbox">
-    <div class="chatbox__mainthread-container">
       @if (parentMessage) { 
-        @if (parentMessage.createdBy) { 
-        @if(isChatBoxEmojiPickerOpen && chatBoxEmojiPickerOpenFor === parentMessage.docId && displayEmojiPickerMainThread){
-      <div [class]="{
-            'emoji-picker__wrapper-left-thread':
-              displayPickerBottom && parentMessage.createdBy !== activeUserId,
-            'emoji-picker__wrapper-top-right-thread':
-              !displayPickerBottom && parentMessage.createdBy !== activeUserId,
-            'emoji-picker__wrapper-top-left-thread':
-              !displayPickerBottom && parentMessage.createdBy === activeUserId,
-            'emoji-picker__wrapper-right-thread':
-              displayPickerBottom && parentMessage.createdBy === activeUserId
-          }" (click)="preventEmojiPickerClose($event)">
-        <app-emoji-picker componentName="chatbox" (emoji)="addEmoji(parentMessage.docId, activeUserId!, $event, false)" />
-      </div>
-        }
-        <button class="chatbox__addemoji-container" (click)="preventEmojiPickerClose($event)">
-          @if(getLastUsedEmojis(0)){
-          <span class="chatbox__addemoji__lastUsedEmoji" (click)="
-                addEmoji(
-                  parentMessage.docId!,
-                  activeUserId!,
-                  getLastUsedEmojis(0),
-                  false
-                )
-              ">
-            {{ getLastUsedEmojis(0) }}
-          </span>
-          @if(getLastUsedEmojis(1)){
-          <span class="chatbox__addemoji__lastUsedEmoji" (click)="
-                addEmoji(
-                  parentMessage.docId!,
-                  activeUserId!,
-                  getLastUsedEmojis(1),
-                  false
-                )
-              ">
-            {{ getLastUsedEmojis(1) }}
-          </span>
-          } }
-          <div class="chatbox__addemoji__emoji-container" (click)="
-                toggleEmojiPicker(parentMessage.docId || 'fallback', false, true)
-              ">
-            <img src="/img/icons/addemoji.svg" alt="" />
-          </div>
-        </button>
-        <app-parent-message 
-          *ngIf="parentMessage && activeMessageId && activeUserId"
+        @if (parentMessage && activeUserId && activeMessageId) {
+        <app-parent-message class="chatbox__mainthread-container"
           [activeMessageId]="activeMessageId"
           [parentMessage]="parentMessage"
           [activeUserId]="activeUserId"
-          (userClicked)="handleUserClick($event)">
+          (userClicked)="handleUserClick($event)">>
         </app-parent-message>
-      } 
-      <!-- <div class="chatbox__mainthread-container">
-        @if (parentMessage && activeUserId && activeMessageId) {
-        <app-parent-message           
-        [activeMessageId]="activeMessageId"
-        [parentMessage]="parentMessage"
-        [activeUserId]="activeUserId"
-        (userClicked)="handleUserClick($event)">></app-parent-message>
       }
-      </div> -->
     }
-    </div>
     <div class="chatbox__threads-divider">
       {{ (threadMessages$ | async)?.length || 0 }} Antworten
     </div>
     @for (threadmessage of (threadMessages$ | async); track threadmessage.docId) { 
       @if (threadmessage && activeMessageId && activeUserId) {
-          <app-thread-message 
+          <app-thread-message class="chatbox__msg-container" [class.chatbox__msg-container__sent]="threadmessage.createdBy === activeUserId" id="{{ threadmessage.docId }}" 
             [threadMessage]="threadmessage" 
             [activeUserId]="activeUserId"
             [activeMessageId]="activeMessageId"
@@ -114,7 +58,12 @@
     @for (message of (messages$ | async); track message.docId) { @if (message ) {
           @let shouldRenderDivider = checkAndSetPreviousTimestamp(message.timestamp);
           @if (activeUserId){
-            <app-messages style="width: 100;" [shouldRenderDivider]="shouldRenderDivider" [message]="message" [activeUserId]="activeUserId" [isCurrentUser]="message.createdBy === activeUserId"></app-messages>
+            <app-messages style="width: 100;" 
+              [shouldRenderDivider]="shouldRenderDivider" 
+              [message]="message" 
+              [activeUserId]="activeUserId" 
+              [isCurrentUser]="message.createdBy === activeUserId">
+            </app-messages>
           }
         } 
       }
