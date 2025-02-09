@@ -4,6 +4,9 @@ import { Router, RouterOutlet, RouterModule } from '@angular/router';
 import { ToastMessageService } from '../shared/services/toastmessage.service';
 import { ToastMessageComponent } from '../shared/toastmessage/toastmessage.component';
 
+/**
+ * LoginComponent - A component that handles the login functionality.
+ */
 @Component({
   selector: 'app-login',
   standalone: true, // <-- Add this line
@@ -12,10 +15,27 @@ import { ToastMessageComponent } from '../shared/toastmessage/toastmessage.compo
   styleUrls: ['./login.component.scss', './landscape.scss'],
 })
 export class LoginComponent {
+
+  /**
+   * loginPage - A flag to indicate if the current page is the login page.
+   */
   loginPage: boolean = true;
+
+  /**
+   * forgetPassword - A flag to indicate if the forget password page is active.
+   */
   forgetPassword:boolean = true;
+
+  /**
+   * introPlayed - A flag to indicate if the intro has been played.
+   */
   introPlayed: boolean = false;
 
+  /**
+   * Constructor for LoginComponent.
+   * @param {Router} router - The Angular Router service.
+   * @param {ToastMessageService} toastMessageService - The toast message service.
+   */
   constructor(public router: Router, private toastMessageService: ToastMessageService) {
     this.checkside();
 
@@ -32,8 +52,9 @@ export class LoginComponent {
     }, 6000);
   }
 
-  homeroute: any = '';
-
+  /**
+   * Checks the current route and updates the page flags accordingly.
+   */
   checkside() {
     setInterval(() => {
       if (this.router.routerState.snapshot.url == '/') {
@@ -49,6 +70,10 @@ export class LoginComponent {
     },100)
   }
 
+  /**
+   * Gets the current toast message.
+   * @returns {string} - The current toast message.
+   */
   get toastMessage() {
     return this.toastMessageService.toastSignal();
   }
