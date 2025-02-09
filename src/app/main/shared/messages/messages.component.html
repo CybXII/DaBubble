@@ -1,21 +1,50 @@
+<div class="message" style="position: relative">
+    @if (shouldRenderDivider) {
+    <div class="thread__divider" style="width: 100%" [ngStyle]="{
+                'background-color': shouldRenderDivider
+                ? 'rgb(236, 238, 254)'
+                : 'transparent'
+            }"></div>
+    <span class="thread__divider-text">
+        {{ message.timestamp | relativeDate }}
+    </span>
+    } @if (isChatBoxEmojiPickerOpen() && chatBoxEmojiPickerOpenFor() === message.docId && !displayEmojiPickerMainThread){
+    <div [class]="{
+            'emoji-picker__wrapper-left':
+            displayPickerBottom && message.createdBy !== activeUserId,
+            'emoji-picker__wrapper-top-right':
+            !displayPickerBottom && message.createdBy !== activeUserId,
+            'emoji-picker__wrapper-top-left':
+            !displayPickerBottom && message.createdBy === activeUserId,
+            'emoji-picker__wrapper-right':
+            displayPickerBottom && message.createdBy === activeUserId
+            }" (click)="preventEmojiPickerClose($event)">
+        <app-emoji-picker componentName="chatbox" (emoji)="addEmoji(message.docId, activeUserId!, $event, false)" />
+    </div>
+    }
+</div>
+
 <div class="chatbox__msg-container" [class.chatbox__msg-container__sent]="message.createdBy === activeUserId"
     [ngClass]="{ 'thread__days__chatbox__msg-container': message.sameDay }" id="{{ message.docId }}">
-    <button (click)="preventEmojiPickerClose($event)" class="chatbox__addemoji-container"
+    <button class="chatbox__addemoji-container"
         [class.chatbox__addemoji__sent]="message.createdBy === activeUserId">
         @if(getLastUsedEmojis(0)){
-        <span class="chatbox__addemoji__lastUsedEmoji" (click)="addEmoji(message.docId!, activeUserId!, getLastUsedEmojis(0), false)">
+        <span class="chatbox__addemoji__lastUsedEmoji"
+            (click)="addEmoji(message.docId!, activeUserId!, getLastUsedEmojis(0), false)">
             {{ getLastUsedEmojis(0) }}
         </span>
         }
         @if(getLastUsedEmojis(1)){
-        <span class="chatbox__addemoji__lastUsedEmoji" (click)="addEmoji(message.docId!, activeUserId!, getLastUsedEmojis(1), false)">
+        <span class="chatbox__addemoji__lastUsedEmoji"
+            (click)="addEmoji(message.docId!, activeUserId!, getLastUsedEmojis(1), false)">
             {{ getLastUsedEmojis(1) }}
         </span>
         }
-        <div class="chatbox__addemoji__emoji-container"
-            (click)="toggleEmojiPicker(message.docId || 'fallback', false)">
-            <img src="/img/icons/addemoji.svg" alt="" />
-        </div>
+        @if (message.docId) {
+            <div class="chatbox__addemoji__emoji-container" (click)="toggleEmojiPicker(message.docId, false)">
+                <img src="/img/icons/addemoji.svg" alt="" />
+            </div>
+        }
         @if (message.docId) {
         <div (click)="onMessageSelect(message.docId)" class="chatbox__addemoji__emoji-container">
             <img src="/img/icons/comment.svg" alt="" />
@@ -35,8 +64,8 @@
                 </g>
             </svg>
             <div class="chatbox__editmsg-container">
-                <span (click)="editMessage2(message)" class="chatbox__editmsg">Nachricht bearbeiten</span>
-                <span (click)="editMessage(message, true)" class="chatbox__editmsg">Nachricht löschen</span>
+                <span (click)="editMessage(message, false, true)" class="chatbox__editmsg">Nachricht bearbeiten</span>
+                <span (click)="editMessage(message, true ,false)" class="chatbox__editmsg">Nachricht löschen</span>
             </div>
         </div>
     </button>
@@ -93,8 +122,8 @@
             </div>
             }
             <app-reactions class="chatbox__reaction-wrapper" [reactions]="message.reactions"
-            [activeUserId]="activeUserId || ''" [messageId]="message.docId || ''" [isThreadMessage]="false"
-            (reactionAdded)="
+                [activeUserId]="activeUserId || ''" [messageId]="message.docId || ''" [isThreadMessage]="false"
+                (reactionAdded)="
                     addEmoji(
                     $event.messageId,
                     activeUserId!,

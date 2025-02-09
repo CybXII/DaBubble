@@ -8,11 +8,12 @@ import { MessagesService } from '../../../shared/services/messages.service';
 import { EmojiStorageService } from '../../../shared/services/emoji-storage.service';
 import { Message, Reaction } from '../../../models/message';
 import { ReactionsComponent } from '../../../shared/reactions/reactions.component';
+import { EmojiPickerComponent } from '../emoji-picker/emoji-picker.component';
 
 @Component({
   selector: 'app-parent-message',
   standalone: true,
-  imports: [CommonModule, ReactionsComponent, RelativeDatePipe],
+  imports: [CommonModule, ReactionsComponent, RelativeDatePipe, EmojiPickerComponent],
   templateUrl: './parent-message.component.html',
   styleUrls: ['./parent-message.component.scss', '../chatbox/chatbox.component.scss'],
 })
@@ -20,18 +21,26 @@ export class ParentMessageComponent {
   @Input() activeMessageId!: string;
   @Input() parentMessage!: Partial<Message>;
   @Input() activeUserId!: string;
+  @Input()displayEmojiPickerMainThread: Signal<boolean> = signal(true);
   @Output() userClicked = new EventEmitter<string>();
 
-  isChatBoxEmojiPickerOpen: Signal<boolean> = signal(false);
-  chatBoxEmojiPickerOpenFor: Signal<string | null> = signal(null);
+  previousTimestamp: number | null = null;
   displayPickerBottom: boolean = false;
+  isChatBoxEmojiPickerOpen = signal(false);
+  chatBoxEmojiPickerOpenFor = signal<string | null>(null);
 
   constructor(
     private userService: UserService,
     private emojiPickerService: EmojiPickerService,
     private messagesService: MessagesService,
     private emojiStorageService: EmojiStorageService
-  ) {}
+  ) {
+    console.log("Emoji Picker geladen" ,this.parentMessage);
+  }
+
+  ngOnInit() {
+    console.log("Emoji Picker geladen" ,this.parentMessage);
+  }
 
   getUserName(userId: string) {
     return this.userService.getuserName(userId);
@@ -47,15 +56,24 @@ export class ParentMessageComponent {
     }
   }
 
-  toggleEmojiPicker(messageId: string) {
+  toggleEmojiPicker(messageId: string, isThreadMessage: boolean) {
+    console.log('toggleEmojiPicker aufgerufen mit:', messageId, isThreadMessage);
+    
+    this.displayPickerBottom = isThreadMessage;
+  
     if (this.isChatBoxEmojiPickerOpen()) {
       if (messageId !== this.chatBoxEmojiPickerOpenFor()) {
-        this.emojiPickerService.openNewChatBoxEmojiPicker(messageId, false);
+        console.log('Setze chatBoxEmojiPickerOpenFor auf:', messageId);
+        this.chatBoxEmojiPickerOpenFor.set(messageId);
       } else {
-        this.emojiPickerService.openChatBoxEmojiPicker(messageId, false);
+        console.log('Schließe Picker');
+        this.isChatBoxEmojiPickerOpen.set(false);
+        this.chatBoxEmojiPickerOpenFor.set(null);
       }
     } else {
-      this.emojiPickerService.openChatBoxEmojiPicker(messageId, false);
+      console.log('Öffne Picker für:', messageId);
+      this.chatBoxEmojiPickerOpenFor.set(messageId);
+      this.isChatBoxEmojiPickerOpen.set(true);
     }
   }
 

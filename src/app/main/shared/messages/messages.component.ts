@@ -19,21 +19,22 @@ import { EditmessageComponent } from '../editmessage/editmessage.component';
 @Component({
   selector: 'app-messages',
   standalone: true,
-  imports: [CommonModule, EmojiPickerComponent, ReactionsComponent, RelativeDatePipe, FormsModule],
+  imports: [CommonModule, ReactionsComponent, RelativeDatePipe, FormsModule, EmojiPickerComponent],
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.scss', '../chatbox/chatbox.component.scss'],
 })
 export class MessageComponent {
+  @Input() shouldRenderDivider!: boolean;
   @Input() message!: Message;
   @Input() activeUserId!: string;
   @Input() isCurrentUser!: boolean;
   @Input() activeMessageId!: string;
 
-  displayPickerBottom: boolean = false;
   previousTimestamp: number | null = null;
-  displayEmojiPickerMainThread: Signal<boolean> = signal(false);
-  isChatBoxEmojiPickerOpen: Signal<boolean> = signal(false);
-  chatBoxEmojiPickerOpenFor: Signal<string | null> = signal(null);
+  displayEmojiPickerMainThread: Signal<boolean> = signal(true);
+  displayPickerBottom: boolean = false;
+  isChatBoxEmojiPickerOpen = signal(false);
+  chatBoxEmojiPickerOpenFor = signal<string | null>(null);
 
 
 
@@ -47,6 +48,10 @@ export class MessageComponent {
     private saveEditedMessage: SaveEditMessageService,
     private stateService: StateService
   ) {}
+
+  ngOnInit() {
+    console.log("Emoji Picker geladen");
+  }
 
   getUserName(userId: string) {
     return this.userService.getuserName(userId);
@@ -65,8 +70,8 @@ export class MessageComponent {
     }
   }
 
-    openDialogUser(id: string | undefined): void {
-      this.dialog.open(ProfileviewComponent, {
+  openDialogUser(id: string | undefined): void {
+    this.dialog.open(ProfileviewComponent, {
         width: 'fit-content',
         maxWidth: '100vw',
         height: 'fit-content',
@@ -79,17 +84,26 @@ export class MessageComponent {
   }
 
   toggleEmojiPicker(messageId: string, isThreadMessage: boolean) {
+    console.log('toggleEmojiPicker aufgerufen mit:', messageId, isThreadMessage);
+    
     this.displayPickerBottom = isThreadMessage;
+  
     if (this.isChatBoxEmojiPickerOpen()) {
       if (messageId !== this.chatBoxEmojiPickerOpenFor()) {
-        this.emojiPickerService.openNewChatBoxEmojiPicker(messageId, isThreadMessage);
+        console.log('Setze chatBoxEmojiPickerOpenFor auf:', messageId);
+        this.chatBoxEmojiPickerOpenFor.set(messageId);
       } else {
-        this.emojiPickerService.openChatBoxEmojiPicker(messageId, isThreadMessage);
+        console.log('Schließe Picker');
+        this.isChatBoxEmojiPickerOpen.set(false);
+        this.chatBoxEmojiPickerOpenFor.set(null);
       }
     } else {
-      this.emojiPickerService.openChatBoxEmojiPicker(messageId, isThreadMessage);
+      console.log('Öffne Picker für:', messageId);
+      this.chatBoxEmojiPickerOpenFor.set(messageId);
+      this.isChatBoxEmojiPickerOpen.set(true);
     }
   }
+  
 
   addEmoji(messageIdOrThreadDocId: string, userId: string, emoji: string, isThreadMessage: boolean): void {
     const reaction: Reaction = { emoji, userIds: [userId] };
@@ -97,7 +111,10 @@ export class MessageComponent {
     const updatePromise = isThreadMessage
       ? this.messagesService.updateThreadMessage(this.activeMessageId!, messageIdOrThreadDocId, userId, updateData)
       : this.messagesService.updateMessage(messageIdOrThreadDocId, userId, updateData);
-    updatePromise.catch(error => console.error('Fehler beim Hinzufügen der Reaktion:', error));
+    updatePromise.then(() => {
+        this.isChatBoxEmojiPickerOpen.set(false);
+        this.chatBoxEmojiPickerOpenFor.set(null);
+      }).catch(error => console.error('Fehler beim Hinzufügen der Reaktion:', error));
     this.emojiPickerService.closeChatBoxEmojiPicker();
     this.emojiStorageService.saveEmoji(emoji);
   }
@@ -130,7 +147,7 @@ export class MessageComponent {
 
   async onMessageSelect(messageId: string): Promise<void> {
     this.messagesService.setParentMessageId(messageId);
-    // this.activeMessageId = messageId;
+    this.activeMessageId = messageId;
     this.messagesService.setMessageId(messageId);
     this.stateService.setThreadchatState('in');
   }
@@ -144,11 +161,12 @@ export class MessageComponent {
     message.sameDay = false;
   }
 
-  editMessage2(message: Partial<Message>) {
-    message.sameDay = true;
-  }
 
-    editMessage(message: Partial<Message>, deleteMessage: boolean) {
+  editMessage(message: Partial<Message>, deleteMessage: boolean, inlineEdit = false) {
+    if (inlineEdit) {
+      message.sameDay = true;
+      return;
+    } else {
       this.dialog.open(EditmessageComponent, {
         width: 'fit-content',
         maxWidth: '100vw',
@@ -156,4 +174,5 @@ export class MessageComponent {
         data: { message, deleteMessage },
       });
     }
+  }
 }
