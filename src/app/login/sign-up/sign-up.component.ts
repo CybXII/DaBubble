@@ -6,8 +6,9 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../shared/services/auth.service';
 import { UserModel } from '../../models/user';
 
-
-
+/**
+ * SignUpComponent - A component that handles the sign-up functionality.
+ */
 @Component({
   selector: 'app-sign-up',
   standalone: true,   // <-- Add this line
@@ -16,9 +17,15 @@ import { UserModel } from '../../models/user';
   styleUrl: './sign-up.component.scss'
 })
 export class SignUpComponent {
-  avatar: boolean = false;
-  user = new UserModel(null);
 
+  /**
+   * avatar - A flag to indicate if the avatar selection is active.
+   */
+  avatar: boolean = false;
+
+  /**
+   * userData - Object to hold user sign-up data.
+   */
   userData = {
     name: "",
     email: "",
@@ -27,19 +34,33 @@ export class SignUpComponent {
     photoURL: "",
   }
 
-
+  /**
+   * Constructor for SignUpComponent.
+   * @param {Router} router - The Angular Router service.
+   * @param {AuthService} auth - The authentication service.
+   */
   constructor(private router: Router, private auth: AuthService) { }
 
+  /**
+   * Navigates back to the home page.
+   */
   back() {
     this.router.navigateByUrl('');
   }
 
+  /**
+   * Handles the sign-up process.
+   * @param {NgForm} form - The form containing the user sign-up data.
+   */
   signUp(form: NgForm) {
     if (form.valid && form.submitted) {
       this.avatar = true;
     }
   }
 
+  /**
+   * Closes the avatar selection.
+   */
   close() {
     this.avatar = false;
   }

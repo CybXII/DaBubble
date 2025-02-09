@@ -4,6 +4,9 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 
+/**
+ * ForgetPasswordComponent - A component that handles the forget password functionality.
+ */
 @Component({
   selector: 'app-forget-password',
   standalone: true,   // <-- Add this line
@@ -13,27 +16,42 @@ import { AuthService } from '../../shared/services/auth.service';
 })
 export class ForgetPasswordComponent {
 
+  /**
+   * userData - Object to hold user email.
+   */
   userData = {
     email: "",
   }
+
+  /**
+   * emailSended - A flag to indicate if the email was successfully sent.
+   */
   emailSended:boolean = false;
 
+  /**
+   * Constructor for ForgetPasswordComponent.
+   * @param {Router} router - The Angular Router service.
+   * @param {AuthService} authService - The authentication service.
+   */
   constructor(private router: Router, private authService: AuthService) { }
 
+  /**
+   * Navigates back to the home page.
+   */
   back() {
     this.router.navigateByUrl('');
   }
 
+  /**
+   * Sends a reset password email.
+   * @param {NgForm} form - The form containing the user email.
+   */
   sendMail(form: NgForm) {
-    if (form.valid && form.submitted) {
-      // console.log(this.userData);
-    }
     this.authService.resetPassword(this.userData.email).then(() => {
-      console.log("erfolgreich mail verschickt!");
       form.resetForm();
       this.emailSended = true;
       setTimeout(() => {
-        this.router.navigateByUrl('');
+        this.back();
       }, 10000)
     })
       .catch((error) => {
