@@ -1,5 +1,5 @@
   <div class="chatbox__msg-container" [class.chatbox__msg-container__sent]="threadMessage.createdBy === activeUserId" id="{{ threadMessage.docId }}">
-    @if (isChatBoxEmojiPickerOpen() && chatBoxEmojiPickerOpenFor() === threadMessage.docId){
+    @if (threadMessage.docId && isEmojiPickerOpenForThisMessage()){
           <div [class]="{
             'emoji-picker__wrapper-left-thread':
               displayPickerBottom && threadMessage.createdBy !== activeUserId,
@@ -10,23 +10,23 @@
             'emoji-picker__wrapper-right-thread':
               displayPickerBottom && threadMessage.createdBy === activeUserId
           }" (click)="preventEmojiPickerClose($event)">
-        <app-emoji-picker componentName="chatbox" (emoji)="addEmoji(threadMessage.docId, activeUserId!, $event, true)" />
+        <app-emoji-picker componentName="chatbox" (emoji)="addEmoji(threadMessage.docId, activeUserId!, $event)" />
       </div>
     }
     <!-- Emoji hinzufügen Button -->
     <button class="chatbox__addemoji-container">
       @if (getLastUsedEmojis(0)) {
-        <span class="chatbox__addemoji__lastUsedEmoji" (click)="addEmoji(threadMessage.docId!, activeUserId!, getLastUsedEmojis(0), true)">
+        <span class="chatbox__addemoji__lastUsedEmoji" (click)="addEmoji(threadMessage.docId!, activeUserId!, getLastUsedEmojis(0))">
           {{ getLastUsedEmojis(0) }}
         </span>
       }
       @if (getLastUsedEmojis(1)) {
-        <span class="chatbox__addemoji__lastUsedEmoji" (click)="addEmoji(threadMessage.docId!, activeUserId!, getLastUsedEmojis(1), true)">
+        <span class="chatbox__addemoji__lastUsedEmoji" (click)="addEmoji(threadMessage.docId!, activeUserId!, getLastUsedEmojis(1))">
           {{ getLastUsedEmojis(1) }}
         </span>
       }
       @if (threadMessage.docId) {      
-        <div class="chatbox__addemoji__emoji-container" (click)="toggleEmojiPicker(threadMessage.docId, true)">
+        <div class="chatbox__addemoji__emoji-container" (click)="toggleEmojiPicker(threadMessage.docId)">
           <img src="/img/icons/addemoji.svg" alt="Emoji hinzufügen">
         </div>
       }
@@ -84,7 +84,7 @@
         [activeUserId]="activeUserId || ''"
         [messageId]="threadMessage.docId || ''"
         [isThreadMessage]="true"
-        (reactionAdded)="addEmoji($event.messageId, activeUserId!, $event.emoji, true)">
+        (reactionAdded)="addEmoji($event.messageId, activeUserId!, $event.emoji)">
       </app-reactions>
     </div>
 

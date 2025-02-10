@@ -310,7 +310,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       ? this.messagesService.updateThreadMessage(this.activeMessageId!, messageIdOrThreadDocId, userId, updateData)
       : this.messagesService.updateMessage(messageIdOrThreadDocId, userId, updateData);
     updatePromise.catch(error => console.error('Fehler beim Hinzufügen der Reaktion:', error));
-    this.emojiPickerService.closeChatBoxEmojiPicker();
+    this.emojiPickerService.closeChatBoxEmojiPicker( 'addEmoji in chatbox function');
     this.emojiStorageService.saveEmoji(emoji);
   }
 
@@ -320,15 +320,15 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
-  @HostListener('document:click', ['$event'])
-  onChatboxDocumentClick(event: MouseEvent): void {
-    const target = event.target as HTMLElement;
+  // @HostListener('document:click', ['$event'])
+  // onChatboxDocumentClick(event: MouseEvent): void {
+  //   const target = event.target as HTMLElement;
   
-    if (!target.closest('.emoji-picker__wrapper')) { 
-      // Schließe nur, wenn NICHT auf einen Emoji-Picker geklickt wurde
-      this.emojiPickerService.closeChatBoxEmojiPicker();
-    }
-  }
+  //   if (!target.closest('.emoji-picker__wrapper')) { 
+  //     // Schließe nur, wenn NICHT auf einen Emoji-Picker geklickt wurde
+  //     this.emojiPickerService.closeChatBoxEmojiPicker('document click chatbox');
+  //   }
+  // }
 
 
 

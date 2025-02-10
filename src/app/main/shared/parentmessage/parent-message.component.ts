@@ -22,50 +22,48 @@ export class ParentMessageComponent {
   @Input() activeMessageId!: string;
   @Input() parentMessage!: Partial<Message>;
   @Input() activeUserId!: string;
-  @Input()displayEmojiPickerMainThread: Signal<boolean> = signal(true);
   @Output() userClicked = new EventEmitter<string>();
-  subscriptions = new Subscription(); // ✅ RICHTIG
 
-  previousTimestamp: number | null = null;
+  subscriptions = new Subscription();
+  displayEmojiPickerMainThread = false;
+  chatBoxEmojiPickerOpenFor: string | null = null;
   displayPickerBottom: boolean = false;
-  isChatBoxEmojiPickerOpen = signal(false);
-  chatBoxEmojiPickerOpenFor = signal<string | null>(null);
-  isMessageBoxMainPickerOpen = false;
-  isMessageBoxThreadPickerOpen = false;
-  isMessageBoxCreateMessagePickerOpen = false;
+
+
+
+
   constructor(
     private userService: UserService,
     public emojiPickerService: EmojiPickerService,
     private messagesService: MessagesService,
     private emojiStorageService: EmojiStorageService
   ) {
-    console.log("Emoji Picker geladen" ,this.parentMessage);
   }
 
   ngOnInit() {
-    const emojiPickerMainSubscription =
-      this.emojiPickerService.isMessageBoxMainPickerOpen$.subscribe((open) => {
-        this.isMessageBoxMainPickerOpen = open;
-      });
-    const emojiPickerThreadSubscription =
-      this.emojiPickerService.isMessageBoxThreadPickerOpen$.subscribe(
+    console.log("Emoji Picker geladen", this.parentMessage);
+
+    // 🛠️ Achte nur auf displayEmojiPickerMainThread$
+    this.subscriptions.add(
+      this.emojiPickerService.displayEmojiPickerMainThread$.subscribe(
         (open) => {
-          this.isMessageBoxThreadPickerOpen = open;
+          console.log(`🟠 displayEmojiPickerMainThread aktualisiert: ${open}`);
+          this.displayEmojiPickerMainThread = open;
         }
-      );
-    const emojiPickerCreateMessageSubscription =
-      this.emojiPickerService.isMessageBoxCreateMessagePickerOpen$.subscribe(
-        (open) => {
-          this.isMessageBoxCreateMessagePickerOpen = open;
+      )
+    );
+
+    this.subscriptions.add(
+      this.emojiPickerService.chatBoxEmojiPickerForId$.subscribe(
+        (id) => {
+          console.log(`🟠 chatBoxEmojiPickerForId aktualisiert: ${id}`);
+          this.chatBoxEmojiPickerOpenFor = id;
         }
-      );
-    this.subscriptions.add(emojiPickerMainSubscription);
-    this.subscriptions.add(emojiPickerThreadSubscription);
-    this.subscriptions.add(emojiPickerCreateMessageSubscription);
+      )
+    );
   }
 
   ngOnDestroy(): void {
-    // Alle Subscriptions aufräumen
     this.subscriptions.unsubscribe();
   }
 
@@ -85,46 +83,56 @@ export class ParentMessageComponent {
 
 
 
-  toggleEmojiPicker(messageId: string, isThreadMessage: boolean) {
-    console.log('toggleEmojiPicker', messageId, isThreadMessage);
-    this.displayPickerBottom = isThreadMessage;
-    if (this.isChatBoxEmojiPickerOpen()) {
-      if (messageId !== this.chatBoxEmojiPickerOpenFor()) {
-        this.chatBoxEmojiPickerOpenFor.set(messageId); // ✅ Signal richtig aktualisieren
-      } else {
-        this.isChatBoxEmojiPickerOpen.set(false); // ✅ Picker schließen
-      }
-    } else {
-      this.chatBoxEmojiPickerOpenFor.set(messageId); // ✅ Picker auf diese Nachricht setzen
-      this.isChatBoxEmojiPickerOpen.set(true); // ✅ Picker öffnen
+  /** Öffnet oder schließt den Emoji-Picker für diese Parent-Message */
+  /** 🛠 Öffnet oder schließt den Emoji-Picker für die Parent-Message */
+  toggleEmojiPicker(messageId: string) {
+    if (!messageId) {
+      console.log('🚫 Keine Parent-Message gefunden');
+      return;
     }
+  
+    console.log(`🛠 Toggle Emoji Picker für ParentMessage: ${messageId} (Thread)`);
+    this.emojiPickerService.openNewChatBoxEmojiPicker(messageId, true); // 🚀 True für Thread-Chat
+  
+    setTimeout(() => {
+      console.log(`📌 Nach 100ms - displayEmojiPickerMainThread: ${this.emojiPickerService.displayEmojiPickerMainThread.value}`);
+      console.log(`📌 Nach 100ms - isChatBoxPickerOpen: ${this.emojiPickerService.isChatBoxPickerOpen.value}`);
+      console.log(`📌 Nach 100ms - chatBoxEmojiPickerForId: ${this.emojiPickerService.chatBoxEmojiPickerForId.value}`);
+    }, 100);
   }
+  
+
+  /** Prüft, ob der Emoji-Picker für diese Nachricht offen ist */isEmojiPickerOpenForThisMessage(): boolean {
+  return this.emojiPickerService.displayEmojiPickerMainThread.value &&
+    this.emojiPickerService.chatBoxEmojiPickerForId.value === this.parentMessage.docId;
+  }
+  
 
 
   getLastUsedEmojis(index: number) {
-    const emojis = this.emojiStorageService.getEmojis();
-    return emojis[index];
+    return this.emojiStorageService.getEmojis()[index];
   }
 
-  
-  addEmoji(messageIdOrThreadDocId: string, userId: string, emoji: string, isThreadMessage: boolean): void {
+
+  /** 🛠 Emoji zur Nachricht hinzufügen */
+  addEmoji(messageIdOrThreadDocId: string, userId: string, emoji: string): void {
     const reaction: Reaction = { emoji, userIds: [userId] };
     const updateData: Partial<Message> = { reactions: [reaction] };
-  
-    const updatePromise = isThreadMessage
-      ? this.messagesService.updateThreadMessage(this.activeMessageId!, messageIdOrThreadDocId, userId, updateData)
-      : this.messagesService.updateMessage(messageIdOrThreadDocId, userId, updateData);
-  
-    updatePromise.then(() => {
-      console.log('Emoji hinzugefügt:', emoji);
-      this.emojiPickerService.closeChatBoxEmojiPicker(); // 🚀 Picker schließen
-    }).catch(error => console.error('Fehler beim Hinzufügen der Reaktion:', error));
-  
+
+    this.messagesService.updateMessage(messageIdOrThreadDocId, userId, updateData)
+      .then(() => {
+        console.log('Emoji hinzugefügt:', emoji);
+        this.emojiPickerService.closeChatBoxEmojiPicker('addEmoji function');
+      })
+      .catch(error => console.error('Fehler beim Hinzufügen der Reaktion:', error));
+
     this.emojiStorageService.saveEmoji(emoji);
   }
-  
-  
-    preventEmojiPickerClose(event: Event): void {
-      event.stopPropagation();
-    }
+
+  preventEmojiPickerClose(event: Event): void {
+    event.stopPropagation();
+  }
+
+
+
 }
