@@ -24,7 +24,8 @@
   display: flex !important;
 }
 
-.container { // enthält logo und "DABubble"
+.container {
+  // enthält logo und "DABubble"
   position: absolute;
   //width: 100vw;
   //height: 100vh;
@@ -372,11 +373,29 @@ form {
   }
 
   .containerNoAnimation {
-    top:40px
+    top: 40px
   }
 }
 
 @media (max-width: 600px) {
+  .container {
+    // enthält logo und "DABubble"
+    animation: moveToTop 1s 5s forwards; //, hide 0.3s 5.7s forwards
+
+
+    img {
+      height: 75px;
+      animation: moveLeft 0.5s 1s forwards,
+        makeStatic 1s 5s forwards,
+        shrinkImageMobile 1s 5s forwards;
+    }
+  }
+
+  .textcontainer {
+    h1 {
+      font-size: 30px !important;
+    }
+  }
 
   section {
     padding: 0px 20px 0px 20px;
@@ -448,7 +467,7 @@ form {
   }
 }
 
-// BZGL HEIGHT
+// BZGL HEIGHT (Ausgangslage: 1080px)
 @media (max-height: 900px) {
   .mainCont {
     gap: 10px !important;
@@ -470,11 +489,15 @@ form {
 }
 
 @media (max-height: 800px) {
-  .mainCont {
-    gap: 10px !important;
-    padding: 30px;
-  }
+  // .container {
+  //   // enthält logo und "DABubble"
+  //   animation: moveToTopLeftMobile 1s 5s forwards; //, hide 0.3s 5.7s forwards  
+  // }
 
+
+  .mainCont {
+    padding: 35px 40px 35px 40px !important;
+  }
 }
 
 
@@ -484,4 +507,3 @@ form {
     height: fit-content;
   }
 }
-
