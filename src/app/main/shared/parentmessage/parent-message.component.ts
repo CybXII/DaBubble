@@ -134,5 +134,10 @@ export class ParentMessageComponent {
   }
 
 
-
+  @HostListener('document:click', ['$event'])
+  onChatboxDocumentClick(event: MouseEvent): void {
+    if (this.isEmojiPickerOpenForThisMessage()) {
+      this.emojiPickerService.closeChatBoxEmojiPicker('Clicked outside');
+    }
+  }
 }

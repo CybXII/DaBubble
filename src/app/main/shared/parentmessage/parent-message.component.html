@@ -30,7 +30,7 @@
             }
             @if (parentMessage.docId){
                 <div class="chatbox__addemoji__emoji-container" 
-                    (click)="toggleEmojiPicker(parentMessage.docId)">
+                    (click)="toggleEmojiPicker(parentMessage.docId)" (click)="preventEmojiPickerClose($event)">
                     <img src="/img/icons/addemoji.svg" alt="Emoji hinzufügen">
                 </div>
             }

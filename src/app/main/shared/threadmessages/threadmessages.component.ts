@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, Signal, signal } from '@angular/core';
+import { Component, Input, Output, EventEmitter, Signal, signal, HostListener } from '@angular/core';
 import { ThreadMessage, Reaction, Message } from '../../../models/message';
 import { UserService } from '../../../shared/services/user.service';
 import { EmojiPickerService } from '../../../shared/services/emoji-picker.service';
@@ -63,6 +63,9 @@ export class ThreadMessageComponent {
 
 
   toggleEmojiPicker(messageId: string) {
+    this.emojiPickerService.closeMsgBoxEmojiPickerMain();
+    this.emojiPickerService.closeMsgBoxEmojiPickerThread();
+
     console.log(`🛠 Toggle Emoji Picker für ThreadMessage: ${messageId}`);
     this.emojiPickerService.openNewChatBoxEmojiPicker(messageId, true);
   }
@@ -118,4 +121,11 @@ export class ThreadMessageComponent {
   preventEmojiPickerClose(event: Event) {
     event.stopPropagation();
   }
+
+  @HostListener('document:click', ['$event'])
+    onChatboxDocumentClick(event: MouseEvent): void {
+      if (this.isEmojiPickerOpenForThisMessage()) {
+        this.emojiPickerService.closeChatBoxEmojiPicker('Clicked outside');
+      }
+    }
 }
