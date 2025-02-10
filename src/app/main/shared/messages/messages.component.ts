@@ -93,6 +93,8 @@ export class MessageComponent {
   }
 
   toggleEmojiPicker(messageId: string) {
+    this.emojiPickerService.closeMsgBoxEmojiPickerMain();
+    this.emojiPickerService.closeMsgBoxEmojiPickerThread();
     if (!messageId) {
       console.log('🚫 Keine Nachricht gefunden');
       return;
