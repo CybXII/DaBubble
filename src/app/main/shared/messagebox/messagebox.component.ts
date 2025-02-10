@@ -86,25 +86,25 @@ export class MessageboxComponent implements OnInit, OnDestroy {
       this.subscriptions.add(threadSubscription);
     }
 
-    // const emojiPickerMainSubscription =
-    //   this.emojiPickerService.isMessageBoxMainPickerOpen$.subscribe((open) => {
-    //     this.isMessageBoxMainPickerOpen = open;
-    //   });
-    // const emojiPickerThreadSubscription =
-    //   this.emojiPickerService.isMessageBoxThreadPickerOpen$.subscribe(
-    //     (open) => {
-    //       this.isMessageBoxThreadPickerOpen = open;
-    //     }
-    //   );
-    // const emojiPickerCreateMessageSubscription =
-    //   this.emojiPickerService.isMessageBoxCreateMessagePickerOpen$.subscribe(
-    //     (open) => {
-    //       this.isMessageBoxCreateMessagePickerOpen = open;
-    //     }
-    //   );
-    // this.subscriptions.add(emojiPickerMainSubscription);
-    // this.subscriptions.add(emojiPickerThreadSubscription);
-    // this.subscriptions.add(emojiPickerCreateMessageSubscription);
+    const emojiPickerMainSubscription =
+      this.emojiPickerService.isMessageBoxMainPickerOpen$.subscribe((open) => {
+        this.isMessageBoxMainPickerOpen = open;
+      });
+    const emojiPickerThreadSubscription =
+      this.emojiPickerService.isMessageBoxThreadPickerOpen$.subscribe(
+        (open) => {
+          this.isMessageBoxThreadPickerOpen = open;
+        }
+      );
+    const emojiPickerCreateMessageSubscription =
+      this.emojiPickerService.isMessageBoxCreateMessagePickerOpen$.subscribe(
+        (open) => {
+          this.isMessageBoxCreateMessagePickerOpen = open;
+        }
+      );
+    this.subscriptions.add(emojiPickerMainSubscription);
+    this.subscriptions.add(emojiPickerThreadSubscription);
+    this.subscriptions.add(emojiPickerCreateMessageSubscription);
   }
 
   ngOnDestroy(): void {

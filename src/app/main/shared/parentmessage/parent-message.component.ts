@@ -9,7 +9,7 @@ import { EmojiStorageService } from '../../../shared/services/emoji-storage.serv
 import { Message, Reaction } from '../../../models/message';
 import { ReactionsComponent } from '../../../shared/reactions/reactions.component';
 import { EmojiPickerComponent } from '../emoji-picker/emoji-picker.component';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-parent-message',
@@ -24,12 +24,15 @@ export class ParentMessageComponent {
   @Input() activeUserId!: string;
   @Input()displayEmojiPickerMainThread: Signal<boolean> = signal(true);
   @Output() userClicked = new EventEmitter<string>();
+  subscriptions = new Subscription(); // ✅ RICHTIG
 
   previousTimestamp: number | null = null;
   displayPickerBottom: boolean = false;
   isChatBoxEmojiPickerOpen = signal(false);
   chatBoxEmojiPickerOpenFor = signal<string | null>(null);
-
+  isMessageBoxMainPickerOpen = false;
+  isMessageBoxThreadPickerOpen = false;
+  isMessageBoxCreateMessagePickerOpen = false;
   constructor(
     private userService: UserService,
     public emojiPickerService: EmojiPickerService,
@@ -40,7 +43,30 @@ export class ParentMessageComponent {
   }
 
   ngOnInit() {
-    console.log("Emoji Picker geladen" ,this.parentMessage);
+    const emojiPickerMainSubscription =
+      this.emojiPickerService.isMessageBoxMainPickerOpen$.subscribe((open) => {
+        this.isMessageBoxMainPickerOpen = open;
+      });
+    const emojiPickerThreadSubscription =
+      this.emojiPickerService.isMessageBoxThreadPickerOpen$.subscribe(
+        (open) => {
+          this.isMessageBoxThreadPickerOpen = open;
+        }
+      );
+    const emojiPickerCreateMessageSubscription =
+      this.emojiPickerService.isMessageBoxCreateMessagePickerOpen$.subscribe(
+        (open) => {
+          this.isMessageBoxCreateMessagePickerOpen = open;
+        }
+      );
+    this.subscriptions.add(emojiPickerMainSubscription);
+    this.subscriptions.add(emojiPickerThreadSubscription);
+    this.subscriptions.add(emojiPickerCreateMessageSubscription);
+  }
+
+  ngOnDestroy(): void {
+    // Alle Subscriptions aufräumen
+    this.subscriptions.unsubscribe();
   }
 
   getUserName(userId: string) {
@@ -57,8 +83,21 @@ export class ParentMessageComponent {
     }
   }
 
-  toggleEmojiPicker(messageId: string) {
-    this.emojiPickerService.openChatBoxEmojiPicker(messageId);
+
+
+  toggleEmojiPicker(messageId: string, isThreadMessage: boolean) {
+    console.log('toggleEmojiPicker', messageId, isThreadMessage);
+    this.displayPickerBottom = isThreadMessage;
+    if (this.isChatBoxEmojiPickerOpen()) {
+      if (messageId !== this.chatBoxEmojiPickerOpenFor()) {
+        this.chatBoxEmojiPickerOpenFor.set(messageId); // ✅ Signal richtig aktualisieren
+      } else {
+        this.isChatBoxEmojiPickerOpen.set(false); // ✅ Picker schließen
+      }
+    } else {
+      this.chatBoxEmojiPickerOpenFor.set(messageId); // ✅ Picker auf diese Nachricht setzen
+      this.isChatBoxEmojiPickerOpen.set(true); // ✅ Picker öffnen
+    }
   }
 
 

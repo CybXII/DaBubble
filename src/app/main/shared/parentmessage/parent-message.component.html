@@ -1,7 +1,7 @@
 <div class="chatbox__msg-container" [class.chatbox__msg-container__sent]="parentMessage.createdBy === activeUserId" id="{{ parentMessage.docId }}">
 @if (parentMessage.createdBy && parentMessage.docId) {
     <div class="chatbox__msg-item2">
-        @if (emojiPickerService.isEmojiPickerOpenFor(parentMessage.docId)){
+        @if ((isChatBoxEmojiPickerOpen() && chatBoxEmojiPickerOpenFor() === parentMessage.docId)){
             <div [class]="{
                 'emoji-picker__wrapper-left-thread':
                     displayPickerBottom && parentMessage.createdBy !== activeUserId,
@@ -30,7 +30,7 @@
             }
             @if (parentMessage.docId){
                 <div class="chatbox__addemoji__emoji-container" 
-                    (click)="toggleEmojiPicker(parentMessage.docId)">
+                    (click)="toggleEmojiPicker(parentMessage.docId , false)">
                     <img src="/img/icons/addemoji.svg" alt="Emoji hinzufügen">
                 </div>
             }
