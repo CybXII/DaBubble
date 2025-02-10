@@ -1,4 +1,4 @@
-import { Component, effect, EventEmitter, Input, Output, Signal, signal, WritableSignal } from '@angular/core';
+import { Component, effect, EventEmitter, Input, Output, Signal, signal, WritableSignal, HostListener } from '@angular/core';
 import { Message, Reaction } from '../../../models/message';
 import { UserService } from '../../../shared/services/user.service';
 import { EmojiPickerService } from '../../../shared/services/emoji-picker.service';
@@ -191,6 +191,13 @@ export class MessageComponent {
         height: 'fit-content',
         data: { message, deleteMessage },
       });
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  onChatboxDocumentClick(event: MouseEvent): void {
+    if (this.isChatBoxEmojiPickerOpen()) {
+      this.emojiPickerService.closeChatBoxEmojiPicker('Clicked outside');
     }
   }
 }
