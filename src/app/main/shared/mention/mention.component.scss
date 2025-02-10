@@ -1,8 +1,40 @@
+@use "./../../../../colors.scss" as colors;
+
 .cont {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     height: 300px;
     width: 250px;
     background-color: white;
     border-radius: 20px;
     padding: 15px;
     border: 1px solid lightgray;
+    overflow-y: scroll;
+
+    ::-webkit-scrollbar-track {
+        margin: 5px;
+    }
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 20px;
+    padding: 5px;
+    padding-right: 15px;
+    width: fit-content;
+    img {
+        width: 30px;
+        height: 30px;
+        border-radius: 100%;
+    }
+    span {
+        font-size: 18px;
+    }
+    &:hover {
+        cursor: pointer;
+        background-color: colors.$bg-color;
+    }
 }

@@ -1,3 +1,8 @@
 <div class="cont">
-    <p>mention works!</p>
+    @for (member of members; track member) {
+        <div class="user">
+            <img [src]="member.photoUrl" alt="">
+            <span>{{ member.name }}</span>
+        </div>
+    }
 </div>
