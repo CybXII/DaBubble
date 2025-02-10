@@ -8,7 +8,7 @@
     <span class="thread__divider-text">
         {{ message.timestamp | relativeDate }}
     </span>
-    } @if ((isChatBoxEmojiPickerOpen() && chatBoxEmojiPickerOpenFor() === message.docId)) {
+    }  @if (message.docId && chatBoxEmojiPickerForId() === message.docId && isChatBoxEmojiPickerOpen())  {
     <div [class]="{
             'emoji-picker__wrapper-left':
             displayPickerBottom && message.createdBy !== activeUserId,
@@ -42,7 +42,7 @@
         </span>
         }
         @if (message.docId) {
-            <div class="chatbox__addemoji__emoji-container" (click)="toggleEmojiPicker(message.docId , false)">
+            <div class="chatbox__addemoji__emoji-container" (click)="toggleEmojiPicker(message.docId)">
                 <img src="/img/icons/addemoji.svg" alt="" />
             </div>
         }

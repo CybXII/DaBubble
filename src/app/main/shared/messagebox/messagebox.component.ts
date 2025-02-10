@@ -304,13 +304,13 @@ export class MessageboxComponent implements OnInit, OnDestroy {
       !this.isMessageBoxMainPickerOpen &&
       !this.isMessageBoxThreadPickerOpen
     ) {
-      this.emojiPickerService.closeChatBoxEmojiPicker();
+      this.emojiPickerService.closeChatBoxEmojiPicker( 'toggleEmojiPickerMain function 307');
       this.emojiPickerService.openMsgBoxEmojiPickerMain();
     } else if (this.isMessageBoxMainPickerOpen) {
       this.emojiPickerService.closeMsgBoxEmojiPickerMain();
     } else if (this.isMessageBoxThreadPickerOpen) {
       this.emojiPickerService.closeMsgBoxEmojiPickerThread();
-      this.emojiPickerService.closeChatBoxEmojiPicker();
+      this.emojiPickerService.closeChatBoxEmojiPicker( 'toggleEmojiPickerMain function 313');
       this.emojiPickerService.openMsgBoxEmojiPickerMain();
     }
   }
@@ -320,13 +320,13 @@ export class MessageboxComponent implements OnInit, OnDestroy {
       !this.isMessageBoxMainPickerOpen &&
       !this.isMessageBoxThreadPickerOpen
     ) {
-      this.emojiPickerService.closeChatBoxEmojiPicker();
+      this.emojiPickerService.closeChatBoxEmojiPicker('toggleEmojiPickerThread function 323');
       this.emojiPickerService.openMsgBoxEmojiPickerThread();
     } else if (this.isMessageBoxThreadPickerOpen) {
       this.emojiPickerService.closeMsgBoxEmojiPickerThread();
     } else if (this.isMessageBoxMainPickerOpen) {
       this.emojiPickerService.closeMsgBoxEmojiPickerMain();
-      this.emojiPickerService.closeChatBoxEmojiPicker();
+      this.emojiPickerService.closeChatBoxEmojiPicker( 'toggleEmojiPickerThread function 329');
       this.emojiPickerService.openMsgBoxEmojiPickerThread();
     }
   }
@@ -367,4 +367,5 @@ export class MessageboxComponent implements OnInit, OnDestroy {
       }
     }
   }
+  
 }

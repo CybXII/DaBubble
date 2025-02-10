@@ -1,10 +1,11 @@
-import { Component, effect, inject, OnInit } from '@angular/core';
+import { Component, effect, HostListener, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Firestore, collection, collectionData } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { UserModel } from '../app/models/user';
 import { AuthService } from './shared/services/auth.service';
 import { Router } from '@angular/router';
+import { EmojiPickerService } from './shared/services/emoji-picker.service';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +22,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private emojiPickerService: EmojiPickerService
   ) {
     const usersCollection = collection(this.firestore, 'users');
     this.items$ = collectionData(usersCollection, { idField: 'id' });
@@ -33,4 +35,6 @@ export class AppComponent implements OnInit {
       this.router.navigateByUrl('/board');
     }
   }
+
+
 }
