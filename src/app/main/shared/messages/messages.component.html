@@ -42,7 +42,7 @@
         </span>
         }
         @if (message.docId) {
-            <div class="chatbox__addemoji__emoji-container" (click)="toggleEmojiPicker(message.docId)">
+            <div class="chatbox__addemoji__emoji-container" (click)="toggleEmojiPicker(message.docId)" (click)="preventEmojiPickerClose($event)">
                 <img src="/img/icons/addemoji.svg" alt="" />
             </div>
         }
