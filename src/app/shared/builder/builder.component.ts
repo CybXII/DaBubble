@@ -3,7 +3,6 @@ import { MenuComponent } from '../../main/menu/menu.component';
 import { MenutogglerComponent } from '../../main/shared/menutoggler/menutoggler.component';
 import { slideAnimationLeft, slideAnimationRight } from './../animations';
 import { CommonModule } from '@angular/common';
-import { MessagesService } from '../services/messages.service';
 import { StateService } from '../services/state.service';
 import { ChatComponent } from '../../main/chat/chat.component';
 
@@ -19,29 +18,39 @@ import { ChatComponent } from '../../main/chat/chat.component';
 
 export class BuilderComponent {
   builder: string[] = ['menu', 'mainchat', 'threadchat'];
-  menuOpened = true;
-  threadchatOpened = false;
-  menuState = 'in';
   threadchatState = 'out';
-  smallWindow = false;
-  mobile = true;
+  menuState = 'in';
+  threadchatOpened = false;
   threadWasOpen = false;
-  constructor(private messagesService: MessagesService, private stateService: StateService) {}
+  smallWindow = false;
+  menuOpened = true;
+  mobile = true;
 
+  constructor( private stateService: StateService) {}
 
+  
   @HostListener('window:resize', [])
+  /**
+   * Handles window resize events.
+   * When the window width is less than 1400px, the chat and menu are stacked vertically.
+   * When the window width is less than 900px, the menu is closed and the chat is full width.
+   * When the window width is greater than 900px and previously was less than 900px, the menu is opened.
+   */
   onResize(): void {
     const wasMobile = this.mobile;
     this.smallWindow = window.innerWidth <= 1400;
     this.mobile = window.innerWidth <= 900;
-    if (this.mobile && !wasMobile) {
+    if (this.mobile && !wasMobile)
       this.closeMenu();
-      } else if (!this.mobile && wasMobile) {
+    else if (!this.mobile && wasMobile) 
       this.menuOpened = true;
-    }
   }
 
 
+  /**
+   * Initializes the component by calling the onResize method, and subscribing to the menuState and threadchatState observables.
+   * When the menuState or threadchatState changes, the corresponding boolean property is updated.
+   */
   ngOnInit(): void {
     this.onResize();
     this.stateService.menuState$.subscribe((state) => {
@@ -55,6 +64,11 @@ export class BuilderComponent {
   }
 
 
+  /**
+   * Toggles the menu state between 'in' and 'out'.
+   * If the screen is narrow (mobile) and the menu is opened, the thread chat is closed.
+   * If the screen is narrow (mobile) and the menu is closed, the thread chat is opened if it was open before.
+   */
   toggleMenu(): void {
     this.menuState = this.menuState === 'in' ? 'out' : 'in';
     this.menuOpened = this.menuState === 'in';
@@ -73,6 +87,11 @@ export class BuilderComponent {
   }
 
 
+  /**
+   * Toggles the thread chat state between 'in' and 'out'. 
+   * If the thread chat is opened and the screen is narrow (mobile), the menu is closed first.
+   * The boolean property threadchatOpened is updated after a short delay to ensure the animation is completed.
+   */
   toggleThreadChat(): void {
     if (this.threadchatState === 'in') {
       this.threadchatState = 'out';
@@ -86,6 +105,10 @@ export class BuilderComponent {
   }
 
 
+  /**
+   * Closes the menu by setting menuState to 'out' and after a short delay sets the menuOpened boolean to false.
+   * The menuOpened boolean is set after a short delay to ensure the animation is completed.
+   */
   closeMenu(): void {
     this.menuState = 'out';
     setTimeout(() => {
@@ -94,6 +117,13 @@ export class BuilderComponent {
   }
 
 
+  /**
+   * Updates the menuOpened and threadchatOpened boolean properties based on the completed animation state.
+   * The onAnimationDone function is called when the animation is complete and the value of the 'toState' property is either 'in' or 'out'.
+   * If the 'toState' property is 'in', the respective boolean is set to true, otherwise it is set to false.
+   * @param event - The animation event.
+   * @param type - The type of the animation, either 'menu' or 'threadchat'.
+   */
   onAnimationDone(event: any, type: string): void {
     if (event.toState === 'in') {
       if (type === 'menu') 
