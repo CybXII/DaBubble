@@ -11,7 +11,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { EditmessageComponent } from '../editmessage/editmessage.component';
 import { FormsModule } from '@angular/forms';
 import { SaveEditMessageService } from '../../../shared/services/save-edit-message.service';
-import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-thread-message',
@@ -25,7 +24,6 @@ export class ThreadMessageComponent {
   @Input() activeUserId!: string;
   @Input() activeMessageId!: string;
   @Output() userClicked = new EventEmitter<string>();
-
   displayPickerBottom: boolean = false;
 
   constructor(
@@ -47,6 +45,11 @@ export class ThreadMessageComponent {
   }
 
 
+  getLastUsedEmojis(index: number) {
+    return this.emojiStorageService.getEmojis()[index];
+  }
+
+
   checkIdIsUser(userId: string) {
     if (this.activeUserId !== userId) {
       this.userClicked.emit(userId);
@@ -58,17 +61,13 @@ export class ThreadMessageComponent {
     this.saveEditedMessage.save(message, threadMessage, parrentID, message.docId)
   }
 
-  /**
-   * Öffnet oder schließt den Emoji-Picker für eine Thread-Nachricht
-   */
+
   toggleEmojiPicker(messageId: string) {
     console.log(`🛠 Toggle Emoji Picker für ThreadMessage: ${messageId}`);
-    this.emojiPickerService.openNewChatBoxEmojiPicker(messageId, true); // ✅ Thread aktivieren
+    this.emojiPickerService.openNewChatBoxEmojiPicker(messageId, true);
   }
 
-  /**
-   * Prüft, ob der Emoji-Picker für diese Nachricht offen ist
-   */
+
   isEmojiPickerOpenForThisMessage(): boolean {
     return (
       this.emojiPickerService.displayEmojiPickerMainThread.value && 
@@ -76,42 +75,19 @@ export class ThreadMessageComponent {
     );
   }
 
-  /**
-   * Emoji zur Nachricht hinzufügen
-   */
+
   addEmoji(messageIdOrThreadDocId: string, userId: string, emoji: string): void {
     const reaction: Reaction = { emoji, userIds: [userId] };
     const updateData: Partial<Message> = { reactions: [reaction] };
-
     this.messagesService.updateThreadMessage(this.activeMessageId!, messageIdOrThreadDocId, userId, updateData)
       .then(() => {
         console.log('✅ Emoji hinzugefügt:', emoji);
         this.emojiPickerService.closeChatBoxEmojiPicker('addEmoji in ThreadMessages');
       })
       .catch(error => console.error('❌ Fehler beim Hinzufügen der Reaktion:', error));
-
     this.emojiStorageService.saveEmoji(emoji);
   }
     
-
-  /**
-   * Letzte verwendete Emojis abrufen
-   */
-  getLastUsedEmojis(index: number) {
-    return this.emojiStorageService.getEmojis()[index];
-  }
-
-  /**
-   * Bearbeitet eine Thread-Nachricht oder löscht sie
-   */
-  editThreadMessage(message: ThreadMessage, deleteMessage: boolean) {
-    this.dialog.open(EditmessageComponent, {
-      width: 'fit-content',
-      maxWidth: '100vw',
-      height: 'fit-content',
-      data: { message, deleteMessage, thread: true, parentMessageId: this.activeMessageId, docId: message.docId },
-    });
-  }
 
 
   editMessage(message: Partial<Message>, deleteMessage: boolean, inlineEdit = false) {

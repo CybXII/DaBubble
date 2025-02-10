@@ -23,18 +23,20 @@ export class AppComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private emojiPickerService: EmojiPickerService
   ) {
     const usersCollection = collection(this.firestore, 'users');
     this.items$ = collectionData(usersCollection, { idField: 'id' });
   }
 
+
+  /**
+   * OnInit lifecycle hook. If the user is authenticated and the current
+   * route is the root route ('/'), navigate to the board route ('/board').
+   */
   ngOnInit(): void {
     const isAuthenticated = this.authService.isUserAuthenticated();
     if (isAuthenticated && this.router.url === '/') {
       this.router.navigateByUrl('/board');
     }
   }
-
-
 }

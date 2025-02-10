@@ -19,7 +19,7 @@ export class ChannelsService {
   default: boolean = false;
   private userChangesSubject = new BehaviorSubject<{ id: string; name: string } | null>(null);
   userChanges$ = this.userChangesSubject.asObservable();
-
+  private previousTimestamp: number | null = null;
   constructor(
     private firestore: Firestore,
     private authService: AuthService,
@@ -236,4 +236,36 @@ export class ChannelsService {
       });
     });
   }
+
+
+    /**
+   * Checks if the given timestamp represents a different day than the previous one.
+   * Updates the stored timestamp for future comparisons.
+   * 
+   * @param {string | Date | undefined} currentTimestamp - The timestamp to check.
+   * @returns {boolean} - `true` if the day has changed, `false` otherwise.
+   * @throws {Error} - If an invalid timestamp is provided.
+   */
+    checkAndSetPreviousTimestamp(currentTimestamp: string | Date | undefined): boolean {
+      if (!currentTimestamp) return false;
+  
+      const currentDate = new Date(currentTimestamp);
+      if (isNaN(currentDate.getTime())) {
+        throw new Error('Invalid timestamp provided');
+      }
+  
+      if (!this.previousTimestamp) {
+        this.previousTimestamp = currentDate.getTime();
+        return true;
+      }
+  
+      const previousDate = new Date(this.previousTimestamp);
+      const isDifferentDay =
+        currentDate.getDate() !== previousDate.getDate() ||
+        currentDate.getMonth() !== previousDate.getMonth() ||
+        currentDate.getFullYear() !== previousDate.getFullYear();
+  
+      this.previousTimestamp = currentDate.getTime();
+      return isDifferentDay;
+    }
 }
