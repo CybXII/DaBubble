@@ -36,7 +36,7 @@
   transform: translate(-50%, -50%);
   gap: 16px;
   z-index: 100;
-  max-width: 1920px;
+  //max-width: 1920px;
   animation: moveToTopLeft 1s 5s forwards; //, hide 0.3s 5.7s forwards;
   //border: 1px solid black;
 
@@ -47,7 +47,8 @@
     height: 184px;
     animation: moveLeft 0.5s 1s forwards,
       makeStatic 1s 5s forwards,
-      shrinkImage 1s 5s forwards;
+      shrinkImage 1s 5s forwards,
+      moveBack 1s 5s forwards;
     z-index: 2;
     //border: 1px solid black;
   }
@@ -367,20 +368,29 @@ form {
 
 // RESPONSIVE
 // BZGL. WIDTH
-@media (max-width: 1200px) {
+@media (max-width: 1275px) {
   header {
     top: 60px;
   }
 
   .containerNoAnimation {
-    top: 40px
+    top: 40px;
+    left: 40px;
   }
+
+  .container {
+    animation: moveToTopLeft40px 1s 5s forwards; //, hide 0.3s 5.7s forwards;
+  }
+
 }
 
 @media (max-width: 600px) {
   .container {
     // enthält logo und "DABubble"
     animation: moveToTop 1s 5s forwards; //, hide 0.3s 5.7s forwards
+    bordeR: 1px solid black;
+    gap: 1px !important;
+
 
 
     img {
@@ -391,11 +401,11 @@ form {
     }
   }
 
-  .textcontainer {
-    h1 {
-      font-size: 30px !important;
-    }
-  }
+  // .textcontainer {
+  //   h1 {
+  //     font-size: 30px !important;
+  //   }
+  // }
 
   section {
     padding: 0px 20px 0px 20px;
@@ -432,6 +442,16 @@ form {
     left: unset;
     display: flex;
     justify-content: center;
+
+    img {
+      height: 56px;
+      width: 56px;
+    }
+
+    h1 {
+      font-size: 30px;
+    }
+
   }
 
   header {

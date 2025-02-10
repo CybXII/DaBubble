@@ -113,14 +113,27 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     }
   }
   
+  @keyframes moveToTopLeft40px {
+    from {
+      transform: translate(-50%, -50%);
+    }
+  
+    to {
+      top: 40px; // 75
+      left: 40px;
+      transform: translate(0%, 0%);
+    }
+  }
+
   @keyframes moveToTop {
     from {
       transform: translate(-50%, -50%);
     }
   
     to {
-      top: 75px;
-      transform: translate(-50%, -50%);
+      top: 10%;
+      left: 50%;
+      //transform: translate(-50%, -50%);
     }
   }
 
@@ -144,6 +157,18 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
       transform: translateX(-50%);
     }
   }
+
+  @keyframes moveBack {
+    from {
+      transform: translateX(-50);
+    }
+  
+    to {
+      transform: translateX(0%);
+    }
+  }
+
+
   
   @keyframes moveLittleLeft {
     from {
