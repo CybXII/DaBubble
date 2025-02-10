@@ -24,7 +24,7 @@
   display: flex !important;
 }
 
-.container {
+.container { // enthält logo und "DABubble"
   position: absolute;
   //width: 100vw;
   //height: 100vh;
@@ -383,9 +383,9 @@ form {
     gap: 20px;
     height: fit-content;
     justify-content: unset;
-    >div {
-      width: 100%;
-    }
+    // >div {
+    //   width: 100%; // entfernt von cvo wegen intro anim
+    // }
   }
 
   form {
@@ -441,6 +441,22 @@ form {
 }
 
 @media (max-height: 900px) {
+  .container { // enthält logo und "DABubble"
+    animation: moveToTop 1s 5s forwards; //, hide 0.3s 5.7s forwards;
+
+    img {
+      height: 70px;
+    }
+
+    .textcontainer {
+      h1 {
+        font-size: 26px;
+      }
+    }
+
+    }
+
+
   .mainCont {
     gap: 10px !important;
   }

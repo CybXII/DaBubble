@@ -79,6 +79,18 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     }
   }
   
+  @keyframes moveToTop {
+    from {
+      transform: translate(-50%, -50%);
+    }
+  
+    to {
+      top: 75px;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+
   @keyframes reveal {
     from {
       opacity: 0;

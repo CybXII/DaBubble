@@ -47,7 +47,7 @@ export class LoginComponent {
 
     // save entry after delay
     setTimeout(() => {
-      this.introPlayed = true; // cvo
+      this.introPlayed = false; // cvo
       sessionStorage.setItem('introPlayed', JSON.stringify(this.introPlayed));
     }, 6000);
   }
