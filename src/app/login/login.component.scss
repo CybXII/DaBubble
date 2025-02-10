@@ -364,8 +364,8 @@ form {
 
 
 
-// RESPONSIVE ...
-
+// RESPONSIVE
+// BZGL. WIDTH
 @media (max-width: 1200px) {
   header {
     top: 60px;
@@ -440,23 +440,16 @@ form {
   }
 }
 
+@media (max-width: 500px) {
+
+  section {
+    // height: 100vh;
+    justify-content: center;
+  }
+}
+
+// BZGL HEIGHT
 @media (max-height: 900px) {
-  .container { // enthält logo und "DABubble"
-    animation: moveToTop 1s 5s forwards; //, hide 0.3s 5.7s forwards;
-
-    img {
-      height: 70px;
-    }
-
-    .textcontainer {
-      h1 {
-        font-size: 26px;
-      }
-    }
-
-    }
-
-
   .mainCont {
     gap: 10px !important;
   }
@@ -470,11 +463,20 @@ form {
     gap: 20px;
     justify-content: unset;
     // >div { 
-    //   width: 100%;   entfernt von cvo, dann ist intro nicht mehr mittig
+    //   width: 100%;   //entfernt von cvo, dann ist intro nicht mehr mittig
     // }
   }
 
 }
+
+@media (max-height: 800px) {
+  .mainCont {
+    gap: 10px !important;
+    padding: 30px;
+  }
+
+}
+
 
 @media (max-height: 600px) {
   section {
@@ -483,10 +485,3 @@ form {
   }
 }
 
-@media (max-width: 500px) {
-
-  section {
-    // height: 100vh;
-    justify-content: center;
-  }
-}
