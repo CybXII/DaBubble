@@ -63,6 +63,9 @@ export class ThreadMessageComponent {
 
 
   toggleEmojiPicker(messageId: string) {
+    this.emojiPickerService.closeMsgBoxEmojiPickerMain();
+    this.emojiPickerService.closeMsgBoxEmojiPickerThread();
+
     console.log(`🛠 Toggle Emoji Picker für ThreadMessage: ${messageId}`);
     this.emojiPickerService.openNewChatBoxEmojiPicker(messageId, true);
   }
