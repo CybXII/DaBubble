@@ -56,7 +56,7 @@
     </div>
     } @else {
     @for (message of (messages$ | async); track message.docId) { @if (message ) {
-          @let shouldRenderDivider = checkAndSetPreviousTimestamp(message.timestamp);
+          @let shouldRenderDivider = channelsService.checkAndSetPreviousTimestamp(message.timestamp);
           @if (activeUserId){
             <app-messages style="width: 100;" 
               [shouldRenderDivider]="shouldRenderDivider" 
