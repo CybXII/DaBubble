@@ -137,6 +137,7 @@ footer {
     padding: 10px;
     border-radius: 100px;
     @include mixins.border-marker($color: colors.$bg-color);
+    //border-color: colors.$light-purple; // immer!
 
     &:hover {
       border-color: colors.$light-purple;
@@ -432,7 +433,7 @@ form {
   .input {
     >input {
       &::placeholder {
-        font-weight: bolder;
+        //font-weight: bolder;  wieso?
       }
     }
   }
@@ -455,14 +456,22 @@ form {
   }
 
   header {
+    // header nach unten!
     top: unset;
     right: unset;
-    bottom: 40px;
+    bottom: 30px;
+
+    div {
+      gap: 15px;
+    }
 
     a {
       font-weight: 700;
+      border-color: colors.$light-purple;
     }
   }
+
+
 
   button {
     font-weight: 700 !important;
@@ -485,6 +494,12 @@ form {
     // height: 100vh;
     justify-content: center;
   }
+
+  button {
+
+    padding: 12px 20px;
+  }
+
 }
 
 // BZGL HEIGHT (Ausgangslage: 1080px)
@@ -494,7 +509,7 @@ form {
   }
 
   form {
-    gap: 10px !important;
+    gap: 15px !important;
   }
 
   section {
@@ -516,7 +531,7 @@ form {
 
 
   .mainCont {
-    padding: 35px 40px 35px 40px !important;
+    padding: 30px 40px 30px 40px !important;
   }
 }
 
