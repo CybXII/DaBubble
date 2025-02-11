@@ -1,15 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MessagesService } from '../../../shared/services/messages.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { ChannelsService } from '../../../shared/services/channels.service';
 import { Channel } from '../../../models/channel';
 import { UserService } from '../../../shared/services/user.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-mention',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './mention.component.html',
   styleUrl: './mention.component.scss'
 })
@@ -32,18 +33,20 @@ export class MentionComponent {
 
   getMembers() {
     this.activeChannel$.subscribe(channel => {
-      console.log("Mitglieder :", channel?.members)
       channel?.members.forEach(member => {
         this.userService.getUserById(member).subscribe(user => {
           const data = {
             name: user.name ? user.name : '',
             photoUrl: user.photoURL ? user.photoURL : '',
             id: user.userId ? user.userId : '',
+            status: user.status ? user.status : false,
           }
-          this.members.push(data)
+          if(data.name !== "Unbekannt") {
+            this.members.push(data)
+          }
         })
       })
-      console.warn(this.members)
+      // console.warn(this.members)
     })
   }
   
