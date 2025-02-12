@@ -1,7 +1,7 @@
 <div class="chatbox__msg-container" [class.chatbox__msg-container__sent]="parentMessage.createdBy === activeUserId" id="{{ parentMessage.docId }}">
 @if (parentMessage.createdBy && parentMessage.docId) {
     <div class="chatbox__msg-item2">
-        @if (emojiPickerService.displayParentMsg.value && isEmojiPickerOpenForThisMessage() && parentMessage.docId) {
+        @if (isEmojiPickerOpenForThisMessage()) {
             <div #emojiPickerContainer [class]="{
                 'emoji-picker__wrapper-left-thread':
                     displayPickerBottom && parentMessage.createdBy !== activeUserId,
