@@ -19,12 +19,12 @@
     </div>
     @for (threadmessage of (threadMessages$ | async); track threadmessage.docId) { 
       @if (threadmessage && activeMessageId && activeUserId) {
-          <app-thread-message class="chatbox__msg-container" [class.chatbox__msg-container__sent]="threadmessage.createdBy === activeUserId" id="{{ threadmessage.docId }}" 
+          <app-thread-messages class="chatbox__msg-container" [class.chatbox__msg-container__sent]="threadmessage.createdBy === activeUserId" id="{{ threadmessage.docId }}" 
             [threadMessage]="threadmessage" 
             [activeUserId]="activeUserId"
             [activeMessageId]="activeMessageId"
             (userClicked)="handleUserClick($event)">
-          </app-thread-message>
+          </app-thread-messages>
       }
     }
   </div>

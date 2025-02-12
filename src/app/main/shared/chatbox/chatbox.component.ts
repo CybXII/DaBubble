@@ -27,13 +27,13 @@ import { UserService } from '../../../shared/services/user.service';
 import { FormsModule } from '@angular/forms';
 import { ParentMessageComponent } from '../parentmessage/parent-message.component';
 import { MessageComponent } from '../messages/messages.component';
-import { ThreadMessageComponent } from '../threadmessages/threadmessages.component';
+import { ThreadMessagesComponent } from '../threadmessages/threadmessages.component';
 
 @Component({
   selector: 'app-chatbox',
   templateUrl: './chatbox.component.html',
   standalone: true,
-  imports: [CommonModule, FormsModule, ParentMessageComponent, MessageComponent, ThreadMessageComponent],
+  imports: [CommonModule, FormsModule, ParentMessageComponent, MessageComponent, ThreadMessagesComponent ],
   styleUrls: ['./chatbox.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
