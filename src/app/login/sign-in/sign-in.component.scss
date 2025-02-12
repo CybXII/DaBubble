@@ -67,3 +67,14 @@ form {
         }
     }
 }
+
+
+@media (max-width: 400px) {
+
+    .mainCont {
+        padding: 20px 5px;
+        span {
+            font-size: 15px;
+        }
+    }
+}

@@ -15,7 +15,7 @@ body {
     width: 100vw;
     max-height: 100vh;
     @include mixins.flexbox(column, flex-start, center);
-    overflow-x: hidden;
+    //overflow-x: hidden; - hidden ist keine saubere Lösung :)
 }
 
 @font-face {
