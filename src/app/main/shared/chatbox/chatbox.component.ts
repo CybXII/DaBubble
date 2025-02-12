@@ -33,7 +33,7 @@ import { ThreadMessagesComponent } from '../threadmessages/threadmessages.compon
   selector: 'app-chatbox',
   templateUrl: './chatbox.component.html',
   standalone: true,
-  imports: [CommonModule, FormsModule, ParentMessageComponent, MessageComponent, ThreadMessagesComponent ],
+  imports: [CommonModule, FormsModule, ParentMessageComponent, MessageComponent, ThreadMessagesComponent],
   styleUrls: ['./chatbox.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -42,21 +42,21 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() threadChatToggle = new EventEmitter<void>();
   private messages = signal<Message[]>([]);
   private destroy$ = new Subject<void>();
-  private currentChannel$: Observable<Channel | null>  = null!;
-  public messages$: Observable<Message[]>  = null!;
+  private currentChannel$: Observable<Channel | null> = null!;
+  public messages$: Observable<Message[]> = null!;
   public threadMessages$: Observable<ThreadMessage[]> = null!;
   public loadingMessages: WritableSignal<boolean> = signal(true);
-  public parentMessage: Partial<Message> | null = null;  
+  public parentMessage: Partial<Message> | null = null;
   public activeUserId: string | null = null;
   public activeMessageId: string | null = null;
-  public loadingAvatars  = true;
+  public loadingAvatars = true;
   public isEmptyMessage: boolean = false;
-  public self:boolean = false;
-  public private:boolean = false;
+  public self: boolean = false;
+  public private: boolean = false;
   public channelName: string = '';
-  public channelCreatorName:string = '';
+  public channelCreatorName: string = '';
   public timestep: any;
-  public user: {name:string,photoUrl:string,id:string,} = {name: '',photoUrl: '',id: '',};
+  public user: { name: string, photoUrl: string, id: string, } = { name: '', photoUrl: '', id: '', };
 
   /**
    * Constructs a new instance of the ChatboxComponent.
@@ -81,7 +81,8 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     public emojiPickerService: EmojiPickerService,
   ) {
     this.initializeObservables();
-    this.activeUserId = this.authService.userId();  }
+    this.activeUserId = this.authService.userId();
+  }
 
 
   /**
@@ -134,14 +135,14 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
     this.initializeChannel();
     this.messagesService.messageId$.subscribe(messageId => {
-      if (messageId) 
+      if (messageId)
         this.setParentMessage();
     });
     this.messagesService.messages$.subscribe(messages => {
       this.updateMessagesWithThreads(messages);
     });
     this.setParentMessage();
-    this.threadMessages$.subscribe(() => {});
+    this.threadMessages$.subscribe(() => { });
     this.handleCurrentChannel();
   }
 
@@ -150,10 +151,11 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
    * Initializes the default channel and subscribes to channel changes.
    */
   private initializeChannel(): void {
-    this.channelsService.setDefaultChannel();
+    if (window.innerWidth > 900) // desktop mode only
+      this.channelsService.setDefaultChannel();
     this.channelsService.currentChannel$.pipe(
       filter(channel => !!channel),
-      switchMap(channel => 
+      switchMap(channel =>
         this.userService.getuserName(channel?.createdBy ?? '').pipe(
           map(userName => ({ channel, userName })),
           tap(({ channel }) => this.formatTimestamp(channel?.createdAt))
@@ -182,9 +184,9 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     const month = x.getMonth() + 1;
     const year = x.getFullYear();
     const newDate = `${day}.${month}.${year}`;
-    this.timestep = (day === new Date().getDate() && 
-                    month === new Date().getMonth() + 1 && 
-                    year === new Date().getFullYear()) ? "Heute" : newDate;
+    this.timestep = (day === new Date().getDate() &&
+      month === new Date().getMonth() + 1 &&
+      year === new Date().getFullYear()) ? "Heute" : newDate;
   }
 
 
@@ -214,9 +216,9 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     this.currentChannel$.subscribe(channel => {
       this.channelName = channel?.name ?? "";
       this.private = !!channel?.isPrivate;
-      if (this.private) 
+      if (this.private)
         this.handlePrivateChannel(channel);
-      else 
+      else
         this.private = false;
     });
   }
@@ -228,7 +230,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   private handlePrivateChannel(channel: Channel | null): void {
     if (!channel) return;
-    if (channel.members.length === 1 && channel.members[0] === this.activeUserId) 
+    if (channel.members.length === 1 && channel.members[0] === this.activeUserId)
       this.getOwnData();
     else {
       this.self = false;
@@ -317,18 +319,18 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
-/**
- * Subscribes to changes in the parent message ID and updates the parent message object.
- * Uses a combination of the parent message ID and the list of messages to find and set the current parent message.
- * Marks the component for change detection to update the view.
- */
+  /**
+   * Subscribes to changes in the parent message ID and updates the parent message object.
+   * Uses a combination of the parent message ID and the list of messages to find and set the current parent message.
+   * Marks the component for change detection to update the view.
+   */
   setParentMessage(): void {
-    combineLatest([this.messagesService.parentMessageId$,this.messagesService.messages$])
-    .pipe(takeUntil(this.destroy$))
-    .subscribe(([parentMessageId, messages]) => {
-      this.parentMessage = messages.find(msg => msg.docId === parentMessageId) || null;
-      this.cdRef.markForCheck();
-    });
+    combineLatest([this.messagesService.parentMessageId$, this.messagesService.messages$])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([parentMessageId, messages]) => {
+        this.parentMessage = messages.find(msg => msg.docId === parentMessageId) || null;
+        this.cdRef.markForCheck();
+      });
   }
 
 
@@ -366,11 +368,11 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
-/**
- * Checks if the message list is empty and updates the isEmptyMessage flag accordingly.
- * Subscribes to the messages$ observable to monitor changes in the message list.
- * Sets isEmptyMessage to true if there are no messages, otherwise false.
- */
+  /**
+   * Checks if the message list is empty and updates the isEmptyMessage flag accordingly.
+   * Subscribes to the messages$ observable to monitor changes in the message list.
+   * Sets isEmptyMessage to true if there are no messages, otherwise false.
+   */
   checkMessageIsEmpty() {
     this.messages$.subscribe(message => {
       if (message.length === 0) {
@@ -378,7 +380,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
       } else {
         this.isEmptyMessage = false;
       }
-    })    
+    })
   }
 
 
@@ -391,7 +393,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     let id = this.activeUserId ? this.activeUserId : "";
     let userObj = this.userService.getUserById(id).pipe(map((user) => user));
     userObj.subscribe(user => {
-      const data = {name: user.name ? user.name : '',photoUrl: user.photoURL ? user.photoURL : '',id: user.userId ? user.userId : '',}
+      const data = { name: user.name ? user.name : '', photoUrl: user.photoURL ? user.photoURL : '', id: user.userId ? user.userId : '', }
       this.user = data;
     })
     this.self = true;
