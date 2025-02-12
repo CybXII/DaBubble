@@ -24,7 +24,7 @@ export class LoginComponent {
   /**
    * forgetPassword - A flag to indicate if the forget password page is active.
    */
-  forgetPassword:boolean = true;
+  forgetPassword:boolean = false;
 
   /**
    * introPlayed - A flag to indicate if the intro has been played.
@@ -47,7 +47,7 @@ export class LoginComponent {
 
     // save entry after delay
     setTimeout(() => {
-      this.introPlayed = true; // cvo
+      this.introPlayed = false; // cvo
       sessionStorage.setItem('introPlayed', JSON.stringify(this.introPlayed));
     }, 6000);
   }
