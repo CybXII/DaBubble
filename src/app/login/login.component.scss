@@ -496,8 +496,41 @@ form {
   }
 
   button {
-
     padding: 12px 20px;
+  }
+
+  .arrowBack {
+    padding: 0px;
+    left: 5px;
+  }
+
+}
+
+@media (max-width: 380px) {
+
+  .arrowBack {
+    padding: 0px;
+  }
+
+  .mainCont {
+    padding: 5px;
+
+    h1 {
+      font-size: 20px;
+    }
+
+    span {
+      font-size: 14px;
+    }
+  }
+
+  section {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+
+  button {
+    padding: 8px 10px;
   }
 
 }
@@ -524,14 +557,9 @@ form {
 }
 
 @media (max-height: 800px) {
-  // .container {
-  //   // enthält logo und "DABubble"
-  //   animation: moveToTopLeftMobile 1s 5s forwards; //, hide 0.3s 5.7s forwards  
-  // }
-
-
   .mainCont {
-    padding: 30px 40px 30px 40px !important;
+    padding-top: 30px;
+    padding-bottom: 30px;
   }
 }
 

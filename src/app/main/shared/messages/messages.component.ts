@@ -5,10 +5,10 @@ import {
   OnInit,
   OnDestroy,
   EventEmitter,
-  HostListener,
   Output,
   WritableSignal,
   signal,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EmojiPickerComponent } from '../emoji-picker/emoji-picker.component';
@@ -21,7 +21,6 @@ import { Subscription } from 'rxjs';
 import { ReactionsComponent } from '../../../shared/reactions/reactions.component';
 import { RelativeDatePipe } from '../../../pipes/timestamp-to-date.pipe';
 import { MatDialog } from '@angular/material/dialog';
-import { ProfileviewComponent } from '../../../shared/profileview/profileview.component';
 import { StateService } from '../../../shared/services/state.service';
 import { FormsModule } from '@angular/forms';
 import { SaveEditMessageService } from '../../../shared/services/save-edit-message.service';
@@ -56,12 +55,15 @@ export class MessageComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private saveEditedMessage: SaveEditMessageService,
     private stateService: StateService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.subscriptions.add(
-      this.emojiPickerService.chatBoxEmojiPickerForId$.subscribe((id) => {
+      this.emojiPickerService.activeMessagePicker$.subscribe((id) => {
+        console.log(`🔄 MessagePicker Update: ${id}`);
         this.isEmojiPickerOpen.set(id === this.message.docId);
+        this.cdr.detectChanges(); // 🚀 TRIGGER FÜR UI-AKTUALISIERUNG
       })
     );
   }
@@ -71,34 +73,22 @@ export class MessageComponent implements OnInit, OnDestroy {
   }
 
   toggleEmojiPicker() {
-    console.log('🟢 toggleEmojiPicker() für ThreadMessage aufgerufen');
-    console.log(`📌 Vorheriger Zustand: isEmojiPickerOpen = ${this.isEmojiPickerOpen()}`);
-    console.log(`📌 ThreadMessage ID: ${this.message.docId}`);
-    console.log(`📌 Aktueller EmojiPickerForId: ${this.emojiPickerService.chatBoxEmojiPickerForId.value}`);
-    this.emojiPickerService.displayParentMsg.next(false);
-    // Falls der Picker für die gleiche Nachricht bereits offen ist → schließen
-    if (this.emojiPickerService.chatBoxEmojiPickerForId.value === this.message.docId && !this.emojiPickerService.displayParentMsg.value) {
-      console.log('🔒 Schließe Emoji Picker für:', this.message.docId);
-      this.emojiPickerService.closeChatBoxEmojiPicker();
-      return;
-    }
-  
-    // Ansonsten alle Picker schließen und für die aktuelle Nachricht öffnen
-    this.emojiPickerService.closeAllEmojiPickers();
-    console.log(`🔍 Nach closeAllEmojiPickers: chatBoxEmojiPickerForId = ${this.emojiPickerService.chatBoxEmojiPickerForId.value}`);
-    if ( this.message.docId) {
-      console.log('🔓 Öffne Emoji Picker für:', this.message.docId);
-      this.emojiPickerService.openChatBoxEmojiPicker(this.message.docId);
-      console.log(`✅ EmojiPickerForId nach Öffnen: ${this.emojiPickerService.chatBoxEmojiPickerForId.value}`);
-    }
+    console.log(`🟢 toggleEmojiPicker() für Message aufgerufen (ID: ${this.message.docId})`);
+    if (this.message.docId) {
+      if (this.emojiPickerService.isMessageEmojiPickerOpen(this.message.docId)) {
+        console.log('🔒 Schließe Emoji Picker für:', this.message.docId);
+        this.emojiPickerService.closeAllEmojiPickers();
+        return;
+      }
+      this.emojiPickerService.closeAllEmojiPickers();
+      this.emojiPickerService.openMessageEmojiPicker(this.message.docId);
+      console.log(`✅ EmojiPickerForId nach Öffnen: ${this.message.docId}`);
+    } 
   }
 
+
   isEmojiPickerOpenForThisMessage(): boolean {
-    const isOpen = this.emojiPickerService.chatBoxEmojiPickerForId.value === this.message.docId && this.isEmojiPickerOpen();
-    console.log(`🟢 Prüfe ob Emoji-Picker für ThreadMessage offen ist: ${isOpen}`);
-    console.log(`📌 ThreadMessage ID: ${this.message.docId}`);
-    console.log(`📌 Aktueller EmojiPickerForId: ${this.emojiPickerService.chatBoxEmojiPickerForId.value}`);
-    return isOpen;
+    return this.emojiPickerService.isMessageEmojiPickerOpen(this.message.docId??'');
   }
 
 
@@ -130,7 +120,7 @@ export class MessageComponent implements OnInit, OnDestroy {
 
     updatePromise.then(() => {
       console.log('✅ Emoji hinzugefügt:', emoji);
-      this.emojiPickerService.closeChatBoxEmojiPicker();
+      this.emojiPickerService.closeAllMessagePickers();
     }).catch(error => console.error('❌ Fehler beim Hinzufügen der Reaktion:', error));
 
     this.emojiStorageService.saveEmoji(emoji);
