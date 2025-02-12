@@ -20,7 +20,7 @@ export class StateService {
   }
 
   closeMenuAndThread(): void {
-    this.menuStateSubject.next('out');
+    this.menuStateSubject.next('in'); // changed by christoph: standard "in"
     this.threadchatStateSubject.next('out');
   }
 }
