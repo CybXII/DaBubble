@@ -1,10 +1,6 @@
 @use "./../../mixins.scss" as mixins;
 @use "./../../colors.scss" as colors;
 
-.afterIntro {
-  opacity: 0;
-  animation: reveal 1s 5s forwards;
-}
 
 .animationBackground {
   position: absolute;
@@ -15,6 +11,13 @@
   background: colors.$bg-intro;
   animation: hide 1s 5s forwards;
 }
+
+.afterIntro {
+  opacity: 0;
+  animation: reveal 1s 5s forwards;
+}
+
+
 
 .d-none {
   display: none !important;
@@ -27,7 +30,7 @@
 .container {
   // enthält logo und "DABubble"
   position: absolute;
-  //width: 100vw;
+  width: 300px;
   //height: 100vh;
   display: flex;
   align-items: center;
@@ -381,6 +384,7 @@ form {
 
   .container {
     animation: moveToTopLeft40px 1s 5s forwards; //, hide 0.3s 5.7s forwards;
+    width: 300px;
   }
 
 }
@@ -389,8 +393,13 @@ form {
   .container {
     // enthält logo und "DABubble"
     animation: moveToTop 1s 5s forwards; //, hide 0.3s 5.7s forwards
-    bordeR: 1px solid black;
+    //border: 1px solid black;
     gap: 1px !important;
+    width: 240px;
+
+    h1 {
+      font-size: 35px !important;
+    }
 
 
 
@@ -411,7 +420,7 @@ form {
   section {
     padding: 0px 20px 0px 20px;
     gap: 20px;
-    height: fit-content;
+    min-height: 100vh !important; //fit-content;
     justify-content: unset;
     // >div {
     //   width: 100%; // entfernt von cvo wegen intro anim
@@ -459,7 +468,8 @@ form {
     // header nach unten!
     top: unset;
     right: unset;
-    bottom: 30px;
+    bottom: -20px;
+    padding-bottom: 20px;
 
     div {
       gap: 15px;
@@ -482,7 +492,7 @@ form {
   }
 
   .paddingBottom {
-    padding-bottom: 150px;
+    //padding-bottom: 150px; macht probleme mit dem intro!
     padding-top: 120px;
     height: unset;
   }
@@ -505,6 +515,13 @@ form {
   }
 
 }
+
+@media (max-width: 400px) {
+  .textcontainer {
+    width: 205px !important;
+  }
+}
+
 
 @media (max-width: 380px) {
 
