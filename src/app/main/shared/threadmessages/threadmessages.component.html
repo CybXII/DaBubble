@@ -14,7 +14,9 @@
       </div>
     }
     <!-- Emoji hinzufügen Button -->
-    <button class="chatbox__addemoji-container">
+    @if (!threadMessage.sameDay) {
+      <button class="chatbox__addemoji-container"
+      [class.chatbox__addemoji__sent]="threadMessage.createdBy === activeUserId">
       @if (getLastUsedEmojis(0)) {
         <span class="chatbox__addemoji__lastUsedEmoji" (click)="addEmoji(threadMessage.docId!, activeUserId!, getLastUsedEmojis(0))">
           {{ getLastUsedEmojis(0) }}
@@ -49,7 +51,10 @@
                 <span (click)="editMessage(threadMessage, true ,false)" class="chatbox__editmsg">Nachricht löschen</span>
             </div>
         </div>
-    </button>
+      </button>
+    }
+    @if (threadMessage.createdBy) {
+      <img class="chatbox__msg-avatar" [src]="getUserAvatar(threadMessage.createdBy) | async" alt="Avatar" width="70" height="70" />
       @if(threadMessage.sameDay && threadMessage.createdBy === activeUserId) {
         <div class="editMessage">
           <textarea type="text" class="chatbox__msg" [class.chatbox__msg-sent]="threadMessage.createdBy === activeUserId"
@@ -70,23 +75,22 @@
       </div>
       } @else {
             <!-- Nachricht anzeigen -->
-    <img class="chatbox__msg-avatar" [src]="getUserAvatar(threadMessage.createdBy) | async" alt="Avatar" width="70" height="70" />
-    <div class="chatbox__msg-item2" [class.chatbox__msg-sent-item2]="threadMessage.createdBy === activeUserId">
-      <div class="chatbox__msg-info" [class.chatbox__msg-sent-info]="threadMessage.createdBy === activeUserId">
-        <h3 class="chatbox__msg-name">{{ threadMessage.creatorName }}</h3>
-        <p class="chatbox__msg-time">{{ threadMessage.timestamp | date: "HH:mm" }}</p>
-      </div>
-      <p class="chatbox__msg" [class.chatbox__msg-sent]="threadMessage.createdBy === activeUserId">
-        {{ threadMessage.message }}
-      </p>
-      <app-reactions class="chatbox__reaction-wrapper"
-        [reactions]="threadMessage.reactions"
-        [activeUserId]="activeUserId || ''"
-        [messageId]="threadMessage.docId || ''"
-        [isThreadMessage]="true"
-        (reactionAdded)="addEmoji($event.messageId, activeUserId!, $event.emoji)">
-      </app-reactions>
-    </div>
-
+        <div class="chatbox__msg-item2" [class.chatbox__msg-sent-item2]="threadMessage.createdBy === activeUserId">
+          <div class="chatbox__msg-info" [class.chatbox__msg-sent-info]="threadMessage.createdBy === activeUserId">
+            <h3 class="chatbox__msg-name">{{ threadMessage.creatorName }}</h3>
+            <p class="chatbox__msg-time">{{ threadMessage.timestamp | date: "HH:mm" }}</p>
+          </div>
+          <p class="chatbox__msg" [class.chatbox__msg-sent]="threadMessage.createdBy === activeUserId">
+            {{ threadMessage.message }}
+          </p>
+          <app-reactions class="chatbox__reaction-wrapper"
+            [reactions]="threadMessage.reactions"
+            [activeUserId]="activeUserId || ''"
+            [messageId]="threadMessage.docId || ''"
+            [isThreadMessage]="true"
+            (reactionAdded)="addEmoji($event.messageId, activeUserId!, $event.emoji)">
+          </app-reactions>
+        </div>
       }
+    }
   </div>
