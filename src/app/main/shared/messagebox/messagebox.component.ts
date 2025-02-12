@@ -380,11 +380,13 @@ import { EmojiPickerService } from '../../../shared/services/emoji-picker.servic
 import { Subscription } from 'rxjs';
 import { Message, ThreadMessage } from '../../../models/message';
 import { UserModel } from '../../../models/user';
+import { MentionService } from '../../../shared/services/mention.service';
+import { MentionComponent } from '../mention/mention.component';
 
 @Component({
   selector: 'app-messagebox',
   standalone: true,
-  imports: [CommonModule, FormsModule, EmojiPickerComponent],
+  imports: [CommonModule, FormsModule, EmojiPickerComponent, MentionComponent],
   templateUrl: './messagebox.component.html',
   styleUrls: ['./messagebox.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default,
@@ -406,13 +408,15 @@ export class MessageboxComponent implements OnInit, OnDestroy {
   isMessageBoxMainPickerOpen: boolean = false;
   isMessageBoxThreadPickerOpen: boolean = false;
   isMessageBoxCreateMessagePickerOpen: boolean = false;
+  mentionPicker:boolean = false;
 
   constructor(
     private channelsService: ChannelsService,
     private messagesService: MessagesService,
     private authService: AuthService,
     public emojiPickerService: EmojiPickerService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    public mentionService: MentionService,
   ) {}
 
   ngOnInit(): void {
@@ -496,6 +500,12 @@ export class MessageboxComponent implements OnInit, OnDestroy {
         this.sendThreadMessage();
       }
     }
+    if (event.getModifierState('AltGraph') && event.key == "q") {
+      this.mentionPicker = true;
+    }
+    if (event.key == "Backspace") {
+      this.mentionPicker = false;
+    }
   }
 
   async createNewMessage(): Promise<void> {
@@ -568,4 +578,19 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     //this.searchString = "@";
     this.sharedService.setSearchString('@');
   }
+
+    closeMentionPicker(event: Event) {
+    this.mentionPicker = false;
+  }
+
+
+
+  toogleMentionPicker() {
+    if (this.mentionPicker) {
+      this.mentionPicker = false;
+    } else {
+      this.mentionPicker = true;
+    }
+  }
+
 }

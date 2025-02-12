@@ -25,6 +25,7 @@
 }
 
 .container {
+  // enthält logo und "DABubble"
   position: absolute;
   //width: 100vw;
   //height: 100vh;
@@ -35,7 +36,7 @@
   transform: translate(-50%, -50%);
   gap: 16px;
   z-index: 100;
-  max-width: 1920px;
+  //max-width: 1920px;
   animation: moveToTopLeft 1s 5s forwards; //, hide 0.3s 5.7s forwards;
   //border: 1px solid black;
 
@@ -46,7 +47,8 @@
     height: 184px;
     animation: moveLeft 0.5s 1s forwards,
       makeStatic 1s 5s forwards,
-      shrinkImage 1s 5s forwards;
+      shrinkImage 1s 5s forwards,
+      moveBack 1s 5s forwards;
     z-index: 2;
     //border: 1px solid black;
   }
@@ -135,6 +137,7 @@ footer {
     padding: 10px;
     border-radius: 100px;
     @include mixins.border-marker($color: colors.$bg-color);
+    //border-color: colors.$light-purple; // immer!
 
     &:hover {
       border-color: colors.$light-purple;
@@ -364,28 +367,55 @@ form {
 
 
 
-// RESPONSIVE ...
-
-@media (max-width: 1200px) {
+// RESPONSIVE
+// BZGL. WIDTH
+@media (max-width: 1275px) {
   header {
     top: 60px;
   }
 
   .containerNoAnimation {
-    top:40px
+    top: 40px;
+    left: 40px;
   }
+
+  .container {
+    animation: moveToTopLeft40px 1s 5s forwards; //, hide 0.3s 5.7s forwards;
+  }
+
 }
 
 @media (max-width: 600px) {
+  .container {
+    // enthält logo und "DABubble"
+    animation: moveToTop 1s 5s forwards; //, hide 0.3s 5.7s forwards
+    bordeR: 1px solid black;
+    gap: 1px !important;
+
+
+
+    img {
+      height: 75px;
+      animation: moveLeft 0.5s 1s forwards,
+        makeStatic 1s 5s forwards,
+        shrinkImageMobile 1s 5s forwards;
+    }
+  }
+
+  // .textcontainer {
+  //   h1 {
+  //     font-size: 30px !important;
+  //   }
+  // }
 
   section {
     padding: 0px 20px 0px 20px;
     gap: 20px;
     height: fit-content;
     justify-content: unset;
-    >div {
-      width: 100%;
-    }
+    // >div {
+    //   width: 100%; // entfernt von cvo wegen intro anim
+    // }
   }
 
   form {
@@ -403,7 +433,7 @@ form {
   .input {
     >input {
       &::placeholder {
-        font-weight: bolder;
+        //font-weight: bolder;  wieso?
       }
     }
   }
@@ -413,17 +443,35 @@ form {
     left: unset;
     display: flex;
     justify-content: center;
+
+    img {
+      height: 56px;
+      width: 56px;
+    }
+
+    h1 {
+      font-size: 30px;
+    }
+
   }
 
   header {
+    // header nach unten!
     top: unset;
     right: unset;
-    bottom: 40px;
+    bottom: 30px;
+
+    div {
+      gap: 15px;
+    }
 
     a {
       font-weight: 700;
+      border-color: colors.$light-purple;
     }
   }
+
+
 
   button {
     font-weight: 700 !important;
@@ -440,13 +488,28 @@ form {
   }
 }
 
+@media (max-width: 500px) {
+
+  section {
+    // height: 100vh;
+    justify-content: center;
+  }
+
+  button {
+
+    padding: 12px 20px;
+  }
+
+}
+
+// BZGL HEIGHT (Ausgangslage: 1080px)
 @media (max-height: 900px) {
   .mainCont {
     gap: 10px !important;
   }
 
   form {
-    gap: 10px !important;
+    gap: 15px !important;
   }
 
   section {
@@ -454,23 +517,28 @@ form {
     gap: 20px;
     justify-content: unset;
     // >div { 
-    //   width: 100%;   entfernt von cvo, dann ist intro nicht mehr mittig
+    //   width: 100%;   //entfernt von cvo, dann ist intro nicht mehr mittig
     // }
   }
 
 }
 
+@media (max-height: 800px) {
+  // .container {
+  //   // enthält logo und "DABubble"
+  //   animation: moveToTopLeftMobile 1s 5s forwards; //, hide 0.3s 5.7s forwards  
+  // }
+
+
+  .mainCont {
+    padding: 30px 40px 30px 40px !important;
+  }
+}
+
+
 @media (max-height: 600px) {
   section {
     padding-bottom: 100px;
     height: fit-content;
-  }
-}
-
-@media (max-width: 500px) {
-
-  section {
-    // height: 100vh;
-    justify-content: center;
   }
 }
