@@ -9,7 +9,7 @@ import { StateService } from '../services/state.service';
 
 @Component({
   selector: 'app-header',
-  standalone: true,   // <-- Add this line
+  standalone: true,
   imports: [LogoComponent, SearchbarComponent, UsermenuComponent, RouterModule, MenutogglerComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
@@ -21,6 +21,12 @@ export class HeaderComponent {
   menuState = 'in';
   threadchatState = 'out';
 
+  /**
+   * The constructor for the HeaderComponent class.
+   * It sets the currentUrl property to the current route, and calls the onResize method.
+   * @param router The injected Router service.
+   * @param stateService The injected StateService service.
+   */
   constructor(private router: Router, private stateService: StateService) {
     this.currentUrl = this.router.url;
     this.onResize();
@@ -28,18 +34,31 @@ export class HeaderComponent {
 
 
   @HostListener('window:resize', [])
+  /**
+   * Handles window resize events.
+   * When the window width is less than 900px, the menu is closed and the chat is full width.
+   */
   onResize(): void {
     this.mobile = window.innerWidth <= 900;
   }
 
+  /**
+   * Initializes the component by subscribing to the menuState$ observable of the StateService.
+   * When the menuState$ observable emits a value, the menuState and menuOpened properties are updated accordingly.
+   */
   ngOnInit(): void {
-
     this.stateService.menuState$.subscribe((state) => {
       this.menuState = state;
       this.menuOpened = state === 'in';
     });
   }
 
+  /**
+   * Toggles the menu state between 'in' and 'out'.
+   * If the menu is opened, it is closed and vice versa.
+   * The menuOpened property is updated after toggling the menuState.
+   * The current menuState is also emitted to the menuState$ observable of the StateService.
+   */
   toggleMenu(): void {
     this.menuState = this.menuState === 'in' ? 'out' : 'in';
     this.menuOpened = this.menuState === 'in';  

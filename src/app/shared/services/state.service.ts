@@ -22,5 +22,7 @@ export class StateService {
   closeMenuAndThread(): void {
     this.menuStateSubject.next('out');
     this.threadchatStateSubject.next('out');
+    console.log("ausgeführt");
+    
   }
 }
