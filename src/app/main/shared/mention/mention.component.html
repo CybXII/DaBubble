@@ -1,6 +1,9 @@
 <div class="cont">
+    @if (members.length == 0) {
+        <span>Sie sind das einzige Mitglied</span>
+    }
     @for (member of members; track member) {
-        <div class="user">
+        <div class="user" (click)="selectMember(member)" [ngStyle]="{'background-color': member.mention ? '#ECEEFE' : '#FFFFFF' }">
             <div class="avatar-box">
                 <img [src]="member.photoUrl" alt="">
                 <div 

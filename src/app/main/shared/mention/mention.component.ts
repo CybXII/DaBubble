@@ -6,6 +6,7 @@ import { ChannelsService } from '../../../shared/services/channels.service';
 import { Channel } from '../../../models/channel';
 import { UserService } from '../../../shared/services/user.service';
 import { CommonModule } from '@angular/common';
+import { MentionService } from '../../../shared/services/mention.service';
 
 @Component({
   selector: 'app-mention',
@@ -25,6 +26,7 @@ export class MentionComponent {
     private auth: AuthService,
     private channelService: ChannelsService,
     private userService: UserService,
+    private mentionService: MentionService,
   ) {
     this.acitveUserID = auth.userId();
     this.activeChannel$ = channelService.currentChannel$;
@@ -40,13 +42,33 @@ export class MentionComponent {
             photoUrl: user.photoURL ? user.photoURL : '',
             id: user.userId ? user.userId : '',
             status: user.status ? user.status : false,
+            mention: false,
           }
-          if(data.name !== "Unbekannt") {
+          if(data.name !== "Unbekannt" && data.id !== this.acitveUserID) {
             this.members.push(data)
           }
         })
       })
-      // console.warn(this.members)
+    })
+  }
+
+  selectMember(member:any) {
+    if (!member.mention) {
+      member.mention = true;
+      this.mentionService.mentionSomeone(member);
+    } else {
+      member.mention = false;
+      this.mentionService.disselect(member.id);
+    }
+  }
+
+  checkMention(id:string) {
+    this.mentionService.mentionsUser.forEach((user:any) => {
+      if (id === user.id) {
+        this.members.mention = true;
+      } else {
+        this.members.mention = false;
+      }
     })
   }
   
