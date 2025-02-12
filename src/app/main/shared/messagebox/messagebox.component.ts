@@ -593,4 +593,8 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     }
   }
 
+  preventMsgBoxMentionPickerClose(event: Event): void {
+    event.stopPropagation();
+  }
+
 }
