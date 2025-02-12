@@ -5,112 +5,102 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class EmojiPickerService {
+  // MessageBox Picker States
   private isMessageBoxMainPickerOpen = new BehaviorSubject<boolean>(false);
   private isMessageBoxThreadPickerOpen = new BehaviorSubject<boolean>(false);
   private isMessageBoxCreateMessagePickerOpen = new BehaviorSubject<boolean>(false);
-  public displayEmojiPickerMainThread = new BehaviorSubject<boolean>(false);
-  // private isChatBoxPickerOpen = new BehaviorSubject<boolean>(false);
-  // private chatBoxEmojiPickerForId = new BehaviorSubject<string>('');
-
-  // isChatBoxPickerOpen$ = this.isChatBoxPickerOpen.asObservable();
-  // chatBoxEmojiPickerForId$ = this.chatBoxEmojiPickerForId.asObservable();
-  isMessageBoxMainPickerOpen$ = this.isMessageBoxMainPickerOpen.asObservable();
-  isMessageBoxThreadPickerOpen$ =this.isMessageBoxThreadPickerOpen.asObservable();
-  isMessageBoxCreateMessagePickerOpen$ = this.isMessageBoxCreateMessagePickerOpen.asObservable();
-  displayEmojiPickerMainThread$ = this.displayEmojiPickerMainThread.asObservable();
+  public displayParentMsg = new BehaviorSubject<boolean>(false);
   
-
   public isChatBoxPickerOpen = new BehaviorSubject<boolean>(false);
   public chatBoxEmojiPickerForId = new BehaviorSubject<string>('');
 
+  isMessageBoxMainPickerOpen$ = this.isMessageBoxMainPickerOpen.asObservable();
+  isMessageBoxThreadPickerOpen$ = this.isMessageBoxThreadPickerOpen.asObservable();
+  isMessageBoxCreateMessagePickerOpen$ = this.isMessageBoxCreateMessagePickerOpen.asObservable();
+  displayParentMsg$ = this.displayParentMsg.asObservable();
   isChatBoxPickerOpen$ = this.isChatBoxPickerOpen.asObservable();
   chatBoxEmojiPickerForId$ = this.chatBoxEmojiPickerForId.asObservable();
 
   constructor() {
+    this.chatBoxEmojiPickerForId$.subscribe((id) => {
+      console.log(`🔍 chatBoxEmojiPickerForId geändert: ${id}`);
+    });
   }
 
-  openMsgBoxEmojiPickerMain() {
-    this.isMessageBoxMainPickerOpen.next(true);
+  /** Öffnet oder schließt den Main-Chat Emoji-Picker */
+  toggleMsgBoxEmojiPickerMain() {
+    if (this.isMessageBoxMainPickerOpen.value) {
+      this.isMessageBoxMainPickerOpen.next(false);
+    } else {
+      this.isMessageBoxThreadPickerOpen.next(false);
+      this.isMessageBoxMainPickerOpen.next(true);
+    }
   }
 
-  openMsgBoxEmojiPickerThread() {
-    this.isMessageBoxThreadPickerOpen.next(true);
+  /** Öffnet oder schließt den Thread-Chat Emoji-Picker */
+  toggleMsgBoxEmojiPickerThread() {
+    if (this.isMessageBoxThreadPickerOpen.value) {
+      this.isMessageBoxThreadPickerOpen.next(false);
+    } else {
+      this.isMessageBoxMainPickerOpen.next(false);
+      this.isMessageBoxThreadPickerOpen.next(true);
+    }
   }
 
-  openMsgBoxCreateMessageEmojiPicker(){
-    this.isMessageBoxCreateMessagePickerOpen.next(true);
+  /** Öffnet oder schließt den Create-Message Emoji-Picker */
+  toggleMsgBoxCreateMessageEmojiPicker() {
+    if (this.isMessageBoxCreateMessagePickerOpen.value) {
+      this.isMessageBoxCreateMessagePickerOpen.next(false);
+    } else {
+      this.isMessageBoxCreateMessagePickerOpen.next(true);
+    }
   }
 
-  closeMsgBoxEmojiPickerMain() {
-    this.isMessageBoxMainPickerOpen.next(false);
-  }
-  
-  closeMsgBoxEmojiPickerThread() {
-    this.isMessageBoxThreadPickerOpen.next(false);
-  }
-
-  closeMsgBoxCreateMessageEmojiPicker(){
-    this.isMessageBoxCreateMessagePickerOpen.next(false);
-  }
-
-  openChatBoxEmojiPickerOLDALEX(messageId: string, threadMain: boolean) {
-    this.displayEmojiPickerMainThread.next(threadMain ? true : false);
-    this.isChatBoxPickerOpen.next(true);
+/** Öffnet oder schließt einen Emoji-Picker für eine bestimmte Nachricht */
+openChatBoxEmojiPicker(messageId: string) {
+  console.log(`🟢 openChatBoxEmojiPicker() wird aufgerufen mit messageId: ${messageId}`);
+  if (this.chatBoxEmojiPickerForId.value === messageId) {
+    console.log('🔴 Picker ist bereits offen, wird geschlossen...');
+  } else {
+    console.log(`✅ Emoji Picker wird für ID ${messageId} geöffnet.`);
     this.chatBoxEmojiPickerForId.next(messageId);
+    this.isChatBoxPickerOpen.next(true);
+    console.log(`🟢 Neuer Picker-Wert: ${this.chatBoxEmojiPickerForId.value}`);
+  }
+}
+
+openParentMessageEmojiPicker(messageId: string) {
+  console.log(`🟢 openParentMessageEmojiPicker() wird aufgerufen mit messageId: ${messageId}`);
+  if (this.chatBoxEmojiPickerForId.value === messageId) {
+    console.log('🔴 Picker ist bereits offen, wird geschlossen...');
+  } else {
+    console.log(`✅ Emoji Picker wird für ID ${messageId} geöffnet.`);
+    this.displayParentMsg.next(true);
+    this.chatBoxEmojiPickerForId.next(messageId);
+    console.log(`🟢 Neuer Picker-Wert: ${this.chatBoxEmojiPickerForId.value}`);
+  }
+}
+
+closeParentMessageEmojiPicker() {
+  this.displayParentMsg.next(false);
+  this.chatBoxEmojiPickerForId.next('');
+}
+
+  /** Schließt den Emoji-Picker für Nachrichten */
+  closeChatBoxEmojiPicker() {
+    this.chatBoxEmojiPickerForId.next('');
+    this.isChatBoxPickerOpen.next(false);
   }
 
-  openChatBoxEmojiPicker(messageId: string) {
-    if (this.chatBoxEmojiPickerForId.value === messageId) {
-      this.closeChatBoxEmojiPicker('openChatBoxEmojiPicker function');
-    } else {
-      this.isChatBoxPickerOpen.next(false);
-      setTimeout(() => {  // 🚀 SetTimeout gibt Angular Zeit zum Rendern
-        this.chatBoxEmojiPickerForId.next(messageId);
-        this.isChatBoxPickerOpen.next(true);
-      }, 0);
-    }
-  }
-  
-  openNewChatBoxEmojiPicker(messageId: string, threadMain: boolean) {
-    console.log(`🟢 openNewChatBoxEmojiPicker() AUFGERUFEN für ${messageId} (Thread: ${threadMain})`);
-  
-    if (threadMain) {
-      this.displayEmojiPickerMainThread.next(true);
-      this.isChatBoxPickerOpen.next(false); // Chatbox-Picker schließen
-    } else {
-      this.isChatBoxPickerOpen.next(true);
-      this.displayEmojiPickerMainThread.next(false); // Thread-Picker schließen
-    }
-  
-    if (this.chatBoxEmojiPickerForId.value === messageId) {
-      console.log(`🔴 Picker für ${messageId} war bereits offen → SCHLIESSEN`);
-      this.closeChatBoxEmojiPicker('openNewChatBoxEmojiPicker function');
-    } else {
-      this.chatBoxEmojiPickerForId.next(messageId);
-    }
-  
-    setTimeout(() => {
-      console.log(`🔎 [100ms später] displayEmojiPickerMainThread: ${this.displayEmojiPickerMainThread.value}`);
-      console.log(`🔎 [100ms später] isChatBoxPickerOpen: ${this.isChatBoxPickerOpen.value}`);
-      console.log(`🔎 [100ms später] chatBoxEmojiPickerForId: ${this.chatBoxEmojiPickerForId.value}`);
-    }, 100);
-  }
-
-  closeChatBoxEmojiPicker(trigger :string) {
-    console.log("🚨 closeChatBoxEmojiPicker() wurde aufgerufen!", trigger);
+  /** Schließt alle Emoji-Picker */
+/** Schließt alle Emoji-Picker */
+  closeAllEmojiPickers() {
+    console.log('🛑 closeAllEmojiPickers() wird aufgerufen - Alle Picker werden geschlossen!');
+    console.trace(); // Zeigt die genaue Aufrufquelle in der Konsole
+    this.isMessageBoxMainPickerOpen.next(false);
+    this.isMessageBoxThreadPickerOpen.next(false);
+    this.isMessageBoxCreateMessagePickerOpen.next(false);
     this.isChatBoxPickerOpen.next(false);
     this.chatBoxEmojiPickerForId.next('');
-  }
-  
-
-  closeChatBoxEmojiPickerOLDALEX() {
-    this.displayEmojiPickerMainThread.next(false);
-    this.isChatBoxPickerOpen.next(false);
-    this.displayEmojiPickerMainThread.next(false);
-    this.chatBoxEmojiPickerForId.next('');
-  }
-
-  isEmojiPickerOpenFor(messageId: string): boolean {
-    return this.isChatBoxPickerOpen.value && this.chatBoxEmojiPickerForId.value === messageId;
   }
 }

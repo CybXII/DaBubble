@@ -8,7 +8,7 @@
   <div class="messagebox__icons-container">
     <div>
         @if (isMessageBoxCreateMessagePickerOpen) {
-          <div class="emoji-picker__wrapper" (click)="preventMsgBoxEmojiPickerClose($event)">
+          <div #emojiPickerContainer class="emoji-picker__wrapper" (click)="preventMsgBoxEmojiPickerClose($event)">
             <app-emoji-picker componentName="messagebox" (emoji)="addEmoji($event)" />
           </div>
           }
@@ -27,7 +27,7 @@
   <div class="messagebox__icons-container">
     <div>
       @if (isMessageBoxMainPickerOpen) {
-      <div class="emoji-picker__wrapper" (click)="preventMsgBoxEmojiPickerClose($event)">
+      <div #emojiPickerContainer class="emoji-picker__wrapper" (click)="preventMsgBoxEmojiPickerClose($event)">
         <app-emoji-picker componentName="messagebox" (emoji)="addEmoji($event)" />
       </div>
       }
@@ -47,7 +47,7 @@
   <div class="messagebox__icons-container">
     <div>
       @if (isMessageBoxThreadPickerOpen) {
-      <div class="emoji-picker__wrapper" (click)="preventMsgBoxEmojiPickerClose($event)">
+      <div #emojiPickerContainer class="emoji-picker__wrapper" (click)="preventMsgBoxEmojiPickerClose($event)">
         <app-emoji-picker componentName="messagebox" (emoji)="addEmoji($event)" />
       </div>
       }
