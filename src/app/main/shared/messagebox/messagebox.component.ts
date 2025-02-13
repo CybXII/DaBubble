@@ -169,7 +169,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     this.sharedService.setSearchString('@');
   }
 
-    closeMentionPicker(event: Event) {
+  closeMentionPicker(event: Event) {
     this.mentionService.status = false;
   }
 
