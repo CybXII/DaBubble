@@ -134,6 +134,7 @@ export class UserDialogService {
   logout() {
     this.dialog = false;
     sessionStorage.removeItem('token');
+    sessionStorage.removeItem('introPlayed');
     this.auth.logout();
   }
 
