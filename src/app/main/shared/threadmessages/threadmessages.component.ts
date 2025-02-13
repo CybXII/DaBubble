@@ -129,6 +129,7 @@ export class ThreadMessagesComponent implements OnInit, OnDestroy {
 
   editMessage(message: Partial<Message>, deleteMessage: boolean, inlineEdit = false) {
     if (inlineEdit) {
+      sessionStorage.setItem('EditedMessage', message.message as string);
       message.sameDay = true;
       return;
     } else {
@@ -142,6 +143,8 @@ export class ThreadMessagesComponent implements OnInit, OnDestroy {
   }
 
   cancelEdit(message: Partial<Message>) {
+    let messageText = sessionStorage.getItem('EditedMessage');
+    message.message = messageText as string;
     message.sameDay = false;
   }
 
