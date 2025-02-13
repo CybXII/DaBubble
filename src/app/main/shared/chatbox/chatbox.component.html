@@ -62,7 +62,8 @@
               [shouldRenderDivider]="shouldRenderDivider" 
               [message]="message" 
               [activeUserId]="activeUserId" 
-              [isCurrentUser]="message.createdBy === activeUserId">
+              [isCurrentUser]="message.createdBy === activeUserId"
+              (userClicked)="handleUserClick($event)">
             </app-messages>
           }
         } 

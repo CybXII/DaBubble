@@ -342,7 +342,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
    * @param {string | undefined} userId - The user ID of the user to open the profile dialog for.
    */
   handleUserClick(userId: string): void {
-    console.warn("wird auch ausgeführt")
     if (userId) {
       if (this.activeUserId !== userId) {
         this.openDialogUser(userId);
