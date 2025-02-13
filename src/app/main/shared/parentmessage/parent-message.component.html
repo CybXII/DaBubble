@@ -36,7 +36,7 @@
             }
         </button> -->
         <div class="chatbox__msg-item2  parent_msg">
-            <img class="chatbox__msg-avatar" [src]="getUserAvatar(parentMessage.createdBy) | async" alt="Avatar" width="70" height="70" />
+            <img class="chatbox__msg-avatar" [src]="getUserAvatar(parentMessage.createdBy) | async" alt="Avatar" width="70" height="70" (click)="checkIdIsUser(parentMessage.createdBy)" />
             <div>
                 <div class="chatbox__msg-info">
                     <h3 class="chatbox__msg-name" (click)="checkIdIsUser(parentMessage.createdBy)">
