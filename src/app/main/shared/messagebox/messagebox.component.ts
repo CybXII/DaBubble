@@ -58,7 +58,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     public mentionService: MentionService,
     private userService: UserService,
 
-  ) {}
+  ) { }
 
   ngOnInit(): void {
 
@@ -69,9 +69,9 @@ export class MessageboxComponent implements OnInit, OnDestroy {
           if (channel) {
             this.channelId = channel.id;
             this.activeChannelName = channel.name;
-          if (this.mainMessageBox) {
-            setTimeout(() => this.mainMessageBox.nativeElement.focus(), 100);
-          }
+            if (this.mainMessageBox) {
+              setTimeout(() => this.mainMessageBox.nativeElement.focus(), 100);
+            }
           }
         });
       this.subscriptions.add(channelSubscription);
@@ -117,7 +117,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
       this.emojiPickerService.toggleMsgBoxEmojiPickerMain();
     }, 50);
   }
-  
+
   toggleEmojiPickerThread() {
     this.mentionService.status = false;
     console.log('🟢 toggleEmojiPickerThread() aufgerufen');
@@ -126,7 +126,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
       this.emojiPickerService.toggleMsgBoxEmojiPickerThread();
     }, 50);
   }
-  
+
   toggleEmojiPickerCreateMessage() {
     console.log('🟢 toggleEmojiPickerCreateMessage() aufgerufen');
     this.emojiPickerService.closeAllEmojiPickers();
@@ -295,8 +295,12 @@ export class MessageboxComponent implements OnInit, OnDestroy {
       console.error('Keine gültige Channel-ID verfügbar.');
     }
 
+    // variable für builder updaten
+    this.sharedService.updateVariable('');
     // ansicht: direkt da hin wechseln!
     await this.channelsService.selectChannel(this.sendToId);
+
+
 
   }
 
