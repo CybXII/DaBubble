@@ -111,6 +111,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
   }
 
   toggleEmojiPickerMain() {
+    this.mentionPicker = false;
     console.log('🟢 toggleEmojiPickerMain() aufgerufen');
     this.emojiPickerService.closeAllEmojiPickers();
     setTimeout(() => {
@@ -119,6 +120,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
   }
   
   toggleEmojiPickerThread() {
+    this.mentionPicker = false;
     console.log('🟢 toggleEmojiPickerThread() aufgerufen');
     this.emojiPickerService.closeAllEmojiPickers();
     setTimeout(() => {
@@ -178,6 +180,10 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     if (this.mentionPicker) {
       this.mentionPicker = false;
     } else {
+      if (this.isMessageBoxMainPickerOpen || this.isMessageBoxThreadPickerOpen) {
+        this.isMessageBoxMainPickerOpen = false;
+        this.isMessageBoxThreadPickerOpen = false;
+      }
       this.mentionPicker = true;
     }
   }
