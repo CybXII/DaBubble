@@ -180,6 +180,10 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     if (this.mentionPicker) {
       this.mentionPicker = false;
     } else {
+      if (this.isMessageBoxMainPickerOpen || this.isMessageBoxThreadPickerOpen) {
+        this.isMessageBoxMainPickerOpen = false;
+        this.isMessageBoxThreadPickerOpen = false;
+      }
       this.mentionPicker = true;
     }
   }
