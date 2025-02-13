@@ -1,4 +1,4 @@
-<div class="chatbox__msg-container" [class.chatbox__msg-container__sent]="parentMessage.createdBy === activeUserId" id="{{ parentMessage.docId }}">
+<div class="chatbox__msg-container" id="{{ parentMessage.docId }}">
 @if (parentMessage.createdBy && parentMessage.docId) {
     <div class="chatbox__msg-item2">
         @if (isEmojiPickerOpenForThisMessage()) {
@@ -15,7 +15,7 @@
                 <app-emoji-picker componentName="chatbox"  (emoji)="addEmoji(parentMessage.docId!, activeUserId!, $event)" />
             </div>
         }
-        <button class="chatbox__addemoji-container">
+        <!-- <button class="chatbox__addemoji-container">
             @if (getLastUsedEmojis(0)) {
                 <span class="chatbox__addemoji__lastUsedEmoji" 
                 (click)="addEmoji(parentMessage.docId!, activeUserId!, getLastUsedEmojis(0))">
@@ -34,25 +34,27 @@
                     <img src="/img/icons/addemoji.svg" alt="Emoji hinzufügen">
                 </div>
             }
-        </button>
-            <div class="chatbox__msg-item2">
+        </button> -->
+        <div class="chatbox__msg-item2  parent_msg">
             <img class="chatbox__msg-avatar" [src]="getUserAvatar(parentMessage.createdBy) | async" alt="Avatar" width="70" height="70" />
-            <div class="chatbox__msg-info">
-                <h3 class="chatbox__msg-name" (click)="checkIdIsUser(parentMessage.createdBy)">
-                    {{ parentMessage.creatorName }}
-                    @if (parentMessage.createdBy == activeUserId) { (Du) }
-                </h3>
-                <p class="chatbox__msg-time">
-                    {{ parentMessage.timestamp | relativeDate }}
+            <div>
+                <div class="chatbox__msg-info">
+                    <h3 class="chatbox__msg-name" (click)="checkIdIsUser(parentMessage.createdBy)">
+                        {{ parentMessage.creatorName }}
+                        @if (parentMessage.createdBy == activeUserId) { (Du) }
+                    </h3>
+                    <p class="chatbox__msg-time">
+                        {{ parentMessage.timestamp | relativeDate }}
+                    </p>
+                </div>
+                <p class="chatbox__msg">
+                    {{ parentMessage.message || "Keine Nachricht" }}
                 </p>
+                <app-reactions class="chatbox__reaction-wrapper" [reactions]="parentMessage.reactions || []"
+                    [activeUserId]="activeUserId || ''" [messageId]="parentMessage.docId || ''" [isThreadMessage]="false"
+                    (reactionAdded)="addEmoji($event.messageId, activeUserId!, $event.emoji)">
+                </app-reactions>
             </div>
-            <p class="chatbox__msg">
-                {{ parentMessage.message || "Keine Nachricht" }}
-            </p>
-            <app-reactions class="chatbox__reaction-wrapper" [reactions]="parentMessage.reactions || []"
-                [activeUserId]="activeUserId || ''" [messageId]="parentMessage.docId || ''" [isThreadMessage]="false"
-                (reactionAdded)="addEmoji($event.messageId, activeUserId!, $event.emoji)">
-            </app-reactions>
         </div>
     </div>
 }
