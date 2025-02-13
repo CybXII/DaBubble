@@ -25,6 +25,7 @@ import { StateService } from '../../../shared/services/state.service';
 import { FormsModule } from '@angular/forms';
 import { SaveEditMessageService } from '../../../shared/services/save-edit-message.service';
 import { EditmessageComponent } from '../editmessage/editmessage.component';
+import { UserDialogService } from '../../../shared/services/user-dialog.service';
 
 @Component({
   selector: 'app-thread-messages',
@@ -50,6 +51,7 @@ export class ThreadMessagesComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private saveEditedMessage: SaveEditMessageService,
     private cdr: ChangeDetectorRef,
+    private uds: UserDialogService,
   ) {}
 
   ngOnInit(): void {
@@ -97,6 +99,9 @@ export class ThreadMessagesComponent implements OnInit, OnDestroy {
   checkIdIsUser(userId: string) {
     if (this.activeUserId !== userId) {
       this.userClicked.emit(userId);
+    } else if (this.activeUserId === userId) {
+      this.uds.openProfile()
+      this.uds.exitActiv = false;
     }
   }
 

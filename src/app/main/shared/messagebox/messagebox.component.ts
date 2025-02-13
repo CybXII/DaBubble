@@ -48,7 +48,6 @@ export class MessageboxComponent implements OnInit, OnDestroy {
   isMessageBoxMainPickerOpen: boolean = false;
   isMessageBoxThreadPickerOpen: boolean = false;
   isMessageBoxCreateMessagePickerOpen: boolean = false;
-  mentionPicker:boolean = false;
 
   constructor(
     private channelsService: ChannelsService,
@@ -111,7 +110,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
   }
 
   toggleEmojiPickerMain() {
-    this.mentionPicker = false;
+    this.mentionService.status = false;
     console.log('🟢 toggleEmojiPickerMain() aufgerufen');
     this.emojiPickerService.closeAllEmojiPickers();
     setTimeout(() => {
@@ -120,7 +119,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
   }
   
   toggleEmojiPickerThread() {
-    this.mentionPicker = false;
+    this.mentionService.status = false;
     console.log('🟢 toggleEmojiPickerThread() aufgerufen');
     this.emojiPickerService.closeAllEmojiPickers();
     setTimeout(() => {
@@ -156,10 +155,10 @@ export class MessageboxComponent implements OnInit, OnDestroy {
       }
     }
     if (event.getModifierState('AltGraph') && event.key == "q") {
-      this.mentionPicker = true;
+      this.mentionService.status = true;
     }
     if (event.key == "Backspace") {
-      this.mentionPicker = false;
+      this.mentionService.status = false;
     }
   }
 
@@ -171,20 +170,22 @@ export class MessageboxComponent implements OnInit, OnDestroy {
   }
 
     closeMentionPicker(event: Event) {
-    this.mentionPicker = false;
+    this.mentionService.status = false;
   }
 
 
 
   toogleMentionPicker() {
-    if (this.mentionPicker) {
-      this.mentionPicker = false;
+    if (this.mentionService.status) {
+      // this.mentionPicker = false;
+      this.mentionService.status = false;
     } else {
       if (this.isMessageBoxMainPickerOpen || this.isMessageBoxThreadPickerOpen) {
         this.isMessageBoxMainPickerOpen = false;
         this.isMessageBoxThreadPickerOpen = false;
       }
-      this.mentionPicker = true;
+      // this.mentionPicker = true;
+      this.mentionService.status = true;
     }
   }
 
