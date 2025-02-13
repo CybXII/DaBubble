@@ -19,7 +19,8 @@ export class MentionComponent {
   acitveUserID: string | null;
   activeChannel$: Observable<Channel | null>;
   members: any = [];
-  activeUsers: any = [];
+  // activeUsers: any = [];
+  state:boolean = false;
 
   constructor(
     private messagesService: MessagesService,
@@ -45,7 +46,14 @@ export class MentionComponent {
             mention: false,
           }
           if(data.name !== "Unbekannt" && data.id !== this.acitveUserID) {
-            this.members.push(data)
+            this.checkMention(data.id)
+            if (!this.state) {
+              this.members.push(data)
+            } else {
+              data.mention = true;
+              this.members.push(data)
+              console.log("member exestiert!!", data.name)
+            }
           }
         })
       })
@@ -65,9 +73,9 @@ export class MentionComponent {
   checkMention(id:string) {
     this.mentionService.mentionsUser.forEach((user:any) => {
       if (id === user.id) {
-        this.members.mention = true;
+        this.state = true;
       } else {
-        this.members.mention = false;
+        this.state = false;
       }
     })
   }
