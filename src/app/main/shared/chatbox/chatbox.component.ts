@@ -339,16 +339,13 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
   /**
    * Handles a user click in the chatbox.
    * Opens the user profile dialog for the given user ID if the ID does not match the active user ID.
-   * Otherwise, opens the user profile dialog for the active user ID and sets the `exitActiv` property to false.
    * @param {string | undefined} userId - The user ID of the user to open the profile dialog for.
    */
   handleUserClick(userId: string): void {
+    console.warn("wird auch ausgeführt")
     if (userId) {
       if (this.activeUserId !== userId) {
         this.openDialogUser(userId);
-      } else {
-        this.userDialog$.openProfile();
-        this.userDialog$.exitActiv = false;
       }
     }
   }
