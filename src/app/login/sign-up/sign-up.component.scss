@@ -89,7 +89,8 @@ button {
 
 @media (max-width: 500px) {
     .mainCont {
-        padding: 40px 20px;
+        padding-left: 5px; //40px 20px;
+        padding-right: 5px;
     }
 
     .arrowBack {
@@ -101,7 +102,8 @@ button {
 
 @media (max-height: 800px) {
     .mainCont {
-      padding: 20px 35px 15px 35px !important;
+        padding-top: 20px; // 35px 15px 35px !important;
+        padding-bottom: 15px;
     }
-  
-  }
+
+}
