@@ -335,14 +335,14 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
 
-/*************  ✨ Codeium Command ⭐  *************/
+
   /**
    * Handles a user click in the chatbox.
    * Opens the user profile dialog for the given user ID if the ID does not match the active user ID.
    * Otherwise, opens the user profile dialog for the active user ID and sets the `exitActiv` property to false.
    * @param {string | undefined} userId - The user ID of the user to open the profile dialog for.
    */
-/******  2f18b8dc-633e-489e-80fd-f3a880f259df  *******/  handleUserClick(userId: string): void {
+  handleUserClick(userId: string): void {
     if (userId) {
       if (this.activeUserId !== userId) {
         this.openDialogUser(userId);
