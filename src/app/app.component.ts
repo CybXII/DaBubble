@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
   firestore: Firestore = inject(Firestore);
   items$: Observable<any[]>;
   user: UserModel = new UserModel(null);  tokens: string[] = [];
+  turnAround:boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -38,5 +39,22 @@ export class AppComponent implements OnInit {
     if (isAuthenticated && this.router.url === '/') {
       this.router.navigateByUrl('/board');
     }
+    this.checkOrietationInterval();
+  }
+
+  checkOrietationInterval() {
+    setInterval(() => {
+      if (this.checkOrientationAndWidth()) {
+        this.turnAround = true;
+      } else {
+        this.turnAround = false;
+      }
+    }, 2000)
+  }
+
+  checkOrientationAndWidth = () => {
+    const isLandscape = window.matchMedia("(orientation: landscape)").matches;
+    const maxWidth800px = window.matchMedia("(max-width: 800px)").matches;
+    return isLandscape && maxWidth800px;
   }
 }

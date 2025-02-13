@@ -1,3 +1,24 @@
+@use "./../colors.scss" as colors;
+
 .container{
     width: 100vw;
+}
+
+.rotateInfo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    height: 100vh;
+    width: 100%;
+    background-color: colors.$bg-color;
+    svg {
+        width: 50%;
+        height: 50%;
+    }
+    
+    span {
+        font-size: 18px;
+    }
 }
