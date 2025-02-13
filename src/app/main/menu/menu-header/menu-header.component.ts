@@ -1,7 +1,8 @@
-import { Component, HostListener} from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { SharedService } from '../../../shared/services/newmessage.service';
-import {  } from '@ctrl/ngx-emoji-mart';
+import { } from '@ctrl/ngx-emoji-mart';
 import { SearchbarComponent } from '../../../shared/header/searchbar/searchbar.component';
+import { StateService } from '../../../shared/services/state.service';
 
 
 @Component({
@@ -12,12 +13,12 @@ import { SearchbarComponent } from '../../../shared/header/searchbar/searchbar.c
   styleUrl: './menu-header.component.scss'
 })
 export class MenuHeaderComponent {
-    smallWindow = false;
-    mobile = false;
+  smallWindow = false;
+  mobile = false;
 
 
 
-  constructor(private sharedService: SharedService) {
+  constructor(private sharedService: SharedService, private stateService: StateService) {
     this.onResize();
 
   }
@@ -29,8 +30,12 @@ export class MenuHeaderComponent {
   }
 
   createNewMessage() {
+    console.log("createnewmessage klicked");
+    
     // mainchat updaten
     this.sharedService.updateVariable('createMessagePressed');
+    // falls thread ausgeklappt - einklappen
+    this.stateService.setThreadchatState("out");
 
   }
 
