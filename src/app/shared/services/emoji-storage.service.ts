@@ -13,6 +13,8 @@ export class EmojiStorageService {
       localStorage.getItem(this.storageKey) || '[]'
     );
 
+    if (emojis[1] === emoji) return;
+
     emojis = emojis.filter((e) => e !== emoji);
 
     emojis.unshift(emoji);
