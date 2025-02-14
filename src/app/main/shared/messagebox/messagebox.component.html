@@ -3,7 +3,7 @@
   <textarea #mainMessageBox (click)="preventMsgBoxEmojiPickerClose($event)"
     class="messagebox" name="messagebox" id="messagebox"
     [(ngModel)]="messageContent" placeholder="Nachricht an {{ activeChannelName }}..."
-    (keyup)="checkKeyStatus($event, 'mainchat')">
+    (keyup)="checkKeyStatus($event, 'createmessage')">
   </textarea>
   <div class="messagebox__icons-container">
     <div>
