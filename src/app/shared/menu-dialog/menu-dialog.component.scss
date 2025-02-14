@@ -107,6 +107,16 @@ input {
   }
 }
 
+.border-div{
+  position: absolute;
+  display: flex;
+  border: 1px solid colors.$light-purple;
+  padding: 20px;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+}
+
 .addMember {
   display: flex;
   width: 100%;
@@ -246,6 +256,24 @@ hr {
   margin: 10px 0;
 }
 
+.dialog-desktop-btn {
+  color: colors.$purple3;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24.55px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  &:hover {
+    font-family: Nunito;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 24.55px;
+    letter-spacing: 0%;
+
+  }
+}
+
 .edit-dialog-channelName {
   position: relative;
   display: flex;
@@ -254,22 +282,25 @@ hr {
   padding: 20px;
   transition: 250ms ease-in-out;
   border-radius: 20px;
-//   border: 1px solid colors.$light-purple;
-
   input {
     border: none;
     padding: 0 0 0 5px;
   }
-
   :first-child {
     display: flex;
     justify-content: space-between;
     transition: 250ms ease-in-out;
-
     span {
       z-index: 5;
       cursor: pointer;
       padding: 0;
+      &:hover {
+        font-family: Nunito;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 24.55px;
+        letter-spacing: 0%;
+      }
     }
   }
 
@@ -315,7 +346,6 @@ hr {
 .edit-dialog-channelDescription-box1 {
     max-width: 100%;
     width: 100%;
-    overflow: hidden; 
   p {
     width: 100%;
     font-size: 18px;
@@ -339,6 +369,13 @@ hr {
   span {
     z-index: 5;
     cursor: pointer;
+    &:hover {
+        font-family: Nunito;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 24.55px;
+        letter-spacing: 0%;
+    }
   }
 }
 
@@ -532,8 +569,28 @@ margin-inline: auto;
   .dialog-mobile-icon-wrapper {
     display: block !important;
     background-color: colors.$bg-color;
-    padding: 3px;
+    padding: 6px;
+    z-index: 5;
     border-radius: 40px;
+    svg { 
+      width: 24px;
+      height: 24px;  
+      path {
+        fill: black;
+      }     
+
+    }
+
+    &:hover {
+      scale: 1.2;
+      svg { 
+        width: 24px;
+        height: 24px;  
+        path {
+          fill: colors.$purple3;
+        }     
+      }
+    }
   }
 
   .dialog-channel-container {
