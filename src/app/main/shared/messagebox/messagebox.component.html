@@ -39,7 +39,7 @@
       }
       @if (mentionService.status) {
         <div class="mention-picker__wrapper" (click)="preventMsgBoxMentionPickerClose($event)">
-          <app-mention componentName="messagebox" [builder]="'mainchat'"></app-mention>
+          <app-mention componentName="messagebox" [builder]="builder"></app-mention>
         </div>
       }
       <img src="/img/icons/alternate_email.svg" (click)="toogleMentionPicker()" (click)="preventMsgBoxMentionPickerClose($event)" alt="erwähnen">
@@ -67,7 +67,7 @@
       }
       @if (mentionService.status) {
         <div class="mention-picker__wrapper" (click)="preventMsgBoxMentionPickerClose($event)">
-          <app-mention componentName="messagebox" [builder]="'threadchat'"></app-mention>
+          <app-mention componentName="messagebox" [builder]="builder"></app-mention>
         </div>
       }
       <img src="/img/icons/alternate_email.svg" (click)="toogleMentionPicker()" (click)="preventMsgBoxMentionPickerClose($event)" alt="erwähnen">

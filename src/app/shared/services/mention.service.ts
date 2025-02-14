@@ -66,9 +66,9 @@ export class MentionService {
 
   mentionUser(bulider:string) {
     if (bulider === 'mainchat') {
-      this.insertTextAndFocus(this.user, 'messagebox')
+      this.insertTextAndFocus(`@${this.user}`, 'messagebox')
     } else if (bulider === 'threadchat') {
-      this.insertTextAndFocus(this.user, 'threadMessageBox')
+      this.insertTextAndFocus(`@${this.user}`, 'threadmessagebox')
     } else {
       this.insertTextAndFocus(this.user, 'messagebox')
     }
@@ -77,10 +77,15 @@ export class MentionService {
   insertTextAndFocus(text: string, inputId: string): void {
     const inputElement = document.getElementById(inputId) as HTMLInputElement;
     if (inputElement) {
-        inputElement.value += "@" + text + " ";
+        inputElement.value += text + " ";
         inputElement.focus();
     } else {
         console.error('Input field not found'); 
     }
+  }
+
+  clearInput(inputId: string): void {
+    const inputElement = document.getElementById(inputId) as HTMLInputElement;
+    inputElement.value = '';
   }
 }
