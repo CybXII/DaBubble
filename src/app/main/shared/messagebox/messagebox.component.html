@@ -33,7 +33,7 @@
       }
       @if (mentionService.status) {
         <div class="mention-picker__wrapper" (click)="preventMsgBoxMentionPickerClose($event)">
-          <app-mention componentName="messagebox"></app-mention>
+          <app-mention componentName="messagebox" [builder]="'mainchat'"></app-mention>
         </div>
       }
       <img class="icon__add-emoji" src="/img/icons/sentiment_satisfied.svg" (click)="toggleEmojiPickerMain()"
@@ -60,7 +60,7 @@
       }
       @if (mentionService.status) {
         <div class="mention-picker__wrapper" (click)="preventMsgBoxMentionPickerClose($event)">
-          <app-mention componentName="messagebox"></app-mention>
+          <app-mention componentName="messagebox" [builder]="'threadchat'"></app-mention>
         </div>
       }
       <img src="/img/icons/sentiment_satisfied.svg" (click)="toggleEmojiPickerThread()"

@@ -8,6 +8,8 @@ export class MentionService {
   mentionsUser: any = [];
   private renderer: Renderer2;
   status:boolean = false;
+  user:string = '';
+  builder:string = '';
 
   constructor(@Inject(DOCUMENT) private document: Document, rendererFactory: RendererFactory2) {
     this.renderer = rendererFactory.createRenderer(null, null);
@@ -33,15 +35,22 @@ export class MentionService {
     return !!target.closest('.cont');
   }
 
-  mentionSomeone(user:any) {
-    if (user !== typeof {}) {
-      this.mentionsUser.push(user)
-    } else {
-      console.error("leer!!!!!!!!!!!!!!!!!!!!!")
-    }
-    // funktion zur benutzererwähnung
-    console.log("erwähnte User:",this.mentionsUser)
+  mentionSomeone(user:any, bulider:string) {
+    this.status = false;
+    this.user = user.name
+    this.mentionUser(bulider)
+    // return user.name
   }
+
+  // mentionSomeone(user:any) {
+  //   if (user !== typeof {}) {
+  //     this.mentionsUser.push(user)
+  //   } else {
+  //     console.error("leer!!!!!!!!!!!!!!!!!!!!!")
+  //   }
+  //   // funktion zur benutzererwähnung
+  //   console.log("erwähnte User:",this.mentionsUser)
+  // }
 
   disselect(member:string) {
     for (let i = 0; i < this.mentionsUser.length; i++) {
@@ -53,5 +62,25 @@ export class MentionService {
       }
     }
     console.log("erwähnte User:",this.mentionsUser)
+  }
+
+  mentionUser(bulider:string) {
+    if (bulider === 'mainchat') {
+      this.insertTextAndFocus(this.user, 'messagebox')
+    } else if (bulider === 'threadchat') {
+      this.insertTextAndFocus(this.user, 'threadMessageBox')
+    } else {
+      this.insertTextAndFocus(this.user, 'messagebox')
+    }
+  }
+
+  insertTextAndFocus(text: string, inputId: string): void {
+    const inputElement = document.getElementById(inputId) as HTMLInputElement;
+    if (inputElement) {
+        inputElement.value += "@" + text + " ";
+        inputElement.focus();
+    } else {
+        console.error('Input field not found'); 
+    }
   }
 }
