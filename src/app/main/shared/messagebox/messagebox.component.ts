@@ -145,13 +145,15 @@ export class MessageboxComponent implements OnInit, OnDestroy {
   }
 
   checkKeyStatus(event: KeyboardEvent, chat: string): void {
-    if (event.shiftKey && event.keyCode == 13) {
+    if (event.shiftKey && event.key == 'Enter') {
       event.preventDefault();
-    } else if (event.keyCode == 13) {
+    } else if (event.key == 'Enter') {
       if (chat === 'mainchat') {
         this.sendMessage();
       } else if (chat === 'threadchat') {
         this.sendThreadMessage();
+      } else if (chat === 'createmessage') {
+        this.createNewMessage();
       }
     }
     if (event.getModifierState('AltGraph') && event.key == "q") {
