@@ -15,7 +15,7 @@
                 <app-emoji-picker componentName="chatbox"  (emoji)="addEmoji(parentMessage.docId!, activeUserId!, $event)" />
             </div>
         }
-        <!-- <button class="chatbox__addemoji-container">
+        <button class="chatbox__addemoji-container">
             @if (getLastUsedEmojis(0)) {
                 <span class="chatbox__addemoji__lastUsedEmoji" 
                 (click)="addEmoji(parentMessage.docId!, activeUserId!, getLastUsedEmojis(0))">
@@ -34,7 +34,7 @@
                     <img src="/img/icons/addemoji.svg" alt="Emoji hinzufügen">
                 </div>
             }
-        </button> -->
+        </button>
         <div class="chatbox__msg-item2  parent_msg">
             <img class="chatbox__msg-avatar" [src]="getUserAvatar(parentMessage.createdBy) | async" alt="Avatar" width="70" height="70" (click)="checkIdIsUser(parentMessage.createdBy)" />
             <div>

@@ -30,7 +30,7 @@ export class MenuDialogComponent  implements OnInit {
       name: string; members: any[] ; description: string ; creator: string; createdBy: string ; channelId: string ; isPrivate: boolean
     } = {
       name: '', members: [], description: '' , creator: '', createdBy: '', channelId: '', isPrivate: false
-  };
+    };
   @Output() dialogSwitch = new EventEmitter<{ from: string; to: string }>();
   memberIds: string[] = [];
   memberNames: { name: string; userId: string; photoURL: string }[] = [];
@@ -80,6 +80,7 @@ export class MenuDialogComponent  implements OnInit {
     this.toSave.push(item);
   }
 
+
   saveAddedUser(): void {
     if (!this.dialogData || !this.dialogData.channelId) {
       console.error('Channel-ID fehlt.');
@@ -99,13 +100,16 @@ export class MenuDialogComponent  implements OnInit {
       });
   }
 
+
   clearToSave() {
     this.toSave = [];
   }
 
+
   removeFromSave(user: { id: string; name: string; photoURL: string }): void {
     this.toSave = this.toSave.filter((u) => u.id !== user.id);
   }
+
 
   closeDialog(event: Event, menu: string) {
     event?.preventDefault();
@@ -114,12 +118,12 @@ export class MenuDialogComponent  implements OnInit {
   }
 
 
-    onSearchInput(event: Event) {
-      const target = event.target as HTMLInputElement;
-      this.searchInput = target.value;
-      console.log(this.searchInput);
-      this.updateFilteredUsers();
-    }
+  onSearchInput(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.searchInput = target.value;
+    console.log(this.searchInput);
+    this.updateFilteredUsers();
+  }
 
 
   switchDialog(to: string) {
@@ -164,6 +168,7 @@ export class MenuDialogComponent  implements OnInit {
     });
   }
 
+
   activateEditChannelName() {
     this.editChannelName = !this.editChannelName;
     if (this.editChannelName) {
@@ -172,7 +177,8 @@ export class MenuDialogComponent  implements OnInit {
       }, 50);
     }
   }
-  
+
+
   activateEditChannelDescription() {
     this.editChannelDescription = !this.editChannelDescription;
     if (this.editChannelDescription) {
@@ -181,6 +187,7 @@ export class MenuDialogComponent  implements OnInit {
       }, 50);
     }
   }
+
 
   saveChanges(field: 'name' | 'description' | 'createdBy'): void {
     const updatedData: Partial<Channel> = {};
@@ -207,13 +214,11 @@ export class MenuDialogComponent  implements OnInit {
       console.error('Channel-ID fehlt.');
       return;
     }
-    
     const userId = this.authService.userId();
     if (!userId) {
       console.error('User-ID konnte nicht abgerufen werden.');
       return;
     }
-    
     if (this.dialogData.createdBy === userId || this.dialogData.isPrivate) {
       this.channelsService.deleteChannel(this.dialogData.channelId)
         .then(() => {
@@ -245,9 +250,11 @@ export class MenuDialogComponent  implements OnInit {
     }
   }
 
+
   openMobileDialogAddMember(){
     this.isMobileDialogAddMemberOpen = true;
   }
+
 
   closeMobileDialogAddMember(){
     this.isMobileDialogAddMemberOpen = false;

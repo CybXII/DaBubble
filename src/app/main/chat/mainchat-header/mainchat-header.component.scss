@@ -194,15 +194,17 @@
   }
 
   .membersDialog{
-    right: 16px;
+    top: 22px;
+    right: 0px;
     width: 100%;
-    max-width: calc(100% - 32px);
+    max-width: unset;
   }
 
   .menuDialog{
+    top: 22px;
+    right: 0px;
     width: 100%;
-    max-width: calc(100% - 32px);
-    right: 16px;
+    max-width: unset;
   }
 
   .dialog-background-channel{
