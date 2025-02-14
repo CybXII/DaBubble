@@ -174,7 +174,7 @@ export class MessageComponent implements OnInit, OnDestroy {
   }
 
   editMessage(message: Partial<Message>, deleteMessage: boolean, inlineEdit = false) {
-    if (inlineEdit) {
+    if (inlineEdit && window.innerWidth > 450) {
       sessionStorage.setItem('EditedMessage', message.message as string);
       message.sameDay = true;
       return;
