@@ -166,7 +166,8 @@ input {
 .dialog-scrollContainer {
   @include mixins.flexbox(column, flex-start, stretch, nowrap);
   overflow: scroll;
-  max-height: 310px;
+  max-height: unset;
+  height: calc(100vh - 78vh);
   width:100%;
   gap: 13px;
   &:focus-visible {
