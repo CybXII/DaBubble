@@ -61,7 +61,7 @@
               [(ngModel)]="threadMessage.message"></textarea>
           <div class="buttons">
               <div class="chatbox__addreaction-container">
-                  <img src="/img/icons/sentiment_satisfied.svg" alt="" />
+                  <img src="/img/icons/sentiment_satisfied.svg" alt="" (click)="toggleEmojiPicker()"/>
               </div>
               <div class="cont">
                   <button class="cancel default" (click)="cancelEdit(threadMessage)">

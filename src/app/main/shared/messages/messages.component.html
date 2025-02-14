@@ -79,8 +79,8 @@
         <textarea type="text" class="chatbox__msg" [class.chatbox__msg-sent]="message.createdBy === activeUserId"
             [(ngModel)]="message.message"></textarea>
         <div class="buttons">
-            <div class="chatbox__addreaction-container">
-                <img src="/img/icons/sentiment_satisfied.svg" alt="" />
+            <div class="chatbox__addemoji__emoji-container" (click)="toggleEmojiPicker()">
+                <img src="/img/icons/addemoji.svg" alt="" />
             </div>
             <div class="cont">
                 <button class="cancel default" (click)="cancelEdit(message)">
