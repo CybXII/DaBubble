@@ -177,9 +177,9 @@ loadMessagesForChannel(channelId: string | undefined): void {
       } as ThreadMessage;
     });
     // ✅ Sortierung beibehalten
-    //threadMessages.sort((a, b) =>new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+    threadMessages.sort((a, b) =>new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
     // doch anders!
-    threadMessages.sort((a, b) =>new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+    //threadMessages.sort((a, b) =>new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
     // 🔥 Cache aktualisieren
     this.threadMessagesSubject.next(threadMessages);
