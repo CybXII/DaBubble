@@ -107,6 +107,16 @@ input {
   }
 }
 
+.border-div{
+  position: absolute;
+  display: flex;
+  border: 1px solid colors.$light-purple;
+  padding: 20px;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+}
+
 .addMember {
   display: flex;
   width: 100%;
