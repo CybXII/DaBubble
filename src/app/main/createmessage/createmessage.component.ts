@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { SearchService } from '../../shared/services/search.service';
 import { AuthService } from '../../shared/services/auth.service';
 import { SharedService } from '../../shared/services/newmessage.service';
+import { MentionService } from '../../shared/services/mention.service';
 
 @Component({
   selector: 'app-createmessage',
@@ -43,7 +44,7 @@ export class CreatemessageComponent implements OnInit {
     this.sharedService.setSearchString(target);
     this.sharedService.setUserIdString(userId);
     this.input = false;
-
+    this.mentionService.insertTextAndFocus(target, 'messagebox')
     this.clearResults();
   }
 
@@ -59,7 +60,8 @@ export class CreatemessageComponent implements OnInit {
   constructor(
     private searchService: SearchService,
     private authService: AuthService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private mentionService: MentionService,
   ) {
     this.searchService.loadUsers(this.userId);
     this.searchService.loadChannels();
@@ -156,5 +158,6 @@ export class CreatemessageComponent implements OnInit {
   deleteSearch() {
     this.input = true;
     this.searchText = '';
+    this.mentionService.clearInput('messagebox')
   }
 }

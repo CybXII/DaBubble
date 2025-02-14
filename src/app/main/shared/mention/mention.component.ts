@@ -16,6 +16,7 @@ import { MentionService } from '../../../shared/services/mention.service';
   styleUrl: './mention.component.scss'
 })
 export class MentionComponent {
+  @Input() builder:string = '';
   acitveUserID: string | null;
   activeChannel$: Observable<Channel | null>;
   members: any = [];
@@ -60,10 +61,10 @@ export class MentionComponent {
     })
   }
 
-  selectMember(member:any) {
+  selectMember(member:any, builder = this.builder) {
     if (!member.mention) {
       member.mention = true;
-      this.mentionService.mentionSomeone(member);
+      this.mentionService.mentionSomeone(member, builder);
     } else {
       member.mention = false;
       this.mentionService.disselect(member.id);
