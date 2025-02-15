@@ -109,7 +109,7 @@
         <div class="chatbox__info">
             @let threadMessages = (message.threadMessages$ | async); @if
             (threadMessages && threadMessages.length > 0) {
-            <div class="chatbox__answers-container">
+            <div class="chatbox__answers-container" [ngClass]="{ 'right95': message.createdBy === activeUserId, 'left10px': message.createdBy !== activeUserId }">
                 <span (click)="onMessageSelect(message.docId || 'fallback')" class="chatbox__answers">
                     @if(threadMessages?.length === 1) {
                         {{ (threadMessages?.length || 0) + " Antwort" }}
