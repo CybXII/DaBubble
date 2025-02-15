@@ -508,8 +508,19 @@
   }
 }
 
-.padding__bottom_40 {
-  padding-bottom: 40px;
+.mobile_answer {
+  
+  .chatbox__reaction-wrapper {
+    margin-top: 30px
+  }
+
+  .chatbox__answers {
+    margin-right: 10px;
+  }
+}
+
+.left10px {
+  left: 5%;
 }
 
 @media(max-width: 550px) {
@@ -536,6 +547,7 @@
   .chatbox__answers-container {
     position: absolute;
     right: -95px;
+    width: fit-content;
   }
 
   .chatbox__msg-sent-item2 {
