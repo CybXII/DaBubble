@@ -68,7 +68,7 @@ export class ForgetPasswordComponent {
         }, 10000);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   }
 
