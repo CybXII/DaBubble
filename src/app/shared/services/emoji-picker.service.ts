@@ -37,7 +37,9 @@ export class EmojiPickerService {
   /** 🔥 Alle Picker schließen, wenn außerhalb geklickt wird */
   private listenForOutsideClicks(): void {
     this.renderer.listen(this.document, 'click', (event: Event) => {
-      if (!this.isClickInsideEmojiPicker(event.target as HTMLElement) && !this.isClickOnToggleButton(event.target as HTMLElement)) {
+      if (!this.isClickInsideEmojiPicker(event.target as HTMLElement) 
+        && !this.isClickOnToggleButton(event.target as HTMLElement)
+        && !this.isClickOnToggleButtonThread(event.target as HTMLElement)) {
         console.log('🔴 Klick außerhalb erkannt – Alle Picker werden geschlossen.');
         this.closeAllEmojiPickers();
       }
@@ -52,6 +54,10 @@ export class EmojiPickerService {
   /** 🔍 Prüfen, ob der Klick auf einen Emoji-Toggle-Button war */
   private isClickOnToggleButton(target: HTMLElement): boolean {
     return !!target.closest('.chatbox__addemoji__emoji-container');
+  }
+
+  private isClickOnToggleButtonThread(target: HTMLElement): boolean {
+    return !!target.closest('.chatbox__addreaction-container');
   }
 
   /** 🔥 MainChat-Nachricht Picker öffnen */

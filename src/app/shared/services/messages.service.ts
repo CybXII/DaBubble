@@ -369,14 +369,14 @@ loadMessagesForChannel(channelId: string | undefined): void {
   }
 
 
-    private async getMessage(docId: string): Promise<Message | null> {
+    public async getMessage(docId: string): Promise<Message | null> {
     const docRef = doc(this.firestore, 'messages', docId);
     const docSnapshot = await getDoc(docRef);
     return docSnapshot.exists() ? (docSnapshot.data() as Message) : null;
   }
 
 
-  private async getThreadMessage(
+  public async getThreadMessage(
     messageId: string,
     threadDocId: string
   ): Promise<ThreadMessage | null> {

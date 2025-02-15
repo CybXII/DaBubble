@@ -76,7 +76,7 @@
         height="70" (click)="checkIdIsUser(message.createdBy)" />
     @if(message.sameDay && message.createdBy === activeUserId) {
     <div class="editMessage">
-        <textarea type="text" class="chatbox__msg" [class.chatbox__msg-sent]="message.createdBy === activeUserId"
+        <textarea #editTextArea type="text" class="chatbox__msg" [class.chatbox__msg-sent]="message.createdBy === activeUserId"
             [(ngModel)]="message.message"></textarea>
         <div class="buttons">
             <div class="chatbox__addemoji__emoji-container" (click)="toggleEmojiPicker()">
@@ -113,7 +113,6 @@
                 <span (click)="onMessageSelect(message.docId || 'fallback')" class="chatbox__answers">
                     {{ (threadMessages?.length || 0) + " Antworten" }}
                 </span>
-
                 @if (threadMessages.length > 0) {
                 <span class="chatbox__last-answer">
                     Letzte Antwort
@@ -122,17 +121,12 @@
                 </span>
                 }
             </div>
-            }
-            <app-reactions class="chatbox__reaction-wrapper" [reactions]="message.reactions"
+            }@if (!editAcitve){
+                <app-reactions class="chatbox__reaction-wrapper" [reactions]="message.reactions"
                 [activeUserId]="activeUserId || ''" [messageId]="message.docId || ''" [isThreadMessage]="false"
-                (reactionAdded)="
-                    addEmoji(
-                    $event.messageId,
-                    activeUserId!,
-                    $event.emoji,
-                    $event.isThreadMessage
-                    )">
+                (reactionAdded)="addEmoji($event.messageId,activeUserId!,$event.emoji,$event.isThreadMessage)">
             </app-reactions>
+            }
         </div>
     </div>
     }
