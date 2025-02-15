@@ -187,4 +187,18 @@ export class MessageComponent implements OnInit, OnDestroy {
       });
     }
   }
+
+  checkWidth() {
+    if (window.innerWidth > 400) {return true} else return false;
+  }
+
+  ckeckThredMessageAndWidth(message:any) {
+    let length;
+    if (message.threadMessages$._value.length !== 0) {
+      length = message.threadMessages$._value.length
+    } else {
+      return null
+    }
+    if (length > 0 && window.innerWidth < 400) {return true} else return false;
+  }
 }

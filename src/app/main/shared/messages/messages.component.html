@@ -25,7 +25,7 @@
 </div>
 
 <div class="chatbox__msg-container" [class.chatbox__msg-container__sent]="message.createdBy === activeUserId"
-    [ngClass]="{ 'thread__days__chatbox__msg-container': !message.sameDay }" id="{{ message.docId }}">
+    [ngClass]="{ 'thread__days__chatbox__msg-container': !message.sameDay }" id="{{ message.docId }}" [ngClass]="{'padding__bottom_40': ckeckThredMessageAndWidth(message)}">
     @if (!message.sameDay) {
         <button class="chatbox__addemoji-container"
         [class.chatbox__addemoji__sent]="message.createdBy === activeUserId">
@@ -111,13 +111,19 @@
             (threadMessages && threadMessages.length > 0) {
             <div class="chatbox__answers-container">
                 <span (click)="onMessageSelect(message.docId || 'fallback')" class="chatbox__answers">
-                    {{ (threadMessages?.length || 0) + " Antworten" }}
+                    @if(threadMessages?.length === 1) {
+                        {{ (threadMessages?.length || 0) + " Antwort" }}
+                    } @else {
+                        {{ (threadMessages?.length || 0) + " Antworten" }}
+                    }
                 </span>
 
                 @if (threadMessages.length > 0) {
                 <span class="chatbox__last-answer">
                     Letzte Antwort
-                    {{ threadMessages[0].timestamp | relativeDate }}
+                    @if(checkWidth()) {
+                        {{ threadMessages[0].timestamp | relativeDate }}
+                    }
                     {{ threadMessages[0].timestamp | date : "HH:mm" }} Uhr
                 </span>
                 }

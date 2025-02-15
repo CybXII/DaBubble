@@ -507,6 +507,10 @@
   }
 }
 
+.padding__bottom_40 {
+  padding-bottom: 40px;
+}
+
 @media(max-width: 550px) {
   .emptyMessage {
     .text {
@@ -526,5 +530,18 @@
 
   .chatbox__editmsg {
     padding: 10px;
+  }
+
+  .chatbox__answers-container {
+    position: absolute;
+    right: -95px;
+  }
+
+  .chatbox__msg-sent-item2 {
+    position: relative;
+  }
+
+  .chatbox__msg-container_padding0 {
+    padding: 0px
   }
 }

@@ -1,4 +1,4 @@
-  <div class="chatbox__msg-container" [class.chatbox__msg-container__sent]="threadMessage.createdBy === activeUserId" id="{{ threadMessage.docId }}">
+  <div class="chatbox__msg-container chatbox__msg-container_padding0" [class.chatbox__msg-container__sent]="threadMessage.createdBy === activeUserId" id="{{ threadMessage.docId }}">
     @if (threadMessage.docId && isEmojiPickerOpenForThisMessage()){
           <div [class]="{
             'emoji-picker__wrapper-left-thread':
