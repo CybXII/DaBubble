@@ -151,8 +151,7 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
    * Initializes the default channel and subscribes to channel changes.
    */
   private initializeChannel(): void {
-    if (window.innerWidth > 900) // desktop mode only
-      this.channelsService.setDefaultChannel();
+    this.channelsService.setDefaultChannel();
     this.channelsService.currentChannel$.pipe(
       filter(channel => !!channel),
       switchMap(channel =>

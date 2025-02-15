@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Host, HostListener, Injectable } from '@angular/core';
 import { Firestore, collection, doc, getDoc, getDocs, setDoc, addDoc, onSnapshot, query, where, deleteDoc } from '@angular/fire/firestore';
 import { Channel } from '../../models/channel';
 import { BehaviorSubject } from 'rxjs';
@@ -20,6 +20,7 @@ export class ChannelsService {
   private userChangesSubject = new BehaviorSubject<{ id: string; name: string } | null>(null);
   userChanges$ = this.userChangesSubject.asObservable();
   private previousTimestamp: number | null = null;
+  mobile = false
   constructor(
     private firestore: Firestore,
     private authService: AuthService,
@@ -27,6 +28,12 @@ export class ChannelsService {
     private userService: UserService
   ) {
     this.trackUserChanges();
+    this.onResize();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.mobile = window.innerWidth <= 900;
   }
 
   async setDefaultChannel(): Promise<void> {
@@ -46,7 +53,9 @@ export class ChannelsService {
           ? userChannels.find(channel => channel.id === cachedChannelId) || userChannels[0]
           : userChannels[0];
         if (defaultChannel && defaultChannel.id) {
-          await this.selectChannel(defaultChannel.id);
+          if (!this.mobile){
+            await this.selectChannel(defaultChannel.id);
+          }
         } else {
           console.warn('Kein gültiger Default-Channel gefunden.');
         }
