@@ -158,6 +158,7 @@
   position: absolute;
   top: -15px;
   right: 60px;
+  z-index: 99;
   img {
     display: block;
     border-radius: 20px;
@@ -507,6 +508,21 @@
   }
 }
 
+.mobile_answer {
+  
+  .chatbox__reaction-wrapper {
+    margin-top: 30px
+  }
+
+  .chatbox__answers {
+    margin-right: 10px;
+  }
+}
+
+.left10px {
+  left: 5%;
+}
+
 @media(max-width: 550px) {
   .emptyMessage {
     .text {
@@ -526,5 +542,19 @@
 
   .chatbox__editmsg {
     padding: 10px;
+  }
+
+  .chatbox__answers-container {
+    position: absolute;
+    right: -95px;
+    width: fit-content;
+  }
+
+  .chatbox__msg-sent-item2 {
+    position: relative;
+  }
+
+  .chatbox__msg-container_padding0 {
+    padding: 0px
   }
 }
