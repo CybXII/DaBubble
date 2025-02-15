@@ -15,27 +15,31 @@ import { UserDialogService } from '../../../services/user-dialog.service';
 
 @Component({
   selector: 'app-dialog',
-  standalone: true, // <-- Add this line
+  standalone: true,
   imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
   templateUrl: './dialog.component.html',
   styleUrl: './dialog.component.scss',
 })
-export class DialogComponent implements OnInit {
+export class DialogComponent {
   @Output() dialogChange = new EventEmitter<boolean>();
   @Input() mobileDialog = false;
 
-  constructor(
-    public userDialog$: UserDialogService,
-  ) {
+/**
+ * Creates an instance of DialogComponent and performs an initial check 
+ * to see if data changes are allowed using the UserDialogService.
+ * 
+ * @param userDialog$ - The service responsible for managing user dialog interactions.
+ */
+  constructor(public userDialog$: UserDialogService,) {
     this.userDialog$.dataChangeAllowedCheck();
   }
-  
-  ngOnInit() {
-    
-  }
 
+
+/**
+ * Opens the user profile dialog with a mobile layout.
+ * This method calls `openProfile` on the `UserDialogService`.
+ */
   onOpenMobileProfile(){
     this.userDialog$.openProfile();
-    // this.mobileDialog = !this.mobileDialog;
   }
 }
