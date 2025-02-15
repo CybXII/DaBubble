@@ -73,6 +73,13 @@ export class HeaderComponent {
     this.stateService.setMenuState(this.menuState);
   }
 
+
+  /**
+   * Checks if the current URL corresponds to a legal page.
+   * A legal page is identified if the URL contains 'legalnotice' or 'imprint'.
+   * Sets the `legalPage` property to `true` if it is a legal page, otherwise sets it to `false`.
+   * Logs the result to the console.
+   */
   isLegalPage(): void {
     if (
       this.currentUrl.includes('legalnotice') ||
