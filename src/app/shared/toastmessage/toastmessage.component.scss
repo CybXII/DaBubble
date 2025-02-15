@@ -12,8 +12,7 @@
   border-bottom-left-radius: 30px;
   border-top-right-radius: 30px;
   transform: translateX(-100%);
-  animation: slideInFromRight 0.5s ease-out forwards,
-    slideInFromRight 0.5s ease-out reverse 2s;
+  animation: slideInFromRight 0.5s ease-out forwards, slideInFromRight 0.5s ease-out reverse 2s;
   z-index: 999;
   color: colors.$white;
   background-color: colors.$purple;
