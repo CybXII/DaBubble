@@ -4,49 +4,19 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 
-/**
- * ResetPasswordComponent - A component that handles the reset password functionality.
- */
 @Component({
   selector: 'app-reset-password',
   imports: [CommonModule, FormsModule],
-  standalone: true,   // <-- Add this line
+  standalone: true,
   templateUrl: './reset-password.component.html',
   styleUrl: './reset-password.component.scss'
 })
 export class ResetPasswordComponent implements OnInit {
-
-  /**
-   * warnText - Warning text for password mismatch.
-   */
   warnText: string = "Ihre Kennwörter stimmen nicht überein";
-
-  /**
-   * passwordmatch - A flag to indicate if the passwords match.
-   */
   passwordmatch: boolean = false;
-
-  /**
-   * passwords - Object to hold the new passwords.
-   */
-  passwords = {
-    password: "",
-    password2: "",
-  };
-
-  /**
-   * successMessage - A message to display on successful password reset.
-   */
+  passwords = {password: "", password2: "",};
   successMessage: string = '';
-
-  /**
-   * errorMessage - A message to display on error.
-   */
   errorMessage: string = '';
-
-  /**
-   * oobCode - The reset code from the URL.
-   */
   oobCode: string = '';
 
   /**
@@ -61,7 +31,6 @@ export class ResetPasswordComponent implements OnInit {
    * ngOnInit - Lifecycle hook that is called after data-bound properties are initialized.
    */
   ngOnInit(): void {
-    // Den `oobCode` aus der URL extrahieren
     this.route.queryParams.subscribe((params) => {
       this.oobCode = params['oobCode'] || '';
       if (!this.oobCode) {
@@ -83,7 +52,6 @@ export class ResetPasswordComponent implements OnInit {
    */
   changePassword(ngform: NgForm) {
     if (ngform.valid && ngform.submitted && this.checkPasswordsMatch()) {
-      //this.auth.updateUserPassword(this.passwords.password);
       this.auth.confirmPasswordReset(this.oobCode, this.passwords.password)
         .then(() => {
           this.successMessage = 'Das Passwort wurde erfolgreich zurückgesetzt.';
