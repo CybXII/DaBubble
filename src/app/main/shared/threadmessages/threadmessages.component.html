@@ -57,7 +57,7 @@
       <img (click)="checkIdIsUser(threadMessage.createdBy)" class="chatbox__msg-avatar" [src]="getUserAvatar(threadMessage.createdBy) | async" alt="Avatar" width="70" height="70" />
       @if(threadMessage.sameDay && threadMessage.createdBy === activeUserId) {
         <div class="editMessage">
-          <textarea type="text" class="chatbox__msg" [class.chatbox__msg-sent]="threadMessage.createdBy === activeUserId"
+          <textarea #editTextArea type="text" class="chatbox__msg" [class.chatbox__msg-sent]="threadMessage.createdBy === activeUserId"
               [(ngModel)]="threadMessage.message"></textarea>
           <div class="buttons">
               <div class="chatbox__addreaction-container">
@@ -67,7 +67,7 @@
                   <button class="cancel default" (click)="cancelEdit(threadMessage)">
                       Abbrechen
                   </button>
-                  <button class="save default" (click)="saveEdit(threadMessage, true, this.activeMessageId || '')">
+                  <button class="save default" (click)="saveEdit(threadMessage,  this.activeMessageId || '')">
                       Speichern
                   </button>
               </div>

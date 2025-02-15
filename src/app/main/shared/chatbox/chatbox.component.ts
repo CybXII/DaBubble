@@ -220,6 +220,9 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
         this.handlePrivateChannel(channel);
       else
         this.private = false;
+      setTimeout(() => {
+        this.scrollToBottom(this.builder === 'mainchat' ? '.mainchat__chatbox' : '.threadchat__chatbox');
+      }, 500);
     });
   }
 
@@ -263,7 +266,8 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   ngAfterViewInit(): void {
     this.subscribeToParentMessageId();
-    this.initializeChatboxObserver();
+    // this.initializeChatboxObserver();
+    this.checkMessageIsEmpty();
   }
 
 
@@ -283,19 +287,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   /**
-   * Initializes an observer to detect chatbox mutations and trigger auto-scrolling.
-   */
-  private initializeChatboxObserver(): void {
-    const chatboxSelector = this.builder === 'mainchat' ? '.mainchat__chatbox' : '.threadchat__chatbox';
-    const chatbox = document.querySelector(chatboxSelector);
-    if (!chatbox) return;
-    const observer = new MutationObserver(() => this.scrollToBottom(chatboxSelector));
-    observer.observe(chatbox, { childList: true, subtree: true });
-    this.checkMessageIsEmpty();
-  }
-
-
-  /**
    * Lifecycle hook that is called when the component is destroyed.
    * Notifies all subscribers of the destroy subject and completes the subject.
    */
@@ -309,13 +300,13 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
    * Scrolls the chatbox to the bottom after a 500ms delay to allow the component to render all messages.
    * @param selector - The CSS selector of the chatbox element.
    */
-  scrollToBottom(selector: string): void {
+  private scrollToBottom(selector: string): void {
     setTimeout(() => {
       const chatbox = document.querySelector(selector) as HTMLElement;
       if (chatbox) {
         chatbox.scrollTop = chatbox.scrollHeight;
       }
-    }, 500);
+    }, 300);
   }
 
 
@@ -331,6 +322,9 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
         this.parentMessage = messages.find(msg => msg.docId === parentMessageId) || null;
         this.cdRef.markForCheck();
       });
+      setTimeout(() => {
+        this.scrollToBottom(this.builder === 'mainchat' ? '.mainchat__chatbox' : '.threadchat__chatbox');
+      }, 500);
   }
 
 

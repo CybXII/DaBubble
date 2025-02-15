@@ -9,6 +9,8 @@ import {
   WritableSignal,
   signal,
   ChangeDetectorRef,
+  ElementRef,
+  ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EmojiPickerComponent } from '../emoji-picker/emoji-picker.component';
@@ -36,6 +38,7 @@ import { UserDialogService } from '../../../shared/services/user-dialog.service'
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class MessageComponent implements OnInit, OnDestroy {
+  @ViewChild('editTextArea') editTextArea!: ElementRef<HTMLTextAreaElement>;
   @Input() shouldRenderDivider!: boolean;
   @Input() message!: Message;
   @Input() activeUserId!: string;
@@ -46,7 +49,7 @@ export class MessageComponent implements OnInit, OnDestroy {
   isEmojiPickerOpen: WritableSignal<boolean> = signal(false);
   displayPickerBottom: boolean = false;
   previousTimestamp: number | null = null;
-  
+  editAcitve: boolean = false;
 
   constructor(
     private messagesService: MessagesService,
@@ -116,19 +119,45 @@ export class MessageComponent implements OnInit, OnDestroy {
   }
 
   addEmoji(messageId: string, userId: string, emoji: string, isThreadMessage: boolean): void {
-    const reaction: Reaction = { emoji, userIds: [userId] };
-    const updateData: Partial<Message> = { reactions: [reaction] };
+    if (this.editAcitve){
+      const textArea = this.editTextArea.nativeElement;
+      const startPos = textArea.selectionStart; // 🟢 Cursor-Startposition
+      const endPos = textArea.selectionEnd; 
+      if (startPos === null || endPos === null) {
+        console.error("❌ Fehler: Cursor-Position nicht erkannt.");
+        this.message.message += emoji;
+        this.emojiPickerService.closeAllMessagePickers();
+      } else {
+        const newText = this.message.message.substring(0, startPos) + emoji 
+        + this.message.message.substring(endPos);
 
-    const updatePromise = isThreadMessage
-      ? this.messagesService.updateThreadMessage(this.activeMessageId!, messageId, userId, updateData)
-      : this.messagesService.updateMessage(messageId, userId, updateData);
+        // ⏭️ Aktualisiere den Text in der Message
+        this.message.message = newText;
 
-    updatePromise.then(() => {
-      console.log('✅ Emoji hinzugefügt:', emoji);
+        // 🔥 Setze den Cursor direkt hinter das eingefügte Emoji
+        setTimeout(() => {
+        textArea.focus();
+        textArea.selectionStart = textArea.selectionEnd = startPos + emoji.length;
+        }, 0);
+      }
+
+      // 🎯 Emoji Picker schließen
       this.emojiPickerService.closeAllMessagePickers();
-    }).catch(error => console.error('❌ Fehler beim Hinzufügen der Reaktion:', error));
-
-    this.emojiStorageService.saveEmoji(emoji);
+    } else {
+      const reaction: Reaction = { emoji, userIds: [userId] };
+      const updateData: Partial<Message> = { reactions: [reaction] };
+  
+      const updatePromise = isThreadMessage
+        ? this.messagesService.updateThreadMessage(this.activeMessageId!, messageId, userId, updateData)
+        : this.messagesService.updateMessage(messageId, userId, updateData);
+  
+      updatePromise.then(() => {
+        console.log('✅ Emoji hinzugefügt:', emoji);
+        this.emojiPickerService.closeAllMessagePickers();
+      }).catch(error => console.error('❌ Fehler beim Hinzufügen der Reaktion:', error));
+  
+      this.emojiStorageService.saveEmoji(emoji);
+    }
   }
 
   preventEmojiPickerClose(event: Event): void {
@@ -164,16 +193,49 @@ export class MessageComponent implements OnInit, OnDestroy {
   }
 
   saveEdit(message: Partial<Message>, threadMessage: boolean, parentID: string) {
-    this.saveEditedMessage.save(message, threadMessage, parentID, message.docId);
+    if (!message.docId) {
+      console.error("❌ Fehler: Nachricht hat keine docId.");
+      return;
+    }
+  
+    // 🚀 Lade die Original-Nachricht aus Firestore
+    this.messagesService.getMessage(message.docId).then(originalMessage => {
+      if (!originalMessage) {
+        console.error("❌ Fehler: Nachricht nicht gefunden in Firestore:", message.docId);
+        return;
+      }
+  
+      // ✅ Nur den Nachrichtentext ändern, alles andere bleibt gleich!
+      const updateData: Partial<Message> = {
+        message: message.message,
+      };
+      if (message.docId && originalMessage.createdBy) {
+        this.messagesService.updateMessage(message.docId, originalMessage.createdBy, updateData)
+        .then(() => {
+          console.log("✅ Nachricht erfolgreich aktualisiert:", updateData);
+        })
+        .catch(error => {
+          console.error("❌ Fehler beim Speichern:", error);
+        });
+
+      }
+      else {
+        console.error("❌ Fehler: Nachricht hat keine docId oder createdBy ID.");
+      }
+      // 🔥 Speichern der aktualisierten Nachricht ohne `reactions`
+    });
+    this.editAcitve = false;
   }
 
   cancelEdit(message: Partial<Message>) {
     let messageText = sessionStorage.getItem('EditedMessage');
     message.message = messageText as string;
-    message.sameDay = false;
+    message.sameDay = false;    
+    this.editAcitve = false;
   }
 
   editMessage(message: Partial<Message>, deleteMessage: boolean, inlineEdit = false) {
+    this.editAcitve = true;
     if (inlineEdit && window.innerWidth > 450) {
       sessionStorage.setItem('EditedMessage', message.message as string);
       message.sameDay = true;
