@@ -30,6 +30,19 @@ export class ProfileviewComponent {
     status: false,
   };
 
+
+  /**
+   * The constructor for the ProfileViewComponent.
+   *
+   * @param data An object from the MatDialog with the data to be passed
+   *             to the component. This object should contain either the
+   *             member to be displayed or a list of IDs.
+   * @param dialogRef The MatDialogRef object of the component.
+   * @param authService The AuthService used to get the active user.
+   * @param channelService The ChannelsService used to get the members of
+   *                       a channel.
+   * @param userService The UserService used to get user data.
+   */
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<ProfileviewComponent>,
@@ -45,6 +58,11 @@ export class ProfileviewComponent {
     }
   }
 
+
+  /**
+   * Holt den Benutzer, der in `this.ID` gespeichert ist.
+   * @returns {Promise<void>}
+   */
   async getUser() {
     const user = await this.userService.getUsernamesByIds(this.ID);
     this.users = {
@@ -54,83 +72,75 @@ export class ProfileviewComponent {
       email: user[0].email ? user[0].email : "",
       status: user[0].status ? user[0].status : false,
     }
-    // console.log(this.users);
     this.member = this.users;
   }
 
+
+  /**
+   * Closes the profile dialog.
+   */
   closeProfile() {
     this.dialogRef.close(); 
   }
 
+
+  /**
+   * Sends a message to the user in the profile and switches to the private channel.
+   * If the channel doesn't exist, it will be created.
+   * @returns {Promise<void>}
+   */
   async sendMessage() {
     const currentUserId = this.authService.userId();
     const otherUserId = this.member?.userId;
-
     if (!currentUserId || !otherUserId) {
       console.error('Benutzer-IDs fehlen. Kanal kann nicht erstellt werden.');
       return;
     }
-
     try {
-      // Prüfe, ob ein privater Channel existiert
       const existingChannels = await this.channelService.getPrivateChannelByMembers([currentUserId, otherUserId]);
-
-      if (existingChannels.length > 0) {
-        const existingChannel = existingChannels[0];
-        if (existingChannel.id) {
-          console.log('Zu bestehendem Channel wechseln:', existingChannel.id);
-          await this.channelService.selectChannel(existingChannel.id);
-          this.closeProfile();
-        }
-        return;
+      if (existingChannels.length > 0)
+        this.switchToExistingChannel(existingChannels);
+      else {
+        await this.createPrivateChannel(currentUserId, otherUserId);
       }
-      // Erstelle einen neuen privaten Channel
-      const newChannel: Channel = {
-        name: 'Privater Channel',
-        description: '',
-        isPrivate: true,
-        createdBy: currentUserId,
-        members: [currentUserId, otherUserId],
-      };
-      await this.channelService.createChannel(newChannel);
-      this.sendMessage();
-      this.closeProfile();
-      console.log('Privater Channel erfolgreich erstellt:', newChannel);
     } catch (error) {
       console.error('Fehler beim Überprüfen oder Erstellen des Channels:', error);
     }
   }
+
+
+  /**
+   * Switches to an existing private channel with the given members.
+   *
+   * @param existingChannels An array of existing channels. The first element is used.
+   * @returns A promise that resolves when the channel is selected.
+   */
+  async switchToExistingChannel(existingChannels: Channel[]) {
+    const existingChannel = existingChannels[0];
+    if (existingChannel.id) {
+      await this.channelService.selectChannel(existingChannel.id);
+      this.closeProfile();
+    }
+    return;
+  }
+
+
+  /**
+   * Creates a private channel with the given other user ID and sends a message
+   * to switch to this channel.
+   *
+   * @param currentUserId The ID of the currently logged-in user.
+   */
+  async createPrivateChannel(currentUserId: string, otherUserId: string) {
+    const newChannel: Channel = {
+      name: 'Privater Channel',
+      description: '',
+      isPrivate: true,
+      createdBy: currentUserId,
+      members: [currentUserId, otherUserId],
+    };
+    await this.channelService.createChannel(newChannel);
+    this.sendMessage();
+    this.closeProfile();
+  }
 }
-
-
-
-
-// const currentUserId = this.authService.userId();
-// const otherUserId = this.member?.userId;
-
-// if (!currentUserId || !otherUserId) {
-//   console.error('Benutzer-IDs fehlen. Kanal kann nicht erstellt werden.');
-//   return;
-// }
-
-// try {
-//   // Prüfe, ob ein privater Channel existiert
-//   const existingChannels = await this.channelService.getPrivateChannelByMembers([currentUserId, otherUserId]);
-
-//   if (existingChannels.length > 0) {
-//     const existingChannel = existingChannels[0];
-//     if (existingChannel.id) {
-//       console.log('Zu bestehendem Channel wechseln:', existingChannel.id);
-//       await this.channelService.selectChannel(existingChannel.id);
-//     }
-//     return;
-//   }
-
-//   // Erstelle neuen privaten Channel
-//   const newChannel: Channel = {
-//     name: 'Privater Channel',
-//     description: '',
-//     isPrivate: true,
-//     createdBy: currentUserId,
-//     members: [currentUserId, otherUserId],
-//   };
