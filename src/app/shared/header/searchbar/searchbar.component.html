@@ -47,14 +47,7 @@
       <h3>{{ messageResults.length }} Nachricht(en) gefunden:</h3>
       <div class="feedback-message-container">
         <div class="feedback-box" *ngFor="let result of messageResults; let index = index" (click)="
-            goToSearchResult(
-              result.channelId,
-              result.docId,
-              null,
-              null,
-              result.isThreadMessage
-            )
-          ">
+            goToSearchResult(result.channelId, result.docId, null, null, result.isThreadMessage)">
           <img src="{{ result.creatorPhotoURL }}" alt="img/avatars/picPlaceholder.svg" />
           <div class="feedback-message">
             <div class="feedback-message-header">
@@ -77,21 +70,12 @@
       <h3>{{ threadMessageResults.length }} Antwort(en) gefunden:</h3>
       <div class="feedback-message-container">
         <div class="feedback-box" *ngFor="let result of threadMessageResults" (click)="
-            goToSearchResult(
-              result.channelId,
-              result.messageId,
-              result.docId,
-              null,
-              result.isThreadMessage
-            )
-          ">
+            goToSearchResult(result.channelId, result.messageId, result.docId, null, result.isThreadMessage)">
           <img src="{{ result.creatorPhotoURL }}" alt="img/avatars/picPlaceholder.svg" />
           <div class="feedback-message">
             <div class="feedback-message-header">
               <span>{{ result.creatorName }}</span>
-              <span style="font-style: italic">{{
-                result.timestamp.seconds | timestampToDate
-                }}</span>
+              <span style="font-style: italic">{{ result.timestamp.seconds | timestampToDate }}</span>
             </div>
             <span>{{ result.message }}</span>
           </div>
@@ -126,7 +110,7 @@
     }
   </div>
 </div>
-} @if (isSearchActive && (userResults.length === 0 && messageResults.length === 0 
+} @if (isSearchActive && (userResults.length === 0 && messageResults.length === 0
 && channelResults.length === 0 && privateChannelResults.length === 0 && threadMessageResults.length === 0)) {
 <div class="feedback-wrapper feedback-wrapper-error">
   <span>Keine Ergebnisse gefunden</span>
@@ -134,4 +118,4 @@
 } @if (isSearchTouched && searchText.length < 4) { <div class="feedback-wrapper feedback-wrapper-error">
   <span>Bitte gib mindestens 4 Zeichen ein</span>
   </div>
-}
+  }
