@@ -54,7 +54,6 @@
       </button>
     }
     @if (threadMessage.createdBy) {
-      <img (click)="checkIdIsUser(threadMessage.createdBy)" class="chatbox__msg-avatar" [src]="getUserAvatar(threadMessage.createdBy) | async" alt="Avatar" width="70" height="70" />
       @if(threadMessage.sameDay && threadMessage.createdBy === activeUserId) {
         <div class="editMessage">
           <textarea #editTextArea type="text" class="chatbox__msg" [class.chatbox__msg-sent]="threadMessage.createdBy === activeUserId"
@@ -75,6 +74,7 @@
       </div>
       } @else {
             <!-- Nachricht anzeigen -->
+        <img (click)="checkIdIsUser(threadMessage.createdBy)" class="chatbox__msg-avatar" [src]="getUserAvatar(threadMessage.createdBy) | async" alt="Avatar" width="70" height="70" />
         <div class="chatbox__msg-item2" [class.chatbox__msg-sent-item2]="threadMessage.createdBy === activeUserId">
           <div class="chatbox__msg-info" [class.chatbox__msg-sent-info]="threadMessage.createdBy === activeUserId">
             <h3 (click)="checkIdIsUser(threadMessage.createdBy)" class="chatbox__msg-name">{{ threadMessage.creatorName }}</h3>
