@@ -6,29 +6,16 @@ import { AuthService } from '../../shared/services/auth.service';
 import { ToastMessageService } from '../../shared/services/toastmessage.service';
 import { ToastMessageComponent } from '../../shared/toastmessage/toastmessage.component';
 
-/**
- * ForgetPasswordComponent - A component that handles the forget password functionality.
- */
 @Component({
   selector: 'app-forget-password',
-  standalone: true, // <-- Add this line
+  standalone: true,
   imports: [CommonModule, FormsModule, ToastMessageComponent],
   templateUrl: './forget-password.component.html',
   styleUrl: './forget-password.component.scss',
 })
 export class ForgetPasswordComponent {
-  /**
-   * userData - Object to hold user email.
-   */
-  userData = {
-    email: '',
-  };
-
-  /**
-   * emailSended - A flag to indicate if the email was successfully sent.
-   */
+  userData = {email: '',};
   emailSended: boolean = false;
-
   countdown: number = 10;
   private intervalId: any;
 
@@ -50,6 +37,10 @@ export class ForgetPasswordComponent {
     this.router.navigateByUrl('');
   }
 
+  /**
+   * Starts a timer that decrements the countdown variable every second.
+   * When the countdown reaches 0, the timer is cleared.
+   */
   startTimer() {
     this.intervalId = setInterval(() => {
       if (this.countdown > 0) {
@@ -81,6 +72,10 @@ export class ForgetPasswordComponent {
       });
   }
 
+  /**
+   * Gets the current toast message.
+   * @returns {string} - The current toast message.
+   */
   get toastMessage() {
     return this.toastMessageService.toastSignal();
   }
