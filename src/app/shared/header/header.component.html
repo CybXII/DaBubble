@@ -1,8 +1,8 @@
-<div class="header-container">
-  @if (mobile) {
+<div class="header-container" [ngClass]="{'header-container-mobile-legal': legalPage}">
+  @if (mobile && !legalPage) {
     <div class="mobile-group">
       <app-menutoggler class="toggleButton" (click)="toggleMenu()"
-      [menuState]="menuOpened ? 'schließen' : 'öffnen'">></app-menutoggler>
+      [menuState]="menuOpened ? 'schließen' : 'öffnen'"></app-menutoggler>
       <img src="img/logo/devspace-logo.svg" alt="">
     </div>
   } @else {

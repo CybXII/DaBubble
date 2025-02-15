@@ -3,23 +3,31 @@ import { LogoComponent } from '../logo/logo.component';
 import { SearchbarComponent } from './searchbar/searchbar.component';
 import { UsermenuComponent } from './usermenu/usermenu.component';
 import { Router, RouterModule } from '@angular/router';
-import { MenutogglerComponent } from "../../main/shared/menutoggler/menutoggler.component";
+import { MenutogglerComponent } from '../../main/shared/menutoggler/menutoggler.component';
 import { StateService } from '../services/state.service';
-
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [LogoComponent, SearchbarComponent, UsermenuComponent, RouterModule, MenutogglerComponent],
+  imports: [
+    LogoComponent,
+    SearchbarComponent,
+    UsermenuComponent,
+    RouterModule,
+    MenutogglerComponent,
+    CommonModule
+  ],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
   currentUrl: string = '';
   mobile = false;
-  menuOpened = false
+  menuOpened = false;
   menuState = 'in';
   threadchatState = 'out';
+  legalPage = false;
 
   /**
    * The constructor for the HeaderComponent class.
@@ -30,8 +38,8 @@ export class HeaderComponent {
   constructor(private router: Router, private stateService: StateService) {
     this.currentUrl = this.router.url;
     this.onResize();
+    this.isLegalPage();
   }
-
 
   @HostListener('window:resize', [])
   /**
@@ -61,7 +69,21 @@ export class HeaderComponent {
    */
   toggleMenu(): void {
     this.menuState = this.menuState === 'in' ? 'out' : 'in';
-    this.menuOpened = this.menuState === 'in';  
-    this.stateService.setMenuState(this.menuState)
+    this.menuOpened = this.menuState === 'in';
+    this.stateService.setMenuState(this.menuState);
+  }
+
+  isLegalPage(): void {
+    if (
+      this.currentUrl.includes('legalnotice') ||
+      this.currentUrl.includes('imprint')
+    ) {
+      this.legalPage = true;
+      console.log('legal page');
+      
+    } else {
+      this.legalPage = false;
+      console.log('not legal page');
+    }
   }
 }
