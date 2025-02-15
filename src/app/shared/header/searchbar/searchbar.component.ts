@@ -54,7 +54,7 @@ export class SearchbarComponent {
     this.searchService.privateChannelResults$.subscribe((results) => {this.privateChannelResults = results});
   }
 
-
+  
   /**
    * Handles input changes for the search bar.
    * 
@@ -108,13 +108,8 @@ export class SearchbarComponent {
    * @param userId The id of the user.
    * @param isThreadMessage Whether the message is a thread message.
    */
-  goToSearchResult(
-    channelId: string | null,
-    messageId: string | null,
-    docId: string | null,
-    userId: string | null,
-    isThreadMessage: boolean | null
-  ): void {
+  goToSearchResult(channelId: string | null,messageId: string | null,docId: string 
+  | null,userId: string | null,isThreadMessage: boolean | null): void {
     if (channelId && !messageId && !isThreadMessage && !docId) {
       this.handleChannelSelection(channelId);
     } else if (channelId && messageId && !isThreadMessage && !docId) {
