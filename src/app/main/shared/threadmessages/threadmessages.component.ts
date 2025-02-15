@@ -160,18 +160,18 @@ export class ThreadMessagesComponent implements OnInit, OnDestroy {
 
   editMessage(message: Partial<Message>, deleteMessage: boolean, inlineEdit = false) {
     this.editAcitve = true;
-    if (inlineEdit && window.innerWidth > 450) {
+    // if (inlineEdit && window.innerWidth > 450) {
       sessionStorage.setItem('EditedMessage', message.message as string);
       message.sameDay = true;
       return;
-    } else {
-      this.dialog.open(EditmessageComponent, {
-        width: 'fit-content',
-        maxWidth: '100vw',
-        height: 'fit-content',
-        data: { message, deleteMessage },
-      });
-    }
+    // } else {
+    //   this.dialog.open(EditmessageComponent, {
+    //     width: 'fit-content',
+    //     maxWidth: '100vw',
+    //     height: 'fit-content',
+    //     data: { message, deleteMessage },
+    //   });
+    // }
   }
 
   cancelEdit(message: Partial<Message>) {
