@@ -22,6 +22,14 @@ export class MenuChannelsComponent implements OnInit, OnDestroy {
   channelForm: FormGroup;
   currentChannelId: string | null = null;
 
+  /**
+   * Constructor for the MenuChannelsComponent.
+   *
+   * @param fb The FormBuilder for creating the channelForm.
+   * @param dialog The MatDialog for opening the AddchatComponent.
+   * @param channelsService The ChannelsService for interacting with the channels collection in Firestore.
+   * @param sharedService The SharedService for emitting events to the outside.
+   */
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog,
@@ -35,16 +43,27 @@ export class MenuChannelsComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Initializes the component by loading the channels in real-time.
+   */
   ngOnInit(): void {
     this.loadChannelsRealtime();
   }
 
+  /**
+   * Cleans up the component by unsubscribing from the Firestore channel list
+   * listener. This is necessary to prevent memory leaks.
+   */
   ngOnDestroy(): void {
     if (this.unsubscribeFn) {
       this.unsubscribeFn();
     }
   }
 
+  /**
+   * Loads the channels in real-time from Firestore. This method is called in ngOnInit()
+   * and unsubscribes in ngOnDestroy() to prevent memory leaks.
+   */
   loadChannelsRealtime(): void {
     this.loading = true;
     this.unsubscribeFn = this.channelsService.loadChannelsRealtime((channels) => {
@@ -54,6 +73,10 @@ export class MenuChannelsComponent implements OnInit, OnDestroy {
   }
 
 
+  /**
+   * Opens the AddchatComponent dialog with specified dimensions and styling.
+   * This dialog allows the user to add a new chat channel.
+   */
   openDialog(): void {
     this.dialog.open(AddchatComponent, {
       width: '600px',
@@ -64,6 +87,12 @@ export class MenuChannelsComponent implements OnInit, OnDestroy {
   }
 
 
+  /**
+   * Selects a channel based on the provided channel ID.
+   * Updates a shared service variable and calls the channel service to select the channel.
+   *
+   * @param {string} channelId - The ID of the channel to select.
+   */
   selectChannel(channelId: string): void {
     this.sharedService.updateVariable('false');
     this.channelsService.selectChannel(channelId)
