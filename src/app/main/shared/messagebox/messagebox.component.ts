@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-  OnDestroy,
-  ViewChild,
-  ElementRef,
-} from '@angular/core';
+import {ChangeDetectionStrategy,Component,Input,OnInit,OnDestroy,ViewChild,ElementRef,} from '@angular/core';
 import { ChannelsService } from '../../../shared/services/channels.service';
 import { MessagesService } from '../../../shared/services/messages.service';
 import { AuthService } from '../../../shared/services/auth.service';
@@ -31,24 +23,33 @@ import { UserService } from '../../../shared/services/user.service';
   styleUrls: ['./messagebox.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default,
 })
+
 export class MessageboxComponent implements OnInit, OnDestroy {
   @ViewChild('mainMessageBox') mainMessageBox!: ElementRef<HTMLTextAreaElement>;
   @ViewChild('threadMessageBox') threadMessageBox!: ElementRef<HTMLTextAreaElement>;
   @ViewChild('emojiPickerContainer', { static: false }) emojiPickerContainer!: ElementRef;
-
+  private subscriptions: Subscription = new Subscription();
+  @Input() builder!: string;
   activeUserId: string | null = null;
-  members: any = [];
+  activeChannelName: string | null = null;
   channelId: string | undefined;
   messageId: string | undefined;
-  activeChannelName: string | null = null;
   sendToId: string = '';
-  @Input() builder!: string;
   messageContent: string = '';
-  private subscriptions: Subscription = new Subscription();
+  members: any = [];
   isMessageBoxMainPickerOpen: boolean = false;
   isMessageBoxThreadPickerOpen: boolean = false;
   isMessageBoxCreateMessagePickerOpen: boolean = false;
-
+  /**
+   * Constructor for the MessageboxComponent.
+   * @param channelsService - Service for handling channel operations.
+   * @param messagesService - Service for handling message operations.
+   * @param authService - Service for managing authentication operations.
+   * @param emojiPickerService - Service for handling emoji picker functionalities.
+   * @param sharedService - Service for shared data and operations.
+   * @param mentionService - Service for handling mention-related operations.
+   * @param userService - Service for user-related operations.
+   */
   constructor(
     private channelsService: ChannelsService,
     private messagesService: MessagesService,
@@ -57,221 +58,279 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     private sharedService: SharedService,
     public mentionService: MentionService,
     private userService: UserService,
+  ) {}
 
-  ) { }
-
+  
+  /**
+   * Initializes the MessageboxComponent by setting the active user ID and subscribing to the appropriate channels or threads based on the builder type.
+   */
   ngOnInit(): void {
-
     this.activeUserId = this.authService.userId();
-    if (this.builder === 'mainchat') {
-      const channelSubscription =
-        this.channelsService.currentChannel$.subscribe((channel) => {
-          if (channel) {
-            this.channelId = channel.id;
-            this.activeChannelName = channel.name;
-            if (this.mainMessageBox) {
-              setTimeout(() => this.mainMessageBox.nativeElement.focus(), 100);
-            }
-          }
-        });
-      this.subscriptions.add(channelSubscription);
-    } else if (this.builder === 'threadchat') {
-      const threadSubscription = this.messagesService.messageId$.subscribe(
-        (messageId) => {
-          if (messageId) {
-            this.messageId = messageId;
-            if (this.threadMessageBox) {
-              setTimeout(() => this.threadMessageBox.nativeElement.focus(), 100);
-            }
-          }
+    if (this.builder === 'mainchat') 
+      this.addChannelSubscription();
+    else if (this.builder === 'threadchat') 
+      this.addThreadSubscriptions();
+    this.addEmojiSubscriptions();
+  }
+
+
+  /**
+   * Subscribes to the current channel observable and sets the active channel ID and name when a new channel is received.
+   */
+  addChannelSubscription() {
+    const channelSubscription =
+    this.channelsService.currentChannel$.subscribe((channel) => {
+      if (channel) {
+        this.channelId = channel.id;
+        this.activeChannelName = channel.name;
+        if (this.mainMessageBox) 
+          setTimeout(() => this.mainMessageBox.nativeElement.focus(), 100);
+      }
+    });
+  this.subscriptions.add(channelSubscription);
+  }
+
+
+  /**
+   * Subscribes to the current message ID observable and sets the active message ID when a new message ID is received.
+   */
+  addThreadSubscriptions() {
+    const threadSubscription = this.messagesService.messageId$.subscribe(
+      (messageId) => {
+        if (messageId) {
+          this.messageId = messageId;
+          if (this.threadMessageBox) 
+            setTimeout(() => this.threadMessageBox.nativeElement.focus(), 100);
         }
-      );
-      this.subscriptions.add(threadSubscription);
-    }
-    this.subscriptions.add(
-      this.emojiPickerService.isMessageBoxMainPickerOpen$.subscribe((open) => {
-        this.isMessageBoxMainPickerOpen = open;
-      })
+      }
     );
-    this.subscriptions.add(
-      this.emojiPickerService.isMessageBoxThreadPickerOpen$.subscribe((open) => {
-        this.isMessageBoxThreadPickerOpen = open;
-      })
+    this.subscriptions.add(threadSubscription);
+  }
+
+
+  /**
+   * Subscribes to the emoji picker observables to set the state of the pickers in the message box component.
+   */
+  addEmojiSubscriptions() {
+    this.subscriptions.add(this.emojiPickerService.isMessageBoxMainPickerOpen$.subscribe((open) => {
+        this.isMessageBoxMainPickerOpen = open;})
     );
-    this.subscriptions.add(
-      this.emojiPickerService.isMessageBoxCreateMessagePickerOpen$.subscribe((open) => {
-        this.isMessageBoxCreateMessagePickerOpen = open;
-      })
+    this.subscriptions.add(this.emojiPickerService.isMessageBoxThreadPickerOpen$.subscribe((open) => {
+        this.isMessageBoxThreadPickerOpen = open;})
+    );
+    this.subscriptions.add(this.emojiPickerService.isMessageBoxCreateMessagePickerOpen$.subscribe((open) => {
+        this.isMessageBoxCreateMessagePickerOpen = open;})
     );
   }
 
+
+  /**
+   * Lifecycle hook that is called when the component is destroyed.
+   */
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 
+
+  /**
+   * Toggles the emoji picker for the main message box.
+   */
   toggleEmojiPickerMain() {
     this.mentionService.status = false;
-    console.log('🟢 toggleEmojiPickerMain() aufgerufen');
     this.emojiPickerService.closeAllEmojiPickers();
     setTimeout(() => {
       this.emojiPickerService.toggleMsgBoxEmojiPickerMain();
     }, 50);
   }
 
+
+  /**
+   * Toggles the emoji picker for the thread message box.
+   */
   toggleEmojiPickerThread() {
     this.mentionService.status = false;
-    console.log('🟢 toggleEmojiPickerThread() aufgerufen');
     this.emojiPickerService.closeAllEmojiPickers();
     setTimeout(() => {
       this.emojiPickerService.toggleMsgBoxEmojiPickerThread();
     }, 50);
   }
 
+
+  /**
+   * Toggles the emoji picker for the create message box.
+   */
   toggleEmojiPickerCreateMessage() {
-    console.log('🟢 toggleEmojiPickerCreateMessage() aufgerufen');
     this.emojiPickerService.closeAllEmojiPickers();
     setTimeout(() => {
       this.emojiPickerService.toggleMsgBoxCreateMessageEmojiPicker();
     }, 50);
   }
 
+
+  /**
+   * Prevents the emoji picker from closing when a click event occurs.
+   * @param event The click event to prevent from propagating.
+   */
   preventMsgBoxEmojiPickerClose(event: Event): void {
     event.stopPropagation();
   }
 
 
+  /**
+   * Adds an emoji to the message content in the message box.
+   * @param emoji The emoji to add to the message content.
+   */
   addEmoji(emoji: string) {
     this.messageContent += emoji;
   }
 
+
+  /**
+   * Checks the key status of the given event and performs the corresponding action.
+   * @param event The event to check the key status from.
+   * @param chat The type of chat to send the message to.
+   */
   checkKeyStatus(event: KeyboardEvent, chat: string): void {
     if (event.shiftKey && event.key == 'Enter') {
       event.preventDefault();
     } else if (event.key == 'Enter') {
-      if (chat === 'mainchat') {
+      if (chat === 'mainchat')
         this.sendMessage();
-      } else if (chat === 'threadchat') {
+      else if (chat === 'threadchat') 
         this.sendThreadMessage();
-      } else if (chat === 'createmessage') {
+      else if (chat === 'createmessage') 
         this.createNewMessage();
-      }
     }
-    if (event.getModifierState('AltGraph') && event.key == "q") {
+    if (event.getModifierState('AltGraph') && event.key == "q") 
       this.mentionService.status = true;
-    }
-    if (event.key == "Backspace") {
+    if (event.key == "Backspace") 
       this.mentionService.status = false;
-    }
   }
 
 
+  /**
+   * Jumps to the '@' character in the message content.
+   */
   jumpToAtAbove() {
-    console.log('you clicked (at)');
-    //this.searchString = "@";
     this.sharedService.setSearchString('@');
   }
 
+
+  /**
+   * Closes the mention picker by setting the mention service status to false.
+   * @param event The event that triggers the mention picker closure.
+   */
   closeMentionPicker(event: Event) {
     this.mentionService.status = false;
   }
 
 
-
+  /**
+   * Toggles the mention picker.
+   */
   toogleMentionPicker() {
     if (this.mentionService.status) {
-      // this.mentionPicker = false;
       this.mentionService.status = false;
     } else {
       if (this.isMessageBoxMainPickerOpen || this.isMessageBoxThreadPickerOpen) {
         this.isMessageBoxMainPickerOpen = false;
         this.isMessageBoxThreadPickerOpen = false;
       }
-      // this.mentionPicker = true;
       this.mentionService.status = true;
     }
   }
 
+
+  /**
+   * Prevents the propagation of the given event to prevent the mention picker from closing
+   * @param event The event to prevent from propagating.
+   */
   preventMsgBoxMentionPickerClose(event: Event): void {
     event.stopPropagation();
   }
 
 
-
-
+  /**
+   * Creates a new private channel between the active user and another specified user.
+   * @param sendToUserId - The ID of the user to create the channel with.
+   */
   async createNewChannel(sendToUserId: string) {
     let user1 = await firstValueFrom(this.userService.getuserName(this.activeUserId ?? ''));
     let user2 = await firstValueFrom(this.userService.getuserName(sendToUserId ?? ''));
-
     const newChannel: Channel = {
-      name: `zwischen ${user1} und ${user2}`, // String korrekt zusammenfügen
+      name: `zwischen ${user1} und ${user2}`,
       description: '',
       isPrivate: true,
       createdBy: this.activeUserId ?? '',
       members: [this.activeUserId ?? '', sendToUserId ?? ''],
     };
-
     await this.channelsService.createChannel(newChannel);
   }
 
 
+  /**
+   * Creates a new message and sends it to the selected target.
+   * @returns {Promise<void>}
+   */
   async createNewMessage(): Promise<void> {
-    if (!this.messageContent.trim()) {
-      console.error('Nachricht darf nicht leer sein.');
-      return;
-    }
-
-    // searchText auswerten
+    if (!this.messageContent.trim()) {return console.error('Nachricht darf nicht leer sein.');}
     let sendToUserId = this.sharedService.getUserIdString();
     let sendToChannelId = this.sharedService.getChannelIdString();
     let sendToTarget = this.sharedService.getTargetString();
+    this.checkMessageTarget(sendToTarget, sendToUserId, sendToChannelId);
+    const messageToSend: Message = await this.generateMessageObject();
+    this.sendNewMessage(messageToSend);
+    this.sharedService.updateVariable('');
+    await this.channelsService.selectChannel(this.sendToId);
+  }
 
-    console.log('dahin 1:', sendToTarget);
 
+  /**
+   * Determines the target ID for sending a message based on the target type.
+   * @param sendToTarget - The type of target, either 'toUser' or 'toChannel'.
+   * @param sendToUserId - The ID of the user to send the message to.
+   * @param sendToChannelId - The ID of the channel to send the message to.
+   */
+  async checkMessageTarget(sendToTarget: string, sendToUserId: string, sendToChannelId: string) {
     if (sendToTarget == 'toUser') {
-
       this.sendToId = sendToUserId;
-
-      // unklar ob das wichtig ist ...
-      //this.members = [sendToUserId, this.activeUserId];
-      //console.log('members:', this.members);
-
-      // finde channel wo nur die zwei drin sind
-
-      // Prüfe, ob ein privater Channel existiert
       const existingChannels = await this.channelsService.getPrivateChannelByMembers([this.activeUserId ?? '', sendToUserId]);
-      console.log("test wegen privater channel: ", existingChannels);
-
-      if (existingChannels.length > 0) {
+      if (existingChannels.length > 0) 
         this.sendToId = existingChannels[0].id ?? '';
-      } else {
-        // // Erstelle einen neuen privaten Channel
+      else
         this.createNewChannel(sendToUserId);
-        // let user1 = this.userService.getuserName(this.activeUserId ?? '')
-        // let user2 = this.userService.getuserName(sendToUserId ?? '');
-        // console.log("user2:", user2);
-
-        // const newChannel: Channel = {
-        //   name: `Privater Channel zwischen ${user1} und ${user2}`,
-        //   description: '',
-        //   isPrivate: true,
-        //   createdBy: this.activeUserId ?? '',
-        //   members: [this.activeUserId ?? '', sendToUserId ?? ''],
-        // };
-        // await this.channelsService.createChannel(newChannel);
-      }
     } else if (sendToTarget == 'toChannel') {
       this.sendToId = sendToChannelId;
-      //this.members = [];
     }
+  }
 
-    console.log('dahin:', this.sendToId);
 
-    // senden
-    let user: UserModel = (await this.authService.getUserById(
-      this.activeUserId
-    )) as UserModel;
+  /**
+   * Sends a new message to the specified channel.
+   * @param {Message} messageToSend - The message object to be sent.
+   * @returns {Promise<void>} - A promise that resolves when the message has been sent.
+   */
+  async sendNewMessage(messageToSend: Message) {
+    if (1 == 1) {
+      try {
+        await this.messagesService.addMessage(messageToSend);
+        console.log('Nachricht erfolgreich gesendet:', messageToSend);
+        this.messageContent = '';
+      } catch (error) {
+        console.error('Fehler beim Senden der Nachricht:', error);
+      }
+    } else {
+      console.error('Keine gültige Channel-ID verfügbar.');
+    }
+  }
 
-    // Erstelle ein Message-Objekt
+
+  /**
+   * Generates a Message object based on the active user and the message content.
+   * @returns {Promise<Message>} - A promise that resolves with the generated Message object.
+   */
+  async generateMessageObject(): Promise<Message> {
+    let user: UserModel = (await this.authService.getUserById(this.activeUserId)) as UserModel;
     const message: Omit<Message, 'threadMessages$'> = {
       channelId: this.sendToId || '',
       createdBy: this.activeUserId || '',
@@ -283,78 +342,15 @@ export class MessageboxComponent implements OnInit, OnDestroy {
       reactions: [],
       sameDay: false,
     };
-
-    // Sende die Nachricht über den Service
-    if (1 == 1) {
-      try {
-        await this.messagesService.addMessage(message);
-        console.log('Nachricht erfolgreich gesendet:', message);
-        this.messageContent = '';
-      } catch (error) {
-        console.error('Fehler beim Senden der Nachricht:', error);
-      }
-    } else {
-      console.error('Keine gültige Channel-ID verfügbar.');
-    }
-
-    // variable für builder updaten
-    this.sharedService.updateVariable('');
-    // ansicht: direkt da hin wechseln!
-    await this.channelsService.selectChannel(this.sendToId);
-
-
-
-  }
-
-  async sendMessage(): Promise<void> {
-    if (!this.messageContent.trim()) {
-      console.error('Nachricht darf nicht leer sein.');
-      return;
-    }
-
-    let user: UserModel = (await this.authService.getUserById(
-      this.activeUserId
-    )) as UserModel;
-
-    // Erstelle ein Message-Objekt
-    const message: Omit<Message, 'threadMessages$'> = {
-      channelId: this.channelId || '',
-      createdBy: this.activeUserId || '',
-      creatorName: user.name || '',
-      creatorPhotoURL: user.photoURL || '',
-      message: this.messageContent.trim(),
-      timestamp: new Date(),
-      members: [],
-      reactions: [],
-      sameDay: false
-    };
-
-    // Sende die Nachricht über den Service
-    if (this.channelId) {
-      try {
-        await this.messagesService.addMessage(message);
-        console.log('Nachricht erfolgreich gesendet:', message);
-        this.messageContent = '';
-      } catch (error) {
-        console.error('Fehler beim Senden der Nachricht:', error);
-      }
-    } else {
-      console.error('Keine gültige Channel-ID verfügbar.');
-    }
+    return message;
   }
 
   /**
-   * Sende eine neue Thread-Nachricht.
+   * Generates a ThreadMessage object based on the active user and the message content.
+   * @returns {ThreadMessage} - The generated ThreadMessage object.
    */
-  async sendThreadMessage(): Promise<void> {
-    if (!this.messageContent.trim()) {
-      console.error('Nachricht darf nicht leer sein.');
-      return;
-    }
-    let user: UserModel = (await this.authService.getUserById(
-      this.activeUserId
-    )) as unknown as UserModel;
-    // Erstelle ein ThreadMessage-Objekt
+  async generateThreadMessageObject(): Promise<ThreadMessage> {
+    let user: UserModel = (this.authService.getUserById(this.activeUserId)) as unknown as UserModel;
     const threadMessage: ThreadMessage = {
       createdBy: this.activeUserId || '',
       creatorName: user.name || '',
@@ -365,19 +361,53 @@ export class MessageboxComponent implements OnInit, OnDestroy {
       isThreadMessage: true,
       sameDay: false,
     };
+    return threadMessage;
+  }
 
-    // Sende die Nachricht über den Service
-    if (this.messageId) {
-      this.messagesService
-        .addThreadMessage(this.messageId, threadMessage)
-        .then(() => {
-          this.messageContent = '';
-        })
-        .catch((error) => {
-          console.error('Fehler beim Senden der Thread-Nachricht:', error);
-        });
-    } else {
-      console.error('Keine gültige Message-ID für den Thread verfügbar.');
+
+  /**
+   * Sends a message to the currently selected channel.
+   * @returns {Promise<void>} - A promise that resolves when the message has been sent.
+   */
+  async sendMessage(): Promise<void> {
+    if (!this.messageContent.trim()) 
+      return console.error('Nachricht darf nicht leer sein.');
+    const messageToSend: Message = await this.generateMessageObject();
+    if (this.channelId) {
+      try {
+        await this.messagesService.addMessage(messageToSend);
+        this.messageContent = '';
+      } catch (error) {
+        console.error('Fehler beim Senden der Nachricht:', error);
+      }
+    } else
+      console.error('Keine gültige Channel-ID verfügbar.');
+  }
+
+
+  /**
+   * Sends a thread message using the currently selected parent message ID.
+   * @returns {Promise<void>} - A promise that resolves when the message has been sent.
+   */
+  async sendThreadMessage(): Promise<void> {
+    if (!this.messageContent.trim()) {
+      return console.error('Nachricht darf nicht leer sein.');
     }
+    const threadMessage: ThreadMessage = await this.generateThreadMessageObject();
+    this.sendThreadMessageWithService(threadMessage)
+  }
+
+
+  /**
+   * Sends a thread message using the currently selected parent message ID.
+   * @param {ThreadMessage} threadMessage - The thread message object to be sent.
+   */
+  sendThreadMessageWithService(threadMessage: ThreadMessage) {
+    if (this.messageId) {
+      this.messagesService.addThreadMessage(this.messageId, threadMessage)
+        .then(() => {this.messageContent = '';})
+        .catch((error) => {console.error('Fehler beim Senden der Thread-Nachricht:', error);});
+    } else 
+      console.error('Keine gültige Message-ID für den Thread verfügbar.');
   }
 }
