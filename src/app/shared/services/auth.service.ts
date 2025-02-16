@@ -38,6 +38,7 @@ export class AuthService {
   public loadingSpinnerBoard: boolean = true;
   private loginType = signal<'guest' | 'google' | 'email' | null>(null);
   currentUser = signal<UserModel | null>(null);   
+  
   /**
    * Initializes the AuthService.
    * @param auth - The Firestore authentication service.
@@ -63,9 +64,6 @@ export class AuthService {
     this.monitorAuthState();
     this.intializeUserData();
   }
-
-
-
 
 
   /**
