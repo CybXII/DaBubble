@@ -217,7 +217,7 @@ export class UserService {
       return Promise.reject('Kein Benutzer ist angemeldet.');
   }
 
-  
+
   /**
    * Stores the given user data in the session storage.
    * @param userData - A UserModel object containing the user data to be stored.
@@ -250,15 +250,16 @@ export class UserService {
     return userDoc.exists() ? (userDoc.data() as UserModel) : null;
   }
 
-    /**
-     * Confirms the password reset process using the given out-of-band code and new password.
-     * @param oobCode - The out-of-band code received for password reset.
-     * @param newPassword - The new password to set for the user.
-     * @returns A promise that resolves when the password has been successfully reset.
-     */
-    confirmPasswordReset(oobCode: string, newPassword: string): Promise<void> {
-      return confirmPasswordReset(this.auth, oobCode, newPassword);
-    }
+
+  /**
+   * Confirms the password reset process using the given out-of-band code and new password.
+   * @param oobCode - The out-of-band code received for password reset.
+   * @param newPassword - The new password to set for the user.
+   * @returns A promise that resolves when the password has been successfully reset.
+   */
+  confirmPasswordReset(oobCode: string, newPassword: string): Promise<void> {
+    return confirmPasswordReset(this.auth, oobCode, newPassword);
+  }
 
 
   /**
@@ -321,26 +322,34 @@ export class UserService {
   }
 
 
-    /**
-     * Generates a ThreadMessage object based on the active user and the message content.
-     * @returns {ThreadMessage} - The generated ThreadMessage object.
-     */
-    async generateThreadMessageObject( activeUserId: string | null, messageContent: string): Promise<ThreadMessage> {
-      let user: UserModel = (this.getUserForMessageById(activeUserId)) as unknown as UserModel;
-      const threadMessage: ThreadMessage = {
-        createdBy: activeUserId || '',
-        creatorName: user.name || '',
-        creatorPhotoURL: user.photoURL || '',
-        message: messageContent.trim(),
-        timestamp: new Date(),
-        reactions: [],
-        isThreadMessage: true,
-        sameDay: false,
-      };
-      return threadMessage;
-    }
+  /**
+   * Generates a ThreadMessage object based on the active user and the message content.
+   * @returns {ThreadMessage} - The generated ThreadMessage object.
+   */
+  async generateThreadMessageObject( activeUserId: string | null, messageContent: string): Promise<ThreadMessage> {
+    let user: UserModel = (this.getUserForMessageById(activeUserId)) as unknown as UserModel;
+    const threadMessage: ThreadMessage = {
+      createdBy: activeUserId || '',
+      creatorName: user.name || '',
+      creatorPhotoURL: user.photoURL || '',
+      message: messageContent.trim(),
+      timestamp: new Date(),
+      reactions: [],
+      isThreadMessage: true,
+      sameDay: false,
+    };
+    return threadMessage;
+  }
 
 
+  /**
+   * Generates a Message object based on the user, channel ID, active user ID and the message content.
+   * @param user The UserModel of the user that is sending the message.
+   * @param channelId The ID of the channel this message is being sent to.
+   * @param activeUserId The ID of the currently logged in user.
+   * @param messageContent The content of the message.
+   * @returns The generated Message object.
+   */
   generateMessageObject(user : UserModel, channelId: string | undefined, activeUserId: string | null, messageContent: string): Omit<Message, 'threadMessages$'> {
     return {
       channelId: channelId || '',

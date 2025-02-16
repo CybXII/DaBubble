@@ -375,6 +375,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     this.channelsService.selectChannel(this.sendToId);
   }
 
+
   /**
    * Sends a new message using the currently entered message content and the ID of the channel or user to send the message to.
    * The message is created using the currently logged-in user's data and the timestamp of the sending time.

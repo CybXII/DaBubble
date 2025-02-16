@@ -91,6 +91,7 @@ export class SharedService {
     return this.targetStringSubject.value;
   }
 
+  
   /**
    * Returns the currently set search string.
    * @returns The currently set search string.
