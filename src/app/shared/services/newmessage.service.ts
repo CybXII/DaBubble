@@ -98,4 +98,13 @@ export class SharedService {
   getSearchString() {
     return this.searchStringSubject.value;
   }
+
+
+    /**
+   * Jumps to the '@' character in the message content.
+   */
+    jumpToAtAbove() {
+      this.setSearchString('@');
+    }
+  
 }

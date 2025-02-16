@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { UserModel } from '../../models/user';
 import { confirmPasswordReset, sendPasswordResetEmail, updatePassword, User } from 'firebase/auth';
 import { Auth, updateEmail, updateProfile } from '@angular/fire/auth';
+import { Message, ThreadMessage } from '../../models/message';
 
 export interface CustomUser {
   userId: string;
@@ -317,5 +318,40 @@ export class UserService {
       deleteDoc(doc(this.firestore, `users/${user.uid}`));
       user.delete()
     }
+  }
+
+
+    /**
+     * Generates a ThreadMessage object based on the active user and the message content.
+     * @returns {ThreadMessage} - The generated ThreadMessage object.
+     */
+    async generateThreadMessageObject( activeUserId: string | null, messageContent: string): Promise<ThreadMessage> {
+      let user: UserModel = (this.getUserForMessageById(activeUserId)) as unknown as UserModel;
+      const threadMessage: ThreadMessage = {
+        createdBy: activeUserId || '',
+        creatorName: user.name || '',
+        creatorPhotoURL: user.photoURL || '',
+        message: messageContent.trim(),
+        timestamp: new Date(),
+        reactions: [],
+        isThreadMessage: true,
+        sameDay: false,
+      };
+      return threadMessage;
+    }
+
+
+  generateMessageObject(user : UserModel, channelId: string | undefined, activeUserId: string | null, messageContent: string): Omit<Message, 'threadMessages$'> {
+    return {
+      channelId: channelId || '',
+      createdBy: activeUserId || '',
+      creatorName: user.name || '',
+      creatorPhotoURL: user.photoURL || '',
+      message: messageContent.trim(),
+      timestamp: new Date(),
+      members: [],
+      reactions: [],
+      sameDay: false
+    };
   }
 }
