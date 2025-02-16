@@ -26,6 +26,11 @@ export class BuilderComponent {
   menuOpened = true;
   mobile = true;
 
+  /**
+   * Constructs a new instance of the BuilderComponent.
+   *
+   * @param stateService The service used to manage the state of the thread chat.
+   */
   constructor( private stateService: StateService) {}
 
   
