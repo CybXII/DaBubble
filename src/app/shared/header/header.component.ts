@@ -41,11 +41,11 @@ export class HeaderComponent {
     this.isLegalPage();
   }
 
-  @HostListener('window:resize', [])
   /**
    * Handles window resize events.
    * When the window width is less than 900px, the menu is closed and the chat is full width.
-   */
+  */
+  @HostListener('window:resize', [])
   onResize(): void {
     this.mobile = window.innerWidth <= 900;
   }
@@ -86,11 +86,9 @@ export class HeaderComponent {
       this.currentUrl.includes('imprint')
     ) {
       this.legalPage = true;
-      console.log('legal page');
       
     } else {
       this.legalPage = false;
-      console.log('not legal page');
     }
   }
 }

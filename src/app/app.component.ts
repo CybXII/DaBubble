@@ -1,11 +1,10 @@
-import { Component, effect, HostListener, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Firestore, collection, collectionData } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { UserModel } from '../app/models/user';
 import { AuthService } from './shared/services/auth.service';
 import { Router } from '@angular/router';
-import { EmojiPickerService } from './shared/services/emoji-picker.service';
 
 @Component({
   selector: 'app-root',
@@ -21,10 +20,13 @@ export class AppComponent implements OnInit {
   user: UserModel = new UserModel(null);  tokens: string[] = [];
   turnAround:boolean = false;
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-  ) {
+  /**
+   * The constructor for the AppComponent class.
+   * @param authService The AuthService to provide the user authentication state.
+   * @param router The Router to navigate to the board route if the user is
+   * authenticated and the current route is the root route.
+   */
+  constructor(private authService: AuthService, private router: Router) {
     const usersCollection = collection(this.firestore, 'users');
     this.items$ = collectionData(usersCollection, { idField: 'id' });
   }
@@ -42,16 +44,20 @@ export class AppComponent implements OnInit {
     this.checkOrietationInterval();
   }
 
+  /**
+   * Checks the orientation and width of the screen every 2 seconds and
+   * sets the `turnAround` flag accordingly. If the screen is in landscape
+   * mode and the width is less than or equal to 800px, then `turnAround`
+   * is set to true. Otherwise, it is set to false.
+   */
   checkOrietationInterval() {
     setInterval(() => {
-      if (this.checkOrientationAndWidth()) {
+      if (this.checkOrientationAndWidth()) 
         this.turnAround = true;
-      } else {
+      else 
         this.turnAround = false;
-      }
     }, 2000)
   }
-
   checkOrientationAndWidth = () => {
     const isLandscape = window.matchMedia("(orientation: landscape)").matches;
     const maxWidth800px = window.matchMedia("(max-width: 800px)").matches;

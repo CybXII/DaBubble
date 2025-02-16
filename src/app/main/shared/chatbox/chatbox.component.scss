@@ -4,26 +4,25 @@
 .mainchat__chatbox {
   display: flex;
   position: relative;
-  flex-direction: column;  /*christoph*/
+  flex-direction: column;  
   flex: 1;
   width: 100%;
   height: calc(100% - 8px);
-  overflow: auto; /*christoph*/
+  overflow: auto; 
   margin: 0 0 24px;
   top: 4px;
-  // scroll-snap-type: y mandatory; /*christoph*/
 
 }
 
 .threadchat__chatbox {
   display: flex;
   position: relative;
-  flex-direction: column;  /*christoph*/
+  flex-direction: column;  
   height: calc(100% - 114px);
   overflow: auto;
   margin: 20px 0 0;
   top: 90px;
-  scroll-snap-type: y mandatory; /*christoph*/
+  scroll-snap-type: y mandatory;
 }
 
 
@@ -66,7 +65,7 @@
 .message {
   @include mixins.flexbox(row, center, center, nowrap);
   margin: 20px 35px;
-  scroll-snap-align: end; /*christoph*/
+  scroll-snap-align: end;
 
 }
 
