@@ -8,9 +8,7 @@
                 <img [src]="member.photoUrl" alt="">
                 <div 
                     target="online-status"
-                    [ngStyle]="{
-                      'background-color': member.status ? '#92c83e' : '#696969'
-                    }">
+                    [ngStyle]="{'background-color': member.status ? '#92c83e' : '#696969'}">
                 </div>
             </div>
             <span>{{ member.name }}</span>
