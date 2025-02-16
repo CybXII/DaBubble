@@ -3,10 +3,9 @@ import { ChannelsService } from '../../../shared/services/channels.service';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Channel } from '../../../models/channel';
-import { AuthService } from '../../../shared/services/auth.service';
 import { doc, Firestore, getDoc } from '@angular/fire/firestore';
 import { UserModel } from '../../../models/user';
-import { FormsModule, NgForm } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-add-user-to-channel',
@@ -15,6 +14,7 @@ import { FormsModule, NgForm } from '@angular/forms';
   templateUrl: './add-user-to-channel.component.html',
   styleUrl: './add-user-to-channel.component.scss'
 })
+
 export class AddUserToChannelComponent{
   @Input() active = '';
   @Input() channelName = '';
@@ -39,9 +39,17 @@ export class AddUserToChannelComponent{
   };
 
 
+  /**
+   * Constructs a new instance of the AddUserToChannelComponent.
+   *
+   * Initializes the component by subscribing to the current channel observable and clearing the
+   * members and member IDs arrays.
+   *
+   * @param channelsService - The service providing the current channel data.
+   * @param firestore - The Firestore database service.
+   */
   constructor(
     private channelsService: ChannelsService, 
-    private authService: AuthService,
     private firestore: Firestore,
   ) {
     this.channel = this.channelsService.currentChannel$;
@@ -49,18 +57,19 @@ export class AddUserToChannelComponent{
     this.memberIDs.splice(0);
   }
 
+
+  /**
+   * Initializes the component by subscribing to the current channel observable and retrieving
+   * the member IDs of the channel. Calls the getData method to retrieve the user data.
+   */
   ngOnInit(): void {
-    console.log(this.ids)
-    // debugger;
     this.channel.subscribe((channel) => {
       if (channel) {
         const members = channel.members.map((memberId) => ({
           id: memberId,
         }));
-        console.log(members.length)
         for (let i = 0; i < members.length; i++) {
           let meb = members[i].id
-          // console.log(meb)
           this.memberIDs.push(meb)
         }
         this.getData();
@@ -68,14 +77,15 @@ export class AddUserToChannelComponent{
     });
   }
 
-  async getData() {
-    // console.log(this.memberIDs)
-    // console.log("Getting Data.............");
-    let Uid;
-    // for (let i = 0; i < this.memberIDs.length; i++) {
-    //   const id = this.memberIDs[i];
-    //   Uid = id;
 
+  /**
+   * Retrieves user data for the members of the current channel.
+   * Loops through the member IDs and uses the Firestore getDoc method to retrieve the user data.
+   * Stores the user data in the members array.
+   * @returns {Promise<void>}
+   */
+  async getData() {
+    let Uid;
       if (this.members.length <= this.memberIDs.length) {
         for (let i = 0; i < this.memberIDs.length; i++) {
           const id = this.memberIDs[i];
@@ -84,32 +94,37 @@ export class AddUserToChannelComponent{
             const Ref = doc(this.firestore, `users/${Uid}`);
             const coll = await getDoc(Ref)
             this.userArray = { ...coll.data() } as UserModel;
-            // console.log(this.userArray)
             this.members.push(this.userArray)
           } else {
-            console.log("User bereits geladen")
           }
         }
-      } else {
-        console.log("Members Array nich leer?", this.members)
       }
-    // }
   }
 
-  addUser(form:NgForm) {
-    // console.log(this.members);
-  }
 
+  /**
+   * Emits the close event to notify parent components that the user has requested to close the component.
+   */
   onClose() {
     this.close.emit();
   }
 
+
+  /**
+   * Prevents the event from propagating up the DOM tree, effectively canceling 
+   * any further event handling.
+   * @param event The event to stop propagating.
+   */
   stopPropagation(event:any) {
     event.stopPropagation();
   }
 
+
+  /**
+   * Opens the profile of the user with the given id.
+   * @param id The id of the user to open the profile of.
+   */
   openProfile(id: string) {
-    console.log("open Profile", id)
     for (let i = 0; i < this.members.length; i++) {
       const element = this.members[i];
       if (element.userId === id) {
@@ -117,21 +132,16 @@ export class AddUserToChannelComponent{
         this.activeMember.email = element.email;
         this.activeMember.status = element.status;
         this.activeMember.avatar = element.photoURL;
-        console.log("added Member",this.activeMember)
-      } else {
-        
       }
     }
     this.profileOpen = true;
-    // console.log(this.userData)
-    console.log(this.members);
   }
 
+
+  /**
+   * Closes the profile view by setting `profileOpen` to false.
+   */
   closeProfile() {
     this.profileOpen = false;
   }
-
-  // get userData() {
-  //   return this.authService.userData();
-  // }
 }
