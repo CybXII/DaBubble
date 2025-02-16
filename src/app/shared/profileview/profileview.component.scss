@@ -51,14 +51,14 @@
     @include mixins.flexbox(row, flex-start, center, wrap);
     gap: 15px;
     div {
-      height: 16px;
-      width: 16px;
-      border-radius: 50%;
+        height: 16px;
+        width: 16px;
+        border-radius: 50%;
     }
     span {
-      font-size: 20px;
-      font-weight: 400;
-      line-height: 27.28px;
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 27.28px;
     }
 }
 

@@ -8,22 +8,28 @@ import { StateService } from '../../shared/services/state.service';
 
 @Component({
   selector: 'app-menu',
-  standalone: true,   // <-- Add this line
+  standalone: true,
   imports: [MenuHeaderComponent, MenuChannelsComponent, MenuPrivateMessagesComponent],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss'
 })
 export class MenuComponent {
 
+  /**
+   * The constructor for the MenuComponent class.
+   * It injects the SharedService and StateService services.
+   * @param sharedService The injected SharedService service.
+   * @param stateService The injected StateService service.
+   */
+  constructor(private sharedService: SharedService, private stateService: StateService) {}
 
-  constructor(private sharedService: SharedService, private stateService: StateService) { }
-
+  /**
+   * Creates a new message.
+   * Sets the state of the menu to 'out' and notifies the shared service
+   * that the create message button was pressed.
+   */
   createNewMessage() {
     this.sharedService.updateVariable('createMessagePressed');
-    console.log("create Message Pressed");
-    // menü togglen ...
-    //toggleMenu();
     this.stateService.setMenuState("out");
   }
-
 }

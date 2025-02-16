@@ -8,7 +8,7 @@
     <span class="thread__divider-text">
         {{ message.timestamp | relativeDate }}
     </span>
-    }  @if (message.docId && isEmojiPickerOpenForThisMessage()) {
+    } @if (message.docId && isEmojiPickerOpenForThisMessage()) {
     <div [class]="{
             'emoji-picker__wrapper-left':
             displayPickerBottom && message.createdBy !== activeUserId,
@@ -19,17 +19,16 @@
             'emoji-picker__wrapper-right':
             displayPickerBottom && message.createdBy === activeUserId
             }" (click)="preventEmojiPickerClose($event)">
-        <app-emoji-picker componentName="chatbox" (emoji)="addEmoji(message.docId, activeUserId!, $event, false)"/>    
+        <app-emoji-picker componentName="chatbox" (emoji)="addEmoji(message.docId, activeUserId!, $event, false)" />
     </div>
     }
 </div>
 
 <div class="chatbox__msg-container" [class.chatbox__msg-container__sent]="message.createdBy === activeUserId"
-    [ngClass]="{ 'thread__days__chatbox__msg-container': !message.sameDay }" id="{{ message.docId }}" [ngClass]="{'mobile_answer': ckeckThredMessageAndWidth(message)}"
-    [ngClass]="{'edit__message': message.sameDay}">
+    [ngClass]="{ 'thread__days__chatbox__msg-container': !message.sameDay }" id="{{ message.docId }}"
+    [ngClass]="{'mobile_answer': ckeckThredMessageAndWidth(message)}" [ngClass]="{'edit__message': message.sameDay}">
     @if (!message.sameDay) {
-        <button class="chatbox__addemoji-container"
-        [class.chatbox__addemoji__sent]="message.createdBy === activeUserId">
+    <button class="chatbox__addemoji-container" [class.chatbox__addemoji__sent]="message.createdBy === activeUserId">
         @if(getLastUsedEmojis(0)){
         <span class="chatbox__addemoji__lastUsedEmoji"
             (click)="addEmoji(message.docId!, activeUserId!, getLastUsedEmojis(0), false)">
@@ -43,9 +42,9 @@
         </span>
         }
         @if (message.docId) {
-            <div class="chatbox__addemoji__emoji-container" (click)="toggleEmojiPicker()">
-                <img src="/img/icons/addemoji.svg" alt="" />
-            </div>
+        <div class="chatbox__addemoji__emoji-container" (click)="toggleEmojiPicker()">
+            <img src="/img/icons/addemoji.svg" alt="" />
+        </div>
         }
         @if (message.docId) {
         <div (click)="onMessageSelect(message.docId)" class="chatbox__addemoji__emoji-container">
@@ -75,8 +74,8 @@
     @if (message.createdBy ) {
     @if(message.sameDay && message.createdBy === activeUserId) {
     <div class="editMessage">
-        <textarea #editTextArea type="text" class="chatbox__msg" [class.chatbox__msg-sent]="message.createdBy === activeUserId"
-            [(ngModel)]="message.message"></textarea>
+        <textarea #editTextArea type="text" class="chatbox__msg"
+            [class.chatbox__msg-sent]="message.createdBy === activeUserId" [(ngModel)]="message.message"></textarea>
         <div class="buttons">
             <div class="chatbox__addemoji__emoji-container" (click)="toggleEmojiPicker()">
                 <img src="/img/icons/addemoji.svg" alt="" />
@@ -85,57 +84,58 @@
                 <button class="cancel default" (click)="cancelEdit(message)">
                     Abbrechen
                 </button>
-                <button class="save default" (click)="saveEdit(message, false, this.activeMessageId || '')">
+                <button class="save default" (click)="saveEdit(message)">
                     Speichern
                 </button>
             </div>
         </div>
     </div>
     } @else {
-        <img class="chatbox__msg-avatar" [src]="getUserAvatar(message.createdBy) | async" alt="Avatar" width="70"
+    <img class="chatbox__msg-avatar" [src]="getUserAvatar(message.createdBy) | async" alt="Avatar" width="70"
         height="70" (click)="checkIdIsUser(message.createdBy)" />
-        <div class="chatbox__msg-item2" [class.chatbox__msg-sent-item2]="message.createdBy === activeUserId">
-            <div class="chatbox__msg-info" [class.chatbox__msg-sent-info]="message.createdBy === activeUserId">
-                <h3 class="chatbox__msg-name" (click)="checkIdIsUser(message.createdBy)">
-                    {{ getUserName(message.createdBy) | async }}@if(message.createdBy ==
-                    activeUserId){(Du)}
-                </h3>
-                <p class="chatbox__msg-time">
-                    {{ message.timestamp | date : "HH:mm" }} Uhr
-                </p>
-            </div>
-            <p class="chatbox__msg" [class.chatbox__msg-sent]="message.createdBy === activeUserId">
-                {{ message.message }}
+    <div class="chatbox__msg-item2" [class.chatbox__msg-sent-item2]="message.createdBy === activeUserId">
+        <div class="chatbox__msg-info" [class.chatbox__msg-sent-info]="message.createdBy === activeUserId">
+            <h3 class="chatbox__msg-name" (click)="checkIdIsUser(message.createdBy)">
+                {{ getUserName(message.createdBy) | async }}@if(message.createdBy ==
+                activeUserId){(Du)}
+            </h3>
+            <p class="chatbox__msg-time">
+                {{ message.timestamp | date : "HH:mm" }} Uhr
             </p>
-            <div class="chatbox__info">
-                @let threadMessages = (message.threadMessages$ | async); @if
-                (threadMessages && threadMessages.length > 0) {
-                <div class="chatbox__answers-container" [ngClass]="{ 'right95': message.createdBy === activeUserId, 'left10px': message.createdBy !== activeUserId }">
-                    <span (click)="onMessageSelect(message.docId || 'fallback')" class="chatbox__answers">
-                        @if(threadMessages?.length === 1) {
-                            {{ (threadMessages?.length || 0) + " Antwort" }}
-                        } @else {
-                            {{ (threadMessages?.length || 0) + " Antworten" }}
-                        }
-                    </span>
-                    @if (threadMessages.length > 0) {
-                    <span class="chatbox__last-answer">
-                        Letzte Antwort
-                        @if(checkWidth()) {
-                            {{ threadMessages[0].timestamp | relativeDate }}
-                        }
-                        {{ threadMessages[0].timestamp | date : "HH:mm" }} Uhr
-                    </span>
+        </div>
+        <p class="chatbox__msg" [class.chatbox__msg-sent]="message.createdBy === activeUserId">
+            {{ message.message }}
+        </p>
+        <div class="chatbox__info">
+            @let threadMessages = (message.threadMessages$ | async); @if
+            (threadMessages && threadMessages.length > 0) {
+            <div class="chatbox__answers-container"
+                [ngClass]="{ 'right95': message.createdBy === activeUserId, 'left10px': message.createdBy !== activeUserId }">
+                <span (click)="onMessageSelect(message.docId || 'fallback')" class="chatbox__answers">
+                    @if(threadMessages?.length === 1) {
+                    {{ (threadMessages?.length || 0) + " Antwort" }}
+                    } @else {
+                    {{ (threadMessages?.length || 0) + " Antworten" }}
                     }
-                </div>
-                }@if (!editAcitve){
-                    <app-reactions class="chatbox__reaction-wrapper" [reactions]="message.reactions"
-                    [activeUserId]="activeUserId || ''" [messageId]="message.docId || ''" [isThreadMessage]="false"
-                    (reactionAdded)="addEmoji($event.messageId,activeUserId!,$event.emoji,$event.isThreadMessage)">
-                </app-reactions>
+                </span>
+                @if (threadMessages.length > 0) {
+                <span class="chatbox__last-answer">
+                    Letzte Antwort
+                    @if(checkWidth()) {
+                    {{ threadMessages[0].timestamp | relativeDate }}
+                    }
+                    {{ threadMessages[0].timestamp | date : "HH:mm" }} Uhr
+                </span>
                 }
             </div>
+            }@if (!editAcitve){
+            <app-reactions class="chatbox__reaction-wrapper" [reactions]="message.reactions"
+                [activeUserId]="activeUserId || ''" [messageId]="message.docId || ''" [isThreadMessage]="false"
+                (reactionAdded)="addEmoji($event.messageId,activeUserId!,$event.emoji,$event.isThreadMessage)">
+            </app-reactions>
+            }
         </div>
+    </div>
     }
     }
 </div>

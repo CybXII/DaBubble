@@ -4,30 +4,16 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 
-/**
- * SignInComponent - A component that handles the sign-in functionality.
- */
 @Component({
   selector: 'app-sign-in',
   imports: [CommonModule, FormsModule, RouterModule],
-  standalone: true, // Standalone Component
+  standalone: true,
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.scss'
 })
 export class SignInComponent implements OnInit {
-
-  /**
-   * loginData - Object to hold user login credentials.
-   */
-  loginData = {
-    email: '',
-    password: '',
-  };
-
-  /**
-   * loginError - Error message for the UI.
-   */
-  loginError = ''; // Fehlernachricht für das UI
+  loginData = {email: '', password: ''};
+  loginError = '';
 
   /**
    * Constructor for SignInComponent.
@@ -46,7 +32,6 @@ export class SignInComponent implements OnInit {
    */
   ngOnInit(): void {
     if (this.authService.isAuthenticated()) {
-      console.log('User is authenticated, redirecting to /board');
       this.router.navigateByUrl('/board');
     }
     this.loginError = this.authService.loginError();

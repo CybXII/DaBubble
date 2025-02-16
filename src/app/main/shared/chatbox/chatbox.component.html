@@ -1,73 +1,67 @@
 @if (loadingMessages() && !loadingAvatars) {
-  <div class="loading-container">
-    <p>Lade Nachrichten...</p>
+<div class="loading-container">
+  <p>Lade Nachrichten...</p>
+</div>
+} @else { @if (builder == "threadchat") {
+<div class="threadchat__chatbox">
+  @if (parentMessage) {
+  @if (parentMessage && activeUserId && activeMessageId) {
+  <app-parent-message class="chatbox__mainthread-container" [activeMessageId]="activeMessageId"
+    [parentMessage]="parentMessage" [activeUserId]="activeUserId" (userClicked)="handleUserClick($event)">>
+  </app-parent-message>
+  }
+  }
+  <div class="chatbox__threads-divider">
+    {{ (threadMessages$ | async)?.length || 0 }} Antworten
   </div>
-  } @else { @if (builder == "threadchat") {
-  <div class="threadchat__chatbox">
-      @if (parentMessage) { 
-        @if (parentMessage && activeUserId && activeMessageId) {
-        <app-parent-message class="chatbox__mainthread-container"
-          [activeMessageId]="activeMessageId"
-          [parentMessage]="parentMessage"
-          [activeUserId]="activeUserId"
-          (userClicked)="handleUserClick($event)">>
-        </app-parent-message>
-      }
-    }
-    <div class="chatbox__threads-divider">
-      {{ (threadMessages$ | async)?.length || 0 }} Antworten
-    </div>
-    @for (threadmessage of (threadMessages$ | async); track threadmessage.docId) { 
-      @if (threadmessage && activeMessageId && activeUserId) {
-          <app-thread-messages class="chatbox__msg-container" [class.chatbox__msg-container__sent]="threadmessage.createdBy === activeUserId" id="{{ threadmessage.docId }}" 
-            [threadMessage]="threadmessage" 
-            [activeUserId]="activeUserId"
-            [activeMessageId]="activeMessageId"
-            (userClicked)="handleUserClick($event)">
-          </app-thread-messages>
-      }
-    }
-  </div>
-  } @else {
-  <div class="mainchat__chatbox">
-    @if (isEmptyMessage) {
-    <div class="emptyMessage">
-      @if(private || self) {
-      <div class="headline">
-        <img [src]="user.photoUrl" alt="Avatar">
-        <span>{{ user.name }}</span>
-      </div>
-      } @else {
-      <h2># {{ channelName }}</h2>
-      }
-      <div class="text">
-        @if (self && private) {
-        <span>Dieser Raum ist nur für dich da. Mache dir Notizen, liste deine To-dos auf oder bewahre Links und Dateien
-          griffbereit auf. Du kannst hier auch gerne Dinge mit dir selbst besprechen.</span>
-        } @else if(private) {
-        <span>Diese Unterhaltung findet nur zwischen &nbsp;<p (click)="openDialogUser(user.id)" class="name">&#64;{{
-            user.name }}&nbsp;</p> und dir statt.</span>
-        } @else {
-          
-        <span>{{channelCreatorName}} hat diesen Channel {{ timestep }} erstellt. Das ist der Anfang des Channels &nbsp;<p class="name nohover"># {{
-            channelName }}</p>.</span>
-        }
-      </div>
+  @for (threadmessage of (threadMessages$ | async); track threadmessage.docId) {
+  @if (threadmessage && activeMessageId && activeUserId) {
+  <app-thread-messages class="chatbox__msg-container"
+    [class.chatbox__msg-container__sent]="threadmessage.createdBy === activeUserId" id="{{ threadmessage.docId }}"
+    [threadMessage]="threadmessage" [activeUserId]="activeUserId" [activeMessageId]="activeMessageId"
+    (userClicked)="handleUserClick($event)">
+  </app-thread-messages>
+  }
+  }
+</div>
+} @else {
+<div class="mainchat__chatbox">
+  @if (isEmptyMessage) {
+  <div class="emptyMessage">
+    @if(private || self) {
+    <div class="headline">
+      <img [src]="user.photoUrl" alt="Avatar">
+      <span>{{ user.name }}</span>
     </div>
     } @else {
-    @for (message of (messages$ | async); track message.docId) { @if (message ) {
-          @let shouldRenderDivider = channelsService.checkAndSetPreviousTimestamp(message.timestamp);
-          @if (activeUserId){
-            <app-messages style="width: 100;" 
-              [shouldRenderDivider]="shouldRenderDivider" 
-              [message]="message" 
-              [activeUserId]="activeUserId" 
-              [isCurrentUser]="message.createdBy === activeUserId"
-              (userClicked)="handleUserClick($event)">
-            </app-messages>
-          }
-        } 
-      }
+    <h2># {{ channelName }}</h2>
     }
+    <div class="text">
+      @if (self && private) {
+      <span>Dieser Raum ist nur für dich da. Mache dir Notizen, liste deine To-dos auf oder bewahre Links und Dateien
+        griffbereit auf. Du kannst hier auch gerne Dinge mit dir selbst besprechen.</span>
+      } @else if(private) {
+      <span>Diese Unterhaltung findet nur zwischen &nbsp;<p (click)="openDialogUser(user.id)" class="name">&#64;{{
+          user.name }}&nbsp;</p> und dir statt.</span>
+      } @else {
+
+      <span>{{channelCreatorName}} hat diesen Channel {{ timestep }} erstellt. Das ist der Anfang des Channels &nbsp;<p
+          class="name nohover"># {{
+          channelName }}</p>.</span>
+      }
+    </div>
   </div>
-  }}
+  } @else {
+  @for (message of (messages$ | async); track message.docId) { @if (message ) {
+  @let shouldRenderDivider = channelsService.checkAndSetPreviousTimestamp(message.timestamp);
+  @if (activeUserId){
+  <app-messages style="width: 100;" [shouldRenderDivider]="shouldRenderDivider" [message]="message"
+    [activeUserId]="activeUserId" [isCurrentUser]="message.createdBy === activeUserId"
+    (userClicked)="handleUserClick($event)">
+  </app-messages>
+  }
+  }
+  }
+  }
+</div>
+}}

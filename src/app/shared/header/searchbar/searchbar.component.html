@@ -1,17 +1,8 @@
 <div class="searchbar-container">
-  <input
-    type="text"
-    placeholder="Devspace durchsuchen"
-    [(ngModel)]="searchText"
-    (input)="onInputChange(userId)"
-  />
+  <input type="text" placeholder="Devspace durchsuchen" [(ngModel)]="searchText" (input)="onInputChange(userId)" />
   @if (searchText) {
   <button>
-    <img
-      src="img/icons/close-grey.svg"
-      alt="Schließen"
-      (click)="clearSearch()"
-    />
+    <img src="img/icons/close-grey.svg" alt="Schließen" (click)="clearSearch()" />
   </button>
   } @else {
   <button><img src="img/icons/search.svg" alt="Suche" /></button>
@@ -25,11 +16,8 @@
     <div class="feedback-container">
       <h3>{{ privateChannelResults.length }} Chat(s) gefunden:</h3>
       <div class="feedback-message-container">
-        <div
-          class="feedback-box"
-          *ngFor="let result of privateChannelResults"
-          (click)="goToSearchResult(result.id, null, null, null, null)"
-        >
+        <div class="feedback-box" *ngFor="let result of privateChannelResults"
+          (click)="goToSearchResult(result.id, null, null, null, null)">
           <div class="feedback-message">
             <div class="feedback-message-header">
               <span>{{ result.name }}</span>
@@ -43,11 +31,8 @@
     <div class="feedback-container">
       <h3>{{ channelResults.length }} Channel(s) gefunden:</h3>
       <div class="feedback-message-container">
-        <div
-          class="feedback-box"
-          *ngFor="let result of channelResults"
-          (click)="goToSearchResult(result.id, null, null, null, null)"
-        >
+        <div class="feedback-box" *ngFor="let result of channelResults"
+          (click)="goToSearchResult(result.id, null, null, null, null)">
           <div class="feedback-message">
             <div class="feedback-message-header">
               <span># {{ result.name }}</span>
@@ -61,41 +46,21 @@
     <div class="feedback-container">
       <h3>{{ messageResults.length }} Nachricht(en) gefunden:</h3>
       <div class="feedback-message-container">
-        <div
-          class="feedback-box"
-          *ngFor="let result of messageResults; let index = index"
-          (click)="
-            goToSearchResult(
-              result.channelId,
-              result.docId,
-              null,
-              null,
-              result.isThreadMessage
-            )
-          "
-        >
-          <img
-            src="{{ result.creatorPhotoURL }}"
-            alt="img/avatars/picPlaceholder.svg"
-          />
+        <div class="feedback-box" *ngFor="let result of messageResults; let index = index" (click)="
+            goToSearchResult(result.channelId, result.docId, null, null, result.isThreadMessage)">
+          <img src="{{ result.creatorPhotoURL }}" alt="img/avatars/picPlaceholder.svg" />
           <div class="feedback-message">
             <div class="feedback-message-header">
-              <span
-                ><b style="font-weight: 800">Von:</b>
-                {{ result.creatorName }}</span
-              >
+              <span><b style="font-weight: 800">Von:</b>
+                {{ result.creatorName }}</span>
               <span style="font-style: italic">{{
                 result.timestamp.seconds | timestampToDate
-              }}</span>
+                }}</span>
             </div>
-            <span class="ellipsis"
-              ><b style="font-weight: 800">Channel:</b>
-              {{ searchService.searchChannelsMessages[index] }}</span
-            >
-            <span class="ellipsis"
-              ><b style="font-weight: 800">Nachricht:</b>
-              {{ result.message }}</span
-            >
+            <span class="ellipsis"><b style="font-weight: 800">Channel:</b>
+              {{ searchService.searchChannelsMessages[index] }}</span>
+            <span class="ellipsis"><b style="font-weight: 800">Nachricht:</b>
+              {{ result.message }}</span>
           </div>
         </div>
       </div>
@@ -104,29 +69,13 @@
     <div class="feedback-container">
       <h3>{{ threadMessageResults.length }} Antwort(en) gefunden:</h3>
       <div class="feedback-message-container">
-        <div
-          class="feedback-box"
-          *ngFor="let result of threadMessageResults"
-          (click)="
-            goToSearchResult(
-              result.channelId,
-              result.messageId,
-              result.docId,
-              null,
-              result.isThreadMessage
-            )
-          "
-        >
-          <img
-            src="{{ result.creatorPhotoURL }}"
-            alt="img/avatars/picPlaceholder.svg"
-          />
+        <div class="feedback-box" *ngFor="let result of threadMessageResults" (click)="
+            goToSearchResult(result.channelId, result.messageId, result.docId, null, result.isThreadMessage)">
+          <img src="{{ result.creatorPhotoURL }}" alt="img/avatars/picPlaceholder.svg" />
           <div class="feedback-message">
             <div class="feedback-message-header">
               <span>{{ result.creatorName }}</span>
-              <span style="font-style: italic">{{
-                result.timestamp.seconds | timestampToDate
-              }}</span>
+              <span style="font-style: italic">{{ result.timestamp.seconds | timestampToDate }}</span>
             </div>
             <span>{{ result.message }}</span>
           </div>
@@ -137,23 +86,16 @@
     <div class="feedback-container">
       <h3>{{ userResults.length }} Benutzer gefunden:</h3>
       <div class="feedback-message-container">
-        <div
-          class="feedback-box"
-          *ngFor="let user of userResults"
-          (click)="goToSearchResult(null, null, null, user.userId, null)"
-        >
-        <!-- (click)="goToSearchResult(null, null, null, user.userId, null)" -->
+        <div class="feedback-box" *ngFor="let user of userResults"
+          (click)="goToSearchResult(null, null, null, user.userId, null)">
           <img src="{{ user.photoURL }}" alt="img/avatars/picPlaceholder.svg" />
           <div class="feedback-message">
             <div class="feedback-message-header">
               <span>{{ user.name }}</span>
               <div class="feedback-user-status-container">
-                <div
-                  class="feedback-user-status"
-                  [ngStyle]="{
+                <div class="feedback-user-status" [ngStyle]="{
                     'background-color': user.status ? '#92c83e' : '#696969'
-                  }"
-                ></div>
+                  }"></div>
                 @if (user.status) {
                 <span style="color: #92c83e">Aktiv</span>
                 } @else {
@@ -165,18 +107,15 @@
         </div>
       </div>
     </div>
-
     }
   </div>
 </div>
-} @if (isSearchActive && (userResults.length === 0 && messageResults.length ===
-0 && channelResults.length === 0 && privateChannelResults.length === 0 &&
-threadMessageResults.length === 0)) {
+} @if (isSearchActive && (userResults.length === 0 && messageResults.length === 0
+&& channelResults.length === 0 && privateChannelResults.length === 0 && threadMessageResults.length === 0)) {
 <div class="feedback-wrapper feedback-wrapper-error">
   <span>Keine Ergebnisse gefunden</span>
 </div>
-} @if (isSearchTouched && searchText.length < 4) {
-<div class="feedback-wrapper feedback-wrapper-error">
+} @if (isSearchTouched && searchText.length < 4) { <div class="feedback-wrapper feedback-wrapper-error">
   <span>Bitte gib mindestens 4 Zeichen ein</span>
-</div>
-}
+  </div>
+  }

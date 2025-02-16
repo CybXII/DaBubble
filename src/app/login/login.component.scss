@@ -1,7 +1,6 @@
 @use "./../../mixins.scss" as mixins;
 @use "./../../colors.scss" as colors;
 
-
 .animationBackground {
   position: absolute;
   width: 100vw;
@@ -17,8 +16,6 @@
   animation: reveal 1s 5s forwards;
 }
 
-
-
 .d-none {
   display: none !important;
 }
@@ -28,10 +25,8 @@
 }
 
 .container {
-  // enthält logo und "DABubble"
   position: absolute;
   width: 300px;
-  //height: 100vh;
   display: flex;
   align-items: center;
   top: 50%;
@@ -39,10 +34,7 @@
   transform: translate(-50%, -50%);
   gap: 16px;
   z-index: 100;
-  //max-width: 1920px;
-  animation: moveToTopLeft 1s 5s forwards; //, hide 0.3s 5.7s forwards;
-  //border: 1px solid black;
-
+  animation: moveToTopLeft 1s 5s forwards;
   img {
     width: auto;
     position: absolute;
@@ -53,7 +45,6 @@
       shrinkImage 1s 5s forwards,
       moveBack 1s 5s forwards;
     z-index: 2;
-    //border: 1px solid black;
   }
 
   .textcontainer {
@@ -64,12 +55,10 @@
     width: 300px;
     height: 70px;
     overflow: hidden;
-    //border: 1px solid red;
     animation: moveLittleLeft 1s 5s forwards;
 
     h1 {
       position: absolute;
-      //left: -200px;
       transform: translateX(-100%);
       font-size: 60px;
       font-weight: 700;
@@ -104,12 +93,9 @@
 
 header {
   position: absolute;
-  // height: 100px;
-  // width: 100%;
   top: 90px;
   right: 75px;
   @include mixins.flexbox($justify: space-between);
-  // padding: 0px 30px;
 
   >div {
     @include mixins.flexbox($direction: column, $justify: start);
@@ -129,7 +115,6 @@ header {
 
 a {
   &:hover {
-    //transform: scale(1.05);
     font-weight: 500;
   }
 }
@@ -140,7 +125,6 @@ footer {
     padding: 10px;
     border-radius: 100px;
     @include mixins.border-marker($color: colors.$bg-color);
-    //border-color: colors.$light-purple; // immer!
 
     &:hover {
       border-color: colors.$light-purple;
@@ -368,10 +352,6 @@ form {
   height: 100vh;
 }
 
-
-
-// RESPONSIVE
-// BZGL. WIDTH
 @media (max-width: 1275px) {
   header {
     top: 60px;
@@ -383,7 +363,7 @@ form {
   }
 
   .container {
-    animation: moveToTopLeft40px 1s 5s forwards; //, hide 0.3s 5.7s forwards;
+    animation: moveToTopLeft40px 1s 5s forwards;
     width: 300px;
   }
 
@@ -392,17 +372,13 @@ form {
 @media (max-width: 600px) {
 
   .container {
-    // enthält logo und "DABubble"
-    animation: moveToTop 1s 5s forwards; //, hide 0.3s 5.7s forwards
-    //border: 1px solid black;
+    animation: moveToTop 1s 5s forwards;
     gap: 1px !important;
     width: 240px;
 
     h1 {
       font-size: 30px !important;
     }
-
-
 
     img {
       height: 75px;
@@ -412,21 +388,12 @@ form {
     }
   }
 
-  // .textcontainer {
-  //   h1 {
-  //     font-size: 30px !important;
-  //   }
-  // }
-
   section {
     width: 100% !important;
     padding: 0px 20px 0px 20px;
     gap: 20px;
-    min-height: 100vh !important; //fit-content;
+    min-height: 100vh !important;
     justify-content: unset;
-    // >div {
-    //   width: 100%; // entfernt von cvo wegen intro anim
-    // }
   }
 
   form {
@@ -438,14 +405,6 @@ form {
 
     h1 {
       font-size: 32px;
-    }
-  }
-
-  .input {
-    >input {
-      &::placeholder {
-        //font-weight: bolder;  wieso?
-      }
     }
   }
 
@@ -467,7 +426,6 @@ form {
   }
 
   header {
-    // header nach unten!
     top: unset;
     right: unset;
     bottom: -20px;
@@ -483,8 +441,6 @@ form {
     }
   }
 
-
-
   button {
     font-weight: 700 !important;
   }
@@ -494,16 +450,12 @@ form {
   }
 
   .paddingBottom {
-    //padding-bottom: 150px; macht probleme mit dem intro!
-    // padding-top: 120px;
     height: unset;
   }
 }
 
 @media (max-width: 500px) {
-
   section {
-    // height: 100vh;
     justify-content: center;
   }
 
@@ -515,18 +467,9 @@ form {
     padding: 0px;
     left: 5px;
   }
-
 }
-
-@media (max-width: 400px) {
-  .textcontainer {
-    //width: 205px !important;
-  }
-}
-
 
 @media (max-width: 380px) {
-
   .arrowBack {
     padding: 0px;
   }
@@ -551,10 +494,8 @@ form {
   button {
     padding: 8px 10px;
   }
-
 }
 
-// BZGL HEIGHT (Ausgangslage: 1080px)
 @media (max-height: 900px) {
   .mainCont {
     gap: 10px !important;
@@ -568,11 +509,7 @@ form {
     padding: 120px 20px 20px 20px;
     gap: 20px;
     justify-content: unset;
-    // >div { 
-    //   width: 100%;   //entfernt von cvo, dann ist intro nicht mehr mittig
-    // }
   }
-
 }
 
 @media (max-height: 800px) {
@@ -581,7 +518,6 @@ form {
     padding-bottom: 30px;
   }
 }
-
 
 @media (max-height: 600px) {
   section {

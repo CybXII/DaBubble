@@ -25,7 +25,6 @@ import { RelativeDatePipe } from '../../../pipes/timestamp-to-date.pipe';
 import { MatDialog } from '@angular/material/dialog';
 import { StateService } from '../../../shared/services/state.service';
 import { FormsModule } from '@angular/forms';
-import { SaveEditMessageService } from '../../../shared/services/save-edit-message.service';
 import { EditmessageComponent } from '../editmessage/editmessage.component';
 import { UserDialogService } from '../../../shared/services/user-dialog.service';
 
@@ -51,60 +50,123 @@ export class MessageComponent implements OnInit, OnDestroy {
   previousTimestamp: number | null = null;
   editAcitve: boolean = false;
 
+  /**
+   * Constructs a new instance of the MessageComponent.
+   *
+   * @param messagesService - Service for handling message operations.
+   * @param emojiPickerService - Service for handling emoji picker functionalities.
+   * @param userService - Service for user-related operations.
+   * @param emojiStorageService - Service for storing and retrieving emoji data.
+   * @param dialog - Angular Material service for dialog operations.
+   * @param stateService - Service for managing the state of the application.
+   * @param cdr - Service for detecting changes and updating the view.
+   * @param uds - Service for managing user dialogs.
+   */
   constructor(
     private messagesService: MessagesService,
     public emojiPickerService: EmojiPickerService,
     private userService: UserService,
     private emojiStorageService: EmojiStorageService,
     public dialog: MatDialog,
-    private saveEditedMessage: SaveEditMessageService,
     private stateService: StateService,
     private cdr: ChangeDetectorRef,
     private uds: UserDialogService,
   ) {}
 
+
+  /**
+   * Initializes the component by subscribing to the activeMessagePicker$ observable of the EmojiPickerService.
+   * When the observable emits a value, the isEmojiPickerOpen property is updated to true if the emitted value is equal to the message.docId.
+   * The ChangeDetectorRef is used to update the view when the isEmojiPickerOpen property changes.
+   */
   ngOnInit(): void {
     this.subscriptions.add(
       this.emojiPickerService.activeMessagePicker$.subscribe((id) => {
         console.log(`🔄 MessagePicker Update: ${id}`);
         this.isEmojiPickerOpen.set(id === this.message.docId);
-        this.cdr.detectChanges(); // 🚀 TRIGGER FÜR UI-AKTUALISIERUNG
+        this.cdr.detectChanges();
       })
     );
   }
 
+
+  /**
+   * Cleans up the component by unsubscribing from all subscriptions.
+   */
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 
+
+  /**
+   * Toggles the emoji picker for the message.
+   * 
+   * If the emoji picker for the current message is already open, it closes all emoji pickers.
+   * Otherwise, it first closes all emoji pickers and then opens the emoji picker for the current message.
+   * 
+   * The method checks if the `message` has a `docId` before performing any actions.
+   */
   toggleEmojiPicker() {
-    console.log(`🟢 toggleEmojiPicker() für Message aufgerufen (ID: ${this.message.docId})`);
     if (this.message.docId) {
       if (this.emojiPickerService.isMessageEmojiPickerOpen(this.message.docId)) {
-        console.log('🔒 Schließe Emoji Picker für:', this.message.docId);
         this.emojiPickerService.closeAllEmojiPickers();
-        return;
       }
       this.emojiPickerService.closeAllEmojiPickers();
       this.emojiPickerService.openMessageEmojiPicker(this.message.docId);
-      console.log(`✅ EmojiPickerForId nach Öffnen: ${this.message.docId}`);
     } 
   }
 
 
+  /**
+   * Checks if the emoji picker is open for the current message.
+   *
+   * This method utilizes the EmojiPickerService to determine if the emoji picker
+   * is currently open for the message associated with this component.
+   *
+   * @returns {boolean} True if the emoji picker is open for the message, false otherwise.
+   */
   isEmojiPickerOpenForThisMessage(): boolean {
     return this.emojiPickerService.isMessageEmojiPickerOpen(this.message.docId??'');
   }
 
 
+  /**
+   * Returns an observable that emits the name of the user with the given user ID.
+   *
+   * This method uses the UserService to retrieve the user name associated with the given user ID.
+   *
+   * @param userId The user ID to retrieve the name for.
+   * @returns An observable that emits the user name.
+   */
   getUserName(userId: string) {
     return this.userService.getuserName(userId);
   }
 
+
+  /**
+   * Retrieves the avatar URL of a user given their ID.
+   *
+   * This method uses the UserService to fetch the avatar URL associated with the specified user ID.
+   *
+   * @param userId The user ID to retrieve the avatar URL for.
+   * @returns An observable that emits the avatar URL.
+   */
   getUserAvatar(userId: string) {
     return this.userService.getuserAvatar(userId);
   }
 
+
+  /**
+   * Handles a user click event in the message component.
+   * 
+   * If the given user ID does not match the active user ID, it emits the user ID to the parent component
+   * to open the user profile dialog.
+   * 
+   * If the given user ID matches the active user ID, it opens the profile dialog with the active user's profile
+   * and sets the exit activity flag to false.
+   * 
+   * @param userId The user ID to check against the active user ID.
+   */
   checkIdIsUser(userId: string) {
     if (this.activeUserId !== userId) {
       this.userClicked.emit(userId);
@@ -114,77 +176,138 @@ export class MessageComponent implements OnInit, OnDestroy {
     }
   }
 
+
+  /**
+   * Retrieves the last used emoji stored in the EmojiStorageService at the given index.
+   *
+   * @param index The index of the emoji to retrieve.
+   * @returns The emoji at the given index.
+   */
   getLastUsedEmojis(index: number) {
     return this.emojiStorageService.getEmojis()[index];
   }
 
+
+  /**
+   * Adds an emoji to either the text area if the edit mode is active or to the reactions of the message.
+   *
+   * If the edit mode is active, it adds the emoji to the text area.
+   * Otherwise, it adds the emoji to the reactions array of the message.
+   *
+   * @param messageId The ID of the message to add the emoji to.
+   * @param userId The ID of the user who added the emoji.
+   * @param emoji The emoji to add.
+   * @param isThreadMessage Whether the message is a thread message.
+   */
   addEmoji(messageId: string, userId: string, emoji: string, isThreadMessage: boolean): void {
     if (this.editAcitve){
-      const textArea = this.editTextArea.nativeElement;
-      const startPos = textArea.selectionStart; // 🟢 Cursor-Startposition
-      const endPos = textArea.selectionEnd; 
-      if (startPos === null || endPos === null) {
-        console.error("❌ Fehler: Cursor-Position nicht erkannt.");
-        this.message.message += emoji;
-        this.emojiPickerService.closeAllMessagePickers();
-      } else {
-        const newText = this.message.message.substring(0, startPos) + emoji 
-        + this.message.message.substring(endPos);
-
-        // ⏭️ Aktualisiere den Text in der Message
-        this.message.message = newText;
-
-        // 🔥 Setze den Cursor direkt hinter das eingefügte Emoji
-        setTimeout(() => {
-        textArea.focus();
-        textArea.selectionStart = textArea.selectionEnd = startPos + emoji.length;
-        }, 0);
-      }
-
-      // 🎯 Emoji Picker schließen
-      this.emojiPickerService.closeAllMessagePickers();
+      this.addEmojiToTextArea(emoji);
     } else {
-      const reaction: Reaction = { emoji, userIds: [userId] };
-      const updateData: Partial<Message> = { reactions: [reaction] };
-  
-      const updatePromise = isThreadMessage
-        ? this.messagesService.updateThreadMessage(this.activeMessageId!, messageId, userId, updateData)
-        : this.messagesService.updateMessage(messageId, userId, updateData);
-  
-      updatePromise.then(() => {
-        console.log('✅ Emoji hinzugefügt:', emoji);
-        this.emojiPickerService.closeAllMessagePickers();
-      }).catch(error => console.error('❌ Fehler beim Hinzufügen der Reaktion:', error));
-  
-      this.emojiStorageService.saveEmoji(emoji);
+      this.addEmojiToReactions(messageId, userId, emoji, isThreadMessage);
     }
   }
 
+
+  /**
+   * Adds an emoji to the reactions array of a message.
+   *
+   * Creates a new reaction object with the given emoji and user ID, and adds it to the reactions
+   * array of the message. It then updates the message with the new reactions array and closes all
+   * emoji pickers for the message.
+   *
+   * @param messageId The ID of the message to add the emoji to.
+   * @param userId The ID of the user who added the emoji.
+   * @param emoji The emoji to add.
+   * @param isThreadMessage Whether the message is a thread message.
+   */
+  addEmojiToReactions(messageId: string, userId: string, emoji: string, isThreadMessage: boolean) {
+    const reaction: Reaction = { emoji, userIds: [userId] };
+    const updateData: Partial<Message> = { reactions: [reaction] };
+    const updatePromise = isThreadMessage
+      ? this.messagesService.updateThreadMessage(this.activeMessageId!, messageId, userId, updateData)
+      : this.messagesService.updateMessage(messageId, userId, updateData);
+    updatePromise.then(() => {this.emojiPickerService.closeAllMessagePickers()})
+    .catch(error => console.error('❌ Fehler beim Hinzufügen der Reaktion:', error));
+    this.emojiStorageService.saveEmoji(emoji);
+  }
+
+
+  /**
+   * Adds an emoji to the text area in edit mode.
+   * 
+   * It adds the emoji at the current cursor position in the text area.
+   * If the cursor position is not recognized, it adds the emoji to the end
+   * of the text area and closes all emoji pickers for the message.
+   * If the cursor position is recognized, it adds the emoji at the cursor position
+   * and sets the cursor to the end of the just added emoji.
+   * 
+   * @param emoji The emoji to add.
+   */
+  addEmojiToTextArea(emoji: string) {
+    const textArea = this.editTextArea.nativeElement;
+    const startPos = textArea.selectionStart;
+    const endPos = textArea.selectionEnd; 
+    if (startPos === null || endPos === null) {
+      this.message.message += emoji;
+      this.emojiPickerService.closeAllMessagePickers();
+    } else {
+      const newText = this.message.message.substring(0, startPos) + emoji + this.message.message.substring(endPos);
+      this.message.message = newText;
+      setTimeout(() => {
+      textArea.focus();
+      textArea.selectionStart = textArea.selectionEnd = startPos + emoji.length;
+      }, 0);
+    }
+    this.emojiPickerService.closeAllMessagePickers();
+  }
+
+
+  /**
+   * Prevents the emoji picker from closing when a click event occurs.
+   * 
+   * This method is used to prevent the emoji picker from closing when a click event occurs
+   * outside of the emoji picker component. It stops the event propagation to prevent the
+   * emoji picker from closing.
+   * 
+   * @param event The click event to prevent from propagating.
+   */
   preventEmojiPickerClose(event: Event): void {
     event.stopPropagation();
   }
 
+
+  /**
+   * Checks if the given timestamp represents a different day than the previous one.
+   * Updates the stored timestamp for future comparisons.
+   * 
+   * @param {string | Date | undefined} currentTimestamp - The timestamp to check.
+   * @returns {boolean} - `true` if the day has changed, `false` otherwise.
+   * @throws {Error} - If an invalid timestamp is provided.
+   */
   checkAndSetPreviousTimestamp(currentTimestamp: string | Date | undefined): boolean {
-    if (!currentTimestamp) {
+    if (!currentTimestamp) 
       return false;
-    }
     const currentDate = new Date(currentTimestamp);
-    if (isNaN(currentDate.getTime())) {
+    if (isNaN(currentDate.getTime())) 
       throw new Error('Invalid timestamp provided');
-    }
     if (!this.previousTimestamp) {
       this.previousTimestamp = currentDate.getTime();
       return true;
     }
     const previousDate = new Date(this.previousTimestamp);
-    const isDifferentDay =
-      currentDate.getDate() !== previousDate.getDate() ||
-      currentDate.getMonth() !== previousDate.getMonth() ||
-      currentDate.getFullYear() !== previousDate.getFullYear();
+    const isDifferentDay = currentDate.getDate() !== previousDate.getDate() || currentDate.getMonth() !== previousDate.getMonth() 
+          || currentDate.getFullYear() !== previousDate.getFullYear();
     this.previousTimestamp = currentDate.getTime();
     return isDifferentDay;
   }
 
+
+  /**
+   * Selects a message and opens the thread chat.
+   * 
+   * @param {string} messageId - The ID of the message to select.
+   * @returns {Promise<void>} - A promise that resolves when the operation is complete.
+   */
   async onMessageSelect(messageId: string): Promise<void> {
     this.messagesService.setParentMessageId(messageId);
     this.activeMessageId = messageId;
@@ -192,41 +315,64 @@ export class MessageComponent implements OnInit, OnDestroy {
     this.stateService.setThreadchatState('in');
   }
 
-  saveEdit(message: Partial<Message>, threadMessage: boolean, parentID: string) {
+
+  /**
+   * Saves the edited content of a message.
+   *
+   * This method retrieves the original message from Firestore using the given
+   * `message.docId`. If the original message is found, it updates the message
+   * content with the new text provided in `message.message`. The method also
+   * ensures that the message has a valid `docId` before attempting to update it.
+   *
+   * If the editing is successful, the edit mode is deactivated.
+   *
+   * @param message The partial message object containing the updated message content.
+   */
+  saveEdit(message: Partial<Message>) {
     if (!message.docId) {
-      console.error("❌ Fehler: Nachricht hat keine docId.");
-      return;
+      return console.error("❌ Fehler: Nachricht hat keine docId.");
     }
-  
-    // 🚀 Lade die Original-Nachricht aus Firestore
     this.messagesService.getMessage(message.docId).then(originalMessage => {
       if (!originalMessage) {
-        console.error("❌ Fehler: Nachricht nicht gefunden in Firestore:", message.docId);
-        return;
+        return console.error("❌ Fehler: Nachricht nicht gefunden in Firestore:", message.docId);
       }
-  
-      // ✅ Nur den Nachrichtentext ändern, alles andere bleibt gleich!
-      const updateData: Partial<Message> = {
-        message: message.message,
-      };
-      if (message.docId && originalMessage.createdBy) {
-        this.messagesService.updateMessage(message.docId, originalMessage.createdBy, updateData)
-        .then(() => {
-          console.log("✅ Nachricht erfolgreich aktualisiert:", updateData);
-        })
-        .catch(error => {
-          console.error("❌ Fehler beim Speichern:", error);
-        });
-
-      }
-      else {
-        console.error("❌ Fehler: Nachricht hat keine docId oder createdBy ID.");
-      }
-      // 🔥 Speichern der aktualisierten Nachricht ohne `reactions`
+      this.updateMessageText(message, originalMessage);
     });
     this.editAcitve = false;
   }
 
+
+  /**
+   * Updates the message content in Firestore.
+   *
+   * This method constructs an update data object with the new message content
+   * and attempts to update the message in Firestore using the provided `docId`
+   * and `createdBy` from the original message.
+   *
+   * Logs an error if the `docId` or `createdBy` are missing.
+   *
+   * @param message The partial message object containing the updated content.
+   * @param originalMessage The original message object retrieved from Firestore.
+   */
+  updateMessageText(message:Partial<Message> , originalMessage:Message) {
+    const updateData: Partial<Message> = {message: message.message};
+    if (message.docId && originalMessage.createdBy) {
+      this.messagesService.updateMessage(message.docId, originalMessage.createdBy, updateData)
+      .then().catch(error => {console.error("❌ Fehler beim Speichern:", error);});
+    }
+    else 
+      console.error("❌ Fehler: Nachricht hat keine docId oder createdBy ID.");
+  }
+
+
+  /**
+   * Cancels the edit mode for the given message.
+   *
+   * This method resets the message content to the original value stored in session storage,
+   * marks the message as not edited on the same day, and deactivates the edit mode.
+   *
+   * @param message The message to cancel the edit mode for, represented as a partial message object.
+   */
   cancelEdit(message: Partial<Message>) {
     let messageText = sessionStorage.getItem('EditedMessage');
     message.message = messageText as string;
@@ -234,33 +380,57 @@ export class MessageComponent implements OnInit, OnDestroy {
     this.editAcitve = false;
   }
 
+
+  /**
+   * Opens the edit dialog for the given message.
+   *
+   * If `inlineEdit` is set to `true`, the message is edited inline. Otherwise, a
+   * dialog with the EditmessageComponent is opened.
+   *
+   * @param message The message to edit, represented as a partial message object.
+   * @param deleteMessage Whether the delete button should be shown in the edit dialog.
+   * @param inlineEdit Whether to edit the message inline or not. Defaults to `false`.
+   */
   editMessage(message: Partial<Message>, deleteMessage: boolean, inlineEdit = false) {
-    this.editAcitve = true;
-    // if (inlineEdit && window.innerWidth > 450) {
+    if (inlineEdit && !deleteMessage) {
+      this.editAcitve = true;
       sessionStorage.setItem('EditedMessage', message.message as string);
       message.sameDay = true;
-      return;
-    // } else {
-    //   this.dialog.open(EditmessageComponent, {
-    //     width: 'fit-content',
-    //     maxWidth: '100vw',
-    //     height: 'fit-content',
-    //     data: { message, deleteMessage },
-    //   });
-    // }
+    }else {
+      this.dialog.open(EditmessageComponent, {
+        width: 'fit-content',
+        maxWidth: '100vw',
+        height: 'fit-content',
+        data: { message, deleteMessage },
+      });
+    }
   }
 
+
+  /**
+   * Checks whether the window width is greater than 400px.
+   *
+   * @returns true if the window width is greater than 400px, false otherwise.
+   */
   checkWidth() {
     if (window.innerWidth > 400) {return true} else return false;
   }
 
+
+  /**
+   * Checks whether a thread message has answers and whether the window width is
+   * smaller than 400px.
+   *
+   * @param message The message to check, represented as a partial message object.
+   * @returns true if the message has answers and the window width is smaller than
+   * 400px, false otherwise. Returns null if the message has no answers.
+   */
   ckeckThredMessageAndWidth(message:any) {
     let length;
-    if (message.threadMessages$._value.length !== 0) {
+    if (message.threadMessages$._value.length !== 0) 
       length = message.threadMessages$._value.length
-    } else {
+    else 
       return null
-    }
     if (length > 0 && window.innerWidth < 400) {return true} else return false;
   }
 }

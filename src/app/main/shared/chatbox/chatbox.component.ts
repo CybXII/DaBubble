@@ -96,6 +96,60 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   /**
+   * Initializes the component by setting up the default channel, subscribing to messages and thread messages, and handling the current channel.
+   */
+  ngOnInit(): void {
+    this.initializeChannel();
+    this.messagesService.messageId$.subscribe(messageId => {
+      if (messageId)
+        this.setParentMessage();
+    });
+    this.messagesService.messages$.subscribe(messages => {
+      this.updateMessagesWithThreads(messages);
+    });
+    this.setParentMessage();
+    this.threadMessages$.subscribe(() => { });
+    this.handleCurrentChannel();
+  }
+
+
+  /**
+   * Lifecycle hook that is called after the component view has been initialized.
+   * Sets up the subscription to the parent message ID observable and initializes the chatbox observer.
+   */
+  ngAfterViewInit(): void {
+    this.subscribeToParentMessageId();
+    // this.initializeChatboxObserver();
+    this.checkMessageIsEmpty();
+  }
+
+
+  /**
+   * Subscribes to the parent message ID changes in thread chat mode.
+   * Updates the active message ID when a new parent message is detected.
+   */
+  private subscribeToParentMessageId(): void {
+    if (this.builder !== 'threadchat') return;
+    this.messagesService.parentMessageId$.subscribe((messageId) => {
+      if (messageId) {
+        this.setParentMessage();
+        this.activeMessageId = messageId;
+      }
+    });
+  }
+
+
+  /**
+   * Lifecycle hook that is called when the component is destroyed.
+   * Notifies all subscribers of the destroy subject and completes the subject.
+   */
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+
+  /**
    * Retrieves the formatted list of messages.
    * Each message includes a timestamp and thread messages.
    * 
@@ -126,24 +180,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
     ]).pipe(
       map(([messageId, threads]) => (!messageId ? [] : threads.filter(thread => thread.messageId === messageId)))
     );
-  }
-
-
-  /**
-   * Initializes the component by setting up the default channel, subscribing to messages and thread messages, and handling the current channel.
-   */
-  ngOnInit(): void {
-    this.initializeChannel();
-    this.messagesService.messageId$.subscribe(messageId => {
-      if (messageId)
-        this.setParentMessage();
-    });
-    this.messagesService.messages$.subscribe(messages => {
-      this.updateMessagesWithThreads(messages);
-    });
-    this.setParentMessage();
-    this.threadMessages$.subscribe(() => { });
-    this.handleCurrentChannel();
   }
 
 
@@ -260,42 +296,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   /**
-   * Lifecycle hook that is called after the component view has been initialized.
-   * Sets up the subscription to the parent message ID observable and initializes the chatbox observer.
-   */
-  ngAfterViewInit(): void {
-    this.subscribeToParentMessageId();
-    // this.initializeChatboxObserver();
-    this.checkMessageIsEmpty();
-  }
-
-
-  /**
-   * Subscribes to the parent message ID changes in thread chat mode.
-   * Updates the active message ID when a new parent message is detected.
-   */
-  private subscribeToParentMessageId(): void {
-    if (this.builder !== 'threadchat') return;
-    this.messagesService.parentMessageId$.subscribe((messageId) => {
-      if (messageId) {
-        this.setParentMessage();
-        this.activeMessageId = messageId;
-      }
-    });
-  }
-
-
-  /**
-   * Lifecycle hook that is called when the component is destroyed.
-   * Notifies all subscribers of the destroy subject and completes the subject.
-   */
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-
-  /**
    * Scrolls the chatbox to the bottom after a 500ms delay to allow the component to render all messages.
    * @param selector - The CSS selector of the chatbox element.
    */
@@ -325,8 +325,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
         this.scrollToBottom(this.builder === 'mainchat' ? '.mainchat__chatbox' : '.threadchat__chatbox');
       }, 500);
   }
-
-
 
 
   /**

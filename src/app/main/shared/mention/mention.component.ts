@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MessagesService } from '../../../shared/services/messages.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { ChannelsService } from '../../../shared/services/channels.service';
 import { Channel } from '../../../models/channel';
@@ -20,21 +19,35 @@ export class MentionComponent {
   acitveUserID: string | null;
   activeChannel$: Observable<Channel | null>;
   members: any = [];
-  // activeUsers: any = [];
   state:boolean = false;
 
+  /**
+   * Constructor for the MentionComponent.
+   * Subscribes to the currently active channel and loads the members of this channel.
+   * Also sets the active user ID.
+   * @param auth The AuthService to get the active user ID.
+   * @param channelService The ChannelService to subscribe to the active channel.
+   * @param userService The UserService to load the members of the channel.
+   * @param mentionService The MentionService to handle the mention logic.
+   */
   constructor(
-    private messagesService: MessagesService,
     private auth: AuthService,
     private channelService: ChannelsService,
     private userService: UserService,
     private mentionService: MentionService,
   ) {
-    this.acitveUserID = auth.userId();
-    this.activeChannel$ = channelService.currentChannel$;
+    this.acitveUserID = this.auth.userId();
+    this.activeChannel$ = this.channelService.currentChannel$;
     this.getMembers();
   }
 
+
+  /**
+   * Subscribes to the currently active channel and loads the members of this channel.
+   *
+   * For each member, it calls the checkMentions method to check if the member is already mentioned.
+   * If the member is not mentioned, it adds the member to the members array.
+   */
   getMembers() {
     this.activeChannel$.subscribe(channel => {
       channel?.members.forEach(member => {
@@ -46,21 +59,41 @@ export class MentionComponent {
             status: user.status ? user.status : false,
             mention: false,
           }
-          if(data.name !== "Unbekannt" && data.id !== this.acitveUserID) {
-            this.checkMention(data.id)
-            if (!this.state) {
-              this.members.push(data)
-            } else {
-              data.mention = true;
-              this.members.push(data)
-              console.log("member exestiert!!", data.name)
-            }
-          }
+          this.checkMentions(data);
         })
       })
     })
   }
 
+
+  /**
+   * Checks if the member is already mentioned and adds the member to the members array.
+   *
+   * If the member is not mentioned, it adds the member to the members array.
+   * If the member is already mentioned, it sets the mention property of the member to true.
+   * @param data The member to be checked with the properties name, photoUrl, id, status, and mention.
+   */
+  checkMentions(data: {name: string; photoUrl: string; id: string; status: boolean; mention: boolean;}) {
+    if(data.name !== "Unbekannt" && data.id !== this.acitveUserID) {
+      this.checkMention(data.id)
+      if (!this.state) {
+        this.members.push(data)
+      } else {
+        data.mention = true;
+        this.members.push(data)
+      }
+    }
+  }
+
+
+  /**
+   * Selects a member and updates the mention property of the member.
+   *
+   * If the member is not mentioned, it sets the mention property to true and calls the mentionSomeone method of the MentionService.
+   * If the member is already mentioned, it sets the mention property to false and calls the disselect method of the MentionService.
+   * @param member The member object containing the user data to be selected.
+   * @param builder The builder string indicating the component to be used for the mention. Default is the builder string of the component.
+   */
   selectMember(member:any, builder = this.builder) {
     if (!member.mention) {
       member.mention = true;
@@ -71,6 +104,14 @@ export class MentionComponent {
     }
   }
 
+
+  /**
+   * Checks if the member with the given id is already mentioned.
+   *
+   * Loops through the mentionsUser array of the MentionService and checks if the id of the member matches the id of a user in the array.
+   * If it does, it sets the state property to true, else it sets it to false.
+   * @param id The id of the member to be checked.
+   */
   checkMention(id:string) {
     this.mentionService.mentionsUser.forEach((user:any) => {
       if (id === user.id) {
@@ -80,5 +121,4 @@ export class MentionComponent {
       }
     })
   }
-  
 }

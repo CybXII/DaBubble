@@ -1,28 +1,28 @@
 <header class="mainchat__header">
   <button class="mainchat__header-btn" (click)="openDialog('channelDialog')">
     @if (this.isPrivate) {
-      <img [src]="convPartner$ | async" alt="Avatar" class="mainchat__header-avatar" height="40px" width="40px" />
-      <h3 class="mainchat__header-btn__title">{{ conversationName$ | async}}</h3>
+    <img [src]="convPartner$ | async" alt="Avatar" class="mainchat__header-avatar" height="40px" width="40px" />
+    <h3 class="mainchat__header-btn__title">{{ conversationName$ | async}}</h3>
     } @else {
-      <span class="mainchat__header-btn__hashtag">#</span>
-      <h3 class="mainchat__header-btn__title">{{channelTitle}}</h3>
+    <span class="mainchat__header-btn__hashtag">#</span>
+    <h3 class="mainchat__header-btn__title">{{channelTitle}}</h3>
     }
     @if (!mobile) {
-      <div class="mainchat__header-btn__img-container">
-        <img src="img/icons/arrow_down.svg" alt="" height="8" width="14" />
-      </div>
-  
+    <div class="mainchat__header-btn__img-container">
+      <img src="img/icons/arrow_down.svg" alt="" height="8" width="14" />
+    </div>
+
     }
   </button>
   @if (this.channelDialog) {
-    <app-menu-dialog class="channelDialog" [menuDialog]="menuDialog" [membersDialog]="membersDialog"
-      [channelDialog]="channelDialog" [dialogData]="dialogData" (dialogSwitch)="onDialogSwitch($event)">
-    </app-menu-dialog>
-    <div class="dialog-background-channel" [ngClass]="{
+  <app-menu-dialog class="channelDialog" [menuDialog]="menuDialog" [membersDialog]="membersDialog"
+    [channelDialog]="channelDialog" [dialogData]="dialogData" (dialogSwitch)="onDialogSwitch($event)">
+  </app-menu-dialog>
+  <div class="dialog-background-channel" [ngClass]="{
         'dialog-background': channelDialog
       }" (click)="closeDialog($event)">
-    </div>
-    }
+  </div>
+  }
   @if (!this.isPrivate){
   <div class="mainchat__header__item2">
     <div class="mainchat__header__avatar-container desktopIcon" (click)="openDialog('membersDialog')">
@@ -33,33 +33,33 @@
         }
         }
       </div>
-        <span class="mainchat__header__accounts-number">{{ channelMembers.length }}</span>
-      </div>
+      <span class="mainchat__header__accounts-number">{{ channelMembers.length }}</span>
+    </div>
     <div class="mainchat__header__addperson-img-container">
       <img class="mainchat__header__addperson-img desktopIcon" src="img/icons/person_add.svg" alt=""
         (click)="openDialog('menuDialog')" />
-        <img class="mainchat__header__addperson-img mobileIcon" src="img/icons/person_add.svg" alt=""
+      <img class="mainchat__header__addperson-img mobileIcon" src="img/icons/person_add.svg" alt=""
         (click)="openDialog('membersDialog')" />
-      
+
     </div>
   </div>
   @if (this.menuDialog){
-    <app-menu-dialog class="menuDialog" [menuDialog]="menuDialog" [membersDialog]="membersDialog"
-      [channelDialog]="channelDialog" [dialogData]="dialogData" (dialogSwitch)="onDialogSwitch($event)">
-    </app-menu-dialog>
-    <div [ngClass]="{
+  <app-menu-dialog class="menuDialog" [menuDialog]="menuDialog" [membersDialog]="membersDialog"
+    [channelDialog]="channelDialog" [dialogData]="dialogData" (dialogSwitch)="onDialogSwitch($event)">
+  </app-menu-dialog>
+  <div [ngClass]="{
           'dialog-background': menuDialog
         }" (click)="closeDialog($event)">
-    </div>
-    }
-    @if (this.membersDialog){
-    <app-menu-dialog class="membersDialog" [menuDialog]="menuDialog" [membersDialog]="membersDialog"
-      [channelDialog]="channelDialog" [dialogData]="dialogData" (dialogSwitch)="onDialogSwitch($event)">
-    </app-menu-dialog>
-    <div [ngClass]="{
+  </div>
+  }
+  @if (this.membersDialog){
+  <app-menu-dialog class="membersDialog" [menuDialog]="menuDialog" [membersDialog]="membersDialog"
+    [channelDialog]="channelDialog" [dialogData]="dialogData" (dialogSwitch)="onDialogSwitch($event)">
+  </app-menu-dialog>
+  <div [ngClass]="{
           'dialog-background': membersDialog
         }" (click)="closeDialog($event)">
-    </div>
-    }
-}
+  </div>
+  }
+  }
 </header>

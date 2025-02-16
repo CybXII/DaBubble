@@ -219,9 +219,7 @@ input {
 }
 
 .channel-box {
-//   width: 400px;
   gap: 10px;
-//   height: 58px;
   @include mixins.flexbox(row, flex-start, center, nowrap);
   cursor: pointer;
   font-size: 18px;

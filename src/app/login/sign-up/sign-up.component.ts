@@ -4,35 +4,17 @@ import { Router, RouterModule } from '@angular/router';
 import { ChooseAvatarComponent } from './choose-avatar/choose-avatar.component';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../shared/services/auth.service';
-import { UserModel } from '../../models/user';
 
-/**
- * SignUpComponent - A component that handles the sign-up functionality.
- */
 @Component({
   selector: 'app-sign-up',
-  standalone: true,   // <-- Add this line
+  standalone: true,
   imports: [CommonModule, FormsModule, ChooseAvatarComponent, RouterModule],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.scss'
 })
 export class SignUpComponent {
-
-  /**
-   * avatar - A flag to indicate if the avatar selection is active.
-   */
   avatar: boolean = false;
-
-  /**
-   * userData - Object to hold user sign-up data.
-   */
-  userData = {
-    name: "",
-    email: "",
-    password: "",
-    privacy: false,
-    photoURL: "",
-  }
+  userData = {name: "", email: "", password: "", privacy: false, photoURL: ""}
 
   /**
    * Constructor for SignUpComponent.

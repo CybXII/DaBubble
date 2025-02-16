@@ -1,7 +1,6 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Reaction } from '../../models/message';
-import { signal } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { combineLatest, map, Observable } from 'rxjs';
 @Component({
@@ -20,14 +19,35 @@ export class ReactionsComponent {
 
   constructor(private userService: UserService) {}
 
+  /**
+   * Emits a reactionAdded event with the given emoji, messageId, and isThreadMessage.
+   * @param emoji The emoji to add as a reaction.
+   */
   addReaction(emoji: string) {
     this.reactionAdded.emit({ messageId: this.messageId, emoji, isThreadMessage: this.isThreadMessage });
   }
 
+
+  /**
+   * Returns true if the given reaction was added by the active user.
+   * @param reaction The reaction to check.
+   */
   isReacted(reaction: Reaction): boolean {
     return reaction.userIds.includes(this.activeUserId);
   }
 
+
+/**
+ * Retrieves and formats the names of users who reacted with a specific emoji.
+ * 
+ * This method returns an observable that emits a string describing who
+ * reacted to a message with the provided reaction. If the active user
+ * is among the users who reacted, it includes a personalized message.
+ * 
+ * @param reaction The reaction object containing the emoji and user IDs.
+ * @returns An observable that emits a string with the formatted list
+ *          of user names who reacted.
+ */
   getReactionUsers(reaction: Reaction): Observable<string> {
     const userObservables = reaction.userIds.map(id => this.userService.getUserById(id).pipe(map(user => user.name)));
     return combineLatest(userObservables).pipe(
@@ -46,10 +66,23 @@ export class ReactionsComponent {
     );
   }
 
+
+  /**
+   * Returns an observable that emits the name of the user with the given user ID.
+   * @param userId The user ID to retrieve the name for.
+   * @returns An observable that emits the user name.
+   */
   getUserName(userId: string): Observable<string> {
     return this.userService.getuserName(userId);
   }
 
+
+  /**
+   * Provides a unique identifier for a reaction based on its emoji and user IDs.
+   * @param index The index of the reaction in the list of reactions.
+   * @param reaction The reaction object to generate a unique identifier for.
+   * @returns A unique string identifying the reaction.
+   */
   trackByReaction(index: number, reaction: Reaction): string {
     return reaction.emoji + reaction.userIds.join('-');
   }
