@@ -526,16 +526,6 @@
   }
 }
 
-.edit__message {
-  .chatbox__msg-container__sent {
-    justify-content: center;
-  }
-  .chatbox__msg-container {
-    padding: 0px 10px;
-    justify-content: center;
-  }
-}
-
 .left10px {
   left: 5%;
 }
@@ -552,7 +542,7 @@
   .chatbox__editmsg-container {
     top: 40px;
     right: -60px;
-    padding: 0px;
+    padding: 0px 10px;
     gap: 0px !important;
     width: 250px;
   }
@@ -577,5 +567,12 @@
 
   .chatbox__msg-container {
     padding: 10px 10px;
+  }
+
+  .editMessage>.buttons>.cont {
+    gap: 10px;
+    button {
+      padding: 5px 10px !important;
+    }
   }
 }

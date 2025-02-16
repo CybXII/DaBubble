@@ -26,7 +26,7 @@
 
 <div class="chatbox__msg-container" [class.chatbox__msg-container__sent]="message.createdBy === activeUserId"
     [ngClass]="{ 'thread__days__chatbox__msg-container': !message.sameDay }" id="{{ message.docId }}"
-    [ngClass]="{'mobile_answer': ckeckThredMessageAndWidth(message)}" [ngClass]="{'edit__message': message.sameDay}">
+    [ngClass]="{'mobile_answer': ckeckThredMessageAndWidth(message)}">
     @if (!message.sameDay) {
     <button class="chatbox__addemoji-container" [class.chatbox__addemoji__sent]="message.createdBy === activeUserId">
         @if(getLastUsedEmojis(0)){
