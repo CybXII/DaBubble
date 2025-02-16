@@ -1,6 +1,7 @@
-  <div class="chatbox__msg-container chatbox__msg-container_padding0" [class.chatbox__msg-container__sent]="threadMessage.createdBy === activeUserId" id="{{ threadMessage.docId }}">
-    @if (threadMessage.docId && isEmojiPickerOpenForThisMessage()){
-          <div [class]="{
+<div class="chatbox__msg-container chatbox__msg-container_padding0"
+  [class.chatbox__msg-container__sent]="threadMessage.createdBy === activeUserId" id="{{ threadMessage.docId }}">
+  @if (threadMessage.docId && isEmojiPickerOpenForThisMessage()){
+  <div [class]="{
             'emoji-picker__wrapper-left-thread':
               displayPickerBottom && threadMessage.createdBy !== activeUserId,
             'emoji-picker__wrapper-top-right-thread':
@@ -10,87 +11,87 @@
             'emoji-picker__wrapper-right-thread':
               displayPickerBottom && threadMessage.createdBy === activeUserId
           }" (click)="preventEmojiPickerClose($event)">
-        <app-emoji-picker componentName="chatbox" (emoji)="addEmoji(threadMessage.docId, activeUserId!, $event)" />
-      </div>
-    }
-    <!-- Emoji hinzufügen Button -->
-    @if (!threadMessage.sameDay) {
-      <button class="chatbox__addemoji-container"
-      [class.chatbox__addemoji__sent]="threadMessage.createdBy === activeUserId">
-      @if (getLastUsedEmojis(0)) {
-        <span class="chatbox__addemoji__lastUsedEmoji" (click)="addEmoji(threadMessage.docId!, activeUserId!, getLastUsedEmojis(0))">
-          {{ getLastUsedEmojis(0) }}
-        </span>
-      }
-      @if (getLastUsedEmojis(1)) {
-        <span class="chatbox__addemoji__lastUsedEmoji" (click)="addEmoji(threadMessage.docId!, activeUserId!, getLastUsedEmojis(1))">
-          {{ getLastUsedEmojis(1) }}
-        </span>
-      }
-      @if (threadMessage.docId) {      
-        <div class="chatbox__addemoji__emoji-container" (click)="toggleEmojiPicker()">
-          <img src="/img/icons/addemoji.svg" alt="Emoji hinzufügen">
-        </div>
-      }
-
-      <div class="chatbox__editmsg-btn__container" style="display: none"
-            [style.display]="threadMessage.createdBy === activeUserId ? 'flex' : 'none'">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <mask id="mask0_1817_18043" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="40"
-                    height="40" viewbox="0 0 40 40">
-                    <rect width="24" height="24" fill="#D9D9D9" />
-                </mask>
-                <g mask="url(#mask0_1817_18043)">
-                    <path
-                        d="M12 20C11.45 20 10.9792 19.8042 10.5875 19.4125C10.1958 19.0208 10 18.55 10 18C10 17.45 10.1958 16.9792 10.5875 16.5875C10.9792 16.1958 11.45 16 12 16C12.55 16 13.0208 16.1958 13.4125 16.5875C13.8042 16.9792 14 17.45 14 18C14 18.55 13.8042 19.0208 13.4125 19.4125C13.0208 19.8042 12.55 20 12 20ZM12 14C11.45 14 10.9792 13.8042 10.5875 13.4125C10.1958 13.0208 10 12.55 10 12C10 11.45 10.1958 10.9792 10.5875 10.5875C10.9792 10.1958 11.45 10 12 10C12.55 10 13.0208 10.1958 13.4125 10.5875C13.8042 10.9792 14 11.45 14 12C14 12.55 13.8042 13.0208 13.4125 13.4125C13.0208 13.8042 12.55 14 12 14ZM12 8C11.45 8 10.9792 7.80417 10.5875 7.4125C10.1958 7.02083 10 6.55 10 6C10 5.45 10.1958 4.97917 10.5875 4.5875C10.9792 4.19583 11.45 4 12 4C12.55 4 13.0208 4.19583 13.4125 4.5875C13.8042 4.97917 14 5.45 14 6C14 6.55 13.8042 7.02083 13.4125 7.4125C13.0208 7.80417 12.55 8 12 8Z"
-                        fill="#1C1B1F" />
-                </g>
-            </svg>
-            <div class="chatbox__editmsg-container">
-                <span (click)="editMessage(threadMessage, false, true)" class="chatbox__editmsg">Nachricht bearbeiten</span>
-                <span (click)="editMessage(threadMessage, true ,false)" class="chatbox__editmsg">Nachricht löschen</span>
-            </div>
-        </div>
-      </button>
-    }
-    @if (threadMessage.createdBy) {
-      @if(threadMessage.sameDay && threadMessage.createdBy === activeUserId) {
-        <div class="editMessage">
-          <textarea #editTextArea type="text" class="chatbox__msg" [class.chatbox__msg-sent]="threadMessage.createdBy === activeUserId"
-              [(ngModel)]="threadMessage.message"></textarea>
-          <div class="buttons">
-              <div class="chatbox__addreaction-container">
-                  <img src="/img/icons/sentiment_satisfied.svg" alt="" (click)="toggleEmojiPicker()"/>
-              </div>
-              <div class="cont">
-                  <button class="cancel default" (click)="cancelEdit(threadMessage)">
-                      Abbrechen
-                  </button>
-                  <button class="save default" (click)="saveEdit(threadMessage,  this.activeMessageId || '')">
-                      Speichern
-                  </button>
-              </div>
-          </div>
-      </div>
-      } @else {
-            <!-- Nachricht anzeigen -->
-        <img (click)="checkIdIsUser(threadMessage.createdBy)" class="chatbox__msg-avatar" [src]="getUserAvatar(threadMessage.createdBy) | async" alt="Avatar" width="70" height="70" />
-        <div class="chatbox__msg-item2" [class.chatbox__msg-sent-item2]="threadMessage.createdBy === activeUserId">
-          <div class="chatbox__msg-info" [class.chatbox__msg-sent-info]="threadMessage.createdBy === activeUserId">
-            <h3 (click)="checkIdIsUser(threadMessage.createdBy)" class="chatbox__msg-name">{{ threadMessage.creatorName }}</h3>
-            <p class="chatbox__msg-time">{{ threadMessage.timestamp | date: "HH:mm" }}</p>
-          </div>
-          <p class="chatbox__msg" [class.chatbox__msg-sent]="threadMessage.createdBy === activeUserId">
-            {{ threadMessage.message }}
-          </p>
-          <app-reactions class="chatbox__reaction-wrapper"
-            [reactions]="threadMessage.reactions"
-            [activeUserId]="activeUserId || ''"
-            [messageId]="threadMessage.docId || ''"
-            [isThreadMessage]="true"
-            (reactionAdded)="addEmoji($event.messageId, activeUserId!, $event.emoji)">
-          </app-reactions>
-        </div>
-      }
-    }
+    <app-emoji-picker componentName="chatbox" (emoji)="addEmoji(threadMessage.docId, activeUserId!, $event)" />
   </div>
+  }
+  @if (!threadMessage.sameDay) {
+  <button class="chatbox__addemoji-container"
+    [class.chatbox__addemoji__sent]="threadMessage.createdBy === activeUserId">
+    @if (getLastUsedEmojis(0)) {
+    <span class="chatbox__addemoji__lastUsedEmoji"
+      (click)="addEmoji(threadMessage.docId!, activeUserId!, getLastUsedEmojis(0))">
+      {{ getLastUsedEmojis(0) }}
+    </span>
+    }
+    @if (getLastUsedEmojis(1)) {
+    <span class="chatbox__addemoji__lastUsedEmoji"
+      (click)="addEmoji(threadMessage.docId!, activeUserId!, getLastUsedEmojis(1))">
+      {{ getLastUsedEmojis(1) }}
+    </span>
+    }
+    @if (threadMessage.docId) {
+    <div class="chatbox__addemoji__emoji-container" (click)="toggleEmojiPicker()">
+      <img src="/img/icons/addemoji.svg" alt="Emoji hinzufügen">
+    </div>
+    }
+
+    <div class="chatbox__editmsg-btn__container" style="display: none"
+      [style.display]="threadMessage.createdBy === activeUserId ? 'flex' : 'none'">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <mask id="mask0_1817_18043" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="40"
+          height="40" viewbox="0 0 40 40">
+          <rect width="24" height="24" fill="#D9D9D9" />
+        </mask>
+        <g mask="url(#mask0_1817_18043)">
+          <path
+            d="M12 20C11.45 20 10.9792 19.8042 10.5875 19.4125C10.1958 19.0208 10 18.55 10 18C10 17.45 10.1958 16.9792 10.5875 16.5875C10.9792 16.1958 11.45 16 12 16C12.55 16 13.0208 16.1958 13.4125 16.5875C13.8042 16.9792 14 17.45 14 18C14 18.55 13.8042 19.0208 13.4125 19.4125C13.0208 19.8042 12.55 20 12 20ZM12 14C11.45 14 10.9792 13.8042 10.5875 13.4125C10.1958 13.0208 10 12.55 10 12C10 11.45 10.1958 10.9792 10.5875 10.5875C10.9792 10.1958 11.45 10 12 10C12.55 10 13.0208 10.1958 13.4125 10.5875C13.8042 10.9792 14 11.45 14 12C14 12.55 13.8042 13.0208 13.4125 13.4125C13.0208 13.8042 12.55 14 12 14ZM12 8C11.45 8 10.9792 7.80417 10.5875 7.4125C10.1958 7.02083 10 6.55 10 6C10 5.45 10.1958 4.97917 10.5875 4.5875C10.9792 4.19583 11.45 4 12 4C12.55 4 13.0208 4.19583 13.4125 4.5875C13.8042 4.97917 14 5.45 14 6C14 6.55 13.8042 7.02083 13.4125 7.4125C13.0208 7.80417 12.55 8 12 8Z"
+            fill="#1C1B1F" />
+        </g>
+      </svg>
+      <div class="chatbox__editmsg-container">
+        <span (click)="editMessage(threadMessage)" class="chatbox__editmsg">Nachricht bearbeiten</span>
+        <span (click)="editMessage(threadMessage)" class="chatbox__editmsg">Nachricht löschen</span>
+      </div>
+    </div>
+  </button>
+  }
+  @if (threadMessage.createdBy) {
+  @if(threadMessage.sameDay && threadMessage.createdBy === activeUserId) {
+  <div class="editMessage">
+    <textarea #editTextArea type="text" class="chatbox__msg"
+      [class.chatbox__msg-sent]="threadMessage.createdBy === activeUserId"
+      [(ngModel)]="threadMessage.message"></textarea>
+    <div class="buttons">
+      <div class="chatbox__addreaction-container">
+        <img src="/img/icons/sentiment_satisfied.svg" alt="" (click)="toggleEmojiPicker()" />
+      </div>
+      <div class="cont">
+        <button class="cancel default" (click)="cancelEdit(threadMessage)">
+          Abbrechen
+        </button>
+        <button class="save default" (click)="saveEdit(threadMessage,  this.activeMessageId || '')">
+          Speichern
+        </button>
+      </div>
+    </div>
+  </div>
+  } @else {
+  <img (click)="checkIdIsUser(threadMessage.createdBy)" class="chatbox__msg-avatar"
+    [src]="getUserAvatar(threadMessage.createdBy) | async" alt="Avatar" width="70" height="70" />
+  <div class="chatbox__msg-item2" [class.chatbox__msg-sent-item2]="threadMessage.createdBy === activeUserId">
+    <div class="chatbox__msg-info" [class.chatbox__msg-sent-info]="threadMessage.createdBy === activeUserId">
+      <h3 (click)="checkIdIsUser(threadMessage.createdBy)" class="chatbox__msg-name">{{ threadMessage.creatorName }}
+      </h3>
+      <p class="chatbox__msg-time">{{ threadMessage.timestamp | date: "HH:mm" }}</p>
+    </div>
+    <p class="chatbox__msg" [class.chatbox__msg-sent]="threadMessage.createdBy === activeUserId">
+      {{ threadMessage.message }}
+    </p>
+    <app-reactions class="chatbox__reaction-wrapper" [reactions]="threadMessage.reactions"
+      [activeUserId]="activeUserId || ''" [messageId]="threadMessage.docId || ''" [isThreadMessage]="true"
+      (reactionAdded)="addEmoji($event.messageId, activeUserId!, $event.emoji)">
+    </app-reactions>
+  </div>
+  }
+  }
+</div>
