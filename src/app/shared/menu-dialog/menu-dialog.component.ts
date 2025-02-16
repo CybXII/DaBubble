@@ -211,16 +211,6 @@ export class MenuDialogComponent  implements OnInit {
 
 
   /**
-   * Gets the user data by ID.
-   * @param id The ID of the user to get the data for.
-   * @returns An observable that emits the user data.
-   */
-  getUserData(id: string) {
-    return this.authService.getUserById(id);
-  }
-
-
-  /**
    * Prevents the default event behavior and stops the event propagation.
    * This method is used to prevent the dialog from closing when the user clicks
    * on an element that is not supposed to close the dialog, such as a button that

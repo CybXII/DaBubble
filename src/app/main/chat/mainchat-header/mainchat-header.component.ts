@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../shared/services/auth.service';
 import { MenuDialogComponent } from "../../../shared/menu-dialog/menu-dialog.component";
 import { ChangeDetectorRef } from '@angular/core';
-import { User, UserService } from '../../../shared/services/user.service';
+import { CustomUser, UserService } from '../../../shared/services/user.service';
 
 @Component({
   selector: 'app-mainchat-header',
@@ -18,7 +18,7 @@ import { User, UserService } from '../../../shared/services/user.service';
 export class MainchatHeaderComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
   channel$: Observable<Channel | null>;
-  usersArray$: Observable<User[]> | undefined;
+  usersArray$: Observable<CustomUser[]> | undefined;
   convPartner$: Observable<string> = new Observable<string>(obs => obs.next(''));
   conversationName$: Observable<string> = new Observable<string>(obs => obs.next(''));
   memberAvatars: Record<string, Record<string, string>> = {};
@@ -124,7 +124,7 @@ export class MainchatHeaderComponent implements OnInit, OnDestroy {
    */
   initNamesAndAvatars(channel: Channel) {
     this.subscriptions.add(
-      this.usersArray$?.subscribe((users: User[]) => {
+      this.usersArray$?.subscribe((users: CustomUser[]) => {
         const newChannelMembers = users.map(user => ({
           id: user.userId, 
           name: user.name, 
@@ -146,7 +146,7 @@ export class MainchatHeaderComponent implements OnInit, OnDestroy {
    * @param users The users array.
    * @param newChannelMembers The new channel members array.
    */
-  initChannelMembers(channel:Channel, users: User[] ,newChannelMembers: { id: string; name: string; status: boolean; photoURL: string }[]) {
+  initChannelMembers(channel:Channel, users: CustomUser[] ,newChannelMembers: { id: string; name: string; status: boolean; photoURL: string }[]) {
     this.channelMembers = [...newChannelMembers];
     if (channel?.id) {
       this.memberAvatars[channel.id] = users.reduce((acc, user) => {
@@ -207,7 +207,7 @@ export class MainchatHeaderComponent implements OnInit, OnDestroy {
  * @param users An array of User objects representing the users in the conversation.
  * @returns A string representing the conversation name.
  */
-  getConversationName(users: User[]): string {
+  getConversationName(users: CustomUser[]): string {
     if (!users || users.length === 0) return 'Unbekannt';
     const activeUserId = this.authService.userId();
     const conversationPartners = users.filter(user => user.userId !== activeUserId);
@@ -222,15 +222,13 @@ export class MainchatHeaderComponent implements OnInit, OnDestroy {
 
   /**
    * Retrieves the avatar of the conversation partner.
-   *
    * If the conversation only involves the active user, returns the active user's avatar.
    * If the conversation involves multiple users, returns the avatar of the first conversation partner
    * that is not the active user. If no conversation partners are found, returns an empty string.
-   *
    * @param users An array of User objects representing the users in the conversation.
    * @returns An observable that emits the avatar URL of the conversation partner.
    */
-  getConverrsationAvatar(users: User[]): Observable<string> {
+  getConverrsationAvatar(users: CustomUser[]): Observable<string> {
     if (!users || users.length === 0) return new Observable<string>(obs => obs.next(''));
     const activeUserId = this.authService.userId();
     const conversationPartner = users.find(user => user.userId !== activeUserId);
@@ -245,7 +243,6 @@ export class MainchatHeaderComponent implements OnInit, OnDestroy {
 
   /**
    * Opens the specified dialog menu with the data of the current conversation.
-   *
    * @param menu The name of the menu to open. Can be either 'menuDialog', 'membersDialog', or 'channelDialog'.
    */
   openDialog(menu: string) {

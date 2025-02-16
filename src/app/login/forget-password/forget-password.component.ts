@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../shared/services/auth.service';
 import { ToastMessageService } from '../../shared/services/toastmessage.service';
 import { ToastMessageComponent } from '../../shared/toastmessage/toastmessage.component';
+import { UserService } from '../../shared/services/user.service';
 
 @Component({
   selector: 'app-forget-password',
@@ -26,7 +26,7 @@ export class ForgetPasswordComponent {
    */
   constructor(
     private router: Router,
-    private authService: AuthService,
+    private userService: UserService,
     private toastMessageService: ToastMessageService
   ) {}
 
@@ -56,7 +56,7 @@ export class ForgetPasswordComponent {
    * @param {NgForm} form - The form containing the user email.
    */
   sendMail(form: NgForm) {
-    this.authService
+    this.userService
       .resetPassword(this.userData.email)
       .then(() => {
         form.resetForm();

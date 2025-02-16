@@ -330,7 +330,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
    * @returns {Promise<Message>} - A promise that resolves with the generated Message object.
    */
   async generateMessageObject(): Promise<Message> {
-    let user: UserModel = (await this.authService.getUserById(this.activeUserId)) as UserModel;
+    let user: UserModel = (await this.userService.getUserForMessageById(this.activeUserId)) as UserModel;
     const message: Omit<Message, 'threadMessages$'> = {
       channelId: this.sendToId || '',
       createdBy: this.activeUserId || '',
@@ -350,7 +350,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
    * @returns {ThreadMessage} - The generated ThreadMessage object.
    */
   async generateThreadMessageObject(): Promise<ThreadMessage> {
-    let user: UserModel = (this.authService.getUserById(this.activeUserId)) as unknown as UserModel;
+    let user: UserModel = (this.userService.getUserForMessageById(this.activeUserId)) as unknown as UserModel;
     const threadMessage: ThreadMessage = {
       createdBy: this.activeUserId || '',
       creatorName: user.name || '',
