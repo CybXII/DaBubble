@@ -74,7 +74,7 @@ export class SearchbarComponent {
     this.isSearchActive = this.searchText.length >= 4;
     this.isSearchTouched = this.searchText.length > 0;
     if (this.searchText.length >= 4) {
-      this.searchService.searchMessages(this.searchText, this.userId);
+      this.searchService.searchMessages(this.searchText);
       this.searchService.searchThreadMessages(this.searchText);
       this.searchService.searchUsers(this.searchText, 'name');
       this.searchService.searchChannels(this.searchText,this.userId,'channel');
