@@ -65,7 +65,6 @@ export class AuthService {
     this.intializeUserData();
   }
 
-
   /**
    * Monitors the authentication state of the user.
    */
@@ -81,7 +80,6 @@ export class AuthService {
     });
   }
 
-
   /**
    * Clears the authentication state of the user.
    */
@@ -92,7 +90,6 @@ export class AuthService {
     sessionStorage.removeItem('userData');
   }
 
-
   /**
    * Checks if the user is authenticated.
    * @returns True if the user is authenticated, false otherwise.
@@ -100,7 +97,6 @@ export class AuthService {
   isAuthenticated(): boolean {
     return !!this.auth.currentUser || this.isUserAuthenticated();
   }
-
 
   /**
    * Registers a new user using the given email, password, name, and profile picture URL.
@@ -122,7 +118,6 @@ export class AuthService {
       }, 1000);
     }
   }
-
 
   /**
    * Registers a new user with the specified email, password, name, and photoURL.
@@ -153,7 +148,6 @@ export class AuthService {
     });
   }
 
-
   /**
    * Logs in an existing user with the given email and password.
    * @param email - The email address of the user.
@@ -172,7 +166,6 @@ export class AuthService {
     } catch (error) { this.userService.handleLoginError(error); }
   }
 
-
   /**
    * Logs in an anonymous guest user.
    * @returns A promise that resolves when the login operation is complete.
@@ -189,7 +182,6 @@ export class AuthService {
       }, 1000);
     } catch (error) { console.error('Anonymous login failed:', error); }
   }
-
 
   /**
    * Creates a new guest user object in Firestore.
@@ -217,7 +209,6 @@ export class AuthService {
     });
   }
 
-
   /**
    * Logs in an existing user using Google authentication.
    * @returns A promise that resolves when the login operation is complete.
@@ -226,7 +217,6 @@ export class AuthService {
     try { this.initGoogleLogin() }
     catch (error) { console.error('Google login failed:', error) }
   }
-
 
   /**
    * Initializes the Google login process.
@@ -247,12 +237,23 @@ export class AuthService {
       true
     );
     await setDoc(doc(this.firestore, `users/${user.uid}`), userData);
+    const docRefChannel1 = doc(this.firestore, 'channels', "allgemein");
+    await updateDoc(docRefChannel1, { members: arrayUnion(user.uid) });
+    const docRefChannel2 = doc(this.firestore, 'channels', "entwickler");
+    await updateDoc(docRefChannel2, { members: arrayUnion(user.uid) });
+    await setDoc(doc(this.firestore, 'channels', user.uid), {
+      createdAt: new Date(),
+      isPrivate: true,
+      createdBy: user.uid,
+      description: userData.name,
+      name: userData.name,
+      members: [user.uid],
+    });
     await this.loadUserData(user.uid);
     setTimeout(() => {
       this.toastMessageService.showToastSignal('Erfolgreich eingeloggt');
     }, 1000);
   }
-
 
   /**
    * Initializes the user data in the user data subject.
@@ -263,7 +264,6 @@ export class AuthService {
     if (sessionStorage.getItem('userData'))
       this.userData.set(JSON.parse(sessionStorage.getItem('userData') || '{}'));
   }
-
 
   /**
    * Logs out the currently logged in user.
@@ -279,7 +279,6 @@ export class AuthService {
       await this.logoutAnonymousUser();
   }
 
-
   /**
    * Logs out the user with the given user ID.
    * @param userId - The unique identifier of the user to be logged out.
@@ -294,7 +293,6 @@ export class AuthService {
       this.toastMessageService.showToastSignal('Erfolgreich ausgeloggt');
     } catch (error) { console.error('[AuthService] Fehler beim Logout:', error) }
   }
-
 
   /**
    * Logs out the current anonymous user.
@@ -312,7 +310,6 @@ export class AuthService {
     } catch (error) { console.error('[AuthService] Fehler beim anonymen Logout:', error) }
   }
 
-
   /**
    * Loads the user data for the given user ID from Firestore and sets it to the `userData` observable.
    * @param userId - The ID of the user to load the data for.
@@ -327,7 +324,6 @@ export class AuthService {
       }
     } catch (error) { console.error('Failed to load user data:', error) }
   }
-
 
   /**
    * Returns an observable that emits the list of all users in the Firestore database.
@@ -348,7 +344,6 @@ export class AuthService {
     });
   }
 
-
   /**
    * Redirects the user to the board route if the user is authenticated.
    * Otherwise, redirects the user to the root route.
@@ -361,7 +356,6 @@ export class AuthService {
     else
       this.router.navigate(['/']);
   }
-
 
   /**
    * Updates the user data in Firestore and in the Firebase Authentication service.
@@ -376,7 +370,6 @@ export class AuthService {
       this.toastMessageService.showToastSignal('Fehler beim Aktualisieren der Benutzerdaten');
     }
   }
-
 
   /**
    * Updates the user data in Firestore and in the Firebase Authentication service.
