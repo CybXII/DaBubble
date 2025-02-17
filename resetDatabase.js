@@ -1,5 +1,3 @@
-// Skript lokal ausführen mit "node resetDatabase.js"
-
 const admin = require("firebase-admin");
 
 // Firebase Admin SDK initialisieren
@@ -13,14 +11,39 @@ const db = admin.firestore();
 
 // Neue Grundstruktur der Firestore-Datenbank definieren
 const defaultData = {
-    users: {},
+    users: [
+        {
+            email: "admin@admin.de",
+            name: "Admin",
+            photoURL: "/img/avatars/avatar1.svg",
+            privateNoteRef: "",
+            provider: "password",
+            status: true,
+            userId: "admin"
+        }
+    ],
     messages: {},
-    channels: {}
+    channels: [
+        {
+            id: "allgemein",
+            name: "Allgemein",
+            description: "Allgemein-Chat",
+            createdAt: admin.firestore.Timestamp.now(),
+            createdBy: "admin",
+            isPrivate: false,
+            members: []
+        },
+        {
+            id: "entwickler",
+            name: "Entwickler",
+            description: "Entwickler-Chat",
+            createdAt: admin.firestore.Timestamp.now(),
+            createdBy: "admin",
+            isPrivate: false,
+            members: []
+        }
+    ]
 };
-
-// entwickler:  vfphslFFYLqC4hHHlM8y
-// allgemein: q6m6NQIQepOmjULyneBJ 
-
 
 async function resetDatabase() {
     try {
@@ -34,8 +57,17 @@ async function resetDatabase() {
         }
 
         console.log("Setze Standardwerte...");
-        for (const [key, value] of Object.entries(defaultData)) {
-            await db.collection(key).doc("default").set(value);
+
+        // users und messages initialisieren
+        for (const user of defaultData.users) {
+            await db.collection("users").doc(user.userId).set(user);
+        }
+
+        await db.collection("messages").doc("default").set({ placeholder: true });
+
+        // channels als einzelne Dokumente speichern
+        for (const channel of defaultData.channels) {
+            await db.collection("channels").doc(channel.id).set(channel);
         }
 
         console.log("Datenbank erfolgreich zurückgesetzt!");

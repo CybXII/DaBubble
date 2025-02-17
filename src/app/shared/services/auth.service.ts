@@ -37,8 +37,8 @@ export class AuthService {
   userList = signal<UserModel[]>([]);
   public loadingSpinnerBoard: boolean = true;
   private loginType = signal<'guest' | 'google' | 'email' | null>(null);
-  currentUser = signal<UserModel | null>(null);   
-  
+  currentUser = signal<UserModel | null>(null);
+
   /**
    * Initializes the AuthService.
    * @param auth - The Firestore authentication service.
@@ -58,7 +58,7 @@ export class AuthService {
       if (firebaseUser) {
         const userModel = new UserModel(firebaseUser);
         this.currentUser.set(userModel);
-      } else 
+      } else
         this.currentUser.set(null);
     });
     this.monitorAuthState();
@@ -74,9 +74,9 @@ export class AuthService {
       if (user) {
         this.isUserAuthenticated.set(true);
         this.userId.set(user.uid);
-        if (this.router.url === '/') 
+        if (this.router.url === '/')
           this.redirectIfAuthenticated();
-      } else 
+      } else
         this.clearAuthState();
     });
   }
@@ -110,7 +110,7 @@ export class AuthService {
    * @param photoURL - The URL of the profile picture of the user.
    * @returns A promise that resolves when the user has been successfully registered.
    */
-  async register( email: string, password: string, name: string, photoURL: string): Promise<void> {
+  async register(email: string, password: string, name: string, photoURL: string): Promise<void> {
     try {
       await this.registerUSer(email, password, name, photoURL);
     } catch (error) {
@@ -133,14 +133,16 @@ export class AuthService {
    * @returns A promise that resolves when all operations are complete.
    */
   async registerUSer(email: string, password: string, name: string, photoURL: string) {
-    const userCredential = await createUserWithEmailAndPassword(this.auth,email,password);
+    const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
     const user = userCredential.user;
-    const userData = this.userService.setUserData(user.uid,name || '',user.email || '',photoURL || '','password');
+    const userData = this.userService.setUserData(user.uid, name || '', user.email || '', photoURL || '', 'password');
     await setDoc(doc(this.firestore, 'users', user.uid), userData);
-    const docRefChannel1 = doc(this.firestore, 'channels', "vfphslFFYLqC4hHHlM8y");
-    await updateDoc(docRefChannel1, { members: arrayUnion(user.uid)});
-    const docRefChannel2 = doc(this.firestore, 'channels', "q6m6NQIQepOmjULyneBJ");
-    await updateDoc(docRefChannel2, {members: arrayUnion(user.uid)});
+    //const docRefChannel1 = doc(this.firestore, 'channels', "vfphslFFYLqC4hHHlM8y");
+    const docRefChannel1 = doc(this.firestore, 'channels', "allgemein");
+    await updateDoc(docRefChannel1, { members: arrayUnion(user.uid) });
+    //const docRefChannel2 = doc(this.firestore, 'channels', "q6m6NQIQepOmjULyneBJ");
+    const docRefChannel2 = doc(this.firestore, 'channels', "entwickler");
+    await updateDoc(docRefChannel2, { members: arrayUnion(user.uid) });
     await setDoc(doc(this.firestore, 'channels', user.uid), {
       createdAt: new Date(),
       isPrivate: true,
@@ -160,14 +162,14 @@ export class AuthService {
    */
   async login(email: string, password: string): Promise<void> {
     try {
-      const userCredential = await signInWithEmailAndPassword(this.auth,email,password);
+      const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
       this.userId.set(userCredential.user.uid);
       this.userService.updateDataInFirestore(userCredential.user.uid, { status: true });
       await this.loadUserData(userCredential.user.uid);
       setTimeout(() => {
         this.toastMessageService.showToastSignal('Erfolgreich eingeloggt');
       }, 1000);
-    } catch (error) {this.userService.handleLoginError(error);}
+    } catch (error) { this.userService.handleLoginError(error); }
   }
 
 
@@ -180,12 +182,12 @@ export class AuthService {
       const userCredential = await signInAnonymously(this.auth);
       const user = userCredential.user;
       const userData = this.userService.setAnonymousUserData(user.uid);
-      await this.setNewGustObject(user, userData);  
+      await this.setNewGustObject(user, userData);
       await this.loadUserData(user.uid);
       setTimeout(() => {
         this.toastMessageService.showToastSignal('Erfolgreich eingeloggt');
       }, 1000);
-    } catch (error) {console.error('Anonymous login failed:', error);}
+    } catch (error) { console.error('Anonymous login failed:', error); }
   }
 
 
@@ -212,7 +214,7 @@ export class AuthService {
       description: "Gäste only",
       name: "Gäste only",
       members: [user.uid],
-    });      
+    });
   }
 
 
@@ -221,8 +223,8 @@ export class AuthService {
    * @returns A promise that resolves when the login operation is complete.
    */
   async googleLogin(): Promise<void> {
-    try {this.initGoogleLogin()}
-    catch (error) {console.error('Google login failed:', error)}
+    try { this.initGoogleLogin() }
+    catch (error) { console.error('Google login failed:', error) }
   }
 
 
@@ -258,7 +260,7 @@ export class AuthService {
    * This is used to retain the user data between page reloads.
    */
   intializeUserData() {
-    if (sessionStorage.getItem('userData')) 
+    if (sessionStorage.getItem('userData'))
       this.userData.set(JSON.parse(sessionStorage.getItem('userData') || '{}'));
   }
 
@@ -271,9 +273,9 @@ export class AuthService {
    */
   async logout(): Promise<void> {
     const userId = this.userData()?.userId;
-    if (userId && this.userData()?.provider !== 'anonymous') 
+    if (userId && this.userData()?.provider !== 'anonymous')
       await this.logoutUser(userId);
-    else if (this.userData()?.provider === 'anonymous') 
+    else if (this.userData()?.provider === 'anonymous')
       await this.logoutAnonymousUser();
   }
 
@@ -290,7 +292,7 @@ export class AuthService {
       this.clearAuthState();
       this.router.navigate(['']);
       this.toastMessageService.showToastSignal('Erfolgreich ausgeloggt');
-    } catch (error) {console.error('[AuthService] Fehler beim Logout:', error)}
+    } catch (error) { console.error('[AuthService] Fehler beim Logout:', error) }
   }
 
 
@@ -307,7 +309,7 @@ export class AuthService {
       this.clearAuthState();
       this.router.navigate(['']);
       this.toastMessageService.showToastSignal('Erfolgreich ausgeloggt');
-    } catch (error) {console.error('[AuthService] Fehler beim anonymen Logout:', error)}
+    } catch (error) { console.error('[AuthService] Fehler beim anonymen Logout:', error) }
   }
 
 
@@ -323,7 +325,7 @@ export class AuthService {
         this.userData.set(userDoc.data() as UserModel);
         this.userService.setUserDataInStorage(userDoc.data() as UserModel);
       }
-    } catch (error) {console.error('Failed to load user data:', error)}
+    } catch (error) { console.error('Failed to load user data:', error) }
   }
 
 
@@ -335,13 +337,13 @@ export class AuthService {
   public getUserList(): Observable<UserModel[]> {
     return new Observable((observer) => {
       const userCollection = collection(this.firestore, 'users');
-      onSnapshot(userCollection,(snapshot) => {
-          const users: UserModel[] = [];
-          snapshot.forEach((doc) => {users.push(doc.data() as UserModel);});
-          this.userList.set(users);
-          observer.next(users);
-        },
-        (error) => {observer.error(error);}
+      onSnapshot(userCollection, (snapshot) => {
+        const users: UserModel[] = [];
+        snapshot.forEach((doc) => { users.push(doc.data() as UserModel); });
+        this.userList.set(users);
+        observer.next(users);
+      },
+        (error) => { observer.error(error); }
       );
     });
   }
@@ -354,9 +356,9 @@ export class AuthService {
    * The redirect is delayed by 4 seconds to allow the user to see the login success message.
    */
   redirectIfAuthenticated(): void {
-    if (this.auth.currentUser) 
-      setTimeout(() => {this.router.navigate(['/board']);}, 4000);
-    else 
+    if (this.auth.currentUser)
+      setTimeout(() => { this.router.navigate(['/board']); }, 4000);
+    else
       this.router.navigate(['/']);
   }
 
@@ -368,7 +370,7 @@ export class AuthService {
    * @returns A promise that resolves when the user data is updated.
    */
   async updateUserData(userId: string, updatedData: Partial<UserModel>): Promise<void> {
-    try {this.updateFireStoreData(userId, updatedData);} 
+    try { this.updateFireStoreData(userId, updatedData); }
     catch (error) {
       console.error('Fehler beim Aktualisieren der Benutzerdaten:', error);
       this.toastMessageService.showToastSignal('Fehler beim Aktualisieren der Benutzerdaten');
@@ -392,7 +394,7 @@ export class AuthService {
       this.userData.set(updatedUserData);
       const user = this.auth.currentUser;
       if (user)
-        this.userService.updateUserDataInDatabase(user,userId, updatedData);
+        this.userService.updateUserDataInDatabase(user, userId, updatedData);
       this.toastMessageService.showToastSignal('Benutzerdaten erfolgreich aktualisiert');
     }
   }
