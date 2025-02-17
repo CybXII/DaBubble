@@ -22,6 +22,7 @@ import { ReactionsComponent } from '../../../shared/reactions/reactions.componen
 import { MatDialog } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { UserDialogService } from '../../../shared/services/user-dialog.service';
+import { EditmessageComponent } from '../editmessage/editmessage.component';
 
 @Component({
   selector: 'app-thread-messages',
@@ -287,10 +288,19 @@ export class ThreadMessagesComponent implements OnInit, OnDestroy {
    *
    * @param message The message to be edited, represented as a partial message object.
    */
-  editMessage(message: Partial<Message>) {
-    this.editAcitve = true;
+  editMessage(message: Partial<Message> ,deleteMessage:boolean) {
+    if(deleteMessage){
+      this.dialog.open(EditmessageComponent, {
+        width: 'fit-content',
+        maxWidth: '100vw',
+        height: 'fit-content',
+        data: { message, deleteMessage, thread: true, parentMessageId: this.activeMessageId },
+      });
+    } else {
+      this.editAcitve = true;
       sessionStorage.setItem('EditedMessage', message.message as string);
-      message.sameDay = true;
+      message.sameDay = true;  
+    }
   }
 
 

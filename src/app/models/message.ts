@@ -31,7 +31,8 @@ export interface ThreadMessage {
   sameDay: boolean;
 }
 
+
 export interface Reaction {
-  emoji: string; // Das verwendete Emoji
-  userIds: string[]; // IDs der Nutzer, die reagiert haben
+  emoji: string;
+  userIds: string[];
 }

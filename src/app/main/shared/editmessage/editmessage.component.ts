@@ -5,6 +5,7 @@ import { AuthService } from '../../../shared/services/auth.service';
 import { FormBuilder, FormGroup, Validators,ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastMessageService } from '../../../shared/services/toastmessage.service';
+import { SharedService } from '../../../shared/services/newmessage.service';
 @Component({
   selector: 'app-editmessage',
   standalone: true,
@@ -35,6 +36,7 @@ export class EditmessageComponent {
     private auth: AuthService,
     public dialogRef: MatDialogRef<EditmessageComponent>,
     private toastMessageService: ToastMessageService,
+    private sharedService: SharedService,
     @Inject(MAT_DIALOG_DATA) public data: { 
       message: Partial<Message>; 
       deleteMessage: boolean; 
@@ -61,6 +63,7 @@ export class EditmessageComponent {
    * If the message is a thread, the parent message ID is not set in the form.
    */
     ngOnInit(): void {
+      console.log('openEdit Compoponent',this.data.thread); 
       this.messageForm.setValue({
         message: this.data.message.message || '',
         reactions: this.data.message.reactions || [],
@@ -158,12 +161,15 @@ export class EditmessageComponent {
    */
   deleteMessage(): void {
     if (!this.checkCreatorWithActiveUser()) {
-      return console.log('Nur der Ersteller kann die Nachricht löschen.');
+      return console.error('Nur der Ersteller kann die Nachricht löschen.');
     }
-    const { docId, parentMessageId } = this.data;
-    if (this.isThread) {
+    const docId = this.data.message.docId;
+    const parentMessageId = this.data.parentMessageId;
+    if (this.isThread == true) {
+      console.log('lösche Thread-Nachricht',docId, parentMessageId);
       this.deleteThreadMessage(docId, parentMessageId);
     } else {
+      console.log('lösche Haupt-Nachricht',docId);
       this.deleteMainMessage();
     }
   }
@@ -179,7 +185,7 @@ export class EditmessageComponent {
     if (!deleteMessage) {
       return console.error('DocId fehlt für das Löschen der Nachricht.');
     }
-    this.messagesService.deleteMessage(deleteMessage, this.auth.userId()!).then(() => {
+    this.sharedService.deleteMessage(deleteMessage, this.auth.userId()!).then(() => {
         this.dialogRef.close();
         this.showToastMessage('Nachricht erfolgreich gelöscht');
       })
@@ -197,7 +203,7 @@ export class EditmessageComponent {
   deleteThreadMessage(docId?: string, parentMessageId?: string) {
     if (!docId || !parentMessageId) 
       return console.error('DocId oder ParentMessageId fehlt für das Löschen der Thread-Nachricht.');
-    this.messagesService.deleteMessage(docId, this.auth.userId()!, true, parentMessageId)
+    this.sharedService.deleteThreadMessage(parentMessageId,docId)
       .then(() => {
         this.dialogRef.close();
         this.showToastMessage('Nachricht erfolgreich gelöscht');

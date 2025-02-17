@@ -331,7 +331,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
    */
   sendThreadMessageWithService(threadMessage: ThreadMessage) {
     if (this.messageId) {
-      this.messagesService.addThreadMessage(this.messageId, threadMessage)
+      this.sharedService.addThreadMessage(this.messageId, threadMessage)
         .then(() => {this.messageContent = '';})
         .catch((error) => {console.error('Fehler beim Senden der Thread-Nachricht:', error);});
     } else 
