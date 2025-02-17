@@ -1,0 +1,3096 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>dabubble documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">dabubble documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  MessageboxComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/main/shared/messagebox/messagebox.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnInit</code>
+                <code>OnDestroy</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+            <tr>
+                <td class="col-md-3">changeDetection</td>
+                <td class="col-md-9"><code>ChangeDetectionStrategy.Default</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-messagebox</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                            <code>FormsModule</code>
+                                <code><a href="../components/EmojiPickerComponent.html" target="_self" >EmojiPickerComponent</a></code>
+                                <code><a href="../components/MentionComponent.html" target="_self" >MentionComponent</a></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./messagebox.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./messagebox.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#activeChannelName" >activeChannelName</a>
+                            </li>
+                            <li>
+                                <a href="#activeUserId" >activeUserId</a>
+                            </li>
+                            <li>
+                                <a href="#channelId" >channelId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#emojiPickerContainer" >emojiPickerContainer</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#emojiPickerService" >emojiPickerService</a>
+                            </li>
+                            <li>
+                                <a href="#isMessageBoxCreateMessagePickerOpen" >isMessageBoxCreateMessagePickerOpen</a>
+                            </li>
+                            <li>
+                                <a href="#isMessageBoxMainPickerOpen" >isMessageBoxMainPickerOpen</a>
+                            </li>
+                            <li>
+                                <a href="#isMessageBoxThreadPickerOpen" >isMessageBoxThreadPickerOpen</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#mainMessageBox" >mainMessageBox</a>
+                            </li>
+                            <li>
+                                <a href="#members" >members</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#mentionService" >mentionService</a>
+                            </li>
+                            <li>
+                                <a href="#messageContent" >messageContent</a>
+                            </li>
+                            <li>
+                                <a href="#messageId" >messageId</a>
+                            </li>
+                            <li>
+                                <a href="#sendToId" >sendToId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#sharedService" >sharedService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#subscriptions" >subscriptions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#threadMessageBox" >threadMessageBox</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addChannelSubscription" >addChannelSubscription</a>
+                            </li>
+                            <li>
+                                <a href="#addEmoji" >addEmoji</a>
+                            </li>
+                            <li>
+                                <a href="#addEmojiSubscriptions" >addEmojiSubscriptions</a>
+                            </li>
+                            <li>
+                                <a href="#addThreadSubscriptions" >addThreadSubscriptions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#checkChannelWhereToSendMessage" >checkChannelWhereToSendMessage</a>
+                            </li>
+                            <li>
+                                <a href="#checkKeyStatus" >checkKeyStatus</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#checkMessageTarget" >checkMessageTarget</a>
+                            </li>
+                            <li>
+                                <a href="#closeMentionPicker" >closeMentionPicker</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#createNewChannel" >createNewChannel</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#createNewMessage" >createNewMessage</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#generateNewMessageObject" >generateNewMessageObject</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#preventMsgBoxEmojiPickerClose" >preventMsgBoxEmojiPickerClose</a>
+                            </li>
+                            <li>
+                                <a href="#preventMsgBoxMentionPickerClose" >preventMsgBoxMentionPickerClose</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#sendMessage" >sendMessage</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#sendNewMessage" >sendNewMessage</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#sendThreadMessage" >sendThreadMessage</a>
+                            </li>
+                            <li>
+                                <a href="#sendThreadMessageWithService" >sendThreadMessageWithService</a>
+                            </li>
+                            <li>
+                                <a href="#toggleEmojiPickerCreateMessage" >toggleEmojiPickerCreateMessage</a>
+                            </li>
+                            <li>
+                                <a href="#toggleEmojiPickerMain" >toggleEmojiPickerMain</a>
+                            </li>
+                            <li>
+                                <a href="#toggleEmojiPickerThread" >toggleEmojiPickerThread</a>
+                            </li>
+                            <li>
+                                <a href="#toogleMentionPicker" >toogleMentionPicker</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#builder" >builder</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(channelsService: <a href="../injectables/ChannelsService.html" target="_self">ChannelsService</a>, messagesService: <a href="../injectables/MessagesService.html" target="_self">MessagesService</a>, authService: <a href="../injectables/AuthService.html" target="_self">AuthService</a>, emojiPickerService: <a href="../injectables/EmojiPickerService.html" target="_self">EmojiPickerService</a>, sharedService: <a href="../injectables/SharedService.html" target="_self">SharedService</a>, mentionService: <a href="../injectables/MentionService.html" target="_self">MentionService</a>, userService: <a href="../injectables/UserService.html" target="_self">UserService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:42</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Constructor for the MessageboxComponent.</p>
+</div>
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                                    <td>Description</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>channelsService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ChannelsService.html" target="_self" >ChannelsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>Service for handling channel operations.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>messagesService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/MessagesService.html" target="_self" >MessagesService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>Service for handling message operations.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>authService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>Service for managing authentication operations.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>emojiPickerService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/EmojiPickerService.html" target="_self" >EmojiPickerService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>Service for handling emoji picker functionalities.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>sharedService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SharedService.html" target="_self" >SharedService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>Service for shared data and operations.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>mentionService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/MentionService.html" target="_self" >MentionService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>Service for handling mention-related operations.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>userService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UserService.html" target="_self" >UserService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>Service for user-related operations.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="builder"></a>
+                        <b>builder</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:32</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addChannelSubscription"></a>
+                    <span class="name">
+                        <span ><b>addChannelSubscription</b></span>
+                        <a href="#addChannelSubscription"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addChannelSubscription()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="80"
+                                    class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:80</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Subscribes to the current channel observable and sets the active channel ID and name when a new channel is received.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addEmoji"></a>
+                    <span class="name">
+                        <span ><b>addEmoji</b></span>
+                        <a href="#addEmoji"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addEmoji(emoji: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="177"
+                                    class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:177</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Adds an emoji to the message content in the message box.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>emoji</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The emoji to add to the message content.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addEmojiSubscriptions"></a>
+                    <span class="name">
+                        <span ><b>addEmojiSubscriptions</b></span>
+                        <a href="#addEmojiSubscriptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addEmojiSubscriptions()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="114"
+                                    class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:114</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Subscribes to the emoji picker observables to set the state of the pickers in the message box component.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addThreadSubscriptions"></a>
+                    <span class="name">
+                        <span ><b>addThreadSubscriptions</b></span>
+                        <a href="#addThreadSubscriptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addThreadSubscriptions()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="97"
+                                    class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:97</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Subscribes to the current message ID observable and sets the active message ID when a new message ID is received.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkChannelWhereToSendMessage"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>checkChannelWhereToSendMessage</b></span>
+                        <a href="#checkChannelWhereToSendMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>checkChannelWhereToSendMessage()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="348"
+                                    class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:348</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Checks which channel the message should be sent to based on the target string.
+If the target is a user, it will check if a private channel with that user already exists.
+If the channel does not exist, it will create a new channel with the user.
+If the target is a channel, it will set the <code>sendToId</code> to the channel ID.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkKeyStatus"></a>
+                    <span class="name">
+                        <span ><b>checkKeyStatus</b></span>
+                        <a href="#checkKeyStatus"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>checkKeyStatus(event: KeyboardEvent, chat: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="187"
+                                    class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:187</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Checks the key status of the given event and performs the corresponding action.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>KeyboardEvent</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The event to check the key status from.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>chat</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The type of chat to send the message to.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkMessageTarget"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>checkMessageTarget</b></span>
+                        <a href="#checkMessageTarget"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>checkMessageTarget(sendToTarget: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, sendToUserId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, sendToChannelId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="263"
+                                    class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:263</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Determines the target ID for sending a message based on the target type.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>sendToTarget</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>The type of target, either &#39;toUser&#39; or &#39;toChannel&#39;.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>sendToUserId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>The ID of the user to send the message to.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>sendToChannelId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>The ID of the channel to send the message to.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeMentionPicker"></a>
+                    <span class="name">
+                        <span ><b>closeMentionPicker</b></span>
+                        <a href="#closeMentionPicker"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>closeMentionPicker(event: Event)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="209"
+                                    class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:209</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Closes the mention picker by setting the mention service status to false.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>Event</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The event that triggers the mention picker closure.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createNewChannel"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>createNewChannel</b></span>
+                        <a href="#createNewChannel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>createNewChannel(sendToUserId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="243"
+                                    class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:243</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Creates a new private channel between the active user and another specified user.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>sendToUserId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>The ID of the user to create the channel with.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createNewMessage"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>createNewMessage</b></span>
+                        <a href="#createNewMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>createNewMessage()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="369"
+                                    class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:369</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Creates a new message by calling checkChannelWhereToSendMessage and sendNewMessage.
+If the message is sent successfully, the input field is cleared and the channel is selected.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <ul>
+<li>A promise that resolves when the message has been sent.</li>
+</ul>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="generateNewMessageObject"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>generateNewMessageObject</b></span>
+                        <a href="#generateNewMessageObject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>generateNewMessageObject()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="280"
+                                    class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:280</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Generates a Message object based on the active user and the message content.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/Message.html" target="_self" >Promise&lt;Message&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <ul>
+<li>A promise that resolves with the generated Message object.</li>
+</ul>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="130"
+                                    class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:130</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Lifecycle hook that is called when the component is destroyed.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="67"
+                                    class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:67</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Initializes the MessageboxComponent by setting the active user ID and subscribing to the appropriate channels or threads based on the builder type.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="preventMsgBoxEmojiPickerClose"></a>
+                    <span class="name">
+                        <span ><b>preventMsgBoxEmojiPickerClose</b></span>
+                        <a href="#preventMsgBoxEmojiPickerClose"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>preventMsgBoxEmojiPickerClose(event: Event)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="168"
+                                    class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:168</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Prevents the emoji picker from closing when a click event occurs.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>Event</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The click event to prevent from propagating.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="preventMsgBoxMentionPickerClose"></a>
+                    <span class="name">
+                        <span ><b>preventMsgBoxMentionPickerClose</b></span>
+                        <a href="#preventMsgBoxMentionPickerClose"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>preventMsgBoxMentionPickerClose(event: Event)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="234"
+                                    class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:234</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Prevents the propagation of the given event to prevent the mention picker from closing</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>Event</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The event to prevent from propagating.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sendMessage"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>sendMessage</b></span>
+                        <a href="#sendMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>sendMessage()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="301"
+                                    class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:301</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Sends a message to the currently selected channel.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <ul>
+<li>A promise that resolves when the message has been sent.</li>
+</ul>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sendNewMessage"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>sendNewMessage</b></span>
+                        <a href="#sendNewMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>sendNewMessage()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="384"
+                                    class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:384</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Sends a new message using the currently entered message content and the ID of the channel or user to send the message to.
+The message is created using the currently logged-in user&#39;s data and the timestamp of the sending time.
+If the message is sent successfully, the input field is cleared.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sendThreadMessage"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>sendThreadMessage</b></span>
+                        <a href="#sendThreadMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>sendThreadMessage()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="320"
+                                    class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:320</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Sends a thread message using the currently selected parent message ID.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <ul>
+<li>A promise that resolves when the message has been sent.</li>
+</ul>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sendThreadMessageWithService"></a>
+                    <span class="name">
+                        <span ><b>sendThreadMessageWithService</b></span>
+                        <a href="#sendThreadMessageWithService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>sendThreadMessageWithService(threadMessage: <a href="../interfaces/ThreadMessage.html" target="_self">ThreadMessage</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="332"
+                                    class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:332</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Sends a thread message using the currently selected parent message ID.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>threadMessage</td>
+                                            <td>
+                                                            <code><a href="../interfaces/ThreadMessage.html" target="_self" >ThreadMessage</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>The thread message object to be sent.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleEmojiPickerCreateMessage"></a>
+                    <span class="name">
+                        <span ><b>toggleEmojiPickerCreateMessage</b></span>
+                        <a href="#toggleEmojiPickerCreateMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleEmojiPickerCreateMessage()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="158"
+                                    class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:158</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Toggles the emoji picker for the create message box.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleEmojiPickerMain"></a>
+                    <span class="name">
+                        <span ><b>toggleEmojiPickerMain</b></span>
+                        <a href="#toggleEmojiPickerMain"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleEmojiPickerMain()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="138"
+                                    class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:138</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Toggles the emoji picker for the main message box.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleEmojiPickerThread"></a>
+                    <span class="name">
+                        <span ><b>toggleEmojiPickerThread</b></span>
+                        <a href="#toggleEmojiPickerThread"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleEmojiPickerThread()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="148"
+                                    class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:148</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Toggles the emoji picker for the thread message box.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toogleMentionPicker"></a>
+                    <span class="name">
+                        <span ><b>toogleMentionPicker</b></span>
+                        <a href="#toogleMentionPicker"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toogleMentionPicker()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="217"
+                                    class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:217</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Toggles the mention picker.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="activeChannelName"></a>
+                    <span class="name">
+                        <span ><b>activeChannelName</b></span>
+                        <a href="#activeChannelName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:34</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="activeUserId"></a>
+                    <span class="name">
+                        <span ><b>activeUserId</b></span>
+                        <a href="#activeUserId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:33</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="channelId"></a>
+                    <span class="name">
+                        <span ><b>channelId</b></span>
+                        <a href="#channelId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string | undefined</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:35</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="emojiPickerContainer"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>emojiPickerContainer</b></span>
+                        <a href="#emojiPickerContainer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;emojiPickerContainer&#x27;, {static: false})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:30</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="emojiPickerService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>emojiPickerService</b></span>
+                        <a href="#emojiPickerService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/EmojiPickerService.html" target="_self" >EmojiPickerService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:57</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description">- Service for handling emoji picker functionalities.</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isMessageBoxCreateMessagePickerOpen"></a>
+                    <span class="name">
+                        <span ><b>isMessageBoxCreateMessagePickerOpen</b></span>
+                        <a href="#isMessageBoxCreateMessagePickerOpen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:42</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isMessageBoxMainPickerOpen"></a>
+                    <span class="name">
+                        <span ><b>isMessageBoxMainPickerOpen</b></span>
+                        <a href="#isMessageBoxMainPickerOpen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isMessageBoxThreadPickerOpen"></a>
+                    <span class="name">
+                        <span ><b>isMessageBoxThreadPickerOpen</b></span>
+                        <a href="#isMessageBoxThreadPickerOpen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:41</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mainMessageBox"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>mainMessageBox</b></span>
+                        <a href="#mainMessageBox"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;HTMLTextAreaElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;mainMessageBox&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:28</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="members"></a>
+                    <span class="name">
+                        <span ><b>members</b></span>
+                        <a href="#members"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mentionService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>mentionService</b></span>
+                        <a href="#mentionService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/MentionService.html" target="_self" >MentionService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:59</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description">- Service for handling mention-related operations.</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="messageContent"></a>
+                    <span class="name">
+                        <span ><b>messageContent</b></span>
+                        <a href="#messageContent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:38</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="messageId"></a>
+                    <span class="name">
+                        <span ><b>messageId</b></span>
+                        <a href="#messageId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string | undefined</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:36</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sendToId"></a>
+                    <span class="name">
+                        <span ><b>sendToId</b></span>
+                        <a href="#sendToId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:37</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sharedService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>sharedService</b></span>
+                        <a href="#sharedService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/SharedService.html" target="_self" >SharedService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:58</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description">- Service for shared data and operations.</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscriptions"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>subscriptions</b></span>
+                        <a href="#subscriptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subscription()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:31</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="threadMessageBox"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>threadMessageBox</b></span>
+                        <a href="#threadMessageBox"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;HTMLTextAreaElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;threadMessageBox&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/main/shared/messagebox/messagebox.component.ts:29</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {ChangeDetectionStrategy,Component,Input,OnInit,OnDestroy,ViewChild,ElementRef,} from &#x27;@angular/core&#x27;;
+import { ChannelsService } from &#x27;../../../shared/services/channels.service&#x27;;
+import { MessagesService } from &#x27;../../../shared/services/messages.service&#x27;;
+import { AuthService } from &#x27;../../../shared/services/auth.service&#x27;;
+import { FormsModule } from &#x27;@angular/forms&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { SharedService } from &#x27;../../../shared/services/newmessage.service&#x27;;
+import { EmojiPickerComponent } from &#x27;../emoji-picker/emoji-picker.component&#x27;;
+import { EmojiPickerService } from &#x27;../../../shared/services/emoji-picker.service&#x27;;
+import { firstValueFrom, Subscription } from &#x27;rxjs&#x27;;
+import { Message, ThreadMessage } from &#x27;../../../models/message&#x27;;
+import { UserModel } from &#x27;../../../models/user&#x27;;
+import { MentionService } from &#x27;../../../shared/services/mention.service&#x27;;
+import { MentionComponent } from &#x27;../mention/mention.component&#x27;;
+import { Channel } from &#x27;../../../models/channel&#x27;;
+import { UserService } from &#x27;../../../shared/services/user.service&#x27;;
+
+@Component({
+  selector: &#x27;app-messagebox&#x27;,
+  standalone: true,
+  imports: [CommonModule, FormsModule, EmojiPickerComponent, MentionComponent],
+  templateUrl: &#x27;./messagebox.component.html&#x27;,
+  styleUrls: [&#x27;./messagebox.component.scss&#x27;],
+  changeDetection: ChangeDetectionStrategy.Default,
+})
+
+export class MessageboxComponent implements OnInit, OnDestroy {
+  @ViewChild(&#x27;mainMessageBox&#x27;) mainMessageBox!: ElementRef&lt;HTMLTextAreaElement&gt;;
+  @ViewChild(&#x27;threadMessageBox&#x27;) threadMessageBox!: ElementRef&lt;HTMLTextAreaElement&gt;;
+  @ViewChild(&#x27;emojiPickerContainer&#x27;, { static: false }) emojiPickerContainer!: ElementRef;
+  private subscriptions: Subscription &#x3D; new Subscription();
+  @Input() builder!: string;
+  activeUserId: string | null &#x3D; null;
+  activeChannelName: string | null &#x3D; null;
+  channelId: string | undefined;
+  messageId: string | undefined;
+  sendToId: string &#x3D; &#x27;&#x27;;
+  messageContent: string &#x3D; &#x27;&#x27;;
+  members: any &#x3D; [];
+  isMessageBoxMainPickerOpen: boolean &#x3D; false;
+  isMessageBoxThreadPickerOpen: boolean &#x3D; false;
+  isMessageBoxCreateMessagePickerOpen: boolean &#x3D; false;
+  /**
+   * Constructor for the MessageboxComponent.
+   * @param channelsService - Service for handling channel operations.
+   * @param messagesService - Service for handling message operations.
+   * @param authService - Service for managing authentication operations.
+   * @param emojiPickerService - Service for handling emoji picker functionalities.
+   * @param sharedService - Service for shared data and operations.
+   * @param mentionService - Service for handling mention-related operations.
+   * @param userService - Service for user-related operations.
+   */
+  constructor(
+    private channelsService: ChannelsService,
+    private messagesService: MessagesService,
+    private authService: AuthService,
+    public emojiPickerService: EmojiPickerService,
+    public sharedService: SharedService,
+    public mentionService: MentionService,
+    private userService: UserService,
+  ) {}
+
+
+  /**
+   * Initializes the MessageboxComponent by setting the active user ID and subscribing to the appropriate channels or threads based on the builder type.
+   */
+  ngOnInit(): void {
+    this.activeUserId &#x3D; this.authService.userId();
+    if (this.builder &#x3D;&#x3D;&#x3D; &#x27;mainchat&#x27;) 
+      this.addChannelSubscription();
+    else if (this.builder &#x3D;&#x3D;&#x3D; &#x27;threadchat&#x27;) 
+      this.addThreadSubscriptions();
+    this.addEmojiSubscriptions();
+  }
+
+
+  /**
+   * Subscribes to the current channel observable and sets the active channel ID and name when a new channel is received.
+   */
+  addChannelSubscription() {
+    const channelSubscription &#x3D;
+    this.channelsService.currentChannel$.subscribe((channel) &#x3D;&gt; {
+      if (channel) {
+        this.channelId &#x3D; channel.id;
+        this.activeChannelName &#x3D; channel.name;
+        if (this.mainMessageBox) 
+          setTimeout(() &#x3D;&gt; this.mainMessageBox.nativeElement.focus(), 100);
+      }
+    });
+  this.subscriptions.add(channelSubscription);
+  }
+
+
+  /**
+   * Subscribes to the current message ID observable and sets the active message ID when a new message ID is received.
+   */
+  addThreadSubscriptions() {
+    const threadSubscription &#x3D; this.messagesService.messageId$.subscribe(
+      (messageId) &#x3D;&gt; {
+        if (messageId) {
+          this.messageId &#x3D; messageId;
+          if (this.threadMessageBox) 
+            setTimeout(() &#x3D;&gt; this.threadMessageBox.nativeElement.focus(), 100);
+        }
+      }
+    );
+    this.subscriptions.add(threadSubscription);
+  }
+
+
+  /**
+   * Subscribes to the emoji picker observables to set the state of the pickers in the message box component.
+   */
+  addEmojiSubscriptions() {
+    this.subscriptions.add(this.emojiPickerService.isMessageBoxMainPickerOpen$.subscribe((open) &#x3D;&gt; {
+        this.isMessageBoxMainPickerOpen &#x3D; open;})
+    );
+    this.subscriptions.add(this.emojiPickerService.isMessageBoxThreadPickerOpen$.subscribe((open) &#x3D;&gt; {
+        this.isMessageBoxThreadPickerOpen &#x3D; open;})
+    );
+    this.subscriptions.add(this.emojiPickerService.isMessageBoxCreateMessagePickerOpen$.subscribe((open) &#x3D;&gt; {
+        this.isMessageBoxCreateMessagePickerOpen &#x3D; open;})
+    );
+  }
+
+
+  /**
+   * Lifecycle hook that is called when the component is destroyed.
+   */
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
+
+  /**
+   * Toggles the emoji picker for the main message box.
+   */
+  toggleEmojiPickerMain() {
+    this.mentionService.status &#x3D; false;
+    this.emojiPickerService.closeAllEmojiPickers();
+    setTimeout(() &#x3D;&gt; {this.emojiPickerService.toggleMsgBoxEmojiPickerMain()}, 50);
+  }
+
+
+  /**
+   * Toggles the emoji picker for the thread message box.
+   */
+  toggleEmojiPickerThread() {
+    this.mentionService.status &#x3D; false;
+    this.emojiPickerService.closeAllEmojiPickers();
+    setTimeout(() &#x3D;&gt; {this.emojiPickerService.toggleMsgBoxEmojiPickerThread()}, 50);
+  }
+
+
+  /**
+   * Toggles the emoji picker for the create message box.
+   */
+  toggleEmojiPickerCreateMessage() {
+    this.emojiPickerService.closeAllEmojiPickers();
+    setTimeout(() &#x3D;&gt; {this.emojiPickerService.toggleMsgBoxCreateMessageEmojiPicker()}, 50);
+  }
+
+
+  /**
+   * Prevents the emoji picker from closing when a click event occurs.
+   * @param event The click event to prevent from propagating.
+   */
+  preventMsgBoxEmojiPickerClose(event: Event): void {
+    event.stopPropagation();
+  }
+
+
+  /**
+   * Adds an emoji to the message content in the message box.
+   * @param emoji The emoji to add to the message content.
+   */
+  addEmoji(emoji: string) {
+    this.messageContent +&#x3D; emoji;
+  }
+
+
+  /**
+   * Checks the key status of the given event and performs the corresponding action.
+   * @param event The event to check the key status from.
+   * @param chat The type of chat to send the message to.
+   */
+  checkKeyStatus(event: KeyboardEvent, chat: string): void {
+    if (event.shiftKey &amp;&amp; event.key &#x3D;&#x3D; &#x27;Enter&#x27;) {
+      event.preventDefault();
+    } else if (event.key &#x3D;&#x3D; &#x27;Enter&#x27;) {
+      if (chat &#x3D;&#x3D;&#x3D; &#x27;mainchat&#x27;)
+        this.sendMessage();
+      else if (chat &#x3D;&#x3D;&#x3D; &#x27;threadchat&#x27;) 
+        this.sendThreadMessage();
+      else if (chat &#x3D;&#x3D;&#x3D; &#x27;createmessage&#x27;) 
+        this.createNewMessage();
+    }
+    if (event.getModifierState(&#x27;AltGraph&#x27;) &amp;&amp; event.key &#x3D;&#x3D; &quot;q&quot;) 
+      this.mentionService.status &#x3D; true;
+    if (event.key &#x3D;&#x3D; &quot;Backspace&quot;) 
+      this.mentionService.status &#x3D; false;
+  }
+
+
+  /**
+   * Closes the mention picker by setting the mention service status to false.
+   * @param event The event that triggers the mention picker closure.
+   */
+  closeMentionPicker(event: Event) {
+    this.mentionService.status &#x3D; false;
+  }
+
+
+  /**
+   * Toggles the mention picker.
+   */
+  toogleMentionPicker() {
+    if (this.mentionService.status) {
+      this.mentionService.status &#x3D; false;
+    } else {
+      if (this.isMessageBoxMainPickerOpen || this.isMessageBoxThreadPickerOpen) {
+        this.isMessageBoxMainPickerOpen &#x3D; false;
+        this.isMessageBoxThreadPickerOpen &#x3D; false;
+      }
+      this.mentionService.status &#x3D; true;
+    }
+  }
+
+
+  /**
+   * Prevents the propagation of the given event to prevent the mention picker from closing
+   * @param event The event to prevent from propagating.
+   */
+  preventMsgBoxMentionPickerClose(event: Event): void {
+    event.stopPropagation();
+  }
+
+
+  /**
+   * Creates a new private channel between the active user and another specified user.
+   * @param sendToUserId - The ID of the user to create the channel with.
+   */
+  async createNewChannel(sendToUserId: string) {
+    let user1 &#x3D; await firstValueFrom(this.userService.getuserName(this.activeUserId ?? &#x27;&#x27;));
+    let user2 &#x3D; await firstValueFrom(this.userService.getuserName(sendToUserId ?? &#x27;&#x27;));
+    const newChannel: Channel &#x3D; {
+      name: &#x60;zwischen ${user1} und ${user2}&#x60;,
+      description: &#x27;&#x27;,
+      isPrivate: true,
+      createdBy: this.activeUserId ?? &#x27;&#x27;,
+      members: [this.activeUserId ?? &#x27;&#x27;, sendToUserId ?? &#x27;&#x27;],
+    };
+    await this.channelsService.createChannel(newChannel);
+  }
+
+
+  /**
+   * Determines the target ID for sending a message based on the target type.
+   * @param sendToTarget - The type of target, either &#x27;toUser&#x27; or &#x27;toChannel&#x27;.
+   * @param sendToUserId - The ID of the user to send the message to.
+   * @param sendToChannelId - The ID of the channel to send the message to.
+   */
+  async checkMessageTarget(sendToTarget: string, sendToUserId: string, sendToChannelId: string) {
+    if (sendToTarget &#x3D;&#x3D; &#x27;toUser&#x27;) {
+      this.sendToId &#x3D; sendToUserId;
+      const existingChannels &#x3D; await this.channelsService.getPrivateChannelByMembers([this.activeUserId ?? &#x27;&#x27;, sendToUserId]);
+      if (existingChannels.length &gt; 0) 
+        this.sendToId &#x3D; existingChannels[0].id ?? &#x27;&#x27;;
+      else
+        this.createNewChannel(sendToUserId);
+    } else if (sendToTarget &#x3D;&#x3D; &#x27;toChannel&#x27;) 
+      this.sendToId &#x3D; sendToChannelId;
+  }
+
+
+  /**
+   * Generates a Message object based on the active user and the message content.
+   * @returns {Promise&lt;Message&gt;} - A promise that resolves with the generated Message object.
+   */
+  async generateNewMessageObject(): Promise&lt;Message&gt; {
+    let user: UserModel &#x3D; (await this.userService.getUserForMessageById(this.activeUserId)) as UserModel;
+    const message: Omit&lt;Message, &#x27;threadMessages$&#x27;&gt; &#x3D; {
+      channelId: this.sendToId || &#x27;&#x27;,
+      createdBy: this.activeUserId || &#x27;&#x27;,
+      creatorName: user.name || &#x27;&#x27;,
+      creatorPhotoURL: user.photoURL || &#x27;&#x27;,
+      message: this.messageContent.trim(),
+      timestamp: new Date(),
+      members: this.members,
+      reactions: [],
+      sameDay: false,
+    };
+    return message;
+  }
+
+
+  /**
+   * Sends a message to the currently selected channel.
+   * @returns {Promise&lt;void&gt;} - A promise that resolves when the message has been sent.
+   */
+  async sendMessage(): Promise&lt;void&gt; {
+    if (!this.messageContent.trim()) 
+      return console.error(&#x27;Nachricht darf nicht leer sein.&#x27;);
+    let user: UserModel &#x3D; (await this.userService.getUserForMessageById(this.activeUserId)) as UserModel;
+    const message: Omit&lt;Message, &#x27;threadMessages$&#x27;&gt; &#x3D; this.userService.generateMessageObject(user, this.channelId, this.activeUserId, this.messageContent);
+    if (this.channelId) {
+      try {
+        await this.messagesService.addMessage(message);
+        this.messageContent &#x3D; &#x27;&#x27;;
+      } catch (error) {console.error(&#x27;Fehler beim Senden der Nachricht:&#x27;, error);}
+    } else 
+      console.error(&#x27;Keine gültige Channel-ID verfügbar.&#x27;);
+  }
+
+
+  /**
+   * Sends a thread message using the currently selected parent message ID.
+   * @returns {Promise&lt;void&gt;} - A promise that resolves when the message has been sent.
+   */
+  async sendThreadMessage(): Promise&lt;void&gt; {
+    if (!this.messageContent.trim()) 
+      return console.error(&#x27;Nachricht darf nicht leer sein.&#x27;);
+    const threadMessage: ThreadMessage &#x3D; await this.userService.generateThreadMessageObject( this.activeUserId, this.messageContent);
+    this.sendThreadMessageWithService(threadMessage)
+  }
+
+
+  /**
+   * Sends a thread message using the currently selected parent message ID.
+   * @param {ThreadMessage} threadMessage - The thread message object to be sent.
+   */
+  sendThreadMessageWithService(threadMessage: ThreadMessage) {
+    if (this.messageId) {
+      this.sharedService.addThreadMessage(this.messageId, threadMessage)
+        .then(() &#x3D;&gt; {this.messageContent &#x3D; &#x27;&#x27;;})
+        .catch((error) &#x3D;&gt; {console.error(&#x27;Fehler beim Senden der Thread-Nachricht:&#x27;, error);});
+    } else 
+      console.error(&#x27;Keine gültige Message-ID für den Thread verfügbar.&#x27;);
+  }
+
+
+  /**
+   * Checks which channel the message should be sent to based on the target string.
+   * If the target is a user, it will check if a private channel with that user already exists.
+   * If the channel does not exist, it will create a new channel with the user.
+   * If the target is a channel, it will set the &#x60;sendToId&#x60; to the channel ID.
+   */
+  async checkChannelWhereToSendMessage() {
+    let sendToUserId &#x3D; this.sharedService.getUserIdString();
+    let sendToChannelId &#x3D; this.sharedService.getChannelIdString();
+    let sendToTarget &#x3D; this.sharedService.getTargetString();
+    if (sendToTarget &#x3D;&#x3D; &#x27;toUser&#x27;) {
+      this.sendToId &#x3D; sendToUserId;
+      const existingChannels &#x3D; await this.channelsService.getPrivateChannelByMembers([this.activeUserId ?? &#x27;&#x27;, sendToUserId]);
+      if (existingChannels.length &gt; 0) 
+        this.sendToId &#x3D; existingChannels[0].id ?? &#x27;&#x27;;
+      else 
+        this.createNewChannel(sendToUserId);
+    } else if (sendToTarget &#x3D;&#x3D; &#x27;toChannel&#x27;) 
+      this.sendToId &#x3D; sendToChannelId;
+  }
+
+
+  /**
+   * Creates a new message by calling checkChannelWhereToSendMessage and sendNewMessage.
+   * If the message is sent successfully, the input field is cleared and the channel is selected.
+   * @returns {Promise&lt;void&gt;} - A promise that resolves when the message has been sent.
+   */
+  async createNewMessage(): Promise&lt;void&gt; {
+    if (!this.messageContent.trim()) 
+      return console.error(&#x27;Nachricht darf nicht leer sein.&#x27;);
+    await this.checkChannelWhereToSendMessage();
+    await this. sendNewMessage();
+    this.sharedService.updateVariable(&#x27;&#x27;);
+    this.channelsService.selectChannel(this.sendToId);
+  }
+
+
+  /**
+   * Sends a new message using the currently entered message content and the ID of the channel or user to send the message to.
+   * The message is created using the currently logged-in user&#x27;s data and the timestamp of the sending time.
+   * If the message is sent successfully, the input field is cleared.
+   */
+  async sendNewMessage(){
+    let user: UserModel &#x3D; (await this.userService.getUserForMessageById(this.activeUserId)) as UserModel;
+    const message: Omit&lt;Message, &#x27;threadMessages$&#x27;&gt; &#x3D; {
+      channelId: this.sendToId || &#x27;&#x27;,
+      createdBy: this.activeUserId || &#x27;&#x27;,
+      creatorName: user.name || &#x27;&#x27;,
+      creatorPhotoURL: user.photoURL || &#x27;&#x27;,
+      message: this.messageContent.trim(),
+      timestamp: new Date(),
+      members: this.members,
+      reactions: [],
+      sameDay: false,
+    };
+    if (1 &#x3D;&#x3D; 1) {
+      try {
+        await this.messagesService.addMessage(message);
+        this.messageContent &#x3D; &#x27;&#x27;;
+      } catch (error) {console.error(&#x27;Fehler beim Senden der Nachricht:&#x27;, error)}
+    } else 
+      console.error(&#x27;Keine gültige Channel-ID verfügbar.&#x27;);
+  }
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">@if (builder &#x3D;&#x3D;&#x3D; &#x27;createmessage&#x27;) {
+&lt;form id&#x3D;&quot;messageboxcontainer&quot; class&#x3D;&quot;messagebox-wrapper&quot;&gt;
+  &lt;textarea #mainMessageBox (click)&#x3D;&quot;preventMsgBoxEmojiPickerClose($event)&quot; class&#x3D;&quot;messagebox&quot; name&#x3D;&quot;messagebox&quot;
+    id&#x3D;&quot;messagebox&quot; [(ngModel)]&#x3D;&quot;messageContent&quot; placeholder&#x3D;&quot;Nachricht an {{ activeChannelName }}...&quot;
+    (keyup)&#x3D;&quot;checkKeyStatus($event, &#x27;createmessage&#x27;)&quot;&gt;
+  &lt;/textarea&gt;
+  &lt;div class&#x3D;&quot;messagebox__icons-container&quot;&gt;
+    &lt;div&gt;
+      @if (isMessageBoxCreateMessagePickerOpen) {
+      &lt;div #emojiPickerContainer class&#x3D;&quot;emoji-picker__wrapper&quot;&gt;
+        &lt;app-emoji-picker componentName&#x3D;&quot;messagebox&quot; (emoji)&#x3D;&quot;addEmoji($event)&quot; /&gt;
+      &lt;/div&gt;
+      &lt;img class&#x3D;&quot;icon__add-emoji&quot; src&#x3D;&quot;/img/icons/sentiment_satisfied.svg&quot;
+        (click)&#x3D;&quot;emojiPickerService.closeAllEmojiPickers()&quot; /&gt;
+      } @else {
+      &lt;img class&#x3D;&quot;icon__add-emoji&quot; src&#x3D;&quot;/img/icons/sentiment_satisfied.svg&quot; (click)&#x3D;&quot;toggleEmojiPickerCreateMessage()&quot;
+        (click)&#x3D;&quot;preventMsgBoxEmojiPickerClose($event)&quot; alt&#x3D;&quot;&quot; /&gt;
+      }
+      &lt;img (click)&#x3D;&quot;sharedService.jumpToAtAbove()&quot; src&#x3D;&quot;/img/icons/alternate_email.svg&quot; alt&#x3D;&quot;&quot; /&gt;
+    &lt;/div&gt;
+    &lt;img (click)&#x3D;&quot;createNewMessage()&quot; src&#x3D;&quot;/img/icons/send.svg&quot; alt&#x3D;&quot;&quot; /&gt;
+  &lt;/div&gt;
+&lt;/form&gt;
+} @if (builder &#x3D;&#x3D;&#x3D; &#x27;mainchat&#x27;) {
+&lt;form id&#x3D;&quot;messageboxcontainer&quot; class&#x3D;&quot;messagebox-wrapper&quot;&gt;
+  &lt;textarea #mainMessageBox (click)&#x3D;&quot;preventMsgBoxEmojiPickerClose($event)&quot; class&#x3D;&quot;messagebox&quot; name&#x3D;&quot;messagebox&quot;
+    id&#x3D;&quot;messagebox&quot; [(ngModel)]&#x3D;&quot;messageContent&quot; placeholder&#x3D;&quot;Nachricht an {{ activeChannelName }}...&quot;
+    (keyup)&#x3D;&quot;checkKeyStatus($event, &#x27;mainchat&#x27;)&quot;&gt;&lt;/textarea&gt;
+  &lt;div class&#x3D;&quot;messagebox__icons-container&quot;&gt;
+    &lt;div&gt;
+      @if (isMessageBoxMainPickerOpen) {
+      &lt;div #emojiPickerContainer class&#x3D;&quot;emoji-picker__wrapper&quot; (click)&#x3D;&quot;preventMsgBoxEmojiPickerClose($event)&quot;&gt;
+        &lt;app-emoji-picker componentName&#x3D;&quot;messagebox&quot; (emoji)&#x3D;&quot;addEmoji($event)&quot; /&gt;
+      &lt;/div&gt;
+      &lt;img class&#x3D;&quot;icon__add-emoji&quot; src&#x3D;&quot;/img/icons/sentiment_satisfied.svg&quot;
+        (click)&#x3D;&quot;emojiPickerService.closeAllEmojiPickers()&quot; /&gt;
+      } @else {
+      &lt;img class&#x3D;&quot;icon__add-emoji&quot; src&#x3D;&quot;/img/icons/sentiment_satisfied.svg&quot; (click)&#x3D;&quot;toggleEmojiPickerMain()&quot;
+        (click)&#x3D;&quot;preventMsgBoxEmojiPickerClose($event)&quot; alt&#x3D;&quot;&quot; /&gt;
+      }
+      @if (mentionService.status) {
+      &lt;div class&#x3D;&quot;mention-picker__wrapper&quot; (click)&#x3D;&quot;preventMsgBoxMentionPickerClose($event)&quot;&gt;
+        &lt;app-mention componentName&#x3D;&quot;messagebox&quot; [builder]&#x3D;&quot;builder&quot;&gt;&lt;/app-mention&gt;
+      &lt;/div&gt;
+      }
+      &lt;img src&#x3D;&quot;/img/icons/alternate_email.svg&quot; (click)&#x3D;&quot;toogleMentionPicker()&quot;
+        (click)&#x3D;&quot;preventMsgBoxMentionPickerClose($event)&quot; alt&#x3D;&quot;erwähnen&quot;&gt;
+    &lt;/div&gt;
+    &lt;img (click)&#x3D;&quot;sendMessage()&quot; src&#x3D;&quot;/img/icons/send.svg&quot; alt&#x3D;&quot;&quot; /&gt;
+  &lt;/div&gt;
+&lt;/form&gt;
+} @if (builder &#x3D;&#x3D;&#x3D; &#x27;threadchat&#x27;) {
+&lt;form id&#x3D;&quot;threadmessageboxcontainer&quot; (ngSubmit)&#x3D;&quot;sendThreadMessage()&quot; class&#x3D;&quot;messagebox-wrapper&quot;&gt;
+  &lt;textarea #threadMessageBox (click)&#x3D;&quot;preventMsgBoxEmojiPickerClose($event)&quot; class&#x3D;&quot;messagebox&quot; name&#x3D;&quot;threadmessagebox&quot;
+    id&#x3D;&quot;threadmessagebox&quot; [(ngModel)]&#x3D;&quot;messageContent&quot; placeholder&#x3D;&quot;Antworten...&quot;
+    (keyup)&#x3D;&quot;checkKeyStatus($event, &#x27;threadchat&#x27;)&quot;&gt;
+  &lt;/textarea&gt;
+  &lt;div class&#x3D;&quot;messagebox__icons-container&quot;&gt;
+    &lt;div&gt;
+      @if (isMessageBoxThreadPickerOpen) {
+      &lt;div #emojiPickerContainer class&#x3D;&quot;emoji-picker__wrapper&quot; (click)&#x3D;&quot;preventMsgBoxEmojiPickerClose($event)&quot;&gt;
+        &lt;app-emoji-picker componentName&#x3D;&quot;messagebox&quot; (emoji)&#x3D;&quot;addEmoji($event)&quot; /&gt;
+      &lt;/div&gt;
+      &lt;img class&#x3D;&quot;icon__add-emoji&quot; src&#x3D;&quot;/img/icons/sentiment_satisfied.svg&quot;
+        (click)&#x3D;&quot;emojiPickerService.closeAllEmojiPickers()&quot; /&gt;
+      } @else {
+      &lt;img src&#x3D;&quot;/img/icons/sentiment_satisfied.svg&quot; (click)&#x3D;&quot;toggleEmojiPickerThread()&quot;
+        (click)&#x3D;&quot;preventMsgBoxEmojiPickerClose($event)&quot; alt&#x3D;&quot;&quot; /&gt;
+      }
+      @if (mentionService.status) {
+      &lt;div class&#x3D;&quot;mention-picker__wrapper&quot; (click)&#x3D;&quot;preventMsgBoxMentionPickerClose($event)&quot;&gt;
+        &lt;app-mention componentName&#x3D;&quot;messagebox&quot; [builder]&#x3D;&quot;builder&quot;&gt;&lt;/app-mention&gt;
+      &lt;/div&gt;
+      }
+      &lt;img src&#x3D;&quot;/img/icons/alternate_email.svg&quot; (click)&#x3D;&quot;toogleMentionPicker()&quot;
+        (click)&#x3D;&quot;preventMsgBoxMentionPickerClose($event)&quot; alt&#x3D;&quot;erwähnen&quot;&gt;
+    &lt;/div&gt;
+    &lt;img (click)&#x3D;&quot;sendThreadMessage()&quot; src&#x3D;&quot;/img/icons/send.svg&quot; alt&#x3D;&quot;&quot; /&gt;
+  &lt;/div&gt;
+&lt;/form&gt;
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./messagebox.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@use &quot;../../../../mixins.scss&quot; as mixins;
+@use &quot;../../../../colors.scss&quot; as colors;
+
+.messagebox {
+  border: none;
+  width: 100%;
+  height: 100px;
+  resize: none;
+  font-size: 1.125rem;
+  color: colors.$grey;
+  padding:20px;
+  border-radius: inherit;
+  overflow-y: auto;
+  &amp;:focus {
+    outline: none;
+  }
+
+  &amp;::placeholder {
+    color: colors.$grey;
+  }
+}
+
+.messagebox__icons-container {
+    bottom: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 0 10px 10px;
+  img {
+    display: block;
+    padding: 10px;
+    &amp;:hover {
+      cursor: pointer;
+    }
+  }
+
+  div {
+    @include mixins.flexbox(row, space-between, center);
+    gap: 5px;
+  }
+}
+
+.messagebox-wrapper {
+  position: relative;
+  border: 1px solid colors.$light-purple;
+  border-radius: 20px;
+}
+
+.messagebox-wrapper{
+  position: relative;
+  border: 1px solid colors.$light-purple;
+  border-radius: 20px;
+}
+
+.emoji-picker__wrapper{
+  position: absolute;
+  bottom: 154px;
+  left: -1px;
+}
+
+.mention-picker__wrapper{
+  position: absolute;
+  bottom: 154px;
+  left: -1px;
+  z-index: 99;
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div>@if (builder === \'createmessage\') {<form id="messageboxcontainer" class="messagebox-wrapper">  <textarea #mainMessageBox (click)="preventMsgBoxEmojiPickerClose($event)" class="messagebox" name="messagebox"    id="messagebox" [(ngModel)]="messageContent" placeholder="Nachricht an {{ activeChannelName }}..."    (keyup)="checkKeyStatus($event, \'createmessage\')">  </textarea>  <div class="messagebox__icons-container">    <div>      @if (isMessageBoxCreateMessagePickerOpen) {      <div #emojiPickerContainer class="emoji-picker__wrapper">        <app-emoji-picker componentName="messagebox" (emoji)="addEmoji($event)" />      </div>      <img class="icon__add-emoji" src="/img/icons/sentiment_satisfied.svg"        (click)="emojiPickerService.closeAllEmojiPickers()" />      } @else {      <img class="icon__add-emoji" src="/img/icons/sentiment_satisfied.svg" (click)="toggleEmojiPickerCreateMessage()"        (click)="preventMsgBoxEmojiPickerClose($event)" alt="" />      }      <img (click)="sharedService.jumpToAtAbove()" src="/img/icons/alternate_email.svg" alt="" />    </div>    <img (click)="createNewMessage()" src="/img/icons/send.svg" alt="" />  </div></form>} @if (builder === \'mainchat\') {<form id="messageboxcontainer" class="messagebox-wrapper">  <textarea #mainMessageBox (click)="preventMsgBoxEmojiPickerClose($event)" class="messagebox" name="messagebox"    id="messagebox" [(ngModel)]="messageContent" placeholder="Nachricht an {{ activeChannelName }}..."    (keyup)="checkKeyStatus($event, \'mainchat\')"></textarea>  <div class="messagebox__icons-container">    <div>      @if (isMessageBoxMainPickerOpen) {      <div #emojiPickerContainer class="emoji-picker__wrapper" (click)="preventMsgBoxEmojiPickerClose($event)">        <app-emoji-picker componentName="messagebox" (emoji)="addEmoji($event)" />      </div>      <img class="icon__add-emoji" src="/img/icons/sentiment_satisfied.svg"        (click)="emojiPickerService.closeAllEmojiPickers()" />      } @else {      <img class="icon__add-emoji" src="/img/icons/sentiment_satisfied.svg" (click)="toggleEmojiPickerMain()"        (click)="preventMsgBoxEmojiPickerClose($event)" alt="" />      }      @if (mentionService.status) {      <div class="mention-picker__wrapper" (click)="preventMsgBoxMentionPickerClose($event)">        <app-mention componentName="messagebox" [builder]="builder"></app-mention>      </div>      }      <img src="/img/icons/alternate_email.svg" (click)="toogleMentionPicker()"        (click)="preventMsgBoxMentionPickerClose($event)" alt="erwähnen">    </div>    <img (click)="sendMessage()" src="/img/icons/send.svg" alt="" />  </div></form>} @if (builder === \'threadchat\') {<form id="threadmessageboxcontainer" (ngSubmit)="sendThreadMessage()" class="messagebox-wrapper">  <textarea #threadMessageBox (click)="preventMsgBoxEmojiPickerClose($event)" class="messagebox" name="threadmessagebox"    id="threadmessagebox" [(ngModel)]="messageContent" placeholder="Antworten..."    (keyup)="checkKeyStatus($event, \'threadchat\')">  </textarea>  <div class="messagebox__icons-container">    <div>      @if (isMessageBoxThreadPickerOpen) {      <div #emojiPickerContainer class="emoji-picker__wrapper" (click)="preventMsgBoxEmojiPickerClose($event)">        <app-emoji-picker componentName="messagebox" (emoji)="addEmoji($event)" />      </div>      <img class="icon__add-emoji" src="/img/icons/sentiment_satisfied.svg"        (click)="emojiPickerService.closeAllEmojiPickers()" />      } @else {      <img src="/img/icons/sentiment_satisfied.svg" (click)="toggleEmojiPickerThread()"        (click)="preventMsgBoxEmojiPickerClose($event)" alt="" />      }      @if (mentionService.status) {      <div class="mention-picker__wrapper" (click)="preventMsgBoxMentionPickerClose($event)">        <app-mention componentName="messagebox" [builder]="builder"></app-mention>      </div>      }      <img src="/img/icons/alternate_email.svg" (click)="toogleMentionPicker()"        (click)="preventMsgBoxMentionPickerClose($event)" alt="erwähnen">    </div>    <img (click)="sendThreadMessage()" src="/img/icons/send.svg" alt="" />  </div></form>}</div>'
+    var COMPONENTS = [{'name': 'AddchatComponent', 'selector': 'app-addchat'},{'name': 'AddUserToChannelComponent', 'selector': 'app-add-user-to-channel'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'BuilderComponent', 'selector': 'app-builder'},{'name': 'ChatboxComponent', 'selector': 'app-chatbox'},{'name': 'ChatComponent', 'selector': 'app-chat'},{'name': 'ChooseAvatarComponent', 'selector': 'app-choose-avatar'},{'name': 'CreatemessageComponent', 'selector': 'app-createmessage'},{'name': 'DialogComponent', 'selector': 'app-dialog'},{'name': 'EditmessageComponent', 'selector': 'app-editmessage'},{'name': 'EmojiPickerComponent', 'selector': 'app-emoji-picker'},{'name': 'ForgetPasswordComponent', 'selector': 'app-forget-password'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'ImprintComponent', 'selector': 'app-imprint'},{'name': 'LegalnoticeComponent', 'selector': 'app-legalnotice'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogoComponent', 'selector': 'app-logo'},{'name': 'MainchatHeaderComponent', 'selector': 'app-mainchat-header'},{'name': 'MainComponent', 'selector': 'app-main'},{'name': 'MentionComponent', 'selector': 'app-mention'},{'name': 'MenuChannelsComponent', 'selector': 'app-menu-channels'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MenuDialogComponent', 'selector': 'app-menu-dialog'},{'name': 'MenuHeaderComponent', 'selector': 'app-menu-header'},{'name': 'MenuPrivateMessagesComponent', 'selector': 'app-menu-private-messages'},{'name': 'MenutogglerComponent', 'selector': 'app-menutoggler'},{'name': 'MessageboxComponent', 'selector': 'app-messagebox'},{'name': 'MessageComponent', 'selector': 'app-messages'},{'name': 'ParentMessageComponent', 'selector': 'app-parent-message'},{'name': 'ProfileviewComponent', 'selector': 'app-profileview'},{'name': 'ReactionsComponent', 'selector': 'app-reactions'},{'name': 'ResetPasswordComponent', 'selector': 'app-reset-password'},{'name': 'SearchbarComponent', 'selector': 'app-searchbar'},{'name': 'SignInComponent', 'selector': 'app-sign-in'},{'name': 'SignUpComponent', 'selector': 'app-sign-up'},{'name': 'ThreadchatHeaderComponent', 'selector': 'app-threadchat-header'},{'name': 'ThreadMessagesComponent', 'selector': 'app-thread-messages'},{'name': 'ToastMessageComponent', 'selector': 'app-toastmessage'},{'name': 'UsermenuComponent', 'selector': 'app-usermenu'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'MessageboxComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'MessageboxComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

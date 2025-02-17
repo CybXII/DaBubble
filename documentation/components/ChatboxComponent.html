@@ -1,0 +1,3491 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>dabubble documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">dabubble documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  ChatboxComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/main/shared/chatbox/chatbox.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnInit</code>
+                <code>OnDestroy</code>
+                <code>AfterViewInit</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+            <tr>
+                <td class="col-md-3">changeDetection</td>
+                <td class="col-md-9"><code>ChangeDetectionStrategy.OnPush</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-chatbox</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                            <code>FormsModule</code>
+                                <code><a href="../components/ParentMessageComponent.html" target="_self" >ParentMessageComponent</a></code>
+                                <code><a href="../components/MessageComponent.html" target="_self" >MessageComponent</a></code>
+                                <code><a href="../components/ThreadMessagesComponent.html" target="_self" >ThreadMessagesComponent</a></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./chatbox.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./chatbox.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#activeMessageId" >activeMessageId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#activeUserId" >activeUserId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#channelCreatorName" >channelCreatorName</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#channelName" >channelName</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#channelsService" >channelsService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#currentChannel$" >currentChannel$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#destroy$" >destroy$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#dialog" >dialog</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#emojiPickerService" >emojiPickerService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#isEmptyMessage" >isEmptyMessage</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#loadingAvatars" >loadingAvatars</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#loadingMessages" >loadingMessages</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#messages" >messages</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#messages$" >messages$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#parentMessage" >parentMessage</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#private" >private</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#self" >self</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#threadMessages$" >threadMessages$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#timestep" >timestep</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#user" >user</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#checkMessageIsEmpty" >checkMessageIsEmpty</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#formatTimestamp" >formatTimestamp</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getChannelUserData" >getChannelUserData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getFilteredThreadMessages" >getFilteredThreadMessages</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getFormattedMessages" >getFormattedMessages</a>
+                            </li>
+                            <li>
+                                <a href="#getOwnData" >getOwnData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#handleCurrentChannel" >handleCurrentChannel</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#handlePrivateChannel" >handlePrivateChannel</a>
+                            </li>
+                            <li>
+                                <a href="#handleUserClick" >handleUserClick</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#initializeChannel" >initializeChannel</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#initializeObservables" >initializeObservables</a>
+                            </li>
+                            <li>
+                                <a href="#ngAfterViewInit" >ngAfterViewInit</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#openDialogUser" >openDialogUser</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#scrollToBottom" >scrollToBottom</a>
+                            </li>
+                            <li>
+                                <a href="#setParentMessage" >setParentMessage</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#subscribeToParentMessageId" >subscribeToParentMessageId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#updateMessagesWithThreads" >updateMessagesWithThreads</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#builder" >builder</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#threadChatToggle" >threadChatToggle</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(messagesService: <a href="../injectables/MessagesService.html" target="_self">MessagesService</a>, authService: <a href="../injectables/AuthService.html" target="_self">AuthService</a>, userDialog$: <a href="../injectables/UserDialogService.html" target="_self">UserDialogService</a>, cdRef: ChangeDetectorRef, userService: <a href="../injectables/UserService.html" target="_self">UserService</a>, channelsService: <a href="../injectables/ChannelsService.html" target="_self">ChannelsService</a>, dialog: MatDialog, emojiPickerService: <a href="../injectables/EmojiPickerService.html" target="_self">EmojiPickerService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:59</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Constructs a new instance of the ChatboxComponent.</p>
+</div>
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                                    <td>Description</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>messagesService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/MessagesService.html" target="_self" >MessagesService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>The service providing the messages.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>authService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>The service providing the currently logged in user.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>userDialog$</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UserDialogService.html" target="_self" >UserDialogService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>The service allowing to open the user dialog.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>cdRef</td>
+                                                  
+                                                        <td>
+                                                                    <code>ChangeDetectorRef</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>The service providing the ChangeDetectorRef.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>userService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UserService.html" target="_self" >UserService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>The service providing the user data.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>channelsService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ChannelsService.html" target="_self" >ChannelsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>The service providing the current channel data.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>dialog</td>
+                                                  
+                                                        <td>
+                                                                    <code>MatDialog</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>The service allowing to open the thread chat dialog.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>emojiPickerService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/EmojiPickerService.html" target="_self" >EmojiPickerService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>The service providing the emoji picker.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="builder"></a>
+                        <b>builder</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:41</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section data-compodoc="block-outputs">
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="threadChatToggle"></a>
+                        <b>threadChatToggle</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:42</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkMessageIsEmpty"></a>
+                    <span class="name">
+                        <span ><b>checkMessageIsEmpty</b></span>
+                        <a href="#checkMessageIsEmpty"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>checkMessageIsEmpty()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="363"
+                                    class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:363</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Checks if the message list is empty and updates the isEmptyMessage flag accordingly.
+Subscribes to the messages$ observable to monitor changes in the message list.
+Sets isEmptyMessage to true if there are no messages, otherwise false.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="formatTimestamp"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>formatTimestamp</b></span>
+                        <a href="#formatTimestamp"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>formatTimestamp(createdAt?: Date | undefined)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="212"
+                                    class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:212</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Formats the channel creation timestamp and sets the <code>timestep</code> variable.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>createdAt</td>
+                                            <td>
+                                                        <code>Date | undefined</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>The timestamp of the channel creation.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getChannelUserData"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>getChannelUserData</b></span>
+                        <a href="#getChannelUserData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getChannelUserData(channel: <a href="../interfaces/Channel.html" target="_self">Channel</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="285"
+                                    class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:285</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Retrieves user data for a private channel.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>channel</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Channel.html" target="_self" >Channel</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>The private channel object.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getFilteredThreadMessages"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>getFilteredThreadMessages</b></span>
+                        <a href="#getFilteredThreadMessages"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getFilteredThreadMessages()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="176"
+                                    class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:176</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Filters the thread messages based on the currently selected message ID.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Observable&lt;ThreadMessage[]&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <ul>
+<li>An observable containing the filtered thread messages.</li>
+</ul>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getFormattedMessages"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>getFormattedMessages</b></span>
+                        <a href="#getFormattedMessages"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getFormattedMessages()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="158"
+                                    class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:158</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Retrieves the formatted list of messages.
+Each message includes a timestamp and thread messages.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/Message.html" target="_self" >Observable&lt;Message[]&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <ul>
+<li>An observable containing the formatted messages.</li>
+</ul>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getOwnData"></a>
+                    <span class="name">
+                        <span ><b>getOwnData</b></span>
+                        <a href="#getOwnData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getOwnData()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="379"
+                                    class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:379</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Subscribes to the current user&#39;s data and sets the user object to the received data.
+If there is no active user ID, sets the user object to an empty object.
+Sets the self flag to true to indicate that the user object is the current user.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleCurrentChannel"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>handleCurrentChannel</b></span>
+                        <a href="#handleCurrentChannel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>handleCurrentChannel()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="250"
+                                    class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:250</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Handles the current channel subscription and sets channel-specific properties.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handlePrivateChannel"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>handlePrivateChannel</b></span>
+                        <a href="#handlePrivateChannel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>handlePrivateChannel(channel: <a href="../interfaces/Channel.html" target="_self">Channel | null</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="269"
+                                    class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:269</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Handles private channel logic, including user retrieval.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>channel</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Channel.html" target="_self" >Channel | null</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>The currently active channel.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleUserClick"></a>
+                    <span class="name">
+                        <span ><b>handleUserClick</b></span>
+                        <a href="#handleUserClick"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleUserClick(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="335"
+                                    class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:335</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Handles a user click in the chatbox.
+Opens the user profile dialog for the given user ID if the ID does not match the active user ID.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>userId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>The user ID of the user to open the profile dialog for.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initializeChannel"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>initializeChannel</b></span>
+                        <a href="#initializeChannel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>initializeChannel()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="189"
+                                    class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:189</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Initializes the default channel and subscribes to channel changes.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initializeObservables"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>initializeObservables</b></span>
+                        <a href="#initializeObservables"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>initializeObservables()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="91"
+                                    class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:91</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Initializes the observables for the current channel, messages, and thread messages.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterViewInit"></a>
+                    <span class="name">
+                        <span ><b>ngAfterViewInit</b></span>
+                        <a href="#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterViewInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="120"
+                                    class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:120</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Lifecycle hook that is called after the component view has been initialized.
+Sets up the subscription to the parent message ID observable and initializes the chatbox observer.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="146"
+                                    class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:146</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Lifecycle hook that is called when the component is destroyed.
+Notifies all subscribers of the destroy subject and completes the subject.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="101"
+                                    class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:101</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Initializes the component by setting up the default channel, subscribing to messages and thread messages, and handling the current channel.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openDialogUser"></a>
+                    <span class="name">
+                        <span ><b>openDialogUser</b></span>
+                        <a href="#openDialogUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openDialogUser(id: string | undefined)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="348"
+                                    class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:348</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Opens the user profile dialog with the given user ID.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                        <code>string | undefined</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>The ID of the user to open the profile dialog for.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="scrollToBottom"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>scrollToBottom</b></span>
+                        <a href="#scrollToBottom"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>scrollToBottom(selector: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="302"
+                                    class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:302</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Scrolls the chatbox to the bottom after a 500ms delay to allow the component to render all messages.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>selector</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>The CSS selector of the chatbox element.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setParentMessage"></a>
+                    <span class="name">
+                        <span ><b>setParentMessage</b></span>
+                        <a href="#setParentMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setParentMessage()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="317"
+                                    class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:317</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Subscribes to changes in the parent message ID and updates the parent message object.
+Uses a combination of the parent message ID and the list of messages to find and set the current parent message.
+Marks the component for change detection to update the view.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscribeToParentMessageId"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>subscribeToParentMessageId</b></span>
+                        <a href="#subscribeToParentMessageId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>subscribeToParentMessageId()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="131"
+                                    class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:131</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Subscribes to the parent message ID changes in thread chat mode.
+Updates the active message ID when a new parent message is detected.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateMessagesWithThreads"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>updateMessagesWithThreads</b></span>
+                        <a href="#updateMessagesWithThreads"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateMessagesWithThreads(messages: <a href="../interfaces/Message.html" target="_self">Message[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="232"
+                                    class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:232</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Updates messages and loads thread messages for each message.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>messages</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Message.html" target="_self" >Message[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>The list of messages to process.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="activeMessageId"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>activeMessageId</b></span>
+                        <a href="#activeMessageId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="activeUserId"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>activeUserId</b></span>
+                        <a href="#activeUserId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="channelCreatorName"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>channelCreatorName</b></span>
+                        <a href="#channelCreatorName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:57</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="channelName"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>channelName</b></span>
+                        <a href="#channelName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:56</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="channelsService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>channelsService</b></span>
+                        <a href="#channelsService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/ChannelsService.html" target="_self" >ChannelsService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:79</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description">- The service providing the current channel data.</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentChannel$"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>currentChannel$</b></span>
+                        <a href="#currentChannel$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Channel.html" target="_self" >Observable&lt;Channel | null&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null!</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:45</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="destroy$"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>destroy$</b></span>
+                        <a href="#destroy$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subject&lt;void&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:44</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dialog"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>dialog</b></span>
+                        <a href="#dialog"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MatDialog</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:80</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description">- The service allowing to open the thread chat dialog.</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="emojiPickerService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>emojiPickerService</b></span>
+                        <a href="#emojiPickerService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/EmojiPickerService.html" target="_self" >EmojiPickerService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:81</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description">- The service providing the emoji picker.</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isEmptyMessage"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>isEmptyMessage</b></span>
+                        <a href="#isEmptyMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadingAvatars"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>loadingAvatars</b></span>
+                        <a href="#loadingAvatars"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadingMessages"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>loadingMessages</b></span>
+                        <a href="#loadingMessages"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>WritableSignal&lt;boolean&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(true)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:48</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="messages"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>messages</b></span>
+                        <a href="#messages"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Message[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:43</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="messages$"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>messages$</b></span>
+                        <a href="#messages$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Message.html" target="_self" >Observable&lt;Message[]&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null!</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="parentMessage"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>parentMessage</b></span>
+                        <a href="#parentMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Message.html" target="_self" >Partial&lt;Message&gt; | null</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:49</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="private"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>private</b></span>
+                        <a href="#private"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:55</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="self"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>self</b></span>
+                        <a href="#self"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:54</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="threadMessages$"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>threadMessages$</b></span>
+                        <a href="#threadMessages$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Observable&lt;ThreadMessage[]&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null!</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="timestep"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>timestep</b></span>
+                        <a href="#timestep"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:58</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="user"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>user</b></span>
+                        <a href="#user"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>literal type</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{ name: &#x27;&#x27;, photoUrl: &#x27;&#x27;, id: &#x27;&#x27;, }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">src/app/main/shared/chatbox/chatbox.component.ts:59</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  Input,
+  OnInit,
+  Output,
+  EventEmitter,
+  OnDestroy,
+  ChangeDetectionStrategy,
+  signal,
+  WritableSignal,
+  AfterViewInit,
+  ChangeDetectorRef,
+} from &#x27;@angular/core&#x27;;
+import { MessagesService } from &#x27;../../../shared/services/messages.service&#x27;;
+import { AuthService } from &#x27;../../../shared/services/auth.service&#x27;;
+import { Message, ThreadMessage } from &#x27;../../../models/message&#x27;;
+import { combineLatest, Observable, Subject } from &#x27;rxjs&#x27;;
+import { filter, map, startWith, switchMap, takeUntil, tap } from &#x27;rxjs/operators&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { Channel } from &#x27;../../../models/channel&#x27;;
+import { ChannelsService } from &#x27;../../../shared/services/channels.service&#x27;;
+import { MatDialog } from &#x27;@angular/material/dialog&#x27;;
+import { ProfileviewComponent } from &#x27;../../../shared/profileview/profileview.component&#x27;;
+import { EmojiPickerService } from &#x27;../../../shared/services/emoji-picker.service&#x27;;
+import { UserDialogService } from &#x27;../../../shared/services/user-dialog.service&#x27;;
+import { UserService } from &#x27;../../../shared/services/user.service&#x27;;
+import { FormsModule } from &#x27;@angular/forms&#x27;;
+import { ParentMessageComponent } from &#x27;../parentmessage/parent-message.component&#x27;;
+import { MessageComponent } from &#x27;../messages/messages.component&#x27;;
+import { ThreadMessagesComponent } from &#x27;../threadmessages/threadmessages.component&#x27;;
+
+@Component({
+  selector: &#x27;app-chatbox&#x27;,
+  templateUrl: &#x27;./chatbox.component.html&#x27;,
+  standalone: true,
+  imports: [CommonModule, FormsModule, ParentMessageComponent, MessageComponent, ThreadMessagesComponent],
+  styleUrls: [&#x27;./chatbox.component.scss&#x27;],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
+  @Input() builder!: string;
+  @Output() threadChatToggle &#x3D; new EventEmitter&lt;void&gt;();
+  private messages &#x3D; signal&lt;Message[]&gt;([]);
+  private destroy$ &#x3D; new Subject&lt;void&gt;();
+  private currentChannel$: Observable&lt;Channel | null&gt; &#x3D; null!;
+  public messages$: Observable&lt;Message[]&gt; &#x3D; null!;
+  public threadMessages$: Observable&lt;ThreadMessage[]&gt; &#x3D; null!;
+  public loadingMessages: WritableSignal&lt;boolean&gt; &#x3D; signal(true);
+  public parentMessage: Partial&lt;Message&gt; | null &#x3D; null;
+  public activeUserId: string | null &#x3D; null;
+  public activeMessageId: string | null &#x3D; null;
+  public loadingAvatars &#x3D; true;
+  public isEmptyMessage: boolean &#x3D; false;
+  public self: boolean &#x3D; false;
+  public private: boolean &#x3D; false;
+  public channelName: string &#x3D; &#x27;&#x27;;
+  public channelCreatorName: string &#x3D; &#x27;&#x27;;
+  public timestep: any;
+  public user: { name: string, photoUrl: string, id: string, } &#x3D; { name: &#x27;&#x27;, photoUrl: &#x27;&#x27;, id: &#x27;&#x27;, };
+
+  /**
+   * Constructs a new instance of the ChatboxComponent.
+   *
+   * @param messagesService - The service providing the messages.
+   * @param authService - The service providing the currently logged in user.
+   * @param userDialog$ - The service allowing to open the user dialog.
+   * @param cdRef - The service providing the ChangeDetectorRef.
+   * @param userService - The service providing the user data.
+   * @param channelsService - The service providing the current channel data.
+   * @param dialog - The service allowing to open the thread chat dialog.
+   * @param emojiPickerService - The service providing the emoji picker.
+   */
+  constructor(
+    private messagesService: MessagesService,
+    private authService: AuthService,
+    private userDialog$: UserDialogService,
+    private cdRef: ChangeDetectorRef,
+    private userService: UserService,
+    public channelsService: ChannelsService,
+    public dialog: MatDialog,
+    public emojiPickerService: EmojiPickerService,
+  ) {
+    this.initializeObservables();
+    this.activeUserId &#x3D; this.authService.userId();
+  }
+
+
+  /**
+   * Initializes the observables for the current channel, messages, and thread messages.
+   */
+  private initializeObservables(): void {
+    this.currentChannel$ &#x3D; this.channelsService.currentChannel$;
+    this.messages$ &#x3D; this.getFormattedMessages();
+    this.threadMessages$ &#x3D; this.getFilteredThreadMessages();
+  }
+
+
+  /**
+   * Initializes the component by setting up the default channel, subscribing to messages and thread messages, and handling the current channel.
+   */
+  ngOnInit(): void {
+    this.initializeChannel();
+    this.messagesService.messageId$.subscribe(messageId &#x3D;&gt; {
+      if (messageId)
+        this.setParentMessage();
+    });
+    this.messagesService.messages$.subscribe(messages &#x3D;&gt; {
+      this.updateMessagesWithThreads(messages);
+    });
+    this.setParentMessage();
+    this.threadMessages$.subscribe(() &#x3D;&gt; { });
+    this.handleCurrentChannel();
+  }
+
+
+  /**
+   * Lifecycle hook that is called after the component view has been initialized.
+   * Sets up the subscription to the parent message ID observable and initializes the chatbox observer.
+   */
+  ngAfterViewInit(): void {
+    this.subscribeToParentMessageId();
+    // this.initializeChatboxObserver();
+    this.checkMessageIsEmpty();
+  }
+
+
+  /**
+   * Subscribes to the parent message ID changes in thread chat mode.
+   * Updates the active message ID when a new parent message is detected.
+   */
+  private subscribeToParentMessageId(): void {
+    if (this.builder !&#x3D;&#x3D; &#x27;threadchat&#x27;) return;
+    this.messagesService.parentMessageId$.subscribe((messageId) &#x3D;&gt; {
+      if (messageId) {
+        this.setParentMessage();
+        this.activeMessageId &#x3D; messageId;
+      }
+    });
+  }
+
+
+  /**
+   * Lifecycle hook that is called when the component is destroyed.
+   * Notifies all subscribers of the destroy subject and completes the subject.
+   */
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+
+  /**
+   * Retrieves the formatted list of messages.
+   * Each message includes a timestamp and thread messages.
+   * 
+   * @returns {Observable&lt;Message[]&gt;} - An observable containing the formatted messages.
+   */
+  private getFormattedMessages(): Observable&lt;Message[]&gt; {
+    return this.messagesService.messages$.pipe(
+      map(messages &#x3D;&gt;
+        messages.map(message &#x3D;&gt; ({
+          ...message,
+          timestamp: message[&#x27;timestamp&#x27;] ? new Date(message[&#x27;timestamp&#x27;]) : new Date(),
+          threadMessages$: message.threadMessages$
+        }))
+      )
+    );
+  }
+
+
+  /**
+   * Filters the thread messages based on the currently selected message ID.
+   * 
+   * @returns {Observable&lt;ThreadMessage[]&gt;} - An observable containing the filtered thread messages.
+   */
+  private getFilteredThreadMessages(): Observable&lt;ThreadMessage[]&gt; {
+    return combineLatest([
+      this.messagesService.messageId$.pipe(startWith(null)),
+      this.messagesService.threadMessages$.pipe(map(threads &#x3D;&gt; threads || [])),
+    ]).pipe(
+      map(([messageId, threads]) &#x3D;&gt; (!messageId ? [] : threads.filter(thread &#x3D;&gt; thread.messageId &#x3D;&#x3D;&#x3D; messageId)))
+    );
+  }
+
+
+  /**
+   * Initializes the default channel and subscribes to channel changes.
+   */
+  private initializeChannel(): void {
+    this.channelsService.setDefaultChannel();
+    this.channelsService.currentChannel$.pipe(
+      filter(channel &#x3D;&gt; !!channel),
+      switchMap(channel &#x3D;&gt;
+        this.userService.getuserName(channel?.createdBy ?? &#x27;&#x27;).pipe(
+          map(userName &#x3D;&gt; ({ channel, userName })),
+          tap(({ channel }) &#x3D;&gt; this.formatTimestamp(channel?.createdAt))
+        )
+      )
+    ).subscribe(({ channel, userName }) &#x3D;&gt; {
+      if (channel) {
+        this.messagesService.loadMessagesForChannel(channel.id);
+      }
+      this.channelCreatorName &#x3D; userName;
+    });
+  }
+
+
+  /**
+   * Formats the channel creation timestamp and sets the &#x60;timestep&#x60; variable.
+   * @param {string | undefined} createdAt - The timestamp of the channel creation.
+   */
+  private formatTimestamp(createdAt?: Date | undefined): void {
+    if (!createdAt) {
+      console.error(&quot;Can&#x27;t set Date, invalid timestamp&quot;);
+      return;
+    }
+    const x &#x3D; new Date(createdAt);
+    const day &#x3D; x.getDate();
+    const month &#x3D; x.getMonth() + 1;
+    const year &#x3D; x.getFullYear();
+    const newDate &#x3D; &#x60;${day}.${month}.${year}&#x60;;
+    this.timestep &#x3D; (day &#x3D;&#x3D;&#x3D; new Date().getDate() &amp;&amp;
+      month &#x3D;&#x3D;&#x3D; new Date().getMonth() + 1 &amp;&amp;
+      year &#x3D;&#x3D;&#x3D; new Date().getFullYear()) ? &quot;Heute&quot; : newDate;
+  }
+
+
+  /**
+   * Updates messages and loads thread messages for each message.
+   * @param {Message[]} messages - The list of messages to process.
+   */
+  private updateMessagesWithThreads(messages: Message[]): void {
+    this.messages.set(messages.map(msg &#x3D;&gt; ({ ...msg, threadMessages: [] })));
+    messages.forEach(msg &#x3D;&gt; {
+      if (msg.docId) {
+        this.messagesService.getThreadMessagesForMessage(msg.docId).subscribe(threads &#x3D;&gt; {
+          const updatedMessages &#x3D; this.messages().map(m &#x3D;&gt;
+            m.docId &#x3D;&#x3D;&#x3D; msg.docId ? { ...m, threadMessages: threads } : m
+          );
+          this.messages.set(updatedMessages);
+        });
+      }
+    });
+  }
+
+
+  /**
+   * Handles the current channel subscription and sets channel-specific properties.
+   */
+  private handleCurrentChannel(): void {
+    this.currentChannel$.subscribe(channel &#x3D;&gt; {
+      this.channelName &#x3D; channel?.name ?? &quot;&quot;;
+      this.private &#x3D; !!channel?.isPrivate;
+      if (this.private)
+        this.handlePrivateChannel(channel);
+      else
+        this.private &#x3D; false;
+      setTimeout(() &#x3D;&gt; {
+        this.scrollToBottom(this.builder &#x3D;&#x3D;&#x3D; &#x27;mainchat&#x27; ? &#x27;.mainchat__chatbox&#x27; : &#x27;.threadchat__chatbox&#x27;);
+      }, 500);
+    });
+  }
+
+
+  /**
+   * Handles private channel logic, including user retrieval.
+   * @param {Channel | null} channel - The currently active channel.
+   */
+  private handlePrivateChannel(channel: Channel | null): void {
+    if (!channel) return;
+    if (channel.members.length &#x3D;&#x3D;&#x3D; 1 &amp;&amp; channel.members[0] &#x3D;&#x3D;&#x3D; this.activeUserId)
+      this.getOwnData();
+    else {
+      this.self &#x3D; false;
+      this.getChannelUserData(channel);
+    }
+    this.checkMessageIsEmpty();
+  }
+
+
+  /**
+   * Retrieves user data for a private channel.
+   * @param {Channel} channel - The private channel object.
+   */
+  private getChannelUserData(channel: Channel): void {
+    let userId &#x3D; channel.members.find(id &#x3D;&gt; id !&#x3D;&#x3D; this.activeUserId);
+    if (!userId) return;
+    this.userService.getUserById(userId).pipe(map(user &#x3D;&gt; user)).subscribe(user &#x3D;&gt; {
+      this.user &#x3D; {
+        name: user.name ?? &#x27;&#x27;,
+        photoUrl: user.photoURL ?? &#x27;&#x27;,
+        id: user.userId ?? &#x27;&#x27;
+      };
+    });
+  }
+
+
+  /**
+   * Scrolls the chatbox to the bottom after a 500ms delay to allow the component to render all messages.
+   * @param selector - The CSS selector of the chatbox element.
+   */
+  private scrollToBottom(selector: string): void {
+    setTimeout(() &#x3D;&gt; {
+      const chatbox &#x3D; document.querySelector(selector) as HTMLElement;
+      if (chatbox) {
+        chatbox.scrollTop &#x3D; chatbox.scrollHeight;
+      }
+    }, 300);
+  }
+
+
+  /**
+   * Subscribes to changes in the parent message ID and updates the parent message object.
+   * Uses a combination of the parent message ID and the list of messages to find and set the current parent message.
+   * Marks the component for change detection to update the view.
+   */
+  setParentMessage(): void {
+    combineLatest([this.messagesService.parentMessageId$, this.messagesService.messages$])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([parentMessageId, messages]) &#x3D;&gt; {
+        this.parentMessage &#x3D; messages.find(msg &#x3D;&gt; msg.docId &#x3D;&#x3D;&#x3D; parentMessageId) || null;
+        this.cdRef.markForCheck();
+      });
+      setTimeout(() &#x3D;&gt; {
+        this.scrollToBottom(this.builder &#x3D;&#x3D;&#x3D; &#x27;mainchat&#x27; ? &#x27;.mainchat__chatbox&#x27; : &#x27;.threadchat__chatbox&#x27;);
+      }, 500);
+  }
+
+
+  /**
+   * Handles a user click in the chatbox.
+   * Opens the user profile dialog for the given user ID if the ID does not match the active user ID.
+   * @param {string | undefined} userId - The user ID of the user to open the profile dialog for.
+   */
+  handleUserClick(userId: string): void {
+    if (userId) {
+      if (this.activeUserId !&#x3D;&#x3D; userId) {
+        this.openDialogUser(userId);
+      }
+    }
+  }
+
+
+  /**
+   * Opens the user profile dialog with the given user ID.
+   * @param {string | undefined} id - The ID of the user to open the profile dialog for.
+   */
+  openDialogUser(id: string | undefined): void {
+    this.dialog.open(ProfileviewComponent, {
+      width: &#x27;fit-content&#x27;,
+      maxWidth: &#x27;100vw&#x27;,
+      height: &#x27;fit-content&#x27;,
+      data: { ID: id },
+    });
+  }
+
+
+  /**
+   * Checks if the message list is empty and updates the isEmptyMessage flag accordingly.
+   * Subscribes to the messages$ observable to monitor changes in the message list.
+   * Sets isEmptyMessage to true if there are no messages, otherwise false.
+   */
+  checkMessageIsEmpty() {
+    this.messages$.subscribe(message &#x3D;&gt; {
+      if (message.length &#x3D;&#x3D;&#x3D; 0) {
+        this.isEmptyMessage &#x3D; true;
+      } else {
+        this.isEmptyMessage &#x3D; false;
+      }
+    })
+  }
+
+
+  /**
+   * Subscribes to the current user&#x27;s data and sets the user object to the received data.
+   * If there is no active user ID, sets the user object to an empty object.
+   * Sets the self flag to true to indicate that the user object is the current user.
+   */
+  getOwnData() {
+    let id &#x3D; this.activeUserId ? this.activeUserId : &quot;&quot;;
+    let userObj &#x3D; this.userService.getUserById(id).pipe(map((user) &#x3D;&gt; user));
+    userObj.subscribe(user &#x3D;&gt; {
+      const data &#x3D; { name: user.name ? user.name : &#x27;&#x27;, photoUrl: user.photoURL ? user.photoURL : &#x27;&#x27;, id: user.userId ? user.userId : &#x27;&#x27;, }
+      this.user &#x3D; data;
+    })
+    this.self &#x3D; true;
+  }
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">@if (loadingMessages() &amp;&amp; !loadingAvatars) {
+&lt;div class&#x3D;&quot;loading-container&quot;&gt;
+  &lt;p&gt;Lade Nachrichten...&lt;/p&gt;
+&lt;/div&gt;
+} @else { @if (builder &#x3D;&#x3D; &quot;threadchat&quot;) {
+&lt;div class&#x3D;&quot;threadchat__chatbox&quot;&gt;
+  @if (parentMessage) {
+  @if (parentMessage &amp;&amp; activeUserId &amp;&amp; activeMessageId) {
+  &lt;app-parent-message class&#x3D;&quot;chatbox__mainthread-container&quot; [activeMessageId]&#x3D;&quot;activeMessageId&quot;
+    [parentMessage]&#x3D;&quot;parentMessage&quot; [activeUserId]&#x3D;&quot;activeUserId&quot; (userClicked)&#x3D;&quot;handleUserClick($event)&quot;&gt;&gt;
+  &lt;/app-parent-message&gt;
+  }
+  }
+  &lt;div class&#x3D;&quot;chatbox__threads-divider&quot;&gt;
+    {{ (threadMessages$ | async)?.length || 0 }} Antworten
+  &lt;/div&gt;
+  @for (threadmessage of (threadMessages$ | async); track threadmessage.docId) {
+  @if (threadmessage &amp;&amp; activeMessageId &amp;&amp; activeUserId) {
+  &lt;app-thread-messages class&#x3D;&quot;chatbox__msg-container&quot;
+    [class.chatbox__msg-container__sent]&#x3D;&quot;threadmessage.createdBy &#x3D;&#x3D;&#x3D; activeUserId&quot; id&#x3D;&quot;{{ threadmessage.docId }}&quot;
+    [threadMessage]&#x3D;&quot;threadmessage&quot; [activeUserId]&#x3D;&quot;activeUserId&quot; [activeMessageId]&#x3D;&quot;activeMessageId&quot;
+    (userClicked)&#x3D;&quot;handleUserClick($event)&quot;&gt;
+  &lt;/app-thread-messages&gt;
+  }
+  }
+&lt;/div&gt;
+} @else {
+&lt;div class&#x3D;&quot;mainchat__chatbox&quot;&gt;
+  @if (isEmptyMessage) {
+  &lt;div class&#x3D;&quot;emptyMessage&quot;&gt;
+    @if(private || self) {
+    &lt;div class&#x3D;&quot;headline&quot;&gt;
+      &lt;img [src]&#x3D;&quot;user.photoUrl&quot; alt&#x3D;&quot;Avatar&quot;&gt;
+      &lt;span&gt;{{ user.name }}&lt;/span&gt;
+    &lt;/div&gt;
+    } @else {
+    &lt;h2&gt;# {{ channelName }}&lt;/h2&gt;
+    }
+    &lt;div class&#x3D;&quot;text&quot;&gt;
+      @if (self &amp;&amp; private) {
+      &lt;span&gt;Dieser Raum ist nur für dich da. Mache dir Notizen, liste deine To-dos auf oder bewahre Links und Dateien
+        griffbereit auf. Du kannst hier auch gerne Dinge mit dir selbst besprechen.&lt;/span&gt;
+      } @else if(private) {
+      &lt;span&gt;Diese Unterhaltung findet nur zwischen &amp;nbsp;&lt;p (click)&#x3D;&quot;openDialogUser(user.id)&quot; class&#x3D;&quot;name&quot;&gt;&amp;#64;{{
+          user.name }}&amp;nbsp;&lt;/p&gt; und dir statt.&lt;/span&gt;
+      } @else {
+
+      &lt;span&gt;{{channelCreatorName}} hat diesen Channel {{ timestep }} erstellt. Das ist der Anfang des Channels &amp;nbsp;&lt;p
+          class&#x3D;&quot;name nohover&quot;&gt;# {{
+          channelName }}&lt;/p&gt;.&lt;/span&gt;
+      }
+    &lt;/div&gt;
+  &lt;/div&gt;
+  } @else {
+  @for (message of (messages$ | async); track message.docId) { @if (message ) {
+  @let shouldRenderDivider &#x3D; channelsService.checkAndSetPreviousTimestamp(message.timestamp);
+  @if (activeUserId){
+  &lt;app-messages style&#x3D;&quot;width: 100;&quot; [shouldRenderDivider]&#x3D;&quot;shouldRenderDivider&quot; [message]&#x3D;&quot;message&quot;
+    [activeUserId]&#x3D;&quot;activeUserId&quot; [isCurrentUser]&#x3D;&quot;message.createdBy &#x3D;&#x3D;&#x3D; activeUserId&quot;
+    (userClicked)&#x3D;&quot;handleUserClick($event)&quot;&gt;
+  &lt;/app-messages&gt;
+  }
+  }
+  }
+  }
+&lt;/div&gt;
+}}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./chatbox.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@use &quot;../../../../mixins.scss&quot; as mixins;
+@use &quot;../../../../colors.scss&quot; as colors;
+
+.mainchat__chatbox {
+  display: flex;
+  position: relative;
+  flex-direction: column;  
+  flex: 1;
+  width: 100%;
+  height: calc(100% - 8px);
+  overflow: auto; 
+  margin: 0 0 24px;
+  top: 4px;
+
+}
+
+.threadchat__chatbox {
+  display: flex;
+  position: relative;
+  flex-direction: column;  
+  height: calc(100% - 114px);
+  overflow: auto;
+  margin: 20px 0 0;
+  top: 90px;
+  scroll-snap-type: y mandatory;
+}
+
+
+.mainchat__chatbox.has-scroll,
+.threadchat__chatbox.has-scroll {
+  flex-direction: column-reverse;
+}
+
+.thread__days__devider {
+  margin: 10px 35px !important;
+
+  &amp;::before, &amp;::after {
+    background-color: white !important;
+  }
+
+  .thread__divider-text {
+    display: none;
+  }
+}
+
+.thread__days__chatbox__msg-container {
+  margin-top: 0px !important;
+}
+
+.thread__divider {
+  @include mixins.flexbox(row, center, center, nowrap);
+  position: absolute;
+  top: 50%;
+
+  &amp;::before,
+  &amp;::after {
+    flex: 1;
+    content: &quot;&quot;;
+    padding: 1px;
+    background-color: colors.$light-purple;
+  }
+}
+
+
+.message {
+  @include mixins.flexbox(row, center, center, nowrap);
+  margin: 20px 35px;
+  scroll-snap-align: end;
+
+}
+
+.thread__divider-text {
+  font-size: 1.125rem;
+  padding: 5px 15px;
+  border: 1px solid colors.$light-purple;
+  border-radius: 30px;
+  z-index: 1;
+  background-color: colors.$white;
+}
+
+.chatbox__mainthread-container {
+  @include mixins.flexbox(row, flex-start, flex-start, nowrap);
+  gap: 20px;
+  padding: 10px 40px;
+  margin-top: 17px;
+  position: relative;
+  width: 100%;
+
+  &amp;:hover {
+    background-color: colors.$bg-color;
+  }
+  &amp;:hover .chatbox__msg {
+    background-color: colors.$white;
+  }
+  &amp;:hover .chatbox__msg-sent {
+    background-color: colors.$purple2;
+  }
+
+  &amp;:hover .chatbox__addemoji-container {
+    @include mixins.flexbox(row, center, center, nowrap);
+  }
+}
+
+.chatbox__threads-divider {
+  width: 100%;
+  display: flex;
+  align-self: flex-start;
+  align-items: center;
+  font-size: 1.125rem;
+  color: colors.$light-purple;
+  margin-inline: auto;
+  padding-left: 33px;
+  padding-right: 32px;
+}
+
+.chatbox__threads-divider::after {
+  flex: 1;
+  content: &quot;&quot;;
+  padding: 1px;
+  background-color: colors.$light-purple;
+  margin-left: 20px;
+  margin-top: 8px;
+  margin-bottom: 2px;
+}
+
+.chatbox__msg-container {
+  @include mixins.flexbox(row, flex-start, flex-start, nowrap);
+  gap: 20px;
+  padding: 10px 40px;
+  margin-top: 17px;
+  position: relative;
+  width: 100%;
+
+  &amp;:hover {
+    background-color: colors.$bg-color;
+  }
+  &amp;:hover .chatbox__msg {
+    background-color: colors.$white;
+  }
+  &amp;:hover .chatbox__msg-sent {
+    background-color: colors.$purple2;
+  }
+
+  &amp;:hover .chatbox__addemoji-container {
+    @include mixins.flexbox(row, center, center, nowrap);
+  }
+}
+
+.chatbox__addemoji-container {
+  display: none;
+  background: colors.$white;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  border-bottom-left-radius: 25px;
+  border: 1px solid colors.$light-purple;
+  padding: 3px 13px;
+  position: absolute;
+  top: -15px;
+  right: 60px;
+  z-index: 99;
+  img {
+    display: block;
+    border-radius: 20px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+
+    &amp;:hover {
+      filter: invert(31%) sepia(41%) saturate(5436%) hue-rotate(231deg)
+        brightness(101%) contrast(99%);
+    }
+  }
+
+  &gt; div {
+    @include mixins.flexbox(row, center, center, nowrap);
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+  }
+
+  .chatbox__addemoji__emoji-container {
+    &amp;:hover {
+      background-color: colors.$bg-color;
+    }
+  }
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.chatbox__addemoji__lastUsedEmoji{
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  font-size:20px;
+
+  &amp;:hover{
+    background-color: colors.$bg-color;
+  }
+}
+
+.emoji-picker__wrapper-top-right{
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 9;
+}
+
+.emoji-picker__wrapper-top-right-thread{
+  position: absolute;
+  top: 0;
+  right: 27px;
+  z-index: 9;
+}
+
+.emoji-picker__wrapper-top-left{
+  position: absolute;
+  top: 0;
+  left: 27px;
+  z-index: 9;
+}
+
+.emoji-picker__wrapper-top-left-thread{
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9;
+}
+
+.emoji-picker__wrapper-left{
+  position: absolute;
+  bottom: -180px;
+  left: 19px;
+  z-index: 9;
+}
+
+.emoji-picker__wrapper-left-thread{
+  position: absolute;
+  top: 0px;
+  left: 109px;
+  z-index: 9;
+}
+
+.emoji-picker__wrapper-right{
+  position: absolute;
+  bottom: -180px;
+  right: 19px;
+  z-index: 9;
+}
+
+.emoji-picker__wrapper-right-thread{
+  position: absolute;
+  bottom: 0;
+  right: 118px;
+  z-index: 9;
+}
+
+.chatbox__editmsg-btn__container {
+  &amp;:hover .chatbox__editmsg-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+.chatbox__addemoji__sent {
+  left: 25px;
+  right: unset;
+}
+
+.chatbox__editmsg-container {
+  display: none;
+  padding: 20px 40px;
+  width: 310px;
+  position: absolute;
+  top: 10px;
+  right: -292px;
+  background-color: colors.$white;
+  box-shadow: 0px 6px 14px 0px rgba(0, 0, 0, 0.2);
+  border-top-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+
+  &amp;:hover .chatbox__editmsg:hover {
+    color: colors.$purple3;
+    font-weight: 700;
+    background-color: colors.$bg-color;
+    border-radius: 100px;
+    cursor: pointer;
+  }
+}
+
+.chatbox__editmsg {
+  text-wrap: nowrap;
+  font-size: 1.25rem;
+  padding: 10px 20px;
+}
+
+.chatbox__msg-avatar {
+  border-radius: 40px;
+  cursor: pointer;
+}
+
+.chatbox__msg-info {
+  @include mixins.flexbox(row, flex-start, center);
+  gap: 20px;
+}
+
+.chatbox__msg-name {
+  font-size: 1.125rem;
+  font-weight: 700;
+  cursor: pointer;
+
+  &amp;:hover {
+    color: colors.$purple;
+  }
+}
+
+.chatbox__msg-time {
+  font-size: 0.875rem;
+  color: colors.$grey;
+}
+
+.chatbox__msg {
+  background-color: colors.$bg-color;
+  padding: 15px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  line-height: 24.55px;
+  display: block;
+  word-break: break-word;
+  max-width: fit-content;
+}
+
+.chatbox__info {
+  @include mixins.flexbox(column , flex-start, flex-start, nowrap);
+  gap: 20px;
+}
+
+.chatbox__answers-container {
+  @include mixins.flexbox(row, flex-start, center, nowrap);
+  padding-top: 0.3em;
+}
+
+.chatbox__answers {
+  font-size: 1.125rem;
+  color: colors.$purple3;
+  margin-right: 20px;
+  text-wrap: nowrap;
+  cursor: pointer;
+}
+
+.chatbox__last-answer {
+  font-size: 0.875rem;
+  color: colors.$grey;
+  display: block;
+}
+
+.chatbox__msg-container__sent {
+  @include mixins.flexbox(row-reverse, flex-start, flex-start, nowrap);
+}
+
+.chatbox__msg-sent-info {
+  @include mixins.flexbox(row-reverse, flex-start, center);
+}
+
+.chatbox__msg-sent-item2 {
+  @include mixins.flexbox(column, flex-start, flex-end);
+}
+
+.chatbox__msg-sent {
+  background-color: colors.$purple2;
+  padding: 15px;
+  margin-top: 8px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  line-height: 24.55px;
+  color: colors.$white;
+  display: inline-block;
+  word-break: break-word;
+  max-width: fit-content;
+}
+
+.chatbox__reaction-wrapper {
+  display: flex;
+  gap: 8px;
+}
+
+.dialog-background {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: colors.$light-grey;
+  z-index: 555;
+}
+
+.editMessage {
+  width: 100%;
+  min-height: 150px;
+  position: relative;
+  background-color: white;
+  border: 1px solid colors.$light-purple;
+  border-radius: 20px;
+  textarea {
+    color: black;
+    border: unset;
+    outline: none;
+    width: 100%;
+    height: 100px;
+    resize: none;
+    max-width: unset;
+    margin: 0;
+    border-radius: 20px;
+    padding-bottom: 0px;
+  }
+  .chatbox__msg-sent {
+    background-color: white !important;
+  }
+  .chatbox__addreaction-container {
+    display: flex;
+    margin-left: 20px;
+    &gt;img {
+      width: 20px;
+      cursor: pointer;
+    }
+  }
+
+  .buttons {
+    padding: 10px 0px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    .cont {
+      display: flex;
+      gap: 20px;
+      margin-right: 20px;
+    }
+  }
+}
+
+.emptyMessage {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  cursor: default;
+
+  h2 {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 32.74px;
+    margin-left: 20px;
+  }
+
+  .headline {
+    margin: 0px 20px;
+    display: flex;
+    align-items: end;
+    gap: 15px;
+    img {
+      width: 100px;
+      height: 100px;
+      border-radius: 100%;
+    }
+    span {
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 32.74px;
+    }
+  }
+
+  .text {
+    display: flex;
+    margin: 20px 20px;
+    span {
+      display: flex;
+    }
+  }
+
+  .name {
+    color: colors.$purple3;
+
+    &amp;:hover {
+      font-weight: 700;
+      cursor: pointer;
+    }
+  }
+
+  .nohover {
+    &amp;:hover {
+      font-weight: 400;
+      cursor: default;
+    }
+  }
+}
+
+.mobile_answer {
+  
+  .chatbox__reaction-wrapper {
+    margin-top: 35px
+  }
+
+  .chatbox__answers {
+    margin-right: 10px;
+  }
+
+  .chatbox__msg-container {
+    padding: 10px 10px;
+  }
+
+  .message {
+    margin: 20px;
+  }
+}
+
+.left10px {
+  left: 5%;
+}
+
+@media(max-width: 550px) {
+  .emptyMessage {
+    .text {
+      span {
+        flex-direction: column;
+      }
+    }
+  }
+
+  .chatbox__editmsg-container {
+    top: 40px;
+    right: -60px;
+    padding: 0px 10px;
+    gap: 0px !important;
+    width: 250px;
+  }
+
+  .chatbox__editmsg {
+    padding: 10px;
+  }
+
+  .chatbox__answers-container {
+    position: absolute;
+    right: -95px;
+    width: fit-content;
+  }
+
+  .chatbox__msg-sent-item2 {
+    position: relative;
+  }
+
+  .chatbox__msg-container_padding0 {
+    padding: 0px
+  }
+
+  .chatbox__msg-container {
+    padding: 10px 10px;
+  }
+
+  .editMessage&gt;.buttons&gt;.cont {
+    gap: 10px;
+    button {
+      padding: 5px 10px !important;
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div>@if (loadingMessages() && !loadingAvatars) {<div class="loading-container">  <p>Lade Nachrichten...</p></div>} @else { @if (builder == "threadchat") {<div class="threadchat__chatbox">  @if (parentMessage) {  @if (parentMessage && activeUserId && activeMessageId) {  <app-parent-message class="chatbox__mainthread-container" [activeMessageId]="activeMessageId"    [parentMessage]="parentMessage" [activeUserId]="activeUserId" (userClicked)="handleUserClick($event)">>  </app-parent-message>  }  }  <div class="chatbox__threads-divider">    {{ (threadMessages$ | async)?.length || 0 }} Antworten  </div>  @for (threadmessage of (threadMessages$ | async); track threadmessage.docId) {  @if (threadmessage && activeMessageId && activeUserId) {  <app-thread-messages class="chatbox__msg-container"    [class.chatbox__msg-container__sent]="threadmessage.createdBy === activeUserId" id="{{ threadmessage.docId }}"    [threadMessage]="threadmessage" [activeUserId]="activeUserId" [activeMessageId]="activeMessageId"    (userClicked)="handleUserClick($event)">  </app-thread-messages>  }  }</div>} @else {<div class="mainchat__chatbox">  @if (isEmptyMessage) {  <div class="emptyMessage">    @if(private || self) {    <div class="headline">      <img [src]="user.photoUrl" alt="Avatar">      <span>{{ user.name }}</span>    </div>    } @else {    <h2># {{ channelName }}</h2>    }    <div class="text">      @if (self && private) {      <span>Dieser Raum ist nur für dich da. Mache dir Notizen, liste deine To-dos auf oder bewahre Links und Dateien        griffbereit auf. Du kannst hier auch gerne Dinge mit dir selbst besprechen.</span>      } @else if(private) {      <span>Diese Unterhaltung findet nur zwischen &nbsp;<p (click)="openDialogUser(user.id)" class="name">&#64;{{          user.name }}&nbsp;</p> und dir statt.</span>      } @else {      <span>{{channelCreatorName}} hat diesen Channel {{ timestep }} erstellt. Das ist der Anfang des Channels &nbsp;<p          class="name nohover"># {{          channelName }}</p>.</span>      }    </div>  </div>  } @else {  @for (message of (messages$ | async); track message.docId) { @if (message ) {  @let shouldRenderDivider = channelsService.checkAndSetPreviousTimestamp(message.timestamp);  @if (activeUserId){  <app-messages style="width: 100;" [shouldRenderDivider]="shouldRenderDivider" [message]="message"    [activeUserId]="activeUserId" [isCurrentUser]="message.createdBy === activeUserId"    (userClicked)="handleUserClick($event)">  </app-messages>  }  }  }  }</div>}}</div>'
+    var COMPONENTS = [{'name': 'AddchatComponent', 'selector': 'app-addchat'},{'name': 'AddUserToChannelComponent', 'selector': 'app-add-user-to-channel'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'BuilderComponent', 'selector': 'app-builder'},{'name': 'ChatboxComponent', 'selector': 'app-chatbox'},{'name': 'ChatComponent', 'selector': 'app-chat'},{'name': 'ChooseAvatarComponent', 'selector': 'app-choose-avatar'},{'name': 'CreatemessageComponent', 'selector': 'app-createmessage'},{'name': 'DialogComponent', 'selector': 'app-dialog'},{'name': 'EditmessageComponent', 'selector': 'app-editmessage'},{'name': 'EmojiPickerComponent', 'selector': 'app-emoji-picker'},{'name': 'ForgetPasswordComponent', 'selector': 'app-forget-password'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'ImprintComponent', 'selector': 'app-imprint'},{'name': 'LegalnoticeComponent', 'selector': 'app-legalnotice'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogoComponent', 'selector': 'app-logo'},{'name': 'MainchatHeaderComponent', 'selector': 'app-mainchat-header'},{'name': 'MainComponent', 'selector': 'app-main'},{'name': 'MentionComponent', 'selector': 'app-mention'},{'name': 'MenuChannelsComponent', 'selector': 'app-menu-channels'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MenuDialogComponent', 'selector': 'app-menu-dialog'},{'name': 'MenuHeaderComponent', 'selector': 'app-menu-header'},{'name': 'MenuPrivateMessagesComponent', 'selector': 'app-menu-private-messages'},{'name': 'MenutogglerComponent', 'selector': 'app-menutoggler'},{'name': 'MessageboxComponent', 'selector': 'app-messagebox'},{'name': 'MessageComponent', 'selector': 'app-messages'},{'name': 'ParentMessageComponent', 'selector': 'app-parent-message'},{'name': 'ProfileviewComponent', 'selector': 'app-profileview'},{'name': 'ReactionsComponent', 'selector': 'app-reactions'},{'name': 'ResetPasswordComponent', 'selector': 'app-reset-password'},{'name': 'SearchbarComponent', 'selector': 'app-searchbar'},{'name': 'SignInComponent', 'selector': 'app-sign-in'},{'name': 'SignUpComponent', 'selector': 'app-sign-up'},{'name': 'ThreadchatHeaderComponent', 'selector': 'app-threadchat-header'},{'name': 'ThreadMessagesComponent', 'selector': 'app-thread-messages'},{'name': 'ToastMessageComponent', 'selector': 'app-toastmessage'},{'name': 'UsermenuComponent', 'selector': 'app-usermenu'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'ChatboxComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'ChatboxComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
