@@ -81,7 +81,6 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.unsubscribeUserListener) {
       this.unsubscribeUserListener();
-      console.log('Benutzer-Listener entfernt.');
     }
   }
 

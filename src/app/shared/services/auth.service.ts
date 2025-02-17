@@ -132,10 +132,8 @@ export class AuthService {
     const user = userCredential.user;
     const userData = this.userService.setUserData(user.uid, name || '', user.email || '', photoURL || '', 'password');
     await setDoc(doc(this.firestore, 'users', user.uid), userData);
-    //const docRefChannel1 = doc(this.firestore, 'channels', "vfphslFFYLqC4hHHlM8y");
     const docRefChannel1 = doc(this.firestore, 'channels', "allgemein");
     await updateDoc(docRefChannel1, { members: arrayUnion(user.uid) });
-    //const docRefChannel2 = doc(this.firestore, 'channels', "q6m6NQIQepOmjULyneBJ");
     const docRefChannel2 = doc(this.firestore, 'channels', "entwickler");
     await updateDoc(docRefChannel2, { members: arrayUnion(user.uid) });
     await setDoc(doc(this.firestore, 'channels', user.uid), {
@@ -200,7 +198,7 @@ export class AuthService {
       members: [user.uid],
     });
     await setDoc(doc(this.firestore, 'channels', 'guestsonly'), {
-      createdAt: new Date(),
+      createdAt: new Date().getTime(),
       isPrivate: false,
       createdBy: "admin",
       description: "Gäste only",

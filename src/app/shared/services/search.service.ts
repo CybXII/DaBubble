@@ -106,7 +106,6 @@ export class SearchService {
   public loadChannels(): void {
     from(this.channelService.getAllChannels()).subscribe((channels) => {
       this.allChannels = Array.isArray(channels) ? channels : [];
-      console.log('Channels loaded:', this.allChannels);
     });
   }
 

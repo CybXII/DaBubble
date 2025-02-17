@@ -1,7 +1,6 @@
 @use './../../../mixins.scss' as mixins;
 @use './../../../colors.scss' as colors;
 @use './../host.scss';
-// @use './../login.component.scss';
 
 .separation {
     @include mixins.flexbox($direction: row);

@@ -141,7 +141,6 @@ export class AddchatComponent {
    */
   toggleAllMembers(addAll: boolean): void {
     this.allMembers = addAll;
-    console.log('All members:', this.allMembers);
   }
 
 

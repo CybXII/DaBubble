@@ -57,18 +57,18 @@ export class SaveEditMessageService {
    * @param docId The document ID of the message in Firestore.
    */
   checkUpdateData(message: any, thread: boolean, parentMessageId?: string, docId?: string) {
-    const updatedData = {...message,...this.messageForm.value,};
+    const updatedData = { ...message, ...this.messageForm.value, };
     if (thread) {
-      if (!parentMessageId) 
+      if (!parentMessageId)
         return console.error('Fehlende parentMessageId für Thread-Nachricht');
       this.messagesService.updateThreadMessage(
-        parentMessageId,docId!,this.auth.userId()!,updatedData)
-        .then(() => {this.showToastMessage('Nachricht aktualisiert');})
-        .catch((error) => {console.error('Fehler beim Aktualisieren der Thread-Nachricht:', error);});
+        parentMessageId, docId!, this.auth.userId()!, updatedData)
+        .then(() => { this.showToastMessage('Nachricht aktualisiert'); })
+        .catch((error) => { console.error('Fehler beim Aktualisieren der Thread-Nachricht:', error); });
     } else {
       this.messagesService.updateMessage(updatedData.docId, updatedData.createdBy, updatedData)
-        .then(() => {this.showToastMessage('Nachricht aktualisiert');})
-        .catch((error) => {console.error('Fehler beim Aktualisieren der Nachricht:', error);});
+        .then(() => { this.showToastMessage('Nachricht aktualisiert'); })
+        .catch((error) => { console.error('Fehler beim Aktualisieren der Nachricht:', error); });
     }
   }
 
@@ -81,9 +81,7 @@ export class SaveEditMessageService {
   checkCreatorWithActiveUser(creater: string): boolean {
     const dataUser = creater;
     const activeUser = this.auth.userId();
-    console.log('data user', dataUser);
-    console.log('active user', activeUser);
-  return dataUser === activeUser;
+    return dataUser === activeUser;
   }
 
   /**
@@ -91,7 +89,7 @@ export class SaveEditMessageService {
    * @param {string} text - The text to be displayed in the toast message.
    * @returns {void}
    */
-  showToastMessage(text:string) {
+  showToastMessage(text: string) {
     setTimeout(() => {
       this.toastMessageService.showToastSignal(text);
     }, 500);
