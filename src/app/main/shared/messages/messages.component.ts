@@ -52,7 +52,6 @@ export class MessageComponent implements OnInit, OnDestroy {
 
   /**
    * Constructs a new instance of the MessageComponent.
-   *
    * @param messagesService - Service for handling message operations.
    * @param emojiPickerService - Service for handling emoji picker functionalities.
    * @param userService - Service for user-related operations.
@@ -82,7 +81,6 @@ export class MessageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscriptions.add(
       this.emojiPickerService.activeMessagePicker$.subscribe((id) => {
-        console.log(`🔄 MessagePicker Update: ${id}`);
         this.isEmojiPickerOpen.set(id === this.message.docId);
         this.cdr.detectChanges();
       })
@@ -100,10 +98,8 @@ export class MessageComponent implements OnInit, OnDestroy {
 
   /**
    * Toggles the emoji picker for the message.
-   * 
    * If the emoji picker for the current message is already open, it closes all emoji pickers.
    * Otherwise, it first closes all emoji pickers and then opens the emoji picker for the current message.
-   * 
    * The method checks if the `message` has a `docId` before performing any actions.
    */
   toggleEmojiPicker() {
@@ -119,10 +115,8 @@ export class MessageComponent implements OnInit, OnDestroy {
 
   /**
    * Checks if the emoji picker is open for the current message.
-   *
    * This method utilizes the EmojiPickerService to determine if the emoji picker
    * is currently open for the message associated with this component.
-   *
    * @returns {boolean} True if the emoji picker is open for the message, false otherwise.
    */
   isEmojiPickerOpenForThisMessage(): boolean {
@@ -132,9 +126,7 @@ export class MessageComponent implements OnInit, OnDestroy {
 
   /**
    * Returns an observable that emits the name of the user with the given user ID.
-   *
    * This method uses the UserService to retrieve the user name associated with the given user ID.
-   *
    * @param userId The user ID to retrieve the name for.
    * @returns An observable that emits the user name.
    */
@@ -145,9 +137,7 @@ export class MessageComponent implements OnInit, OnDestroy {
 
   /**
    * Retrieves the avatar URL of a user given their ID.
-   *
    * This method uses the UserService to fetch the avatar URL associated with the specified user ID.
-   *
    * @param userId The user ID to retrieve the avatar URL for.
    * @returns An observable that emits the avatar URL.
    */
@@ -158,13 +148,10 @@ export class MessageComponent implements OnInit, OnDestroy {
 
   /**
    * Handles a user click event in the message component.
-   * 
    * If the given user ID does not match the active user ID, it emits the user ID to the parent component
    * to open the user profile dialog.
-   * 
    * If the given user ID matches the active user ID, it opens the profile dialog with the active user's profile
    * and sets the exit activity flag to false.
-   * 
    * @param userId The user ID to check against the active user ID.
    */
   checkIdIsUser(userId: string) {
@@ -179,7 +166,6 @@ export class MessageComponent implements OnInit, OnDestroy {
 
   /**
    * Retrieves the last used emoji stored in the EmojiStorageService at the given index.
-   *
    * @param index The index of the emoji to retrieve.
    * @returns The emoji at the given index.
    */
@@ -190,10 +176,8 @@ export class MessageComponent implements OnInit, OnDestroy {
 
   /**
    * Adds an emoji to either the text area if the edit mode is active or to the reactions of the message.
-   *
    * If the edit mode is active, it adds the emoji to the text area.
    * Otherwise, it adds the emoji to the reactions array of the message.
-   *
    * @param messageId The ID of the message to add the emoji to.
    * @param userId The ID of the user who added the emoji.
    * @param emoji The emoji to add.
@@ -210,11 +194,9 @@ export class MessageComponent implements OnInit, OnDestroy {
 
   /**
    * Adds an emoji to the reactions array of a message.
-   *
    * Creates a new reaction object with the given emoji and user ID, and adds it to the reactions
    * array of the message. It then updates the message with the new reactions array and closes all
    * emoji pickers for the message.
-   *
    * @param messageId The ID of the message to add the emoji to.
    * @param userId The ID of the user who added the emoji.
    * @param emoji The emoji to add.
@@ -234,13 +216,6 @@ export class MessageComponent implements OnInit, OnDestroy {
 
   /**
    * Adds an emoji to the text area in edit mode.
-   * 
-   * It adds the emoji at the current cursor position in the text area.
-   * If the cursor position is not recognized, it adds the emoji to the end
-   * of the text area and closes all emoji pickers for the message.
-   * If the cursor position is recognized, it adds the emoji at the cursor position
-   * and sets the cursor to the end of the just added emoji.
-   * 
    * @param emoji The emoji to add.
    */
   addEmojiToTextArea(emoji: string) {
@@ -264,11 +239,6 @@ export class MessageComponent implements OnInit, OnDestroy {
 
   /**
    * Prevents the emoji picker from closing when a click event occurs.
-   * 
-   * This method is used to prevent the emoji picker from closing when a click event occurs
-   * outside of the emoji picker component. It stops the event propagation to prevent the
-   * emoji picker from closing.
-   * 
    * @param event The click event to prevent from propagating.
    */
   preventEmojiPickerClose(event: Event): void {
@@ -279,7 +249,6 @@ export class MessageComponent implements OnInit, OnDestroy {
   /**
    * Checks if the given timestamp represents a different day than the previous one.
    * Updates the stored timestamp for future comparisons.
-   * 
    * @param {string | Date | undefined} currentTimestamp - The timestamp to check.
    * @returns {boolean} - `true` if the day has changed, `false` otherwise.
    * @throws {Error} - If an invalid timestamp is provided.
@@ -304,7 +273,6 @@ export class MessageComponent implements OnInit, OnDestroy {
 
   /**
    * Selects a message and opens the thread chat.
-   * 
    * @param {string} messageId - The ID of the message to select.
    * @returns {Promise<void>} - A promise that resolves when the operation is complete.
    */
@@ -318,24 +286,14 @@ export class MessageComponent implements OnInit, OnDestroy {
 
   /**
    * Saves the edited content of a message.
-   *
-   * This method retrieves the original message from Firestore using the given
-   * `message.docId`. If the original message is found, it updates the message
-   * content with the new text provided in `message.message`. The method also
-   * ensures that the message has a valid `docId` before attempting to update it.
-   *
-   * If the editing is successful, the edit mode is deactivated.
-   *
    * @param message The partial message object containing the updated message content.
    */
   saveEdit(message: Partial<Message>) {
-    if (!message.docId) {
-      return console.error("❌ Fehler: Nachricht hat keine docId.");
-    }
+    if (!message.docId) 
+      return console.error("Fehler: Nachricht hat keine docId.");
     this.messagesService.getMessage(message.docId).then(originalMessage => {
-      if (!originalMessage) {
-        return console.error("❌ Fehler: Nachricht nicht gefunden in Firestore:", message.docId);
-      }
+      if (!originalMessage) 
+        return console.error("Fehler: Nachricht nicht gefunden in Firestore:", message.docId);
       this.updateMessageText(message, originalMessage);
     });
     this.editAcitve = false;
@@ -344,13 +302,6 @@ export class MessageComponent implements OnInit, OnDestroy {
 
   /**
    * Updates the message content in Firestore.
-   *
-   * This method constructs an update data object with the new message content
-   * and attempts to update the message in Firestore using the provided `docId`
-   * and `createdBy` from the original message.
-   *
-   * Logs an error if the `docId` or `createdBy` are missing.
-   *
    * @param message The partial message object containing the updated content.
    * @param originalMessage The original message object retrieved from Firestore.
    */
@@ -358,19 +309,15 @@ export class MessageComponent implements OnInit, OnDestroy {
     const updateData: Partial<Message> = {message: message.message};
     if (message.docId && originalMessage.createdBy) {
       this.messagesService.updateMessage(message.docId, originalMessage.createdBy, updateData)
-      .then().catch(error => {console.error("❌ Fehler beim Speichern:", error);});
+      .then().catch(error => {console.error("Fehler beim Speichern:", error);});
     }
     else 
-      console.error("❌ Fehler: Nachricht hat keine docId oder createdBy ID.");
+      console.error("Fehler: Nachricht hat keine docId oder createdBy ID.");
   }
 
 
   /**
    * Cancels the edit mode for the given message.
-   *
-   * This method resets the message content to the original value stored in session storage,
-   * marks the message as not edited on the same day, and deactivates the edit mode.
-   *
    * @param message The message to cancel the edit mode for, represented as a partial message object.
    */
   cancelEdit(message: Partial<Message>) {
@@ -383,20 +330,16 @@ export class MessageComponent implements OnInit, OnDestroy {
 
   /**
    * Opens the edit dialog for the given message.
-   *
-   * If `inlineEdit` is set to `true`, the message is edited inline. Otherwise, a
-   * dialog with the EditmessageComponent is opened.
-   *
    * @param message The message to edit, represented as a partial message object.
    * @param deleteMessage Whether the delete button should be shown in the edit dialog.
    * @param inlineEdit Whether to edit the message inline or not. Defaults to `false`.
    */
   editMessage(message: Partial<Message>, deleteMessage: boolean, inlineEdit = false) {
-    if (inlineEdit && !deleteMessage) {
+    if (inlineEdit === true) {
       this.editAcitve = true;
       sessionStorage.setItem('EditedMessage', message.message as string);
       message.sameDay = true;
-    }else {
+    } else if (deleteMessage === true) {
       this.dialog.open(EditmessageComponent, {
         width: 'fit-content',
         maxWidth: '100vw',
@@ -409,7 +352,6 @@ export class MessageComponent implements OnInit, OnDestroy {
 
   /**
    * Checks whether the window width is greater than 400px.
-   *
    * @returns true if the window width is greater than 400px, false otherwise.
    */
   checkWidth() {
@@ -418,12 +360,9 @@ export class MessageComponent implements OnInit, OnDestroy {
 
 
   /**
-   * Checks whether a thread message has answers and whether the window width is
-   * smaller than 400px.
-   *
+   * Checks whether a thread message has answers and whether the window width is smaller than 400px.
    * @param message The message to check, represented as a partial message object.
    * @returns true if the message has answers and the window width is smaller than
-   * 400px, false otherwise. Returns null if the message has no answers.
    */
   ckeckThredMessageAndWidth(message:any) {
     let length;

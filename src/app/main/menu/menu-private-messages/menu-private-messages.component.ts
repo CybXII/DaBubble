@@ -8,7 +8,7 @@ import { ChannelsService } from '../../../shared/services/channels.service';
 import { SharedService } from '../../../shared/services/newmessage.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { UserDialogService } from '../../../shared/services/user-dialog.service';
-import { User, UserService } from '../../../shared/services/user.service';
+import { CustomUser, UserService } from '../../../shared/services/user.service';
 import { Observable, of } from 'rxjs';
 
 @Component({
@@ -256,7 +256,7 @@ export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
    * @param user - An array of user objects. The first element is used to set the user data.
    * @returns {void}
    */
-  setUserData(user: User[]){
+  setUserData(user: CustomUser[]){
     this.users = {
       name: user[0].name ? user[0].name : "",
       userId: user[0].userId ? user[0].userId : "",

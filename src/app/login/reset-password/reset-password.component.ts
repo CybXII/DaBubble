@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
+import { UserService } from '../../shared/services/user.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -25,7 +26,7 @@ export class ResetPasswordComponent implements OnInit {
    * @param {AuthService} auth - The authentication service.
    * @param {ActivatedRoute} route - The activated route to extract query parameters.
    */
-  constructor(private router: Router, private auth: AuthService, private route: ActivatedRoute) { }
+  constructor(private router: Router, private auth: AuthService, private route: ActivatedRoute, private userService: UserService) { }
 
   /**
    * ngOnInit - Lifecycle hook that is called after data-bound properties are initialized.
@@ -52,7 +53,7 @@ export class ResetPasswordComponent implements OnInit {
    */
   changePassword(ngform: NgForm) {
     if (ngform.valid && ngform.submitted && this.checkPasswordsMatch()) {
-      this.auth.confirmPasswordReset(this.oobCode, this.passwords.password)
+      this.userService.confirmPasswordReset(this.oobCode, this.passwords.password)
         .then(() => {
           this.successMessage = 'Das Passwort wurde erfolgreich zurückgesetzt.';
           this.errorMessage = '';

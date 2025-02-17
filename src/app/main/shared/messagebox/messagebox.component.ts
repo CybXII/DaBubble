@@ -55,12 +55,12 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     private messagesService: MessagesService,
     private authService: AuthService,
     public emojiPickerService: EmojiPickerService,
-    private sharedService: SharedService,
+    public sharedService: SharedService,
     public mentionService: MentionService,
     private userService: UserService,
   ) {}
 
-  
+
   /**
    * Initializes the MessageboxComponent by setting the active user ID and subscribing to the appropriate channels or threads based on the builder type.
    */
@@ -138,9 +138,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
   toggleEmojiPickerMain() {
     this.mentionService.status = false;
     this.emojiPickerService.closeAllEmojiPickers();
-    setTimeout(() => {
-      this.emojiPickerService.toggleMsgBoxEmojiPickerMain();
-    }, 50);
+    setTimeout(() => {this.emojiPickerService.toggleMsgBoxEmojiPickerMain()}, 50);
   }
 
 
@@ -150,9 +148,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
   toggleEmojiPickerThread() {
     this.mentionService.status = false;
     this.emojiPickerService.closeAllEmojiPickers();
-    setTimeout(() => {
-      this.emojiPickerService.toggleMsgBoxEmojiPickerThread();
-    }, 50);
+    setTimeout(() => {this.emojiPickerService.toggleMsgBoxEmojiPickerThread()}, 50);
   }
 
 
@@ -161,9 +157,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
    */
   toggleEmojiPickerCreateMessage() {
     this.emojiPickerService.closeAllEmojiPickers();
-    setTimeout(() => {
-      this.emojiPickerService.toggleMsgBoxCreateMessageEmojiPicker();
-    }, 50);
+    setTimeout(() => {this.emojiPickerService.toggleMsgBoxCreateMessageEmojiPicker()}, 50);
   }
 
 
@@ -205,14 +199,6 @@ export class MessageboxComponent implements OnInit, OnDestroy {
       this.mentionService.status = true;
     if (event.key == "Backspace") 
       this.mentionService.status = false;
-  }
-
-
-  /**
-   * Jumps to the '@' character in the message content.
-   */
-  jumpToAtAbove() {
-    this.sharedService.setSearchString('@');
   }
 
 
@@ -269,23 +255,6 @@ export class MessageboxComponent implements OnInit, OnDestroy {
 
 
   /**
-   * Creates a new message and sends it to the selected target.
-   * @returns {Promise<void>}
-   */
-  async createNewMessage(): Promise<void> {
-    if (!this.messageContent.trim()) {return console.error('Nachricht darf nicht leer sein.');}
-    let sendToUserId = this.sharedService.getUserIdString();
-    let sendToChannelId = this.sharedService.getChannelIdString();
-    let sendToTarget = this.sharedService.getTargetString();
-    this.checkMessageTarget(sendToTarget, sendToUserId, sendToChannelId);
-    const messageToSend: Message = await this.generateMessageObject();
-    this.sendNewMessage(messageToSend);
-    this.sharedService.updateVariable('');
-    await this.channelsService.selectChannel(this.sendToId);
-  }
-
-
-  /**
    * Determines the target ID for sending a message based on the target type.
    * @param sendToTarget - The type of target, either 'toUser' or 'toChannel'.
    * @param sendToUserId - The ID of the user to send the message to.
@@ -299,29 +268,8 @@ export class MessageboxComponent implements OnInit, OnDestroy {
         this.sendToId = existingChannels[0].id ?? '';
       else
         this.createNewChannel(sendToUserId);
-    } else if (sendToTarget == 'toChannel') {
+    } else if (sendToTarget == 'toChannel') 
       this.sendToId = sendToChannelId;
-    }
-  }
-
-
-  /**
-   * Sends a new message to the specified channel.
-   * @param {Message} messageToSend - The message object to be sent.
-   * @returns {Promise<void>} - A promise that resolves when the message has been sent.
-   */
-  async sendNewMessage(messageToSend: Message) {
-    if (1 == 1) {
-      try {
-        await this.messagesService.addMessage(messageToSend);
-        console.log('Nachricht erfolgreich gesendet:', messageToSend);
-        this.messageContent = '';
-      } catch (error) {
-        console.error('Fehler beim Senden der Nachricht:', error);
-      }
-    } else {
-      console.error('Keine gültige Channel-ID verfügbar.');
-    }
   }
 
 
@@ -329,8 +277,8 @@ export class MessageboxComponent implements OnInit, OnDestroy {
    * Generates a Message object based on the active user and the message content.
    * @returns {Promise<Message>} - A promise that resolves with the generated Message object.
    */
-  async generateMessageObject(): Promise<Message> {
-    let user: UserModel = (await this.authService.getUserById(this.activeUserId)) as UserModel;
+  async generateNewMessageObject(): Promise<Message> {
+    let user: UserModel = (await this.userService.getUserForMessageById(this.activeUserId)) as UserModel;
     const message: Omit<Message, 'threadMessages$'> = {
       channelId: this.sendToId || '',
       createdBy: this.activeUserId || '',
@@ -345,25 +293,6 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     return message;
   }
 
-  /**
-   * Generates a ThreadMessage object based on the active user and the message content.
-   * @returns {ThreadMessage} - The generated ThreadMessage object.
-   */
-  async generateThreadMessageObject(): Promise<ThreadMessage> {
-    let user: UserModel = (this.authService.getUserById(this.activeUserId)) as unknown as UserModel;
-    const threadMessage: ThreadMessage = {
-      createdBy: this.activeUserId || '',
-      creatorName: user.name || '',
-      creatorPhotoURL: user.photoURL || '',
-      message: this.messageContent.trim(),
-      timestamp: new Date(),
-      reactions: [],
-      isThreadMessage: true,
-      sameDay: false,
-    };
-    return threadMessage;
-  }
-
 
   /**
    * Sends a message to the currently selected channel.
@@ -372,15 +301,14 @@ export class MessageboxComponent implements OnInit, OnDestroy {
   async sendMessage(): Promise<void> {
     if (!this.messageContent.trim()) 
       return console.error('Nachricht darf nicht leer sein.');
-    const messageToSend: Message = await this.generateMessageObject();
+    let user: UserModel = (await this.userService.getUserForMessageById(this.activeUserId)) as UserModel;
+    const message: Omit<Message, 'threadMessages$'> = this.userService.generateMessageObject(user, this.channelId, this.activeUserId, this.messageContent);
     if (this.channelId) {
       try {
-        await this.messagesService.addMessage(messageToSend);
+        await this.messagesService.addMessage(message);
         this.messageContent = '';
-      } catch (error) {
-        console.error('Fehler beim Senden der Nachricht:', error);
-      }
-    } else
+      } catch (error) {console.error('Fehler beim Senden der Nachricht:', error);}
+    } else 
       console.error('Keine gültige Channel-ID verfügbar.');
   }
 
@@ -390,10 +318,9 @@ export class MessageboxComponent implements OnInit, OnDestroy {
    * @returns {Promise<void>} - A promise that resolves when the message has been sent.
    */
   async sendThreadMessage(): Promise<void> {
-    if (!this.messageContent.trim()) {
+    if (!this.messageContent.trim()) 
       return console.error('Nachricht darf nicht leer sein.');
-    }
-    const threadMessage: ThreadMessage = await this.generateThreadMessageObject();
+    const threadMessage: ThreadMessage = await this.userService.generateThreadMessageObject( this.activeUserId, this.messageContent);
     this.sendThreadMessageWithService(threadMessage)
   }
 
@@ -404,10 +331,75 @@ export class MessageboxComponent implements OnInit, OnDestroy {
    */
   sendThreadMessageWithService(threadMessage: ThreadMessage) {
     if (this.messageId) {
-      this.messagesService.addThreadMessage(this.messageId, threadMessage)
+      this.sharedService.addThreadMessage(this.messageId, threadMessage)
         .then(() => {this.messageContent = '';})
         .catch((error) => {console.error('Fehler beim Senden der Thread-Nachricht:', error);});
     } else 
       console.error('Keine gültige Message-ID für den Thread verfügbar.');
+  }
+
+
+  /**
+   * Checks which channel the message should be sent to based on the target string.
+   * If the target is a user, it will check if a private channel with that user already exists.
+   * If the channel does not exist, it will create a new channel with the user.
+   * If the target is a channel, it will set the `sendToId` to the channel ID.
+   */
+  async checkChannelWhereToSendMessage() {
+    let sendToUserId = this.sharedService.getUserIdString();
+    let sendToChannelId = this.sharedService.getChannelIdString();
+    let sendToTarget = this.sharedService.getTargetString();
+    if (sendToTarget == 'toUser') {
+      this.sendToId = sendToUserId;
+      const existingChannels = await this.channelsService.getPrivateChannelByMembers([this.activeUserId ?? '', sendToUserId]);
+      if (existingChannels.length > 0) 
+        this.sendToId = existingChannels[0].id ?? '';
+      else 
+        this.createNewChannel(sendToUserId);
+    } else if (sendToTarget == 'toChannel') 
+      this.sendToId = sendToChannelId;
+  }
+
+
+  /**
+   * Creates a new message by calling checkChannelWhereToSendMessage and sendNewMessage.
+   * If the message is sent successfully, the input field is cleared and the channel is selected.
+   * @returns {Promise<void>} - A promise that resolves when the message has been sent.
+   */
+  async createNewMessage(): Promise<void> {
+    if (!this.messageContent.trim()) 
+      return console.error('Nachricht darf nicht leer sein.');
+    await this.checkChannelWhereToSendMessage();
+    await this. sendNewMessage();
+    this.sharedService.updateVariable('');
+    this.channelsService.selectChannel(this.sendToId);
+  }
+
+
+  /**
+   * Sends a new message using the currently entered message content and the ID of the channel or user to send the message to.
+   * The message is created using the currently logged-in user's data and the timestamp of the sending time.
+   * If the message is sent successfully, the input field is cleared.
+   */
+  async sendNewMessage(){
+    let user: UserModel = (await this.userService.getUserForMessageById(this.activeUserId)) as UserModel;
+    const message: Omit<Message, 'threadMessages$'> = {
+      channelId: this.sendToId || '',
+      createdBy: this.activeUserId || '',
+      creatorName: user.name || '',
+      creatorPhotoURL: user.photoURL || '',
+      message: this.messageContent.trim(),
+      timestamp: new Date(),
+      members: this.members,
+      reactions: [],
+      sameDay: false,
+    };
+    if (1 == 1) {
+      try {
+        await this.messagesService.addMessage(message);
+        this.messageContent = '';
+      } catch (error) {console.error('Fehler beim Senden der Nachricht:', error)}
+    } else 
+      console.error('Keine gültige Channel-ID verfügbar.');
   }
 }

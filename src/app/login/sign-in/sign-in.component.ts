@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
+import { UserService } from '../../shared/services/user.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -24,6 +25,7 @@ export class SignInComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
+    private userService: UserService,
     private route: ActivatedRoute
   ) { }
 
@@ -34,7 +36,7 @@ export class SignInComponent implements OnInit {
     if (this.authService.isAuthenticated()) {
       this.router.navigateByUrl('/board');
     }
-    this.loginError = this.authService.loginError();
+    this.loginError = this.userService.loginError();
   }
 
   /**
