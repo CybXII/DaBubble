@@ -207,56 +207,56 @@
   position: absolute;
   top: 0;
   right: 0;
-  z-index: 9;
+  z-index: 999;
 }
 
 .emoji-picker__wrapper-top-right-thread{
   position: absolute;
   top: 0;
-  right: 27px;
-  z-index: 9;
+  right: 0px;
+  z-index: 999;
 }
 
 .emoji-picker__wrapper-top-left{
   position: absolute;
   top: 0;
   left: 27px;
-  z-index: 9;
+  z-index: 999;
 }
 
 .emoji-picker__wrapper-top-left-thread{
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 9;
+  z-index: 999;
 }
 
 .emoji-picker__wrapper-left{
   position: absolute;
   bottom: -180px;
   left: 19px;
-  z-index: 9;
+  z-index: 999;
 }
 
 .emoji-picker__wrapper-left-thread{
   position: absolute;
   top: 0px;
   left: 109px;
-  z-index: 9;
+  z-index: 999;
 }
 
 .emoji-picker__wrapper-right{
   position: absolute;
   bottom: -180px;
   right: 19px;
-  z-index: 9;
+  z-index: 999;
 }
 
 .emoji-picker__wrapper-right-thread{
   position: absolute;
   bottom: 0;
   right: 118px;
-  z-index: 9;
+  z-index: 999;
 }
 
 .chatbox__editmsg-btn__container {
