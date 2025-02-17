@@ -1,0 +1,703 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>dabubble documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">dabubble documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  UsermenuComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/shared/header/usermenu/usermenu.component.ts</code>
+</p>
+
+
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-usermenu</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="../components/DialogComponent.html" target="_self" >DialogComponent</a></code>
+                            <code>CommonModule</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./usermenu.component.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./usermenu.component.scss</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#mobileDialog" >mobileDialog</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#userDialog" >userDialog</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#openDesktopUserMenu" >openDesktopUserMenu</a>
+                            </li>
+                            <li>
+                                <a href="#openMobileUserMenu" >openMobileUserMenu</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(userDialog: <a href="../injectables/UserDialogService.html" target="_self">UserDialogService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/shared/header/usermenu/usermenu.component.ts:14</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>userDialog</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UserDialogService.html" target="_self" >UserDialogService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openDesktopUserMenu"></a>
+                    <span class="name">
+                        <span ><b>openDesktopUserMenu</b></span>
+                        <a href="#openDesktopUserMenu"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openDesktopUserMenu(event: Event)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="32"
+                                    class="link-to-prism">src/app/shared/header/usermenu/usermenu.component.ts:32</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Opens the user menu dialog, with the desktop dialog layout.
+This sets <code>mobileDialog</code> to false, and calls <code>openDialog</code> on the <code>UserDialogService</code>.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>Event</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The event that triggered opening the dialog, passed to <code>openDialog</code>.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openMobileUserMenu"></a>
+                    <span class="name">
+                        <span ><b>openMobileUserMenu</b></span>
+                        <a href="#openMobileUserMenu"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openMobileUserMenu(event: Event)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="22"
+                                    class="link-to-prism">src/app/shared/header/usermenu/usermenu.component.ts:22</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Opens the user menu dialog, with the mobile dialog layout.
+This sets <code>mobileDialog</code> to true, and calls <code>openDialog</code> on the <code>UserDialogService</code>.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>Event</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The event that triggered opening the dialog, passed to <code>openDialog</code>.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mobileDialog"></a>
+                    <span class="name">
+                        <span ><b>mobileDialog</b></span>
+                        <a href="#mobileDialog"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/shared/header/usermenu/usermenu.component.ts:14</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="userDialog"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>userDialog</b></span>
+                        <a href="#userDialog"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/UserDialogService.html" target="_self" >UserDialogService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/shared/header/usermenu/usermenu.component.ts:15</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component } from &#x27;@angular/core&#x27;;
+import { DialogComponent } from &#x27;./dialog/dialog.component&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { UserDialogService } from &#x27;../../services/user-dialog.service&#x27;;
+
+@Component({
+  selector: &#x27;app-usermenu&#x27;,
+  standalone: true,
+  imports: [DialogComponent, CommonModule],
+  templateUrl: &#x27;./usermenu.component.html&#x27;,
+  styleUrl: &#x27;./usermenu.component.scss&#x27;,
+})
+export class UsermenuComponent {
+  mobileDialog: boolean &#x3D; false;
+  constructor(public userDialog: UserDialogService) {}
+
+  /**
+   * Opens the user menu dialog, with the mobile dialog layout.
+   * This sets &#x60;mobileDialog&#x60; to true, and calls &#x60;openDialog&#x60; on the &#x60;UserDialogService&#x60;.
+   * @param event The event that triggered opening the dialog, passed to &#x60;openDialog&#x60;.
+   */
+  openMobileUserMenu(event: Event){
+    this.mobileDialog &#x3D; true;
+    this.userDialog.openDialog(event);
+  }
+
+  /**
+   * Opens the user menu dialog, with the desktop dialog layout.
+   * This sets &#x60;mobileDialog&#x60; to false, and calls &#x60;openDialog&#x60; on the &#x60;UserDialogService&#x60;.
+   * @param event The event that triggered opening the dialog, passed to &#x60;openDialog&#x60;.
+   */
+  openDesktopUserMenu(event: Event){
+    this.mobileDialog &#x3D; false;
+    this.userDialog.openDialog(event);
+  }
+}
+
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;usermenu-container&quot;&gt;
+  &lt;div class&#x3D;&quot;avatar-container avatar-container-mobile&quot; (click)&#x3D;&quot;openMobileUserMenu($event)&quot;&gt;
+    &lt;img [src]&#x3D;&quot;userDialog.userData?.photoURL&quot; alt&#x3D;&quot;&quot; /&gt;
+    &lt;div target&#x3D;&quot;online-status&quot; [ngStyle]&#x3D;&quot;{&#x27;background-color&#x27;: userDialog.userData?.status ? &#x27;#92c83e&#x27; : &#x27;#696969&#x27;}&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class&#x3D;&quot;usermenu-container-box&quot; (click)&#x3D;&quot;openDesktopUserMenu($event)&quot;&gt;
+    &lt;span class&#x3D;&quot;elipsis&quot;&gt;{{ userDialog.userData?.name }}&lt;/span&gt;
+    &lt;div class&#x3D;&quot;avatar-container avatar-container-desktop&quot;&gt;
+      &lt;img [src]&#x3D;&quot;userDialog.userData?.photoURL&quot; alt&#x3D;&quot;&quot; /&gt;
+      &lt;div target&#x3D;&quot;online-status&quot; [ngStyle]&#x3D;&quot;{&#x27;background-color&#x27;: userDialog.userData?.status ? &#x27;#92c83e&#x27; : &#x27;#696969&#x27;}&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;svg class&#x3D;&quot;arrow-down&quot; width&#x3D;&quot;14&quot; height&#x3D;&quot;9&quot; viewBox&#x3D;&quot;0 0 14 9&quot; xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;&gt;
+      &lt;path
+        d&#x3D;&quot;M7 8.71875C6.83333 8.71875 6.67208 8.6875 6.51625 8.625C6.35958 8.5625 6.22917 8.47917 6.125 8.375L0.375 2.625C0.145833 2.39583 0.03125 2.10417 0.03125 1.75C0.03125 1.39583 0.145833 1.10417 0.375 0.875C0.604166 0.645833 0.895833 0.53125 1.25 0.53125C1.60417 0.53125 1.89583 0.645833 2.125 0.875L7 5.75L11.875 0.875C12.1042 0.645833 12.3958 0.53125 12.75 0.53125C13.1042 0.53125 13.3958 0.645833 13.625 0.875C13.8542 1.10417 13.9688 1.39583 13.9688 1.75C13.9688 2.10417 13.8542 2.39583 13.625 2.625L7.875 8.375C7.75 8.5 7.61458 8.58833 7.46875 8.64C7.32292 8.6925 7.16667 8.71875 7 8.71875Z&quot;
+        fill&#x3D;&quot;black&quot; /&gt;
+    &lt;/svg&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+@if (userDialog.dialog &#x3D;&#x3D; true || userDialog.profileDialog ||
+userDialog.profileDialogEdit){
+&lt;div [ngClass]&#x3D;&quot;{
+    &#x27;dialog-background&#x27;:
+      userDialog.dialog ||
+      userDialog.profileDialog ||
+      userDialog.profileDialogEdit
+  }&quot; (click)&#x3D;&quot;userDialog.closeDialog($event)&quot;&gt;
+  &lt;app-dialog (dialogChange)&#x3D;&quot;userDialog.onDialogChange($event)&quot; [mobileDialog]&#x3D;&quot;mobileDialog&quot;&gt;&lt;/app-dialog&gt;
+&lt;/div&gt;
+}</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="usermenu-container">  <div class="avatar-container avatar-container-mobile" (click)="openMobileUserMenu($event)">    <img [src]="userDialog.userData?.photoURL" alt="" />    <div target="online-status" [ngStyle]="{\'background-color\': userDialog.userData?.status ? \'#92c83e\' : \'#696969\'}"></div>  </div>  <div class="usermenu-container-box" (click)="openDesktopUserMenu($event)">    <span class="elipsis">{{ userDialog.userData?.name }}</span>    <div class="avatar-container avatar-container-desktop">      <img [src]="userDialog.userData?.photoURL" alt="" />      <div target="online-status" [ngStyle]="{\'background-color\': userDialog.userData?.status ? \'#92c83e\' : \'#696969\'}"></div>    </div>    <svg class="arrow-down" width="14" height="9" viewBox="0 0 14 9" xmlns="http://www.w3.org/2000/svg">      <path        d="M7 8.71875C6.83333 8.71875 6.67208 8.6875 6.51625 8.625C6.35958 8.5625 6.22917 8.47917 6.125 8.375L0.375 2.625C0.145833 2.39583 0.03125 2.10417 0.03125 1.75C0.03125 1.39583 0.145833 1.10417 0.375 0.875C0.604166 0.645833 0.895833 0.53125 1.25 0.53125C1.60417 0.53125 1.89583 0.645833 2.125 0.875L7 5.75L11.875 0.875C12.1042 0.645833 12.3958 0.53125 12.75 0.53125C13.1042 0.53125 13.3958 0.645833 13.625 0.875C13.8542 1.10417 13.9688 1.39583 13.9688 1.75C13.9688 2.10417 13.8542 2.39583 13.625 2.625L7.875 8.375C7.75 8.5 7.61458 8.58833 7.46875 8.64C7.32292 8.6925 7.16667 8.71875 7 8.71875Z"        fill="black" />    </svg>  </div></div>@if (userDialog.dialog == true || userDialog.profileDialog ||userDialog.profileDialogEdit){<div [ngClass]="{    \'dialog-background\':      userDialog.dialog ||      userDialog.profileDialog ||      userDialog.profileDialogEdit  }" (click)="userDialog.closeDialog($event)">  <app-dialog (dialogChange)="userDialog.onDialogChange($event)" [mobileDialog]="mobileDialog"></app-dialog></div>}</div>'
+    var COMPONENTS = [{'name': 'AddchatComponent', 'selector': 'app-addchat'},{'name': 'AddUserToChannelComponent', 'selector': 'app-add-user-to-channel'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'BuilderComponent', 'selector': 'app-builder'},{'name': 'ChatboxComponent', 'selector': 'app-chatbox'},{'name': 'ChatComponent', 'selector': 'app-chat'},{'name': 'ChooseAvatarComponent', 'selector': 'app-choose-avatar'},{'name': 'CreatemessageComponent', 'selector': 'app-createmessage'},{'name': 'DialogComponent', 'selector': 'app-dialog'},{'name': 'EditmessageComponent', 'selector': 'app-editmessage'},{'name': 'EmojiPickerComponent', 'selector': 'app-emoji-picker'},{'name': 'ForgetPasswordComponent', 'selector': 'app-forget-password'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'ImprintComponent', 'selector': 'app-imprint'},{'name': 'LegalnoticeComponent', 'selector': 'app-legalnotice'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogoComponent', 'selector': 'app-logo'},{'name': 'MainchatHeaderComponent', 'selector': 'app-mainchat-header'},{'name': 'MainComponent', 'selector': 'app-main'},{'name': 'MentionComponent', 'selector': 'app-mention'},{'name': 'MenuChannelsComponent', 'selector': 'app-menu-channels'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MenuDialogComponent', 'selector': 'app-menu-dialog'},{'name': 'MenuHeaderComponent', 'selector': 'app-menu-header'},{'name': 'MenuPrivateMessagesComponent', 'selector': 'app-menu-private-messages'},{'name': 'MenutogglerComponent', 'selector': 'app-menutoggler'},{'name': 'MessageboxComponent', 'selector': 'app-messagebox'},{'name': 'MessageComponent', 'selector': 'app-messages'},{'name': 'ParentMessageComponent', 'selector': 'app-parent-message'},{'name': 'ProfileviewComponent', 'selector': 'app-profileview'},{'name': 'ReactionsComponent', 'selector': 'app-reactions'},{'name': 'ResetPasswordComponent', 'selector': 'app-reset-password'},{'name': 'SearchbarComponent', 'selector': 'app-searchbar'},{'name': 'SignInComponent', 'selector': 'app-sign-in'},{'name': 'SignUpComponent', 'selector': 'app-sign-up'},{'name': 'ThreadchatHeaderComponent', 'selector': 'app-threadchat-header'},{'name': 'ThreadMessagesComponent', 'selector': 'app-thread-messages'},{'name': 'ToastMessageComponent', 'selector': 'app-toastmessage'},{'name': 'UsermenuComponent', 'selector': 'app-usermenu'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'UsermenuComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'UsermenuComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

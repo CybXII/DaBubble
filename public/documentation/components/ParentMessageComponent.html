@@ -1,0 +1,2364 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>dabubble documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">dabubble documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  ParentMessageComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/main/shared/parentmessage/parent-message.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnInit</code>
+                <code>OnDestroy</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+            <tr>
+                <td class="col-md-3">changeDetection</td>
+                <td class="col-md-9"><code>ChangeDetectionStrategy.Default</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-parent-message</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                                <code><a href="../components/EmojiPickerComponent.html" target="_self" >EmojiPickerComponent</a></code>
+                                <code><a href="../components/ReactionsComponent.html" target="_self" >ReactionsComponent</a></code>
+                            <code>RelativeDatePipe</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./parent-message.component.scss,<br>../chatbox/chatbox.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./parent-message.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#displayPickerBottom" >displayPickerBottom</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#emojiPickerContainer" >emojiPickerContainer</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#emojiPickerService" >emojiPickerService</a>
+                            </li>
+                            <li>
+                                <a href="#isEmojiPickerOpen" >isEmojiPickerOpen</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#subscriptions" >subscriptions</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addEmoji" >addEmoji</a>
+                            </li>
+                            <li>
+                                <a href="#checkIdIsUser" >checkIdIsUser</a>
+                            </li>
+                            <li>
+                                <a href="#getLastUsedEmojis" >getLastUsedEmojis</a>
+                            </li>
+                            <li>
+                                <a href="#getUserAvatar" >getUserAvatar</a>
+                            </li>
+                            <li>
+                                <a href="#getUserName" >getUserName</a>
+                            </li>
+                            <li>
+                                <a href="#isEmojiPickerOpenForThisMessage" >isEmojiPickerOpenForThisMessage</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#preventEmojiPickerClose" >preventEmojiPickerClose</a>
+                            </li>
+                            <li>
+                                <a href="#toggleEmojiPicker" >toggleEmojiPicker</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#activeMessageId" >activeMessageId</a>
+                            </li>
+                            <li>
+                                <a href="#activeUserId" >activeUserId</a>
+                            </li>
+                            <li>
+                                <a href="#parentMessage" >parentMessage</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#userClicked" >userClicked</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(messagesService: <a href="../injectables/MessagesService.html" target="_self">MessagesService</a>, emojiPickerService: <a href="../injectables/EmojiPickerService.html" target="_self">EmojiPickerService</a>, userService: <a href="../injectables/UserService.html" target="_self">UserService</a>, emojiStorageService: <a href="../injectables/EmojiStorageService.html" target="_self">EmojiStorageService</a>, cdr: ChangeDetectorRef)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/main/shared/parentmessage/parent-message.component.ts:40</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Constructor for the ParentMessageComponent.</p>
+</div>
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                                    <td>Description</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>messagesService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/MessagesService.html" target="_self" >MessagesService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>Service for handling message operations.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>emojiPickerService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/EmojiPickerService.html" target="_self" >EmojiPickerService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>Service for handling emoji picker functionalities.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>userService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UserService.html" target="_self" >UserService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>Service for user-related operations.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>emojiStorageService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/EmojiStorageService.html" target="_self" >EmojiStorageService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>Service for storing and retrieving emoji data.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>cdr</td>
+                                                  
+                                                        <td>
+                                                                    <code>ChangeDetectorRef</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>Service for detecting changes and updating the view.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="activeMessageId"></a>
+                        <b>activeMessageId</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/app/main/shared/parentmessage/parent-message.component.ts:34</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="activeUserId"></a>
+                        <b>activeUserId</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/app/main/shared/parentmessage/parent-message.component.ts:36</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="parentMessage"></a>
+                        <b>parentMessage</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Message.html" target="_self" >Partial&lt;Message&gt;</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">src/app/main/shared/parentmessage/parent-message.component.ts:35</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section data-compodoc="block-outputs">
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="userClicked"></a>
+                        <b>userClicked</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/main/shared/parentmessage/parent-message.component.ts:37</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addEmoji"></a>
+                    <span class="name">
+                        <span ><b>addEmoji</b></span>
+                        <a href="#addEmoji"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addEmoji(messageId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, emoji: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="180"
+                                    class="link-to-prism">src/app/main/shared/parentmessage/parent-message.component.ts:180</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Adds an emoji to a parent message.</p>
+<p>This method creates a new reaction with the given emoji and user ID, adds it to the reactions
+array of the message, and updates the message with the new reactions array. It then closes all
+emoji pickers for the parent message and saves the emoji in the EmojiStorageService.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>messageId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The ID of the message to add the emoji to.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>userId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The ID of the user who added the emoji.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>emoji</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The emoji to add.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkIdIsUser"></a>
+                    <span class="name">
+                        <span ><b>checkIdIsUser</b></span>
+                        <a href="#checkIdIsUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>checkIdIsUser(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="148"
+                                    class="link-to-prism">src/app/main/shared/parentmessage/parent-message.component.ts:148</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Emits the user ID if it does not match the active user ID.</p>
+<p>This method is used to handle user clicks. It checks if the given user ID
+is different from the active user ID. If so, it emits the user ID through
+the <code>userClicked</code> event emitter.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>userId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The user ID to check against the active user ID.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getLastUsedEmojis"></a>
+                    <span class="name">
+                        <span ><b>getLastUsedEmojis</b></span>
+                        <a href="#getLastUsedEmojis"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getLastUsedEmojis(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="164"
+                                    class="link-to-prism">src/app/main/shared/parentmessage/parent-message.component.ts:164</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Retrieves the last used emojis stored in the EmojiStorageService.</p>
+<p>This method uses the EmojiStorageService to retrieve the last used emojis
+and returns the emoji at the given index.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>index</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The index of the emoji to retrieve.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>The emoji at the given index.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getUserAvatar"></a>
+                    <span class="name">
+                        <span ><b>getUserAvatar</b></span>
+                        <a href="#getUserAvatar"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getUserAvatar(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="133"
+                                    class="link-to-prism">src/app/main/shared/parentmessage/parent-message.component.ts:133</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Retrieves the avatar URL of a user given their ID.</p>
+<p>This method uses the UserService to retrieve the avatar URL associated with the given user ID.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>userId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The user ID to retrieve the avatar URL for.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>An observable that emits the avatar URL.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getUserName"></a>
+                    <span class="name">
+                        <span ><b>getUserName</b></span>
+                        <a href="#getUserName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getUserName(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="120"
+                                    class="link-to-prism">src/app/main/shared/parentmessage/parent-message.component.ts:120</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Returns an observable that emits the name of the user with the given user ID.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>userId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The user ID to retrieve the name for.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>An observable that emits the user name.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isEmojiPickerOpenForThisMessage"></a>
+                    <span class="name">
+                        <span ><b>isEmojiPickerOpenForThisMessage</b></span>
+                        <a href="#isEmojiPickerOpenForThisMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isEmojiPickerOpenForThisMessage()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="110"
+                                    class="link-to-prism">src/app/main/shared/parentmessage/parent-message.component.ts:110</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Checks if the emoji picker is open for the current parent message.</p>
+<p>This method uses the EmojiPickerService to determine if the emoji picker
+is currently open for the parent message associated with this component.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>True if the emoji picker is open for the parent message, false otherwise.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="78"
+                                    class="link-to-prism">src/app/main/shared/parentmessage/parent-message.component.ts:78</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Lifecycle hook that is called when the component is destroyed.
+Unsubscribes from all active subscriptions to prevent memory leaks.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="64"
+                                    class="link-to-prism">src/app/main/shared/parentmessage/parent-message.component.ts:64</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Initializes the component by subscribing to the activeParentPicker$ observable of the EmojiPickerService.
+When the observable emits a value, the isEmojiPickerOpen property is updated to true if the emitted value is equal to the parentMessage.docId.
+The ChangeDetectorRef is used to update the view when the isEmojiPickerOpen property changes.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="preventEmojiPickerClose"></a>
+                    <span class="name">
+                        <span ><b>preventEmojiPickerClose</b></span>
+                        <a href="#preventEmojiPickerClose"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>preventEmojiPickerClose(event: Event)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="199"
+                                    class="link-to-prism">src/app/main/shared/parentmessage/parent-message.component.ts:199</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Prevents the emoji picker from closing when a click event occurs.</p>
+<p>This method is used to prevent the emoji picker from closing when a click event occurs
+outside of the emoji picker component. It stops the event propagation to prevent the
+emoji picker from closing.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>Event</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The click event to prevent from propagating.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleEmojiPicker"></a>
+                    <span class="name">
+                        <span ><b>toggleEmojiPicker</b></span>
+                        <a href="#toggleEmojiPicker"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleEmojiPicker()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="91"
+                                    class="link-to-prism">src/app/main/shared/parentmessage/parent-message.component.ts:91</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Toggles the emoji picker for the parent message.</p>
+<p>If the emoji picker for the current parent message is already open, it closes all emoji pickers.
+Otherwise, it first closes all emoji pickers and then opens the emoji picker for the current parent message.</p>
+<p>The method checks if the <code>parentMessage</code> has a <code>docId</code> before performing any actions.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="displayPickerBottom"></a>
+                    <span class="name">
+                        <span ><b>displayPickerBottom</b></span>
+                        <a href="#displayPickerBottom"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/main/shared/parentmessage/parent-message.component.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="emojiPickerContainer"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>emojiPickerContainer</b></span>
+                        <a href="#emojiPickerContainer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;emojiPickerContainer&#x27;, {static: false})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/main/shared/parentmessage/parent-message.component.ts:33</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="emojiPickerService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>emojiPickerService</b></span>
+                        <a href="#emojiPickerService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/EmojiPickerService.html" target="_self" >EmojiPickerService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">src/app/main/shared/parentmessage/parent-message.component.ts:52</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description">- Service for handling emoji picker functionalities.</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isEmojiPickerOpen"></a>
+                    <span class="name">
+                        <span ><b>isEmojiPickerOpen</b></span>
+                        <a href="#isEmojiPickerOpen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">src/app/main/shared/parentmessage/parent-message.component.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscriptions"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>subscriptions</b></span>
+                        <a href="#subscriptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subscription()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">src/app/main/shared/parentmessage/parent-message.component.ts:38</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+  OnDestroy,
+  EventEmitter,
+  Output,
+  ViewChild,
+  ElementRef,
+  ChangeDetectorRef
+} from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { EmojiPickerComponent } from &#x27;../emoji-picker/emoji-picker.component&#x27;;
+import { EmojiPickerService } from &#x27;../../../shared/services/emoji-picker.service&#x27;;
+import { MessagesService } from &#x27;../../../shared/services/messages.service&#x27;;
+import { UserService } from &#x27;../../../shared/services/user.service&#x27;;
+import { EmojiStorageService } from &#x27;../../../shared/services/emoji-storage.service&#x27;;
+import { Message, Reaction } from &#x27;../../../models/message&#x27;;
+import { Subscription } from &#x27;rxjs&#x27;;
+import { ReactionsComponent } from &#x27;../../../shared/reactions/reactions.component&#x27;;
+import { RelativeDatePipe } from &#x27;../../../pipes/timestamp-to-date.pipe&#x27;;
+
+@Component({
+  selector: &#x27;app-parent-message&#x27;,
+  standalone: true,
+  imports: [CommonModule, EmojiPickerComponent, ReactionsComponent, RelativeDatePipe],
+  templateUrl: &#x27;./parent-message.component.html&#x27;,
+  styleUrls: [&#x27;./parent-message.component.scss&#x27;, &#x27;../chatbox/chatbox.component.scss&#x27;],
+  changeDetection: ChangeDetectionStrategy.Default,
+})
+export class ParentMessageComponent implements OnInit, OnDestroy {
+  @ViewChild(&#x27;emojiPickerContainer&#x27;, { static: false }) emojiPickerContainer!: ElementRef;
+  @Input() activeMessageId!: string;
+  @Input() parentMessage!: Partial&lt;Message&gt;;
+  @Input() activeUserId!: string;
+  @Output() userClicked &#x3D; new EventEmitter&lt;string&gt;();
+  private subscriptions: Subscription &#x3D; new Subscription();
+  isEmojiPickerOpen: boolean &#x3D; false;
+  displayPickerBottom: boolean &#x3D; false;
+
+  /**
+   * Constructor for the ParentMessageComponent.
+   * @param messagesService - Service for handling message operations.
+   * @param emojiPickerService - Service for handling emoji picker functionalities.
+   * @param userService - Service for user-related operations.
+   * @param emojiStorageService - Service for storing and retrieving emoji data.
+   * @param cdr - Service for detecting changes and updating the view.
+   */
+  constructor(
+    private messagesService: MessagesService,
+    public emojiPickerService: EmojiPickerService,
+    private userService: UserService,
+    private emojiStorageService: EmojiStorageService,
+    private cdr: ChangeDetectorRef
+  ) {}
+
+  
+  /**
+   * Initializes the component by subscribing to the activeParentPicker$ observable of the EmojiPickerService.
+   * When the observable emits a value, the isEmojiPickerOpen property is updated to true if the emitted value is equal to the parentMessage.docId.
+   * The ChangeDetectorRef is used to update the view when the isEmojiPickerOpen property changes.
+   */
+  ngOnInit(): void {
+    this.subscriptions.add(
+      this.emojiPickerService.activeParentPicker$.subscribe((id) &#x3D;&gt; {
+        this.isEmojiPickerOpen &#x3D; id &#x3D;&#x3D;&#x3D; this.parentMessage.docId;
+        this.cdr.detectChanges();
+      })
+    );
+  }
+
+
+  /**
+   * Lifecycle hook that is called when the component is destroyed.
+   * Unsubscribes from all active subscriptions to prevent memory leaks.
+   */
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
+
+  /**
+   * Toggles the emoji picker for the parent message.
+   * 
+   * If the emoji picker for the current parent message is already open, it closes all emoji pickers.
+   * Otherwise, it first closes all emoji pickers and then opens the emoji picker for the current parent message.
+   * 
+   * The method checks if the &#x60;parentMessage&#x60; has a &#x60;docId&#x60; before performing any actions.
+   */
+  toggleEmojiPicker() {
+    if (this.parentMessage.docId){
+      if (this.emojiPickerService.isParentMessageEmojiPickerOpen(this.parentMessage.docId)) {
+        this.emojiPickerService.closeAllEmojiPickers();
+      }
+      this.emojiPickerService.closeAllEmojiPickers();
+      this.emojiPickerService.openParentMessageEmojiPicker(this.parentMessage.docId);
+    }
+  }
+
+
+  /**
+   * Checks if the emoji picker is open for the current parent message.
+   *
+   * This method uses the EmojiPickerService to determine if the emoji picker
+   * is currently open for the parent message associated with this component.
+   *
+   * @returns {boolean} True if the emoji picker is open for the parent message, false otherwise.
+   */
+  isEmojiPickerOpenForThisMessage(): boolean {
+    return this.emojiPickerService.isParentMessageEmojiPickerOpen(this.parentMessage.docId??&#x27;&#x27;);
+  }
+
+
+  /**
+   * Returns an observable that emits the name of the user with the given user ID.
+   * @param userId The user ID to retrieve the name for.
+   * @returns An observable that emits the user name.
+   */
+  getUserName(userId: string) {
+    return this.userService.getuserName(userId);
+  }
+
+
+  /**
+   * Retrieves the avatar URL of a user given their ID.
+   *
+   * This method uses the UserService to retrieve the avatar URL associated with the given user ID.
+   *
+   * @param userId The user ID to retrieve the avatar URL for.
+   * @returns An observable that emits the avatar URL.
+   */
+  getUserAvatar(userId: string) {
+    return this.userService.getuserAvatar(userId);
+  }
+
+
+
+  /**
+   * Emits the user ID if it does not match the active user ID.
+   *
+   * This method is used to handle user clicks. It checks if the given user ID
+   * is different from the active user ID. If so, it emits the user ID through
+   * the &#x60;userClicked&#x60; event emitter.
+   *
+   * @param userId The user ID to check against the active user ID.
+   */
+  checkIdIsUser(userId: string) {
+    if (this.activeUserId !&#x3D;&#x3D; userId) {
+      this.userClicked.emit(userId);
+    }
+  }
+
+
+  /**
+   * Retrieves the last used emojis stored in the EmojiStorageService.
+   *
+   * This method uses the EmojiStorageService to retrieve the last used emojis
+   * and returns the emoji at the given index.
+   *
+   * @param index The index of the emoji to retrieve.
+   * @returns The emoji at the given index.
+   */
+  getLastUsedEmojis(index: number) {
+    return this.emojiStorageService.getEmojis()[index];
+  }
+
+
+  /**
+   * Adds an emoji to a parent message.
+   *
+   * This method creates a new reaction with the given emoji and user ID, adds it to the reactions
+   * array of the message, and updates the message with the new reactions array. It then closes all
+   * emoji pickers for the parent message and saves the emoji in the EmojiStorageService.
+   *
+   * @param messageId The ID of the message to add the emoji to.
+   * @param userId The ID of the user who added the emoji.
+   * @param emoji The emoji to add.
+   */
+  addEmoji(messageId: string, userId: string, emoji: string): void {
+    const reaction: Reaction &#x3D; { emoji, userIds: [userId] };
+    const updateData: Partial&lt;Message&gt; &#x3D; { reactions: [reaction] };
+    this.messagesService.updateMessage(messageId, userId, updateData)
+      .then(() &#x3D;&gt; {this.emojiPickerService.closeAllParentPickers()})
+      .catch(error &#x3D;&gt; console.error(&#x27;❌ Fehler beim Hinzufügen der Reaktion:&#x27;, error));
+    this.emojiStorageService.saveEmoji(emoji);
+  }
+
+
+  /**
+   * Prevents the emoji picker from closing when a click event occurs.
+   * 
+   * This method is used to prevent the emoji picker from closing when a click event occurs
+   * outside of the emoji picker component. It stops the event propagation to prevent the
+   * emoji picker from closing.
+   * 
+   * @param event The click event to prevent from propagating.
+   */
+  preventEmojiPickerClose(event: Event): void {
+    event.stopPropagation();
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;chatbox__msg-container  chatbox__msg-container_padding0&quot; id&#x3D;&quot;{{ parentMessage.docId }}&quot;&gt;
+    @if (parentMessage.createdBy &amp;&amp; parentMessage.docId) {
+    &lt;div class&#x3D;&quot;chatbox__msg-item2&quot;&gt;
+        @if (isEmojiPickerOpenForThisMessage()) {
+        &lt;div #emojiPickerContainer [class]&#x3D;&quot;{
+                &#x27;emoji-picker__wrapper-left-thread&#x27;:
+                    displayPickerBottom &amp;&amp; parentMessage.createdBy !&#x3D;&#x3D; activeUserId,
+                &#x27;emoji-picker__wrapper-top-right-thread&#x27;:
+                    !displayPickerBottom &amp;&amp; parentMessage.createdBy !&#x3D;&#x3D; activeUserId,
+                &#x27;emoji-picker__wrapper-top-left-thread&#x27;:
+                    !displayPickerBottom &amp;&amp; parentMessage.createdBy &#x3D;&#x3D;&#x3D; activeUserId,
+                &#x27;emoji-picker__wrapper-right-thread&#x27;:
+                    displayPickerBottom &amp;&amp; parentMessage.createdBy &#x3D;&#x3D;&#x3D; activeUserId
+                }&quot; (click)&#x3D;&quot;preventEmojiPickerClose($event)&quot;&gt;
+            &lt;app-emoji-picker componentName&#x3D;&quot;chatbox&quot; (emoji)&#x3D;&quot;addEmoji(parentMessage.docId!, activeUserId!, $event)&quot; /&gt;
+        &lt;/div&gt;
+        }
+        &lt;button class&#x3D;&quot;chatbox__addemoji-container&quot;&gt;
+            @if (getLastUsedEmojis(0)) {
+            &lt;span class&#x3D;&quot;chatbox__addemoji__lastUsedEmoji&quot;
+                (click)&#x3D;&quot;addEmoji(parentMessage.docId!, activeUserId!, getLastUsedEmojis(0))&quot;&gt;
+                {{ getLastUsedEmojis(0) }}
+            &lt;/span&gt;
+            }
+            @if (getLastUsedEmojis(1)) {
+            &lt;span class&#x3D;&quot;chatbox__addemoji__lastUsedEmoji&quot;
+                (click)&#x3D;&quot;addEmoji(parentMessage.docId!, activeUserId!, getLastUsedEmojis(1))&quot;&gt;
+                {{ getLastUsedEmojis(1) }}
+            &lt;/span&gt;
+            }
+            @if (parentMessage.docId){
+            &lt;div class&#x3D;&quot;chatbox__addemoji__emoji-container&quot; (click)&#x3D;&quot;toggleEmojiPicker()&quot;&gt;
+                &lt;img src&#x3D;&quot;/img/icons/addemoji.svg&quot; alt&#x3D;&quot;Emoji hinzufügen&quot;&gt;
+            &lt;/div&gt;
+            }
+        &lt;/button&gt;
+        &lt;div class&#x3D;&quot;chatbox__msg-item2  parent_msg&quot;&gt;
+            &lt;img class&#x3D;&quot;chatbox__msg-avatar&quot; [src]&#x3D;&quot;getUserAvatar(parentMessage.createdBy) | async&quot; alt&#x3D;&quot;Avatar&quot;
+                width&#x3D;&quot;70&quot; height&#x3D;&quot;70&quot; (click)&#x3D;&quot;checkIdIsUser(parentMessage.createdBy)&quot; /&gt;
+            &lt;div&gt;
+                &lt;div class&#x3D;&quot;chatbox__msg-info&quot;&gt;
+                    &lt;h3 class&#x3D;&quot;chatbox__msg-name&quot; (click)&#x3D;&quot;checkIdIsUser(parentMessage.createdBy)&quot;&gt;
+                        {{ parentMessage.creatorName }}
+                        @if (parentMessage.createdBy &#x3D;&#x3D; activeUserId) { (Du) }
+                    &lt;/h3&gt;
+                    &lt;p class&#x3D;&quot;chatbox__msg-time&quot;&gt;
+                        {{ parentMessage.timestamp | relativeDate }}
+                    &lt;/p&gt;
+                &lt;/div&gt;
+                &lt;p class&#x3D;&quot;chatbox__msg&quot;&gt;
+                    {{ parentMessage.message || &quot;Keine Nachricht&quot; }}
+                &lt;/p&gt;
+                &lt;app-reactions class&#x3D;&quot;chatbox__reaction-wrapper&quot; [reactions]&#x3D;&quot;parentMessage.reactions || []&quot;
+                    [activeUserId]&#x3D;&quot;activeUserId || &#x27;&#x27;&quot; [messageId]&#x3D;&quot;parentMessage.docId || &#x27;&#x27;&quot;
+                    [isThreadMessage]&#x3D;&quot;false&quot; (reactionAdded)&#x3D;&quot;addEmoji($event.messageId, activeUserId!, $event.emoji)&quot;&gt;
+                &lt;/app-reactions&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    }
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./parent-message.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">.chatbox__msg-container {
+    margin: 0px !important;
+}
+
+.parent_msg {
+    display: flex;
+    img {
+        margin-right: 20px;
+    }
+}</code></pre>
+                <p class="comment">
+                    <code>../chatbox/chatbox.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@use &quot;../../../../mixins.scss&quot; as mixins;
+@use &quot;../../../../colors.scss&quot; as colors;
+
+.mainchat__chatbox {
+  display: flex;
+  position: relative;
+  flex-direction: column;  
+  flex: 1;
+  width: 100%;
+  height: calc(100% - 8px);
+  overflow: auto; 
+  margin: 0 0 24px;
+  top: 4px;
+
+}
+
+.threadchat__chatbox {
+  display: flex;
+  position: relative;
+  flex-direction: column;  
+  height: calc(100% - 114px);
+  overflow: auto;
+  margin: 20px 0 0;
+  top: 90px;
+  scroll-snap-type: y mandatory;
+}
+
+
+.mainchat__chatbox.has-scroll,
+.threadchat__chatbox.has-scroll {
+  flex-direction: column-reverse;
+}
+
+.thread__days__devider {
+  margin: 10px 35px !important;
+
+  &amp;::before, &amp;::after {
+    background-color: white !important;
+  }
+
+  .thread__divider-text {
+    display: none;
+  }
+}
+
+.thread__days__chatbox__msg-container {
+  margin-top: 0px !important;
+}
+
+.thread__divider {
+  @include mixins.flexbox(row, center, center, nowrap);
+  position: absolute;
+  top: 50%;
+
+  &amp;::before,
+  &amp;::after {
+    flex: 1;
+    content: &quot;&quot;;
+    padding: 1px;
+    background-color: colors.$light-purple;
+  }
+}
+
+
+.message {
+  @include mixins.flexbox(row, center, center, nowrap);
+  margin: 20px 35px;
+  scroll-snap-align: end;
+
+}
+
+.thread__divider-text {
+  font-size: 1.125rem;
+  padding: 5px 15px;
+  border: 1px solid colors.$light-purple;
+  border-radius: 30px;
+  z-index: 1;
+  background-color: colors.$white;
+}
+
+.chatbox__mainthread-container {
+  @include mixins.flexbox(row, flex-start, flex-start, nowrap);
+  gap: 20px;
+  padding: 10px 40px;
+  margin-top: 17px;
+  position: relative;
+  width: 100%;
+
+  &amp;:hover {
+    background-color: colors.$bg-color;
+  }
+  &amp;:hover .chatbox__msg {
+    background-color: colors.$white;
+  }
+  &amp;:hover .chatbox__msg-sent {
+    background-color: colors.$purple2;
+  }
+
+  &amp;:hover .chatbox__addemoji-container {
+    @include mixins.flexbox(row, center, center, nowrap);
+  }
+}
+
+.chatbox__threads-divider {
+  width: 100%;
+  display: flex;
+  align-self: flex-start;
+  align-items: center;
+  font-size: 1.125rem;
+  color: colors.$light-purple;
+  margin-inline: auto;
+  padding-left: 33px;
+  padding-right: 32px;
+}
+
+.chatbox__threads-divider::after {
+  flex: 1;
+  content: &quot;&quot;;
+  padding: 1px;
+  background-color: colors.$light-purple;
+  margin-left: 20px;
+  margin-top: 8px;
+  margin-bottom: 2px;
+}
+
+.chatbox__msg-container {
+  @include mixins.flexbox(row, flex-start, flex-start, nowrap);
+  gap: 20px;
+  padding: 10px 40px;
+  margin-top: 17px;
+  position: relative;
+  width: 100%;
+
+  &amp;:hover {
+    background-color: colors.$bg-color;
+  }
+  &amp;:hover .chatbox__msg {
+    background-color: colors.$white;
+  }
+  &amp;:hover .chatbox__msg-sent {
+    background-color: colors.$purple2;
+  }
+
+  &amp;:hover .chatbox__addemoji-container {
+    @include mixins.flexbox(row, center, center, nowrap);
+  }
+}
+
+.chatbox__addemoji-container {
+  display: none;
+  background: colors.$white;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  border-bottom-left-radius: 25px;
+  border: 1px solid colors.$light-purple;
+  padding: 3px 13px;
+  position: absolute;
+  top: -15px;
+  right: 60px;
+  z-index: 99;
+  img {
+    display: block;
+    border-radius: 20px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+
+    &amp;:hover {
+      filter: invert(31%) sepia(41%) saturate(5436%) hue-rotate(231deg)
+        brightness(101%) contrast(99%);
+    }
+  }
+
+  &gt; div {
+    @include mixins.flexbox(row, center, center, nowrap);
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+  }
+
+  .chatbox__addemoji__emoji-container {
+    &amp;:hover {
+      background-color: colors.$bg-color;
+    }
+  }
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.chatbox__addemoji__lastUsedEmoji{
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  font-size:20px;
+
+  &amp;:hover{
+    background-color: colors.$bg-color;
+  }
+}
+
+.emoji-picker__wrapper-top-right{
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 9;
+}
+
+.emoji-picker__wrapper-top-right-thread{
+  position: absolute;
+  top: 0;
+  right: 27px;
+  z-index: 9;
+}
+
+.emoji-picker__wrapper-top-left{
+  position: absolute;
+  top: 0;
+  left: 27px;
+  z-index: 9;
+}
+
+.emoji-picker__wrapper-top-left-thread{
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9;
+}
+
+.emoji-picker__wrapper-left{
+  position: absolute;
+  bottom: -180px;
+  left: 19px;
+  z-index: 9;
+}
+
+.emoji-picker__wrapper-left-thread{
+  position: absolute;
+  top: 0px;
+  left: 109px;
+  z-index: 9;
+}
+
+.emoji-picker__wrapper-right{
+  position: absolute;
+  bottom: -180px;
+  right: 19px;
+  z-index: 9;
+}
+
+.emoji-picker__wrapper-right-thread{
+  position: absolute;
+  bottom: 0;
+  right: 118px;
+  z-index: 9;
+}
+
+.chatbox__editmsg-btn__container {
+  &amp;:hover .chatbox__editmsg-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+.chatbox__addemoji__sent {
+  left: 25px;
+  right: unset;
+}
+
+.chatbox__editmsg-container {
+  display: none;
+  padding: 20px 40px;
+  width: 310px;
+  position: absolute;
+  top: 10px;
+  right: -292px;
+  background-color: colors.$white;
+  box-shadow: 0px 6px 14px 0px rgba(0, 0, 0, 0.2);
+  border-top-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+
+  &amp;:hover .chatbox__editmsg:hover {
+    color: colors.$purple3;
+    font-weight: 700;
+    background-color: colors.$bg-color;
+    border-radius: 100px;
+    cursor: pointer;
+  }
+}
+
+.chatbox__editmsg {
+  text-wrap: nowrap;
+  font-size: 1.25rem;
+  padding: 10px 20px;
+}
+
+.chatbox__msg-avatar {
+  border-radius: 40px;
+  cursor: pointer;
+}
+
+.chatbox__msg-info {
+  @include mixins.flexbox(row, flex-start, center);
+  gap: 20px;
+}
+
+.chatbox__msg-name {
+  font-size: 1.125rem;
+  font-weight: 700;
+  cursor: pointer;
+
+  &amp;:hover {
+    color: colors.$purple;
+  }
+}
+
+.chatbox__msg-time {
+  font-size: 0.875rem;
+  color: colors.$grey;
+}
+
+.chatbox__msg {
+  background-color: colors.$bg-color;
+  padding: 15px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  line-height: 24.55px;
+  display: block;
+  word-break: break-word;
+  max-width: fit-content;
+}
+
+.chatbox__info {
+  @include mixins.flexbox(column , flex-start, flex-start, nowrap);
+  gap: 20px;
+}
+
+.chatbox__answers-container {
+  @include mixins.flexbox(row, flex-start, center, nowrap);
+  padding-top: 0.3em;
+}
+
+.chatbox__answers {
+  font-size: 1.125rem;
+  color: colors.$purple3;
+  margin-right: 20px;
+  text-wrap: nowrap;
+  cursor: pointer;
+}
+
+.chatbox__last-answer {
+  font-size: 0.875rem;
+  color: colors.$grey;
+  display: block;
+}
+
+.chatbox__msg-container__sent {
+  @include mixins.flexbox(row-reverse, flex-start, flex-start, nowrap);
+}
+
+.chatbox__msg-sent-info {
+  @include mixins.flexbox(row-reverse, flex-start, center);
+}
+
+.chatbox__msg-sent-item2 {
+  @include mixins.flexbox(column, flex-start, flex-end);
+}
+
+.chatbox__msg-sent {
+  background-color: colors.$purple2;
+  padding: 15px;
+  margin-top: 8px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  line-height: 24.55px;
+  color: colors.$white;
+  display: inline-block;
+  word-break: break-word;
+  max-width: fit-content;
+}
+
+.chatbox__reaction-wrapper {
+  display: flex;
+  gap: 8px;
+}
+
+.dialog-background {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: colors.$light-grey;
+  z-index: 555;
+}
+
+.editMessage {
+  width: 100%;
+  min-height: 150px;
+  position: relative;
+  background-color: white;
+  border: 1px solid colors.$light-purple;
+  border-radius: 20px;
+  textarea {
+    color: black;
+    border: unset;
+    outline: none;
+    width: 100%;
+    height: 100px;
+    resize: none;
+    max-width: unset;
+    margin: 0;
+    border-radius: 20px;
+    padding-bottom: 0px;
+  }
+  .chatbox__msg-sent {
+    background-color: white !important;
+  }
+  .chatbox__addreaction-container {
+    display: flex;
+    margin-left: 20px;
+    &gt;img {
+      width: 20px;
+      cursor: pointer;
+    }
+  }
+
+  .buttons {
+    padding: 10px 0px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    .cont {
+      display: flex;
+      gap: 20px;
+      margin-right: 20px;
+    }
+  }
+}
+
+.emptyMessage {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  cursor: default;
+
+  h2 {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 32.74px;
+    margin-left: 20px;
+  }
+
+  .headline {
+    margin: 0px 20px;
+    display: flex;
+    align-items: end;
+    gap: 15px;
+    img {
+      width: 100px;
+      height: 100px;
+      border-radius: 100%;
+    }
+    span {
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 32.74px;
+    }
+  }
+
+  .text {
+    display: flex;
+    margin: 20px 20px;
+    span {
+      display: flex;
+    }
+  }
+
+  .name {
+    color: colors.$purple3;
+
+    &amp;:hover {
+      font-weight: 700;
+      cursor: pointer;
+    }
+  }
+
+  .nohover {
+    &amp;:hover {
+      font-weight: 400;
+      cursor: default;
+    }
+  }
+}
+
+.mobile_answer {
+  
+  .chatbox__reaction-wrapper {
+    margin-top: 35px
+  }
+
+  .chatbox__answers {
+    margin-right: 10px;
+  }
+
+  .chatbox__msg-container {
+    padding: 10px 10px;
+  }
+
+  .message {
+    margin: 20px;
+  }
+}
+
+.left10px {
+  left: 5%;
+}
+
+@media(max-width: 550px) {
+  .emptyMessage {
+    .text {
+      span {
+        flex-direction: column;
+      }
+    }
+  }
+
+  .chatbox__editmsg-container {
+    top: 40px;
+    right: -60px;
+    padding: 0px 10px;
+    gap: 0px !important;
+    width: 250px;
+  }
+
+  .chatbox__editmsg {
+    padding: 10px;
+  }
+
+  .chatbox__answers-container {
+    position: absolute;
+    right: -95px;
+    width: fit-content;
+  }
+
+  .chatbox__msg-sent-item2 {
+    position: relative;
+  }
+
+  .chatbox__msg-container_padding0 {
+    padding: 0px
+  }
+
+  .chatbox__msg-container {
+    padding: 10px 10px;
+  }
+
+  .editMessage&gt;.buttons&gt;.cont {
+    gap: 10px;
+    button {
+      padding: 5px 10px !important;
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="chatbox__msg-container  chatbox__msg-container_padding0" id="{{ parentMessage.docId }}">    @if (parentMessage.createdBy && parentMessage.docId) {    <div class="chatbox__msg-item2">        @if (isEmojiPickerOpenForThisMessage()) {        <div #emojiPickerContainer [class]="{                \'emoji-picker__wrapper-left-thread\':                    displayPickerBottom && parentMessage.createdBy !== activeUserId,                \'emoji-picker__wrapper-top-right-thread\':                    !displayPickerBottom && parentMessage.createdBy !== activeUserId,                \'emoji-picker__wrapper-top-left-thread\':                    !displayPickerBottom && parentMessage.createdBy === activeUserId,                \'emoji-picker__wrapper-right-thread\':                    displayPickerBottom && parentMessage.createdBy === activeUserId                }" (click)="preventEmojiPickerClose($event)">            <app-emoji-picker componentName="chatbox" (emoji)="addEmoji(parentMessage.docId!, activeUserId!, $event)" />        </div>        }        <button class="chatbox__addemoji-container">            @if (getLastUsedEmojis(0)) {            <span class="chatbox__addemoji__lastUsedEmoji"                (click)="addEmoji(parentMessage.docId!, activeUserId!, getLastUsedEmojis(0))">                {{ getLastUsedEmojis(0) }}            </span>            }            @if (getLastUsedEmojis(1)) {            <span class="chatbox__addemoji__lastUsedEmoji"                (click)="addEmoji(parentMessage.docId!, activeUserId!, getLastUsedEmojis(1))">                {{ getLastUsedEmojis(1) }}            </span>            }            @if (parentMessage.docId){            <div class="chatbox__addemoji__emoji-container" (click)="toggleEmojiPicker()">                <img src="/img/icons/addemoji.svg" alt="Emoji hinzufügen">            </div>            }        </button>        <div class="chatbox__msg-item2  parent_msg">            <img class="chatbox__msg-avatar" [src]="getUserAvatar(parentMessage.createdBy) | async" alt="Avatar"                width="70" height="70" (click)="checkIdIsUser(parentMessage.createdBy)" />            <div>                <div class="chatbox__msg-info">                    <h3 class="chatbox__msg-name" (click)="checkIdIsUser(parentMessage.createdBy)">                        {{ parentMessage.creatorName }}                        @if (parentMessage.createdBy == activeUserId) { (Du) }                    </h3>                    <p class="chatbox__msg-time">                        {{ parentMessage.timestamp | relativeDate }}                    </p>                </div>                <p class="chatbox__msg">                    {{ parentMessage.message || "Keine Nachricht" }}                </p>                <app-reactions class="chatbox__reaction-wrapper" [reactions]="parentMessage.reactions || []"                    [activeUserId]="activeUserId || \'\'" [messageId]="parentMessage.docId || \'\'"                    [isThreadMessage]="false" (reactionAdded)="addEmoji($event.messageId, activeUserId!, $event.emoji)">                </app-reactions>            </div>        </div>    </div>    }</div></div>'
+    var COMPONENTS = [{'name': 'AddchatComponent', 'selector': 'app-addchat'},{'name': 'AddUserToChannelComponent', 'selector': 'app-add-user-to-channel'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'BuilderComponent', 'selector': 'app-builder'},{'name': 'ChatboxComponent', 'selector': 'app-chatbox'},{'name': 'ChatComponent', 'selector': 'app-chat'},{'name': 'ChooseAvatarComponent', 'selector': 'app-choose-avatar'},{'name': 'CreatemessageComponent', 'selector': 'app-createmessage'},{'name': 'DialogComponent', 'selector': 'app-dialog'},{'name': 'EditmessageComponent', 'selector': 'app-editmessage'},{'name': 'EmojiPickerComponent', 'selector': 'app-emoji-picker'},{'name': 'ForgetPasswordComponent', 'selector': 'app-forget-password'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'ImprintComponent', 'selector': 'app-imprint'},{'name': 'LegalnoticeComponent', 'selector': 'app-legalnotice'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogoComponent', 'selector': 'app-logo'},{'name': 'MainchatHeaderComponent', 'selector': 'app-mainchat-header'},{'name': 'MainComponent', 'selector': 'app-main'},{'name': 'MentionComponent', 'selector': 'app-mention'},{'name': 'MenuChannelsComponent', 'selector': 'app-menu-channels'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MenuDialogComponent', 'selector': 'app-menu-dialog'},{'name': 'MenuHeaderComponent', 'selector': 'app-menu-header'},{'name': 'MenuPrivateMessagesComponent', 'selector': 'app-menu-private-messages'},{'name': 'MenutogglerComponent', 'selector': 'app-menutoggler'},{'name': 'MessageboxComponent', 'selector': 'app-messagebox'},{'name': 'MessageComponent', 'selector': 'app-messages'},{'name': 'ParentMessageComponent', 'selector': 'app-parent-message'},{'name': 'ProfileviewComponent', 'selector': 'app-profileview'},{'name': 'ReactionsComponent', 'selector': 'app-reactions'},{'name': 'ResetPasswordComponent', 'selector': 'app-reset-password'},{'name': 'SearchbarComponent', 'selector': 'app-searchbar'},{'name': 'SignInComponent', 'selector': 'app-sign-in'},{'name': 'SignUpComponent', 'selector': 'app-sign-up'},{'name': 'ThreadchatHeaderComponent', 'selector': 'app-threadchat-header'},{'name': 'ThreadMessagesComponent', 'selector': 'app-thread-messages'},{'name': 'ToastMessageComponent', 'selector': 'app-toastmessage'},{'name': 'UsermenuComponent', 'selector': 'app-usermenu'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'ParentMessageComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'ParentMessageComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

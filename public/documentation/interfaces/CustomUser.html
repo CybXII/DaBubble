@@ -1,0 +1,801 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>dabubble documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">dabubble documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
+  >
+  CustomUser</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/shared/services/user.service.ts</code>
+        </p>
+
+
+
+
+        <section data-compodoc="block-index">
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#email" 
+>
+                                            email
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#name" 
+>
+                                            name
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#photoURL" 
+>
+                                            photoURL
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#status" 
+>
+                                            status
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#userId" 
+>
+                                            userId
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section data-compodoc="block-properties">
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="email"></a>
+                                        <span class="name "><b>email</b>
+                                            <a href="#email">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>email:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="name"></a>
+                                        <span class="name "><b>name</b>
+                                            <a href="#name">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>name:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="photoURL"></a>
+                                        <span class="name "><b>photoURL</b>
+                                            <a href="#photoURL">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>photoURL:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="status"></a>
+                                        <span class="name "><b>status</b>
+                                            <a href="#status">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>status:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="userId"></a>
+                                        <span class="name "><b>userId</b>
+                                            <a href="#userId">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>userId:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, signal } from &#x27;@angular/core&#x27;;
+import { Firestore, collection, deleteDoc, doc, getDoc, onSnapshot, updateDoc,  } from &#x27;@angular/fire/firestore&#x27;;
+import { BehaviorSubject, Observable, firstValueFrom, from } from &#x27;rxjs&#x27;;
+import { map } from &#x27;rxjs/operators&#x27;;
+import { UserModel } from &#x27;../../models/user&#x27;;
+import { confirmPasswordReset, sendPasswordResetEmail, updatePassword, User } from &#x27;firebase/auth&#x27;;
+import { Auth, updateEmail, updateProfile } from &#x27;@angular/fire/auth&#x27;;
+import { Message, ThreadMessage } from &#x27;../../models/message&#x27;;
+
+export interface CustomUser {
+  userId: string;
+  name: string;
+  photoURL: string;
+  email: string;
+  status: boolean;
+}
+
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
+export class UserService {
+  private userCache &#x3D; new Map&lt;string, BehaviorSubject&lt;CustomUser&gt;&gt;();
+  private usersSubject &#x3D; new BehaviorSubject&lt;CustomUser[]&gt;([]);
+  users$ &#x3D; this.usersSubject.asObservable();
+  loginError &#x3D; signal&lt;string&gt;(&#x27;&#x27;);
+
+
+  /**
+   * Initializes the UserService.
+   * @param {Firestore} firestore Firestore database service.
+   */
+  constructor(private firestore: Firestore,private auth: Auth) {
+    this.listenToUserChanges();
+  }
+
+
+  /**
+   * Listens to changes in the Firestore &#x27;users&#x27; collection in real-time.
+   * Updates the user cache and emits the updated list of users through the usersSubject observable.
+   */
+  private listenToUserChanges() {
+    const usersCollection &#x3D; collection(this.firestore, &#x27;users&#x27;);
+    onSnapshot(usersCollection, (snapshot) &#x3D;&gt; {
+      const users &#x3D; snapshot.docs.map((doc) &#x3D;&gt; {
+        const data &#x3D; doc.data() as CustomUser;
+        return { ...data };
+      });
+      users.forEach((user) &#x3D;&gt; {
+        if (this.userCache.has(user.userId)) 
+          this.userCache.get(user.userId)!.next(user);
+        else 
+          this.userCache.set(user.userId, new BehaviorSubject&lt;CustomUser&gt;(user));
+      });
+      this.usersSubject.next(users);
+    });
+  }
+
+
+  /**
+   * Returns an observable that emits the user data for the given user ID.
+   * @param {string} userId The ID of the user to retrieve the data for.
+   * @returns An observable that emits the user data.
+   */
+  getUserById(userId: string): Observable&lt;CustomUser&gt; {
+    if (this.userCache.has(userId)) return this.userCache.get(userId)!.asObservable();
+    const userSubject &#x3D; this.createUserBehaviorSubject(userId);
+    this.userCache.set(userId, userSubject);
+    from(getDoc(doc(this.firestore, &#x60;users/${userId}&#x60;)))
+      .pipe(map((docSnap) &#x3D;&gt; {
+          if (docSnap.exists()) {
+            const userData &#x3D; { userId, ...docSnap.data() } as CustomUser;
+            userSubject.next(userData);
+          }
+        })
+      )
+      .subscribe();
+    return userSubject.asObservable();
+  }
+
+
+  /**
+   * Creates a new BehaviorSubject for the given user ID.
+   * The BehaviorSubject is initialized with a default user object,
+   * which is used to represent the user in the user list if the user data is not available.
+   * The default user object contains the user ID, an empty name, photo URL, email and a status of false.
+   * @param {string} userId The ID of the user to create the BehaviorSubject for.
+   * @returns A new BehaviorSubject with the default user object as initial value.
+   */
+  createUserBehaviorSubject(userId: string): BehaviorSubject&lt;CustomUser&gt; {
+    return new BehaviorSubject&lt;CustomUser&gt;({
+      userId,
+      name: &#x27;Unbekannt&#x27;,
+      photoURL: &#x27;&#x27;,
+      email: &#x27;&#x27;,
+      status: false,
+    });
+  }
+
+
+  /**
+   * Retrieves the avatar URL of a user given their ID.
+   * @param {string} userId The user ID to retrieve the avatar URL for.
+   * @returns An observable that emits the avatar URL of the user.
+   */
+  getuserAvatar(userId: string): Observable&lt;string&gt; {
+    return this.getUserById(userId).pipe(map((user) &#x3D;&gt; user.photoURL || &#x27;/img/avatars/picPlaceholder.svg&#x27;));
+  }
+
+
+  /**
+   * Retrieves the online status of a user given their ID.
+   * @param {string} userId - The user ID to retrieve the status for.
+   * @returns {Observable&lt;string&gt;} - An observable that emits &#x27;online&#x27; if the user is online,
+   */
+  getuserStatus(userId: string): Observable&lt;string&gt; {
+    return this.getUserById(userId).pipe(map((user) &#x3D;&gt; (user.status ? &#x27;online&#x27; : &#x27;offline&#x27;)));
+  }
+
+
+  /**
+   * Retrieves the name of a user given their ID.
+   * @param {string} userId The user ID to retrieve the name for.
+   * @returns An observable that emits the user name.
+   * If the user is found in Firestore, it emits the user name stored in Firestore.
+   * If the user is not found, it emits &#x27;Unbekannt&#x27;.
+   */
+  getuserName(userId: string): Observable&lt;string&gt; {
+    return this.getUserById(userId).pipe(map((user) &#x3D;&gt; user.name ? user.name : &#x27;Unbekannt&#x27;));
+  }
+
+
+  /**
+   * Retrieves user data for a list of user IDs.
+   * @param userIds An array of user IDs for which to retrieve user data.
+   * @returns A promise that resolves to an array of &#x60;User&#x60; objects.
+   */
+  async getUsernamesByIds(userIds: string[]): Promise&lt;CustomUser[]&gt; {
+    const users: CustomUser[] &#x3D; [];
+    for (const userId of userIds) {
+      const user &#x3D; await firstValueFrom(this.getUserById(userId));
+      users.push(user);
+    }
+    return users;
+  }
+
+
+  /**
+   * Creates and returns a &#x60;UserModel&#x60; object with the provided user data.
+   * @param {string} userId - The unique identifier for the user.
+   * @param {string} username - The name of the user.
+   * @param {string} email - The email address of the user.
+   * @param {string} avatarURL - The URL for the user&#x27;s avatar image.
+   * @param {string} [provider&#x3D;&#x27;&#x27;] - The provider of the user&#x27;s authentication. Defaults to an empty string.
+   * @param {boolean} [status&#x3D;false] - The online status of the user. Defaults to false.
+   * @returns {UserModel} - A &#x60;UserModel&#x60; object populated with the provided data.
+   */
+  setUserData(
+    userId: string,
+    username: string,
+    email: string,
+    avatarURL: string,
+    provider: string &#x3D; &#x27;&#x27;,
+    status: boolean &#x3D; false
+  ): UserModel {
+    return {
+      userId,
+      name: username,
+      email,
+      photoURL: avatarURL,
+      channels: [],
+      privateNoteRef: &#x27;&#x27;,
+      status: status,
+      provider: provider,
+    };
+  }
+
+
+  /**
+   * Returns a &#x60;User&#x60; object with default values for an anonymous user.
+   * @param {string} userId - The ID of the anonymous user.
+   * @returns A &#x60;User&#x60; object with default values for an anonymous user.
+   */
+  setAnonymousUserData(userId: string): UserModel {
+      return {
+        userId,
+        name: &#x27;Gast&#x27;,
+        email: &#x27;gast@gast.de&#x27;,
+        photoURL: &#x27;img/avatars/picPlaceholder.svg&#x27;,
+        channels: [],
+        privateNoteRef: &#x27;&#x27;,
+        status: true,
+        provider: &#x27;anonymous&#x27;,
+      };
+  }
+
+
+  /**
+   * Sends a password reset email to the user with the given email address.
+   * @param email - The email address of the user.
+   * @returns A promise that resolves when the password reset email has been successfully sent.
+   */
+  resetPassword(email: string): Promise&lt;void&gt; {
+    return sendPasswordResetEmail(this.auth, email);
+  }
+
+
+  /**
+   * Updates the password for the currently authenticated user.
+   * @param newPassword - The new password to set for the user.
+   * @returns A promise that resolves when the password has been successfully updated.
+   */
+  updateUserPassword(newPassword: string): Promise&lt;void&gt; {
+    const currentUser &#x3D; this.auth.currentUser;
+    if (currentUser) 
+      return updatePassword(currentUser, newPassword);
+    else 
+      return Promise.reject(&#x27;Kein Benutzer ist angemeldet.&#x27;);
+  }
+
+
+  /**
+   * Stores the given user data in the session storage.
+   * @param userData - A UserModel object containing the user data to be stored.
+   */
+  setUserDataInStorage(userData: UserModel) {
+    sessionStorage.setItem(&#x27;userData&#x27;, JSON.stringify(userData));
+  }
+
+
+  /**
+   * Updates a user&#x27;s data in Firestore with the given data.
+   * @param {string} userId - The ID of the user to update.
+   * @param {Partial&lt;UserModel&gt;} updatedData - The user data to update.
+   * @returns {Promise&lt;void&gt;} - A promise that resolves when the update operation is complete.
+   */
+  updateDataInFirestore(userId: string, updatedData: Partial&lt;UserModel&gt;): Promise&lt;void&gt; {
+    const userDocRef &#x3D; doc(this.firestore, &#x60;users/${userId}&#x60;);
+    return updateDoc(userDocRef, updatedData);
+  }
+
+
+  /**
+   * Retrieves a user object for the given user ID from Firestore.
+   * @param {string | null} userId - The ID of the user to retrieve.
+   * @returns {Promise&lt;UserModel | null&gt;} - A promise that resolves to a &#x60;UserModel&#x60; object if the user is found in Firestore,
+   * or &#x60;null&#x60; if the user is not found.
+   */
+  async getUserForMessageById(userId: string | null): Promise&lt;UserModel | null&gt; {
+    const userDoc &#x3D; await getDoc(doc(this.firestore, &#x60;users/${userId}&#x60;));
+    return userDoc.exists() ? (userDoc.data() as UserModel) : null;
+  }
+
+
+  /**
+   * Confirms the password reset process using the given out-of-band code and new password.
+   * @param oobCode - The out-of-band code received for password reset.
+   * @param newPassword - The new password to set for the user.
+   * @returns A promise that resolves when the password has been successfully reset.
+   */
+  confirmPasswordReset(oobCode: string, newPassword: string): Promise&lt;void&gt; {
+    return confirmPasswordReset(this.auth, oobCode, newPassword);
+  }
+
+
+  /**
+   * Checks if a user exists in Firestore given a user ID.
+   * @param userId - The ID of the user to check.
+   * @returns A promise that resolves to true if the user exists in Firestore and false otherwise.
+   */
+  async checkUserId(userId: string) {
+    if (userId) {
+      const userDoc &#x3D; await getDoc(doc(this.firestore, &#x27;users&#x27;, userId));
+      return userDoc.exists();
+    } else 
+      return false;
+  }
+
+
+  /**
+   * Updates the user data in Firestore and in the Firebase Authentication service.
+   * @param user The User object to update.
+   * @param userId The ID of the user to update.
+   * @param updatedData The data to update for the user.
+   * @returns A promise that resolves when the user data is updated.
+   */
+  async updateUserDataInDatabase(user : User,userId: string, updatedData: Partial&lt;UserModel&gt;) {
+    if (user) {
+      if (updatedData.name) {
+        await updateProfile(user, { displayName: updatedData.name });
+        this.updateDataInFirestore(userId, { name: updatedData.name });
+      }
+      if (updatedData.email) {
+        await updateEmail(user, updatedData.email);
+        this.updateDataInFirestore(userId, { email: updatedData.email });
+      }
+    }
+  }
+
+
+  /**
+   * Handles a login error by setting the error message in the &#x60;loginError&#x60; observable and rethrowing the error.
+   * @param error - The error object from the login operation.
+   */
+  public handleLoginError(error: any): void {
+    if (error.code &#x3D;&#x3D;&#x3D; &#x27;auth/user-not-found&#x27; || error.code &#x3D;&#x3D;&#x3D; &#x27;auth/wrong-password&#x27;) 
+      this.loginError.set(&#x27;Invalid email or password&#x27;);
+    else 
+      this.loginError.set(&#x27;Unexpected error occurred&#x27;);
+    throw error;
+  }
+
+
+  /**
+   * Deletes the anonymous user from Firestore and removes the user from the authentication system.
+   */
+  deleteAnonymousUserFromFirestore(): void {
+    const user &#x3D; this.auth.currentUser;
+    if (user) {
+      deleteDoc(doc(this.firestore, &#x60;users/${user.uid}&#x60;));
+      user.delete()
+    }
+  }
+
+
+  /**
+   * Generates a ThreadMessage object based on the active user and the message content.
+   * @returns {ThreadMessage} - The generated ThreadMessage object.
+   */
+  async generateThreadMessageObject( activeUserId: string | null, messageContent: string): Promise&lt;ThreadMessage&gt; {
+    let user: UserModel &#x3D; (this.getUserForMessageById(activeUserId)) as unknown as UserModel;
+    const threadMessage: ThreadMessage &#x3D; {
+      createdBy: activeUserId || &#x27;&#x27;,
+      creatorName: user.name || &#x27;&#x27;,
+      creatorPhotoURL: user.photoURL || &#x27;&#x27;,
+      message: messageContent.trim(),
+      timestamp: new Date(),
+      reactions: [],
+      isThreadMessage: true,
+      sameDay: false,
+    };
+    return threadMessage;
+  }
+
+
+  /**
+   * Generates a Message object based on the user, channel ID, active user ID and the message content.
+   * @param user The UserModel of the user that is sending the message.
+   * @param channelId The ID of the channel this message is being sent to.
+   * @param activeUserId The ID of the currently logged in user.
+   * @param messageContent The content of the message.
+   * @returns The generated Message object.
+   */
+  generateMessageObject(user : UserModel, channelId: string | undefined, activeUserId: string | null, messageContent: string): Omit&lt;Message, &#x27;threadMessages$&#x27;&gt; {
+    return {
+      channelId: channelId || &#x27;&#x27;,
+      createdBy: activeUserId || &#x27;&#x27;,
+      creatorName: user.name || &#x27;&#x27;,
+      creatorPhotoURL: user.photoURL || &#x27;&#x27;,
+      message: messageContent.trim(),
+      timestamp: new Date(),
+      members: [],
+      reactions: [],
+      sameDay: false
+    };
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'CustomUser.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
