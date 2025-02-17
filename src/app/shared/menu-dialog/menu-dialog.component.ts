@@ -11,26 +11,26 @@ import { UserService } from '../services/user.service';
 @Component({
   selector: 'app-menu-dialog',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './menu-dialog.component.html',
   styleUrl: './menu-dialog.component.scss'
 })
 
-export class MenuDialogComponent  implements OnInit {
+export class MenuDialogComponent implements OnInit {
   @ViewChild('channelInput') channelInput!: ElementRef<HTMLInputElement>;
   @ViewChild('channelDescInput') channelDescInput!: ElementRef<HTMLInputElement>;
   @Input() menuDialog: boolean = false;
   @Input() membersDialog: boolean = false;
   @Input() channelDialog: boolean = false;
-  @Input() dialogData: { 
-      name: string;
-      members: any[] ; 
-      description: string ; 
-      creator: string; 
-      createdBy: string; 
-      channelId: string ; 
-      isPrivate: boolean
-    } = {name: '', members: [], description: '' , creator: '', createdBy: '', channelId: '', isPrivate: false};
+  @Input() dialogData: {
+    name: string;
+    members: any[];
+    description: string;
+    creator: string;
+    createdBy: string;
+    channelId: string;
+    isPrivate: boolean
+  } = { name: '', members: [], description: '', creator: '', createdBy: '', channelId: '', isPrivate: false };
   @Output() dialogSwitch = new EventEmitter<{ from: string; to: string }>();
 
   memberIds: string[] = [];
@@ -54,7 +54,7 @@ export class MenuDialogComponent  implements OnInit {
    * @param channelsService The service providing the channels data.
    * @param userService The service providing the user data.
    */
-  constructor(public authService: AuthService, private dialog: MatDialog,private channelsService: ChannelsService, private userService: UserService) {}
+  constructor(public authService: AuthService, private dialog: MatDialog, private channelsService: ChannelsService, private userService: UserService) { }
 
   /**
    * Initializes the component by mapping member IDs from dialog data and retrieving
@@ -62,7 +62,7 @@ export class MenuDialogComponent  implements OnInit {
    * and populates the allUsers array with user data. Calls updateFilteredUsers() to filter 
    * the list of users. Logs an error message if there is an error loading the user list.
    */
-  async ngOnInit(): Promise<void> {  
+  async ngOnInit(): Promise<void> {
     this.memberIds = this.dialogData.members.map((member) => member.id);
     this.memberNames = await this.userService.getUsernamesByIds(this.memberIds);
     this.authService.getUserList().subscribe(
@@ -132,7 +132,7 @@ export class MenuDialogComponent  implements OnInit {
       .then(() => {
         this.memberIds = updatedMembers;
         this.dialogData.members = updatedMembers.map(id => ({ id }));
-        this.toSave = []; 
+        this.toSave = [];
         this.updateFilteredUsers();
       })
       .catch(error => {
@@ -184,7 +184,6 @@ export class MenuDialogComponent  implements OnInit {
   onSearchInput(event: Event) {
     const target = event.target as HTMLInputElement;
     this.searchInput = target.value;
-    console.log(this.searchInput);
     this.updateFilteredUsers();
   }
 
@@ -199,7 +198,6 @@ export class MenuDialogComponent  implements OnInit {
    * @param to The name of the menu to be opened.
    */
   switchDialog(to: string) {
-    console.log(to);
     if (this.menuDialog) {
       this.dialogSwitch.emit({ from: 'menuDialog', to });
     } else if (this.membersDialog) {
@@ -252,7 +250,7 @@ export class MenuDialogComponent  implements OnInit {
       width: 'fit-content',
       maxWidth: '100vw',
       height: 'fit-content',
-      data: {member: this.activeMember}
+      data: { member: this.activeMember }
     });
   }
 
@@ -298,22 +296,22 @@ export class MenuDialogComponent  implements OnInit {
       updatedData.description = this.channelDescInput.nativeElement.value.trim();
       this.editChannelDescription = false;
     }
-    if (this.dialogData) {  
-      this.channelsService.updateChannel( field, updatedData)
+    if (this.dialogData) {
+      this.channelsService.updateChannel(field, updatedData)
     }
   }
 
-/**
- * Updates the specified field of the current channel with the provided data.
- * Logs an error message if the update operation fails.
- * @param field - The field to update ('name', 'description', or 'createdBy').
- * @param updatedData - The data to update for the specified field.
- */
-  updateChannel(field: 'name' | 'description' | 'createdBy' , updatedData: Partial<Channel>): void {
-      this.channelsService.updateChannel(this.dialogData.channelId, updatedData)
+  /**
+   * Updates the specified field of the current channel with the provided data.
+   * Logs an error message if the update operation fails.
+   * @param field - The field to update ('name', 'description', or 'createdBy').
+   * @param updatedData - The data to update for the specified field.
+   */
+  updateChannel(field: 'name' | 'description' | 'createdBy', updatedData: Partial<Channel>): void {
+    this.channelsService.updateChannel(this.dialogData.channelId, updatedData)
       .then(() => {
-          this.dialogData[field] = updatedData[field] as string;
-          this.dialogData.members = this.memberIds
+        this.dialogData[field] = updatedData[field] as string;
+        this.dialogData.members = this.memberIds
       })
       .catch((error) => console.error(`Fehler beim Aktualisieren des ${field}:`, error));
   }
@@ -325,17 +323,17 @@ export class MenuDialogComponent  implements OnInit {
    * Otherwise, the user is removed from the channel's members array.
    */
   leaveChannel(): void {
-    if (!this.dialogData || !this.dialogData.channelId) 
+    if (!this.dialogData || !this.dialogData.channelId)
       return console.error('Channel-ID fehlt.');;
     const userId = this.authService.userId();
-    if (!userId) 
+    if (!userId)
       return console.error('User-ID konnte nicht abgerufen werden.');;
-    if (this.dialogData.createdBy === userId || this.dialogData.isPrivate) 
+    if (this.dialogData.createdBy === userId || this.dialogData.isPrivate)
       this.deleteChannel();
-    else if (!(this.dialogData.createdBy == userId) || !this.dialogData.isPrivate) 
+    else if (!(this.dialogData.createdBy == userId) || !this.dialogData.isPrivate)
       this.updateChannelAfterLeaving(userId);
-    else 
-      console.error('Fehler beim Verlassen des Channels.' + this.dialogData , 'user'+ userId, 'isPrivate' + this.dialogData.isPrivate);
+    else
+      console.error('Fehler beim Verlassen des Channels.' + this.dialogData, 'user' + userId, 'isPrivate' + this.dialogData.isPrivate);
   }
 
 
@@ -343,13 +341,13 @@ export class MenuDialogComponent  implements OnInit {
    * Deletes the current channel and clears the current channel ID from the ChannelsService.
    * Logs an error message if the deletion operation fails.
    */
-  deleteChannel(){
+  deleteChannel() {
     this.channelsService.deleteChannel(this.dialogData.channelId)
-    .then(() => {
-      this.channelsService.clearCurrentChannel();
-      this.closeDialog(new Event('close'), 'channelDialog');
-    })
-    .catch((error) => {console.error('Fehler beim Löschen:', error);});
+      .then(() => {
+        this.channelsService.clearCurrentChannel();
+        this.closeDialog(new Event('close'), 'channelDialog');
+      })
+      .catch((error) => { console.error('Fehler beim Löschen:', error); });
   }
 
 
@@ -359,8 +357,8 @@ export class MenuDialogComponent  implements OnInit {
    */
   updateChannelAfterLeaving(userId: string) {
     const updatedMembers = this.dialogData.members
-    .map((member: any) => member.id)
-    .filter((id: string) => id !== userId);
+      .map((member: any) => member.id)
+      .filter((id: string) => id !== userId);
     this.dialogData.members = updatedMembers.map(id => ({ id }));
     this.channelsService.updateChannel(this.dialogData.channelId, { members: updatedMembers })
       .then(() => {
@@ -368,7 +366,7 @@ export class MenuDialogComponent  implements OnInit {
         this.dialogData.members = updatedMembers.map(id => ({ id }));
         this.closeDialog(new Event('close'), 'channelDialog');
       })
-      .catch((error) => {console.error('Fehler beim Verlassen des Channels:', error);});
+      .catch((error) => { console.error('Fehler beim Verlassen des Channels:', error); });
     this.channelsService.clearCurrentChannel();
   }
 
@@ -376,7 +374,7 @@ export class MenuDialogComponent  implements OnInit {
   /**
    * Opens the mobile dialog for adding members to a channel.
    */
-  openMobileDialogAddMember(){
+  openMobileDialogAddMember() {
     this.isMobileDialogAddMemberOpen = true;
   }
 
@@ -384,7 +382,7 @@ export class MenuDialogComponent  implements OnInit {
   /**
    * Closes the mobile dialog for adding members to a channel.
    */
-  closeMobileDialogAddMember(){
+  closeMobileDialogAddMember() {
     this.isMobileDialogAddMemberOpen = false;
   }
 }

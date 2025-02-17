@@ -1,8 +1,8 @@
-import { Component,Inject  } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MessagesService } from '../../../shared/services/messages.service';
 import { Message, ThreadMessage } from '../../../models/message';
 import { AuthService } from '../../../shared/services/auth.service';
-import { FormBuilder, FormGroup, Validators,ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastMessageService } from '../../../shared/services/toastmessage.service';
 import { SharedService } from '../../../shared/services/newmessage.service';
@@ -37,12 +37,12 @@ export class EditmessageComponent {
     public dialogRef: MatDialogRef<EditmessageComponent>,
     private toastMessageService: ToastMessageService,
     private sharedService: SharedService,
-    @Inject(MAT_DIALOG_DATA) public data: { 
-      message: Partial<Message>; 
-      deleteMessage: boolean; 
-      thread: boolean; 
-      parentMessageId?: string; 
-      docId?: string 
+    @Inject(MAT_DIALOG_DATA) public data: {
+      message: Partial<Message>;
+      deleteMessage: boolean;
+      thread: boolean;
+      parentMessageId?: string;
+      docId?: string
     }
   ) {
     this.isThread = this.data.thread;
@@ -62,13 +62,12 @@ export class EditmessageComponent {
    * These values are retrieved from the injected data.
    * If the message is a thread, the parent message ID is not set in the form.
    */
-    ngOnInit(): void {
-      console.log('openEdit Compoponent',this.data.thread); 
-      this.messageForm.setValue({
-        message: this.data.message.message || '',
-        reactions: this.data.message.reactions || [],
-      });
-    }
+  ngOnInit(): void {
+    this.messageForm.setValue({
+      message: this.data.message.message || '',
+      reactions: this.data.message.reactions || [],
+    });
+  }
 
 
   /**
@@ -79,20 +78,20 @@ export class EditmessageComponent {
    * otherwise it calls `initiMessageOnSubmit` to update the main message.
    * If the form is invalid or the user is not the creator, it logs an error message.
    */
-    onSubmit(): void {
-      if (this.messageForm.valid && this.checkCreatorWithActiveUser()) {
-        const updatedData = {...this.data.message,...this.messageForm.value};
-        if (this.isThread) {
-          if (!this.data.parentMessageId) 
-            return console.error('Fehlende parentMessageId für Thread-Nachricht');
-          this.initThreadMessageOnSubmit(updatedData);
-        } else 
-          this.initiMessageOnSubmit(updatedData);
-      } else if (!this.messageForm.valid) 
-        console.error('Formular ist ungültig.');
-      else if (!this.checkCreatorWithActiveUser()) 
-        console.error('Nur der Ersteller kann die Nachricht bearbeiten.');
-    }
+  onSubmit(): void {
+    if (this.messageForm.valid && this.checkCreatorWithActiveUser()) {
+      const updatedData = { ...this.data.message, ...this.messageForm.value };
+      if (this.isThread) {
+        if (!this.data.parentMessageId)
+          return console.error('Fehlende parentMessageId für Thread-Nachricht');
+        this.initThreadMessageOnSubmit(updatedData);
+      } else
+        this.initiMessageOnSubmit(updatedData);
+    } else if (!this.messageForm.valid)
+      console.error('Formular ist ungültig.');
+    else if (!this.checkCreatorWithActiveUser())
+      console.error('Nur der Ersteller kann die Nachricht bearbeiten.');
+  }
 
 
   /**
@@ -104,14 +103,14 @@ export class EditmessageComponent {
   initiMessageOnSubmit(updatedData: Message) {
     if (updatedData.docId) {
       this.messagesService.updateMessage(updatedData.docId, updatedData.createdBy, updatedData)
-      .then(() => {
-        this.messageForm.reset();
-        this.dialogRef.close();
-        this.showToastMessage('Nachricht aktualisiert');
-      })
-      .catch((error) => {
-        console.error('Fehler beim Aktualisieren der Nachricht:', error);
-      });
+        .then(() => {
+          this.messageForm.reset();
+          this.dialogRef.close();
+          this.showToastMessage('Nachricht aktualisiert');
+        })
+        .catch((error) => {
+          console.error('Fehler beim Aktualisieren der Nachricht:', error);
+        });
     }
   }
 
@@ -149,7 +148,7 @@ export class EditmessageComponent {
   checkCreatorWithActiveUser(): boolean {
     const dataUser = this.data.message.createdBy;
     const activeUser = this.auth.userId();
-    return dataUser === activeUser; 
+    return dataUser === activeUser;
   }
 
 
@@ -166,10 +165,8 @@ export class EditmessageComponent {
     const docId = this.data.message.docId;
     const parentMessageId = this.data.parentMessageId;
     if (this.isThread == true) {
-      console.log('lösche Thread-Nachricht',docId, parentMessageId);
       this.deleteThreadMessage(docId, parentMessageId);
     } else {
-      console.log('lösche Haupt-Nachricht',docId);
       this.deleteMainMessage();
     }
   }
@@ -180,16 +177,16 @@ export class EditmessageComponent {
    * The message can only be deleted by the creator of the message.
    * @returns {void}
    */
-  deleteMainMessage(){
+  deleteMainMessage() {
     const deleteMessage = this.data.message.docId;
     if (!deleteMessage) {
       return console.error('DocId fehlt für das Löschen der Nachricht.');
     }
     this.sharedService.deleteMessage(deleteMessage, this.auth.userId()!).then(() => {
-        this.dialogRef.close();
-        this.showToastMessage('Nachricht erfolgreich gelöscht');
-      })
-      .catch((error) => {console.error('Fehler beim Löschen der Nachricht:', error);});
+      this.dialogRef.close();
+      this.showToastMessage('Nachricht erfolgreich gelöscht');
+    })
+      .catch((error) => { console.error('Fehler beim Löschen der Nachricht:', error); });
   }
 
 
@@ -201,14 +198,14 @@ export class EditmessageComponent {
    * @returns {void}
    */
   deleteThreadMessage(docId?: string, parentMessageId?: string) {
-    if (!docId || !parentMessageId) 
+    if (!docId || !parentMessageId)
       return console.error('DocId oder ParentMessageId fehlt für das Löschen der Thread-Nachricht.');
-    this.sharedService.deleteThreadMessage(parentMessageId,docId)
+    this.sharedService.deleteThreadMessage(parentMessageId, docId)
       .then(() => {
         this.dialogRef.close();
         this.showToastMessage('Nachricht erfolgreich gelöscht');
       })
-      .catch((error) => {console.error('Fehler beim Löschen der Thread-Nachricht:', error);});
+      .catch((error) => { console.error('Fehler beim Löschen der Thread-Nachricht:', error); });
   }
 
 
@@ -217,22 +214,21 @@ export class EditmessageComponent {
    * @param {string} text - The text to be displayed in the toast message.
    * @returns {void}
    */
-  showToastMessage(text:string) {
+  showToastMessage(text: string) {
     setTimeout(() => {
       this.toastMessageService.showToastSignal(text);
     }, 500);
   }
 
-  
+
   /**
    * Cancels the edit mode and closes the dialog.
    * Resets the message form.
    * @returns {void}
    */
-  onCancel(): void { 
-    console.log('Edit cancelled');
+  onCancel(): void {
     this.messageForm.reset();
-    this.dialogRef.close(); 
+    this.dialogRef.close();
   }
 
 

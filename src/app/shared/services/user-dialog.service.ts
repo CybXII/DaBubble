@@ -26,14 +26,14 @@ export class UserDialogService {
   constructor(private auth: AuthService, private toastMessageService: ToastMessageService, private fb: FormBuilder,) {
     this.profileForm = this.fb.group({
       userInputName: [
-        this.userData?.name,[
+        this.userData?.name, [
           Validators.required,
           Validators.pattern('^[a-zA-ZÀ-ÿ]+(?:-[a-zA-ZÀ-ÿ]+)?(?: [a-zA-ZÀ-ÿ]+(?:-[a-zA-ZÀ-ÿ]+)?)$'),
           Validators.maxLength(25),
         ],
       ],
       userInputEmail: [
-        this.userData?.email,[
+        this.userData?.email, [
           Validators.required,
           Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'),
         ],
@@ -133,7 +133,6 @@ export class UserDialogService {
    */
   onDialogChange(newValue: boolean) {
     this.dialog = newValue;
-    console.log(newValue);
   }
 
 
@@ -188,11 +187,11 @@ export class UserDialogService {
    */
   profileDataChange() {
     if (
-      (this.userData?.name ?? '') !=(this.profileForm.get('userInputName')?.value ?? '') || 
-      (this.userData?.email ?? '') !=(this.profileForm.get('userInputEmail')?.value ?? '')
-    ) 
+      (this.userData?.name ?? '') != (this.profileForm.get('userInputName')?.value ?? '') ||
+      (this.userData?.email ?? '') != (this.profileForm.get('userInputEmail')?.value ?? '')
+    )
       this.profileDataChanged.set(true);
-    else 
+    else
       this.profileDataChanged.set(false);
   }
 
@@ -229,7 +228,7 @@ export class UserDialogService {
    * meaning the user cannot change their data. Otherwise, the form is enabled.
    */
   dataChangeAllowedCheck() {
-    if (this.userData?.provider != 'password') 
+    if (this.userData?.provider != 'password')
       this.profileForm.disable();
     else
       this.profileForm.enable();

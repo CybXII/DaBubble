@@ -119,7 +119,6 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   ngAfterViewInit(): void {
     this.subscribeToParentMessageId();
-    // this.initializeChatboxObserver();
     this.checkMessageIsEmpty();
   }
 
