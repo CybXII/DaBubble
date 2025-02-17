@@ -247,6 +247,22 @@ export class AuthService {
       true
     );
     await setDoc(doc(this.firestore, `users/${user.uid}`), userData);
+
+    // standardchannels hinzufügen
+    const docRefChannel1 = doc(this.firestore, 'channels', "allgemein");
+    await updateDoc(docRefChannel1, { members: arrayUnion(user.uid) });
+    const docRefChannel2 = doc(this.firestore, 'channels', "entwickler");
+    await updateDoc(docRefChannel2, { members: arrayUnion(user.uid) });
+
+    // direktnachrichten mit sich selbst
+    await setDoc(doc(this.firestore, 'channels', user.uid), {
+      createdAt: new Date(),
+      isPrivate: true,
+      createdBy: user.uid,
+      description: userData.name,
+      name: userData.name,
+      members: [user.uid],
+    });
     await this.loadUserData(user.uid);
     setTimeout(() => {
       this.toastMessageService.showToastSignal('Erfolgreich eingeloggt');
