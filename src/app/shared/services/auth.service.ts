@@ -200,7 +200,7 @@ export class AuthService {
       members: [user.uid],
     });
     await setDoc(doc(this.firestore, 'channels', 'guestsonly'), {
-      createdAt: new Date(),
+      createdAt: new Date().getTime(),
       isPrivate: false,
       createdBy: "admin",
       description: "Gäste only",
