@@ -1,3 +1,6 @@
+// ausführen via:
+// node resetDatabase.js 
+
 const admin = require("firebase-admin");
 
 // Firebase Admin SDK initialisieren
