@@ -383,6 +383,26 @@ export class MessageboxComponent implements OnInit, OnDestroy {
    */
   async sendNewMessage(){
     let user: UserModel = (await this.userService.getUserForMessageById(this.activeUserId)) as UserModel;
+    if (this.activeUserId){
+      const message: Omit<Message, 'threadMessages$'> = {
+        channelId: this.sendToId || '',
+        createdBy: this.activeUserId || '',
+        creatorName: user.name || '',
+        creatorPhotoURL: user.photoURL || '',
+        message: this.messageContent.trim(),
+        timestamp: new Date(),
+        members: [this.activeUserId,this.sendToId],
+        reactions: [],
+        sameDay: false,
+      };  
+      if (1 == 1) {
+        try {
+          await this.messagesService.addMessage(message);
+          this.messageContent = '';
+        } catch (error) {console.error('Fehler beim Senden der Nachricht:', error)}
+      } else 
+        console.error('Keine gültige Channel-ID verfügbar.');
+    }
     if (this.activeUserId) {
       const message: Omit<Message, 'threadMessages$'> = {
         channelId: this.sendToId || '',
