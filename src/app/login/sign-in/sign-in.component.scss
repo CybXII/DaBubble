@@ -1,7 +1,6 @@
 @use './../../../mixins.scss' as mixins;
 @use './../../../colors.scss' as colors;
 @use './../host.scss';
-// @use './../login.component.scss';
 
 .separation {
     @include mixins.flexbox($direction: row);
@@ -64,6 +63,17 @@ form {
         padding: 25px 15px;
         span {
             font-size: 17px;
+        }
+    }
+}
+
+
+@media (max-width: 400px) {
+
+    .mainCont {
+        padding: 20px 5px;
+        span {
+            font-size: 15px;
         }
     }
 }

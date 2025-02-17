@@ -7,7 +7,6 @@
     padding: 10px;
 }
 
-
 .menu-header {
     @include mixins.flexbox(row, flex-start, center, nowrap);
     width: 100%;

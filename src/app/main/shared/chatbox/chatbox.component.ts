@@ -96,6 +96,59 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   /**
+   * Initializes the component by setting up the default channel, subscribing to messages and thread messages, and handling the current channel.
+   */
+  ngOnInit(): void {
+    this.initializeChannel();
+    this.messagesService.messageId$.subscribe(messageId => {
+      if (messageId)
+        this.setParentMessage();
+    });
+    this.messagesService.messages$.subscribe(messages => {
+      this.updateMessagesWithThreads(messages);
+    });
+    this.setParentMessage();
+    this.threadMessages$.subscribe(() => { });
+    this.handleCurrentChannel();
+  }
+
+
+  /**
+   * Lifecycle hook that is called after the component view has been initialized.
+   * Sets up the subscription to the parent message ID observable and initializes the chatbox observer.
+   */
+  ngAfterViewInit(): void {
+    this.subscribeToParentMessageId();
+    this.checkMessageIsEmpty();
+  }
+
+
+  /**
+   * Subscribes to the parent message ID changes in thread chat mode.
+   * Updates the active message ID when a new parent message is detected.
+   */
+  private subscribeToParentMessageId(): void {
+    if (this.builder !== 'threadchat') return;
+    this.messagesService.parentMessageId$.subscribe((messageId) => {
+      if (messageId) {
+        this.setParentMessage();
+        this.activeMessageId = messageId;
+      }
+    });
+  }
+
+
+  /**
+   * Lifecycle hook that is called when the component is destroyed.
+   * Notifies all subscribers of the destroy subject and completes the subject.
+   */
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+
+  /**
    * Retrieves the formatted list of messages.
    * Each message includes a timestamp and thread messages.
    * 
@@ -130,29 +183,10 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   /**
-   * Initializes the component by setting up the default channel, subscribing to messages and thread messages, and handling the current channel.
-   */
-  ngOnInit(): void {
-    this.initializeChannel();
-    this.messagesService.messageId$.subscribe(messageId => {
-      if (messageId)
-        this.setParentMessage();
-    });
-    this.messagesService.messages$.subscribe(messages => {
-      this.updateMessagesWithThreads(messages);
-    });
-    this.setParentMessage();
-    this.threadMessages$.subscribe(() => { });
-    this.handleCurrentChannel();
-  }
-
-
-  /**
    * Initializes the default channel and subscribes to channel changes.
    */
   private initializeChannel(): void {
-    if (window.innerWidth > 900) // desktop mode only
-      this.channelsService.setDefaultChannel();
+    this.channelsService.setDefaultChannel();
     this.channelsService.currentChannel$.pipe(
       filter(channel => !!channel),
       switchMap(channel =>
@@ -220,6 +254,9 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
         this.handlePrivateChannel(channel);
       else
         this.private = false;
+      setTimeout(() => {
+        this.scrollToBottom(this.builder === 'mainchat' ? '.mainchat__chatbox' : '.threadchat__chatbox');
+      }, 500);
     });
   }
 
@@ -258,64 +295,16 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   /**
-   * Lifecycle hook that is called after the component view has been initialized.
-   * Sets up the subscription to the parent message ID observable and initializes the chatbox observer.
-   */
-  ngAfterViewInit(): void {
-    this.subscribeToParentMessageId();
-    this.initializeChatboxObserver();
-  }
-
-
-  /**
-   * Subscribes to the parent message ID changes in thread chat mode.
-   * Updates the active message ID when a new parent message is detected.
-   */
-  private subscribeToParentMessageId(): void {
-    if (this.builder !== 'threadchat') return;
-    this.messagesService.parentMessageId$.subscribe((messageId) => {
-      if (messageId) {
-        this.setParentMessage();
-        this.activeMessageId = messageId;
-      }
-    });
-  }
-
-
-  /**
-   * Initializes an observer to detect chatbox mutations and trigger auto-scrolling.
-   */
-  private initializeChatboxObserver(): void {
-    const chatboxSelector = this.builder === 'mainchat' ? '.mainchat__chatbox' : '.threadchat__chatbox';
-    const chatbox = document.querySelector(chatboxSelector);
-    if (!chatbox) return;
-    const observer = new MutationObserver(() => this.scrollToBottom(chatboxSelector));
-    observer.observe(chatbox, { childList: true, subtree: true });
-    this.checkMessageIsEmpty();
-  }
-
-
-  /**
-   * Lifecycle hook that is called when the component is destroyed.
-   * Notifies all subscribers of the destroy subject and completes the subject.
-   */
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-
-  /**
    * Scrolls the chatbox to the bottom after a 500ms delay to allow the component to render all messages.
    * @param selector - The CSS selector of the chatbox element.
    */
-  scrollToBottom(selector: string): void {
+  private scrollToBottom(selector: string): void {
     setTimeout(() => {
       const chatbox = document.querySelector(selector) as HTMLElement;
       if (chatbox) {
         chatbox.scrollTop = chatbox.scrollHeight;
       }
-    }, 500);
+    }, 300);
   }
 
 
@@ -331,24 +320,21 @@ export class ChatboxComponent implements OnInit, OnDestroy, AfterViewInit {
         this.parentMessage = messages.find(msg => msg.docId === parentMessageId) || null;
         this.cdRef.markForCheck();
       });
+      setTimeout(() => {
+        this.scrollToBottom(this.builder === 'mainchat' ? '.mainchat__chatbox' : '.threadchat__chatbox');
+      }, 500);
   }
 
 
-
-/*************  ✨ Codeium Command ⭐  *************/
   /**
    * Handles a user click in the chatbox.
    * Opens the user profile dialog for the given user ID if the ID does not match the active user ID.
-   * Otherwise, opens the user profile dialog for the active user ID and sets the `exitActiv` property to false.
    * @param {string | undefined} userId - The user ID of the user to open the profile dialog for.
    */
-/******  2f18b8dc-633e-489e-80fd-f3a880f259df  *******/  handleUserClick(userId: string): void {
+  handleUserClick(userId: string): void {
     if (userId) {
       if (this.activeUserId !== userId) {
         this.openDialogUser(userId);
-      } else {
-        this.userDialog$.openProfile();
-        this.userDialog$.exitActiv = false;
       }
     }
   }

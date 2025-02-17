@@ -49,7 +49,7 @@
                 </div>
             </div>
             <p># {{ channelName }}</p>
-            <form (ngSubmit)="addUser(addForm)" #addForm="ngForm">
+            <form #addForm="ngForm">
                 <input #name="ngModel" [(ngModel)]="name" type="text" minlength="3" placeholder="Name eingeben">
                 <div class="buttonCont">
                     <button [disabled]="!name.valid" class="default save">Hinzufügen</button>

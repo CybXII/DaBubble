@@ -1,0 +1,3142 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>dabubble documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">dabubble documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >MessagesService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/shared/services/messages.service.ts</code>
+        </p>
+
+
+
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#activeChannelId" >activeChannelId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#activeMessageId" >activeMessageId</a>
+                            </li>
+                            <li>
+                                <a href="#avatars$" >avatars$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#avatarsSubject" >avatarsSubject</a>
+                            </li>
+                            <li>
+                                <a href="#messageId$" >messageId$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#messageIdSubject" >messageIdSubject</a>
+                            </li>
+                            <li>
+                                <a href="#messages$" >messages$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#messagesSubject" >messagesSubject</a>
+                            </li>
+                            <li>
+                                <a href="#parentMessageId$" >parentMessageId$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#parentMessageIdSubject" >parentMessageIdSubject</a>
+                            </li>
+                            <li>
+                                <a href="#threadMessages$" >threadMessages$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#threadMessagesSubject" >threadMessagesSubject</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#unsubscribeMessages" >unsubscribeMessages</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#unsubscribeThreads" >unsubscribeThreads</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#addMessage" >addMessage</a>
+                            </li>
+                            <li>
+                                <a href="#createMessageSubscriptions" >createMessageSubscriptions</a>
+                            </li>
+                            <li>
+                                <a href="#createThreadSubscriptions" >createThreadSubscriptions</a>
+                            </li>
+                            <li>
+                                <a href="#getAllMessages" >getAllMessages</a>
+                            </li>
+                            <li>
+                                <a href="#getAllThreadMessages" >getAllThreadMessages</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#getMessage" >getMessage</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getThreadArrays" >getThreadArrays</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#getThreadMessage" >getThreadMessage</a>
+                            </li>
+                            <li>
+                                <a href="#getThreadMessagesForMessage" >getThreadMessagesForMessage</a>
+                            </li>
+                            <li>
+                                <a href="#initReactions" >initReactions</a>
+                            </li>
+                            <li>
+                                <a href="#loadAvatars" >loadAvatars</a>
+                            </li>
+                            <li>
+                                <a href="#loadMessagesForChannel" >loadMessagesForChannel</a>
+                            </li>
+                            <li>
+                                <a href="#loadThreadMessages" >loadThreadMessages</a>
+                            </li>
+                            <li>
+                                <a href="#setMessageData" >setMessageData</a>
+                            </li>
+                            <li>
+                                <a href="#setMessageId" >setMessageId</a>
+                            </li>
+                            <li>
+                                <a href="#setParentMessageId" >setParentMessageId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#updateMessage" >updateMessage</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#updateMessageData" >updateMessageData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#updateReactions" >updateReactions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#updateThreadMessage" >updateThreadMessage</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#updateThreadMessageData" >updateThreadMessageData</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(firestore: Firestore, sharedService: <a href="../injectables/SharedService.html" target="_self">SharedService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/shared/services/messages.service.ts:25</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Constructs a new instance of the MessagesService.</p>
+</div>
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                                    <td>Description</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>firestore</td>
+                                                  
+                                                        <td>
+                                                                    <code>Firestore</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <p>The Firestore database service.</p>
+
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>sharedService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SharedService.html" target="_self" >SharedService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <p>The service providing the active channel ID and message ID.</p>
+
+                                                        </td>
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addMessage"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>addMessage</b></span>
+                        <a href="#addMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addMessage(message: <a href="../interfaces/Message.html" target="_self">Message</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="186"
+                                    class="link-to-prism">src/app/shared/services/messages.service.ts:186</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Adds a new message to the Firestore database.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>message</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Message.html" target="_self" >Message</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The message to add to the database.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>A promise that resolves when the message has been successfully added to the database.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createMessageSubscriptions"></a>
+                    <span class="name">
+                        <span ><b>createMessageSubscriptions</b></span>
+                        <a href="#createMessageSubscriptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>createMessageSubscriptions(q: Query<DocumentData | DocumentData>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="67"
+                                    class="link-to-prism">src/app/shared/services/messages.service.ts:67</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Creates a subscription to the Firestore messages collection for the given Query.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>q</td>
+                                            <td>
+                                                        <code>Query&lt;DocumentData | DocumentData&gt;</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>the Firestore Query object to subscribe to</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createThreadSubscriptions"></a>
+                    <span class="name">
+                        <span ><b>createThreadSubscriptions</b></span>
+                        <a href="#createThreadSubscriptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>createThreadSubscriptions(q: Query<DocumentData | DocumentData>, parentMessageId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="154"
+                                    class="link-to-prism">src/app/shared/services/messages.service.ts:154</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Creates a subscription to the given query of thread messages and updates the threadMessagesSubject with the sorted thread messages.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>q</td>
+                                            <td>
+                                                        <code>Query&lt;DocumentData | DocumentData&gt;</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The query of thread messages to subscribe to.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>parentMessageId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The ID of the parent message to which the thread messages belong.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAllMessages"></a>
+                    <span class="name">
+                        <span ><b>getAllMessages</b></span>
+                        <a href="#getAllMessages"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getAllMessages(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="221"
+                                    class="link-to-prism">src/app/shared/services/messages.service.ts:221</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Retrieves all messages for a given user from the Firestore database.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>userId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The ID of the user for which to retrieve messages.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/Message.html" target="_self" >Observable&lt;Message[]&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>An observable that emits an array of <code>Message</code> objects.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAllThreadMessages"></a>
+                    <span class="name">
+                        <span ><b>getAllThreadMessages</b></span>
+                        <a href="#getAllThreadMessages"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getAllThreadMessages(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="210"
+                                    class="link-to-prism">src/app/shared/services/messages.service.ts:210</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Retrieves all thread messages for a given user from the Firestore database.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>userId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The ID of the user for which to retrieve thread messages.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Observable&lt;ThreadMessage[]&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>An observable that emits an array of <code>ThreadMessage</code> objects.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getMessage"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>getMessage</b></span>
+                        <a href="#getMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getMessage(docId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="362"
+                                    class="link-to-prism">src/app/shared/services/messages.service.ts:362</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Retrieves a message from the Firestore database.
+or <code>null</code> if the message is not found.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>docId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The document ID of the message to retrieve.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/Message.html" target="_self" >Promise&lt;Message | null&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>A promise that resolves to a <code>Message</code> object if the message is found in Firestore,
+or <code>null</code> if the message is not found.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getThreadArrays"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>getThreadArrays</b></span>
+                        <a href="#getThreadArrays"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getThreadArrays(parentMessageId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="119"
+                                    class="link-to-prism">src/app/shared/services/messages.service.ts:119</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Retrieves an array of thread messages for a given parent message ID from Firestore.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>parentMessageId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>The ID of the parent message to retrieve thread messages for.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;ThreadMessage[]&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>A promise that resolves to an array of <code>ThreadMessage</code> objects.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getThreadMessage"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>getThreadMessage</b></span>
+                        <a href="#getThreadMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getThreadMessage(messageId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, threadDocId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="376"
+                                    class="link-to-prism">src/app/shared/services/messages.service.ts:376</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Retrieves a thread message from the Firestore database.
+or <code>null</code> if the thread message is not found.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>messageId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The ID of the parent message to which the thread message belongs.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>threadDocId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The document ID of the thread message to retrieve.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;ThreadMessage | null&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>A promise that resolves to a <code>ThreadMessage</code> object if the thread message is found in Firestore,
+or <code>null</code> if the thread message is not found.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getThreadMessagesForMessage"></a>
+                    <span class="name">
+                        <span ><b>getThreadMessagesForMessage</b></span>
+                        <a href="#getThreadMessagesForMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getThreadMessagesForMessage(parentMessageId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="388"
+                                    class="link-to-prism">src/app/shared/services/messages.service.ts:388</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Retrieves all thread messages for a given parent message ID from Firestore.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>parentMessageId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The ID of the parent message to retrieve thread messages for.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Observable&lt;ThreadMessage[]&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>An observable that emits an array of <code>ThreadMessage</code> objects whenever the thread messages in Firestore change.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initReactions"></a>
+                    <span class="name">
+                        <span ><b>initReactions</b></span>
+                        <a href="#initReactions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initReactions(updatedReactions: <a href="../interfaces/Reaction.html" target="_self">Reaction[]</a>, existingReactionIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="338"
+                                    class="link-to-prism">src/app/shared/services/messages.service.ts:338</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Initializes a reaction in a list of reactions by adding a user ID to the list of user IDs
+associated with the reaction. If the user ID is already in the list, it is removed.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>updatedReactions</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Reaction.html" target="_self" >Reaction[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The list of reactions to initialize.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>existingReactionIndex</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The index of the reaction in the list of reactions to initialize.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>userId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The user ID to add to the list of user IDs associated with the reaction.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadAvatars"></a>
+                    <span class="name">
+                        <span ><b>loadAvatars</b></span>
+                        <a href="#loadAvatars"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadAvatars(messages: <a href="../interfaces/Message.html" target="_self">Message[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="39"
+                                    class="link-to-prism">src/app/shared/services/messages.service.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Loads avatars for the given messages into the avatarsSubject.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>messages</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Message.html" target="_self" >Message[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>the messages to load avatars for</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadMessagesForChannel"></a>
+                    <span class="name">
+                        <span ><b>loadMessagesForChannel</b></span>
+                        <a href="#loadMessagesForChannel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadMessagesForChannel(channelId: string | undefined)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="50"
+                                    class="link-to-prism">src/app/shared/services/messages.service.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Loads messages for the given channel ID and updates the messagesSubject.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>channelId</td>
+                                            <td>
+                                                        <code>string | undefined</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>the ID of the channel to load messages for</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadThreadMessages"></a>
+                    <span class="name">
+                        <span ><b>loadThreadMessages</b></span>
+                        <a href="#loadThreadMessages"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadThreadMessages(parentMessageId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="139"
+                                    class="link-to-prism">src/app/shared/services/messages.service.ts:139</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Loads all thread messages for a given parent message ID from Firestore.
+It cancels any existing subscription to thread messages and creates a new one.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>parentMessageId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The ID of the parent message to load thread messages for.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setMessageData"></a>
+                    <span class="name">
+                        <span ><b>setMessageData</b></span>
+                        <a href="#setMessageData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setMessageData(messages: <a href="../interfaces/Message.html" target="_self">Message[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="96"
+                                    class="link-to-prism">src/app/shared/services/messages.service.ts:96</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Sorts the given messages by timestamp and updates the messagesSubject.
+For each message, it also creates a subscription to the threadMessages collection
+and updates the threadMessages$ property of the message with the sorted thread messages.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>messages</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Message.html" target="_self" >Message[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>the messages to update</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setMessageId"></a>
+                    <span class="name">
+                        <span ><b>setMessageId</b></span>
+                        <a href="#setMessageId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setMessageId(messageId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="199"
+                                    class="link-to-prism">src/app/shared/services/messages.service.ts:199</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Sets the ID of the message for which to load thread messages to the given value and loads the thread messages.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>messageId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The ID of the message for which to load thread messages.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setParentMessageId"></a>
+                    <span class="name">
+                        <span ><b>setParentMessageId</b></span>
+                        <a href="#setParentMessageId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setParentMessageId(messageId: string | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="176"
+                                    class="link-to-prism">src/app/shared/services/messages.service.ts:176</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Sets the parent message ID to the given value and notifies all subscribers to the parentMessageIdSubject.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>messageId</td>
+                                            <td>
+                                                        <code>string | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The ID of the parent message to set, or null to clear the parent message ID.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateMessage"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>updateMessage</b></span>
+                        <a href="#updateMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateMessage(docId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, updateData: <a href="../interfaces/Message.html" target="_self">Partial&lt;Message&gt;</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="234"
+                                    class="link-to-prism">src/app/shared/services/messages.service.ts:234</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Updates a message in the Firestore database with the given data.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>docId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The document ID of the message to update.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>userId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The ID of the user performing the update.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>updateData</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Message.html" target="_self" >Partial&lt;Message&gt;</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The partial message data to update the message with.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>A promise that resolves when the message has been successfully updated in the database.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateMessageData"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>updateMessageData</b></span>
+                        <a href="#updateMessageData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateMessageData(docId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, updateData: <a href="../interfaces/Message.html" target="_self">Partial&lt;Message&gt;</a>, messageRef: DocumentReference, userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="249"
+                                    class="link-to-prism">src/app/shared/services/messages.service.ts:249</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Updates a message in the Firestore database with the given data.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>docId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The document ID of the message to update.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>updateData</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Message.html" target="_self" >Partial&lt;Message&gt;</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The partial message data to update the message with.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>messageRef</td>
+                                            <td>
+                                                        <code>DocumentReference</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The reference to the Firestore document of the message to update.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>userId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The ID of the user performing the update.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>A promise that resolves when the message has been successfully updated in the database.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateReactions"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>updateReactions</b></span>
+                        <a href="#updateReactions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateReactions(currentReactions: <a href="../interfaces/Reaction.html" target="_self">Reaction[]</a>, newReactions: <a href="../interfaces/Reaction.html" target="_self">Reaction[]</a>, userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="318"
+                                    class="link-to-prism">src/app/shared/services/messages.service.ts:318</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Updates a list of reactions with new reactions.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>currentReactions</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Reaction.html" target="_self" >Reaction[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>[]</code>
+                                            </td>
+
+                                            <td>
+                                                    <p>The current list of reactions.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>newReactions</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Reaction.html" target="_self" >Reaction[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>[]</code>
+                                            </td>
+
+                                            <td>
+                                                    <p>The new list of reactions to add to the current list.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>userId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                            <td>
+                                                    <p>The ID of the user performing the update.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/Reaction.html" target="_self" >Reaction[]</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>The updated list of reactions.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateThreadMessage"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>updateThreadMessage</b></span>
+                        <a href="#updateThreadMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateThreadMessage(messageId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, threadDocId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, updateData: Partial<ThreadMessage>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="275"
+                                    class="link-to-prism">src/app/shared/services/messages.service.ts:275</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Updates a thread message in the Firestore database with the given data.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>messageId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The ID of the parent message to which the thread message belongs.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>threadDocId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The document ID of the thread message to update.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>userId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The ID of the user performing the update.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>updateData</td>
+                                            <td>
+                                                        <code>Partial&lt;ThreadMessage&gt;</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The partial thread message data to update the message with.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>A promise that resolves when the thread message has been successfully updated in the database.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateThreadMessageData"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>updateThreadMessageData</b></span>
+                        <a href="#updateThreadMessageData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateThreadMessageData(messageId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, threadDocId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, updateData: Partial<ThreadMessage>, threadMessageRef: DocumentReference, userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="291"
+                                    class="link-to-prism">src/app/shared/services/messages.service.ts:291</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Updates a thread message in the Firestore database with the given data.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>messageId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The ID of the parent message to which the thread message belongs.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>threadDocId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The document ID of the thread message to update.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>updateData</td>
+                                            <td>
+                                                        <code>Partial&lt;ThreadMessage&gt;</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The partial thread message data to update the message with.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>threadMessageRef</td>
+                                            <td>
+                                                        <code>DocumentReference</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The document reference of the thread message in Firestore.</p>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>userId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The ID of the user performing the update.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="activeChannelId"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>activeChannelId</b></span>
+                        <a href="#activeChannelId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/shared/services/messages.service.ts:22</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="activeMessageId"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>activeMessageId</b></span>
+                        <a href="#activeMessageId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/shared/services/messages.service.ts:23</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="avatars$"></a>
+                    <span class="name">
+                        <span ><b>avatars$</b></span>
+                        <a href="#avatars$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Observable&lt;Map&lt;string, string&gt;&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.avatarsSubject.asObservable()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">src/app/shared/services/messages.service.ts:21</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="avatarsSubject"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>avatarsSubject</b></span>
+                        <a href="#avatarsSubject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject&lt;Map&lt;string, string&gt;&gt;(new Map())</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/shared/services/messages.service.ts:16</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="messageId$"></a>
+                    <span class="name">
+                        <span ><b>messageId$</b></span>
+                        <a href="#messageId$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.messageIdSubject.asObservable()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/shared/services/messages.service.ts:19</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="messageIdSubject"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>messageIdSubject</b></span>
+                        <a href="#messageIdSubject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject&lt;string | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/shared/services/messages.service.ts:14</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="messages$"></a>
+                    <span class="name">
+                        <span ><b>messages$</b></span>
+                        <a href="#messages$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.messagesSubject.asObservable()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/shared/services/messages.service.ts:17</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="messagesSubject"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>messagesSubject</b></span>
+                        <a href="#messagesSubject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject&lt;Message[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">src/app/shared/services/messages.service.ts:12</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="parentMessageId$"></a>
+                    <span class="name">
+                        <span ><b>parentMessageId$</b></span>
+                        <a href="#parentMessageId$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.parentMessageIdSubject.asObservable()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/shared/services/messages.service.ts:20</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="parentMessageIdSubject"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>parentMessageIdSubject</b></span>
+                        <a href="#parentMessageIdSubject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject&lt;string | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">src/app/shared/services/messages.service.ts:15</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="threadMessages$"></a>
+                    <span class="name">
+                        <span ><b>threadMessages$</b></span>
+                        <a href="#threadMessages$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.threadMessagesSubject.asObservable()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/shared/services/messages.service.ts:18</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="threadMessagesSubject"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>threadMessagesSubject</b></span>
+                        <a href="#threadMessagesSubject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject&lt;ThreadMessage[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/shared/services/messages.service.ts:13</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="unsubscribeMessages"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>unsubscribeMessages</b></span>
+                        <a href="#unsubscribeMessages"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code> | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/shared/services/messages.service.ts:24</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="unsubscribeThreads"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>unsubscribeThreads</b></span>
+                        <a href="#unsubscribeThreads"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code> | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/shared/services/messages.service.ts:25</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import {Firestore,collection, query, collectionData,addDoc, where, updateDoc, doc, getDoc, getDocs, onSnapshot, orderBy, Timestamp, Query, DocumentData,DocumentReference} from &#x27;@angular/fire/firestore&#x27;;
+import { BehaviorSubject, Observable } from &#x27;rxjs&#x27;;
+import { Message, Reaction, ThreadMessage } from &#x27;../../models/message&#x27;;
+import { SharedService } from &#x27;./newmessage.service&#x27;;
+
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
+
+export class MessagesService {
+  private messagesSubject &#x3D; new BehaviorSubject&lt;Message[]&gt;([]);
+  private threadMessagesSubject &#x3D; new BehaviorSubject&lt;ThreadMessage[]&gt;([]);
+  private messageIdSubject &#x3D; new BehaviorSubject&lt;string | null&gt;(null);
+  private parentMessageIdSubject &#x3D; new BehaviorSubject&lt;string | null&gt;(null);
+  private avatarsSubject &#x3D; new BehaviorSubject&lt;Map&lt;string, string&gt;&gt;(new Map());
+  messages$ &#x3D; this.messagesSubject.asObservable();
+  threadMessages$ &#x3D; this.threadMessagesSubject.asObservable();
+  messageId$ &#x3D; this.messageIdSubject.asObservable();
+  parentMessageId$ &#x3D; this.parentMessageIdSubject.asObservable();
+  avatars$: Observable&lt;Map&lt;string, string&gt;&gt; &#x3D; this.avatarsSubject.asObservable();
+  private activeChannelId: string | null &#x3D; null;
+  private activeMessageId: string | null &#x3D; null;
+  private unsubscribeMessages: (() &#x3D;&gt; void) | null &#x3D; null;
+  private unsubscribeThreads: (() &#x3D;&gt; void) | null &#x3D; null;
+
+  /**
+   * Constructs a new instance of the MessagesService.
+   * @param firestore The Firestore database service.
+   * @param sharedService The service providing the active channel ID and message ID.
+   */
+  constructor(private firestore: Firestore, private sharedService: SharedService) {}
+
+
+  /**
+   * Loads avatars for the given messages into the avatarsSubject.
+   * @param messages the messages to load avatars for
+   */
+  loadAvatars(messages: Message[]): void {
+    const avatarMap &#x3D; new Map&lt;string, string&gt;();
+    messages.forEach((message) &#x3D;&gt; {avatarMap.set(message.createdBy,message.creatorPhotoURL || &#x27;/assets/default-avatar.png&#x27;);});
+    this.avatarsSubject.next(avatarMap);
+  }
+
+
+  /**
+   * Loads messages for the given channel ID and updates the messagesSubject.
+   * @param channelId the ID of the channel to load messages for
+   */
+  loadMessagesForChannel(channelId: string | undefined): void {
+    if (!channelId) 
+      return console.error(&#x27;Channel-ID ist erforderlich für Nachrichtenabruf.&#x27;);
+    if (this.activeChannelId !&#x3D;&#x3D; channelId)
+      this.activeChannelId &#x3D; channelId;
+    this.messagesSubject.next([]);  
+    if (this.unsubscribeMessages) this.unsubscribeMessages();
+    const messagesRef &#x3D; collection(this.firestore, &#x27;messages&#x27;);
+    const q &#x3D; query(messagesRef, where(&#x27;channelId&#x27;, &#x27;&#x3D;&#x3D;&#x27;, channelId));
+    this.createMessageSubscriptions(q);
+  }
+
+
+  /**
+   * Creates a subscription to the Firestore messages collection for the given Query.
+   * @param q the Firestore Query object to subscribe to
+   */
+  createMessageSubscriptions(q: Query&lt;DocumentData, DocumentData&gt;) {
+    this.unsubscribeMessages &#x3D; onSnapshot(q, (snapshot) &#x3D;&gt; {
+      let messages &#x3D; snapshot.docs.map(docSnap &#x3D;&gt; {
+        const data &#x3D; docSnap.data();
+        return {
+          docId: docSnap.id,
+          ...data,
+          timestamp: this.sharedService.convertTimestamp(data[&#x27;timestamp&#x27;]),
+          createdBy: data[&#x27;createdBy&#x27;] || &#x27;Unknown&#x27;,
+          creatorName: data[&#x27;creatorName&#x27;] || &#x27;Unknown&#x27;,
+          creatorPhotoURL: data[&#x27;creatorPhotoURL&#x27;] || &#x27;/assets/default-avatar.png&#x27;,
+          members: data[&#x27;members&#x27;] || [],
+          reactions: data[&#x27;reactions&#x27;] || [],
+          message: data[&#x27;message&#x27;] || &#x27;&#x27;,
+          sameDay: false,
+          threadMessages$: new BehaviorSubject&lt;ThreadMessage[]&gt;([])
+        } as Message;
+      });
+      this.setMessageData(messages);
+    });
+  }
+
+
+  /**
+   * Sorts the given messages by timestamp and updates the messagesSubject.
+   * For each message, it also creates a subscription to the threadMessages collection
+   * and updates the threadMessages$ property of the message with the sorted thread messages.
+   * @param messages the messages to update
+   */
+  setMessageData(messages: Message[]) {
+    messages.sort((a, b) &#x3D;&gt;new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime())
+    messages.forEach(msg &#x3D;&gt; {
+      const threadRef &#x3D; collection(this.firestore, &#x60;messages/${msg.docId}/threadMessages&#x60;);
+      onSnapshot(threadRef, (snapshot) &#x3D;&gt; {
+        let updatedThreads &#x3D; snapshot.docs.map(doc &#x3D;&gt; ({
+          docId: doc.id,
+          ...doc.data(),
+          timestamp: this.sharedService.convertTimestamp(doc.data()[&#x27;timestamp&#x27;]),
+        })) as ThreadMessage[];
+        updatedThreads.sort((b, a) &#x3D;&gt;new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime())
+        if (msg.threadMessages$) msg.threadMessages$.next(updatedThreads);
+      });
+    });
+    this.messagesSubject.next(messages);
+  }
+
+
+  /**
+   * Retrieves an array of thread messages for a given parent message ID from Firestore.
+   * @param parentMessageId - The ID of the parent message to retrieve thread messages for.
+   * @returns A promise that resolves to an array of &#x60;ThreadMessage&#x60; objects.
+   */
+  async getThreadArrays(parentMessageId: string): Promise&lt;ThreadMessage[]&gt; {
+    const threadMessagesRef &#x3D; collection(this.firestore, &#x60;messages/${parentMessageId}/threadMessages&#x60;);
+    const q &#x3D; query(threadMessagesRef, orderBy(&#x27;timestamp&#x27;, &#x27;asc&#x27;));
+    const snapshot &#x3D; await getDocs(q);
+    return snapshot.docs.map((docSnap) &#x3D;&gt; ({
+      docId: docSnap.id,
+      messageId: parentMessageId,
+      message: docSnap.data()[&#x27;message&#x27;] || &#x27;&#x27;,
+      createdBy: docSnap.data()[&#x27;createdBy&#x27;] || &#x27;Unknown&#x27;,
+      timestamp: this.sharedService.convertTimestamp(docSnap.data()[&#x27;timestamp&#x27;]),
+      reactions: docSnap.data()[&#x27;reactions&#x27;] || [],
+    }) as ThreadMessage);
+  }
+
+
+  /**
+   * Loads all thread messages for a given parent message ID from Firestore.
+   * It cancels any existing subscription to thread messages and creates a new one.
+   * @param parentMessageId The ID of the parent message to load thread messages for.
+   */
+  loadThreadMessages(parentMessageId: string): void {
+    if (this.activeMessageId &#x3D;&#x3D;&#x3D; parentMessageId) return;
+    this.activeMessageId &#x3D; parentMessageId;
+    if (this.unsubscribeThreads) this.unsubscribeThreads();
+    const threadMessagesRef &#x3D; collection(this.firestore, &#x60;messages/${parentMessageId}/threadMessages&#x60;);
+    const q &#x3D; query(threadMessagesRef, orderBy(&#x27;timestamp&#x27;, &#x27;asc&#x27;));
+    this.createThreadSubscriptions(q, parentMessageId);
+  }
+
+
+  /**
+   * Creates a subscription to the given query of thread messages and updates the threadMessagesSubject with the sorted thread messages.
+   * @param q The query of thread messages to subscribe to.
+   * @param parentMessageId The ID of the parent message to which the thread messages belong.
+   */
+  createThreadSubscriptions(q: Query&lt;DocumentData, DocumentData&gt;, parentMessageId: string) {
+    this.unsubscribeThreads &#x3D; onSnapshot(q, async (snapshot) &#x3D;&gt; {
+      const threadMessages &#x3D; snapshot.docs.map((docSnap) &#x3D;&gt; {
+        const data &#x3D; docSnap.data();
+        return {
+          docId: docSnap.id,
+          messageId: parentMessageId,
+          ...data,
+          timestamp: this.sharedService.convertTimestamp(data[&#x27;timestamp&#x27;]),
+          isThreadMessage: true,
+        } as ThreadMessage;
+      });
+      threadMessages.sort((a, b) &#x3D;&gt;new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+      this.threadMessagesSubject.next(threadMessages);
+    });
+  }
+
+
+  /**
+   * Sets the parent message ID to the given value and notifies all subscribers to the parentMessageIdSubject.
+   * @param messageId The ID of the parent message to set, or null to clear the parent message ID.
+   */
+  setParentMessageId(messageId: string | null): void {
+    this.parentMessageIdSubject.next(messageId);
+  }
+
+
+  /**
+   * Adds a new message to the Firestore database.
+   * @param message The message to add to the database.
+   * @returns A promise that resolves when the message has been successfully added to the database.
+   */
+  async addMessage(message: Message): Promise&lt;void&gt; {
+    const messagesRef &#x3D; collection(this.firestore, &#x27;messages&#x27;);
+    await addDoc(messagesRef, {
+      ...message,
+      timestamp: Timestamp.fromDate(new Date()),
+    });
+  }
+
+
+  /**
+   * Sets the ID of the message for which to load thread messages to the given value and loads the thread messages.
+   * @param messageId The ID of the message for which to load thread messages.
+   */
+  setMessageId(messageId: string): void {
+    this.messageIdSubject.next(messageId);
+    this.loadThreadMessages(messageId);
+  }
+
+
+  /**
+   * Retrieves all thread messages for a given user from the Firestore database.
+   * @param userId The ID of the user for which to retrieve thread messages.
+   * @returns An observable that emits an array of &#x60;ThreadMessage&#x60; objects.
+   */
+  getAllThreadMessages(userId: string): Observable&lt;ThreadMessage[]&gt; {
+    const threadMessagesRef &#x3D; collection(this.firestore, &#x27;threads&#x27;);
+    return collectionData(threadMessagesRef) as Observable&lt;ThreadMessage[]&gt;;
+  }
+
+
+  /**
+   * Retrieves all messages for a given user from the Firestore database.
+   * @param userId The ID of the user for which to retrieve messages.
+   * @returns An observable that emits an array of &#x60;Message&#x60; objects.
+   */
+  getAllMessages(userId: string): Observable&lt;Message[]&gt; {
+    const messagesRef &#x3D; collection(this.firestore, &#x27;messages&#x27;);
+    return collectionData(messagesRef) as Observable&lt;Message[]&gt;;
+  }
+
+
+  /**
+   * Updates a message in the Firestore database with the given data.
+   * @param docId The document ID of the message to update.
+   * @param userId The ID of the user performing the update.
+   * @param updateData The partial message data to update the message with.
+   * @returns A promise that resolves when the message has been successfully updated in the database.
+   */
+  async updateMessage(docId: string,userId: string,updateData: Partial&lt;Message&gt;): Promise&lt;void&gt; {
+    const messageRef &#x3D; doc(this.firestore, &#x27;messages&#x27;, docId);
+    try {await this.updateMessageData(docId, updateData, messageRef, userId);}
+    catch (error) {throw console.error(&#x27;Fehler beim Aktualisieren der Nachricht:&#x27;, error);;}
+  }
+
+
+  /**
+   * Updates a message in the Firestore database with the given data.
+   * @param docId The document ID of the message to update.
+   * @param updateData The partial message data to update the message with.
+   * @param messageRef The reference to the Firestore document of the message to update.
+   * @param userId The ID of the user performing the update.
+   * @returns A promise that resolves when the message has been successfully updated in the database.
+   */
+  async updateMessageData(docId : string, updateData : Partial&lt;Message&gt;, messageRef : DocumentReference, userId : string) {
+    if (updateData.reactions) {
+      const currentMessage &#x3D; await this.getMessage(docId);
+      if (!currentMessage) throw new Error(&#x27;Nachricht nicht gefunden.&#x27;);
+      const updatedReactions &#x3D; this.updateReactions(currentMessage.reactions,updateData.reactions,userId);
+      await updateDoc(messageRef, { reactions: updatedReactions });
+    }
+    if (updateData.message) {
+      const currentMessage &#x3D; await this.getMessage(docId);
+      if (currentMessage) {
+        if (currentMessage.createdBy !&#x3D;&#x3D; userId) 
+          throw new Error(&#x27;Nur der Ersteller darf den Nachrichtentext ändern.&#x27;);
+        await updateDoc(messageRef, { message: updateData.message });
+      }
+    }
+  }
+
+
+  /**
+   * Updates a thread message in the Firestore database with the given data.
+   * @param messageId The ID of the parent message to which the thread message belongs.
+   * @param threadDocId The document ID of the thread message to update.
+   * @param userId The ID of the user performing the update.
+   * @param updateData The partial thread message data to update the message with.
+   * @returns A promise that resolves when the thread message has been successfully updated in the database.
+   */
+  async updateThreadMessage(messageId: string,threadDocId: string,userId: string,updateData: Partial&lt;ThreadMessage&gt;): Promise&lt;void&gt; {
+    const threadMessageRef &#x3D; doc(this.firestore,&#x60;messages/${messageId}/threadMessages&#x60;,threadDocId);
+    try {this.updateThreadMessageData(messageId,threadDocId,updateData,threadMessageRef,userId);} 
+    catch (error) {throw console.error(&#x27;Fehler beim Aktualisieren der Thread-Nachricht:&#x27;, error);}
+  }
+
+
+  /**
+   * Updates a thread message in the Firestore database with the given data.
+   * @param messageId The ID of the parent message to which the thread message belongs.
+   * @param threadDocId The document ID of the thread message to update.
+   * @param updateData The partial thread message data to update the message with.
+   * @param threadMessageRef The document reference of the thread message in Firestore.
+   * @param userId The ID of the user performing the update.
+   * @throws Will throw an error if the thread message is not found or if the current user is not the creator.
+   */
+  async updateThreadMessageData(messageId: string, threadDocId: string, updateData : Partial&lt;ThreadMessage&gt;, threadMessageRef : DocumentReference, userId : string) {
+    if (updateData.reactions) {
+      const currentThreadMessage &#x3D; await this.getThreadMessage(messageId,threadDocId);
+      if (!currentThreadMessage)
+        throw new Error(&#x27;Thread-Nachricht nicht gefunden.&#x27;);
+      const updatedReactions &#x3D; this.updateReactions(currentThreadMessage.reactions,updateData.reactions,userId);
+      await updateDoc(threadMessageRef, { reactions: updatedReactions });
+    }
+    if (updateData.message) {
+      const currentThreadMessage &#x3D; await this.getThreadMessage(messageId,threadDocId);
+      if (currentThreadMessage) {
+        if (currentThreadMessage.createdBy !&#x3D;&#x3D; userId) {
+          throw new Error(&#x27;Nur der Ersteller darf den Nachrichtentext ändern.&#x27;);
+        }
+        await updateDoc(threadMessageRef, { message: updateData.message });
+      }
+    }
+  }
+
+
+  /**
+   * Updates a list of reactions with new reactions.
+   * @param currentReactions The current list of reactions.
+   * @param newReactions The new list of reactions to add to the current list.
+   * @param userId The ID of the user performing the update.
+   * @returns The updated list of reactions.
+   */
+  private updateReactions(currentReactions: Reaction[] &#x3D; [],newReactions: Reaction[] &#x3D; [],userId: string): Reaction[] {
+    const updatedReactions &#x3D; [...(currentReactions || [])];
+    newReactions.forEach((reaction) &#x3D;&gt; {
+      const existingReactionIndex &#x3D; updatedReactions.findIndex((r) &#x3D;&gt; r.emoji &#x3D;&#x3D;&#x3D; reaction.emoji);
+      if (existingReactionIndex &gt;&#x3D; 0) {
+        this.initReactions(updatedReactions as Reaction[], existingReactionIndex, userId);
+      } else 
+        updatedReactions.push({ emoji: reaction.emoji, userIds: [userId] });
+    });
+    return updatedReactions;
+  }
+
+
+  /**
+   * Initializes a reaction in a list of reactions by adding a user ID to the list of user IDs
+   * associated with the reaction. If the user ID is already in the list, it is removed.
+   * @param updatedReactions The list of reactions to initialize.
+   * @param existingReactionIndex The index of the reaction in the list of reactions to initialize.
+   * @param userId The user ID to add to the list of user IDs associated with the reaction.
+   */
+  initReactions(updatedReactions: Reaction[], existingReactionIndex: number, userId: string) {
+    const existingReaction &#x3D; updatedReactions[existingReactionIndex];
+    if (!existingReaction.userIds.includes(userId)) 
+      existingReaction.userIds.push(userId);
+    else {
+      const index &#x3D; existingReaction.userIds.indexOf(userId);
+      if (index &gt; -1) {
+        existingReaction.userIds.splice(index, 1);
+        if (existingReaction.userIds.length &#x3D;&#x3D;&#x3D; 0) {
+          const reactionIndex &#x3D; updatedReactions.findIndex((r) &#x3D;&gt; r.emoji &#x3D;&#x3D;&#x3D; existingReaction.emoji);
+          if (reactionIndex &gt; -1) 
+            updatedReactions.splice(reactionIndex, 1);
+        }
+      }
+    }
+  }
+
+
+  /**
+   * Retrieves a message from the Firestore database.
+   * @param docId The document ID of the message to retrieve.
+   * @returns A promise that resolves to a &#x60;Message&#x60; object if the message is found in Firestore,
+   * or &#x60;null&#x60; if the message is not found.
+   */
+  public async getMessage(docId: string): Promise&lt;Message | null&gt; {
+    const docRef &#x3D; doc(this.firestore, &#x27;messages&#x27;, docId);
+    const docSnapshot &#x3D; await getDoc(docRef);
+    return docSnapshot.exists() ? (docSnapshot.data() as Message) : null;
+  }
+
+
+  /**
+   * Retrieves a thread message from the Firestore database.
+   * @param messageId The ID of the parent message to which the thread message belongs.
+   * @param threadDocId The document ID of the thread message to retrieve.
+   * @returns A promise that resolves to a &#x60;ThreadMessage&#x60; object if the thread message is found in Firestore,
+   * or &#x60;null&#x60; if the thread message is not found.
+   */
+  public async getThreadMessage(messageId: string,threadDocId: string): Promise&lt;ThreadMessage | null&gt; {
+    const docRef &#x3D; doc(this.firestore,&#x60;messages/${messageId}/threadMessages&#x60;,threadDocId);
+    const docSnapshot &#x3D; await getDoc(docRef);
+    return docSnapshot.exists() ? (docSnapshot.data() as ThreadMessage) : null;
+  }
+
+
+  /**
+   * Retrieves all thread messages for a given parent message ID from Firestore.
+   * @param parentMessageId The ID of the parent message to retrieve thread messages for.
+   * @returns An observable that emits an array of &#x60;ThreadMessage&#x60; objects whenever the thread messages in Firestore change.
+   */
+  getThreadMessagesForMessage(parentMessageId: string): Observable&lt;ThreadMessage[]&gt; {
+    return new Observable(observer &#x3D;&gt; {
+      const threadMessagesRef &#x3D; collection(this.firestore, &#x60;messages/${parentMessageId}/threadMessages&#x60;);
+      return onSnapshot(threadMessagesRef, snapshot &#x3D;&gt; {
+        const threads &#x3D; snapshot.docs.map(doc &#x3D;&gt; ({
+          docId: doc.id,
+          ...doc.data(),
+        })) as ThreadMessage[];
+        observer.next(threads);
+      }, error &#x3D;&gt; observer.error(error));
+    });
+  }
+}</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'MessagesService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

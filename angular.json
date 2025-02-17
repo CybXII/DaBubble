@@ -38,7 +38,8 @@
               "src/scrollbar.scss",
               "src/mixins.scss",
               "src/styles.scss",
-              "src/button.scss"
+              "src/button.scss",
+              "src/animations.scss"
             ],
             "scripts": []
           },
@@ -103,7 +104,8 @@
               "src/scrollbar.scss",
               "src/mixins.scss",
               "src/styles.scss",
-              "src/button.scss"
+              "src/button.scss",
+              "src/animations.scss"
             ],
             "scripts": []
           }

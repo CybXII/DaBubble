@@ -30,7 +30,8 @@
         @if (!allMembers && addMembers) {
         @if (choosenMembers) {
         <div>
-            <input type="text" name="members" id="members" placeholder="Name eingeben" (input)="onSearchInput($event)" autocomplete="off">
+            <input type="text" name="members" id="members" placeholder="Name eingeben" (input)="onSearchInput($event)"
+                autocomplete="off">
         </div>
         }
         @if (filteredMembersArray.length > 0){
@@ -49,11 +50,11 @@
     </div>
     <div class="button-container-members">
         <ul>
-        @for (member of choosenMembers; track member) {
-                <li (click)="addMembersToChannelArray(member)" [class.selected]="isMemberSelected(member)">
-                    <img [src]="member.photoURL" alt="{{ member.name }}" width="50" height="50" />
-                    <span>{{ member.name }}</span>
-                </li>
+            @for (member of choosenMembers; track member) {
+            <li (click)="addMembersToChannelArray(member)" [class.selected]="isMemberSelected(member)">
+                <img [src]="member.photoURL" alt="{{ member.name }}" width="50" height="50" />
+                <span>{{ member.name }}</span>
+            </li>
             }
         </ul>
         <button type="submit" class="save default" (click)="createChannel()">Erstellen</button>

@@ -10,6 +10,7 @@ form {
 }
 
 .form-group {
+    position: relative;
     @include mixins.flexbox($direction: column);
     gap: 10px;
 
@@ -36,6 +37,26 @@ form {
         color: colors.$grey;
         &::-webkit-scrollbar-track {
             margin: 12px;
+        }
+    }
+
+    img {
+        position: absolute;
+        bottom: 10px;
+        left: 30px;
+        cursor: pointer;
+    }
+}
+
+@media (max-width: 450px) {
+    form {
+        width: 90vw;
+        gap: 30px;
+    }
+    .form-group {
+        textarea {
+            width: 90%;
+            height: 50vh;
         }
     }
 }

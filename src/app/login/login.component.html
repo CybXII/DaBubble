@@ -1,6 +1,4 @@
-@if (!introPlayed) {
-<div class="animationBackground "></div>
-}
+@if (!introPlayed) {<div class="animationBackground "></div>}
 <section [ngClass]="{'paddingBottom': loginPage, 'sectionDisplayHeight': forgetPassword, 'reset': !loginPage}">
     <div [ngClass]="{ 'container': !introPlayed, 'containerNoAnimation': introPlayed}">
         <img (click)="this.router.navigate(['']);" src="img/logo.svg">
@@ -22,7 +20,4 @@
         <a routerLink="legalnotice">Datenschutz</a>
     </footer>
 </section>
-
-@if (toastMessage != '') {
-    <app-toastmessage></app-toastmessage>
-}
+@if (toastMessage != '') {<app-toastmessage></app-toastmessage>}
