@@ -351,12 +351,17 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     let sendToTarget = this.sharedService.getTargetString();
     if (sendToTarget == 'toUser') {
       this.sendToId = sendToUserId;
-      const existingChannels = await this.channelsService.getPrivateChannelByMembers([this.activeUserId ?? '', sendToUserId]);
+      let existingChannels = await this.channelsService.getPrivateChannelByMembers([this.activeUserId ?? '', sendToUserId]);
       if (existingChannels.length > 0) 
         this.sendToId = existingChannels[0].id ?? '';
       else 
         this.createNewChannel(sendToUserId);
-    } else if (sendToTarget == 'toChannel') 
+        existingChannels = await this.channelsService.getPrivateChannelByMembers([this.activeUserId ?? '', sendToUserId]);
+        if (existingChannels.length > 0) 
+          this.sendToId = existingChannels[0].id ?? '';
+        else 
+          console.error('Kein privater Kanal gefunden.');
+      } else if (sendToTarget == 'toChannel') 
       this.sendToId = sendToChannelId;
   }
 
