@@ -23,9 +23,56 @@ const defaultData = {
             provider: "password",
             status: true,
             userId: "admin"
+        },
+        {
+            email: "petra@otto.de",
+            name: "Petra Otto",
+            photoURL: "/img/avatars/avatar2.svg",
+            privateNoteRef: "",
+            provider: "password",
+            status: true,
+            userId: "petraotto"
+        },
+        {
+            email: "hans@meiser.de",
+            name: "Hans Meiser",
+            photoURL: "/img/avatars/avatar3.svg",
+            privateNoteRef: "",
+            provider: "password",
+            status: true,
+            userId: "hansmeiser"
         }
     ],
-    messages: {},
+    messages: [
+        {
+            messageId: "message001",
+            channelId: "entwickler",
+            createdBy: "petraotto",
+            creatorName: "Petra Otto",
+            creatorPhotoURL: "/img/avatars/avatar2.svg",
+            members: [],
+            message: "Hallo Entwickler, wer ist hier noch?",
+            reactions: [
+                {
+                    emoji: "😀",
+                    userIds: ["hansmeiser"]
+                }
+            ],
+            sameDay: false,
+            timestamp: Date()
+        }, {
+            messageId: "message002",
+            channelId: "entwickler",
+            createdBy: "hansmeiser",
+            creatorName: "Hans Meiser",
+            creatorPhotoURL: "/img/avatars/avatar3.svg",
+            members: [],
+            message: "Hallo Petra, entwickelst Du auch mit Angular?",
+            reactions: [],
+            sameDay: false,
+            timestamp: Date()
+        }
+    ],
     channels: [
         {
             id: "allgemein",
@@ -34,7 +81,7 @@ const defaultData = {
             createdAt: new Date().getTime(),//admin.firestore.Timestamp.now(),
             createdBy: "admin",
             isPrivate: false,
-            members: []
+            members: ["hansmeiser", "petraotto"]
         },
         {
             id: "entwickler",
@@ -43,7 +90,7 @@ const defaultData = {
             createdAt: new Date().getTime(),//admin.firestore.Timestamp.now(),
             createdBy: "admin",
             isPrivate: false,
-            members: []
+            members: ["hansmeiser", "petraotto"]
         },
         // {
         //     id: "guestsonly",
@@ -81,15 +128,19 @@ async function deleteAllUsers(nextPageToken) {
     }
 }
 
+
+
+
 async function resetDatabase() {
     try {
         console.log("Lösche aktuelle Daten...");
+
         const collections = await db.listCollections();
         for (const collection of collections) {
             const snapshot = await collection.get();
-            snapshot.forEach(async (doc) => {
-                await doc.ref.delete();
-            });
+
+            // Warte darauf, dass alle Dokumente gelöscht werden
+            await Promise.all(snapshot.docs.map(doc => doc.ref.delete()));
         }
 
         console.log("Setze Standardwerte...");
@@ -99,7 +150,11 @@ async function resetDatabase() {
             await db.collection("users").doc(user.userId).set(user);
         }
 
-        await db.collection("messages").doc("default").set({ placeholder: true });
+        //await db.collection("messages").doc("default").set({ placeholder: true });
+
+        for (const message of defaultData.messages) {
+            await db.collection("messages").doc(message.messageId).set(message);
+        }
 
         // channels als einzelne Dokumente speichern
         for (const channel of defaultData.channels) {
