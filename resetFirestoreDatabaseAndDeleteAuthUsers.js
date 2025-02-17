@@ -31,7 +31,7 @@ const defaultData = {
             id: "allgemein",
             name: "Allgemein",
             description: "Allgemein-Chat",
-            createdAt: admin.firestore.Timestamp.now(),
+            createdAt: new Date().getTime(),//admin.firestore.Timestamp.now(),
             createdBy: "admin",
             isPrivate: false,
             members: []
@@ -40,7 +40,7 @@ const defaultData = {
             id: "entwickler",
             name: "Entwickler",
             description: "Entwickler-Chat",
-            createdAt: admin.firestore.Timestamp.now(),
+            createdAt: new Date().getTime(),//admin.firestore.Timestamp.now(),
             createdBy: "admin",
             isPrivate: false,
             members: []
