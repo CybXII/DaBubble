@@ -1,5 +1,5 @@
 // ausführen via:
-// node resetDatabase.js 
+// node resetFirestoreDatabaseAndDeleteAuthUsers.js 
 
 const admin = require("firebase-admin");
 
@@ -57,6 +57,30 @@ const defaultData = {
     ]
 };
 
+// Funktion zum Löschen aller Firebase Authentication Benutzer
+async function deleteAllUsers(nextPageToken) {
+    try {
+        const listUsersResult = await admin.auth().listUsers(1000, nextPageToken);
+
+        if (listUsersResult.users.length > 0) {
+            const userIds = listUsersResult.users.map(user => user.uid);
+
+            // Lösche Benutzer in Batches
+            await admin.auth().deleteUsers(userIds);
+            console.log(`Gelöschte Benutzer: ${userIds.length}`);
+        }
+
+        // Falls es weitere Benutzer gibt, nächste Seite abrufen
+        if (listUsersResult.pageToken) {
+            await deleteAllUsers(listUsersResult.pageToken);
+        } else {
+            console.log("Alle Firebase Authentication Benutzer wurden gelöscht.");
+        }
+    } catch (error) {
+        console.error("Fehler beim Löschen der Benutzer:", error);
+    }
+}
+
 async function resetDatabase() {
     try {
         console.log("Lösche aktuelle Daten...");
@@ -88,4 +112,13 @@ async function resetDatabase() {
     }
 }
 
-resetDatabase();
+// Hauptfunktion: Erst Auth-Daten löschen, dann Firestore resetten, dann Admin erstellen
+async function main() {
+    console.log("🚀 Starte Zurücksetzen der Firebase-Datenbank und Authentication...");
+    await deleteAllUsers(); // Löscht alle Benutzer aus Firebase Authentication
+    await resetDatabase(); // Setzt Firestore zurück
+    console.log("✅ Zurücksetzen abgeschlossen!");
+}
+
+// Skript ausführen
+main();
