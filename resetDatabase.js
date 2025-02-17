@@ -41,7 +41,16 @@ const defaultData = {
             createdBy: "admin",
             isPrivate: false,
             members: []
-        }
+        },
+        // {
+        //     id: "guestsonly",
+        //     name: "Gäste only",
+        //     description: "Ein Chat nur für Gäste",
+        //     createdAt: admin.firestore.Timestamp.now(),
+        //     createdBy: "admin",
+        //     isPrivate: false,
+        //     members: []
+        // }
     ]
 };
 
