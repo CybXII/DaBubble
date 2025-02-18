@@ -40,7 +40,7 @@
             <div>
                 <div class="chatbox__msg-info">
                     <h3 class="chatbox__msg-name" (click)="checkIdIsUser(parentMessage.createdBy)">
-                        {{ parentMessage.creatorName }}
+                        {{ userService.getuserName(parentMessage.createdBy) | async }}
                         @if (parentMessage.createdBy == activeUserId) { (Du) }
                     </h3>
                     <p class="chatbox__msg-time">

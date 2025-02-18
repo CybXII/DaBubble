@@ -50,7 +50,7 @@ export class ParentMessageComponent implements OnInit, OnDestroy {
   constructor(
     private messagesService: MessagesService,
     public emojiPickerService: EmojiPickerService,
-    private userService: UserService,
+    public userService: UserService,
     private emojiStorageService: EmojiStorageService,
     private cdr: ChangeDetectorRef
   ) {}

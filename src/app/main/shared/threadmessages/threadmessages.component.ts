@@ -56,7 +56,7 @@ export class ThreadMessagesComponent implements OnInit, OnDestroy {
   constructor(
     private messagesService: MessagesService,
     public emojiPickerService: EmojiPickerService,
-    private userService: UserService,
+    public userService: UserService,
     private emojiStorageService: EmojiStorageService,
     public dialog: MatDialog,
     private cdr: ChangeDetectorRef,
