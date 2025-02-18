@@ -393,7 +393,7 @@ form {
     padding: 0px 20px 0px 20px;
     gap: 20px;
     min-height: 100vh !important;
-    justify-content: unset;
+    justify-content: stretch;
   }
 
   form {
@@ -428,7 +428,7 @@ form {
   header {
     top: unset;
     right: unset;
-    bottom: -20px;
+    bottom: 82px;
     padding-bottom: 20px;
 
     div {
@@ -446,7 +446,7 @@ form {
   }
 
   footer {
-    display: none;
+    // display: none;
   }
 
   .paddingBottom {
@@ -466,6 +466,14 @@ form {
   .arrowBack {
     padding: 0px;
     left: 5px;
+  }
+
+  footer {
+    bottom: -52px;
+  }
+
+  header {
+    bottom: 37px;
   }
 }
 
@@ -494,6 +502,14 @@ form {
   button {
     padding: 8px 10px;
   }
+
+  footer {
+    bottom: -52px;
+  }
+
+  header {
+    bottom: -19px;
+  }
 }
 
 @media (max-height: 900px) {
@@ -508,7 +524,7 @@ form {
   section {
     padding: 120px 20px 20px 20px;
     gap: 20px;
-    justify-content: unset;
+    justify-content: stretch;
   }
 }
 
