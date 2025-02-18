@@ -35,8 +35,10 @@
           pattern="^[a-zA-ZÀ-ÿ]+(?:-[a-zA-ZÀ-ÿ]+)?(?: [a-zA-ZÀ-ÿ]+(?:-[a-zA-ZÀ-ÿ]+)?)$"
           title="Vorname und Nachname eingeben" placeholder="Vorname und Nachname" required />
       </div>
-      <span class="warning" [ngStyle]="{ opacity: !name.valid && name.touched ? 1 : 0 }">Bitte geben Sie Vorname und
-        Name an (Doppelnamen erlaubt).</span>
+      <span class="warning" [ngStyle]="{ opacity: !name.valid && name.touched ? 1 : 0 }">
+        @if(windowWidth()) {Bitte geben sie einen Namen an
+        } @else {Bitte geben Sie Vorname und Nachname an (Doppelnamen erlaubt).}
+        </span>
       <div class="input">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <mask id="mask0_98810_3174" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
@@ -76,7 +78,7 @@
             (password.value < 6 && password.touched)
               ? 1
               : 0
-        }">Bitte geben Sie ein Passwort mit mindestens 6 Zeichen ein.</span>
+        }">@if(windowWidth()) {Passwort muss mindestens 6 Zeichen haben.} @else {Bitte geben Sie ein Passwort mit mindestens 6 Zeichen ein.}</span>
     </div>
     <div class="privacy" style="text-align: left;">
       <label>

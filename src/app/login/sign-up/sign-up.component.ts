@@ -46,4 +46,12 @@ export class SignUpComponent {
   close() {
     this.avatar = false;
   }
+
+  /**
+  * Checks if the width of the window is less than 400 pixels.
+  * @returns {boolean} - Returns `true` if the window width is less than 400 pixels, otherwise `false`.
+  */
+  windowWidth() {
+    if (window.innerWidth < 400) {return true} else return false
+  }
 }
