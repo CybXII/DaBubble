@@ -70,6 +70,7 @@ export class ChannelsService {
     if (!userId) { return console.warn('Keine Benutzer-ID verfügbar.') }
     const channels = await this.getAllChannels();
     const userChannels = channels.filter(channel => channel.members && channel.members.includes(userId));
+    
     if (userChannels.length > 0) {
       this.searchAndSetDefaultChannel(userChannels);
     } else {
@@ -154,7 +155,6 @@ export class ChannelsService {
       if (channelSnapshot.exists()) {
         return channelSnapshot.data() as Channel;
       } else {
-        console.error('Channel nicht gefunden');
         return null;
       }
     } catch (error) {
@@ -171,8 +171,9 @@ export class ChannelsService {
    */
   async getAllChannels(): Promise<Channel[]> {
     const channelsRef = collection(this.firestore, this.collectionName);
+    
     try {
-      const querySnapshot = await getDocs(channelsRef);
+      const querySnapshot = await getDocs(channelsRef);            
       return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Channel))
         .sort((a, b) => a.name.localeCompare(b.name));
     } catch (error) {
