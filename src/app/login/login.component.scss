@@ -8,12 +8,12 @@
   left: 0;
   top: 0;
   background: colors.$bg-intro;
-  animation: hide 1s 5s forwards;
+  animation: hide 0.5s 2.5s forwards;
 }
 
 .afterIntro {
   opacity: 0;
-  animation: reveal 1s 5s forwards;
+  animation: reveal 0.5s 2.5s forwards;
 }
 
 .d-none {
@@ -34,16 +34,16 @@
   transform: translate(-50%, -50%);
   gap: 16px;
   z-index: 100;
-  animation: moveToTopLeft 1s 5s forwards;
+  animation: moveToTopLeft 0.5s 2.5s forwards;
   img {
     width: auto;
     position: absolute;
     left: 0px;
     height: 184px;
-    animation: moveLeft 0.5s 1s forwards,
-      makeStatic 1s 5s forwards,
-      shrinkImage 1s 5s forwards,
-      moveBack 1s 5s forwards;
+    animation: moveLeft 0.25s 0.5s forwards,
+      makeStatic 0.5s 2.5s forwards,
+      shrinkImage 0.5s 2.5s forwards,
+      moveBack 0.5s 2.5s forwards;
     z-index: 2;
   }
 
@@ -55,15 +55,15 @@
     width: 300px;
     height: 70px;
     overflow: hidden;
-    animation: moveLittleLeft 1s 5s forwards;
+    animation: moveLittleLeft 0.5s 2.5s forwards;
 
     h1 {
       position: absolute;
       transform: translateX(-100%);
       font-size: 60px;
       font-weight: 700;
-      animation: moveRight 0.5s 2s ease-in-out forwards,
-        changeHeadline 1s 5s forwards;
+      animation: moveRight 0.25s 1s ease-in-out forwards,
+        changeHeadline 0.5s 2.5s forwards;
       color: white;
     }
   }
@@ -364,7 +364,7 @@ form {
   }
 
   .container {
-    animation: moveToTopLeft40px 1s 5s forwards;
+    animation: moveToTopLeft40px 0.5s 2.5s forwards;
     width: 300px;
   }
 
@@ -373,7 +373,7 @@ form {
 @media (max-width: 600px) {
 
   .container {
-    animation: moveToTop 1s 5s forwards;
+    animation: moveToTop 0.5s 2.5s forwards;
     gap: 1px !important;
     width: 240px;
 
@@ -383,9 +383,9 @@ form {
 
     img {
       height: 75px;
-      animation: moveLeft 0.5s 1s forwards,
-        makeStatic 1s 5s forwards,
-        shrinkImageMobile 1s 5s forwards;
+      animation: moveLeft 0.25s 0.5s forwards,
+        makeStatic 0.5s 2.5s forwards,
+        shrinkImageMobile 0.5s 2.5s forwards;
     }
   }
 
