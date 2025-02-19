@@ -248,6 +248,7 @@ export class AuthService {
       members: [user.uid],
     });
     await this.loadUserData(user.uid);
+    this.router.navigateByUrl('/board');
     setTimeout(() => {
       this.toastMessageService.showToastSignal('Erfolgreich eingeloggt');
     }, 1000);
