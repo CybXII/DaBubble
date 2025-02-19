@@ -10,6 +10,7 @@ export class MentionService {
   status:boolean = false;
   user:string = '';
   builder:string = '';
+  isOpendWithKeys:boolean = false;
 
   /**
    * Initializes the MentionService by setting up the renderer and listening for outside clicks on the document.
@@ -51,6 +52,7 @@ export class MentionService {
    * @returns True if the element is a toggle button for a mention picker, false otherwise.
    */
   private isClickOnToggleButton(target: HTMLElement): boolean {
+    this.isOpendWithKeys = false;
     return !!target.closest('.cont');
   }
 
@@ -87,13 +89,17 @@ export class MentionService {
    * @param bulider The component to mention the user in.
    */
   mentionUser(bulider:string) {
+    let user = this.user
+    console.warn("Ist mit @ geöffnet worden",this.isOpendWithKeys)
+    if (this.isOpendWithKeys) {user = `${user}`} else {user = `@${user}`}
     if (bulider === 'mainchat') {
-      this.insertTextAndFocus(`@${this.user}`, 'messagebox')
+      this.insertTextAndFocus(`${user}`, 'messagebox')
     } else if (bulider === 'threadchat') {
-      this.insertTextAndFocus(`@${this.user}`, 'threadmessagebox')
+      this.insertTextAndFocus(`${user}`, 'threadmessagebox')
     } else {
-      this.insertTextAndFocus(this.user, 'messagebox')
+      this.insertTextAndFocus(user, 'messagebox')
     }
+    this.isOpendWithKeys = false;
   }
 
 
