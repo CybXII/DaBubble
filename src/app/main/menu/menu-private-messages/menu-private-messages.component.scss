@@ -26,6 +26,7 @@
     }
 
     .channel-box:hover {
+      transition: 0.25s ease-in-out;
       background-color: colors.$bg-color;
 
       svg {
@@ -84,6 +85,7 @@
     }
 
     .titel-box:hover {
+      transition: 0.25s ease-in-out;
       color: colors.$purple3;
 
       svg {
@@ -115,6 +117,7 @@
   }
 
   .add-button:hover {
+    transition: 0.25s ease-in-out;
     background-color: colors.$bg-color;
     border-radius: 12px;
 
@@ -138,6 +141,7 @@
 }
 
 .add-channel-box:hover {
+  transition: 0.25s ease-in-out;
   color: colors.$purple3;
   cursor: pointer;
 

@@ -210,14 +210,16 @@
     </div>
   </div>
   <div class="buttonContainer" [style.marginTop.px]="editChannelDescription ? '25' : '0'">
-    @if (this.dialogData.createdBy === this.authService.userId()) {
-    <button (click)="leaveChannel()" class="save default">
-      Channel löschen
-    </button>
-    } @else {
-    <button (click)="leaveChannel()" class="save default">
-      Channel verlassen
-    </button>
+    @if ( !this.dialogData.isPrivate){
+      @if (this.dialogData.createdBy === this.authService.userId()) {
+        <button (click)="leaveChannel()" class="save default">
+          Channel löschen
+        </button>
+        } @else {
+        <button (click)="leaveChannel()" class="save default">
+          Channel verlassen
+        </button>
+        }    
     }
   </div>
   <div class="mobile-dialog-channel-add-member-container" [class.open]="isMobileDialogAddMemberOpen">

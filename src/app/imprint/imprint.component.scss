@@ -44,6 +44,7 @@ h2 {
 }
 
 .backButton {
+  transition: 0.25 ease-in-out;
   display: inline-block;
   cursor: pointer;
   padding: 8px;

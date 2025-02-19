@@ -10,18 +10,22 @@
     width: 100%;
 
     &:hover {
+        transition: 0.25s ease-in-out;
         background-color: colors.$bg-color;
     }
 
     &:hover .chatbox__msg {
+        transition: 0.25s ease-in-out;
         background-color: colors.$white;
     }
 
     &:hover .chatbox__msg-sent {
+        transition: 0.25s ease-in-out;
         background-color: colors.$purple2;
     }
 
     &:hover .chatbox__addemoji-container {
+        transition: 0.25s ease-in-out;
         @include mixins.flexbox(row, center, center, nowrap);
     }
 }
@@ -39,8 +43,9 @@
     height: 40px;
     line-height: 40px;
     font-size: 20px;
-
+    
     &:hover {
+        transition: 0.25s ease-in-out;
         background-color: colors.$bg-color;
     }
 }
@@ -182,6 +187,7 @@
         cursor: pointer;
 
         &:hover {
+            transition: 0.25s ease-in-out;
             filter: invert(31%) sepia(41%) saturate(5436%) hue-rotate(231deg) brightness(101%) contrast(99%);
         }
     }
@@ -195,6 +201,7 @@
 
     .chatbox__addemoji__emoji-container {
         &:hover {
+            transition: 0.25s ease-in-out;
             background-color: colors.$bg-color;
         }
     }

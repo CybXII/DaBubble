@@ -30,6 +30,7 @@
 }
 
 .menu-Button:hover{
+    transition: 0.25s ease-in-out;
     .wrapper{
         p{  
             font-weight: 700;

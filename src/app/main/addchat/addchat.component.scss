@@ -67,6 +67,7 @@
 
 .icon-button:hover{
     background-color: colors.$bg-color;
+    transition: 0.25s ease-in-out;
     path{
         fill: colors.$purple3;
     }
@@ -99,6 +100,7 @@
         opacity: 0px;
         &:hover {
             outline: 1px solid colors.$light-purple;
+            transition: 0.25s ease-in-out;
         }
         &:focus-visible {
             outline: 1px solid colors.$purple2;

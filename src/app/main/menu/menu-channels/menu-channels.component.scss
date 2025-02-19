@@ -39,6 +39,7 @@ dialog {
         }
 
         .channel-box:hover {
+            transition: 0.25s ease-in-out;
             background-color: colors.$bg-color;
 
             svg {
@@ -97,6 +98,7 @@ dialog {
         }
 
         .titel-box:hover {
+            transition: 0.25s ease-in-out;
             color: colors.$purple3;
 
             svg {
@@ -114,6 +116,7 @@ dialog {
     }
 
     .add-button:hover {
+        transition: 0.25s ease-in-out;
         background-color: colors.$bg-color;
         border-radius: 12px;
 
@@ -136,6 +139,7 @@ dialog {
 }
 
 .add-channel-box:hover {
+    transition: 0.25s ease-in-out;
     color: colors.$purple3;
     cursor: pointer;
 
