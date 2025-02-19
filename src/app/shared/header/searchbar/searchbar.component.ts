@@ -77,7 +77,7 @@ export class SearchbarComponent {
       this.searchService.searchMessages(this.searchText);
       this.searchService.searchThreadMessages(this.searchText);
       this.searchService.searchChannels(this.searchText,this.userId,'private');
-      this.searchService.searchChannels(this.searchText,this.userId,'channels');
+      this.searchService.searchChannels(this.searchText,this.userId,'channel');
       this.searchService.searchUsers(this.searchText, 'name');
     }
     if (this.searchText[0] == '@'){
