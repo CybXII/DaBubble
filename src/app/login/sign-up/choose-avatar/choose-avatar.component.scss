@@ -37,6 +37,7 @@
         &:hover {
             cursor: pointer;
             border-color: rgba(230, 230, 230, 1);
+            transition: 0.25s ease-in-out;
         }
         &.active {
             border-color: rgba(236, 238, 254, 1);
@@ -54,6 +55,7 @@
         &:hover {
             cursor: pointer;
             border-color: rgba(230, 230, 230, 1);
+            transition: 0.25s ease-in-out;
         }
     }
 }

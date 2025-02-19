@@ -93,6 +93,7 @@
   color: black;
   cursor: pointer;
   &:hover {
+    transition: 0.25s ease-in-out;
     color: colors.$purple2;
   }
 }
@@ -100,13 +101,13 @@
 .dialog-header {
   @include mixins.flexbox(row, space-between, center);
   width: 100%;
-  transition: 0.25sease-in-out;
+  transition: 0.25s ease-in-out;
   span {
     font-size: 24px;
     font-weight: 600;
   }
   svg {
-    transition: 0.25sease-in-out;
+    transition: 0.25s ease-in-out;
     cursor: pointer;
     width: 24px;
     height: 24px;
@@ -114,6 +115,7 @@
     padding: 4px;
     box-sizing: content-box;
     &:hover {
+      transition: 0.25s ease-in-out;
       path {
         fill: colors.$purple3
       }
@@ -222,11 +224,13 @@
     border-radius: 100px;
 
     &:hover {
+      transition: 0.25s ease-in-out;
       color: colors.$purple2;
       background-color: colors.$bg-color;
     }
 
     &:hover path {
+      transition: 0.25s ease-in-out;
       fill: colors.$purple2;
     }
 
@@ -290,8 +294,9 @@
       width: 72px;
       height: 72px;
       border-radius: 50%;
-      &:hover {
-          cursor: pointer;
+      &:hover {      
+        transition: 0.25s ease-in-out;
+        cursor: pointer;
           border-color: rgba(230, 230, 230, 1);
       }
       &.active {
@@ -308,8 +313,9 @@
       width: 170px;
       border-radius: 100%;
       &:hover {
-          cursor: pointer;
-          border-color: rgba(230, 230, 230, 1);
+        transition: 0.25s ease-in-out;
+        cursor: pointer;
+        border-color: rgba(230, 230, 230, 1);
       }
   }
 }

@@ -116,6 +116,7 @@ header {
 a {
   &:hover {
     font-weight: 500;
+    transition: 0.25s ease-in-out;
   }
 }
 
@@ -128,6 +129,7 @@ footer {
 
     &:hover {
       border-color: colors.$light-purple;
+      transition: 0.25s ease-in-out;
     }
   }
 }
@@ -143,6 +145,7 @@ section {
 
   &:hover {
     cursor: default;
+    transition: 0.25s ease-in-out;
   }
 }
 
@@ -178,6 +181,7 @@ input {
   input {
     cursor: text;
     border-color: colors.$purple2;
+    transition: 0.25s ease-in-out;
   }
 
   &:focus-within,
@@ -218,6 +222,7 @@ input {
     &:hover {
       background-color: colors.$bg-color;
       color: colors.$purple3;
+      transition: 0.25s ease-in-out;
     }
   }
 
@@ -282,6 +287,7 @@ button:disabled {
 
   &:hover {
     opacity: 0.8;
+    transition: 0.25s ease-in-out;
   }
 }
 
@@ -293,6 +299,7 @@ button:disabled {
     border-color: colors.$light-purple;
     background-color: colors.$purple;
     color: colors.$white;
+    transition: 0.25s ease-in-out;
   }
 }
 
@@ -310,10 +317,12 @@ button:disabled {
 
   &:hover {
     background-color: colors.$bg-color;
+    transition: 0.25s ease-in-out;
   }
 
   &:hover path {
     fill: colors.$purple;
+    transition: 0.25s ease-in-out;
   }
 }
 

@@ -85,10 +85,12 @@ p {
 
   &:hover {
     background-color: colors.$bg-color;
+    transition: 0.25s ease-in-out;
   }
 
   &:hover path {
     fill: colors.$purple;
+    transition: 0.25s ease-in-out;
   }
 
   svg {

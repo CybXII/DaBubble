@@ -22,6 +22,7 @@
     outline: none;
     color: colors.$grey;
     &:hover {
+      transition: 0.25s ease-in-out;
       outline: 1px solid colors.$light-purple;
     }
     &:focus-visible {
@@ -114,6 +115,7 @@ img {
       border-radius: 50%;
     }
     &:hover {
+      transition: 0.25s ease-in-out;
       background-color: colors.$bg-color;
     }
   }

@@ -22,6 +22,7 @@
   padding: 6px 10px;
   gap: 10px;
   &:hover {
+    transition: 0.25s ease-in-out;
     background-color: colors.$bg-color;
     color: colors.$purple3;
   }
@@ -47,7 +48,7 @@
 
 .mainchat__header__item2 {
   @include mixins.flexbox(row, center, center, nowrap);
-  transition: 0.25sease-in-out;
+  transition: 250ms ease-in-out;
 }
 
 .mainchat__header-avatar {
@@ -60,14 +61,16 @@
   gap: 10px;
   padding: 3px 10px;
   border-radius: 30px;
-  transition: 0.25 ease-in-out;
+  transition: 250ms ease-in-out;
   cursor: pointer;
 
   &:hover {
+    transition: 0.25s ease-in-out;
     background-color: colors.$bg-color;
   }
 
   &:hover .mainchat__header__accounts-number {
+    transition: 0.25s ease-in-out;
     font-weight: 700;
     color: colors.$purple3;
   }
@@ -94,6 +97,7 @@
   transition: 0.25sease-in-out;
 
   &:hover .mainchat__header__addperson-img {
+    transition: 0.25s ease-in-out;
     filter: invert(32%) sepia(53%) saturate(5328%) hue-rotate(231deg)
       brightness(99%) contrast(91%);
   }
