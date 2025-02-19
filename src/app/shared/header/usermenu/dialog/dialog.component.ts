@@ -23,6 +23,8 @@ import { UserDialogService } from '../../../services/user-dialog.service';
 export class DialogComponent {
   @Output() dialogChange = new EventEmitter<boolean>();
   @Input() mobileDialog = false;
+  activePic:number = -1 ;
+  profilesPics: string[] = ['avatar2.svg','avatar1.svg','avatar3.svg','avatar6.svg','avatar5.svg','avatar4.svg',];
 
 /**
  * Creates an instance of DialogComponent and performs an initial check 
@@ -42,4 +44,22 @@ export class DialogComponent {
   onOpenMobileProfile(){
     this.userDialog$.openProfile();
   }
+
+  /**
+   * Sets the active profile picture.
+   * @param {number} index - The index of the selected profile picture.
+   */
+  setActive(index:number) {
+    this.activePic = index;
+  }
+
+  /**
+  * Sets the profile picture of the user.
+  */
+  setProfilePic() {
+    this.userDialog$.photoUrl = `img/avatars/${this.profilesPics[this.activePic]}`
+    this.userDialog$.saveProfile();
+    this.userDialog$.profilePic = false;
+  }
+
 }

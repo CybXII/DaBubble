@@ -10,12 +10,14 @@ import { UserModel } from '../../models/user';
 export class UserDialogService {
   profileDialog: boolean = false;
   profileDialogEdit: boolean = false;
+  profilePic: boolean = false;
   dialog = false;
   authService = inject(AuthService);
   profileDataChanged = signal<boolean>(false);
   @Output() dialogChange = new EventEmitter<boolean>();
   profileForm;
   exitActiv = true;
+  photoUrl = "";
 
   /**
    * Constructs an instance of the UserDialogService.
@@ -38,6 +40,7 @@ export class UserDialogService {
           Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'),
         ],
       ],
+
     });
   }
 
@@ -124,6 +127,7 @@ export class UserDialogService {
     this.profileDialog = false;
     this.profileDialogEdit = false;
     this.dialog = false;
+    this.profilePic = false;
   }
 
 
@@ -153,6 +157,7 @@ export class UserDialogService {
       const updatedData: Partial<UserModel> = {
         name: this.profileForm.value.userInputName ?? '',
         email: this.profileForm.value.userInputEmail ?? undefined,
+        photoURL: this.photoUrl, 
       };
       try {
         await this.authService.updateUserData(this.userData.userId, updatedData);
@@ -232,5 +237,19 @@ export class UserDialogService {
       this.profileForm.disable();
     else
       this.profileForm.enable();
+  }
+
+  /**
+  * Opens the change profile picture dialog for the user.
+  */
+  openProfilePicChange() {
+    this.profileDialogEdit = false;
+    this.profilePic = true;
+  }
+
+  closeChangeProfilePic(event: Event) {
+    event.preventDefault();
+    this.profilePic = false;
+    this.profileDialogEdit = true;
   }
 }
