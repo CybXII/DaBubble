@@ -100,11 +100,13 @@
 .dialog-header {
   @include mixins.flexbox(row, space-between, center);
   width: 100%;
+  transition: 0.25sease-in-out;
   span {
     font-size: 24px;
     font-weight: 600;
   }
   svg {
+    transition: 0.25sease-in-out;
     cursor: pointer;
     width: 24px;
     height: 24px;
