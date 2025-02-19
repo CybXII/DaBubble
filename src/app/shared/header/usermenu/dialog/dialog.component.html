@@ -161,7 +161,6 @@
     <div class="dialog-avatar">
       <img (click)="userDialog$.openProfilePicChange()" [src]="userDialog$.userData?.photoURL" alt="" style="cursor: pointer;" />
     </div>
-
     <div class="dialog-profile-info-edit">
       <div class="dialog-profile-edit-container">
         <img src="img/icons/account_circle.svg" alt="account_circle" />
@@ -171,23 +170,16 @@
         formControlName="userInputName" [ngClass]="{
           'data-change-not-allowed': userDialog$.profileForm.disabled
         }" />
-      <div *ngIf="
-          userDialog$.profileForm.get('userInputName')?.hasError('required') &&
-          userDialog$.profileForm.get('userInputName')?.dirty
-        " class="error-message">
-        <p>Feld darf nicht leer sein.</p>
-      </div>
-      <div *ngIf="
-          userDialog$.profileForm.get('userInputName')?.hasError('pattern') &&
-          userDialog$.profileForm.get('userInputName')?.dirty
-        " class="error-message">
-        <p>Bitte Vor- und Nachnamen angeben.</p>
-      </div>
-      <div *ngIf="
-          userDialog$.profileForm.get('userInputName')?.hasError('maxlength') &&
-          userDialog$.profileForm.get('userInputName')?.dirty
-        " class="error-message">
-        <p>Maximal 25 Buchstaben</p>
+      <div class="error-message">
+        <p *ngIf="
+        userDialog$.profileForm.get('userInputName')?.hasError('required') &&
+        userDialog$.profileForm.get('userInputName')?.dirty">Feld darf nicht leer sein.</p>
+        <p *ngIf="
+        userDialog$.profileForm.get('userInputName')?.hasError('pattern') &&
+        userDialog$.profileForm.get('userInputName')?.dirty">Vor-/Nachnamen angeben.(Keine Sonderzeichen/Ziffern)</p>
+        <p *ngIf="
+        userDialog$.profileForm.get('userInputName')?.hasError('maxlength') &&
+        userDialog$.profileForm.get('userInputName')?.dirty">Maximal 25 Buchstaben</p>
       </div>
     </div>
 
@@ -200,17 +192,13 @@
         formControlName="userInputEmail" [ngClass]="{
           'data-change-not-allowed': userDialog$.profileForm.disabled
         }" />
-      <div *ngIf="
-          userDialog$.profileForm.get('userInputEmail')?.hasError('required') &&
-          userDialog$.profileForm.get('userInputEmail')?.dirty
-        " class="error-message">
-        <p>Feld darf nicht leer sein.</p>
-      </div>
-      <div *ngIf="
-          userDialog$.profileForm.get('userInputEmail')?.hasError('pattern') &&
-          userDialog$.profileForm.get('userInputEmail')?.dirty
-        " class="error-message">
-        <p>E-Mail ist ungültig.</p>
+      <div class="error-message">
+        <p *ngIf="
+        userDialog$.profileForm.get('userInputEmail')?.hasError('required') &&
+        userDialog$.profileForm.get('userInputEmail')?.dirty">Feld darf nicht leer sein.</p>
+        <p *ngIf="
+        userDialog$.profileForm.get('userInputEmail')?.hasError('pattern') &&
+        userDialog$.profileForm.get('userInputEmail')?.dirty">E-Mail ist ungültig.</p>
       </div>
     </div>
 

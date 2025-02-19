@@ -35,3 +35,17 @@
     transform: translateX(0);
   }
 }
+
+
+@media (max-width: 600px) {
+  .toast_msg {
+    position: fixed;
+    min-height: 80px;
+    bottom: 0;
+    right: 0;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21.6px;
+    letter-spacing: 0%;
+  }
+}

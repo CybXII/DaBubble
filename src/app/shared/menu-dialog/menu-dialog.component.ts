@@ -118,7 +118,9 @@ export class MenuDialogComponent implements OnInit {
    * @param item - User object containing the user data to be added.
    */
   addToSave(item: any) {
-    this.toSave.push(item);
+    if ( !this.toSave.includes(item) ) {
+      this.toSave.push(item);
+    }
   }
 
   /**
