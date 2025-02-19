@@ -90,7 +90,6 @@ export class MentionService {
    */
   mentionUser(bulider:string) {
     let user = this.user
-    console.warn("Ist mit @ geöffnet worden",this.isOpendWithKeys)
     if (this.isOpendWithKeys) {user = `${user}`} else {user = `@${user}`}
     if (bulider === 'mainchat') {
       this.insertTextAndFocus(`${user}`, 'messagebox')
