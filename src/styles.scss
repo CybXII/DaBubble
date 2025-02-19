@@ -12,12 +12,10 @@
 body {
   background-color: colors.$bg-color;
   height: 100vh;
-  width: 100%; // % besser als vw wegen scrollbalken
+  width: 100%;
   max-height: 100vh;
   @include mixins.flexbox(column, flex-start, center);
-  transition: 0.25s ease-in-out;
 
-  //overflow-x: hidden; - hidden ist keine saubere Lösung :)
 }
 
 @font-face {
