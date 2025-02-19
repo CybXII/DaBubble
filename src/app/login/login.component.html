@@ -1,10 +1,13 @@
 @if (!introPlayed) {<div class="animationBackground "></div>}
-<section [ngClass]="{'paddingBottom': loginPage, 'sectionDisplayHeight': forgetPassword, 'reset': !loginPage}">
+<section [ngClass]="{ 'sectionDisplayHeight': forgetPassword, 'reset': !loginPage}">
     <div [ngClass]="{ 'container': !introPlayed, 'containerNoAnimation': introPlayed}">
         <img (click)="this.router.navigate(['']);" src="img/logo.svg">
         <div class="textcontainer">
             <h1>DABubble</h1>
         </div>
+    </div>
+    <div [ngClass]="{ 'afterIntro': !introPlayed}">
+        <router-outlet></router-outlet>
     </div>
     <header [ngClass]="{ 'afterIntro': !introPlayed }">
         <div [ngClass]="(loginPage) ? 'flex': 'd-none'">
@@ -12,9 +15,6 @@
             <a routerLink="signUp">Konto erstellen</a>
         </div>
     </header>
-    <div [ngClass]="{ 'afterIntro': !introPlayed}">
-        <router-outlet></router-outlet>
-    </div>
     <footer [ngClass]="{ 'afterIntro': !introPlayed}">
         <a routerLink="imprint">Impressum</a>
         <a routerLink="legalnotice">Datenschutz</a>
