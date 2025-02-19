@@ -278,3 +278,40 @@
     gap: 10px;
   }
 }
+
+.charakterPics {
+  @include mixins.flexbox($justify: space-between !important);
+  gap: 8px;
+  >div>img {
+      @include mixins.border-marker($color: colors.$white);
+      border-width: 6px;
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      &:hover {
+          cursor: pointer;
+          border-color: rgba(230, 230, 230, 1);
+      }
+      &.active {
+          border-color: rgba(236, 238, 254, 1);
+      }
+  }
+}
+
+.activProfilPic {
+  >img {
+      @include mixins.border-marker($color: colors.$white);
+      border-width: 2px;
+      height: 170px;
+      width: 170px;
+      border-radius: 100%;
+      &:hover {
+          cursor: pointer;
+          border-color: rgba(230, 230, 230, 1);
+      }
+  }
+}
+
+.activSelector {
+  border: 8px solid rgba(230, 230, 230, 1);
+}

@@ -18,12 +18,13 @@
 </div>
 
 @if (userDialog.dialog == true || userDialog.profileDialog ||
-userDialog.profileDialogEdit){
+userDialog.profileDialogEdit || userDialog.profilePic){
 <div [ngClass]="{
     'dialog-background':
       userDialog.dialog ||
       userDialog.profileDialog ||
-      userDialog.profileDialogEdit
+      userDialog.profileDialogEdit ||
+      userDialog.profilePic
   }" (click)="userDialog.closeDialog($event)">
   <app-dialog (dialogChange)="userDialog.onDialogChange($event)" [mobileDialog]="mobileDialog"></app-dialog>
 </div>
