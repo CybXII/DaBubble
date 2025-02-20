@@ -112,8 +112,8 @@ export class SharedService {
   /**
    * Jumps to the '@' character in the message content.
    */
-    jumpToAtAbove() {
-      this.setSearchString('@');
+    jumpToAtAbove(symbol:string) {
+      this.setSearchString(symbol);
     }
 
 
