@@ -185,6 +185,24 @@ export class MessageboxComponent implements OnInit, OnDestroy {
    * @param chat The type of chat to send the message to.
    */
   checkKeyStatus(event: KeyboardEvent, chat: string): void {
+    this.handleSendMessageOnKeyPress(event, chat)
+    if (event.getModifierState('AltGraph') && event.key == "q") 
+      this.mentionService.status = true;
+      this.mentionService.isOpendWithKeys = true
+    if (event.key == "Backspace") 
+      this.mentionService.status = false;
+      this.mentionService.channelSelection = false;
+    if (event.key == "#") {
+      this.mentionService.channelSelection = true;
+    }
+  }
+
+  /**
+  * Handles the sending of messages based on key press events.
+  * @param {KeyboardEvent} event - The keyboard event triggered by key presses.
+  * @param {string} chat - The type of chat (mainchat, threadchat, createmessage).
+  */
+  handleSendMessageOnKeyPress(event: KeyboardEvent, chat: string) {
     if (event.shiftKey && event.key == 'Enter') {
       event.preventDefault();
     } else if (event.key == 'Enter') {
@@ -195,11 +213,6 @@ export class MessageboxComponent implements OnInit, OnDestroy {
       else if (chat === 'createmessage') 
         this.createNewMessage();
     }
-    if (event.getModifierState('AltGraph') && event.key == "q") 
-      this.mentionService.status = true;
-      this.mentionService.isOpendWithKeys = true
-    if (event.key == "Backspace") 
-      this.mentionService.status = false;
   }
 
 
@@ -224,6 +237,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
         this.isMessageBoxThreadPickerOpen = false;
       }
       this.mentionService.status = true;
+      this.mentionService.channelSelection = false;
     }
   }
 

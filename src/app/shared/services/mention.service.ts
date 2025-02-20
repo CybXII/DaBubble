@@ -1,5 +1,7 @@
 import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
+import { Inject, Injectable, OnDestroy, OnInit, Renderer2, RendererFactory2 } from '@angular/core';
+import { ChannelsService } from './channels.service';
+import { Channel } from '../../models/channel';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +10,7 @@ export class MentionService {
   mentionsUser: any = [];
   private renderer: Renderer2;
   status:boolean = false;
+  channelSelection:boolean = false;
   user:string = '';
   builder:string = '';
   isOpendWithKeys:boolean = false;
@@ -17,7 +20,11 @@ export class MentionService {
    * @param document The document object to listen for clicks on.
    * @param rendererFactory The factory to create a renderer with.
    */
-  constructor(@Inject(DOCUMENT) private document: Document, rendererFactory: RendererFactory2) {
+  constructor(
+    @Inject(DOCUMENT) 
+    private document: Document,
+    rendererFactory: RendererFactory2,
+  ) {
     this.renderer = rendererFactory.createRenderer(null, null);
     this.listenForOutsideClicks();
   }
@@ -31,6 +38,7 @@ export class MentionService {
     this.renderer.listen(this.document, 'click', (event: Event) => {
       if (!this.isClickInsideMentionPicker(event.target as HTMLElement) && !this.isClickOnToggleButton(event.target as HTMLElement)) {
         this.status = false;
+        this.channelSelection = false;
       }
     });
   }
@@ -125,5 +133,15 @@ export class MentionService {
   clearInput(inputId: string): void {
     const inputElement = document.getElementById(inputId) as HTMLInputElement;
     inputElement.value = '';
+  }
+
+  mentionChannel(channel:any, bulider:string) {
+    if (bulider === 'mainchat') {
+      this.insertTextAndFocus(`${channel}`, 'messagebox')
+    } else if (bulider === 'threadchat') {
+      this.insertTextAndFocus(`${channel}`, 'threadmessagebox')
+    } else {
+      this.insertTextAndFocus(channel, 'messagebox')
+    }
   }
 }

@@ -38,7 +38,7 @@
       <img class="icon__add-emoji" src="img/icons/sentiment_satisfied.svg" (click)="toggleEmojiPickerMain()"
         (click)="preventMsgBoxEmojiPickerClose($event)" alt="" />
       }
-      @if (mentionService.status) {
+      @if (mentionService.status || mentionService.channelSelection) {
       <div class="mention-picker__wrapper" (click)="preventMsgBoxMentionPickerClose($event)">
         <app-mention componentName="messagebox" [builder]="builder"></app-mention>
       </div>

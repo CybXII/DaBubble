@@ -15,11 +15,13 @@ import { MentionService } from '../../../shared/services/mention.service';
   styleUrl: './mention.component.scss'
 })
 export class MentionComponent {
+  private unsubscribeFn: (() => void) | null = null;
   @Input() builder:string = '';
   acitveUserID: string | null;
   activeChannel$: Observable<Channel | null>;
   members: any = [];
   state:boolean = false;
+  channels: Channel[] = [];
 
   /**
    * Constructor for the MentionComponent.
@@ -34,7 +36,7 @@ export class MentionComponent {
     private auth: AuthService,
     private channelService: ChannelsService,
     private userService: UserService,
-    private mentionService: MentionService,
+    public mentionService: MentionService,
   ) {
     this.acitveUserID = this.auth.userId();
     this.activeChannel$ = this.channelService.currentChannel$;
@@ -120,5 +122,48 @@ export class MentionComponent {
         this.state = false;
       }
     })
+  }
+
+
+  
+
+  /**
+   * Initializes the component by loading the channels in real-time.
+   */
+  ngOnInit(): void {
+    this.loadChannelsRealtime();
+    console.log("läuft")
+  }
+
+  /**
+   * Cleans up the component by unsubscribing from the Firestore channel list
+   * listener. This is necessary to prevent memory leaks.
+   */
+  ngOnDestroy(): void {
+    if (this.unsubscribeFn) {
+      this.unsubscribeFn();
+    }
+  }
+
+  /**
+   * Loads the channels in real-time from Firestore. This method is called in ngOnInit()
+   * and unsubscribes in ngOnDestroy() to prevent memory leaks.
+   */
+  loadChannelsRealtime(): void {
+    this.unsubscribeFn = this.channelService.loadChannelsRealtime((channels) => {
+      channels.forEach((channel) => {
+        if (!channel.isPrivate) {
+          this.channels.push(channel);
+        } else {
+          null
+        }
+      })
+      console.log(this.channels)
+    });
+  }
+
+  selectChannel(channel:string) {
+    this.mentionService.mentionChannel(channel, this.builder)
+    this.mentionService.channelSelection = false;
   }
 }
