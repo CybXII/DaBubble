@@ -1,17 +1,27 @@
-<div class="cont">
-    @if (members.length == 0) {
-        <span>Sie sind das einzige Mitglied</span>
-    }
-    @for (member of members; track member) {
-        <div class="user" (click)="selectMember(member)" [ngStyle]="{'background-color': member.mention ? '#ECEEFE' : '#FFFFFF' }">
-            <div class="avatar-box">
-                <img [src]="member.photoUrl" alt="">
-                <div 
-                    target="online-status"
-                    [ngStyle]="{'background-color': member.status ? '#92c83e' : '#696969'}">
+@if(mentionService.status) {
+    <div class="cont">
+        @if (members.length == 0) {
+            <span>Sie sind das einzige Mitglied</span>
+        }
+        @for (member of members; track member) {
+            <div class="user" (click)="selectMember(member)" [ngStyle]="{'background-color': member.mention ? '#ECEEFE' : '#FFFFFF' }">
+                <div class="avatar-box">
+                    <img [src]="member.photoUrl" alt="">
+                    <div 
+                        target="online-status"
+                        [ngStyle]="{'background-color': member.status ? '#92c83e' : '#696969'}">
+                    </div>
                 </div>
+                <span>{{ member.name }}</span>
             </div>
-            <span>{{ member.name }}</span>
-        </div>
-    }
-</div>
+        }
+    </div>
+} @else if(mentionService.channelSelection) {
+    <div class="cont">
+        @for (channel of channels; track channel) {
+            <div class="channel" (click)="selectChannel(channel.name)">
+                <span>{{ channel.name }}</span>
+            </div>
+        }
+    </div>
+}
