@@ -135,6 +135,11 @@ export class MentionService {
     inputElement.value = '';
   }
 
+  /**
+  * Inserts text into a specified message box based on the builder type.
+  * @param {any} channel - The channel to be mentioned.
+  * @param {string} builder - The type of chat builder ('mainchat', 'threadchat', or other).
+  */
   mentionChannel(channel:any, bulider:string) {
     if (bulider === 'mainchat') {
       this.insertTextAndFocus(`${channel}`, 'messagebox')
