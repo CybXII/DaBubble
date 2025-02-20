@@ -25,9 +25,7 @@
   display: flex !important;
 }
 
-.animationPlaceholder {
-  height: 75px;
-}
+
 
 .container {
   position: absolute;
@@ -40,6 +38,7 @@
   gap: 16px;
   z-index: 100;
   animation: moveToTopLeft 0.5s 2.5s forwards;
+
   img {
     width: auto;
     position: absolute;
@@ -75,14 +74,15 @@
 }
 
 .containerNoAnimation {
-  position: relative;
+  position: absolute;
   display: flex;
   align-items: center;
   top: 75px;
   left: 75px;
   gap: 16px;
   max-width: 1920px;
-  width: 100%;
+
+
   img {
     width: auto;
     height: 75px;
@@ -141,15 +141,14 @@ footer {
 
 section {
   @include mixins.flexbox($direction: column);
-    justify-content: space-between;
-    align-items: center;
-    height: 100vh;
-    width: 100vw;
-    max-width: 1980px;
-    text-align: center;
-    position: relative;
-    flex-wrap: nowrap;
-    overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  max-width: 1980px;
+  text-align: center;
+  position: relative;
+  flex-wrap: nowrap;
+  overflow: hidden;
+
   &:hover {
     cursor: default;
     transition: 0.25s ease-in-out;
@@ -334,7 +333,7 @@ button:disabled {
 }
 
 footer {
-
+  position: absolute;
   width: 100%;
   bottom: 0px;
   @include mixins.flexbox();
@@ -400,7 +399,7 @@ form {
     img {
       height: 75px;
       animation: moveLeft 0.25s 0.5s forwards,
-        makeStatic 0.5s 2.5s forwards,
+        makeStatic2 0.5s 2.5s forwards,
         shrinkImageMobile 0.5s 2.5s forwards;
     }
   }
@@ -408,7 +407,7 @@ form {
   section {
     width: 100% !important;
     gap: 20px;
-    justify-content: space-between;
+    justify-content: flex-end;
   }
 
   form {
@@ -424,7 +423,7 @@ form {
   }
 
   .containerNoAnimation {
-    top: 4px;
+    top: 12px;
     left: unset;
     display: flex;
     justify-content: center;
@@ -464,7 +463,7 @@ form {
     height: unset;
   }
 
-  footer{
+  footer {
     position: relative;
     bottom: 0;
   }
@@ -526,21 +525,25 @@ form {
 
   section {
     gap: 20px;
+    justify-content: flex-end;
     min-height: 100vh;
   }
 }
 
-@media (max-height: 900px ) {
+@media (max-height: 900px) {
   .mainCont {
     padding-top: 30px;
     padding-bottom: 30px;
   }
+
   header {
     padding-top: 12px;
   }
+
   section {
     gap: 0px;
-    padding: 0px 20px 0 20px;
+    justify-content: center;
+    padding: 80px 20px 0 20px;
     flex-direction: column;
     flex-wrap: nowrap;
   }
@@ -548,6 +551,7 @@ form {
 
 @media (max-height: 760px) and (min-height: 720px) {
   section {
+    padding: 120px 20px 20px 20px !important;
     height: fit-content;
   }
 }
