@@ -71,10 +71,10 @@
       <div class="feedback-message-container">
         <div class="feedback-box" *ngFor="let result of threadMessageResults" (click)="
             goToSearchResult(result.channelId, result.messageId, result.docId, null, true)">
-          <img src="{{ result.creatorPhotoURL }}" alt="img/avatars/picPlaceholder.svg" />
+          <img src="{{ this.userService.getuserAvatar(result.createdBy) || '/img/avatars/picPlaceholder.svg' | async}}" />
           <div class="feedback-message">
             <div class="feedback-message-header">
-              <span>{{ result.creatorName }}</span>
+              <span>{{ this.userService.getuserName(result.createdBy) || 'Unbekannt'  | async}}</span>
               <span style="font-style: italic">{{ result.timestamp.seconds | timestampToDate }}</span>
             </div>
             <span>{{ result.message }}</span>

@@ -220,21 +220,17 @@ export class MessagesService {
     let allThreadMessages: ThreadMessage[] = [];
   
     for (const messageDoc of messagesSnapshot.docs) {
-      const parentMessageData = messageDoc.data(); // Holt die Daten der Parent-Message
+      const parentMessageData = messageDoc.data();
       const threadMessagesRef = collection(this.firestore, `messages/${messageDoc.id}/threadMessages`);
       const threadMessagesSnapshot = await getDocs(threadMessagesRef);
-  
       const threadMessages = threadMessagesSnapshot.docs.map((threadDoc) => ({
         docId: threadDoc.id,
         messageId: messageDoc.id,
-        channelId: parentMessageData['channelId'], // ✅ Füge die channelId der Parent-Message hinzu
+        channelId: parentMessageData['channelId'],
         ...threadDoc.data(),
       })) as ThreadMessage[];
-  
       allThreadMessages = [...allThreadMessages, ...threadMessages];
     }
-  
-    console.log("📌 ALLE gesammelten ThreadMessages mit channelId:", allThreadMessages);
     return allThreadMessages;
   }
   

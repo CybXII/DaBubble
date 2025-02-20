@@ -32,6 +32,18 @@ export class SearchService {
   public searchChannelsMessages: any = [];
   private messageResults: any[] = [];
 
+
+  /**
+   * Initializes the search service by loading all messages, thread messages, and channels from Firestore.
+   * @param userId The ID of the user to load messages and thread messages for.
+   */
+  async initializeSearch(userId: string): Promise<void> {  
+    this.allChannels = await this.channelService.getAllChannels();
+    this.allMessages = await firstValueFrom(this.messageService.getAllMessages(userId));
+    this.allThreadMessages = await this.messageService.getAllThreadMessages(userId);
+  }
+
+
   /**
    * Loads all messages from the Firestore database for a given user.
    * When the messages are loaded, it stores them in the `allMessages` array.
@@ -111,36 +123,6 @@ export class SearchService {
   }
 
 
-  // /**
-  //  * Searches for messages based on the search text.
-  //  * If the search text is empty, it will return an empty array.
-  //  * @param {string} searchText - The text to search for within messages.
-  //  */
-  // searchMessages(searchText: string): void {
-  //   if (!searchText) 
-  //     this.messageResultsSubject.next([]);
-  //   const filteredMessages = this.allMessages.filter(
-  //     (message) =>message.message.toLowerCase().includes(searchText.toLowerCase())
-  //   );
-  //   this.messageResultsSubject.next(filteredMessages);
-  // }
-
-
-  // /**
-  //  * Searches for thread messages based on the search text.
-  //  * If the search text is empty, it will return an empty array.
-  //  * @param {string} searchText - The text to search for within thread messages.
-  //  */
-  // searchThreadMessages(searchText: string): void {
-  //   if (!searchText) 
-  //     this.threadMessageResultsSubject.next([]);
-  //   const filteredMessages = this.allThreadMessages.filter((message) =>
-  //     message.message.toLowerCase().includes(searchText.toLowerCase())
-  //   );
-  //   this.threadMessageResultsSubject.next(filteredMessages);
-  // }
-
-
   /**
    * Searches for users based on the search text and type of search.
    * If the search text is empty, it will return all users.
@@ -199,48 +181,30 @@ export class SearchService {
     }
   }
 
+
+  /**
+   * Searches for messages and thread messages based on the search text and user membership.
+   * If the search text is empty, it will return empty arrays for both messages and thread messages.
+   * @param {string} searchText - The text to search for within message and thread message bodies.
+   * @param {string} userId - The ID of the user, used to filter messages and thread messages to those the user is a member of.
+   */
   async searchMessagesAndThreads(searchText: string, userId: string): Promise<void> {
     if (!searchText.trim()) {
       this.messageResultsSubject.next([]);
       this.threadMessageResultsSubject.next([]);
       return;
     }
-  
-    // 1️⃣ Lade alle Channels, in denen der User Mitglied ist
-    this.channelService.getAllChannels().then(async (channels) => {
-      const userChannels = channels
-        .filter((channel) => channel.members.includes(userId))
-        .map((channel) => channel.id);
-  
-      console.log("🔍 User ist Mitglied in folgenden Channels:", userChannels);
-  
-      // 2️⃣ Messages durchsuchen
-      const filteredMessages = this.allMessages.filter(
-        (message) =>
-          message.message.toLowerCase().includes(searchText.toLowerCase()) &&
-          message.channelId &&
-          userChannels.includes(message.channelId)
-      );
-  
-      console.log("🔍 Gefilterte Messages:", filteredMessages);
-      this.messageResultsSubject.next(filteredMessages);
-  
-      // 3️⃣ 🔥 Alle ThreadMessages abrufen
-      const allThreadMessages = await this.messageService.getAllThreadMessages(userId);
-  
-      console.log("📌 ALLE extrahierten ThreadMessages:", allThreadMessages);
-  
-      // 4️⃣ ThreadMessages filtern
-      const filteredThreadMessages = allThreadMessages.filter(
-        (threadMessage) =>
-          threadMessage.message.toLowerCase().includes(searchText.toLowerCase()) &&
-          threadMessage.channelId && // ✅ Jetzt haben wir die channelId
-          userChannels.includes(threadMessage.channelId) // ✅ Nur Nachrichten aus erlaubten Channels
-      );
-  
-      console.log("✅ Gefilterte ThreadMessages nach der Suche:", filteredThreadMessages);
-      this.threadMessageResultsSubject.next(filteredThreadMessages);
-    });
+    const userChannels = this.allChannels.filter((channel) => channel.members.includes(userId))
+      .map((channel) => channel.id);
+    const filteredMessages = this.allMessages.filter(
+      (message) => message.message.toLowerCase().includes(searchText.toLowerCase()) &&
+        message.channelId && userChannels.includes(message.channelId)
+    );
+    this.messageResultsSubject.next(filteredMessages);
+    const filteredThreadMessages = this.allThreadMessages.filter(
+      (threadMessage) => threadMessage.message.toLowerCase().includes(searchText.toLowerCase()) &&
+        threadMessage.channelId && userChannels.includes(threadMessage.channelId)
+    );
+    this.threadMessageResultsSubject.next(filteredThreadMessages);
   }
-  
 }
