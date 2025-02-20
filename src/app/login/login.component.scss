@@ -384,7 +384,7 @@ form {
   .container {
     animation: moveToTop 0.5s 2.5s forwards;
     gap: 1px !important;
-    width: 240px;
+    width: 198px; // 240 210 198
 
     h1 {
       font-size: 30px !important;
@@ -476,6 +476,11 @@ form {
 }
 
 @media (max-width: 380px) {
+
+  section {
+    overflow-x: hidden;
+  }
+
   .arrowBack {
     padding: 0px;
   }
