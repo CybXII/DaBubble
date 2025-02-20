@@ -88,7 +88,8 @@ export class SearchbarComponent {
     this.isSearchActive = this.searchText.length >= 4;
     this.isSearchTouched = this.searchText.length > 0;
     if (this.searchText.length >= 4) {
-      this.searchService.searchMessagesAndThreads(this.searchText, this.userId);
+      this.searchService.searchMessages(this.searchText, this.userId);
+      this.searchService.searchThreadMessages(this.searchText, this.userId);
       this.searchService.searchChannels(this.searchText,this.userId,'private');
       this.searchService.searchChannels(this.searchText,this.userId,'channel');
       this.searchService.searchUsers(this.searchText, 'name');
@@ -127,7 +128,7 @@ export class SearchbarComponent {
    * @param userId The id of the user.
    * @param isThreadMessage Whether the message is a thread message.
    */
-  goToSearchResult(channelId: string | null,messageId: string | null,docId: string 
+  goToSearchResult(channelId: string | null, messageId: string | null,docId: string 
   | null,userId: string | null,isThreadMessage: boolean | null): void {
     if (channelId && !messageId && !isThreadMessage && !docId) {
       this.handleChannelSelection(channelId);
@@ -162,7 +163,7 @@ export class SearchbarComponent {
    */
   private handleMessageSelection(channelId: string, messageId: string): void {
     this.channelService.selectChannel(channelId);
-    setTimeout(() => this.scrollToMessage(messageId), 500);
+    setTimeout(() => this.scrollToMessage(messageId), 1500);
   }
 
 
@@ -215,7 +216,7 @@ export class SearchbarComponent {
    * @param {string} messageId - The ID of the message to scroll to.
    */
   private scrollToMessage(messageId: string): void {
-    const element = document.getElementById(messageId);
+    const element = document.getElementById(messageId);    
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
