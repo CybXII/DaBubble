@@ -46,8 +46,7 @@
     <div class="feedback-container">
       <h3>{{ messageResults.length }} Nachricht(en) gefunden:</h3>
       <div class="feedback-message-container">
-        <div class="feedback-box" *ngFor="let result of messageResults; let index = index" (click)="
-            goToSearchResult(result.channelId, result.docId, null, null, result.isThreadMessage)">
+        <div class="feedback-box" *ngFor="let result of messageResults; let index = index" (click)="goToSearchResult(result.channelId, result.messageId, null, null, null)">
           <img src="{{ result.creatorPhotoURL }}" alt="img/avatars/picPlaceholder.svg" />
           <div class="feedback-message">
             <div class="feedback-message-header">
