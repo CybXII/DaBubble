@@ -193,6 +193,9 @@ export class MessageboxComponent implements OnInit, OnDestroy {
       this.mentionService.status = false;
       this.mentionService.channelSelection = false;
     if (event.key == "#") {
+      if (chat === 'createmessage') {
+        this.sharedService.jumpToAtAbove('#')
+      }
       this.mentionService.channelSelection = true;
     }
   }

@@ -132,7 +132,6 @@ export class MentionComponent {
    */
   ngOnInit(): void {
     this.loadChannelsRealtime();
-    console.log("läuft")
   }
 
   /**
@@ -158,7 +157,6 @@ export class MentionComponent {
           null
         }
       })
-      console.log(this.channels)
     });
   }
 

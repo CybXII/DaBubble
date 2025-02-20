@@ -144,4 +144,13 @@ export class MentionService {
       this.insertTextAndFocus(channel, 'messagebox')
     }
   }
+
+  /**
+  * Removes the first character from a given string.
+  * @param {string} text - The string from which the first character will be removed.
+  * @returns {string} A new string without the first character.
+  */
+  removeFirstCharacter(text: string): string {
+    return text.slice(1);
+  }
 }
