@@ -72,8 +72,8 @@
     }
 
     to {
-        top: 0px; // 75
-        left: 50%;
+        top: 40px; // 75
+        left: 40px;
         transform: translate(0%, 0%);
     }
 }
@@ -96,7 +96,7 @@
     }
 
     to {
-        top: 34px;
+        top: 40px;
         left: 50%;
         //transform: translate(-50%, -50%);
     }
@@ -161,6 +161,18 @@
     }
 
     to {
-        transform: translateX(21%);
+        transform: translateX(0);
+    }
+}
+
+
+@keyframes makeStatic2 {
+    from {
+        //transform: translateX(0);
+        transform: translateX(-50%);
+    }
+
+    to {
+        transform: translateX(-20%);
     }
 }
