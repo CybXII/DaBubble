@@ -213,7 +213,7 @@ export class MessagesService {
   //   const threadMessagesRef = collection(this.firestore, 'threads');
   //   return collectionData(threadMessagesRef) as Observable<ThreadMessage[]>;
   // }
-  async getAllThreadMessages(userId: string): Promise<ThreadMessage[]> {
+  async getAllThreadMessages(): Promise<ThreadMessage[]> {
     const messagesRef = collection(this.firestore, 'messages');
     const messagesSnapshot = await getDocs(messagesRef);
   
@@ -242,7 +242,7 @@ export class MessagesService {
    * @param userId The ID of the user for which to retrieve messages.
    * @returns An observable that emits an array of `Message` objects.
    */
-  getAllMessages(userId: string): Observable<Message[]> {
+  getAllMessages(): Observable<Message[]> {
     const messagesRef = collection(this.firestore, 'messages');
     return collectionData(messagesRef) as Observable<Message[]>;
   }

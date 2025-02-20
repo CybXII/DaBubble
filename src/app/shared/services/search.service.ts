@@ -39,8 +39,8 @@ export class SearchService {
    */
   async initializeSearch(userId: string): Promise<void> {  
     this.allChannels = await this.channelService.getAllChannels();
-    this.allMessages = await firstValueFrom(this.messageService.getAllMessages(userId));
-    this.allThreadMessages = await this.messageService.getAllThreadMessages(userId);
+    this.allMessages = await firstValueFrom(this.messageService.getAllMessages());
+    this.allThreadMessages = await this.messageService.getAllThreadMessages();
   }
 
 
@@ -51,7 +51,7 @@ export class SearchService {
    * @param userId - The ID of the user to load messages for.
    */
   public loadMessages(userId: string) {
-    from(this.messageService.getAllMessages(userId)).subscribe((messages) => {
+    from(this.messageService.getAllMessages()).subscribe((messages) => {
       this.allMessages = Array.isArray(messages) ? messages : [];
       this.getChannelName();
     });
@@ -91,7 +91,7 @@ export class SearchService {
    * @param {string} userId - The ID of the user to load thread messages for.
    */
   public loadThreadMessages(userId: string): void {
-    from(this.messageService.getAllThreadMessages(userId)).subscribe((messages) => {
+    from(this.messageService.getAllThreadMessages()).subscribe((messages) => {
       console.log("📌 ALLE ThreadMessages:", messages);
       this.allThreadMessages = Array.isArray(messages) ? messages : [];
     });
