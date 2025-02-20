@@ -1,5 +1,8 @@
 @if (!introPlayed) {<div class="animationBackground "></div>}
 <section [ngClass]="{ 'sectionDisplayHeight': forgetPassword, 'reset': !loginPage}">
+    @if (!introPlayed) {
+        <div class="animationPlaceholder"></div>
+    }
     <div [ngClass]="{ 'container': !introPlayed, 'containerNoAnimation': introPlayed}">
         <img (click)="this.router.navigate(['']);" src="img/logo.svg">
         <div class="textcontainer">

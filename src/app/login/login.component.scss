@@ -25,6 +25,10 @@
   display: flex !important;
 }
 
+.animationPlaceholder {
+  height: 75px;
+}
+
 .container {
   position: absolute;
   width: 300px;
@@ -39,7 +43,7 @@
   img {
     width: auto;
     position: absolute;
-    left: 0px;
+    left: 20px;
     height: 184px;
     animation: moveLeft 0.25s 0.5s forwards,
       makeStatic 0.5s 2.5s forwards,
@@ -71,14 +75,14 @@
 }
 
 .containerNoAnimation {
-  position: absolute;
+  position: relative;
   display: flex;
   align-items: center;
   top: 75px;
   left: 75px;
   gap: 16px;
   max-width: 1920px;
-
+  width: 100%;
   img {
     width: auto;
     height: 75px;
@@ -137,13 +141,15 @@ footer {
 
 section {
   @include mixins.flexbox($direction: column);
-  height: 100vh;
-  width: 100vw;
-  max-width: 1980px;
-  text-align: center;
-  position: relative;
-  flex-wrap: nowrap;
-  overflow: hidden;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    max-width: 1980px;
+    text-align: center;
+    position: relative;
+    flex-wrap: nowrap;
+    overflow: hidden;
   &:hover {
     cursor: default;
     transition: 0.25s ease-in-out;
@@ -328,7 +334,7 @@ button:disabled {
 }
 
 footer {
-  position: absolute;
+
   width: 100%;
   bottom: 0px;
   @include mixins.flexbox();
@@ -402,7 +408,7 @@ form {
   section {
     width: 100% !important;
     gap: 20px;
-    justify-content: flex-end;
+    justify-content: space-between;
   }
 
   form {
@@ -418,7 +424,7 @@ form {
   }
 
   .containerNoAnimation {
-    top: 12px;
+    top: 4px;
     left: unset;
     display: flex;
     justify-content: center;
@@ -515,7 +521,6 @@ form {
 
   section {
     gap: 20px;
-    justify-content: flex-end;
     min-height: 100vh;
   }
 }
@@ -530,8 +535,7 @@ form {
   }
   section {
     gap: 0px;
-    justify-content: center;
-    padding: 80px 20px 0 20px;
+    padding: 0px 20px 0 20px;
     flex-direction: column;
     flex-wrap: nowrap;
   }
@@ -539,7 +543,6 @@ form {
 
 @media (max-height: 760px) and (min-height: 720px) {
   section {
-    padding: 120px 20px 20px 20px !important;
     height: fit-content;
   }
 }
