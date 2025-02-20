@@ -73,7 +73,6 @@ export class SignInComponent implements OnInit {
   async loginWithGoogle(): Promise<void> {
     try {
       await this.authService.googleLogin();
-      this.redirectToBoard();
     } catch (error) {
       this.loginError = 'Google login failed.';
       console.error('Google login error:', error);

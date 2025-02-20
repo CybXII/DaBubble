@@ -35,6 +35,7 @@
         font-size: 18px;
     }
     &:hover {
+        transition: 0.25s ease-in-out;
         cursor: pointer;
         background-color: colors.$bg-color;
     }

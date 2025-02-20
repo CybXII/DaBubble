@@ -60,6 +60,7 @@ button {
     [type="checkbox"]:hover {
         cursor: pointer;
         background-color: colors.$bg-color;
+        transition: 0.25s ease-in-out;
     }
 
     >div {

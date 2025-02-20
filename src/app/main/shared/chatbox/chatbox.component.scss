@@ -87,16 +87,20 @@
   width: 100%;
 
   &:hover {
+    transition: 0.25s ease-in-out;
     background-color: colors.$bg-color;
   }
   &:hover .chatbox__msg {
+    transition: 0.25s ease-in-out;
     background-color: colors.$white;
   }
   &:hover .chatbox__msg-sent {
+    transition: 0.25s ease-in-out;
     background-color: colors.$purple2;
   }
 
   &:hover .chatbox__addemoji-container {
+    transition: 0.25s ease-in-out;
     @include mixins.flexbox(row, center, center, nowrap);
   }
 }
@@ -132,16 +136,20 @@
   width: 100%;
 
   &:hover {
+    transition: 0.25s ease-in-out;
     background-color: colors.$bg-color;
   }
   &:hover .chatbox__msg {
+    transition: 0.25s ease-in-out;
     background-color: colors.$white;
   }
   &:hover .chatbox__msg-sent {
+    transition: 0.25s ease-in-out;
     background-color: colors.$purple2;
   }
 
   &:hover .chatbox__addemoji-container {
+    transition: 0.25s ease-in-out;
     @include mixins.flexbox(row, center, center, nowrap);
   }
 }
@@ -166,6 +174,7 @@
     cursor: pointer;
 
     &:hover {
+      transition: 0.25s ease-in-out;
       filter: invert(31%) sepia(41%) saturate(5436%) hue-rotate(231deg)
         brightness(101%) contrast(99%);
     }
@@ -180,6 +189,7 @@
 
   .chatbox__addemoji__emoji-container {
     &:hover {
+      transition: 0.25s ease-in-out;
       background-color: colors.$bg-color;
     }
   }
@@ -199,6 +209,7 @@
   font-size:20px;
 
   &:hover{
+    transition: 0.25s ease-in-out;
     background-color: colors.$bg-color;
   }
 }
@@ -261,6 +272,7 @@
 
 .chatbox__editmsg-btn__container {
   &:hover .chatbox__editmsg-container {
+    transition: 0.25s ease-in-out;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -286,6 +298,7 @@
   border-bottom-right-radius: 30px;
 
   &:hover .chatbox__editmsg:hover {
+    transition: 0.25s ease-in-out;
     color: colors.$purple3;
     font-weight: 700;
     background-color: colors.$bg-color;
@@ -316,6 +329,7 @@
   cursor: pointer;
 
   &:hover {
+    transition: 0.25s ease-in-out;
     color: colors.$purple;
   }
 }
@@ -494,6 +508,7 @@
     color: colors.$purple3;
 
     &:hover {
+      transition: 0.25s ease-in-out;
       font-weight: 700;
       cursor: pointer;
     }
@@ -501,6 +516,7 @@
 
   .nohover {
     &:hover {
+      transition: 0.25s ease-in-out;
       font-weight: 400;
       cursor: default;
     }
