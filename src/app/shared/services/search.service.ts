@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { MessagesService } from './messages.service';
-import { BehaviorSubject, forkJoin, from, map } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, forkJoin, from, map } from 'rxjs';
 import { Message, ThreadMessage } from '../../models/message';
 import { AuthService } from './auth.service';
 import { UserModel } from '../../models/user';
@@ -80,6 +80,7 @@ export class SearchService {
    */
   public loadThreadMessages(userId: string): void {
     from(this.messageService.getAllThreadMessages(userId)).subscribe((messages) => {
+      console.log("📌 ALLE ThreadMessages:", messages);
       this.allThreadMessages = Array.isArray(messages) ? messages : [];
     });
   }
@@ -110,34 +111,34 @@ export class SearchService {
   }
 
 
-  /**
-   * Searches for messages based on the search text.
-   * If the search text is empty, it will return an empty array.
-   * @param {string} searchText - The text to search for within messages.
-   */
-  searchMessages(searchText: string): void {
-    if (!searchText) 
-      this.messageResultsSubject.next([]);
-    const filteredMessages = this.allMessages.filter(
-      (message) =>message.message.toLowerCase().includes(searchText.toLowerCase())
-    );
-    this.messageResultsSubject.next(filteredMessages);
-  }
+  // /**
+  //  * Searches for messages based on the search text.
+  //  * If the search text is empty, it will return an empty array.
+  //  * @param {string} searchText - The text to search for within messages.
+  //  */
+  // searchMessages(searchText: string): void {
+  //   if (!searchText) 
+  //     this.messageResultsSubject.next([]);
+  //   const filteredMessages = this.allMessages.filter(
+  //     (message) =>message.message.toLowerCase().includes(searchText.toLowerCase())
+  //   );
+  //   this.messageResultsSubject.next(filteredMessages);
+  // }
 
 
-  /**
-   * Searches for thread messages based on the search text.
-   * If the search text is empty, it will return an empty array.
-   * @param {string} searchText - The text to search for within thread messages.
-   */
-  searchThreadMessages(searchText: string): void {
-    if (!searchText) 
-      this.threadMessageResultsSubject.next([]);
-    const filteredMessages = this.allThreadMessages.filter((message) =>
-      message.message.toLowerCase().includes(searchText.toLowerCase())
-    );
-    this.threadMessageResultsSubject.next(filteredMessages);
-  }
+  // /**
+  //  * Searches for thread messages based on the search text.
+  //  * If the search text is empty, it will return an empty array.
+  //  * @param {string} searchText - The text to search for within thread messages.
+  //  */
+  // searchThreadMessages(searchText: string): void {
+  //   if (!searchText) 
+  //     this.threadMessageResultsSubject.next([]);
+  //   const filteredMessages = this.allThreadMessages.filter((message) =>
+  //     message.message.toLowerCase().includes(searchText.toLowerCase())
+  //   );
+  //   this.threadMessageResultsSubject.next(filteredMessages);
+  // }
 
 
   /**
@@ -197,4 +198,44 @@ export class SearchService {
       this.privateChannelResultsSubject.next(filteredChannels);
     }
   }
+
+  async searchMessagesAndThreads(searchText: string, userId: string): Promise<void> {
+    if (!searchText.trim()) {
+      this.messageResultsSubject.next([]);
+      this.threadMessageResultsSubject.next([]);
+      return;
+    }
+  
+    // 1️⃣ Lade alle Channels, in denen der User Mitglied ist
+    this.channelService.getAllChannels().then(async (channels) => {
+      const userChannels = channels
+        .filter((channel) => channel.members.includes(userId))
+        .map((channel) => channel.id);
+      console.log("🔍 User ist Mitglied in folgenden Channels:", userChannels);
+      // 2️⃣ Messages durchsuchen
+      const filteredMessages = this.allMessages.filter(
+        (message) =>
+          message.message.toLowerCase().includes(searchText.toLowerCase()) &&
+          message.channelId &&
+          userChannels.includes(message.channelId)
+      );
+      console.log("🔍 Gefilterte Messages:", filteredMessages);
+      this.messageResultsSubject.next(filteredMessages);
+  
+      // 3️⃣ 🔥 Alle ThreadMessages abrufen (WICHTIG: `await` nutzen!)
+      const allThreadMessages = await this.messageService.getAllThreadMessages(userId);
+  
+      console.log("📌 ALLE extrahierten ThreadMessages:", allThreadMessages);
+  
+      // 4️⃣ ThreadMessages filtern
+      const filteredThreadMessages = allThreadMessages.filter(
+        (threadMessage) =>
+          threadMessage.message.toLowerCase().includes(searchText.toLowerCase())
+      );
+  
+      console.log("✅ Gefilterte ThreadMessages nach der Suche:", filteredThreadMessages);
+      this.threadMessageResultsSubject.next(filteredThreadMessages);
+    });
+  }
+  
 }

@@ -104,7 +104,9 @@ export class MessagesService {
           timestamp: this.sharedService.convertTimestamp(doc.data()['timestamp']),
         })) as ThreadMessage[];
         updatedThreads.sort((b, a) =>new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime())
-        if (msg.threadMessages$) msg.threadMessages$.next(updatedThreads);
+        if (msg.threadMessages$) {
+          msg.threadMessages$.next(updatedThreads);
+        }
       });
     });
     this.messagesSubject.next(messages);
@@ -207,10 +209,35 @@ export class MessagesService {
    * @param userId The ID of the user for which to retrieve thread messages.
    * @returns An observable that emits an array of `ThreadMessage` objects.
    */
-  getAllThreadMessages(userId: string): Observable<ThreadMessage[]> {
-    const threadMessagesRef = collection(this.firestore, 'threads');
-    return collectionData(threadMessagesRef) as Observable<ThreadMessage[]>;
+  // getAllThreadMessages(userId: string): Observable<ThreadMessage[]> {
+  //   const threadMessagesRef = collection(this.firestore, 'threads');
+  //   return collectionData(threadMessagesRef) as Observable<ThreadMessage[]>;
+  // }
+
+
+  async getAllThreadMessages(userId: string): Promise<ThreadMessage[]> {
+    const messagesRef = collection(this.firestore, 'messages');
+    const messagesSnapshot = await getDocs(messagesRef);
+  
+    let allThreadMessages: ThreadMessage[] = [];
+  
+    for (const messageDoc of messagesSnapshot.docs) {
+      const threadMessagesRef = collection(this.firestore, `messages/${messageDoc.id}/threadMessages`);
+      const threadMessagesSnapshot = await getDocs(threadMessagesRef);
+  
+      const threadMessages = threadMessagesSnapshot.docs.map((threadDoc) => ({
+        docId: threadDoc.id,
+        messageId: messageDoc.id,
+        ...threadDoc.data(),
+      })) as ThreadMessage[];
+  
+      allThreadMessages = [...allThreadMessages, ...threadMessages];
+    }
+  
+    console.log("📌 ALLE gesammelten ThreadMessages:", allThreadMessages);
+    return allThreadMessages;
   }
+  
 
 
   /**

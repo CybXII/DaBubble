@@ -72,8 +72,8 @@
     }
 
     to {
-        top: 40px; // 75
-        left: 40px;
+        top: 0px; // 75
+        left: 50%;
         transform: translate(0%, 0%);
     }
 }
@@ -96,7 +96,7 @@
     }
 
     to {
-        top: 60px; // 10%;
+        top: 34px;
         left: 50%;
         //transform: translate(-50%, -50%);
     }
@@ -134,7 +134,6 @@
 }
 
 
-
 @keyframes moveLittleLeft {
     from {
         transform: translateX(35%);
@@ -162,6 +161,6 @@
     }
 
     to {
-        transform: translateX(0);
+        transform: translateX(21%);
     }
 }
