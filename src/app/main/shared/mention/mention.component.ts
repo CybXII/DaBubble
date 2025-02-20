@@ -160,6 +160,10 @@ export class MentionComponent {
     });
   }
 
+  /**
+  * Selects a channel and mentions it using the mention service.
+  * @param {string} channel - The channel to be selected and mentioned.
+  */
   selectChannel(channel:string) {
     this.mentionService.mentionChannel(channel, this.builder)
     this.mentionService.channelSelection = false;
