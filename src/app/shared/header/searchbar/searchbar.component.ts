@@ -163,6 +163,7 @@ export class SearchbarComponent {
   private handleThreadMessageSelection(channelId: string, messageId: string, docId: string): void {
     this.channelService.selectChannel(channelId);
     this.messageService.setMessageId(messageId);
+    this.messageService.setParentMessageId(messageId);
     setTimeout(() => {
       this.scrollToMessage(messageId);
       this.openThreadChat(messageId, docId);

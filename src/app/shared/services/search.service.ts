@@ -211,7 +211,9 @@ export class SearchService {
       const userChannels = channels
         .filter((channel) => channel.members.includes(userId))
         .map((channel) => channel.id);
+  
       console.log("🔍 User ist Mitglied in folgenden Channels:", userChannels);
+  
       // 2️⃣ Messages durchsuchen
       const filteredMessages = this.allMessages.filter(
         (message) =>
@@ -219,10 +221,11 @@ export class SearchService {
           message.channelId &&
           userChannels.includes(message.channelId)
       );
+  
       console.log("🔍 Gefilterte Messages:", filteredMessages);
       this.messageResultsSubject.next(filteredMessages);
   
-      // 3️⃣ 🔥 Alle ThreadMessages abrufen (WICHTIG: `await` nutzen!)
+      // 3️⃣ 🔥 Alle ThreadMessages abrufen
       const allThreadMessages = await this.messageService.getAllThreadMessages(userId);
   
       console.log("📌 ALLE extrahierten ThreadMessages:", allThreadMessages);
@@ -230,7 +233,9 @@ export class SearchService {
       // 4️⃣ ThreadMessages filtern
       const filteredThreadMessages = allThreadMessages.filter(
         (threadMessage) =>
-          threadMessage.message.toLowerCase().includes(searchText.toLowerCase())
+          threadMessage.message.toLowerCase().includes(searchText.toLowerCase()) &&
+          threadMessage.channelId && // ✅ Jetzt haben wir die channelId
+          userChannels.includes(threadMessage.channelId) // ✅ Nur Nachrichten aus erlaubten Channels
       );
   
       console.log("✅ Gefilterte ThreadMessages nach der Suche:", filteredThreadMessages);
