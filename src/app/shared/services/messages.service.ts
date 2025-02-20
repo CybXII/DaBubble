@@ -213,8 +213,6 @@ export class MessagesService {
   //   const threadMessagesRef = collection(this.firestore, 'threads');
   //   return collectionData(threadMessagesRef) as Observable<ThreadMessage[]>;
   // }
-
-
   async getAllThreadMessages(userId: string): Promise<ThreadMessage[]> {
     const messagesRef = collection(this.firestore, 'messages');
     const messagesSnapshot = await getDocs(messagesRef);
@@ -222,21 +220,24 @@ export class MessagesService {
     let allThreadMessages: ThreadMessage[] = [];
   
     for (const messageDoc of messagesSnapshot.docs) {
+      const parentMessageData = messageDoc.data(); // Holt die Daten der Parent-Message
       const threadMessagesRef = collection(this.firestore, `messages/${messageDoc.id}/threadMessages`);
       const threadMessagesSnapshot = await getDocs(threadMessagesRef);
   
       const threadMessages = threadMessagesSnapshot.docs.map((threadDoc) => ({
         docId: threadDoc.id,
         messageId: messageDoc.id,
+        channelId: parentMessageData['channelId'], // ✅ Füge die channelId der Parent-Message hinzu
         ...threadDoc.data(),
       })) as ThreadMessage[];
   
       allThreadMessages = [...allThreadMessages, ...threadMessages];
     }
   
-    console.log("📌 ALLE gesammelten ThreadMessages:", allThreadMessages);
+    console.log("📌 ALLE gesammelten ThreadMessages mit channelId:", allThreadMessages);
     return allThreadMessages;
   }
+  
   
 
 
