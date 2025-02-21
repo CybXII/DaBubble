@@ -12,7 +12,7 @@
 @if (isSearchActive) {
 <div class="feedback-wrapper">
   <div class="feedback-main">
-    @if (privateChannelResults.length > 0) {
+    @if (privateChannelResults.length > 0 && searchText[0] != '@') {
     <div class="feedback-container">
       <h3>{{ privateChannelResults.length }} Chat(s) gefunden:</h3>
       <div class="feedback-message-container">
@@ -27,7 +27,7 @@
         </div>
       </div>
     </div>
-    } @if (channelResults.length > 0) {
+    } @if (channelResults.length > 0 && searchText[0] != '@' ) {
     <div class="feedback-container">
       <h3>{{ channelResults.length }} Channel(s) gefunden:</h3>
       <div class="feedback-message-container">
@@ -81,7 +81,7 @@
         </div>
       </div>
     </div>
-    } @if (userResults.length > 0) {
+    } @if (userResults.length > 0 && searchText[0] != '#') {
     <div class="feedback-container">
       <h3>{{ userResults.length }} Benutzer gefunden:</h3>
       <div class="feedback-message-container">
