@@ -76,7 +76,7 @@ export class BuilderComponent {
    */
   toggleMenu(): void {
     this.menuState = this.menuState === 'in' ? 'out' : 'in';
-    this.menuOpened = this.menuState === 'in';
+    setTimeout(() => {this.menuOpened = this.menuState === 'in';}, 300);
     if (this.mobile && this.menuOpened) {
       if (this.threadchatOpened) {
         this.threadWasOpen = true;
