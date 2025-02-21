@@ -188,9 +188,9 @@ export class SearchService {
    * @param {string} type - The type of channels to search for; either 'channel' for public channels or 'private' for private channels.
    */
   searchChannels(searchText: string, userId: string, type: string): void {
-    if (!searchText.trim()) {
+    if (searchText.trim()) {
       const filteredChannels = this.allChannels.filter(
-        (channel) => !channel.isPrivate && channel.members.includes(userId)
+        (channel) => !channel.isPrivate && channel.members.includes(userId) && channel.name.toLowerCase().includes(searchText.toLowerCase())
       );
       this.channelResultsSubject.next(filteredChannels);
       return;
