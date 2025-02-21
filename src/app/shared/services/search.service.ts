@@ -32,6 +32,18 @@ export class SearchService {
   public searchChannelsMessages: any = [];
   private messageResults: any[] = [];
 
+
+  /**
+   * Initializes the search service by loading all messages, thread messages, and channels from Firestore.
+   * @param userId The ID of the user to load messages and thread messages for.
+   */
+  async initializeSearch(userId: string): Promise<void> {  
+    this.allChannels = await this.channelService.getAllChannels();
+    this.allMessages = await firstValueFrom(this.messageService.getAllMessages());
+    this.allThreadMessages = await this.messageService.getAllThreadMessages();
+  }
+
+
   /**
    * Loads all messages from the Firestore database for a given user.
    * When the messages are loaded, it stores them in the `allMessages` array.
@@ -39,7 +51,7 @@ export class SearchService {
    * @param userId - The ID of the user to load messages for.
    */
   public loadMessages(userId: string) {
-    from(this.messageService.getAllMessages(userId)).subscribe((messages) => {
+    from(this.messageService.getAllMessages()).subscribe((messages) => {
       this.allMessages = Array.isArray(messages) ? messages : [];
       this.getChannelName();
     });

@@ -9,6 +9,7 @@ import { MessagesService } from '../../services/messages.service';
 import { StateService } from '../../services/state.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ProfileviewComponent } from '../../profileview/profileview.component';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-searchbar',
@@ -46,6 +47,7 @@ export class SearchbarComponent {
     public dialog: MatDialog,
     private messageService: MessagesService,
     private stateService: StateService,
+    public userService: UserService
   ) {
     this.searchService.messageResults$.subscribe((results) => {this.messageResults = results});
     this.searchService.threadMessageResults$.subscribe((results) => {this.threadMessageResults = results});
@@ -54,6 +56,18 @@ export class SearchbarComponent {
     this.searchService.privateChannelResults$.subscribe((results) => {this.privateChannelResults = results});
   }
 
+
+  /**
+   * Lifecycle hook that is called after Angular has initialized all data-bound properties of a directive.
+   * Initializes the component by loading channels and thread messages.
+   * @remarks
+   * This method is called by Angular after the component's data-bound properties have been initialized.
+   * It is called after the constructor and is a good place to put initialization code.
+   */
+  ngOnInit(): void {
+    this.searchService.initializeSearch(this.userId); // 🚀 ThreadMessages direkt laden!
+  }
+  
   
   /**
    * Handles input changes for the search bar.
@@ -105,7 +119,6 @@ export class SearchbarComponent {
     this.channelResults = [];
     this.privateChannelResults = [];
   }
-
 
   /**
    * Navigate to the selected search result. The selection is determined by the input parameters.

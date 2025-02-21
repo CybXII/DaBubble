@@ -318,7 +318,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
    */
   async sendMessage(): Promise<void> {
     if (!this.messageContent.trim()) 
-      return console.error('Nachricht darf nicht leer sein.');
+      return;
     let user: UserModel = (await this.userService.getUserForMessageById(this.activeUserId)) as UserModel;
     const message: Omit<Message, 'threadMessages$'> = this.userService.generateMessageObject(user, this.channelId, this.activeUserId, this.messageContent);
     if (this.channelId) {
@@ -337,7 +337,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
    */
   async sendThreadMessage(): Promise<void> {
     if (!this.messageContent.trim()) 
-      return console.error('Nachricht darf nicht leer sein.');
+      return;
     const threadMessage: ThreadMessage = await this.userService.generateThreadMessageObject( this.activeUserId, this.messageContent);
     this.sendThreadMessageWithService(threadMessage)
   }

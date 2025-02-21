@@ -38,7 +38,7 @@
                     name="password" placeholder="Passwort" required>
             </div>
             <span class="warning"
-                [ngStyle]="{opacity: (loginError == 'Falsches Passwort oder E-Mail.. Bitte noch einmal versuchen.') 
+                [ngStyle]="{opacity: (loginError == 'Falsches Passwort oder E-Mail.') 
                 || (!password.valid && password.touched) ? 1 : 0}">{{ loginError }}</span>
             <div class="link">
                 <a routerLink="forget">Passwort vergessen?</a>
