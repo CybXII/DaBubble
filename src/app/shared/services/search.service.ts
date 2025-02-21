@@ -134,15 +134,6 @@ export class SearchService {
    * If the search text is empty, it will return an empty array.
    * @param {string} searchText - The text to search for within messages.
    */
-  // searchMessages(searchText: string): void {
-  //   if (!searchText)
-  //     this.messageResultsSubject.next([]);
-  //   const filteredMessages = this.allMessages.filter(
-  //     (message) =>message.message.toLowerCase().includes(searchText.toLowerCase())
-  //   );
-  //   this.messageResultsSubject.next(filteredMessages);
-  // }
-
   searchMessages(searchText: string, userId: string): void {
     if (!searchText) {
       this.messageResultsSubject.next([]);
@@ -205,5 +196,32 @@ export class SearchService {
       return;
     }
   }
+
+
+    /**
+   * Searches for messages and thread messages based on the search text and user membership.
+   * If the search text is empty, it will return empty arrays for both messages and thread messages.
+   * @param {string} searchText - The text to search for within message and thread message bodies.
+   * @param {string} userId - The ID of the user, used to filter messages and thread messages to those the user is a member of.
+   */
+    async searchMessagesAndThreads(searchText: string, userId: string): Promise<void> {
+      if (!searchText.trim()) {
+        this.messageResultsSubject.next([]);
+        this.threadMessageResultsSubject.next([]);
+        return;
+      }
+      const userChannels = this.allChannels.filter((channel) => channel.members.includes(userId))
+        .map((channel) => channel.id);
+      const filteredMessages = this.allMessages.filter(
+        (message) => message.message.toLowerCase().includes(searchText.toLowerCase()) &&
+          message.channelId && userChannels.includes(message.channelId)
+      );
+      this.messageResultsSubject.next(filteredMessages);
+      const filteredThreadMessages = this.allThreadMessages.filter(
+        (threadMessage) => threadMessage.message.toLowerCase().includes(searchText.toLowerCase()) &&
+          threadMessage.channelId && userChannels.includes(threadMessage.channelId)
+      );
+      this.threadMessageResultsSubject.next(filteredThreadMessages);
+    }
 
 }

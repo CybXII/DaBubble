@@ -88,8 +88,7 @@ export class SearchbarComponent {
     this.isSearchActive = this.searchText.length >= 4;
     this.isSearchTouched = this.searchText.length > 0;
     if (this.searchText.length >= 4) {
-      this.searchService.searchMessages(this.searchText, this.userId);
-      this.searchService.searchThreadMessages(this.searchText, this.userId);
+      this.searchService.searchMessagesAndThreads(this.searchText, this.userId);
       this.searchService.searchChannels(this.searchText,this.userId,'private');
       this.searchService.searchChannels(this.searchText,this.userId,'channel');
       this.searchService.searchUsers(this.searchText, 'name');
@@ -244,4 +243,6 @@ export class SearchbarComponent {
   get userId() {
     return this.authService.userId() as string;
   }
+
+  
 }
