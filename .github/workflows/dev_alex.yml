@@ -44,3 +44,5 @@ jobs:
         local-dir: ./dist/dabubble/browser/
         server-dir: /
         concurrent-uploads: 2
+        state-name: "ftp-deploy-sync-state.json"  # Sicherstellen, dass die Datei neu erstellt wird
+        dangerous-clean-slate: true  # ERZWINGT eine vollständige Neu-Synchronisierung
