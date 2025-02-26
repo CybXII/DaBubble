@@ -9,6 +9,7 @@ import { MessagesService } from '../../services/messages.service';
 import { StateService } from '../../services/state.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ProfileviewComponent } from '../../profileview/profileview.component';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-searchbar',
@@ -46,6 +47,7 @@ export class SearchbarComponent {
     public dialog: MatDialog,
     private messageService: MessagesService,
     private stateService: StateService,
+    public userService: UserService
   ) {
     this.searchService.messageResults$.subscribe((results) => {this.messageResults = results});
     this.searchService.threadMessageResults$.subscribe((results) => {this.threadMessageResults = results});
@@ -54,6 +56,18 @@ export class SearchbarComponent {
     this.searchService.privateChannelResults$.subscribe((results) => {this.privateChannelResults = results});
   }
 
+
+  /**
+   * Lifecycle hook that is called after Angular has initialized all data-bound properties of a directive.
+   * Initializes the component by loading channels and thread messages.
+   * @remarks
+   * This method is called by Angular after the component's data-bound properties have been initialized.
+   * It is called after the constructor and is a good place to put initialization code.
+   */
+  ngOnInit(): void {
+    this.searchService.initializeSearch(this.userId); // 🚀 ThreadMessages direkt laden!
+  }
+  
   
   /**
    * Handles input changes for the search bar.
@@ -74,11 +88,17 @@ export class SearchbarComponent {
     this.isSearchActive = this.searchText.length >= 4;
     this.isSearchTouched = this.searchText.length > 0;
     if (this.searchText.length >= 4) {
-      this.searchService.searchMessages(this.searchText);
-      this.searchService.searchThreadMessages(this.searchText);
-      this.searchService.searchUsers(this.searchText, 'name');
-      this.searchService.searchChannels(this.searchText,this.userId,'channel');
+      this.searchService.searchMessagesAndThreads(this.searchText, this.userId);
       this.searchService.searchChannels(this.searchText,this.userId,'private');
+      this.searchService.searchChannels(this.searchText,this.userId,'channel');
+      this.searchService.searchUsers(this.searchText, 'name');
+    }
+    if (this.searchText[0] == '@'){
+      this.searchService.searchUsers(this.searchText.replace('@', ''), 'name');
+    }
+    if (this.searchText[0] == '#'){
+      this.searchService.searchChannels(this.searchText.replace('#',''),this.userId,'channel');
+      this.searchService.searchChannels(this.searchText.replace('#',''),this.userId,'private');
     }
   }
 
@@ -99,7 +119,6 @@ export class SearchbarComponent {
     this.privateChannelResults = [];
   }
 
-
   /**
    * Navigate to the selected search result. The selection is determined by the input parameters.
    * @param channelId The id of the channel the message is in.
@@ -108,7 +127,7 @@ export class SearchbarComponent {
    * @param userId The id of the user.
    * @param isThreadMessage Whether the message is a thread message.
    */
-  goToSearchResult(channelId: string | null,messageId: string | null,docId: string 
+  goToSearchResult(channelId: string | null, messageId: string | null,docId: string 
   | null,userId: string | null,isThreadMessage: boolean | null): void {
     if (channelId && !messageId && !isThreadMessage && !docId) {
       this.handleChannelSelection(channelId);
@@ -143,7 +162,7 @@ export class SearchbarComponent {
    */
   private handleMessageSelection(channelId: string, messageId: string): void {
     this.channelService.selectChannel(channelId);
-    setTimeout(() => this.scrollToMessage(messageId), 500);
+    setTimeout(() => this.scrollToMessage(messageId), 1500);
   }
 
 
@@ -157,6 +176,7 @@ export class SearchbarComponent {
   private handleThreadMessageSelection(channelId: string, messageId: string, docId: string): void {
     this.channelService.selectChannel(channelId);
     this.messageService.setMessageId(messageId);
+    this.messageService.setParentMessageId(messageId);
     setTimeout(() => {
       this.scrollToMessage(messageId);
       this.openThreadChat(messageId, docId);
@@ -195,7 +215,7 @@ export class SearchbarComponent {
    * @param {string} messageId - The ID of the message to scroll to.
    */
   private scrollToMessage(messageId: string): void {
-    const element = document.getElementById(messageId);
+    const element = document.getElementById(messageId);    
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
@@ -223,4 +243,6 @@ export class SearchbarComponent {
   get userId() {
     return this.authService.userId() as string;
   }
+
+  
 }

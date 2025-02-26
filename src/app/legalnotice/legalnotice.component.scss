@@ -76,6 +76,7 @@ p {
 }
 
 .backButton {
+  transition: 0.25sease-in-out;
   display: inline-block;
   cursor: pointer;
   padding: 8px;
@@ -84,10 +85,12 @@ p {
 
   &:hover {
     background-color: colors.$bg-color;
+    transition: 0.25s ease-in-out;
   }
 
   &:hover path {
     fill: colors.$purple;
+    transition: 0.25s ease-in-out;
   }
 
   svg {

@@ -12,7 +12,7 @@
         <div class="form-group">
             <label for="message">Message</label>
             <textarea type="text" class="form-control" id="message" formControlName="message" required (keyup)="checkKeyStatus($event, 'save')"></textarea>
-            <img src="/img/icons/sentiment_satisfied.svg" alt="">
+            <img src="img/icons/sentiment_satisfied.svg" alt="">
         </div>
         <button type="submit" class="save default" [disabled]="messageForm.invalid">Save</button>
         <button type="button" (click)="onCancel()" class="cancel default">Cancel</button>

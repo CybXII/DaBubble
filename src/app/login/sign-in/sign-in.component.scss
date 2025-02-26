@@ -47,6 +47,7 @@ form {
             cursor: pointer;
             font-weight: 700;
             border-color: colors.$purple2;
+            transition: 0.25s ease-in-out;
         }
     }
 }

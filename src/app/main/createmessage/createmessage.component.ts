@@ -108,6 +108,8 @@ export class CreatemessageComponent implements OnInit {
     this.sharedService.setSearchString(target);
     this.sharedService.setChannelIdString(channelId);
     this.input = false;
+    let endTarget = this.mentionService.removeFirstCharacter(target);
+    this.mentionService.insertTextAndFocus(endTarget, 'messagebox');
     this.clearResults();
   }
 

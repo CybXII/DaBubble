@@ -96,7 +96,7 @@
     }
 
     to {
-        top: 60px; // 10%;
+        top: 40px;
         left: 50%;
         //transform: translate(-50%, -50%);
     }
@@ -134,7 +134,6 @@
 }
 
 
-
 @keyframes moveLittleLeft {
     from {
         transform: translateX(35%);
@@ -163,5 +162,17 @@
 
     to {
         transform: translateX(0);
+    }
+}
+
+
+@keyframes makeStatic2 {
+    from {
+        //transform: translateX(0);
+        transform: translateX(-50%);
+    }
+
+    to {
+        transform: translateX(-20%);
     }
 }

@@ -12,7 +12,7 @@
 @if (isSearchActive) {
 <div class="feedback-wrapper">
   <div class="feedback-main">
-    @if (privateChannelResults.length > 0) {
+    @if (privateChannelResults.length > 0 && searchText[0] != '@') {
     <div class="feedback-container">
       <h3>{{ privateChannelResults.length }} Chat(s) gefunden:</h3>
       <div class="feedback-message-container">
@@ -27,7 +27,7 @@
         </div>
       </div>
     </div>
-    } @if (channelResults.length > 0) {
+    } @if (channelResults.length > 0 && searchText[0] != '@' ) {
     <div class="feedback-container">
       <h3>{{ channelResults.length }} Channel(s) gefunden:</h3>
       <div class="feedback-message-container">
@@ -46,8 +46,7 @@
     <div class="feedback-container">
       <h3>{{ messageResults.length }} Nachricht(en) gefunden:</h3>
       <div class="feedback-message-container">
-        <div class="feedback-box" *ngFor="let result of messageResults; let index = index" (click)="
-            goToSearchResult(result.channelId, result.docId, null, null, result.isThreadMessage)">
+        <div class="feedback-box" *ngFor="let result of messageResults; let index = index" (click)="goToSearchResult(result.channelId, result.messageId, null, null, null)">
           <img src="{{ result.creatorPhotoURL }}" alt="img/avatars/picPlaceholder.svg" />
           <div class="feedback-message">
             <div class="feedback-message-header">
@@ -70,11 +69,11 @@
       <h3>{{ threadMessageResults.length }} Antwort(en) gefunden:</h3>
       <div class="feedback-message-container">
         <div class="feedback-box" *ngFor="let result of threadMessageResults" (click)="
-            goToSearchResult(result.channelId, result.messageId, result.docId, null, result.isThreadMessage)">
-          <img src="{{ result.creatorPhotoURL }}" alt="img/avatars/picPlaceholder.svg" />
+            goToSearchResult(result.channelId, result.messageId, result.docId, null, true)">
+          <img src="{{ this.userService.getuserAvatar(result.createdBy) || '/img/avatars/picPlaceholder.svg' | async}}" />
           <div class="feedback-message">
             <div class="feedback-message-header">
-              <span>{{ result.creatorName }}</span>
+              <span>{{ this.userService.getuserName(result.createdBy) || 'Unbekannt'  | async}}</span>
               <span style="font-style: italic">{{ result.timestamp.seconds | timestampToDate }}</span>
             </div>
             <span>{{ result.message }}</span>
@@ -82,7 +81,7 @@
         </div>
       </div>
     </div>
-    } @if (userResults.length > 0) {
+    } @if (userResults.length > 0 && searchText[0] != '#') {
     <div class="feedback-container">
       <h3>{{ userResults.length }} Benutzer gefunden:</h3>
       <div class="feedback-message-container">

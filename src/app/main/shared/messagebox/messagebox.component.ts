@@ -185,6 +185,27 @@ export class MessageboxComponent implements OnInit, OnDestroy {
    * @param chat The type of chat to send the message to.
    */
   checkKeyStatus(event: KeyboardEvent, chat: string): void {
+    this.handleSendMessageOnKeyPress(event, chat)
+    if (event.getModifierState('AltGraph') && event.key == "q") 
+      this.mentionService.status = true;
+      this.mentionService.isOpendWithKeys = true
+    if (event.key == "Backspace") 
+      this.mentionService.status = false;
+      this.mentionService.channelSelection = false;
+    if (event.key == "#") {
+      if (chat === 'createmessage') {
+        this.sharedService.jumpToAtAbove('#')
+      }
+      this.mentionService.channelSelection = true;
+    }
+  }
+
+  /**
+  * Handles the sending of messages based on key press events.
+  * @param {KeyboardEvent} event - The keyboard event triggered by key presses.
+  * @param {string} chat - The type of chat (mainchat, threadchat, createmessage).
+  */
+  handleSendMessageOnKeyPress(event: KeyboardEvent, chat: string) {
     if (event.shiftKey && event.key == 'Enter') {
       event.preventDefault();
     } else if (event.key == 'Enter') {
@@ -195,10 +216,6 @@ export class MessageboxComponent implements OnInit, OnDestroy {
       else if (chat === 'createmessage') 
         this.createNewMessage();
     }
-    if (event.getModifierState('AltGraph') && event.key == "q") 
-      this.mentionService.status = true;
-    if (event.key == "Backspace") 
-      this.mentionService.status = false;
   }
 
 
@@ -223,6 +240,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
         this.isMessageBoxThreadPickerOpen = false;
       }
       this.mentionService.status = true;
+      this.mentionService.channelSelection = false;
     }
   }
 
@@ -300,7 +318,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
    */
   async sendMessage(): Promise<void> {
     if (!this.messageContent.trim()) 
-      return console.error('Nachricht darf nicht leer sein.');
+      return;
     let user: UserModel = (await this.userService.getUserForMessageById(this.activeUserId)) as UserModel;
     const message: Omit<Message, 'threadMessages$'> = this.userService.generateMessageObject(user, this.channelId, this.activeUserId, this.messageContent);
     if (this.channelId) {
@@ -319,7 +337,7 @@ export class MessageboxComponent implements OnInit, OnDestroy {
    */
   async sendThreadMessage(): Promise<void> {
     if (!this.messageContent.trim()) 
-      return console.error('Nachricht darf nicht leer sein.');
+      return;
     const threadMessage: ThreadMessage = await this.userService.generateThreadMessageObject( this.activeUserId, this.messageContent);
     this.sendThreadMessageWithService(threadMessage)
   }
@@ -351,12 +369,17 @@ export class MessageboxComponent implements OnInit, OnDestroy {
     let sendToTarget = this.sharedService.getTargetString();
     if (sendToTarget == 'toUser') {
       this.sendToId = sendToUserId;
-      const existingChannels = await this.channelsService.getPrivateChannelByMembers([this.activeUserId ?? '', sendToUserId]);
+      let existingChannels = await this.channelsService.getPrivateChannelByMembers([this.activeUserId ?? '', sendToUserId]);
       if (existingChannels.length > 0) 
         this.sendToId = existingChannels[0].id ?? '';
       else 
         this.createNewChannel(sendToUserId);
-    } else if (sendToTarget == 'toChannel') 
+        existingChannels = await this.channelsService.getPrivateChannelByMembers([this.activeUserId ?? '', sendToUserId]);
+        if (existingChannels.length > 0) 
+          this.sendToId = existingChannels[0].id ?? '';
+        else 
+          console.error('Kein privater Kanal gefunden.');
+      } else if (sendToTarget == 'toChannel') 
       this.sendToId = sendToChannelId;
   }
 
@@ -383,23 +406,25 @@ export class MessageboxComponent implements OnInit, OnDestroy {
    */
   async sendNewMessage(){
     let user: UserModel = (await this.userService.getUserForMessageById(this.activeUserId)) as UserModel;
-    const message: Omit<Message, 'threadMessages$'> = {
-      channelId: this.sendToId || '',
-      createdBy: this.activeUserId || '',
-      creatorName: user.name || '',
-      creatorPhotoURL: user.photoURL || '',
-      message: this.messageContent.trim(),
-      timestamp: new Date(),
-      members: this.members,
-      reactions: [],
-      sameDay: false,
-    };
-    if (1 == 1) {
-      try {
-        await this.messagesService.addMessage(message);
-        this.messageContent = '';
-      } catch (error) {console.error('Fehler beim Senden der Nachricht:', error)}
-    } else 
-      console.error('Keine gültige Channel-ID verfügbar.');
+    if (this.activeUserId){
+      const message: Omit<Message, 'threadMessages$'> = {
+        channelId: this.sendToId || '',
+        createdBy: this.activeUserId || '',
+        creatorName: user.name || '',
+        creatorPhotoURL: user.photoURL || '',
+        message: this.messageContent.trim(),
+        timestamp: new Date(),
+        members: [this.activeUserId,this.sendToId],
+        reactions: [],
+        sameDay: false,
+      };  
+      if (1 == 1) {
+        try {
+          await this.messagesService.addMessage(message);
+          this.messageContent = '';
+        } catch (error) {console.error('Fehler beim Senden der Nachricht:', error)}
+      } else 
+        console.error('Keine gültige Channel-ID verfügbar.');
+    }
   }
 }

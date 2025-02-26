@@ -49,7 +49,7 @@ export class SignInComponent implements OnInit {
         await this.authService.login(this.loginData.email, this.loginData.password);
         this.redirectToBoard();
       } catch (error) {
-        this.loginError = 'Falsches Passwort oder E-Mail.. Bitte noch einmal versuchen.';
+        this.loginError = 'Falsches Passwort oder E-Mail.';
       }
     }
   }
@@ -73,7 +73,6 @@ export class SignInComponent implements OnInit {
   async loginWithGoogle(): Promise<void> {
     try {
       await this.authService.googleLogin();
-      this.redirectToBoard();
     } catch (error) {
       this.loginError = 'Google login failed.';
       console.error('Google login error:', error);

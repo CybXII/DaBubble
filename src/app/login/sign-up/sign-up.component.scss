@@ -11,12 +11,6 @@ button {
     padding: 40px 50px;
 }
 
-.arrowBack {
-    position: absolute;
-    top: 10px;
-    left: 5px;
-}
-
 .headline {
     display: flex;
     gap: 40px;
@@ -66,6 +60,7 @@ button {
     [type="checkbox"]:hover {
         cursor: pointer;
         background-color: colors.$bg-color;
+        transition: 0.25s ease-in-out;
     }
 
     >div {

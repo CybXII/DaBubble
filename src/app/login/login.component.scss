@@ -8,12 +8,13 @@
   left: 0;
   top: 0;
   background: colors.$bg-intro;
-  animation: hide 1s 5s forwards;
+  animation: hide 0.5s 2.5s forwards;
+  z-index: 100;
 }
 
 .afterIntro {
   opacity: 0;
-  animation: reveal 1s 5s forwards;
+  animation: reveal 0.5s 2.5s forwards;
 }
 
 .d-none {
@@ -23,6 +24,8 @@
 .flex {
   display: flex !important;
 }
+
+
 
 .container {
   position: absolute;
@@ -34,16 +37,17 @@
   transform: translate(-50%, -50%);
   gap: 16px;
   z-index: 100;
-  animation: moveToTopLeft 1s 5s forwards;
+  animation: moveToTopLeft 0.5s 2.5s forwards;
+
   img {
     width: auto;
     position: absolute;
     left: 0px;
     height: 184px;
-    animation: moveLeft 0.5s 1s forwards,
-      makeStatic 1s 5s forwards,
-      shrinkImage 1s 5s forwards,
-      moveBack 1s 5s forwards;
+    animation: moveLeft 0.25s 0.5s forwards,
+      makeStatic 0.5s 2.5s forwards,
+      shrinkImage 0.5s 2.5s forwards,
+      moveBack 0.5s 2.5s forwards;
     z-index: 2;
   }
 
@@ -55,15 +59,15 @@
     width: 300px;
     height: 70px;
     overflow: hidden;
-    animation: moveLittleLeft 1s 5s forwards;
+    animation: moveLittleLeft 0.5s 2.5s forwards;
 
     h1 {
       position: absolute;
       transform: translateX(-100%);
       font-size: 60px;
       font-weight: 700;
-      animation: moveRight 0.5s 2s ease-in-out forwards,
-        changeHeadline 1s 5s forwards;
+      animation: moveRight 0.25s 1s ease-in-out forwards,
+        changeHeadline 0.5s 2.5s forwards;
       color: white;
     }
   }
@@ -77,6 +81,7 @@
   left: 75px;
   gap: 16px;
   max-width: 1920px;
+
 
   img {
     width: auto;
@@ -116,6 +121,7 @@ header {
 a {
   &:hover {
     font-weight: 500;
+    transition: 0.25s ease-in-out;
   }
 }
 
@@ -128,6 +134,7 @@ footer {
 
     &:hover {
       border-color: colors.$light-purple;
+      transition: 0.25s ease-in-out;
     }
   }
 }
@@ -139,9 +146,12 @@ section {
   max-width: 1980px;
   text-align: center;
   position: relative;
+  flex-wrap: nowrap;
+  overflow: hidden;
 
   &:hover {
     cursor: default;
+    transition: 0.25s ease-in-out;
   }
 }
 
@@ -175,8 +185,9 @@ input {
 
   &:hover,
   input {
-    cursor: pointer;
+    cursor: text;
     border-color: colors.$purple2;
+    transition: 0.25s ease-in-out;
   }
 
   &:focus-within,
@@ -217,6 +228,7 @@ input {
     &:hover {
       background-color: colors.$bg-color;
       color: colors.$purple3;
+      transition: 0.25s ease-in-out;
     }
   }
 
@@ -281,6 +293,7 @@ button:disabled {
 
   &:hover {
     opacity: 0.8;
+    transition: 0.25s ease-in-out;
   }
 }
 
@@ -292,6 +305,7 @@ button:disabled {
     border-color: colors.$light-purple;
     background-color: colors.$purple;
     color: colors.$white;
+    transition: 0.25s ease-in-out;
   }
 }
 
@@ -309,17 +323,19 @@ button:disabled {
 
   &:hover {
     background-color: colors.$bg-color;
+    transition: 0.25s ease-in-out;
   }
 
   &:hover path {
     fill: colors.$purple;
+    transition: 0.25s ease-in-out;
   }
 }
 
 footer {
   position: absolute;
   width: 100%;
-  bottom: 30px;
+  bottom: 0px;
   @include mixins.flexbox();
   gap: 40px;
 }
@@ -363,7 +379,7 @@ form {
   }
 
   .container {
-    animation: moveToTopLeft40px 1s 5s forwards;
+    animation: moveToTopLeft40px 0.5s 2.5s forwards;
     width: 300px;
   }
 
@@ -372,9 +388,9 @@ form {
 @media (max-width: 600px) {
 
   .container {
-    animation: moveToTop 1s 5s forwards;
+    animation: moveToTop 0.5s 2.5s forwards;
     gap: 1px !important;
-    width: 240px;
+    width: 198px; // 240 210 198
 
     h1 {
       font-size: 30px !important;
@@ -382,18 +398,16 @@ form {
 
     img {
       height: 75px;
-      animation: moveLeft 0.5s 1s forwards,
-        makeStatic 1s 5s forwards,
-        shrinkImageMobile 1s 5s forwards;
+      animation: moveLeft 0.25s 0.5s forwards,
+        makeStatic2 0.5s 2.5s forwards,
+        shrinkImageMobile 0.5s 2.5s forwards;
     }
   }
 
   section {
     width: 100% !important;
-    padding: 0px 20px 0px 20px;
     gap: 20px;
-    min-height: 100vh !important;
-    justify-content: unset;
+    justify-content: flex-end;
   }
 
   form {
@@ -409,7 +423,7 @@ form {
   }
 
   .containerNoAnimation {
-    top: 30px;
+    top: 12px;
     left: unset;
     display: flex;
     justify-content: center;
@@ -426,10 +440,10 @@ form {
   }
 
   header {
+    position: relative;
     top: unset;
     right: unset;
-    bottom: -20px;
-    padding-bottom: 20px;
+    bottom: unset;
 
     div {
       gap: 15px;
@@ -445,19 +459,17 @@ form {
     font-weight: 700 !important;
   }
 
-  footer {
-    display: none;
-  }
-
   .paddingBottom {
     height: unset;
+  }
+
+  footer {
+    position: relative;
+    bottom: 0;
   }
 }
 
 @media (max-width: 500px) {
-  section {
-    justify-content: center;
-  }
 
   button {
     padding: 12px 20px;
@@ -470,6 +482,11 @@ form {
 }
 
 @media (max-width: 380px) {
+
+  section {
+    overflow-x: hidden;
+  }
+
   .arrowBack {
     padding: 0px;
   }
@@ -494,11 +511,12 @@ form {
   button {
     padding: 8px 10px;
   }
+
 }
 
 @media (max-height: 900px) {
   .mainCont {
-    gap: 10px !important;
+    gap: 4px !important;
   }
 
   form {
@@ -506,22 +524,34 @@ form {
   }
 
   section {
-    padding: 120px 20px 20px 20px;
     gap: 20px;
-    justify-content: unset;
+    justify-content: flex-end;
+    min-height: 100vh;
   }
 }
 
-@media (max-height: 800px) {
+@media (max-height: 900px) {
   .mainCont {
     padding-top: 30px;
     padding-bottom: 30px;
   }
+
+  header {
+    padding-top: 12px;
+  }
+
+  section {
+    gap: 0px;
+    justify-content: center;
+    padding: 80px 20px 0 20px;
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
 }
 
-@media (max-height: 600px) {
+@media (max-height: 760px) and (min-height: 720px) {
   section {
-    padding-bottom: 100px;
+    padding: 120px 20px 20px 20px !important;
     height: fit-content;
   }
 }
