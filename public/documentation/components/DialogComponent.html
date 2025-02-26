@@ -1,0 +1,859 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>dabubble documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">dabubble documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  DialogComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/shared/header/usermenu/dialog/dialog.component.ts</code>
+</p>
+
+
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-dialog</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                            <code>RouterModule</code>
+                            <code>FormsModule</code>
+                            <code>ReactiveFormsModule</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./dialog.component.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./dialog.component.scss</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#userDialog$" >userDialog$</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#onOpenMobileProfile" >onOpenMobileProfile</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#mobileDialog" >mobileDialog</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#dialogChange" >dialogChange</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(userDialog$: <a href="../injectables/UserDialogService.html" target="_self">UserDialogService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/shared/header/usermenu/dialog/dialog.component.ts:25</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Creates an instance of DialogComponent and performs an initial check
+to see if data changes are allowed using the UserDialogService.</p>
+</div>
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                                    <td>Description</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>userDialog$</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UserDialogService.html" target="_self" >UserDialogService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>The service responsible for managing user dialog interactions.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="mobileDialog"></a>
+                        <b>mobileDialog</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/shared/header/usermenu/dialog/dialog.component.ts:25</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section data-compodoc="block-outputs">
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="dialogChange"></a>
+                        <b>dialogChange</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/shared/header/usermenu/dialog/dialog.component.ts:24</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onOpenMobileProfile"></a>
+                    <span class="name">
+                        <span ><b>onOpenMobileProfile</b></span>
+                        <a href="#onOpenMobileProfile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onOpenMobileProfile()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="42"
+                                    class="link-to-prism">src/app/shared/header/usermenu/dialog/dialog.component.ts:42</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Opens the user profile dialog with a mobile layout.
+This method calls <code>openProfile</code> on the <code>UserDialogService</code>.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="userDialog$"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>userDialog$</b></span>
+                        <a href="#userDialog$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/UserDialogService.html" target="_self" >UserDialogService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/shared/header/usermenu/dialog/dialog.component.ts:33</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description">- The service responsible for managing user dialog interactions.</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  Output,
+  EventEmitter,
+  OnInit,
+  Input,
+} from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { RouterModule } from &#x27;@angular/router&#x27;;
+import {
+  FormsModule,
+  ReactiveFormsModule,
+} from &#x27;@angular/forms&#x27;;
+import { UserDialogService } from &#x27;../../../services/user-dialog.service&#x27;;
+
+@Component({
+  selector: &#x27;app-dialog&#x27;,
+  standalone: true,
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
+  templateUrl: &#x27;./dialog.component.html&#x27;,
+  styleUrl: &#x27;./dialog.component.scss&#x27;,
+})
+export class DialogComponent {
+  @Output() dialogChange &#x3D; new EventEmitter&lt;boolean&gt;();
+  @Input() mobileDialog &#x3D; false;
+
+/**
+ * Creates an instance of DialogComponent and performs an initial check 
+ * to see if data changes are allowed using the UserDialogService.
+ * 
+ * @param userDialog$ - The service responsible for managing user dialog interactions.
+ */
+  constructor(public userDialog$: UserDialogService,) {
+    this.userDialog$.dataChangeAllowedCheck();
+  }
+
+
+/**
+ * Opens the user profile dialog with a mobile layout.
+ * This method calls &#x60;openProfile&#x60; on the &#x60;UserDialogService&#x60;.
+ */
+  onOpenMobileProfile(){
+    this.userDialog$.openProfile();
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">@if (userDialog$.dialog) { @if(mobileDialog){
+&lt;div class&#x3D;&quot;mobileUserDialog&quot; (click)&#x3D;&quot;userDialog$.dontCloseDialog($event)&quot;&gt;
+  &lt;div class&#x3D;&quot;mobile-userDialog-divider&quot;&gt;&lt;/div&gt;
+  &lt;button class&#x3D;&quot;mobile-userDialog-profil&quot; (click)&#x3D;&quot;userDialog$.openProfile()&quot;&gt;
+    &lt;svg width&#x3D;&quot;26&quot; height&#x3D;&quot;26&quot; viewBox&#x3D;&quot;0 0 26 26&quot; fill&#x3D;&quot;none&quot; xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;&gt;
+      &lt;path
+        d&#x3D;&quot;M5.3125 19.375C6.375 18.5625 7.5625 17.9217 8.875 17.4525C10.1875 16.9842 11.5625 16.75 13 16.75C14.4375 16.75 15.8125 16.9842 17.125 17.4525C18.4375 17.9217 19.625 18.5625 20.6875 19.375C21.4167 18.5208 21.9846 17.5521 22.3913 16.4688C22.7971 15.3854 23 14.2292 23 13C23 10.2292 22.0263 7.86958 20.0788 5.92125C18.1304 3.97375 15.7708 3 13 3C10.2292 3 7.87 3.97375 5.9225 5.92125C3.97417 7.86958 3 10.2292 3 13C3 14.2292 3.20333 15.3854 3.61 16.4688C4.01583 17.5521 4.58333 18.5208 5.3125 19.375ZM13 14.25C11.7708 14.25 10.7342 13.8283 9.89 12.985C9.04667 12.1408 8.625 11.1042 8.625 9.875C8.625 8.64583 9.04667 7.60917 9.89 6.765C10.7342 5.92167 11.7708 5.5 13 5.5C14.2292 5.5 15.2658 5.92167 16.11 6.765C16.9533 7.60917 17.375 8.64583 17.375 9.875C17.375 11.1042 16.9533 12.1408 16.11 12.985C15.2658 13.8283 14.2292 14.25 13 14.25ZM13 25.5C11.2708 25.5 9.64583 25.1717 8.125 24.515C6.60417 23.8592 5.28125 22.9688 4.15625 21.8438C3.03125 20.7188 2.14083 19.3958 1.485 17.875C0.828333 16.3542 0.5 14.7292 0.5 13C0.5 11.2708 0.828333 9.64583 1.485 8.125C2.14083 6.60417 3.03125 5.28125 4.15625 4.15625C5.28125 3.03125 6.60417 2.14042 8.125 1.48375C9.64583 0.827917 11.2708 0.5 13 0.5C14.7292 0.5 16.3542 0.827917 17.875 1.48375C19.3958 2.14042 20.7188 3.03125 21.8438 4.15625C22.9688 5.28125 23.8592 6.60417 24.515 8.125C25.1717 9.64583 25.5 11.2708 25.5 13C25.5 14.7292 25.1717 16.3542 24.515 17.875C23.8592 19.3958 22.9688 20.7188 21.8438 21.8438C20.7188 22.9688 19.3958 23.8592 17.875 24.515C16.3542 25.1717 14.7292 25.5 13 25.5ZM13 23C14.1042 23 15.1458 22.8388 16.125 22.5163C17.1042 22.1929 18 21.7292 18.8125 21.125C18 20.5208 17.1042 20.0571 16.125 19.7337C15.1458 19.4112 14.1042 19.25 13 19.25C11.8958 19.25 10.8542 19.4112 9.875 19.7337C8.89583 20.0571 8 20.5208 7.1875 21.125C8 21.7292 8.89583 22.1929 9.875 22.5163C10.8542 22.8388 11.8958 23 13 23ZM13 11.75C13.5417 11.75 13.9896 11.5729 14.3438 11.2188C14.6979 10.8646 14.875 10.4167 14.875 9.875C14.875 9.33333 14.6979 8.88542 14.3438 8.53125C13.9896 8.17708 13.5417 8 13 8C12.4583 8 12.0104 8.17708 11.6562 8.53125C11.3021 8.88542 11.125 9.33333 11.125 9.875C11.125 10.4167 11.3021 10.8646 11.6562 11.2188C12.0104 11.5729 12.4583 11.75 13 11.75Z&quot;
+        fill&#x3D;&quot;black&quot; /&gt;
+    &lt;/svg&gt;
+    &lt;span&gt;Profil&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;button class&#x3D;&quot;mobile-userDialog&quot; (click)&#x3D;&quot;userDialog$.closeDialog($event)&quot; routerLink&#x3D;&quot;/imprint&quot; class&#x3D;&quot;dialog-link&quot;&gt;
+    &lt;svg width&#x3D;&quot;26&quot; height&#x3D;&quot;26&quot; viewBox&#x3D;&quot;2 0 24 24&quot; fill&#x3D;&quot;none&quot; xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;&gt;
+      &lt;g mask&#x3D;&quot;url(#mask0_813_12172)&quot;&gt;
+        &lt;path
+          d&#x3D;&quot;M7 14H17C17.2833 14 17.5207 13.904 17.712 13.712C17.904 13.5207 18 13.2833 18 13C18 12.7167 17.904 12.479 17.712 12.287C17.5207 12.0957 17.2833 12 17 12H7C6.71667 12 6.479 12.0957 6.287 12.287C6.09567 12.479 6 12.7167 6 13C6 13.2833 6.09567 13.5207 6.287 13.712C6.479 13.904 6.71667 14 7 14ZM7 11H17C17.2833 11 17.5207 10.904 17.712 10.712C17.904 10.5207 18 10.2833 18 10C18 9.71667 17.904 9.479 17.712 9.287C17.5207 9.09567 17.2833 9 17 9H7C6.71667 9 6.479 9.09567 6.287 9.287C6.09567 9.479 6 9.71667 6 10C6 10.2833 6.09567 10.5207 6.287 10.712C6.479 10.904 6.71667 11 7 11ZM7 8H17C17.2833 8 17.5207 7.90433 17.712 7.713C17.904 7.521 18 7.28333 18 7C18 6.71667 17.904 6.479 17.712 6.287C17.5207 6.09567 17.2833 6 17 6H7C6.71667 6 6.479 6.09567 6.287 6.287C6.09567 6.479 6 6.71667 6 7C6 7.28333 6.09567 7.521 6.287 7.713C6.479 7.90433 6.71667 8 7 8ZM20.3 20.3L18 18H4C3.45 18 2.97933 17.8043 2.588 17.413C2.196 17.021 2 16.55 2 16V4C2 3.45 2.196 2.979 2.588 2.587C2.97933 2.19567 3.45 2 4 2H20C20.55 2 21.021 2.19567 21.413 2.587C21.8043 2.979 22 3.45 22 4V19.575C22 20.025 21.796 20.3373 21.388 20.512C20.9793 20.6873 20.6167 20.6167 20.3 20.3ZM4 4V16H18.825L20 17.175V4H4Z&quot;
+          fill&#x3D;&quot;#1C1B1F&quot; /&gt;
+      &lt;/g&gt;
+    &lt;/svg&gt;
+
+    &lt;span&gt;Impressum&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;button class&#x3D;&quot;mobile-userDialog&quot; (click)&#x3D;&quot;userDialog$.closeDialog($event)&quot; routerLink&#x3D;&quot;/legalnotice&quot;
+    class&#x3D;&quot;dialog-link&quot;&gt;
+    &lt;svg width&#x3D;&quot;26&quot; height&#x3D;&quot;26&quot; viewBox&#x3D;&quot;2 0 24 24&quot; fill&#x3D;&quot;none&quot; xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;&gt;
+      &lt;g mask&#x3D;&quot;url(#mask0_813_12172)&quot;&gt;
+        &lt;path
+          d&#x3D;&quot;M7 14H17C17.2833 14 17.5207 13.904 17.712 13.712C17.904 13.5207 18 13.2833 18 13C18 12.7167 17.904 12.479 17.712 12.287C17.5207 12.0957 17.2833 12 17 12H7C6.71667 12 6.479 12.0957 6.287 12.287C6.09567 12.479 6 12.7167 6 13C6 13.2833 6.09567 13.5207 6.287 13.712C6.479 13.904 6.71667 14 7 14ZM7 11H17C17.2833 11 17.5207 10.904 17.712 10.712C17.904 10.5207 18 10.2833 18 10C18 9.71667 17.904 9.479 17.712 9.287C17.5207 9.09567 17.2833 9 17 9H7C6.71667 9 6.479 9.09567 6.287 9.287C6.09567 9.479 6 9.71667 6 10C6 10.2833 6.09567 10.5207 6.287 10.712C6.479 10.904 6.71667 11 7 11ZM7 8H17C17.2833 8 17.5207 7.90433 17.712 7.713C17.904 7.521 18 7.28333 18 7C18 6.71667 17.904 6.479 17.712 6.287C17.5207 6.09567 17.2833 6 17 6H7C6.71667 6 6.479 6.09567 6.287 6.287C6.09567 6.479 6 6.71667 6 7C6 7.28333 6.09567 7.521 6.287 7.713C6.479 7.90433 6.71667 8 7 8ZM20.3 20.3L18 18H4C3.45 18 2.97933 17.8043 2.588 17.413C2.196 17.021 2 16.55 2 16V4C2 3.45 2.196 2.979 2.588 2.587C2.97933 2.19567 3.45 2 4 2H20C20.55 2 21.021 2.19567 21.413 2.587C21.8043 2.979 22 3.45 22 4V19.575C22 20.025 21.796 20.3373 21.388 20.512C20.9793 20.6873 20.6167 20.6167 20.3 20.3ZM4 4V16H18.825L20 17.175V4H4Z&quot;
+          fill&#x3D;&quot;#1C1B1F&quot; /&gt;
+      &lt;/g&gt;
+    &lt;/svg&gt;
+    &lt;span&gt;Datenschutz&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;button class&#x3D;&quot;mobile-userDialog-Log out&quot; (click)&#x3D;&quot;userDialog$.logout()&quot;&gt;
+    &lt;svg width&#x3D;&quot;23&quot; height&#x3D;&quot;24&quot; viewBox&#x3D;&quot;0 0 23 24&quot; fill&#x3D;&quot;none&quot; xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;&gt;
+      &lt;path
+        d&#x3D;&quot;M16.1562 17.3438C15.9271 17.0729 15.8125 16.7654 15.8125 16.4212C15.8125 16.0779 15.9271 15.7917 16.1562 15.5625L18.4687 13.25H9.5C9.14583 13.25 8.84917 13.13 8.61 12.89C8.37 12.6508 8.25 12.3542 8.25 12C8.25 11.6458 8.37 11.3487 8.61 11.1087C8.84917 10.8696 9.14583 10.75 9.5 10.75H18.4687L16.1562 8.4375C15.9062 8.1875 15.7812 7.89083 15.7812 7.5475C15.7812 7.20333 15.9062 6.90625 16.1562 6.65625C16.3854 6.40625 16.6721 6.28125 17.0162 6.28125C17.3596 6.28125 17.6458 6.39583 17.875 6.625L22.375 11.125C22.5 11.25 22.5887 11.3854 22.6412 11.5312C22.6929 11.6771 22.7187 11.8333 22.7187 12C22.7187 12.1667 22.6929 12.3229 22.6412 12.4688C22.5887 12.6146 22.5 12.75 22.375 12.875L17.875 17.375C17.6042 17.6458 17.3075 17.7654 16.985 17.7337C16.6617 17.7029 16.3854 17.5729 16.1562 17.3438ZM3.25 23.25C2.5625 23.25 1.97375 23.0054 1.48375 22.5163C0.994583 22.0263 0.75 21.4375 0.75 20.75V3.25C0.75 2.5625 0.994583 1.97375 1.48375 1.48375C1.97375 0.994583 2.5625 0.75 3.25 0.75H10.75C11.1042 0.75 11.4012 0.869583 11.6412 1.10875C11.8804 1.34875 12 1.64583 12 2C12 2.35417 11.8804 2.65083 11.6412 2.89C11.4012 3.13 11.1042 3.25 10.75 3.25H3.25V20.75H10.75C11.1042 20.75 11.4012 20.87 11.6412 21.11C11.8804 21.3492 12 21.6458 12 22C12 22.3542 11.8804 22.6508 11.6412 22.89C11.4012 23.13 11.1042 23.25 10.75 23.25H3.25Z&quot;
+        fill&#x3D;&quot;black&quot; /&gt;
+    &lt;/svg&gt;
+    &lt;span&gt;Logout&lt;/span&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+} @else {
+&lt;div [ngClass]&#x3D;&quot;{
+    &#x27;dialog-container&#x27;:
+      userDialog$.dialog ||
+      userDialog$.profileDialog ||
+      userDialog$.profileDialogEdit
+  }&quot; [style.backgroundColor]&#x3D;&quot;mobileDialog ? &#x27;none&#x27; : &#x27;white&#x27;&quot; (click)&#x3D;&quot;userDialog$.dontCloseDialog($event)&quot;&gt;
+  &lt;a (click)&#x3D;&quot;userDialog$.openProfile()&quot; class&#x3D;&quot;dialog-link&quot;&gt;Profil&lt;/a&gt;
+  &lt;a (click)&#x3D;&quot;userDialog$.closeDialog($event)&quot; routerLink&#x3D;&quot;/imprint&quot; class&#x3D;&quot;dialog-link&quot;&gt;Impressum&lt;/a&gt;
+  &lt;a (click)&#x3D;&quot;userDialog$.closeDialog($event)&quot; routerLink&#x3D;&quot;/legalnotice&quot; class&#x3D;&quot;dialog-link&quot;&gt;Datenschutz&lt;/a&gt;
+  &lt;a (click)&#x3D;&quot;userDialog$.logout()&quot; class&#x3D;&quot;dialog-link&quot;&gt;Logout&lt;/a&gt;
+&lt;/div&gt;
+} } @else if (userDialog$.profileDialog) {
+&lt;div [ngClass]&#x3D;&quot;{
+    &#x27;dialog-container&#x27;:
+      userDialog$.dialog ||
+      userDialog$.profileDialog ||
+      userDialog$.profileDialogEdit
+  }&quot; [style.backgroundColor]&#x3D;&quot;mobileDialog ? &#x27;none&#x27; : &#x27;white&#x27;&quot; (click)&#x3D;&quot;userDialog$.dontCloseDialog($event)&quot;&gt;
+  &lt;div class&#x3D;&quot;dialog-profile-container&quot;&gt;
+    &lt;div class&#x3D;&quot;dialog-header&quot;&gt;
+      &lt;span&gt;Profil&lt;/span&gt;
+      @if(userDialog$.exitActiv) {
+      &lt;svg alt&#x3D;&quot;close&quot; (click)&#x3D;&quot;userDialog$.closeProfileDialogs($event)&quot; width&#x3D;&quot;24&quot; height&#x3D;&quot;24&quot; viewBox&#x3D;&quot;0 0 24 24&quot;
+        fill&#x3D;&quot;none&quot; xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;&gt;
+        &lt;mask id&#x3D;&quot;mask0_103447_3506&quot; style&#x3D;&quot;mask-type: alpha&quot; maskUnits&#x3D;&quot;userSpaceOnUse&quot; x&#x3D;&quot;0&quot; y&#x3D;&quot;0&quot; width&#x3D;&quot;24&quot;
+          height&#x3D;&quot;24&quot;&gt;
+          &lt;rect width&#x3D;&quot;24&quot; height&#x3D;&quot;24&quot; fill&#x3D;&quot;#D9D9D9&quot; /&gt;
+        &lt;/mask&gt;
+        &lt;g mask&#x3D;&quot;url(#mask0_103447_3506)&quot;&gt;
+          &lt;path
+            d&#x3D;&quot;M12 13.4L7.09999 18.3C6.91665 18.4833 6.68332 18.575 6.39999 18.575C6.11665 18.575 5.88332 18.4833 5.69999 18.3C5.51665 18.1167 5.42499 17.8833 5.42499 17.6C5.42499 17.3167 5.51665 17.0833 5.69999 16.9L10.6 12L5.69999 7.09999C5.51665 6.91665 5.42499 6.68332 5.42499 6.39999C5.42499 6.11665 5.51665 5.88332 5.69999 5.69999C5.88332 5.51665 6.11665 5.42499 6.39999 5.42499C6.68332 5.42499 6.91665 5.51665 7.09999 5.69999L12 10.6L16.9 5.69999C17.0833 5.51665 17.3167 5.42499 17.6 5.42499C17.8833 5.42499 18.1167 5.51665 18.3 5.69999C18.4833 5.88332 18.575 6.11665 18.575 6.39999C18.575 6.68332 18.4833 6.91665 18.3 7.09999L13.4 12L18.3 16.9C18.4833 17.0833 18.575 17.3167 18.575 17.6C18.575 17.8833 18.4833 18.1167 18.3 18.3C18.1167 18.4833 17.8833 18.575 17.6 18.575C17.3167 18.575 17.0833 18.4833 16.9 18.3L12 13.4Z&quot;
+            fill&#x3D;&quot;black&quot; /&gt;
+        &lt;/g&gt;
+      &lt;/svg&gt;
+      } @else {
+      &lt;svg alt&#x3D;&quot;close&quot; (click)&#x3D;&quot;userDialog$.closeDialog($event)&quot; width&#x3D;&quot;24&quot; height&#x3D;&quot;24&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot;
+        xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;&gt;
+        &lt;mask id&#x3D;&quot;mask0_103447_3506&quot; style&#x3D;&quot;mask-type: alpha&quot; maskUnits&#x3D;&quot;userSpaceOnUse&quot; x&#x3D;&quot;0&quot; y&#x3D;&quot;0&quot; width&#x3D;&quot;24&quot;
+          height&#x3D;&quot;24&quot;&gt;
+          &lt;rect width&#x3D;&quot;24&quot; height&#x3D;&quot;24&quot; fill&#x3D;&quot;#D9D9D9&quot; /&gt;
+        &lt;/mask&gt;
+        &lt;g mask&#x3D;&quot;url(#mask0_103447_3506)&quot;&gt;
+          &lt;path
+            d&#x3D;&quot;M12 13.4L7.09999 18.3C6.91665 18.4833 6.68332 18.575 6.39999 18.575C6.11665 18.575 5.88332 18.4833 5.69999 18.3C5.51665 18.1167 5.42499 17.8833 5.42499 17.6C5.42499 17.3167 5.51665 17.0833 5.69999 16.9L10.6 12L5.69999 7.09999C5.51665 6.91665 5.42499 6.68332 5.42499 6.39999C5.42499 6.11665 5.51665 5.88332 5.69999 5.69999C5.88332 5.51665 6.11665 5.42499 6.39999 5.42499C6.68332 5.42499 6.91665 5.51665 7.09999 5.69999L12 10.6L16.9 5.69999C17.0833 5.51665 17.3167 5.42499 17.6 5.42499C17.8833 5.42499 18.1167 5.51665 18.3 5.69999C18.4833 5.88332 18.575 6.11665 18.575 6.39999C18.575 6.68332 18.4833 6.91665 18.3 7.09999L13.4 12L18.3 16.9C18.4833 17.0833 18.575 17.3167 18.575 17.6C18.575 17.8833 18.4833 18.1167 18.3 18.3C18.1167 18.4833 17.8833 18.575 17.6 18.575C17.3167 18.575 17.0833 18.4833 16.9 18.3L12 13.4Z&quot;
+            fill&#x3D;&quot;black&quot; /&gt;
+        &lt;/g&gt;
+      &lt;/svg&gt;
+      }
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;dialog-avatar&quot;&gt;
+      &lt;img [src]&#x3D;&quot;userDialog$.userData?.photoURL&quot; alt&#x3D;&quot;&quot; /&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;dialog-profile-info&quot;&gt;
+      &lt;div&gt;
+        &lt;span class&#x3D;&quot;elipsis&quot;&gt;{{ userDialog$.userData?.name }}&lt;/span&gt;
+        &lt;a (click)&#x3D;&quot;userDialog$.openProfileEdit()&quot;&gt;Bearbeiten&lt;/a&gt;
+      &lt;/div&gt;
+      &lt;div&gt;
+        &lt;div target&#x3D;&quot;online-status&quot; [ngStyle]&#x3D;&quot;{
+            &#x27;background-color&#x27;: userDialog$.userData?.status
+              ? &#x27;#92c83e&#x27;
+              : &#x27;#696969&#x27;
+          }&quot;&gt;&lt;/div&gt;
+        @if (userDialog$.userData?.status) {
+        &lt;span style&#x3D;&quot;color: #92c83e&quot;&gt;Aktiv&lt;/span&gt;
+        } @else {
+        &lt;span style&#x3D;&quot;color: #696969&quot;&gt;Offline&lt;/span&gt;
+        }
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;dialog-profile-mail&quot;&gt;
+      &lt;img src&#x3D;&quot;/img/icons/mail.svg&quot; alt&#x3D;&quot;&quot; /&gt;
+      &lt;div&gt;
+        &lt;span&gt;E-Mail-Adresse&lt;/span&gt;
+        &lt;p&gt;{{ userDialog$.userData?.email }}&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+} @else if (userDialog$.profileDialogEdit){
+&lt;div [ngClass]&#x3D;&quot;{
+    &#x27;dialog-container&#x27;:
+      userDialog$.dialog ||
+      userDialog$.profileDialog ||
+      userDialog$.profileDialogEdit
+  }&quot; [style.backgroundColor]&#x3D;&quot;mobileDialog ? &#x27;none&#x27; : &#x27;white&#x27;&quot; (click)&#x3D;&quot;userDialog$.dontCloseDialog($event)&quot;&gt;
+  &lt;form class&#x3D;&quot;dialog-profile-container&quot; [formGroup]&#x3D;&quot;userDialog$.profileForm&quot;&gt;
+    &lt;div class&#x3D;&quot;dialog-header&quot;&gt;
+      &lt;span&gt;Dein Profil bearbeiten&lt;/span&gt;
+      @if(userDialog$.exitActiv) {
+      &lt;svg alt&#x3D;&quot;close&quot; (click)&#x3D;&quot;userDialog$.closeProfileDialogs($event)&quot; width&#x3D;&quot;24&quot; height&#x3D;&quot;24&quot; viewBox&#x3D;&quot;0 0 24 24&quot;
+        fill&#x3D;&quot;none&quot; xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;&gt;
+        &lt;mask id&#x3D;&quot;mask0_103447_3506&quot; style&#x3D;&quot;mask-type: alpha&quot; maskUnits&#x3D;&quot;userSpaceOnUse&quot; x&#x3D;&quot;0&quot; y&#x3D;&quot;0&quot; width&#x3D;&quot;24&quot;
+          height&#x3D;&quot;24&quot;&gt;
+          &lt;rect width&#x3D;&quot;24&quot; height&#x3D;&quot;24&quot; fill&#x3D;&quot;#D9D9D9&quot; /&gt;
+        &lt;/mask&gt;
+        &lt;g mask&#x3D;&quot;url(#mask0_103447_3506)&quot;&gt;
+          &lt;path
+            d&#x3D;&quot;M12 13.4L7.09999 18.3C6.91665 18.4833 6.68332 18.575 6.39999 18.575C6.11665 18.575 5.88332 18.4833 5.69999 18.3C5.51665 18.1167 5.42499 17.8833 5.42499 17.6C5.42499 17.3167 5.51665 17.0833 5.69999 16.9L10.6 12L5.69999 7.09999C5.51665 6.91665 5.42499 6.68332 5.42499 6.39999C5.42499 6.11665 5.51665 5.88332 5.69999 5.69999C5.88332 5.51665 6.11665 5.42499 6.39999 5.42499C6.68332 5.42499 6.91665 5.51665 7.09999 5.69999L12 10.6L16.9 5.69999C17.0833 5.51665 17.3167 5.42499 17.6 5.42499C17.8833 5.42499 18.1167 5.51665 18.3 5.69999C18.4833 5.88332 18.575 6.11665 18.575 6.39999C18.575 6.68332 18.4833 6.91665 18.3 7.09999L13.4 12L18.3 16.9C18.4833 17.0833 18.575 17.3167 18.575 17.6C18.575 17.8833 18.4833 18.1167 18.3 18.3C18.1167 18.4833 17.8833 18.575 17.6 18.575C17.3167 18.575 17.0833 18.4833 16.9 18.3L12 13.4Z&quot;
+            fill&#x3D;&quot;black&quot; /&gt;
+        &lt;/g&gt;
+      &lt;/svg&gt;
+      } @else {
+      &lt;svg alt&#x3D;&quot;close&quot; (click)&#x3D;&quot;userDialog$.closeDialog($event)&quot; width&#x3D;&quot;24&quot; height&#x3D;&quot;24&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot;
+        xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;&gt;
+        &lt;mask id&#x3D;&quot;mask0_103447_3506&quot; style&#x3D;&quot;mask-type: alpha&quot; maskUnits&#x3D;&quot;userSpaceOnUse&quot; x&#x3D;&quot;0&quot; y&#x3D;&quot;0&quot; width&#x3D;&quot;24&quot;
+          height&#x3D;&quot;24&quot;&gt;
+          &lt;rect width&#x3D;&quot;24&quot; height&#x3D;&quot;24&quot; fill&#x3D;&quot;#D9D9D9&quot; /&gt;
+        &lt;/mask&gt;
+        &lt;g mask&#x3D;&quot;url(#mask0_103447_3506)&quot;&gt;
+          &lt;path
+            d&#x3D;&quot;M12 13.4L7.09999 18.3C6.91665 18.4833 6.68332 18.575 6.39999 18.575C6.11665 18.575 5.88332 18.4833 5.69999 18.3C5.51665 18.1167 5.42499 17.8833 5.42499 17.6C5.42499 17.3167 5.51665 17.0833 5.69999 16.9L10.6 12L5.69999 7.09999C5.51665 6.91665 5.42499 6.68332 5.42499 6.39999C5.42499 6.11665 5.51665 5.88332 5.69999 5.69999C5.88332 5.51665 6.11665 5.42499 6.39999 5.42499C6.68332 5.42499 6.91665 5.51665 7.09999 5.69999L12 10.6L16.9 5.69999C17.0833 5.51665 17.3167 5.42499 17.6 5.42499C17.8833 5.42499 18.1167 5.51665 18.3 5.69999C18.4833 5.88332 18.575 6.11665 18.575 6.39999C18.575 6.68332 18.4833 6.91665 18.3 7.09999L13.4 12L18.3 16.9C18.4833 17.0833 18.575 17.3167 18.575 17.6C18.575 17.8833 18.4833 18.1167 18.3 18.3C18.1167 18.4833 17.8833 18.575 17.6 18.575C17.3167 18.575 17.0833 18.4833 16.9 18.3L12 13.4Z&quot;
+            fill&#x3D;&quot;black&quot; /&gt;
+        &lt;/g&gt;
+      &lt;/svg&gt;
+      }
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;dialog-avatar&quot;&gt;
+      &lt;img [src]&#x3D;&quot;userDialog$.userData?.photoURL&quot; alt&#x3D;&quot;&quot; /&gt;
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;dialog-profile-info-edit&quot;&gt;
+      &lt;div class&#x3D;&quot;dialog-profile-edit-container&quot;&gt;
+        &lt;img src&#x3D;&quot;/img/icons/account_circle.svg&quot; alt&#x3D;&quot;account_circle&quot; /&gt;
+        &lt;span&gt;Vollständiger Name&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;input type&#x3D;&quot;text&quot; (input)&#x3D;&quot;userDialog$.profileDataChange()&quot; placeholder&#x3D;&quot;Bitte vollständigen Namen eingeben&quot;
+        formControlName&#x3D;&quot;userInputName&quot; [ngClass]&#x3D;&quot;{
+          &#x27;data-change-not-allowed&#x27;: userDialog$.profileForm.disabled
+        }&quot; /&gt;
+      &lt;div *ngIf&#x3D;&quot;
+          userDialog$.profileForm.get(&#x27;userInputName&#x27;)?.hasError(&#x27;required&#x27;) &amp;&amp;
+          userDialog$.profileForm.get(&#x27;userInputName&#x27;)?.dirty
+        &quot; class&#x3D;&quot;error-message&quot;&gt;
+        &lt;p&gt;Feld darf nicht leer sein.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div *ngIf&#x3D;&quot;
+          userDialog$.profileForm.get(&#x27;userInputName&#x27;)?.hasError(&#x27;pattern&#x27;) &amp;&amp;
+          userDialog$.profileForm.get(&#x27;userInputName&#x27;)?.dirty
+        &quot; class&#x3D;&quot;error-message&quot;&gt;
+        &lt;p&gt;Bitte Vor- und Nachnamen angeben.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div *ngIf&#x3D;&quot;
+          userDialog$.profileForm.get(&#x27;userInputName&#x27;)?.hasError(&#x27;maxlength&#x27;) &amp;&amp;
+          userDialog$.profileForm.get(&#x27;userInputName&#x27;)?.dirty
+        &quot; class&#x3D;&quot;error-message&quot;&gt;
+        &lt;p&gt;Maximal 25 Buchstaben&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;dialog-profile-info-edit&quot;&gt;
+      &lt;div class&#x3D;&quot;dialog-profile-edit-container&quot;&gt;
+        &lt;img src&#x3D;&quot;/img/icons/mail.svg&quot; alt&#x3D;&quot;mail&quot; /&gt;
+        &lt;span&gt;E-Mail-Adresse&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;input type&#x3D;&quot;text&quot; (input)&#x3D;&quot;userDialog$.profileDataChange()&quot; placeholder&#x3D;&quot;Bitte E-Mail-Adresse eingeben&quot;
+        formControlName&#x3D;&quot;userInputEmail&quot; [ngClass]&#x3D;&quot;{
+          &#x27;data-change-not-allowed&#x27;: userDialog$.profileForm.disabled
+        }&quot; /&gt;
+      &lt;div *ngIf&#x3D;&quot;
+          userDialog$.profileForm.get(&#x27;userInputEmail&#x27;)?.hasError(&#x27;required&#x27;) &amp;&amp;
+          userDialog$.profileForm.get(&#x27;userInputEmail&#x27;)?.dirty
+        &quot; class&#x3D;&quot;error-message&quot;&gt;
+        &lt;p&gt;Feld darf nicht leer sein.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div *ngIf&#x3D;&quot;
+          userDialog$.profileForm.get(&#x27;userInputEmail&#x27;)?.hasError(&#x27;pattern&#x27;) &amp;&amp;
+          userDialog$.profileForm.get(&#x27;userInputEmail&#x27;)?.dirty
+        &quot; class&#x3D;&quot;error-message&quot;&gt;
+        &lt;p&gt;E-Mail ist ungültig.&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;dialog-buttons&quot;&gt;
+      &lt;button class&#x3D;&quot;cancel default&quot; (click)&#x3D;&quot;userDialog$.closeProfileEdit()&quot;&gt;
+        Abbrechen
+      &lt;/button&gt;
+      &lt;button class&#x3D;&quot;save default&quot; [disabled]&#x3D;&quot;
+          !userDialog$.profileDataChanged() || userDialog$.profileForm.invalid
+        &quot; (click)&#x3D;&quot;userDialog$.saveProfile()&quot;&gt;
+        Speichern
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/form&gt;
+&lt;/div&gt;
+}</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div>@if (userDialog$.dialog) { @if(mobileDialog){<div class="mobileUserDialog" (click)="userDialog$.dontCloseDialog($event)">  <div class="mobile-userDialog-divider"></div>  <button class="mobile-userDialog-profil" (click)="userDialog$.openProfile()">    <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">      <path        d="M5.3125 19.375C6.375 18.5625 7.5625 17.9217 8.875 17.4525C10.1875 16.9842 11.5625 16.75 13 16.75C14.4375 16.75 15.8125 16.9842 17.125 17.4525C18.4375 17.9217 19.625 18.5625 20.6875 19.375C21.4167 18.5208 21.9846 17.5521 22.3913 16.4688C22.7971 15.3854 23 14.2292 23 13C23 10.2292 22.0263 7.86958 20.0788 5.92125C18.1304 3.97375 15.7708 3 13 3C10.2292 3 7.87 3.97375 5.9225 5.92125C3.97417 7.86958 3 10.2292 3 13C3 14.2292 3.20333 15.3854 3.61 16.4688C4.01583 17.5521 4.58333 18.5208 5.3125 19.375ZM13 14.25C11.7708 14.25 10.7342 13.8283 9.89 12.985C9.04667 12.1408 8.625 11.1042 8.625 9.875C8.625 8.64583 9.04667 7.60917 9.89 6.765C10.7342 5.92167 11.7708 5.5 13 5.5C14.2292 5.5 15.2658 5.92167 16.11 6.765C16.9533 7.60917 17.375 8.64583 17.375 9.875C17.375 11.1042 16.9533 12.1408 16.11 12.985C15.2658 13.8283 14.2292 14.25 13 14.25ZM13 25.5C11.2708 25.5 9.64583 25.1717 8.125 24.515C6.60417 23.8592 5.28125 22.9688 4.15625 21.8438C3.03125 20.7188 2.14083 19.3958 1.485 17.875C0.828333 16.3542 0.5 14.7292 0.5 13C0.5 11.2708 0.828333 9.64583 1.485 8.125C2.14083 6.60417 3.03125 5.28125 4.15625 4.15625C5.28125 3.03125 6.60417 2.14042 8.125 1.48375C9.64583 0.827917 11.2708 0.5 13 0.5C14.7292 0.5 16.3542 0.827917 17.875 1.48375C19.3958 2.14042 20.7188 3.03125 21.8438 4.15625C22.9688 5.28125 23.8592 6.60417 24.515 8.125C25.1717 9.64583 25.5 11.2708 25.5 13C25.5 14.7292 25.1717 16.3542 24.515 17.875C23.8592 19.3958 22.9688 20.7188 21.8438 21.8438C20.7188 22.9688 19.3958 23.8592 17.875 24.515C16.3542 25.1717 14.7292 25.5 13 25.5ZM13 23C14.1042 23 15.1458 22.8388 16.125 22.5163C17.1042 22.1929 18 21.7292 18.8125 21.125C18 20.5208 17.1042 20.0571 16.125 19.7337C15.1458 19.4112 14.1042 19.25 13 19.25C11.8958 19.25 10.8542 19.4112 9.875 19.7337C8.89583 20.0571 8 20.5208 7.1875 21.125C8 21.7292 8.89583 22.1929 9.875 22.5163C10.8542 22.8388 11.8958 23 13 23ZM13 11.75C13.5417 11.75 13.9896 11.5729 14.3438 11.2188C14.6979 10.8646 14.875 10.4167 14.875 9.875C14.875 9.33333 14.6979 8.88542 14.3438 8.53125C13.9896 8.17708 13.5417 8 13 8C12.4583 8 12.0104 8.17708 11.6562 8.53125C11.3021 8.88542 11.125 9.33333 11.125 9.875C11.125 10.4167 11.3021 10.8646 11.6562 11.2188C12.0104 11.5729 12.4583 11.75 13 11.75Z"        fill="black" />    </svg>    <span>Profil</span>  </button>  <button class="mobile-userDialog" (click)="userDialog$.closeDialog($event)" routerLink="/imprint" class="dialog-link">    <svg width="26" height="26" viewBox="2 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">      <g mask="url(#mask0_813_12172)">        <path          d="M7 14H17C17.2833 14 17.5207 13.904 17.712 13.712C17.904 13.5207 18 13.2833 18 13C18 12.7167 17.904 12.479 17.712 12.287C17.5207 12.0957 17.2833 12 17 12H7C6.71667 12 6.479 12.0957 6.287 12.287C6.09567 12.479 6 12.7167 6 13C6 13.2833 6.09567 13.5207 6.287 13.712C6.479 13.904 6.71667 14 7 14ZM7 11H17C17.2833 11 17.5207 10.904 17.712 10.712C17.904 10.5207 18 10.2833 18 10C18 9.71667 17.904 9.479 17.712 9.287C17.5207 9.09567 17.2833 9 17 9H7C6.71667 9 6.479 9.09567 6.287 9.287C6.09567 9.479 6 9.71667 6 10C6 10.2833 6.09567 10.5207 6.287 10.712C6.479 10.904 6.71667 11 7 11ZM7 8H17C17.2833 8 17.5207 7.90433 17.712 7.713C17.904 7.521 18 7.28333 18 7C18 6.71667 17.904 6.479 17.712 6.287C17.5207 6.09567 17.2833 6 17 6H7C6.71667 6 6.479 6.09567 6.287 6.287C6.09567 6.479 6 6.71667 6 7C6 7.28333 6.09567 7.521 6.287 7.713C6.479 7.90433 6.71667 8 7 8ZM20.3 20.3L18 18H4C3.45 18 2.97933 17.8043 2.588 17.413C2.196 17.021 2 16.55 2 16V4C2 3.45 2.196 2.979 2.588 2.587C2.97933 2.19567 3.45 2 4 2H20C20.55 2 21.021 2.19567 21.413 2.587C21.8043 2.979 22 3.45 22 4V19.575C22 20.025 21.796 20.3373 21.388 20.512C20.9793 20.6873 20.6167 20.6167 20.3 20.3ZM4 4V16H18.825L20 17.175V4H4Z"          fill="#1C1B1F" />      </g>    </svg>    <span>Impressum</span>  </button>  <button class="mobile-userDialog" (click)="userDialog$.closeDialog($event)" routerLink="/legalnotice"    class="dialog-link">    <svg width="26" height="26" viewBox="2 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">      <g mask="url(#mask0_813_12172)">        <path          d="M7 14H17C17.2833 14 17.5207 13.904 17.712 13.712C17.904 13.5207 18 13.2833 18 13C18 12.7167 17.904 12.479 17.712 12.287C17.5207 12.0957 17.2833 12 17 12H7C6.71667 12 6.479 12.0957 6.287 12.287C6.09567 12.479 6 12.7167 6 13C6 13.2833 6.09567 13.5207 6.287 13.712C6.479 13.904 6.71667 14 7 14ZM7 11H17C17.2833 11 17.5207 10.904 17.712 10.712C17.904 10.5207 18 10.2833 18 10C18 9.71667 17.904 9.479 17.712 9.287C17.5207 9.09567 17.2833 9 17 9H7C6.71667 9 6.479 9.09567 6.287 9.287C6.09567 9.479 6 9.71667 6 10C6 10.2833 6.09567 10.5207 6.287 10.712C6.479 10.904 6.71667 11 7 11ZM7 8H17C17.2833 8 17.5207 7.90433 17.712 7.713C17.904 7.521 18 7.28333 18 7C18 6.71667 17.904 6.479 17.712 6.287C17.5207 6.09567 17.2833 6 17 6H7C6.71667 6 6.479 6.09567 6.287 6.287C6.09567 6.479 6 6.71667 6 7C6 7.28333 6.09567 7.521 6.287 7.713C6.479 7.90433 6.71667 8 7 8ZM20.3 20.3L18 18H4C3.45 18 2.97933 17.8043 2.588 17.413C2.196 17.021 2 16.55 2 16V4C2 3.45 2.196 2.979 2.588 2.587C2.97933 2.19567 3.45 2 4 2H20C20.55 2 21.021 2.19567 21.413 2.587C21.8043 2.979 22 3.45 22 4V19.575C22 20.025 21.796 20.3373 21.388 20.512C20.9793 20.6873 20.6167 20.6167 20.3 20.3ZM4 4V16H18.825L20 17.175V4H4Z"          fill="#1C1B1F" />      </g>    </svg>    <span>Datenschutz</span>  </button>  <button class="mobile-userDialog-Log out" (click)="userDialog$.logout()">    <svg width="23" height="24" viewBox="0 0 23 24" fill="none" xmlns="http://www.w3.org/2000/svg">      <path        d="M16.1562 17.3438C15.9271 17.0729 15.8125 16.7654 15.8125 16.4212C15.8125 16.0779 15.9271 15.7917 16.1562 15.5625L18.4687 13.25H9.5C9.14583 13.25 8.84917 13.13 8.61 12.89C8.37 12.6508 8.25 12.3542 8.25 12C8.25 11.6458 8.37 11.3487 8.61 11.1087C8.84917 10.8696 9.14583 10.75 9.5 10.75H18.4687L16.1562 8.4375C15.9062 8.1875 15.7812 7.89083 15.7812 7.5475C15.7812 7.20333 15.9062 6.90625 16.1562 6.65625C16.3854 6.40625 16.6721 6.28125 17.0162 6.28125C17.3596 6.28125 17.6458 6.39583 17.875 6.625L22.375 11.125C22.5 11.25 22.5887 11.3854 22.6412 11.5312C22.6929 11.6771 22.7187 11.8333 22.7187 12C22.7187 12.1667 22.6929 12.3229 22.6412 12.4688C22.5887 12.6146 22.5 12.75 22.375 12.875L17.875 17.375C17.6042 17.6458 17.3075 17.7654 16.985 17.7337C16.6617 17.7029 16.3854 17.5729 16.1562 17.3438ZM3.25 23.25C2.5625 23.25 1.97375 23.0054 1.48375 22.5163C0.994583 22.0263 0.75 21.4375 0.75 20.75V3.25C0.75 2.5625 0.994583 1.97375 1.48375 1.48375C1.97375 0.994583 2.5625 0.75 3.25 0.75H10.75C11.1042 0.75 11.4012 0.869583 11.6412 1.10875C11.8804 1.34875 12 1.64583 12 2C12 2.35417 11.8804 2.65083 11.6412 2.89C11.4012 3.13 11.1042 3.25 10.75 3.25H3.25V20.75H10.75C11.1042 20.75 11.4012 20.87 11.6412 21.11C11.8804 21.3492 12 21.6458 12 22C12 22.3542 11.8804 22.6508 11.6412 22.89C11.4012 23.13 11.1042 23.25 10.75 23.25H3.25Z"        fill="black" />    </svg>    <span>Logout</span>  </button></div>} @else {<div [ngClass]="{    \'dialog-container\':      userDialog$.dialog ||      userDialog$.profileDialog ||      userDialog$.profileDialogEdit  }" [style.backgroundColor]="mobileDialog ? \'none\' : \'white\'" (click)="userDialog$.dontCloseDialog($event)">  <a (click)="userDialog$.openProfile()" class="dialog-link">Profil</a>  <a (click)="userDialog$.closeDialog($event)" routerLink="/imprint" class="dialog-link">Impressum</a>  <a (click)="userDialog$.closeDialog($event)" routerLink="/legalnotice" class="dialog-link">Datenschutz</a>  <a (click)="userDialog$.logout()" class="dialog-link">Logout</a></div>} } @else if (userDialog$.profileDialog) {<div [ngClass]="{    \'dialog-container\':      userDialog$.dialog ||      userDialog$.profileDialog ||      userDialog$.profileDialogEdit  }" [style.backgroundColor]="mobileDialog ? \'none\' : \'white\'" (click)="userDialog$.dontCloseDialog($event)">  <div class="dialog-profile-container">    <div class="dialog-header">      <span>Profil</span>      @if(userDialog$.exitActiv) {      <svg alt="close" (click)="userDialog$.closeProfileDialogs($event)" width="24" height="24" viewBox="0 0 24 24"        fill="none" xmlns="http://www.w3.org/2000/svg">        <mask id="mask0_103447_3506" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"          height="24">          <rect width="24" height="24" fill="#D9D9D9" />        </mask>        <g mask="url(#mask0_103447_3506)">          <path            d="M12 13.4L7.09999 18.3C6.91665 18.4833 6.68332 18.575 6.39999 18.575C6.11665 18.575 5.88332 18.4833 5.69999 18.3C5.51665 18.1167 5.42499 17.8833 5.42499 17.6C5.42499 17.3167 5.51665 17.0833 5.69999 16.9L10.6 12L5.69999 7.09999C5.51665 6.91665 5.42499 6.68332 5.42499 6.39999C5.42499 6.11665 5.51665 5.88332 5.69999 5.69999C5.88332 5.51665 6.11665 5.42499 6.39999 5.42499C6.68332 5.42499 6.91665 5.51665 7.09999 5.69999L12 10.6L16.9 5.69999C17.0833 5.51665 17.3167 5.42499 17.6 5.42499C17.8833 5.42499 18.1167 5.51665 18.3 5.69999C18.4833 5.88332 18.575 6.11665 18.575 6.39999C18.575 6.68332 18.4833 6.91665 18.3 7.09999L13.4 12L18.3 16.9C18.4833 17.0833 18.575 17.3167 18.575 17.6C18.575 17.8833 18.4833 18.1167 18.3 18.3C18.1167 18.4833 17.8833 18.575 17.6 18.575C17.3167 18.575 17.0833 18.4833 16.9 18.3L12 13.4Z"            fill="black" />        </g>      </svg>      } @else {      <svg alt="close" (click)="userDialog$.closeDialog($event)" width="24" height="24" viewBox="0 0 24 24" fill="none"        xmlns="http://www.w3.org/2000/svg">        <mask id="mask0_103447_3506" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"          height="24">          <rect width="24" height="24" fill="#D9D9D9" />        </mask>        <g mask="url(#mask0_103447_3506)">          <path            d="M12 13.4L7.09999 18.3C6.91665 18.4833 6.68332 18.575 6.39999 18.575C6.11665 18.575 5.88332 18.4833 5.69999 18.3C5.51665 18.1167 5.42499 17.8833 5.42499 17.6C5.42499 17.3167 5.51665 17.0833 5.69999 16.9L10.6 12L5.69999 7.09999C5.51665 6.91665 5.42499 6.68332 5.42499 6.39999C5.42499 6.11665 5.51665 5.88332 5.69999 5.69999C5.88332 5.51665 6.11665 5.42499 6.39999 5.42499C6.68332 5.42499 6.91665 5.51665 7.09999 5.69999L12 10.6L16.9 5.69999C17.0833 5.51665 17.3167 5.42499 17.6 5.42499C17.8833 5.42499 18.1167 5.51665 18.3 5.69999C18.4833 5.88332 18.575 6.11665 18.575 6.39999C18.575 6.68332 18.4833 6.91665 18.3 7.09999L13.4 12L18.3 16.9C18.4833 17.0833 18.575 17.3167 18.575 17.6C18.575 17.8833 18.4833 18.1167 18.3 18.3C18.1167 18.4833 17.8833 18.575 17.6 18.575C17.3167 18.575 17.0833 18.4833 16.9 18.3L12 13.4Z"            fill="black" />        </g>      </svg>      }    </div>    <div class="dialog-avatar">      <img [src]="userDialog$.userData?.photoURL" alt="" />    </div>    <div class="dialog-profile-info">      <div>        <span class="elipsis">{{ userDialog$.userData?.name }}</span>        <a (click)="userDialog$.openProfileEdit()">Bearbeiten</a>      </div>      <div>        <div target="online-status" [ngStyle]="{            \'background-color\': userDialog$.userData?.status              ? \'#92c83e\'              : \'#696969\'          }"></div>        @if (userDialog$.userData?.status) {        <span style="color: #92c83e">Aktiv</span>        } @else {        <span style="color: #696969">Offline</span>        }      </div>    </div>    <div class="dialog-profile-mail">      <img src="/img/icons/mail.svg" alt="" />      <div>        <span>E-Mail-Adresse</span>        <p>{{ userDialog$.userData?.email }}</p>      </div>    </div>  </div></div>} @else if (userDialog$.profileDialogEdit){<div [ngClass]="{    \'dialog-container\':      userDialog$.dialog ||      userDialog$.profileDialog ||      userDialog$.profileDialogEdit  }" [style.backgroundColor]="mobileDialog ? \'none\' : \'white\'" (click)="userDialog$.dontCloseDialog($event)">  <form class="dialog-profile-container" [formGroup]="userDialog$.profileForm">    <div class="dialog-header">      <span>Dein Profil bearbeiten</span>      @if(userDialog$.exitActiv) {      <svg alt="close" (click)="userDialog$.closeProfileDialogs($event)" width="24" height="24" viewBox="0 0 24 24"        fill="none" xmlns="http://www.w3.org/2000/svg">        <mask id="mask0_103447_3506" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"          height="24">          <rect width="24" height="24" fill="#D9D9D9" />        </mask>        <g mask="url(#mask0_103447_3506)">          <path            d="M12 13.4L7.09999 18.3C6.91665 18.4833 6.68332 18.575 6.39999 18.575C6.11665 18.575 5.88332 18.4833 5.69999 18.3C5.51665 18.1167 5.42499 17.8833 5.42499 17.6C5.42499 17.3167 5.51665 17.0833 5.69999 16.9L10.6 12L5.69999 7.09999C5.51665 6.91665 5.42499 6.68332 5.42499 6.39999C5.42499 6.11665 5.51665 5.88332 5.69999 5.69999C5.88332 5.51665 6.11665 5.42499 6.39999 5.42499C6.68332 5.42499 6.91665 5.51665 7.09999 5.69999L12 10.6L16.9 5.69999C17.0833 5.51665 17.3167 5.42499 17.6 5.42499C17.8833 5.42499 18.1167 5.51665 18.3 5.69999C18.4833 5.88332 18.575 6.11665 18.575 6.39999C18.575 6.68332 18.4833 6.91665 18.3 7.09999L13.4 12L18.3 16.9C18.4833 17.0833 18.575 17.3167 18.575 17.6C18.575 17.8833 18.4833 18.1167 18.3 18.3C18.1167 18.4833 17.8833 18.575 17.6 18.575C17.3167 18.575 17.0833 18.4833 16.9 18.3L12 13.4Z"            fill="black" />        </g>      </svg>      } @else {      <svg alt="close" (click)="userDialog$.closeDialog($event)" width="24" height="24" viewBox="0 0 24 24" fill="none"        xmlns="http://www.w3.org/2000/svg">        <mask id="mask0_103447_3506" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"          height="24">          <rect width="24" height="24" fill="#D9D9D9" />        </mask>        <g mask="url(#mask0_103447_3506)">          <path            d="M12 13.4L7.09999 18.3C6.91665 18.4833 6.68332 18.575 6.39999 18.575C6.11665 18.575 5.88332 18.4833 5.69999 18.3C5.51665 18.1167 5.42499 17.8833 5.42499 17.6C5.42499 17.3167 5.51665 17.0833 5.69999 16.9L10.6 12L5.69999 7.09999C5.51665 6.91665 5.42499 6.68332 5.42499 6.39999C5.42499 6.11665 5.51665 5.88332 5.69999 5.69999C5.88332 5.51665 6.11665 5.42499 6.39999 5.42499C6.68332 5.42499 6.91665 5.51665 7.09999 5.69999L12 10.6L16.9 5.69999C17.0833 5.51665 17.3167 5.42499 17.6 5.42499C17.8833 5.42499 18.1167 5.51665 18.3 5.69999C18.4833 5.88332 18.575 6.11665 18.575 6.39999C18.575 6.68332 18.4833 6.91665 18.3 7.09999L13.4 12L18.3 16.9C18.4833 17.0833 18.575 17.3167 18.575 17.6C18.575 17.8833 18.4833 18.1167 18.3 18.3C18.1167 18.4833 17.8833 18.575 17.6 18.575C17.3167 18.575 17.0833 18.4833 16.9 18.3L12 13.4Z"            fill="black" />        </g>      </svg>      }    </div>    <div class="dialog-avatar">      <img [src]="userDialog$.userData?.photoURL" alt="" />    </div>    <div class="dialog-profile-info-edit">      <div class="dialog-profile-edit-container">        <img src="/img/icons/account_circle.svg" alt="account_circle" />        <span>Vollständiger Name</span>      </div>      <input type="text" (input)="userDialog$.profileDataChange()" placeholder="Bitte vollständigen Namen eingeben"        formControlName="userInputName" [ngClass]="{          \'data-change-not-allowed\': userDialog$.profileForm.disabled        }" />      <div *ngIf="          userDialog$.profileForm.get(\'userInputName\')?.hasError(\'required\') &&          userDialog$.profileForm.get(\'userInputName\')?.dirty        " class="error-message">        <p>Feld darf nicht leer sein.</p>      </div>      <div *ngIf="          userDialog$.profileForm.get(\'userInputName\')?.hasError(\'pattern\') &&          userDialog$.profileForm.get(\'userInputName\')?.dirty        " class="error-message">        <p>Bitte Vor- und Nachnamen angeben.</p>      </div>      <div *ngIf="          userDialog$.profileForm.get(\'userInputName\')?.hasError(\'maxlength\') &&          userDialog$.profileForm.get(\'userInputName\')?.dirty        " class="error-message">        <p>Maximal 25 Buchstaben</p>      </div>    </div>    <div class="dialog-profile-info-edit">      <div class="dialog-profile-edit-container">        <img src="/img/icons/mail.svg" alt="mail" />        <span>E-Mail-Adresse</span>      </div>      <input type="text" (input)="userDialog$.profileDataChange()" placeholder="Bitte E-Mail-Adresse eingeben"        formControlName="userInputEmail" [ngClass]="{          \'data-change-not-allowed\': userDialog$.profileForm.disabled        }" />      <div *ngIf="          userDialog$.profileForm.get(\'userInputEmail\')?.hasError(\'required\') &&          userDialog$.profileForm.get(\'userInputEmail\')?.dirty        " class="error-message">        <p>Feld darf nicht leer sein.</p>      </div>      <div *ngIf="          userDialog$.profileForm.get(\'userInputEmail\')?.hasError(\'pattern\') &&          userDialog$.profileForm.get(\'userInputEmail\')?.dirty        " class="error-message">        <p>E-Mail ist ungültig.</p>      </div>    </div>    <div class="dialog-buttons">      <button class="cancel default" (click)="userDialog$.closeProfileEdit()">        Abbrechen      </button>      <button class="save default" [disabled]="          !userDialog$.profileDataChanged() || userDialog$.profileForm.invalid        " (click)="userDialog$.saveProfile()">        Speichern      </button>    </div>  </form></div>}</div>'
+    var COMPONENTS = [{'name': 'AddchatComponent', 'selector': 'app-addchat'},{'name': 'AddUserToChannelComponent', 'selector': 'app-add-user-to-channel'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'BuilderComponent', 'selector': 'app-builder'},{'name': 'ChatboxComponent', 'selector': 'app-chatbox'},{'name': 'ChatComponent', 'selector': 'app-chat'},{'name': 'ChooseAvatarComponent', 'selector': 'app-choose-avatar'},{'name': 'CreatemessageComponent', 'selector': 'app-createmessage'},{'name': 'DialogComponent', 'selector': 'app-dialog'},{'name': 'EditmessageComponent', 'selector': 'app-editmessage'},{'name': 'EmojiPickerComponent', 'selector': 'app-emoji-picker'},{'name': 'ForgetPasswordComponent', 'selector': 'app-forget-password'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'ImprintComponent', 'selector': 'app-imprint'},{'name': 'LegalnoticeComponent', 'selector': 'app-legalnotice'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogoComponent', 'selector': 'app-logo'},{'name': 'MainchatHeaderComponent', 'selector': 'app-mainchat-header'},{'name': 'MainComponent', 'selector': 'app-main'},{'name': 'MentionComponent', 'selector': 'app-mention'},{'name': 'MenuChannelsComponent', 'selector': 'app-menu-channels'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MenuDialogComponent', 'selector': 'app-menu-dialog'},{'name': 'MenuHeaderComponent', 'selector': 'app-menu-header'},{'name': 'MenuPrivateMessagesComponent', 'selector': 'app-menu-private-messages'},{'name': 'MenutogglerComponent', 'selector': 'app-menutoggler'},{'name': 'MessageboxComponent', 'selector': 'app-messagebox'},{'name': 'MessageComponent', 'selector': 'app-messages'},{'name': 'ParentMessageComponent', 'selector': 'app-parent-message'},{'name': 'ProfileviewComponent', 'selector': 'app-profileview'},{'name': 'ReactionsComponent', 'selector': 'app-reactions'},{'name': 'ResetPasswordComponent', 'selector': 'app-reset-password'},{'name': 'SearchbarComponent', 'selector': 'app-searchbar'},{'name': 'SignInComponent', 'selector': 'app-sign-in'},{'name': 'SignUpComponent', 'selector': 'app-sign-up'},{'name': 'ThreadchatHeaderComponent', 'selector': 'app-threadchat-header'},{'name': 'ThreadMessagesComponent', 'selector': 'app-thread-messages'},{'name': 'ToastMessageComponent', 'selector': 'app-toastmessage'},{'name': 'UsermenuComponent', 'selector': 'app-usermenu'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'DialogComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'DialogComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

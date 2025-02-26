@@ -1,0 +1,24 @@
+@use './colors.scss' as colors;
+/* SCROLLBAR */
+/* width */
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f100;
+    ;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background: colors.$purple;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: colors.$purple2;
+}

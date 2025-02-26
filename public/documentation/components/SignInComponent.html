@@ -1,0 +1,974 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>dabubble documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">dabubble documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  SignInComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/login/sign-in/sign-in.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnInit</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-sign-in</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                            <code>FormsModule</code>
+                            <code>RouterModule</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./sign-in.component.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./sign-in.component.scss</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#loginData" >loginData</a>
+                            </li>
+                            <li>
+                                <a href="#loginError" >loginError</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#login" >login</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#loginAsGuest" >loginAsGuest</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#loginWithGoogle" >loginWithGoogle</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#redirectToBoard" >redirectToBoard</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(authService: <a href="../injectables/AuthService.html" target="_self">AuthService</a>, router: Router, userService: <a href="../injectables/UserService.html" target="_self">UserService</a>, route: ActivatedRoute)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/login/sign-in/sign-in.component.ts:17</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Constructor for SignInComponent.</p>
+</div>
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                                    <td>Description</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>authService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>The authentication service.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>router</td>
+                                                  
+                                                        <td>
+                                                                    <code>Router</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>The Angular Router service.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>userService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UserService.html" target="_self" >UserService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>route</td>
+                                                  
+                                                        <td>
+                                                                    <code>ActivatedRoute</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>The activated route to extract query parameters.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="login"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>login</b></span>
+                        <a href="#login"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>login(ngForm: NgForm)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="46"
+                                    class="link-to-prism">src/app/login/sign-in/sign-in.component.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Logs in the user.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>ngForm</td>
+                                            <td>
+                                                        <code>NgForm</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>The form containing the user&#39;s login credentials.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loginAsGuest"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>loginAsGuest</b></span>
+                        <a href="#loginAsGuest"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loginAsGuest()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="60"
+                                    class="link-to-prism">src/app/login/sign-in/sign-in.component.ts:60</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Logs in as a guest user.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loginWithGoogle"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>loginWithGoogle</b></span>
+                        <a href="#loginWithGoogle"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loginWithGoogle()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="73"
+                                    class="link-to-prism">src/app/login/sign-in/sign-in.component.ts:73</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Logs in using Google authentication.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="35"
+                                    class="link-to-prism">src/app/login/sign-in/sign-in.component.ts:35</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>ngOnInit - Lifecycle hook that is called after data-bound properties are initialized.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="redirectToBoard"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>redirectToBoard</b></span>
+                        <a href="#redirectToBoard"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>redirectToBoard()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="86"
+                                    class="link-to-prism">src/app/login/sign-in/sign-in.component.ts:86</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Redirects the user to the board page.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loginData"></a>
+                    <span class="name">
+                        <span ><b>loginData</b></span>
+                        <a href="#loginData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{email: &#x27;&#x27;, password: &#x27;&#x27;}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/login/sign-in/sign-in.component.ts:16</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loginError"></a>
+                    <span class="name">
+                        <span ><b>loginError</b></span>
+                        <a href="#loginError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/login/sign-in/sign-in.component.ts:17</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
+import { Component, OnInit } from &#x27;@angular/core&#x27;;
+import { FormsModule, NgForm } from &#x27;@angular/forms&#x27;;
+import { ActivatedRoute, Router, RouterModule } from &#x27;@angular/router&#x27;;
+import { AuthService } from &#x27;../../shared/services/auth.service&#x27;;
+import { UserService } from &#x27;../../shared/services/user.service&#x27;;
+
+@Component({
+  selector: &#x27;app-sign-in&#x27;,
+  imports: [CommonModule, FormsModule, RouterModule],
+  standalone: true,
+  templateUrl: &#x27;./sign-in.component.html&#x27;,
+  styleUrl: &#x27;./sign-in.component.scss&#x27;
+})
+export class SignInComponent implements OnInit {
+  loginData &#x3D; {email: &#x27;&#x27;, password: &#x27;&#x27;};
+  loginError &#x3D; &#x27;&#x27;;
+
+  /**
+   * Constructor for SignInComponent.
+   * @param {AuthService} authService - The authentication service.
+   * @param {Router} router - The Angular Router service.
+   * @param {ActivatedRoute} route - The activated route to extract query parameters.
+   */
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private userService: UserService,
+    private route: ActivatedRoute
+  ) { }
+
+  /**
+   * ngOnInit - Lifecycle hook that is called after data-bound properties are initialized.
+   */
+  ngOnInit(): void {
+    if (this.authService.isAuthenticated()) {
+      this.router.navigateByUrl(&#x27;/board&#x27;);
+    }
+    this.loginError &#x3D; this.userService.loginError();
+  }
+
+  /**
+   * Logs in the user.
+   * @param {NgForm} ngForm - The form containing the user&#x27;s login credentials.
+   */
+  async login(ngForm: NgForm): Promise&lt;void&gt; {
+    if (ngForm.valid &amp;&amp; ngForm.submitted) {
+      try {
+        await this.authService.login(this.loginData.email, this.loginData.password);
+        this.redirectToBoard();
+      } catch (error) {
+        this.loginError &#x3D; &#x27;Falsches Passwort oder E-Mail.. Bitte noch einmal versuchen.&#x27;;
+      }
+    }
+  }
+
+  /**
+   * Logs in as a guest user.
+   */
+  async loginAsGuest(): Promise&lt;void&gt; {
+    try {
+      await this.authService.guestLogin();
+      this.redirectToBoard();
+    } catch (error) {
+      this.loginError &#x3D; &#x27;Guest login failed.&#x27;;
+      console.error(&#x27;Guest login error:&#x27;, error);
+    }
+  }
+
+  /**
+   * Logs in using Google authentication.
+   */
+  async loginWithGoogle(): Promise&lt;void&gt; {
+    try {
+      await this.authService.googleLogin();
+      this.redirectToBoard();
+    } catch (error) {
+      this.loginError &#x3D; &#x27;Google login failed.&#x27;;
+      console.error(&#x27;Google login error:&#x27;, error);
+    }
+  }
+
+  /**
+   * Redirects the user to the board page.
+   */
+  private redirectToBoard(): void {
+    const returnUrl &#x3D; this.route.snapshot.queryParams[&#x27;returnUrl&#x27;] || &#x27;/board&#x27;;
+    this.router.navigateByUrl(returnUrl, { replaceUrl: true });
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;mainCont&quot;&gt;
+    &lt;h1&gt;Anmeldung&lt;/h1&gt;
+    &lt;span&gt;Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.&lt;/span&gt;
+    &lt;form (ngSubmit)&#x3D;&quot;login(contactForm)&quot; #contactForm&#x3D;&quot;ngForm&quot;&gt;
+        &lt;div class&#x3D;&quot;inputCont&quot;&gt;
+            &lt;div class&#x3D;&quot;input&quot;&gt;
+                &lt;svg width&#x3D;&quot;24&quot; height&#x3D;&quot;24&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;&gt;
+                    &lt;mask id&#x3D;&quot;mask0_98810_3174&quot; style&#x3D;&quot;mask-type:alpha&quot; maskUnits&#x3D;&quot;userSpaceOnUse&quot; x&#x3D;&quot;0&quot; y&#x3D;&quot;0&quot;
+                        width&#x3D;&quot;24&quot; height&#x3D;&quot;24&quot;&gt;
+                        &lt;rect width&#x3D;&quot;24&quot; height&#x3D;&quot;24&quot; fill&#x3D;&quot;#D9D9D9&quot; /&gt;
+                    &lt;/mask&gt;
+                    &lt;g mask&#x3D;&quot;url(#mask0_98810_3174)&quot;&gt;
+                        &lt;path
+                            d&#x3D;&quot;M4 20C3.45 20 2.97933 19.8043 2.588 19.413C2.196 19.021 2 18.55 2 18V6C2 5.45 2.196 4.97933 2.588 4.588C2.97933 4.196 3.45 4 4 4H20C20.55 4 21.021 4.196 21.413 4.588C21.8043 4.97933 22 5.45 22 6V18C22 18.55 21.8043 19.021 21.413 19.413C21.021 19.8043 20.55 20 20 20H4ZM20 8L12.525 12.675C12.4417 12.725 12.354 12.7623 12.262 12.787C12.1707 12.8123 12.0833 12.825 12 12.825C11.9167 12.825 11.8293 12.8123 11.738 12.787C11.646 12.7623 11.5583 12.725 11.475 12.675L4 8V18H20V8ZM12 11L20 6H4L12 11ZM4 8.25V6.775V6.8V6.787V8.25Z&quot;
+                            fill&#x3D;&quot;#686868&quot; /&gt;
+                    &lt;/g&gt;
+                &lt;/svg&gt;
+                &lt;input #email&#x3D;&quot;ngModel&quot; [(ngModel)]&#x3D;&quot;loginData.email&quot; type&#x3D;&quot;text&quot; name&#x3D;&quot;e-mail&quot;
+                    placeholder&#x3D;&quot;beispielname@email.com&quot; required
+                    pattern&#x3D;&quot;[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}&quot;&gt;
+            &lt;/div&gt;
+            &lt;span class&#x3D;&quot;warning&quot; [ngStyle]&#x3D;&quot;{&#x27;opacity&#x27;: !email.valid &amp;&amp; email.touched ? 1 : 0}&quot;&gt;*Diese
+                E-Mail-Adresse
+                ist leider ungültig.&lt;/span&gt;
+            &lt;div class&#x3D;&quot;input&quot;&gt;
+                &lt;svg width&#x3D;&quot;24&quot; height&#x3D;&quot;24&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;&gt;
+                    &lt;mask id&#x3D;&quot;mask0_98810_14397&quot; style&#x3D;&quot;mask-type:alpha&quot; maskUnits&#x3D;&quot;userSpaceOnUse&quot; x&#x3D;&quot;0&quot; y&#x3D;&quot;0&quot;
+                        width&#x3D;&quot;24&quot; height&#x3D;&quot;24&quot;&gt;
+                        &lt;rect width&#x3D;&quot;24&quot; height&#x3D;&quot;24&quot; fill&#x3D;&quot;#D9D9D9&quot; /&gt;
+                    &lt;/mask&gt;
+                    &lt;g mask&#x3D;&quot;url(#mask0_98810_14397)&quot;&gt;
+                        &lt;path
+                            d&#x3D;&quot;M6 22C5.45 22 4.97933 21.8043 4.588 21.413C4.196 21.021 4 20.55 4 20V10C4 9.45 4.196 8.979 4.588 8.587C4.97933 8.19567 5.45 8 6 8H7V6C7 4.61667 7.48767 3.43733 8.463 2.462C9.43767 1.48733 10.6167 1 12 1C13.3833 1 14.5627 1.48733 15.538 2.462C16.5127 3.43733 17 4.61667 17 6V8H18C18.55 8 19.021 8.19567 19.413 8.587C19.8043 8.979 20 9.45 20 10V20C20 20.55 19.8043 21.021 19.413 21.413C19.021 21.8043 18.55 22 18 22H6ZM6 20H18V10H6V20ZM12 17C12.55 17 13.021 16.8043 13.413 16.413C13.8043 16.021 14 15.55 14 15C14 14.45 13.8043 13.979 13.413 13.587C13.021 13.1957 12.55 13 12 13C11.45 13 10.9793 13.1957 10.588 13.587C10.196 13.979 10 14.45 10 15C10 15.55 10.196 16.021 10.588 16.413C10.9793 16.8043 11.45 17 12 17ZM9 8H15V6C15 5.16667 14.7083 4.45833 14.125 3.875C13.5417 3.29167 12.8333 3 12 3C11.1667 3 10.4583 3.29167 9.875 3.875C9.29167 4.45833 9 5.16667 9 6V8Z&quot;
+                            fill&#x3D;&quot;#686868&quot; /&gt;
+                    &lt;/g&gt;
+                &lt;/svg&gt;
+                &lt;input minlength&#x3D;&quot;5&quot; #password&#x3D;&quot;ngModel&quot; [(ngModel)]&#x3D;&quot;loginData.password&quot; type&#x3D;&quot;password&quot;
+                    name&#x3D;&quot;password&quot; placeholder&#x3D;&quot;Passwort&quot; required&gt;
+            &lt;/div&gt;
+            &lt;span class&#x3D;&quot;warning&quot;
+                [ngStyle]&#x3D;&quot;{opacity: (loginError &#x3D;&#x3D; &#x27;Falsches Passwort oder E-Mail.. Bitte noch einmal versuchen.&#x27;) 
+                || (!password.valid &amp;&amp; password.touched) ? 1 : 0}&quot;&gt;{{ loginError }}&lt;/span&gt;
+            &lt;div class&#x3D;&quot;link&quot;&gt;
+                &lt;a routerLink&#x3D;&quot;forget&quot;&gt;Passwort vergessen?&lt;/a&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;separation&quot;&gt;
+            &lt;div class&#x3D;&quot;line&quot;&gt;&lt;/div&gt;
+            &lt;span&gt;ODER&lt;/span&gt;
+            &lt;div class&#x3D;&quot;line&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;googleBtn&quot; (click)&#x3D;&quot;loginWithGoogle()&quot;&gt;
+            &lt;div&gt;
+                &lt;svg width&#x3D;&quot;38&quot; height&#x3D;&quot;38&quot; viewBox&#x3D;&quot;0 0 38 38&quot; fill&#x3D;&quot;none&quot; xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;&gt;
+                    &lt;path
+                        d&#x3D;&quot;M34.5255 15.899H33.2501V15.8333H19.0001V22.1666H27.9483C26.6428 25.8534 23.135 28.5 19.0001 28.5C13.7537 28.5 9.50008 24.2463 9.50008 19C9.50008 13.7536 13.7537 9.49996 19.0001 9.49996C21.4218 9.49996 23.625 10.4135 25.3025 11.9058L29.781 7.42738C26.9532 4.79192 23.1706 3.16663 19.0001 3.16663C10.2561 3.16663 3.16675 10.256 3.16675 19C3.16675 27.7439 10.2561 34.8333 19.0001 34.8333C27.744 34.8333 34.8334 27.7439 34.8334 19C34.8334 17.9383 34.7242 16.902 34.5255 15.899Z&quot;
+                        fill&#x3D;&quot;#FFC107&quot; /&gt;
+                    &lt;path
+                        d&#x3D;&quot;M4.99219 11.6303L10.1942 15.4454C11.6018 11.9605 15.0107 9.49996 18.9999 9.49996C21.4216 9.49996 23.6249 10.4135 25.3024 11.9058L29.7809 7.42738C26.953 4.79192 23.1704 3.16663 18.9999 3.16663C12.9184 3.16663 7.64427 6.60008 4.99219 11.6303Z&quot;
+                        fill&#x3D;&quot;#FF3D00&quot; /&gt;
+                    &lt;path
+                        d&#x3D;&quot;M18.9999 34.8334C23.0897 34.8334 26.8058 33.2683 29.6154 30.7231L24.715 26.5763C23.1253 27.7804 21.1493 28.5001 18.9999 28.5001C14.8817 28.5001 11.3849 25.8741 10.0675 22.2095L4.9043 26.1876C7.52471 31.3152 12.8463 34.8334 18.9999 34.8334Z&quot;
+                        fill&#x3D;&quot;#4CAF50&quot; /&gt;
+                    &lt;path
+                        d&#x3D;&quot;M34.5254 15.8991H33.25V15.8334H19V22.1667H27.9482C27.3212 23.9377 26.182 25.4648 24.7127 26.5771L24.715 26.5755L29.6155 30.7222C29.2687 31.0373 34.8333 26.9167 34.8333 19C34.8333 17.9384 34.7241 16.9021 34.5254 15.8991Z&quot;
+                        fill&#x3D;&quot;#1976D2&quot; /&gt;
+                &lt;/svg&gt;
+                &lt;span&gt;Anmelden mit Google&lt;/span&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;buttons&quot;&gt;
+            &lt;button [disabled]&#x3D;&quot;!email.valid || !password.valid&quot; type&#x3D;&quot;submit&quot; class&#x3D;&quot;button_blue&quot;&gt;Anmelden&lt;/button&gt;
+            &lt;button (click)&#x3D;&quot;loginAsGuest()&quot; class&#x3D;&quot;button_white&quot;&gt;Gäste-Login&lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/form&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="mainCont">    <h1>Anmeldung</h1>    <span>Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</span>    <form (ngSubmit)="login(contactForm)" #contactForm="ngForm">        <div class="inputCont">            <div class="input">                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                    <mask id="mask0_98810_3174" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"                        width="24" height="24">                        <rect width="24" height="24" fill="#D9D9D9" />                    </mask>                    <g mask="url(#mask0_98810_3174)">                        <path                            d="M4 20C3.45 20 2.97933 19.8043 2.588 19.413C2.196 19.021 2 18.55 2 18V6C2 5.45 2.196 4.97933 2.588 4.588C2.97933 4.196 3.45 4 4 4H20C20.55 4 21.021 4.196 21.413 4.588C21.8043 4.97933 22 5.45 22 6V18C22 18.55 21.8043 19.021 21.413 19.413C21.021 19.8043 20.55 20 20 20H4ZM20 8L12.525 12.675C12.4417 12.725 12.354 12.7623 12.262 12.787C12.1707 12.8123 12.0833 12.825 12 12.825C11.9167 12.825 11.8293 12.8123 11.738 12.787C11.646 12.7623 11.5583 12.725 11.475 12.675L4 8V18H20V8ZM12 11L20 6H4L12 11ZM4 8.25V6.775V6.8V6.787V8.25Z"                            fill="#686868" />                    </g>                </svg>                <input #email="ngModel" [(ngModel)]="loginData.email" type="text" name="e-mail"                    placeholder="beispielname@email.com" required                    pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}">            </div>            <span class="warning" [ngStyle]="{\'opacity\': !email.valid && email.touched ? 1 : 0}">*Diese                E-Mail-Adresse                ist leider ungültig.</span>            <div class="input">                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">                    <mask id="mask0_98810_14397" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"                        width="24" height="24">                        <rect width="24" height="24" fill="#D9D9D9" />                    </mask>                    <g mask="url(#mask0_98810_14397)">                        <path                            d="M6 22C5.45 22 4.97933 21.8043 4.588 21.413C4.196 21.021 4 20.55 4 20V10C4 9.45 4.196 8.979 4.588 8.587C4.97933 8.19567 5.45 8 6 8H7V6C7 4.61667 7.48767 3.43733 8.463 2.462C9.43767 1.48733 10.6167 1 12 1C13.3833 1 14.5627 1.48733 15.538 2.462C16.5127 3.43733 17 4.61667 17 6V8H18C18.55 8 19.021 8.19567 19.413 8.587C19.8043 8.979 20 9.45 20 10V20C20 20.55 19.8043 21.021 19.413 21.413C19.021 21.8043 18.55 22 18 22H6ZM6 20H18V10H6V20ZM12 17C12.55 17 13.021 16.8043 13.413 16.413C13.8043 16.021 14 15.55 14 15C14 14.45 13.8043 13.979 13.413 13.587C13.021 13.1957 12.55 13 12 13C11.45 13 10.9793 13.1957 10.588 13.587C10.196 13.979 10 14.45 10 15C10 15.55 10.196 16.021 10.588 16.413C10.9793 16.8043 11.45 17 12 17ZM9 8H15V6C15 5.16667 14.7083 4.45833 14.125 3.875C13.5417 3.29167 12.8333 3 12 3C11.1667 3 10.4583 3.29167 9.875 3.875C9.29167 4.45833 9 5.16667 9 6V8Z"                            fill="#686868" />                    </g>                </svg>                <input minlength="5" #password="ngModel" [(ngModel)]="loginData.password" type="password"                    name="password" placeholder="Passwort" required>            </div>            <span class="warning"                [ngStyle]="{opacity: (loginError == \'Falsches Passwort oder E-Mail.. Bitte noch einmal versuchen.\')                 || (!password.valid && password.touched) ? 1 : 0}">{{ loginError }}</span>            <div class="link">                <a routerLink="forget">Passwort vergessen?</a>            </div>        </div>        <div class="separation">            <div class="line"></div>            <span>ODER</span>            <div class="line"></div>        </div>        <div class="googleBtn" (click)="loginWithGoogle()">            <div>                <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">                    <path                        d="M34.5255 15.899H33.2501V15.8333H19.0001V22.1666H27.9483C26.6428 25.8534 23.135 28.5 19.0001 28.5C13.7537 28.5 9.50008 24.2463 9.50008 19C9.50008 13.7536 13.7537 9.49996 19.0001 9.49996C21.4218 9.49996 23.625 10.4135 25.3025 11.9058L29.781 7.42738C26.9532 4.79192 23.1706 3.16663 19.0001 3.16663C10.2561 3.16663 3.16675 10.256 3.16675 19C3.16675 27.7439 10.2561 34.8333 19.0001 34.8333C27.744 34.8333 34.8334 27.7439 34.8334 19C34.8334 17.9383 34.7242 16.902 34.5255 15.899Z"                        fill="#FFC107" />                    <path                        d="M4.99219 11.6303L10.1942 15.4454C11.6018 11.9605 15.0107 9.49996 18.9999 9.49996C21.4216 9.49996 23.6249 10.4135 25.3024 11.9058L29.7809 7.42738C26.953 4.79192 23.1704 3.16663 18.9999 3.16663C12.9184 3.16663 7.64427 6.60008 4.99219 11.6303Z"                        fill="#FF3D00" />                    <path                        d="M18.9999 34.8334C23.0897 34.8334 26.8058 33.2683 29.6154 30.7231L24.715 26.5763C23.1253 27.7804 21.1493 28.5001 18.9999 28.5001C14.8817 28.5001 11.3849 25.8741 10.0675 22.2095L4.9043 26.1876C7.52471 31.3152 12.8463 34.8334 18.9999 34.8334Z"                        fill="#4CAF50" />                    <path                        d="M34.5254 15.8991H33.25V15.8334H19V22.1667H27.9482C27.3212 23.9377 26.182 25.4648 24.7127 26.5771L24.715 26.5755L29.6155 30.7222C29.2687 31.0373 34.8333 26.9167 34.8333 19C34.8333 17.9384 34.7241 16.9021 34.5254 15.8991Z"                        fill="#1976D2" />                </svg>                <span>Anmelden mit Google</span>            </div>        </div>        <div class="buttons">            <button [disabled]="!email.valid || !password.valid" type="submit" class="button_blue">Anmelden</button>            <button (click)="loginAsGuest()" class="button_white">Gäste-Login</button>        </div>    </form></div></div>'
+    var COMPONENTS = [{'name': 'AddchatComponent', 'selector': 'app-addchat'},{'name': 'AddUserToChannelComponent', 'selector': 'app-add-user-to-channel'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'BuilderComponent', 'selector': 'app-builder'},{'name': 'ChatboxComponent', 'selector': 'app-chatbox'},{'name': 'ChatComponent', 'selector': 'app-chat'},{'name': 'ChooseAvatarComponent', 'selector': 'app-choose-avatar'},{'name': 'CreatemessageComponent', 'selector': 'app-createmessage'},{'name': 'DialogComponent', 'selector': 'app-dialog'},{'name': 'EditmessageComponent', 'selector': 'app-editmessage'},{'name': 'EmojiPickerComponent', 'selector': 'app-emoji-picker'},{'name': 'ForgetPasswordComponent', 'selector': 'app-forget-password'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'ImprintComponent', 'selector': 'app-imprint'},{'name': 'LegalnoticeComponent', 'selector': 'app-legalnotice'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogoComponent', 'selector': 'app-logo'},{'name': 'MainchatHeaderComponent', 'selector': 'app-mainchat-header'},{'name': 'MainComponent', 'selector': 'app-main'},{'name': 'MentionComponent', 'selector': 'app-mention'},{'name': 'MenuChannelsComponent', 'selector': 'app-menu-channels'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MenuDialogComponent', 'selector': 'app-menu-dialog'},{'name': 'MenuHeaderComponent', 'selector': 'app-menu-header'},{'name': 'MenuPrivateMessagesComponent', 'selector': 'app-menu-private-messages'},{'name': 'MenutogglerComponent', 'selector': 'app-menutoggler'},{'name': 'MessageboxComponent', 'selector': 'app-messagebox'},{'name': 'MessageComponent', 'selector': 'app-messages'},{'name': 'ParentMessageComponent', 'selector': 'app-parent-message'},{'name': 'ProfileviewComponent', 'selector': 'app-profileview'},{'name': 'ReactionsComponent', 'selector': 'app-reactions'},{'name': 'ResetPasswordComponent', 'selector': 'app-reset-password'},{'name': 'SearchbarComponent', 'selector': 'app-searchbar'},{'name': 'SignInComponent', 'selector': 'app-sign-in'},{'name': 'SignUpComponent', 'selector': 'app-sign-up'},{'name': 'ThreadchatHeaderComponent', 'selector': 'app-threadchat-header'},{'name': 'ThreadMessagesComponent', 'selector': 'app-thread-messages'},{'name': 'ToastMessageComponent', 'selector': 'app-toastmessage'},{'name': 'UsermenuComponent', 'selector': 'app-usermenu'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'SignInComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'SignInComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

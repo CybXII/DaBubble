@@ -1,0 +1,766 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>dabubble documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">dabubble documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  LegalnoticeComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/legalnotice/legalnotice.component.ts</code>
+</p>
+
+
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-legalnotice</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                                <code><a href="../components/HeaderComponent.html" target="_self" >HeaderComponent</a></code>
+                            <code>RouterModule</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./legalnotice.component.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./legalnotice.component.scss</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component } from &#x27;@angular/core&#x27;;
+import { HeaderComponent } from &#x27;../shared/header/header.component&#x27;;
+import { RouterModule } from &#x27;@angular/router&#x27;;
+
+@Component({
+  selector: &#x27;app-legalnotice&#x27;,
+  standalone: true,
+  imports: [HeaderComponent, RouterModule],
+  templateUrl: &#x27;./legalnotice.component.html&#x27;,
+  styleUrl: &#x27;./legalnotice.component.scss&#x27;
+})
+export class LegalnoticeComponent {}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;section class&#x3D;&quot;legalNotice-main&quot;&gt;
+  &lt;app-header class&#x3D;&quot;header&quot;&gt;&lt;/app-header&gt;
+  &lt;div class&#x3D;&quot;legalNotice-content&quot;&gt;
+    &lt;a class&#x3D;&quot;backButton&quot; routerLink&#x3D;&quot;&quot;&gt;&lt;svg width&#x3D;&quot;24&quot; height&#x3D;&quot;24&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot;
+        xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;&gt;
+        &lt;mask id&#x3D;&quot;mask0_98810_10931&quot; style&#x3D;&quot;mask-type: alpha&quot; maskUnits&#x3D;&quot;userSpaceOnUse&quot; x&#x3D;&quot;0&quot; y&#x3D;&quot;0&quot; width&#x3D;&quot;24&quot;
+          height&#x3D;&quot;24&quot;&gt;
+          &lt;rect width&#x3D;&quot;24&quot; height&#x3D;&quot;24&quot; fill&#x3D;&quot;#D9D9D9&quot; /&gt;
+        &lt;/mask&gt;
+        &lt;g mask&#x3D;&quot;url(#mask0_98810_10931)&quot;&gt;
+          &lt;path
+            d&#x3D;&quot;M10.875 19.3L4.275 12.7C4.175 12.6 4.104 12.4916 4.062 12.375C4.02067 12.2583 4 12.1333 4 12C4 11.8666 4.02067 11.7416 4.062 11.625C4.104 11.5083 4.175 11.4 4.275 11.3L10.875 4.69996C11.0583 4.51663 11.2873 4.42063 11.562 4.41196C11.8373 4.40396 12.075 4.49996 12.275 4.69996C12.475 4.88329 12.5793 5.11229 12.588 5.38696C12.596 5.66229 12.5 5.89996 12.3 6.09996L7.4 11H18.575C18.8583 11 19.096 11.0956 19.288 11.287C19.4793 11.479 19.575 11.7166 19.575 12C19.575 12.2833 19.4793 12.5206 19.288 12.712C19.096 12.904 18.8583 13 18.575 13H7.4L12.3 17.9C12.4833 18.0833 12.5793 18.3166 12.588 18.6C12.596 18.8833 12.5 19.1166 12.3 19.3C12.1167 19.5 11.8833 19.6 11.6 19.6C11.3167 19.6 11.075 19.5 10.875 19.3Z&quot;
+            fill&#x3D;&quot;black&quot; /&gt;
+        &lt;/g&gt;
+      &lt;/svg&gt;
+    &lt;/a&gt;
+    &lt;h1&gt;Datenschutz&amp;shy;erkl&amp;auml;rung&lt;/h1&gt;
+    &lt;div class&#x3D;&quot;content&quot;&gt;
+      &lt;h2 class&#x3D;&quot;h2--0margintop&quot;&gt;1. Datenschutz auf einen Blick&lt;/h2&gt;
+      &lt;h3 class&#x3D;&quot;h3--0margintop&quot;&gt;Allgemeine Hinweise&lt;/h3&gt;
+      &lt;p&gt;
+        Die folgenden Hinweise geben einen einfachen &amp;Uuml;berblick
+        dar&amp;uuml;ber, was mit Ihren personenbezogenen Daten passiert, wenn Sie
+        diese Website besuchen. Personenbezogene Daten sind alle Daten, mit
+        denen Sie pers&amp;ouml;nlich identifiziert werden k&amp;ouml;nnen.
+        Ausf&amp;uuml;hrliche Informationen zum Thema Datenschutz entnehmen Sie
+        unserer unter diesem Text aufgef&amp;uuml;hrten Datenschutzerkl&amp;auml;rung.
+      &lt;/p&gt;
+      &lt;h3&gt;Datenerfassung auf dieser Website&lt;/h3&gt;
+      &lt;h4 class&#x3D;&quot;h4--0margintop&quot;&gt;
+        Wer ist verantwortlich f&amp;uuml;r die Datenerfassung auf dieser Website?
+      &lt;/h4&gt;
+      &lt;p&gt;
+        Die Datenverarbeitung auf dieser Website erfolgt durch den
+        Websitebetreiber. Dessen Kontaktdaten k&amp;ouml;nnen Sie dem Abschnitt
+        &amp;bdquo;Hinweis zur Verantwortlichen Stelle&amp;ldquo; in dieser
+        Datenschutzerkl&amp;auml;rung entnehmen.
+      &lt;/p&gt;
+      &lt;h4&gt;Wie erfassen wir Ihre Daten?&lt;/h4&gt;
+      &lt;p&gt;
+        Ihre Daten werden zum einen dadurch erhoben, dass Sie uns diese
+        mitteilen. Hierbei kann es sich z.&amp;nbsp;B. um Daten handeln, die Sie in
+        ein Kontaktformular eingeben.
+      &lt;/p&gt;
+      &lt;p&gt;
+        Andere Daten werden automatisch oder nach Ihrer Einwilligung beim Besuch
+        der Website durch unsere IT-Systeme erfasst. Das sind vor allem
+        technische Daten (z.&amp;nbsp;B. Internetbrowser, Betriebssystem oder
+        Uhrzeit des Seitenaufrufs). Die Erfassung dieser Daten erfolgt
+        automatisch, sobald Sie diese Website betreten.
+      &lt;/p&gt;
+      &lt;h4&gt;Wof&amp;uuml;r nutzen wir Ihre Daten?&lt;/h4&gt;
+      &lt;p&gt;
+        Ein Teil der Daten wird erhoben, um eine fehlerfreie Bereitstellung der
+        Website zu gew&amp;auml;hrleisten. Andere Daten k&amp;ouml;nnen zur Analyse
+        Ihres Nutzerverhaltens verwendet werden. Sofern &amp;uuml;ber die Website
+        Vertr&amp;auml;ge geschlossen oder angebahnt werden k&amp;ouml;nnen, werden die
+        &amp;uuml;bermittelten Daten auch f&amp;uuml;r Vertragsangebote, Bestellungen
+        oder sonstige Auftragsanfragen verarbeitet.
+      &lt;/p&gt;
+      &lt;h4&gt;Welche Rechte haben Sie bez&amp;uuml;glich Ihrer Daten?&lt;/h4&gt;
+      &lt;p&gt;
+        Sie haben jederzeit das Recht, unentgeltlich Auskunft &amp;uuml;ber
+        Herkunft, Empf&amp;auml;nger und Zweck Ihrer gespeicherten personenbezogenen
+        Daten zu erhalten. Sie haben au&amp;szlig;erdem ein Recht, die Berichtigung
+        oder L&amp;ouml;schung dieser Daten zu verlangen. Wenn Sie eine Einwilligung
+        zur Datenverarbeitung erteilt haben, k&amp;ouml;nnen Sie diese Einwilligung
+        jederzeit f&amp;uuml;r die Zukunft widerrufen. Au&amp;szlig;erdem haben Sie das
+        Recht, unter bestimmten Umst&amp;auml;nden die Einschr&amp;auml;nkung der
+        Verarbeitung Ihrer personenbezogenen Daten zu verlangen. Des Weiteren
+        steht Ihnen ein Beschwerderecht bei der zust&amp;auml;ndigen
+        Aufsichtsbeh&amp;ouml;rde zu.
+      &lt;/p&gt;
+      &lt;p&gt;
+        Hierzu sowie zu weiteren Fragen zum Thema Datenschutz k&amp;ouml;nnen Sie
+        sich jederzeit an uns wenden.
+      &lt;/p&gt;
+      &lt;h3&gt;Analyse-Tools und Tools von Dritt&amp;shy;anbietern&lt;/h3&gt;
+      &lt;p&gt;
+        Beim Besuch dieser Website kann Ihr Surf-Verhalten statistisch
+        ausgewertet werden. Das geschieht vor allem mit sogenannten
+        Analyseprogrammen.
+      &lt;/p&gt;
+      &lt;p&gt;
+        Detaillierte Informationen zu diesen Analyseprogrammen finden Sie in der
+        folgenden Datenschutzerkl&amp;auml;rung.
+      &lt;/p&gt;
+      &lt;h2&gt;2. Hosting&lt;/h2&gt;
+      &lt;p&gt;Wir hosten die Inhalte unserer Website bei folgendem Anbieter:&lt;/p&gt;
+      &lt;h3&gt;Externes Hosting&lt;/h3&gt;
+      &lt;p&gt;
+        Diese Website wird extern gehostet. Die personenbezogenen Daten, die auf
+        dieser Website erfasst werden, werden auf den Servern des Hosters / der
+        Hoster gespeichert. Hierbei kann es sich v.&amp;nbsp;a. um IP-Adressen,
+        Kontaktanfragen, Meta- und Kommunikationsdaten, Vertragsdaten,
+        Kontaktdaten, Namen, Websitezugriffe und sonstige Daten, die &amp;uuml;ber
+        eine Website generiert werden, handeln.
+      &lt;/p&gt;
+      &lt;p&gt;
+        Das externe Hosting erfolgt zum Zwecke der Vertragserf&amp;uuml;llung
+        gegen&amp;uuml;ber unseren potenziellen und bestehenden Kunden (Art. 6 Abs.
+        1 lit. b DSGVO) und im Interesse einer sicheren, schnellen und
+        effizienten Bereitstellung unseres Online-Angebots durch einen
+        professionellen Anbieter (Art. 6 Abs. 1 lit. f DSGVO). Sofern eine
+        entsprechende Einwilligung abgefragt wurde, erfolgt die Verarbeitung
+        ausschlie&amp;szlig;lich auf Grundlage von Art. 6 Abs. 1 lit. a DSGVO und
+        &amp;sect; 25 Abs. 1 TDDDG, soweit die Einwilligung die Speicherung von
+        Cookies oder den Zugriff auf Informationen im Endger&amp;auml;t des Nutzers
+        (z.&amp;nbsp;B. Device-Fingerprinting) im Sinne des TDDDG umfasst. Die
+        Einwilligung ist jederzeit widerrufbar.
+      &lt;/p&gt;
+      &lt;p&gt;
+        Unser(e) Hoster wird bzw. werden Ihre Daten nur insoweit verarbeiten,
+        wie dies zur Erf&amp;uuml;llung seiner Leistungspflichten erforderlich ist
+        und unsere Weisungen in Bezug auf diese Daten befolgen.
+      &lt;/p&gt;
+      &lt;p&gt;Wir setzen folgende(n) Hoster ein:&lt;/p&gt;
+      &lt;p&gt;
+        dataforest GmbH&lt;br /&gt;
+        Taunusstra&amp;szlig;e 52&lt;br /&gt;
+        65580 Kriftel&lt;br /&gt;
+        E-Mail: hi&amp;#64;dataforest.net&lt;br /&gt;
+        Support: support&amp;#64;avoro.eu
+      &lt;/p&gt;
+      &lt;h2&gt;3. Allgemeine Hinweise und Pflicht&amp;shy;informationen&lt;/h2&gt;
+      &lt;h3&gt;Datenschutz&lt;/h3&gt;
+      &lt;p&gt;
+        Die Betreiber dieser Seiten nehmen den Schutz Ihrer pers&amp;ouml;nlichen
+        Daten sehr ernst. Wir behandeln Ihre personenbezogenen Daten vertraulich
+        und entsprechend den gesetzlichen Datenschutzvorschriften sowie dieser
+        Datenschutzerkl&amp;auml;rung.
+      &lt;/p&gt;
+      &lt;p&gt;
+        Wenn Sie diese Website benutzen, werden verschiedene personenbezogene
+        Daten erhoben. Personenbezogene Daten sind Daten, mit denen Sie
+        pers&amp;ouml;nlich identifiziert werden k&amp;ouml;nnen. Die vorliegende
+        Datenschutzerkl&amp;auml;rung erl&amp;auml;utert, welche Daten wir erheben und
+        wof&amp;uuml;r wir sie nutzen. Sie erl&amp;auml;utert auch, wie und zu welchem
+        Zweck das geschieht.
+      &lt;/p&gt;
+      &lt;p&gt;
+        Wir weisen darauf hin, dass die Daten&amp;uuml;bertragung im Internet
+        (z.&amp;nbsp;B. bei der Kommunikation per E-Mail) Sicherheitsl&amp;uuml;cken
+        aufweisen kann. Ein l&amp;uuml;ckenloser Schutz der Daten vor dem Zugriff
+        durch Dritte ist nicht m&amp;ouml;glich.
+      &lt;/p&gt;
+      &lt;h3&gt;Hinweis zur verantwortlichen Stelle&lt;/h3&gt;
+      &lt;p&gt;
+        Die verantwortliche Stelle f&amp;uuml;r die Datenverarbeitung auf dieser
+        Website ist:
+      &lt;/p&gt;
+      &lt;p&gt;
+        dataforest GmbH&lt;br /&gt;
+        Taunusstra&amp;szlig;e 52&lt;br /&gt;
+        65580 Kriftel
+      &lt;/p&gt;
+
+      &lt;p&gt;
+        Telefon: +49 (0) 6192 93922 33&lt;br /&gt;
+        E-Mail: hi&amp;#64;dataforest.net Support: support&amp;#64;avoro.euelfirma.de
+      &lt;/p&gt;
+      &lt;p&gt;
+        Verantwortliche Stelle ist die nat&amp;uuml;rliche oder juristische Person,
+        die allein oder gemeinsam mit anderen &amp;uuml;ber die Zwecke und Mittel
+        der Verarbeitung von personenbezogenen Daten (z.&amp;nbsp;B. Namen,
+        E-Mail-Adressen o. &amp;Auml;.) entscheidet.
+      &lt;/p&gt;
+
+      &lt;h3&gt;Speicherdauer&lt;/h3&gt;
+      &lt;p&gt;
+        Soweit innerhalb dieser Datenschutzerkl&amp;auml;rung keine speziellere
+        Speicherdauer genannt wurde, verbleiben Ihre personenbezogenen Daten bei
+        uns, bis der Zweck f&amp;uuml;r die Datenverarbeitung entf&amp;auml;llt. Wenn
+        Sie ein berechtigtes L&amp;ouml;schersuchen geltend machen oder eine
+        Einwilligung zur Datenverarbeitung widerrufen, werden Ihre Daten
+        gel&amp;ouml;scht, sofern wir keine anderen rechtlich zul&amp;auml;ssigen
+        Gr&amp;uuml;nde f&amp;uuml;r die Speicherung Ihrer personenbezogenen Daten haben
+        (z.&amp;nbsp;B. steuer- oder handelsrechtliche Aufbewahrungsfristen); im
+        letztgenannten Fall erfolgt die L&amp;ouml;schung nach Fortfall dieser
+        Gr&amp;uuml;nde.
+      &lt;/p&gt;
+      &lt;h3&gt;
+        Allgemeine Hinweise zu den Rechtsgrundlagen der Datenverarbeitung auf
+        dieser Website
+      &lt;/h3&gt;
+      &lt;p&gt;
+        Sofern Sie in die Datenverarbeitung eingewilligt haben, verarbeiten wir
+        Ihre personenbezogenen Daten auf Grundlage von Art. 6 Abs. 1 lit. a
+        DSGVO bzw. Art. 9 Abs. 2 lit. a DSGVO, sofern besondere Datenkategorien
+        nach Art. 9 Abs. 1 DSGVO verarbeitet werden. Im Falle einer
+        ausdr&amp;uuml;cklichen Einwilligung in die &amp;Uuml;bertragung
+        personenbezogener Daten in Drittstaaten erfolgt die Datenverarbeitung
+        au&amp;szlig;erdem auf Grundlage von Art. 49 Abs. 1 lit. a DSGVO. Sofern Sie
+        in die Speicherung von Cookies oder in den Zugriff auf Informationen in
+        Ihr Endger&amp;auml;t (z.&amp;nbsp;B. via Device-Fingerprinting) eingewilligt
+        haben, erfolgt die Datenverarbeitung zus&amp;auml;tzlich auf Grundlage von
+        &amp;sect; 25 Abs. 1 TDDDG. Die Einwilligung ist jederzeit widerrufbar. Sind
+        Ihre Daten zur Vertragserf&amp;uuml;llung oder zur Durchf&amp;uuml;hrung
+        vorvertraglicher Ma&amp;szlig;nahmen erforderlich, verarbeiten wir Ihre
+        Daten auf Grundlage des Art. 6 Abs. 1 lit. b DSGVO. Des Weiteren
+        verarbeiten wir Ihre Daten, sofern diese zur Erf&amp;uuml;llung einer
+        rechtlichen Verpflichtung erforderlich sind auf Grundlage von Art. 6
+        Abs. 1 lit. c DSGVO. Die Datenverarbeitung kann ferner auf Grundlage
+        unseres berechtigten Interesses nach Art. 6 Abs. 1 lit. f DSGVO
+        erfolgen. &amp;Uuml;ber die jeweils im Einzelfall einschl&amp;auml;gigen
+        Rechtsgrundlagen wird in den folgenden Abs&amp;auml;tzen dieser
+        Datenschutzerkl&amp;auml;rung informiert.
+      &lt;/p&gt;
+      &lt;h3&gt;Empfänger von personenbezogenen Daten&lt;/h3&gt;
+      &lt;p&gt;
+        Im Rahmen unserer Gesch&amp;auml;ftst&amp;auml;tigkeit arbeiten wir mit
+        verschiedenen externen Stellen zusammen. Dabei ist teilweise auch eine
+        &amp;Uuml;bermittlung von personenbezogenen Daten an diese externen Stellen
+        erforderlich. Wir geben personenbezogene Daten nur dann an externe
+        Stellen weiter, wenn dies im Rahmen einer Vertragserf&amp;uuml;llung
+        erforderlich ist, wenn wir gesetzlich hierzu verpflichtet sind
+        (z.&amp;nbsp;B. Weitergabe von Daten an Steuerbeh&amp;ouml;rden), wenn wir ein
+        berechtigtes Interesse nach Art. 6 Abs. 1 lit. f DSGVO an der Weitergabe
+        haben oder wenn eine sonstige Rechtsgrundlage die Datenweitergabe
+        erlaubt. Beim Einsatz von Auftragsverarbeitern geben wir
+        personenbezogene Daten unserer Kunden nur auf Grundlage eines
+        g&amp;uuml;ltigen Vertrags &amp;uuml;ber Auftragsverarbeitung weiter. Im Falle
+        einer gemeinsamen Verarbeitung wird ein Vertrag &amp;uuml;ber gemeinsame
+        Verarbeitung geschlossen.
+      &lt;/p&gt;
+      &lt;h3&gt;Widerruf Ihrer Einwilligung zur Datenverarbeitung&lt;/h3&gt;
+      &lt;p&gt;
+        Viele Datenverarbeitungsvorg&amp;auml;nge sind nur mit Ihrer
+        ausdr&amp;uuml;cklichen Einwilligung m&amp;ouml;glich. Sie k&amp;ouml;nnen eine
+        bereits erteilte Einwilligung jederzeit widerrufen. Die
+        Rechtm&amp;auml;&amp;szlig;igkeit der bis zum Widerruf erfolgten
+        Datenverarbeitung bleibt vom Widerruf unber&amp;uuml;hrt.
+      &lt;/p&gt;
+      &lt;h3&gt;
+        Widerspruchsrecht gegen die Datenerhebung in besonderen F&amp;auml;llen
+        sowie gegen Direktwerbung (Art. 21 DSGVO)
+      &lt;/h3&gt;
+      &lt;p&gt;
+        WENN DIE DATENVERARBEITUNG AUF GRUNDLAGE VON ART. 6 ABS. 1 LIT. E ODER F
+        DSGVO ERFOLGT, HABEN SIE JEDERZEIT DAS RECHT, AUS GR&amp;Uuml;NDEN, DIE SICH
+        AUS IHRER BESONDEREN SITUATION ERGEBEN, GEGEN DIE VERARBEITUNG IHRER
+        PERSONENBEZOGENEN DATEN WIDERSPRUCH EINZULEGEN; DIES GILT AUCH F&amp;Uuml;R
+        EIN AUF DIESE BESTIMMUNGEN GEST&amp;Uuml;TZTES PROFILING. DIE JEWEILIGE
+        RECHTSGRUNDLAGE, AUF DENEN EINE VERARBEITUNG BERUHT, ENTNEHMEN SIE
+        DIESER DATENSCHUTZERKL&amp;Auml;RUNG. WENN SIE WIDERSPRUCH EINLEGEN, WERDEN
+        WIR IHRE BETROFFENEN PERSONENBEZOGENEN DATEN NICHT MEHR VERARBEITEN, ES
+        SEI DENN, WIR K&amp;Ouml;NNEN ZWINGENDE SCHUTZW&amp;Uuml;RDIGE GR&amp;Uuml;NDE
+        F&amp;Uuml;R DIE VERARBEITUNG NACHWEISEN, DIE IHRE INTERESSEN, RECHTE UND
+        FREIHEITEN &amp;Uuml;BERWIEGEN ODER DIE VERARBEITUNG DIENT DER
+        GELTENDMACHUNG, AUS&amp;Uuml;BUNG ODER VERTEIDIGUNG VON
+        RECHTSANSPR&amp;Uuml;CHEN (WIDERSPRUCH NACH ART. 21 ABS. 1 DSGVO).
+      &lt;/p&gt;
+      &lt;p&gt;
+        WERDEN IHRE PERSONENBEZOGENEN DATEN VERARBEITET, UM DIREKTWERBUNG ZU
+        BETREIBEN, SO HABEN SIE DAS RECHT, JEDERZEIT WIDERSPRUCH GEGEN DIE
+        VERARBEITUNG SIE BETREFFENDER PERSONENBEZOGENER DATEN ZUM ZWECKE
+        DERARTIGER WERBUNG EINZULEGEN; DIES GILT AUCH F&amp;Uuml;R DAS PROFILING,
+        SOWEIT ES MIT SOLCHER DIREKTWERBUNG IN VERBINDUNG STEHT. WENN SIE
+        WIDERSPRECHEN, WERDEN IHRE PERSONENBEZOGENEN DATEN ANSCHLIESSEND NICHT
+        MEHR ZUM ZWECKE DER DIREKTWERBUNG VERWENDET (WIDERSPRUCH NACH ART. 21
+        ABS. 2 DSGVO).
+      &lt;/p&gt;
+      &lt;h3&gt;
+        Beschwerde&amp;shy;recht bei der zust&amp;auml;ndigen Aufsichts&amp;shy;beh&amp;ouml;rde
+      &lt;/h3&gt;
+      &lt;p&gt;
+        Im Falle von Verst&amp;ouml;&amp;szlig;en gegen die DSGVO steht den Betroffenen
+        ein Beschwerderecht bei einer Aufsichtsbeh&amp;ouml;rde, insbesondere in dem
+        Mitgliedstaat ihres gew&amp;ouml;hnlichen Aufenthalts, ihres Arbeitsplatzes
+        oder des Orts des mutma&amp;szlig;lichen Versto&amp;szlig;es zu. Das
+        Beschwerderecht besteht unbeschadet anderweitiger verwaltungsrechtlicher
+        oder gerichtlicher Rechtsbehelfe.
+      &lt;/p&gt;
+      &lt;h3&gt;Recht auf Daten&amp;shy;&amp;uuml;bertrag&amp;shy;barkeit&lt;/h3&gt;
+      &lt;p&gt;
+        Sie haben das Recht, Daten, die wir auf Grundlage Ihrer Einwilligung
+        oder in Erf&amp;uuml;llung eines Vertrags automatisiert verarbeiten, an sich
+        oder an einen Dritten in einem g&amp;auml;ngigen, maschinenlesbaren Format
+        aush&amp;auml;ndigen zu lassen. Sofern Sie die direkte &amp;Uuml;bertragung der
+        Daten an einen anderen Verantwortlichen verlangen, erfolgt dies nur,
+        soweit es technisch machbar ist.
+      &lt;/p&gt;
+      &lt;h3&gt;Auskunft, Berichtigung und L&amp;ouml;schung&lt;/h3&gt;
+      &lt;p&gt;
+        Sie haben im Rahmen der geltenden gesetzlichen Bestimmungen jederzeit
+        das Recht auf unentgeltliche Auskunft &amp;uuml;ber Ihre gespeicherten
+        personenbezogenen Daten, deren Herkunft und Empf&amp;auml;nger und den Zweck
+        der Datenverarbeitung und ggf. ein Recht auf Berichtigung oder
+        L&amp;ouml;schung dieser Daten. Hierzu sowie zu weiteren Fragen zum Thema
+        personenbezogene Daten k&amp;ouml;nnen Sie sich jederzeit an uns wenden.
+      &lt;/p&gt;
+      &lt;h3&gt;Recht auf Einschr&amp;auml;nkung der Verarbeitung&lt;/h3&gt;
+      &lt;p&gt;
+        Sie haben das Recht, die Einschr&amp;auml;nkung der Verarbeitung Ihrer
+        personenbezogenen Daten zu verlangen. Hierzu k&amp;ouml;nnen Sie sich
+        jederzeit an uns wenden. Das Recht auf Einschr&amp;auml;nkung der
+        Verarbeitung besteht in folgenden F&amp;auml;llen:
+      &lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;
+          Wenn Sie die Richtigkeit Ihrer bei uns gespeicherten personenbezogenen
+          Daten bestreiten, ben&amp;ouml;tigen wir in der Regel Zeit, um dies zu
+          &amp;uuml;berpr&amp;uuml;fen. F&amp;uuml;r die Dauer der Pr&amp;uuml;fung haben Sie
+          das Recht, die Einschr&amp;auml;nkung der Verarbeitung Ihrer
+          personenbezogenen Daten zu verlangen.
+        &lt;/li&gt;
+        &lt;li&gt;
+          Wenn die Verarbeitung Ihrer personenbezogenen Daten
+          unrechtm&amp;auml;&amp;szlig;ig geschah/geschieht, k&amp;ouml;nnen Sie statt der
+          L&amp;ouml;schung die Einschr&amp;auml;nkung der Datenverarbeitung verlangen.
+        &lt;/li&gt;
+        &lt;li&gt;
+          Wenn wir Ihre personenbezogenen Daten nicht mehr ben&amp;ouml;tigen, Sie
+          sie jedoch zur Aus&amp;uuml;bung, Verteidigung oder Geltendmachung von
+          Rechtsanspr&amp;uuml;chen ben&amp;ouml;tigen, haben Sie das Recht, statt der
+          L&amp;ouml;schung die Einschr&amp;auml;nkung der Verarbeitung Ihrer
+          personenbezogenen Daten zu verlangen.
+        &lt;/li&gt;
+        &lt;li&gt;
+          Wenn Sie einen Widerspruch nach Art. 21 Abs. 1 DSGVO eingelegt haben,
+          muss eine Abw&amp;auml;gung zwischen Ihren und unseren Interessen
+          vorgenommen werden. Solange noch nicht feststeht, wessen Interessen
+          &amp;uuml;berwiegen, haben Sie das Recht, die Einschr&amp;auml;nkung der
+          Verarbeitung Ihrer personenbezogenen Daten zu verlangen.
+        &lt;/li&gt;
+      &lt;/ul&gt;
+      &lt;p&gt;
+        Wenn Sie die Verarbeitung Ihrer personenbezogenen Daten
+        eingeschr&amp;auml;nkt haben, d&amp;uuml;rfen diese Daten &amp;ndash; von ihrer
+        Speicherung abgesehen &amp;ndash; nur mit Ihrer Einwilligung oder zur
+        Geltendmachung, Aus&amp;uuml;bung oder Verteidigung von
+        Rechtsanspr&amp;uuml;chen oder zum Schutz der Rechte einer anderen
+        nat&amp;uuml;rlichen oder juristischen Person oder aus Gr&amp;uuml;nden eines
+        wichtigen &amp;ouml;ffentlichen Interesses der Europ&amp;auml;ischen Union oder
+        eines Mitgliedstaats verarbeitet werden.
+      &lt;/p&gt;
+      &lt;h3&gt;SSL- bzw. TLS-Verschl&amp;uuml;sselung&lt;/h3&gt;
+      &lt;p&gt;
+        Diese Seite nutzt aus Sicherheitsgr&amp;uuml;nden und zum Schutz der
+        &amp;Uuml;bertragung vertraulicher Inhalte, wie zum Beispiel Bestellungen
+        oder Anfragen, die Sie an uns als Seitenbetreiber senden, eine SSL- bzw.
+        TLS-Verschl&amp;uuml;sselung. Eine verschl&amp;uuml;sselte Verbindung erkennen
+        Sie daran, dass die Adresszeile des Browsers von &amp;bdquo;http://&amp;ldquo;
+        auf &amp;bdquo;https://&amp;ldquo; wechselt und an dem Schloss-Symbol in Ihrer
+        Browserzeile.
+      &lt;/p&gt;
+      &lt;p&gt;
+        Wenn die SSL- bzw. TLS-Verschl&amp;uuml;sselung aktiviert ist, k&amp;ouml;nnen
+        die Daten, die Sie an uns &amp;uuml;bermitteln, nicht von Dritten mitgelesen
+        werden.
+      &lt;/p&gt;
+      &lt;h2&gt;4. Datenerfassung auf dieser Website&lt;/h2&gt;
+      &lt;h3 class&#x3D;&quot;h3--0margintop&quot;&gt;Server-Log-Dateien&lt;/h3&gt;
+      &lt;p&gt;
+        Der Provider der Seiten erhebt und speichert automatisch Informationen
+        in so genannten Server-Log-Dateien, die Ihr Browser automatisch an uns
+        &amp;uuml;bermittelt. Dies sind:
+      &lt;/p&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Browsertyp und Browserversion&lt;/li&gt;
+        &lt;li&gt;verwendetes Betriebssystem&lt;/li&gt;
+        &lt;li&gt;Referrer URL&lt;/li&gt;
+        &lt;li&gt;Hostname des zugreifenden Rechners&lt;/li&gt;
+        &lt;li&gt;Uhrzeit der Serveranfrage&lt;/li&gt;
+        &lt;li&gt;IP-Adresse&lt;/li&gt;
+      &lt;/ul&gt;
+      &lt;p&gt;
+        Eine Zusammenf&amp;uuml;hrung dieser Daten mit anderen Datenquellen wird
+        nicht vorgenommen.
+      &lt;/p&gt;
+      &lt;p&gt;
+        Die Erfassung dieser Daten erfolgt auf Grundlage von Art. 6 Abs. 1 lit.
+        f DSGVO. Der Websitebetreiber hat ein berechtigtes Interesse an der
+        technisch fehlerfreien Darstellung und der Optimierung seiner Website
+        &amp;ndash; hierzu m&amp;uuml;ssen die Server-Log-Files erfasst werden.
+      &lt;/p&gt;
+      &lt;h3&gt;Anfrage per E-Mail, Telefon oder Telefax&lt;/h3&gt;
+      &lt;p&gt;
+        Wenn Sie uns per E-Mail, Telefon oder Telefax kontaktieren, wird Ihre
+        Anfrage inklusive aller daraus hervorgehenden personenbezogenen Daten
+        (Name, Anfrage) zum Zwecke der Bearbeitung Ihres Anliegens bei uns
+        gespeichert und verarbeitet. Diese Daten geben wir nicht ohne Ihre
+        Einwilligung weiter.
+      &lt;/p&gt;
+      &lt;p&gt;
+        Die Verarbeitung dieser Daten erfolgt auf Grundlage von Art. 6 Abs. 1
+        lit. b DSGVO, sofern Ihre Anfrage mit der Erf&amp;uuml;llung eines Vertrags
+        zusammenh&amp;auml;ngt oder zur Durchf&amp;uuml;hrung vorvertraglicher
+        Ma&amp;szlig;nahmen erforderlich ist. In allen &amp;uuml;brigen F&amp;auml;llen
+        beruht die Verarbeitung auf unserem berechtigten Interesse an der
+        effektiven Bearbeitung der an uns gerichteten Anfragen (Art. 6 Abs. 1
+        lit. f DSGVO) oder auf Ihrer Einwilligung (Art. 6 Abs. 1 lit. a DSGVO)
+        sofern diese abgefragt wurde; die Einwilligung ist jederzeit
+        widerrufbar.
+      &lt;/p&gt;
+      &lt;p&gt;
+        Die von Ihnen an uns per Kontaktanfragen &amp;uuml;bersandten Daten
+        verbleiben bei uns, bis Sie uns zur L&amp;ouml;schung auffordern, Ihre
+        Einwilligung zur Speicherung widerrufen oder der Zweck f&amp;uuml;r die
+        Datenspeicherung entf&amp;auml;llt (z.&amp;nbsp;B. nach abgeschlossener
+        Bearbeitung Ihres Anliegens). Zwingende gesetzliche Bestimmungen &amp;ndash;
+        insbesondere gesetzliche Aufbewahrungsfristen &amp;ndash; bleiben
+        unber&amp;uuml;hrt.
+      &lt;/p&gt;
+      &lt;h3&gt;Kommentar&amp;shy;funktion auf dieser Website&lt;/h3&gt;
+      &lt;p&gt;
+        F&amp;uuml;r die Kommentarfunktion auf dieser Seite werden neben Ihrem
+        Kommentar auch Angaben zum Zeitpunkt der Erstellung des Kommentars und,
+        wenn Sie nicht anonym posten, der von Ihnen gew&amp;auml;hlte Nutzername
+        gespeichert.
+      &lt;/p&gt;
+      &lt;h4&gt;Speicherdauer der Kommentare&lt;/h4&gt;
+      &lt;p&gt;
+        Die Kommentare und die damit verbundenen Daten werden gespeichert und
+        verbleiben auf dieser Website, bis der kommentierte Inhalt
+        vollst&amp;auml;ndig gel&amp;ouml;scht wurde oder die Kommentare aus rechtlichen
+        Gr&amp;uuml;nden gel&amp;ouml;scht werden m&amp;uuml;ssen (z.&amp;nbsp;B. beleidigende
+        Kommentare).
+      &lt;/p&gt;
+      &lt;h4&gt;Rechtsgrundlage&lt;/h4&gt;
+      &lt;p&gt;
+        Die Speicherung der Kommentare erfolgt auf Grundlage Ihrer Einwilligung
+        (Art. 6 Abs. 1 lit. a DSGVO). Sie k&amp;ouml;nnen eine von Ihnen erteilte
+        Einwilligung jederzeit widerrufen. Dazu reicht eine formlose Mitteilung
+        per E-Mail an uns. Die Rechtm&amp;auml;&amp;szlig;igkeit der bereits erfolgten
+        Datenverarbeitungsvorg&amp;auml;nge bleibt vom Widerruf unber&amp;uuml;hrt.
+      &lt;/p&gt;
+      &lt;p&gt;
+        Quelle: &lt;a href&#x3D;&quot;https://www.e-recht24.de&quot;&gt;https://www.e-recht24.de&lt;/a&gt;
+      &lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><section class="legalNotice-main">  <app-header class="header"></app-header>  <div class="legalNotice-content">    <a class="backButton" routerLink=""><svg width="24" height="24" viewBox="0 0 24 24" fill="none"        xmlns="http://www.w3.org/2000/svg">        <mask id="mask0_98810_10931" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"          height="24">          <rect width="24" height="24" fill="#D9D9D9" />        </mask>        <g mask="url(#mask0_98810_10931)">          <path            d="M10.875 19.3L4.275 12.7C4.175 12.6 4.104 12.4916 4.062 12.375C4.02067 12.2583 4 12.1333 4 12C4 11.8666 4.02067 11.7416 4.062 11.625C4.104 11.5083 4.175 11.4 4.275 11.3L10.875 4.69996C11.0583 4.51663 11.2873 4.42063 11.562 4.41196C11.8373 4.40396 12.075 4.49996 12.275 4.69996C12.475 4.88329 12.5793 5.11229 12.588 5.38696C12.596 5.66229 12.5 5.89996 12.3 6.09996L7.4 11H18.575C18.8583 11 19.096 11.0956 19.288 11.287C19.4793 11.479 19.575 11.7166 19.575 12C19.575 12.2833 19.4793 12.5206 19.288 12.712C19.096 12.904 18.8583 13 18.575 13H7.4L12.3 17.9C12.4833 18.0833 12.5793 18.3166 12.588 18.6C12.596 18.8833 12.5 19.1166 12.3 19.3C12.1167 19.5 11.8833 19.6 11.6 19.6C11.3167 19.6 11.075 19.5 10.875 19.3Z"            fill="black" />        </g>      </svg>    </a>    <h1>Datenschutz&shy;erkl&auml;rung</h1>    <div class="content">      <h2 class="h2--0margintop">1. Datenschutz auf einen Blick</h2>      <h3 class="h3--0margintop">Allgemeine Hinweise</h3>      <p>        Die folgenden Hinweise geben einen einfachen &Uuml;berblick        dar&uuml;ber, was mit Ihren personenbezogenen Daten passiert, wenn Sie        diese Website besuchen. Personenbezogene Daten sind alle Daten, mit        denen Sie pers&ouml;nlich identifiziert werden k&ouml;nnen.        Ausf&uuml;hrliche Informationen zum Thema Datenschutz entnehmen Sie        unserer unter diesem Text aufgef&uuml;hrten Datenschutzerkl&auml;rung.      </p>      <h3>Datenerfassung auf dieser Website</h3>      <h4 class="h4--0margintop">        Wer ist verantwortlich f&uuml;r die Datenerfassung auf dieser Website?      </h4>      <p>        Die Datenverarbeitung auf dieser Website erfolgt durch den        Websitebetreiber. Dessen Kontaktdaten k&ouml;nnen Sie dem Abschnitt        &bdquo;Hinweis zur Verantwortlichen Stelle&ldquo; in dieser        Datenschutzerkl&auml;rung entnehmen.      </p>      <h4>Wie erfassen wir Ihre Daten?</h4>      <p>        Ihre Daten werden zum einen dadurch erhoben, dass Sie uns diese        mitteilen. Hierbei kann es sich z.&nbsp;B. um Daten handeln, die Sie in        ein Kontaktformular eingeben.      </p>      <p>        Andere Daten werden automatisch oder nach Ihrer Einwilligung beim Besuch        der Website durch unsere IT-Systeme erfasst. Das sind vor allem        technische Daten (z.&nbsp;B. Internetbrowser, Betriebssystem oder        Uhrzeit des Seitenaufrufs). Die Erfassung dieser Daten erfolgt        automatisch, sobald Sie diese Website betreten.      </p>      <h4>Wof&uuml;r nutzen wir Ihre Daten?</h4>      <p>        Ein Teil der Daten wird erhoben, um eine fehlerfreie Bereitstellung der        Website zu gew&auml;hrleisten. Andere Daten k&ouml;nnen zur Analyse        Ihres Nutzerverhaltens verwendet werden. Sofern &uuml;ber die Website        Vertr&auml;ge geschlossen oder angebahnt werden k&ouml;nnen, werden die        &uuml;bermittelten Daten auch f&uuml;r Vertragsangebote, Bestellungen        oder sonstige Auftragsanfragen verarbeitet.      </p>      <h4>Welche Rechte haben Sie bez&uuml;glich Ihrer Daten?</h4>      <p>        Sie haben jederzeit das Recht, unentgeltlich Auskunft &uuml;ber        Herkunft, Empf&auml;nger und Zweck Ihrer gespeicherten personenbezogenen        Daten zu erhalten. Sie haben au&szlig;erdem ein Recht, die Berichtigung        oder L&ouml;schung dieser Daten zu verlangen. Wenn Sie eine Einwilligung        zur Datenverarbeitung erteilt haben, k&ouml;nnen Sie diese Einwilligung        jederzeit f&uuml;r die Zukunft widerrufen. Au&szlig;erdem haben Sie das        Recht, unter bestimmten Umst&auml;nden die Einschr&auml;nkung der        Verarbeitung Ihrer personenbezogenen Daten zu verlangen. Des Weiteren        steht Ihnen ein Beschwerderecht bei der zust&auml;ndigen        Aufsichtsbeh&ouml;rde zu.      </p>      <p>        Hierzu sowie zu weiteren Fragen zum Thema Datenschutz k&ouml;nnen Sie        sich jederzeit an uns wenden.      </p>      <h3>Analyse-Tools und Tools von Dritt&shy;anbietern</h3>      <p>        Beim Besuch dieser Website kann Ihr Surf-Verhalten statistisch        ausgewertet werden. Das geschieht vor allem mit sogenannten        Analyseprogrammen.      </p>      <p>        Detaillierte Informationen zu diesen Analyseprogrammen finden Sie in der        folgenden Datenschutzerkl&auml;rung.      </p>      <h2>2. Hosting</h2>      <p>Wir hosten die Inhalte unserer Website bei folgendem Anbieter:</p>      <h3>Externes Hosting</h3>      <p>        Diese Website wird extern gehostet. Die personenbezogenen Daten, die auf        dieser Website erfasst werden, werden auf den Servern des Hosters / der        Hoster gespeichert. Hierbei kann es sich v.&nbsp;a. um IP-Adressen,        Kontaktanfragen, Meta- und Kommunikationsdaten, Vertragsdaten,        Kontaktdaten, Namen, Websitezugriffe und sonstige Daten, die &uuml;ber        eine Website generiert werden, handeln.      </p>      <p>        Das externe Hosting erfolgt zum Zwecke der Vertragserf&uuml;llung        gegen&uuml;ber unseren potenziellen und bestehenden Kunden (Art. 6 Abs.        1 lit. b DSGVO) und im Interesse einer sicheren, schnellen und        effizienten Bereitstellung unseres Online-Angebots durch einen        professionellen Anbieter (Art. 6 Abs. 1 lit. f DSGVO). Sofern eine        entsprechende Einwilligung abgefragt wurde, erfolgt die Verarbeitung        ausschlie&szlig;lich auf Grundlage von Art. 6 Abs. 1 lit. a DSGVO und        &sect; 25 Abs. 1 TDDDG, soweit die Einwilligung die Speicherung von        Cookies oder den Zugriff auf Informationen im Endger&auml;t des Nutzers        (z.&nbsp;B. Device-Fingerprinting) im Sinne des TDDDG umfasst. Die        Einwilligung ist jederzeit widerrufbar.      </p>      <p>        Unser(e) Hoster wird bzw. werden Ihre Daten nur insoweit verarbeiten,        wie dies zur Erf&uuml;llung seiner Leistungspflichten erforderlich ist        und unsere Weisungen in Bezug auf diese Daten befolgen.      </p>      <p>Wir setzen folgende(n) Hoster ein:</p>      <p>        dataforest GmbH<br />        Taunusstra&szlig;e 52<br />        65580 Kriftel<br />        E-Mail: hi&#64;dataforest.net<br />        Support: support&#64;avoro.eu      </p>      <h2>3. Allgemeine Hinweise und Pflicht&shy;informationen</h2>      <h3>Datenschutz</h3>      <p>        Die Betreiber dieser Seiten nehmen den Schutz Ihrer pers&ouml;nlichen        Daten sehr ernst. Wir behandeln Ihre personenbezogenen Daten vertraulich        und entsprechend den gesetzlichen Datenschutzvorschriften sowie dieser        Datenschutzerkl&auml;rung.      </p>      <p>        Wenn Sie diese Website benutzen, werden verschiedene personenbezogene        Daten erhoben. Personenbezogene Daten sind Daten, mit denen Sie        pers&ouml;nlich identifiziert werden k&ouml;nnen. Die vorliegende        Datenschutzerkl&auml;rung erl&auml;utert, welche Daten wir erheben und        wof&uuml;r wir sie nutzen. Sie erl&auml;utert auch, wie und zu welchem        Zweck das geschieht.      </p>      <p>        Wir weisen darauf hin, dass die Daten&uuml;bertragung im Internet        (z.&nbsp;B. bei der Kommunikation per E-Mail) Sicherheitsl&uuml;cken        aufweisen kann. Ein l&uuml;ckenloser Schutz der Daten vor dem Zugriff        durch Dritte ist nicht m&ouml;glich.      </p>      <h3>Hinweis zur verantwortlichen Stelle</h3>      <p>        Die verantwortliche Stelle f&uuml;r die Datenverarbeitung auf dieser        Website ist:      </p>      <p>        dataforest GmbH<br />        Taunusstra&szlig;e 52<br />        65580 Kriftel      </p>      <p>        Telefon: +49 (0) 6192 93922 33<br />        E-Mail: hi&#64;dataforest.net Support: support&#64;avoro.euelfirma.de      </p>      <p>        Verantwortliche Stelle ist die nat&uuml;rliche oder juristische Person,        die allein oder gemeinsam mit anderen &uuml;ber die Zwecke und Mittel        der Verarbeitung von personenbezogenen Daten (z.&nbsp;B. Namen,        E-Mail-Adressen o. &Auml;.) entscheidet.      </p>      <h3>Speicherdauer</h3>      <p>        Soweit innerhalb dieser Datenschutzerkl&auml;rung keine speziellere        Speicherdauer genannt wurde, verbleiben Ihre personenbezogenen Daten bei        uns, bis der Zweck f&uuml;r die Datenverarbeitung entf&auml;llt. Wenn        Sie ein berechtigtes L&ouml;schersuchen geltend machen oder eine        Einwilligung zur Datenverarbeitung widerrufen, werden Ihre Daten        gel&ouml;scht, sofern wir keine anderen rechtlich zul&auml;ssigen        Gr&uuml;nde f&uuml;r die Speicherung Ihrer personenbezogenen Daten haben        (z.&nbsp;B. steuer- oder handelsrechtliche Aufbewahrungsfristen); im        letztgenannten Fall erfolgt die L&ouml;schung nach Fortfall dieser        Gr&uuml;nde.      </p>      <h3>        Allgemeine Hinweise zu den Rechtsgrundlagen der Datenverarbeitung auf        dieser Website      </h3>      <p>        Sofern Sie in die Datenverarbeitung eingewilligt haben, verarbeiten wir        Ihre personenbezogenen Daten auf Grundlage von Art. 6 Abs. 1 lit. a        DSGVO bzw. Art. 9 Abs. 2 lit. a DSGVO, sofern besondere Datenkategorien        nach Art. 9 Abs. 1 DSGVO verarbeitet werden. Im Falle einer        ausdr&uuml;cklichen Einwilligung in die &Uuml;bertragung        personenbezogener Daten in Drittstaaten erfolgt die Datenverarbeitung        au&szlig;erdem auf Grundlage von Art. 49 Abs. 1 lit. a DSGVO. Sofern Sie        in die Speicherung von Cookies oder in den Zugriff auf Informationen in        Ihr Endger&auml;t (z.&nbsp;B. via Device-Fingerprinting) eingewilligt        haben, erfolgt die Datenverarbeitung zus&auml;tzlich auf Grundlage von        &sect; 25 Abs. 1 TDDDG. Die Einwilligung ist jederzeit widerrufbar. Sind        Ihre Daten zur Vertragserf&uuml;llung oder zur Durchf&uuml;hrung        vorvertraglicher Ma&szlig;nahmen erforderlich, verarbeiten wir Ihre        Daten auf Grundlage des Art. 6 Abs. 1 lit. b DSGVO. Des Weiteren        verarbeiten wir Ihre Daten, sofern diese zur Erf&uuml;llung einer        rechtlichen Verpflichtung erforderlich sind auf Grundlage von Art. 6        Abs. 1 lit. c DSGVO. Die Datenverarbeitung kann ferner auf Grundlage        unseres berechtigten Interesses nach Art. 6 Abs. 1 lit. f DSGVO        erfolgen. &Uuml;ber die jeweils im Einzelfall einschl&auml;gigen        Rechtsgrundlagen wird in den folgenden Abs&auml;tzen dieser        Datenschutzerkl&auml;rung informiert.      </p>      <h3>Empfänger von personenbezogenen Daten</h3>      <p>        Im Rahmen unserer Gesch&auml;ftst&auml;tigkeit arbeiten wir mit        verschiedenen externen Stellen zusammen. Dabei ist teilweise auch eine        &Uuml;bermittlung von personenbezogenen Daten an diese externen Stellen        erforderlich. Wir geben personenbezogene Daten nur dann an externe        Stellen weiter, wenn dies im Rahmen einer Vertragserf&uuml;llung        erforderlich ist, wenn wir gesetzlich hierzu verpflichtet sind        (z.&nbsp;B. Weitergabe von Daten an Steuerbeh&ouml;rden), wenn wir ein        berechtigtes Interesse nach Art. 6 Abs. 1 lit. f DSGVO an der Weitergabe        haben oder wenn eine sonstige Rechtsgrundlage die Datenweitergabe        erlaubt. Beim Einsatz von Auftragsverarbeitern geben wir        personenbezogene Daten unserer Kunden nur auf Grundlage eines        g&uuml;ltigen Vertrags &uuml;ber Auftragsverarbeitung weiter. Im Falle        einer gemeinsamen Verarbeitung wird ein Vertrag &uuml;ber gemeinsame        Verarbeitung geschlossen.      </p>      <h3>Widerruf Ihrer Einwilligung zur Datenverarbeitung</h3>      <p>        Viele Datenverarbeitungsvorg&auml;nge sind nur mit Ihrer        ausdr&uuml;cklichen Einwilligung m&ouml;glich. Sie k&ouml;nnen eine        bereits erteilte Einwilligung jederzeit widerrufen. Die        Rechtm&auml;&szlig;igkeit der bis zum Widerruf erfolgten        Datenverarbeitung bleibt vom Widerruf unber&uuml;hrt.      </p>      <h3>        Widerspruchsrecht gegen die Datenerhebung in besonderen F&auml;llen        sowie gegen Direktwerbung (Art. 21 DSGVO)      </h3>      <p>        WENN DIE DATENVERARBEITUNG AUF GRUNDLAGE VON ART. 6 ABS. 1 LIT. E ODER F        DSGVO ERFOLGT, HABEN SIE JEDERZEIT DAS RECHT, AUS GR&Uuml;NDEN, DIE SICH        AUS IHRER BESONDEREN SITUATION ERGEBEN, GEGEN DIE VERARBEITUNG IHRER        PERSONENBEZOGENEN DATEN WIDERSPRUCH EINZULEGEN; DIES GILT AUCH F&Uuml;R        EIN AUF DIESE BESTIMMUNGEN GEST&Uuml;TZTES PROFILING. DIE JEWEILIGE        RECHTSGRUNDLAGE, AUF DENEN EINE VERARBEITUNG BERUHT, ENTNEHMEN SIE        DIESER DATENSCHUTZERKL&Auml;RUNG. WENN SIE WIDERSPRUCH EINLEGEN, WERDEN        WIR IHRE BETROFFENEN PERSONENBEZOGENEN DATEN NICHT MEHR VERARBEITEN, ES        SEI DENN, WIR K&Ouml;NNEN ZWINGENDE SCHUTZW&Uuml;RDIGE GR&Uuml;NDE        F&Uuml;R DIE VERARBEITUNG NACHWEISEN, DIE IHRE INTERESSEN, RECHTE UND        FREIHEITEN &Uuml;BERWIEGEN ODER DIE VERARBEITUNG DIENT DER        GELTENDMACHUNG, AUS&Uuml;BUNG ODER VERTEIDIGUNG VON        RECHTSANSPR&Uuml;CHEN (WIDERSPRUCH NACH ART. 21 ABS. 1 DSGVO).      </p>      <p>        WERDEN IHRE PERSONENBEZOGENEN DATEN VERARBEITET, UM DIREKTWERBUNG ZU        BETREIBEN, SO HABEN SIE DAS RECHT, JEDERZEIT WIDERSPRUCH GEGEN DIE        VERARBEITUNG SIE BETREFFENDER PERSONENBEZOGENER DATEN ZUM ZWECKE        DERARTIGER WERBUNG EINZULEGEN; DIES GILT AUCH F&Uuml;R DAS PROFILING,        SOWEIT ES MIT SOLCHER DIREKTWERBUNG IN VERBINDUNG STEHT. WENN SIE        WIDERSPRECHEN, WERDEN IHRE PERSONENBEZOGENEN DATEN ANSCHLIESSEND NICHT        MEHR ZUM ZWECKE DER DIREKTWERBUNG VERWENDET (WIDERSPRUCH NACH ART. 21        ABS. 2 DSGVO).      </p>      <h3>        Beschwerde&shy;recht bei der zust&auml;ndigen Aufsichts&shy;beh&ouml;rde      </h3>      <p>        Im Falle von Verst&ouml;&szlig;en gegen die DSGVO steht den Betroffenen        ein Beschwerderecht bei einer Aufsichtsbeh&ouml;rde, insbesondere in dem        Mitgliedstaat ihres gew&ouml;hnlichen Aufenthalts, ihres Arbeitsplatzes        oder des Orts des mutma&szlig;lichen Versto&szlig;es zu. Das        Beschwerderecht besteht unbeschadet anderweitiger verwaltungsrechtlicher        oder gerichtlicher Rechtsbehelfe.      </p>      <h3>Recht auf Daten&shy;&uuml;bertrag&shy;barkeit</h3>      <p>        Sie haben das Recht, Daten, die wir auf Grundlage Ihrer Einwilligung        oder in Erf&uuml;llung eines Vertrags automatisiert verarbeiten, an sich        oder an einen Dritten in einem g&auml;ngigen, maschinenlesbaren Format        aush&auml;ndigen zu lassen. Sofern Sie die direkte &Uuml;bertragung der        Daten an einen anderen Verantwortlichen verlangen, erfolgt dies nur,        soweit es technisch machbar ist.      </p>      <h3>Auskunft, Berichtigung und L&ouml;schung</h3>      <p>        Sie haben im Rahmen der geltenden gesetzlichen Bestimmungen jederzeit        das Recht auf unentgeltliche Auskunft &uuml;ber Ihre gespeicherten        personenbezogenen Daten, deren Herkunft und Empf&auml;nger und den Zweck        der Datenverarbeitung und ggf. ein Recht auf Berichtigung oder        L&ouml;schung dieser Daten. Hierzu sowie zu weiteren Fragen zum Thema        personenbezogene Daten k&ouml;nnen Sie sich jederzeit an uns wenden.      </p>      <h3>Recht auf Einschr&auml;nkung der Verarbeitung</h3>      <p>        Sie haben das Recht, die Einschr&auml;nkung der Verarbeitung Ihrer        personenbezogenen Daten zu verlangen. Hierzu k&ouml;nnen Sie sich        jederzeit an uns wenden. Das Recht auf Einschr&auml;nkung der        Verarbeitung besteht in folgenden F&auml;llen:      </p>      <ul>        <li>          Wenn Sie die Richtigkeit Ihrer bei uns gespeicherten personenbezogenen          Daten bestreiten, ben&ouml;tigen wir in der Regel Zeit, um dies zu          &uuml;berpr&uuml;fen. F&uuml;r die Dauer der Pr&uuml;fung haben Sie          das Recht, die Einschr&auml;nkung der Verarbeitung Ihrer          personenbezogenen Daten zu verlangen.        </li>        <li>          Wenn die Verarbeitung Ihrer personenbezogenen Daten          unrechtm&auml;&szlig;ig geschah/geschieht, k&ouml;nnen Sie statt der          L&ouml;schung die Einschr&auml;nkung der Datenverarbeitung verlangen.        </li>        <li>          Wenn wir Ihre personenbezogenen Daten nicht mehr ben&ouml;tigen, Sie          sie jedoch zur Aus&uuml;bung, Verteidigung oder Geltendmachung von          Rechtsanspr&uuml;chen ben&ouml;tigen, haben Sie das Recht, statt der          L&ouml;schung die Einschr&auml;nkung der Verarbeitung Ihrer          personenbezogenen Daten zu verlangen.        </li>        <li>          Wenn Sie einen Widerspruch nach Art. 21 Abs. 1 DSGVO eingelegt haben,          muss eine Abw&auml;gung zwischen Ihren und unseren Interessen          vorgenommen werden. Solange noch nicht feststeht, wessen Interessen          &uuml;berwiegen, haben Sie das Recht, die Einschr&auml;nkung der          Verarbeitung Ihrer personenbezogenen Daten zu verlangen.        </li>      </ul>      <p>        Wenn Sie die Verarbeitung Ihrer personenbezogenen Daten        eingeschr&auml;nkt haben, d&uuml;rfen diese Daten &ndash; von ihrer        Speicherung abgesehen &ndash; nur mit Ihrer Einwilligung oder zur        Geltendmachung, Aus&uuml;bung oder Verteidigung von        Rechtsanspr&uuml;chen oder zum Schutz der Rechte einer anderen        nat&uuml;rlichen oder juristischen Person oder aus Gr&uuml;nden eines        wichtigen &ouml;ffentlichen Interesses der Europ&auml;ischen Union oder        eines Mitgliedstaats verarbeitet werden.      </p>      <h3>SSL- bzw. TLS-Verschl&uuml;sselung</h3>      <p>        Diese Seite nutzt aus Sicherheitsgr&uuml;nden und zum Schutz der        &Uuml;bertragung vertraulicher Inhalte, wie zum Beispiel Bestellungen        oder Anfragen, die Sie an uns als Seitenbetreiber senden, eine SSL- bzw.        TLS-Verschl&uuml;sselung. Eine verschl&uuml;sselte Verbindung erkennen        Sie daran, dass die Adresszeile des Browsers von &bdquo;http://&ldquo;        auf &bdquo;https://&ldquo; wechselt und an dem Schloss-Symbol in Ihrer        Browserzeile.      </p>      <p>        Wenn die SSL- bzw. TLS-Verschl&uuml;sselung aktiviert ist, k&ouml;nnen        die Daten, die Sie an uns &uuml;bermitteln, nicht von Dritten mitgelesen        werden.      </p>      <h2>4. Datenerfassung auf dieser Website</h2>      <h3 class="h3--0margintop">Server-Log-Dateien</h3>      <p>        Der Provider der Seiten erhebt und speichert automatisch Informationen        in so genannten Server-Log-Dateien, die Ihr Browser automatisch an uns        &uuml;bermittelt. Dies sind:      </p>      <ul>        <li>Browsertyp und Browserversion</li>        <li>verwendetes Betriebssystem</li>        <li>Referrer URL</li>        <li>Hostname des zugreifenden Rechners</li>        <li>Uhrzeit der Serveranfrage</li>        <li>IP-Adresse</li>      </ul>      <p>        Eine Zusammenf&uuml;hrung dieser Daten mit anderen Datenquellen wird        nicht vorgenommen.      </p>      <p>        Die Erfassung dieser Daten erfolgt auf Grundlage von Art. 6 Abs. 1 lit.        f DSGVO. Der Websitebetreiber hat ein berechtigtes Interesse an der        technisch fehlerfreien Darstellung und der Optimierung seiner Website        &ndash; hierzu m&uuml;ssen die Server-Log-Files erfasst werden.      </p>      <h3>Anfrage per E-Mail, Telefon oder Telefax</h3>      <p>        Wenn Sie uns per E-Mail, Telefon oder Telefax kontaktieren, wird Ihre        Anfrage inklusive aller daraus hervorgehenden personenbezogenen Daten        (Name, Anfrage) zum Zwecke der Bearbeitung Ihres Anliegens bei uns        gespeichert und verarbeitet. Diese Daten geben wir nicht ohne Ihre        Einwilligung weiter.      </p>      <p>        Die Verarbeitung dieser Daten erfolgt auf Grundlage von Art. 6 Abs. 1        lit. b DSGVO, sofern Ihre Anfrage mit der Erf&uuml;llung eines Vertrags        zusammenh&auml;ngt oder zur Durchf&uuml;hrung vorvertraglicher        Ma&szlig;nahmen erforderlich ist. In allen &uuml;brigen F&auml;llen        beruht die Verarbeitung auf unserem berechtigten Interesse an der        effektiven Bearbeitung der an uns gerichteten Anfragen (Art. 6 Abs. 1        lit. f DSGVO) oder auf Ihrer Einwilligung (Art. 6 Abs. 1 lit. a DSGVO)        sofern diese abgefragt wurde; die Einwilligung ist jederzeit        widerrufbar.      </p>      <p>        Die von Ihnen an uns per Kontaktanfragen &uuml;bersandten Daten        verbleiben bei uns, bis Sie uns zur L&ouml;schung auffordern, Ihre        Einwilligung zur Speicherung widerrufen oder der Zweck f&uuml;r die        Datenspeicherung entf&auml;llt (z.&nbsp;B. nach abgeschlossener        Bearbeitung Ihres Anliegens). Zwingende gesetzliche Bestimmungen &ndash;        insbesondere gesetzliche Aufbewahrungsfristen &ndash; bleiben        unber&uuml;hrt.      </p>      <h3>Kommentar&shy;funktion auf dieser Website</h3>      <p>        F&uuml;r die Kommentarfunktion auf dieser Seite werden neben Ihrem        Kommentar auch Angaben zum Zeitpunkt der Erstellung des Kommentars und,        wenn Sie nicht anonym posten, der von Ihnen gew&auml;hlte Nutzername        gespeichert.      </p>      <h4>Speicherdauer der Kommentare</h4>      <p>        Die Kommentare und die damit verbundenen Daten werden gespeichert und        verbleiben auf dieser Website, bis der kommentierte Inhalt        vollst&auml;ndig gel&ouml;scht wurde oder die Kommentare aus rechtlichen        Gr&uuml;nden gel&ouml;scht werden m&uuml;ssen (z.&nbsp;B. beleidigende        Kommentare).      </p>      <h4>Rechtsgrundlage</h4>      <p>        Die Speicherung der Kommentare erfolgt auf Grundlage Ihrer Einwilligung        (Art. 6 Abs. 1 lit. a DSGVO). Sie k&ouml;nnen eine von Ihnen erteilte        Einwilligung jederzeit widerrufen. Dazu reicht eine formlose Mitteilung        per E-Mail an uns. Die Rechtm&auml;&szlig;igkeit der bereits erfolgten        Datenverarbeitungsvorg&auml;nge bleibt vom Widerruf unber&uuml;hrt.      </p>      <p>        Quelle: <a href="https://www.e-recht24.de">https://www.e-recht24.de</a>      </p>    </div>  </div></section></div>'
+    var COMPONENTS = [{'name': 'AddchatComponent', 'selector': 'app-addchat'},{'name': 'AddUserToChannelComponent', 'selector': 'app-add-user-to-channel'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'BuilderComponent', 'selector': 'app-builder'},{'name': 'ChatboxComponent', 'selector': 'app-chatbox'},{'name': 'ChatComponent', 'selector': 'app-chat'},{'name': 'ChooseAvatarComponent', 'selector': 'app-choose-avatar'},{'name': 'CreatemessageComponent', 'selector': 'app-createmessage'},{'name': 'DialogComponent', 'selector': 'app-dialog'},{'name': 'EditmessageComponent', 'selector': 'app-editmessage'},{'name': 'EmojiPickerComponent', 'selector': 'app-emoji-picker'},{'name': 'ForgetPasswordComponent', 'selector': 'app-forget-password'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'ImprintComponent', 'selector': 'app-imprint'},{'name': 'LegalnoticeComponent', 'selector': 'app-legalnotice'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogoComponent', 'selector': 'app-logo'},{'name': 'MainchatHeaderComponent', 'selector': 'app-mainchat-header'},{'name': 'MainComponent', 'selector': 'app-main'},{'name': 'MentionComponent', 'selector': 'app-mention'},{'name': 'MenuChannelsComponent', 'selector': 'app-menu-channels'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MenuDialogComponent', 'selector': 'app-menu-dialog'},{'name': 'MenuHeaderComponent', 'selector': 'app-menu-header'},{'name': 'MenuPrivateMessagesComponent', 'selector': 'app-menu-private-messages'},{'name': 'MenutogglerComponent', 'selector': 'app-menutoggler'},{'name': 'MessageboxComponent', 'selector': 'app-messagebox'},{'name': 'MessageComponent', 'selector': 'app-messages'},{'name': 'ParentMessageComponent', 'selector': 'app-parent-message'},{'name': 'ProfileviewComponent', 'selector': 'app-profileview'},{'name': 'ReactionsComponent', 'selector': 'app-reactions'},{'name': 'ResetPasswordComponent', 'selector': 'app-reset-password'},{'name': 'SearchbarComponent', 'selector': 'app-searchbar'},{'name': 'SignInComponent', 'selector': 'app-sign-in'},{'name': 'SignUpComponent', 'selector': 'app-sign-up'},{'name': 'ThreadchatHeaderComponent', 'selector': 'app-threadchat-header'},{'name': 'ThreadMessagesComponent', 'selector': 'app-thread-messages'},{'name': 'ToastMessageComponent', 'selector': 'app-toastmessage'},{'name': 'UsermenuComponent', 'selector': 'app-usermenu'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'LegalnoticeComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'LegalnoticeComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

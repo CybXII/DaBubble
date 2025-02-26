@@ -1,5 +1,17 @@
-<div class="header-container">
-<app-logo></app-logo>
-<app-searchbar></app-searchbar>
-<app-usermenu></app-usermenu>
+<div class="header-container" [ngClass]="{'header-container-mobile-legal': legalPage}">
+  @if (mobile && !legalPage) {
+    <div class="mobile-group">
+      <app-menutoggler class="toggleButton" (click)="toggleMenu()"
+      [menuState]="menuOpened ? 'schließen' : 'öffnen'"></app-menutoggler>
+      <img src="img/logo/devspace-logo.svg" alt="">
+    </div>
+  } @else {
+    <app-logo class="logo-container"></app-logo>
+  }
+  @if(currentUrl != "/legalnotice" && currentUrl != "/imprint") {
+    @if (!mobile) {
+      <app-searchbar class="searchbar-container"></app-searchbar>
+    }
+  <app-usermenu class="usermenu-container"></app-usermenu>
+  }
 </div>

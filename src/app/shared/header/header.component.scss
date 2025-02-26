@@ -1,8 +1,69 @@
-@import "../../../mixins.scss";
+@use "../../../mixins.scss" as mixins;
+@use "../../../colors.scss" as colors;
 
 .header-container{
-    @include flexbox(row, space-between, center, wrap);
+    @include mixins.flexbox(row, space-between, center, nowrap);
+    height: 100%;
     width: 100%;
     gap: 20px;
-    @include border-marker(red);
+    display: flex;
+}
+
+.menu-container{
+    @include mixins.flexbox(column, flex-start, flex-start, wrap);
+    background-color: colors.$white;
+    height: 100%;
+    width: 100%;
+    border-radius: 30px;
+    gap: 25px;
+}
+
+.mobile-group{
+    @include mixins.flexbox(row, flex-start, center, nowrap);
+    .toggleButton{
+        border-radius: 50%;
+        cursor: pointer;
+        &:hover{
+            transition: 0.25s ease-in-out;
+            color: colors.$purple2;
+        }
+    }
+    img {
+        height: 50px;
+        width: 50px;
+    }
+}
+
+.searchbar-container {
+    min-width: 485px;
+    flex: 1;
+    position: relative;
+}
+
+.mainchat-container{
+    min-width: 485px;
+    flex: 1;
+}
+
+.menu-width{
+    width: 366px;
+}
+
+.thread-width{
+    width: 485px;
+}
+
+.header-container-mobile-legal{
+    justify-content: center !important;
+}
+
+@media (max-width: 900px){
+    .header-container{
+        padding: 20px;
+    }
+}
+@media(max-width: 550px){
+    .header-container{
+        padding: 15px 16px;
+    }
 }

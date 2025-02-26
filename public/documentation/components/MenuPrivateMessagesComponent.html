@@ -1,0 +1,2595 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>dabubble documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">dabubble documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  MenuPrivateMessagesComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/main/menu/menu-private-messages/menu-private-messages.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code>OnInit</code>
+                <code>OnDestroy</code>
+    </p>
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-menu-private-messages</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">standalone</td>
+                <td class="col-md-9"><code>true</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./menu-private-messages.component.html</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrl</td>
+                <td class="col-md-9"><code>./menu-private-messages.component.scss</code></td>
+            </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#activeUsers" >activeUsers</a>
+                            </li>
+                            <li>
+                                <a href="#channelMembers" >channelMembers</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#channelsService" >channelsService</a>
+                            </li>
+                            <li>
+                                <a href="#loading" >loading</a>
+                            </li>
+                            <li>
+                                <a href="#messagesOpen" >messagesOpen</a>
+                            </li>
+                            <li>
+                                <a href="#privateChannels" >privateChannels</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#unsubscribeUserListener" >unsubscribeUserListener</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#userDialog" >userDialog</a>
+                            </li>
+                            <li>
+                                <a href="#users" >users</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#checkForOwnPrivatChat" >checkForOwnPrivatChat</a>
+                            </li>
+                            <li>
+                                <a href="#getPartnerId" >getPartnerId</a>
+                            </li>
+                            <li>
+                                <a href="#getSecondUser" >getSecondUser</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#getUser" >getUser</a>
+                            </li>
+                            <li>
+                                <a href="#getUserAvatar" >getUserAvatar</a>
+                            </li>
+                            <li>
+                                <a href="#getUserName" >getUserName</a>
+                            </li>
+                            <li>
+                                <a href="#getUserStatus" >getUserStatus</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#initChannelDetails" >initChannelDetails</a>
+                            </li>
+                            <li>
+                                <a href="#initPrivateChannels" >initPrivateChannels</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#loadPrivateChannels" >loadPrivateChannels</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#openDialog" >openDialog</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#selectChannel" >selectChannel</a>
+                            </li>
+                            <li>
+                                <a href="#setChannelMembers" >setChannelMembers</a>
+                            </li>
+                            <li>
+                                <a href="#setUserData" >setUserData</a>
+                            </li>
+                            <li>
+                                <a href="#subscribeToAllUsers" >subscribeToAllUsers</a>
+                            </li>
+                            <li>
+                                <a href="#toggleMessagesOpen" >toggleMessagesOpen</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(dialog: MatDialog, channelsService: <a href="../injectables/ChannelsService.html" target="_self">ChannelsService</a>, sharedService: <a href="../injectables/SharedService.html" target="_self">SharedService</a>, firestore: Firestore, authService: <a href="../injectables/AuthService.html" target="_self">AuthService</a>, userDialog: <a href="../injectables/UserDialogService.html" target="_self">UserDialogService</a>, userService: <a href="../injectables/UserService.html" target="_self">UserService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/main/menu/menu-private-messages/menu-private-messages.component.ts:42</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                                    <td>Description</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>dialog</td>
+                                                  
+                                                        <td>
+                                                                    <code>MatDialog</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>MatDialog service for opening dialogs.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>channelsService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ChannelsService.html" target="_self" >ChannelsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>ChannelsService for managing channels.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>sharedService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SharedService.html" target="_self" >SharedService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>SharedService for managing shared state.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>firestore</td>
+                                                  
+                                                        <td>
+                                                                    <code>Firestore</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>Firestore database service.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>authService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>AuthService for authentication.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>userDialog</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UserDialogService.html" target="_self" >UserDialogService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>UserDialogService for managing user dialogs.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>userService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UserService.html" target="_self" >UserService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <ul>
+<li>UserService for managing users.</li>
+</ul>
+
+                                                        </td>
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkForOwnPrivatChat"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>checkForOwnPrivatChat</b></span>
+                        <a href="#checkForOwnPrivatChat"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>checkForOwnPrivatChat(ids: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, id: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, id2: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="235"
+                                    class="link-to-prism">src/app/main/menu/menu-private-messages/menu-private-messages.component.ts:235</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Checks if a private chat with the specified user IDs exists and updates the active users list.</p>
+<p>Retrieves usernames associated with the given IDs. If the active users list is not empty,
+it checks if the user is already in the list. If not, it adds the user to the list.
+If the IDs are different, it retrieves the second user&#39;s data.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>ids</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>An array of user IDs to check.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>The first user ID.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>id2</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>The second user ID. Used to determine if both IDs are different for further processing.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getPartnerId"></a>
+                    <span class="name">
+                        <span ><b>getPartnerId</b></span>
+                        <a href="#getPartnerId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getPartnerId(channel: <a href="../interfaces/Channel.html" target="_self">Channel</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="378"
+                                    class="link-to-prism">src/app/main/menu/menu-private-messages/menu-private-messages.component.ts:378</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Retrieves the ID of a conversation partner in the given channel.</p>
+<p>If the channel only has one member, returns the active user&#39;s ID.
+If there are multiple members, returns the ID of the first member that is not the active user.
+If the channel has no members, returns null.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>channel</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Channel.html" target="_self" >Channel</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The channel object containing member information.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>string | null</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>The ID of the conversation partner or null if no partner is found.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSecondUser"></a>
+                    <span class="name">
+                        <span ><b>getSecondUser</b></span>
+                        <a href="#getSecondUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getSecondUser(user: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="275"
+                                    class="link-to-prism">src/app/main/menu/menu-private-messages/menu-private-messages.component.ts:275</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Extracts the second user&#39;s data from the given user object and adds it to the active users list.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>user</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>An object containing user data, expected to have at least two elements where the second element is used.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getUser"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>getUser</b></span>
+                        <a href="#getUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getUser(id: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, id2: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="212"
+                                    class="link-to-prism">src/app/main/menu/menu-private-messages/menu-private-messages.component.ts:212</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Gets the user data for the given user IDs.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>The first user ID.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>id2</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>The second user ID. If <code>id2</code> is not given, the method will not check for the second user.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>A promise that resolves when the user data has been retrieved.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getUserAvatar"></a>
+                    <span class="name">
+                        <span ><b>getUserAvatar</b></span>
+                        <a href="#getUserAvatar"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getUserAvatar(channel: <a href="../interfaces/Channel.html" target="_self">Channel</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="332"
+                                    class="link-to-prism">src/app/main/menu/menu-private-messages/menu-private-messages.component.ts:332</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Retrieves the avatar URL for a partner in the given channel.</p>
+<p>If there is a conversation partner, fetches the avatar using the partner&#39;s ID.
+If no partner is found, returns a default avatar URL.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>channel</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Channel.html" target="_self" >Channel</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The channel object containing member information.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Observable&lt;string&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>An observable that emits the avatar URL of the partner or a default avatar URL.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getUserName"></a>
+                    <span class="name">
+                        <span ><b>getUserName</b></span>
+                        <a href="#getUserName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getUserName(channel: <a href="../interfaces/Channel.html" target="_self">Channel</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="347"
+                                    class="link-to-prism">src/app/main/menu/menu-private-messages/menu-private-messages.component.ts:347</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Retrieves the name of a partner in the given channel.</p>
+<p>If there is a conversation partner, fetches the name using the partner&#39;s ID.
+If no partner is found, returns the default avatar URL.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>channel</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Channel.html" target="_self" >Channel</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The channel object containing member information.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Observable&lt;string&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>An observable that emits the name of the partner or the default avatar URL.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getUserStatus"></a>
+                    <span class="name">
+                        <span ><b>getUserStatus</b></span>
+                        <a href="#getUserStatus"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getUserStatus(channel: <a href="../interfaces/Channel.html" target="_self">Channel</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="362"
+                                    class="link-to-prism">src/app/main/menu/menu-private-messages/menu-private-messages.component.ts:362</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Retrieves the online status of a conversation partner in the given channel.</p>
+<p>If there is a conversation partner, fetches their status using the partner&#39;s ID.
+If no partner is found, returns &#39;offline&#39;.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>channel</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Channel.html" target="_self" >Channel</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The channel object containing member information.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Observable&lt;string&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>An observable that emits the partner&#39;s status or &#39;offline&#39;.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initChannelDetails"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>initChannelDetails</b></span>
+                        <a href="#initChannelDetails"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>initChannelDetails(privateChannels: <a href="../interfaces/Channel.html" target="_self">Channel[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="138"
+                                    class="link-to-prism">src/app/main/menu/menu-private-messages/menu-private-messages.component.ts:138</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Initializes the channel details by getting the partner names for each private channel.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>privateChannels</td>
+                                            <td>
+                                                            <code><a href="../interfaces/Channel.html" target="_self" >Channel[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>An array of private channels.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>A promise that resolves when the channels have been initialized.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initPrivateChannels"></a>
+                    <span class="name">
+                        <span ><b>initPrivateChannels</b></span>
+                        <a href="#initPrivateChannels"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initPrivateChannels(channelsWithPartnerNames: literal type[], userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="181"
+                                    class="link-to-prism">src/app/main/menu/menu-private-messages/menu-private-messages.component.ts:181</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Initializes the list of private channels with the given partner names and user data.
+Sorts the channels based on whether the user is the sole member and by the partner&#39;s name.
+If the user is the only member in a channel, that channel is prioritized in the list.
+Otherwise, channels are sorted alphabetically by the first partner&#39;s name.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>channelsWithPartnerNames</td>
+                                            <td>
+                                                        <code>literal type[]</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>An array of private channels, each with associated partner names and metadata.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                                <td>userId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>The ID of the current user, used to determine channel membership.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadPrivateChannels"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>loadPrivateChannels</b></span>
+                        <a href="#loadPrivateChannels"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadPrivateChannels()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="120"
+                                    class="link-to-prism">src/app/main/menu/menu-private-messages/menu-private-messages.component.ts:120</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Loads all private channels from Firestore in real-time.</p>
+<p>The method filters the channels by the <code>isPrivate</code> property and then
+calls the <a href="ChannelsService.getChannelMembers">ChannelsService.getChannelMembers</a> method to get the
+channel members. The channel details are then initialized with the retrieved
+channel members.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>A promise that resolves when the channels are loaded.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="81"
+                                    class="link-to-prism">src/app/main/menu/menu-private-messages/menu-private-messages.component.ts:81</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Lifecycle hook that is called when the component is destroyed.
+Removes the user listener to prevent memory leaks.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="71"
+                                    class="link-to-prism">src/app/main/menu/menu-private-messages/menu-private-messages.component.ts:71</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Initializes the component by loading the private channels and subscribing
+to all user data in real-time.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openDialog"></a>
+                    <span class="name">
+                        <span ><b>openDialog</b></span>
+                        <a href="#openDialog"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openDialog()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="292"
+                                    class="link-to-prism">src/app/main/menu/menu-private-messages/menu-private-messages.component.ts:292</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Opens the add chat dialog component.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Nothing.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectChannel"></a>
+                    <span class="name">
+                            <span class="modifier">Async</span>
+                        <span ><b>selectChannel</b></span>
+                        <a href="#selectChannel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>selectChannel(channelId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="307"
+                                    class="link-to-prism">src/app/main/menu/menu-private-messages/menu-private-messages.component.ts:307</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Selects a channel and closes the private messages menu.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>channelId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>The ID of the channel to select.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>A promise that resolves when the channel is selected.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setChannelMembers"></a>
+                    <span class="name">
+                        <span ><b>setChannelMembers</b></span>
+                        <a href="#setChannelMembers"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setChannelMembers(rawChannelMembers: literal type)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="162"
+                                    class="link-to-prism">src/app/main/menu/menu-private-messages/menu-private-messages.component.ts:162</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Sets the channel members object with the given raw channel members.
+The channel members object is a mapping of channel IDs to arrays of user IDs.
+The method takes the raw channel members object and reduces it to the
+desired format.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>rawChannelMembers</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>The raw channel members object from Firestore.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setUserData"></a>
+                    <span class="name">
+                        <span ><b>setUserData</b></span>
+                        <a href="#setUserData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setUserData(user: <a href="../interfaces/CustomUser.html" target="_self">CustomUser[]</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="259"
+                                    class="link-to-prism">src/app/main/menu/menu-private-messages/menu-private-messages.component.ts:259</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Sets the user data for the component.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>user</td>
+                                            <td>
+                                                            <code><a href="../interfaces/CustomUser.html" target="_self" >CustomUser[]</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <ul>
+<li>An array of user objects. The first element is used to set the user data.</li>
+</ul>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscribeToAllUsers"></a>
+                    <span class="name">
+                        <span ><b>subscribeToAllUsers</b></span>
+                        <a href="#subscribeToAllUsers"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>subscribeToAllUsers()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="94"
+                                    class="link-to-prism">src/app/main/menu/menu-private-messages/menu-private-messages.component.ts:94</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Subscribes to all user data in real-time from Firestore.</p>
+<p>On user changes, reloads the private channels.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleMessagesOpen"></a>
+                    <span class="name">
+                        <span ><b>toggleMessagesOpen</b></span>
+                        <a href="#toggleMessagesOpen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleMessagesOpen()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="318"
+                                    class="link-to-prism">src/app/main/menu/menu-private-messages/menu-private-messages.component.ts:318</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Toggles the messages open state between true and false.
+If the messages are currently open, they are closed and vice versa.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>Nothing.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="activeUsers"></a>
+                    <span class="name">
+                        <span ><b>activeUsers</b></span>
+                        <a href="#activeUsers"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">src/app/main/menu/menu-private-messages/menu-private-messages.component.ts:42</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="channelMembers"></a>
+                    <span class="name">
+                        <span ><b>channelMembers</b></span>
+                        <a href="#channelMembers"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>literal type</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/main/menu/menu-private-messages/menu-private-messages.component.ts:27</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="channelsService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>channelsService</b></span>
+                        <a href="#channelsService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/ChannelsService.html" target="_self" >ChannelsService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">src/app/main/menu/menu-private-messages/menu-private-messages.component.ts:58</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description">- ChannelsService for managing channels.</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loading"></a>
+                    <span class="name">
+                        <span ><b>loading</b></span>
+                        <a href="#loading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/main/menu/menu-private-messages/menu-private-messages.component.ts:26</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="messagesOpen"></a>
+                    <span class="name">
+                        <span ><b>messagesOpen</b></span>
+                        <a href="#messagesOpen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/main/menu/menu-private-messages/menu-private-messages.component.ts:24</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="privateChannels"></a>
+                    <span class="name">
+                        <span ><b>privateChannels</b></span>
+                        <a href="#privateChannels"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Channel.html" target="_self" >Channel[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/main/menu/menu-private-messages/menu-private-messages.component.ts:25</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="unsubscribeUserListener"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>unsubscribeUserListener</b></span>
+                        <a href="#unsubscribeUserListener"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code> | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/main/menu/menu-private-messages/menu-private-messages.component.ts:28</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="userDialog"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>userDialog</b></span>
+                        <a href="#userDialog"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/UserDialogService.html" target="_self" >UserDialogService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">src/app/main/menu/menu-private-messages/menu-private-messages.component.ts:62</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description">- UserDialogService for managing user dialogs.</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="users"></a>
+                    <span class="name">
+                        <span ><b>users</b></span>
+                        <a href="#users"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>literal type</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    name: &#x27;&#x27;,
+    userId: &#x27;&#x27;,
+    photoURL: &#x27;&#x27;,
+    email: &#x27;&#x27;,
+    status: false,
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/app/main/menu/menu-private-messages/menu-private-messages.component.ts:29</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, OnDestroy } from &#x27;@angular/core&#x27;;
+import { collection, Firestore, onSnapshot } from &#x27;@angular/fire/firestore&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { AddchatComponent } from &#x27;../../addchat/addchat.component&#x27;;
+import { MatDialog } from &#x27;@angular/material/dialog&#x27;;
+import { Channel } from &#x27;../../../models/channel&#x27;;
+import { ChannelsService } from &#x27;../../../shared/services/channels.service&#x27;;
+import { SharedService } from &#x27;../../../shared/services/newmessage.service&#x27;;
+import { AuthService } from &#x27;../../../shared/services/auth.service&#x27;;
+import { UserDialogService } from &#x27;../../../shared/services/user-dialog.service&#x27;;
+import { CustomUser, UserService } from &#x27;../../../shared/services/user.service&#x27;;
+import { Observable, of } from &#x27;rxjs&#x27;;
+
+@Component({
+  selector: &#x27;app-menu-private-messages&#x27;,
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: &#x27;./menu-private-messages.component.html&#x27;,
+  styleUrl: &#x27;./menu-private-messages.component.scss&#x27;,
+})
+
+
+export class MenuPrivateMessagesComponent implements OnInit, OnDestroy {
+  messagesOpen: boolean &#x3D; true;
+  privateChannels: Channel[] &#x3D; [];
+  loading: boolean &#x3D; true;
+  channelMembers: { [channelId: string]: string[] } &#x3D; {};
+  private unsubscribeUserListener: (() &#x3D;&gt; void) | null &#x3D; null;
+  users: {
+    name: string;
+    userId: string;
+    photoURL: string;
+    email: string;
+    status: boolean;
+  } &#x3D; {
+    name: &#x27;&#x27;,
+    userId: &#x27;&#x27;,
+    photoURL: &#x27;&#x27;,
+    email: &#x27;&#x27;,
+    status: false,
+  };
+  activeUsers:any &#x3D; []
+
+
+  /**
+   * @constructor
+   *
+   * @param dialog - MatDialog service for opening dialogs.
+   * @param channelsService - ChannelsService for managing channels.
+   * @param sharedService - SharedService for managing shared state.
+   * @param firestore - Firestore database service.
+   * @param authService - AuthService for authentication.
+   * @param userDialog - UserDialogService for managing user dialogs.
+   * @param userService - UserService for managing users.
+   */
+  constructor(
+    private dialog: MatDialog,
+    public channelsService: ChannelsService,
+    private sharedService: SharedService,
+    private firestore: Firestore,
+    private authService: AuthService,
+    public userDialog: UserDialogService,
+    private userService: UserService
+  ) {}
+
+
+  /**
+   * Initializes the component by loading the private channels and subscribing
+   * to all user data in real-time.
+   */
+  ngOnInit(): void {
+    this.loadPrivateChannels();
+    this.subscribeToAllUsers();
+  }
+
+
+  /**
+   * Lifecycle hook that is called when the component is destroyed.
+   * Removes the user listener to prevent memory leaks.
+   */
+  ngOnDestroy(): void {
+    if (this.unsubscribeUserListener) {
+      this.unsubscribeUserListener();
+      console.log(&#x27;Benutzer-Listener entfernt.&#x27;);
+    }
+  }
+
+
+  /**
+   * Subscribes to all user data in real-time from Firestore.
+   *
+   * On user changes, reloads the private channels.
+   */
+  subscribeToAllUsers(): void {
+    const usersCollectionRef &#x3D; collection(this.firestore, &#x27;users&#x27;);
+    this.unsubscribeUserListener &#x3D; onSnapshot(
+      usersCollectionRef,
+      (snapshot) &#x3D;&gt; {
+        snapshot.docChanges().forEach((change) &#x3D;&gt; {
+          if (change.type &#x3D;&#x3D;&#x3D; &#x27;modified&#x27;) {
+            this.loadPrivateChannels();
+          }
+        });
+      }
+    );
+  }
+
+
+  /**
+   * Loads all private channels from Firestore in real-time.
+   * 
+   * @remarks
+   * The method filters the channels by the &#x60;isPrivate&#x60; property and then
+   * calls the {@link ChannelsService.getChannelMembers} method to get the
+   * channel members. The channel details are then initialized with the retrieved
+   * channel members.
+   * 
+   * @returns A promise that resolves when the channels are loaded.
+   */
+  async loadPrivateChannels(): Promise&lt;void&gt; {
+    this.loading &#x3D; true;
+    this.channelsService.loadChannelsRealtime(async (channels) &#x3D;&gt; {
+      const privateChannels &#x3D; channels.filter((channel) &#x3D;&gt; channel.isPrivate);
+      const rawChannelMembers &#x3D; await this.channelsService.getChannelMembers(privateChannels);
+      this.initChannelDetails(privateChannels);
+      this.setChannelMembers(rawChannelMembers);
+      this.loading &#x3D; false;
+    });
+  }
+
+
+  /**
+   * Initializes the channel details by getting the partner names for each private channel.
+   * 
+   * @param privateChannels - An array of private channels.
+   * @returns A promise that resolves when the channels have been initialized.
+   */
+  async initChannelDetails(privateChannels : Channel[]) {
+    const userId &#x3D; this.authService.userId();
+    const channelsWithPartnerNames &#x3D; await Promise.all(
+      privateChannels.map(async (channel) &#x3D;&gt; {
+        const partnerIds &#x3D; channel.members.filter((id) &#x3D;&gt; id !&#x3D;&#x3D; userId);
+        const partnerNames &#x3D; await this.userService.getUsernamesByIds(partnerIds);
+        return {
+          ...channel,
+          partnerNames: partnerNames.map((user) &#x3D;&gt; user.name).sort((a, b) &#x3D;&gt; a.localeCompare(b)),
+        };
+      })
+    );
+    if(userId) {
+      this.initPrivateChannels(channelsWithPartnerNames, userId); 
+    }
+  }
+
+  /**
+   * Sets the channel members object with the given raw channel members.
+   * The channel members object is a mapping of channel IDs to arrays of user IDs.
+   * The method takes the raw channel members object and reduces it to the
+   * desired format.
+   * @param rawChannelMembers - The raw channel members object from Firestore.
+   */
+  setChannelMembers(rawChannelMembers: { [channelId: string]: string[] }) {
+    this.channelMembers &#x3D; Object.keys(rawChannelMembers).reduce(
+      (acc, channelId) &#x3D;&gt; {
+        acc[channelId] &#x3D; rawChannelMembers[channelId];
+        return acc;
+      },
+      {} as { [channelId: string]: string[] }
+    );
+  }
+
+  /**
+   * Initializes the list of private channels with the given partner names and user data.
+   * Sorts the channels based on whether the user is the sole member and by the partner&#x27;s name.
+   * If the user is the only member in a channel, that channel is prioritized in the list.
+   * Otherwise, channels are sorted alphabetically by the first partner&#x27;s name.
+   *
+   * @param channelsWithPartnerNames - An array of private channels, each with associated partner names and metadata.
+   * @param userId - The ID of the current user, used to determine channel membership.
+   */
+  initPrivateChannels(channelsWithPartnerNames:{
+    partnerNames: string[];
+    id?: string;
+    name: string;
+    description?: string;
+    createdBy: string;
+    members: string[];
+    isPrivate: boolean;
+    createdAt?: Date;
+    }[], userId: string): void {
+      this.privateChannels &#x3D; channelsWithPartnerNames.sort((a, b) &#x3D;&gt; {
+        const isUserAloneInA &#x3D; a.members.length &#x3D;&#x3D;&#x3D; 1 &amp;&amp; a.members[0] &#x3D;&#x3D;&#x3D; userId;
+        const isUserAloneInB &#x3D; b.members.length &#x3D;&#x3D;&#x3D; 1 &amp;&amp; b.members[0] &#x3D;&#x3D;&#x3D; userId;
+        if (isUserAloneInA &amp;&amp; !isUserAloneInB) return -1;
+        if (!isUserAloneInA &amp;&amp; isUserAloneInB) return 1;
+        const partnerA &#x3D; a.partnerNames[0] || &#x27;&#x27;;
+        const partnerB &#x3D; b.partnerNames[0] || &#x27;&#x27;;
+        this.getUser(a.members[1], b.members[1])
+        return partnerA.localeCompare(partnerB);
+      });
+    }
+
+
+  /**
+   * Gets the user data for the given user IDs.
+   * 
+   * @param id - The first user ID.
+   * @param id2 - The second user ID. If &#x60;id2&#x60; is not given, the method will not check for the second user.
+   * @returns A promise that resolves when the user data has been retrieved.
+   * @throws {Error} If one of the given user IDs is undefined or null.
+   */
+  async getUser(id:any, id2:any) {
+    const ids &#x3D; [id];
+    if (id !&#x3D;&#x3D; id2) {
+      if (id2 !&#x3D;&#x3D; undefined &amp;&amp; id2 !&#x3D;&#x3D; null)       
+        ids.push(id2)
+    }
+    if (ids.some(id &#x3D;&gt; id &#x3D;&#x3D;&#x3D; undefined || id &#x3D;&#x3D;&#x3D; null)) 
+      throw new Error(&#x27;User-ID ist undefined.&#x27;);
+    this.checkForOwnPrivatChat(ids, id, id2)
+  }
+
+
+  /**
+   * Checks if a private chat with the specified user IDs exists and updates the active users list.
+   *
+   * Retrieves usernames associated with the given IDs. If the active users list is not empty,
+   * it checks if the user is already in the list. If not, it adds the user to the list.
+   * If the IDs are different, it retrieves the second user&#x27;s data.
+   *
+   * @param ids - An array of user IDs to check.
+   * @param id - The first user ID.
+   * @param id2 - The second user ID. Used to determine if both IDs are different for further processing.
+   */
+  async checkForOwnPrivatChat(ids:any, id:any, id2:any) {
+    const user &#x3D; await this.userService.getUsernamesByIds(ids);
+    if (this.activeUsers.length &gt; 0 ) {
+      const userExists &#x3D; this.activeUsers.findIndex((element: { userId: string; }) &#x3D;&gt; element.userId &#x3D;&#x3D;&#x3D; this.users.userId);
+      if (userExists &#x3D;&#x3D;&#x3D; -1) {
+        this.activeUsers.push(this.users);
+        if (id !&#x3D;&#x3D; id2) 
+          this.getSecondUser(user)
+        this.activeUsers.push(this.users);
+      }
+    } else {
+      this.activeUsers.push(this.users);
+      if (id !&#x3D;&#x3D; id2) 
+        this.getSecondUser(user)
+    }
+  }
+
+
+  /**
+   * Sets the user data for the component.
+   * 
+   * @param user - An array of user objects. The first element is used to set the user data.
+   * @returns {void}
+   */
+  setUserData(user: CustomUser[]){
+    this.users &#x3D; {
+      name: user[0].name ? user[0].name : &quot;&quot;,
+      userId: user[0].userId ? user[0].userId : &quot;&quot;,
+      photoURL: user[0].photoURL ? user[0].photoURL : &quot;&quot;,
+      email: user[0].email ? user[0].email : &quot;&quot;,
+      status: user[0].status ? user[0].status : false,
+    }
+  }
+
+
+  /**
+   * Extracts the second user&#x27;s data from the given user object and adds it to the active users list.
+   *
+   * @param user - An object containing user data, expected to have at least two elements where the second element is used.
+   */
+  getSecondUser(user:any) {
+    const secondUser &#x3D; {
+      name: user[1].name ? user[1].name : &quot;&quot;,
+      userId: user[1].userId ? user[1].userId : &quot;&quot;,
+      photoURL: user[1].photoURL ? user[1].photoURL : &quot;&quot;,
+      email: user[1].email ? user[1].email : &quot;&quot;,
+      status: user[1].status ? user[1].status : false,
+    };
+    this.activeUsers.push(secondUser);
+  }
+
+
+  /**
+   * Opens the add chat dialog component.
+   * 
+   * @returns {void} Nothing.
+   */
+  openDialog(): void {
+    this.dialog.open(AddchatComponent, {
+      width: &#x27;fit-content&#x27;,
+      maxWidth: &#x27;100vw&#x27;,
+      height: &#x27;fit-content&#x27;,
+    });
+  }
+
+
+  /**
+   * Selects a channel and closes the private messages menu.
+   *
+   * @param channelId - The ID of the channel to select.
+   * @returns A promise that resolves when the channel is selected.
+   */
+  async selectChannel(channelId: string): Promise&lt;void&gt; {
+    this.sharedService.updateVariable(&#x27;false&#x27;);
+    this.channelsService.selectChannel(channelId);
+  }
+
+
+  /**
+   * Toggles the messages open state between true and false.
+   * If the messages are currently open, they are closed and vice versa.
+   * @returns {void} Nothing.
+   */
+  toggleMessagesOpen(): void {
+    this.messagesOpen &#x3D; !this.messagesOpen;
+  }
+
+
+  /**
+   * Retrieves the avatar URL for a partner in the given channel.
+   * 
+   * If there is a conversation partner, fetches the avatar using the partner&#x27;s ID.
+   * If no partner is found, returns a default avatar URL.
+   * 
+   * @param channel The channel object containing member information.
+   * @returns An observable that emits the avatar URL of the partner or a default avatar URL.
+   */
+  getUserAvatar(channel: Channel): Observable&lt;string&gt; {
+    const partnerId &#x3D; this.getPartnerId(channel);
+    return partnerId ? this.userService.getuserAvatar(partnerId) : of(&#x27;/img/avatars/avatar1.svg&#x27;);
+  }
+
+
+  /**
+   * Retrieves the name of a partner in the given channel.
+   * 
+   * If there is a conversation partner, fetches the name using the partner&#x27;s ID.
+   * If no partner is found, returns the default avatar URL.
+   * 
+   * @param channel The channel object containing member information.
+   * @returns An observable that emits the name of the partner or the default avatar URL.
+   */
+  getUserName(channel: Channel): Observable&lt;string&gt; {
+    const partnerId &#x3D; this.getPartnerId(channel);
+    return partnerId ? this.userService.getuserName(partnerId) : of(&#x27;/img/avatars/avatar1.svg&#x27;);
+  }
+
+
+  /**
+   * Retrieves the online status of a conversation partner in the given channel.
+   * 
+   * If there is a conversation partner, fetches their status using the partner&#x27;s ID.
+   * If no partner is found, returns &#x27;offline&#x27;.
+   * 
+   * @param channel The channel object containing member information.
+   * @returns An observable that emits the partner&#x27;s status or &#x27;offline&#x27;.
+   */
+  getUserStatus(channel: Channel): Observable&lt;string&gt; {
+    const partnerId &#x3D; this.getPartnerId(channel);
+    return partnerId ? this.userService.getuserStatus(partnerId) : of(&#x27;offline&#x27;);
+  }
+
+
+  /**
+   * Retrieves the ID of a conversation partner in the given channel.
+   * 
+   * If the channel only has one member, returns the active user&#x27;s ID.
+   * If there are multiple members, returns the ID of the first member that is not the active user.
+   * If the channel has no members, returns null.
+   * 
+   * @param channel The channel object containing member information.
+   * @returns The ID of the conversation partner or null if no partner is found.
+   */
+  getPartnerId(channel: Channel): string | null {
+    const userId &#x3D; this.authService.userId();
+    if (!channel.members || channel.members.length &#x3D;&#x3D;&#x3D; 0)
+        return null;
+    return channel.members.length &#x3D;&#x3D;&#x3D; 1 ? userId : channel.members.find(id &#x3D;&gt; id !&#x3D;&#x3D; userId) || null;
+  }
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;section class&#x3D;&quot;channels&quot;&gt;
+  &lt;div class&#x3D;&quot;menu-titel-box&quot;&gt;
+    &lt;div (click)&#x3D;&quot;toggleMessagesOpen()&quot; class&#x3D;&quot;titel-box&quot;&gt;
+      &lt;div [ngClass]&#x3D;&quot;{ active: messagesOpen }&quot; class&#x3D;&quot;arrow-box&quot;&gt;
+        &lt;svg width&#x3D;&quot;10&quot; height&#x3D;&quot;7&quot; viewBox&#x3D;&quot;0 0 10 7&quot; xmlns&#x3D;&quot;http://www.w3.org/2000/svg&quot;&gt;
+          &lt;path
+            d&#x3D;&quot;M4.12508 5.875L0.875076 2.625C0.479243 2.22917 0.390909 1.77625 0.610076 1.26625C0.828409 0.755417 1.21883 0.5 1.78133 0.5H8.21883C8.78133 0.5 9.17174 0.755417 9.39008 1.26625C9.60924 1.77625 9.52091 2.22917 9.12508 2.625L5.87508 5.875C5.75008 6 5.61466 6.09375 5.46883 6.15625C5.32299 6.21875 5.16674 6.25 5.00008 6.25C4.83341 6.25 4.67716 6.21875 4.53133 6.15625C4.38549 6.09375 4.25008 6 4.12508 5.875Z&quot; /&gt;
+        &lt;/svg&gt;
+      &lt;/div&gt;
+      &lt;p&gt;Direktnachrichten&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  @if (this.messagesOpen) {
+  @for (privateChannel of this.privateChannels; track privateChannel) {
+  @if (privateChannel.isPrivate) {
+  &lt;div class&#x3D;&quot;channel&quot;&gt;
+    &lt;div class&#x3D;&quot;channel-box&quot; (click)&#x3D;&quot;privateChannel.id ? selectChannel(privateChannel.id) : null&quot;&gt;
+      &lt;div class&#x3D;&quot;avatar-box&quot;&gt;
+        &lt;img [src]&#x3D;&quot;getUserAvatar(privateChannel) | async&quot; alt&#x3D;&quot;Avatar&quot; /&gt;
+        &lt;div target&#x3D;&quot;online-status&quot; [ngStyle]&#x3D;&quot;{
+                  &#x27;background-color&#x27;: (getUserStatus(privateChannel) | async) &#x3D;&#x3D;&#x3D; &#x27;online&#x27; ? &#x27;#92c83e&#x27; : &#x27;#696969&#x27;
+                }&quot;&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;span class&#x3D;&quot;elipsis&quot;&gt;
+        {{ (getUserName(privateChannel) | async) }}
+        @if (privateChannel.members.length &lt; 2) { (Du)} &lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  }
+  }
+  }
+&lt;/section&gt;</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><section class="channels">  <div class="menu-titel-box">    <div (click)="toggleMessagesOpen()" class="titel-box">      <div [ngClass]="{ active: messagesOpen }" class="arrow-box">        <svg width="10" height="7" viewBox="0 0 10 7" xmlns="http://www.w3.org/2000/svg">          <path            d="M4.12508 5.875L0.875076 2.625C0.479243 2.22917 0.390909 1.77625 0.610076 1.26625C0.828409 0.755417 1.21883 0.5 1.78133 0.5H8.21883C8.78133 0.5 9.17174 0.755417 9.39008 1.26625C9.60924 1.77625 9.52091 2.22917 9.12508 2.625L5.87508 5.875C5.75008 6 5.61466 6.09375 5.46883 6.15625C5.32299 6.21875 5.16674 6.25 5.00008 6.25C4.83341 6.25 4.67716 6.21875 4.53133 6.15625C4.38549 6.09375 4.25008 6 4.12508 5.875Z" />        </svg>      </div>      <p>Direktnachrichten</p>    </div>  </div>  @if (this.messagesOpen) {  @for (privateChannel of this.privateChannels; track privateChannel) {  @if (privateChannel.isPrivate) {  <div class="channel">    <div class="channel-box" (click)="privateChannel.id ? selectChannel(privateChannel.id) : null">      <div class="avatar-box">        <img [src]="getUserAvatar(privateChannel) | async" alt="Avatar" />        <div target="online-status" [ngStyle]="{                  \'background-color\': (getUserStatus(privateChannel) | async) === \'online\' ? \'#92c83e\' : \'#696969\'                }">        </div>      </div>      <span class="elipsis">        {{ (getUserName(privateChannel) | async) }}        @if (privateChannel.members.length < 2) { (Du)} </span>    </div>  </div>  }  }  }</section></div>'
+    var COMPONENTS = [{'name': 'AddchatComponent', 'selector': 'app-addchat'},{'name': 'AddUserToChannelComponent', 'selector': 'app-add-user-to-channel'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'BuilderComponent', 'selector': 'app-builder'},{'name': 'ChatboxComponent', 'selector': 'app-chatbox'},{'name': 'ChatComponent', 'selector': 'app-chat'},{'name': 'ChooseAvatarComponent', 'selector': 'app-choose-avatar'},{'name': 'CreatemessageComponent', 'selector': 'app-createmessage'},{'name': 'DialogComponent', 'selector': 'app-dialog'},{'name': 'EditmessageComponent', 'selector': 'app-editmessage'},{'name': 'EmojiPickerComponent', 'selector': 'app-emoji-picker'},{'name': 'ForgetPasswordComponent', 'selector': 'app-forget-password'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'ImprintComponent', 'selector': 'app-imprint'},{'name': 'LegalnoticeComponent', 'selector': 'app-legalnotice'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'LogoComponent', 'selector': 'app-logo'},{'name': 'MainchatHeaderComponent', 'selector': 'app-mainchat-header'},{'name': 'MainComponent', 'selector': 'app-main'},{'name': 'MentionComponent', 'selector': 'app-mention'},{'name': 'MenuChannelsComponent', 'selector': 'app-menu-channels'},{'name': 'MenuComponent', 'selector': 'app-menu'},{'name': 'MenuDialogComponent', 'selector': 'app-menu-dialog'},{'name': 'MenuHeaderComponent', 'selector': 'app-menu-header'},{'name': 'MenuPrivateMessagesComponent', 'selector': 'app-menu-private-messages'},{'name': 'MenutogglerComponent', 'selector': 'app-menutoggler'},{'name': 'MessageboxComponent', 'selector': 'app-messagebox'},{'name': 'MessageComponent', 'selector': 'app-messages'},{'name': 'ParentMessageComponent', 'selector': 'app-parent-message'},{'name': 'ProfileviewComponent', 'selector': 'app-profileview'},{'name': 'ReactionsComponent', 'selector': 'app-reactions'},{'name': 'ResetPasswordComponent', 'selector': 'app-reset-password'},{'name': 'SearchbarComponent', 'selector': 'app-searchbar'},{'name': 'SignInComponent', 'selector': 'app-sign-in'},{'name': 'SignUpComponent', 'selector': 'app-sign-up'},{'name': 'ThreadchatHeaderComponent', 'selector': 'app-threadchat-header'},{'name': 'ThreadMessagesComponent', 'selector': 'app-thread-messages'},{'name': 'ToastMessageComponent', 'selector': 'app-toastmessage'},{'name': 'UsermenuComponent', 'selector': 'app-usermenu'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'MenuPrivateMessagesComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'MenuPrivateMessagesComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

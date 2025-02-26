@@ -1,5 +1,5 @@
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
-
+/test
 # Compiled output
 /dist
 /tmp
@@ -7,6 +7,9 @@
 /bazel-out
 
 # Node
+firebase.json
+firebase_cvo.json
+firebase_gruppe.json
 /node_modules
 npm-debug.log
 yarn-error.log
@@ -40,3 +43,12 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Firebase
+.firebase
+*-debug.log
+.runtimeconfig.json
+
+serviceAccountKey.json
+
+.htaccess

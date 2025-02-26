@@ -1,1 +1,149 @@
-@import "../../../../mixins.scss";
+@use "../../../../mixins.scss" as mixins;
+@use "../../../../colors.scss" as colors;
+
+dialog {
+    background-color: rgba(32, 82, 221, 0.5);
+    color: white;
+    border-color: transparent;
+    overflow: hidden;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 20px 8px #d0d0d0;
+    height: 100px;
+    width: 200px;
+}
+
+
+.channels {
+    width: 100%;
+    @include mixins.flexbox(row, flex-start, center);
+    gap: 15px;
+
+    .channel {
+        width: 100%;
+        @include mixins.flexbox(row, flex-start, center, nowrap);
+        margin: 0px 0px 0px 25px;
+
+        .channel-box {
+            @include mixins.flexbox(row, flex-start, center, nowrap);
+            gap: 15px;
+            cursor: pointer;
+            font-size: 18px;
+            line-height: 24.55px;
+            border-radius: 12px;
+            padding: 0 30px 0 20px;
+
+            p {
+                text-wrap: nowrap;
+            }
+        }
+
+        .channel-box:hover {
+            transition: 0.25s ease-in-out;
+            background-color: colors.$bg-color;
+
+            svg {
+                path {
+                    fill: colors.$purple3;
+                }
+            }
+        }
+
+        .channel-box:active {
+            color: colors.$purple3;
+            font-weight: 700;
+
+            svg {
+                path {
+                    fill: colors.$purple3;
+                }
+            }
+        }
+    }
+
+    .menu-titel-box {
+        @include mixins.flexbox(row, space-between, center);
+        width: 100%;
+
+        .titel-box {
+            @include mixins.flexbox(row, flex-start, center);
+            cursor: pointer;
+            gap: 15px;
+            font-weight: 700;
+            font-size: 20px;
+            line-height: 27.28px;
+
+            div {
+                @include mixins.flexbox(row, flex-start, center);
+                gap: 10px;
+            }
+
+            .arrow-box {
+                @include mixins.flexbox(row, center, center);
+                width: 30px;
+                height: 30px;
+                cursor: pointer;
+
+                svg {
+                    transform: rotate(270deg);
+                    width: 9px;
+                }
+            }
+
+            .active {
+                svg {
+                    transform: rotate(0deg);
+                }
+            }
+        }
+
+        .titel-box:hover {
+            transition: 0.25s ease-in-out;
+            color: colors.$purple3;
+
+            svg {
+                path {
+                    fill: colors.$purple3;
+                }
+            }
+        }
+    }
+
+    .add-button {
+        cursor: pointer;
+        width: 24px;
+        height: 24px;
+    }
+
+    .add-button:hover {
+        transition: 0.25s ease-in-out;
+        background-color: colors.$bg-color;
+        border-radius: 12px;
+
+        path {
+            fill: colors.$purple3;
+        }
+    }
+}
+
+.channels-closed {
+    svg {
+        transform: rotate(0deg);
+    }
+}
+
+.add-channel-box {
+    @include mixins.flexbox(row, flex-start, center, nowrap);
+    gap: 10px;
+    padding: 0 0 0 10px;
+}
+
+.add-channel-box:hover {
+    transition: 0.25s ease-in-out;
+    color: colors.$purple3;
+    cursor: pointer;
+
+    path {
+        fill: colors.$purple3;
+    }
+}

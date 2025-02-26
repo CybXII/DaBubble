@@ -1,6 +1,0 @@
-@import "../../../mixins.scss";
-
-.threadchat-container{
-    @include flexbox(column, center, center, nowrap);
-    @include border-marker(red);
-}

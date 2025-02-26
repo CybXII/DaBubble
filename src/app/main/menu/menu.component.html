@@ -1,10 +1,6 @@
-
-<div class="menu-container">
-
-<p style="font-weight: bold; color: red">Menu-Container</p>
-
-<app-menu-header></app-menu-header>
-<app-menu-channels></app-menu-channels>
-<app-menu-private-messages></app-menu-private-messages>
-
+<app-menu-header class="menu-header"></app-menu-header>
+<div class="scroll-box">
+    <app-menu-channels class="menus"></app-menu-channels>
+    <app-menu-private-messages class="menus"></app-menu-private-messages>
+    <img (click)="createNewMessage()" src="img/icons/create-message.svg">
 </div>

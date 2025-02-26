@@ -1,0 +1,46 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ "marcel_private" ]
+
+jobs:
+  build:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [21.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    # Firebase.json erstellen
+    - name: Create firebase.json
+      run: |
+        echo "$FIREBASE_CONFIG" > ./firebase.json
+      env:
+        FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
+    - name: Install and build
+      run: |
+        npm i
+        npm run build --if-present
+    # - name: Run tests
+    #   run: npm run test -- --watch=false --browsers=ChromeHeadless
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@4.3.1
+      with:
+        server: dabubble.marcelzalec.at
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: 21
+        protocol: ftps
+        local-dir: ./dist/dabubble/browser/
+        server-dir: /
+        concurrent-uploads: 2

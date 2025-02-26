@@ -1,10 +1,25 @@
 <div class="builder-container">
-  @for ( build of this.builder; track build; let index=$index ){ @if (build ==
-  "menu"){
-  <app-menu></app-menu>
-  } @if (build == "mainchat"){
-  <app-mainchat></app-mainchat>
-  } @if (build == "threadchat"){
-  <app-threadchat></app-threadchat>
-  } }
+    <div class="m-height" *ngIf="menuState === 'in' || menuState === 'out'" 
+    [@slideAnimationLeft]="{ value: menuState, params: { width: mobile ? '100%' : '366px' } }"
+      (@slideAnimationLeft.done)="onAnimationDone($event, 'menu')">
+      <app-menu class="menu-container menu-width"></app-menu>
+    </div>
+
+    <app-chat
+      [builder]="'mainchat'"
+      class="menu-container mainchat-container"
+      [ngClass]="{ hidden: smallWindow && threadchatOpened || mobile && menuOpened }"
+    ></app-chat>
+
+    <div class="m-height" *ngIf="threadchatState === 'in' || threadchatState === 'out'"
+      [@slideAnimationRight]="{ value: threadchatState, params: { width: smallWindow ? '100%' : '485px' } }"
+      (@slideAnimationRight.done)="onAnimationDone($event, 'threadchat')">
+      <app-chat
+        [builder]="'threadchat'"
+        class="menu-container thread-container thread-width"
+      ></app-chat>
+    </div>
+
+  <app-menutoggler class="toggleButton" (click)="toggleMenu()"
+    [menuState]="menuOpened ? 'schließen' : 'öffnen'"></app-menutoggler>
 </div>

@@ -1,0 +1,557 @@
+@use "./../../mixins.scss" as mixins;
+@use "./../../colors.scss" as colors;
+
+.animationBackground {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  background: colors.$bg-intro;
+  animation: hide 0.5s 2.5s forwards;
+  z-index: 100;
+}
+
+.afterIntro {
+  opacity: 0;
+  animation: reveal 0.5s 2.5s forwards;
+}
+
+.d-none {
+  display: none !important;
+}
+
+.flex {
+  display: flex !important;
+}
+
+
+
+.container {
+  position: absolute;
+  width: 300px;
+  display: flex;
+  align-items: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  gap: 16px;
+  z-index: 100;
+  animation: moveToTopLeft 0.5s 2.5s forwards;
+
+  img {
+    width: auto;
+    position: absolute;
+    left: 0px;
+    height: 184px;
+    animation: moveLeft 0.25s 0.5s forwards,
+      makeStatic 0.5s 2.5s forwards,
+      shrinkImage 0.5s 2.5s forwards,
+      moveBack 0.5s 2.5s forwards;
+    z-index: 2;
+  }
+
+  .textcontainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    transform: translateX(35%);
+    width: 300px;
+    height: 70px;
+    overflow: hidden;
+    animation: moveLittleLeft 0.5s 2.5s forwards;
+
+    h1 {
+      position: absolute;
+      transform: translateX(-100%);
+      font-size: 60px;
+      font-weight: 700;
+      animation: moveRight 0.25s 1s ease-in-out forwards,
+        changeHeadline 0.5s 2.5s forwards;
+      color: white;
+    }
+  }
+}
+
+.containerNoAnimation {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: 75px;
+  left: 75px;
+  gap: 16px;
+  max-width: 1920px;
+
+
+  img {
+    width: auto;
+    height: 75px;
+    z-index: 2;
+  }
+
+  h1 {
+    color: black;
+    font-size: 32px;
+    font-weight: 700;
+  }
+}
+
+header {
+  position: absolute;
+  top: 90px;
+  right: 75px;
+  @include mixins.flexbox($justify: space-between);
+
+  >div {
+    @include mixins.flexbox($direction: column, $justify: start);
+    gap: 5px;
+  }
+
+  .logo {
+    @include mixins.flexbox();
+    gap: 10px;
+
+    >span {
+      font-size: 30px;
+      font-weight: 700;
+    }
+  }
+}
+
+a {
+  &:hover {
+    font-weight: 500;
+    transition: 0.25s ease-in-out;
+  }
+}
+
+header,
+footer {
+  a {
+    padding: 10px;
+    border-radius: 100px;
+    @include mixins.border-marker($color: colors.$bg-color);
+
+    &:hover {
+      border-color: colors.$light-purple;
+      transition: 0.25s ease-in-out;
+    }
+  }
+}
+
+section {
+  @include mixins.flexbox($direction: column);
+  height: 100vh;
+  width: 100vw;
+  max-width: 1980px;
+  text-align: center;
+  position: relative;
+  flex-wrap: nowrap;
+  overflow: hidden;
+
+  &:hover {
+    cursor: default;
+    transition: 0.25s ease-in-out;
+  }
+}
+
+input {
+  background-color: colors.$bg-color;
+  border: none;
+  flex: 1;
+  font-size: 18px;
+
+  &:focus-visible {
+    outline: unset;
+  }
+
+  &:-webkit-autofill {
+    transition: background-color 5000s ease-in-out 0s;
+  }
+}
+
+.inputCont {
+  @include mixins.flexbox($direction: column);
+  gap: 10px;
+  width: 100%;
+}
+
+.input {
+  @include mixins.flexbox($justify: start);
+  @include mixins.border-marker($color: colors.$white);
+  width: 100%;
+  border-radius: 100px;
+  position: relative;
+
+  &:hover,
+  input {
+    cursor: text;
+    border-color: colors.$purple2;
+    transition: 0.25s ease-in-out;
+  }
+
+  &:focus-within,
+  input {
+    border-color: colors.$purple2;
+
+    &::placeholder {
+      display: none;
+    }
+  }
+
+  input {
+    @include mixins.border-marker($color: colors.$white);
+    border-radius: 100px;
+    padding: 10px;
+    padding-left: 50px;
+  }
+
+  svg {
+    position: absolute;
+    left: 20px;
+  }
+}
+
+.mainCont {
+  @include mixins.flexbox($direction: column, $justify: space-around);
+  border-radius: 30px;
+  background-color: colors.$white;
+  padding: 50px;
+  gap: 40px;
+  position: relative;
+  max-width: 606px;
+
+  a {
+    padding: 5px 10px;
+    border-radius: 100px;
+
+    &:hover {
+      background-color: colors.$bg-color;
+      color: colors.$purple3;
+      transition: 0.25s ease-in-out;
+    }
+  }
+
+  span {
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  .headline {
+    @include mixins.flexbox();
+  }
+}
+
+h1 {
+  color: colors.$purple;
+  font-size: 46px;
+  font-weight: 700;
+}
+
+.line {
+  @include mixins.border-marker($color: colors.$light-purple);
+}
+
+a {
+  color: colors.$purple2;
+  text-decoration: none;
+}
+
+.buttons {
+  @include mixins.flexbox();
+  gap: 25px;
+}
+
+button {
+  background-color: unset;
+  border-radius: 25px;
+  padding: 12px 25px;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 24.55px;
+  border-style: solid;
+
+  &:hover {
+    cursor: pointer;
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+}
+
+button:disabled {
+  background-color: colors.$grey;
+  border-color: colors.$white;
+}
+
+.button_blue {
+  background-color: colors.$purple;
+  color: colors.$white;
+  border-color: colors.$purple;
+  font-weight: 700;
+
+  &:hover {
+    opacity: 0.8;
+    transition: 0.25s ease-in-out;
+  }
+}
+
+.button_white {
+  @include mixins.border-marker(colors.$light-purple);
+  color: colors.$purple;
+
+  &:hover {
+    border-color: colors.$light-purple;
+    background-color: colors.$purple;
+    color: colors.$white;
+    transition: 0.25s ease-in-out;
+  }
+}
+
+.arrowBack {
+  position: absolute;
+  left: 15px;
+  padding: 8px;
+  border-radius: 50px;
+  cursor: pointer;
+
+  svg {
+    display: block;
+    margin: auto;
+  }
+
+  &:hover {
+    background-color: colors.$bg-color;
+    transition: 0.25s ease-in-out;
+  }
+
+  &:hover path {
+    fill: colors.$purple;
+    transition: 0.25s ease-in-out;
+  }
+}
+
+footer {
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
+  @include mixins.flexbox();
+  gap: 40px;
+}
+
+.warning {
+  @include mixins.flexbox($justify: start);
+  width: 100%;
+  color: colors.$error;
+  font-size: 14px !important;
+  line-height: 19.1px !important;
+}
+
+.input-warning {
+  width: 100%;
+  @include mixins.flexbox();
+  gap: 5px;
+}
+
+form {
+  @include mixins.flexbox($direction: column, $align: start);
+  gap: 12px;
+  width: 100%;
+
+  .link {
+    width: 100%;
+  }
+}
+
+.sectionDisplayHeight {
+  height: 100vh;
+}
+
+@media (max-width: 1275px) {
+  header {
+    top: 60px;
+  }
+
+  .containerNoAnimation {
+    top: 40px;
+    left: 40px;
+  }
+
+  .container {
+    animation: moveToTopLeft40px 0.5s 2.5s forwards;
+    width: 300px;
+  }
+
+}
+
+@media (max-width: 600px) {
+
+  .container {
+    animation: moveToTop 0.5s 2.5s forwards;
+    gap: 1px !important;
+    width: 198px; // 240 210 198
+
+    h1 {
+      font-size: 30px !important;
+    }
+
+    img {
+      height: 75px;
+      animation: moveLeft 0.25s 0.5s forwards,
+        makeStatic2 0.5s 2.5s forwards,
+        shrinkImageMobile 0.5s 2.5s forwards;
+    }
+  }
+
+  section {
+    width: 100% !important;
+    gap: 20px;
+    justify-content: flex-end;
+  }
+
+  form {
+    gap: 20px;
+  }
+
+  .mainCont {
+    padding: 25px;
+
+    h1 {
+      font-size: 32px;
+    }
+  }
+
+  .containerNoAnimation {
+    top: 12px;
+    left: unset;
+    display: flex;
+    justify-content: center;
+
+    img {
+      height: 56px;
+      width: 56px;
+    }
+
+    h1 {
+      font-size: 30px;
+    }
+
+  }
+
+  header {
+    position: relative;
+    top: unset;
+    right: unset;
+    bottom: unset;
+
+    div {
+      gap: 15px;
+    }
+
+    a {
+      font-weight: 700;
+      border-color: colors.$light-purple;
+    }
+  }
+
+  button {
+    font-weight: 700 !important;
+  }
+
+  .paddingBottom {
+    height: unset;
+  }
+
+  footer {
+    position: relative;
+    bottom: 0;
+  }
+}
+
+@media (max-width: 500px) {
+
+  button {
+    padding: 12px 20px;
+  }
+
+  .arrowBack {
+    padding: 0px;
+    left: 5px;
+  }
+}
+
+@media (max-width: 380px) {
+
+  section {
+    overflow-x: hidden;
+  }
+
+  .arrowBack {
+    padding: 0px;
+  }
+
+  .mainCont {
+    padding: 5px;
+
+    h1 {
+      font-size: 20px;
+    }
+
+    span {
+      font-size: 14px;
+    }
+  }
+
+  section {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+
+  button {
+    padding: 8px 10px;
+  }
+
+}
+
+@media (max-height: 900px) {
+  .mainCont {
+    gap: 4px !important;
+  }
+
+  form {
+    gap: 15px !important;
+  }
+
+  section {
+    gap: 20px;
+    justify-content: flex-end;
+    min-height: 100vh;
+  }
+}
+
+@media (max-height: 900px) {
+  .mainCont {
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+
+  header {
+    padding-top: 12px;
+  }
+
+  section {
+    gap: 0px;
+    justify-content: center;
+    padding: 80px 20px 0 20px;
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+}
+
+@media (max-height: 760px) and (min-height: 720px) {
+  section {
+    padding: 120px 20px 20px 20px !important;
+    height: fit-content;
+  }
+}

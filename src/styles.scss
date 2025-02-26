@@ -1,5 +1,66 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+@use './mixins.scss' as mixins;
+@use './colors.scss' as colors;
+@import '@ctrl/ngx-emoji-mart/picker';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'nunito', sans-serif;
+}
+
+body {
+  background-color: colors.$bg-color;
+  height: 100vh;
+  width: 100%;
+  max-height: 100vh;
+  @include mixins.flexbox(column, flex-start, center);
+
+}
+
+@font-face {
+  font-family: 'nunito';
+  src: url('../public/fonts/Nunito-VariableFont_wght.ttf') format('truetype');
+}
+
+app-root,
+app-main,
+app-legalnotice,
+app-imprint {
+  width: 100%;
+  height: 100%;
+  @include mixins.flexbox(column, flex-start, center);
+}
+
+html,
+body {
+  height: 100%;
+  // overflow: hidden;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+
+
+h3 {
+  color: black;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32.74px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+}
+
+h4 {
+  color: black;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 24.55px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
 }
